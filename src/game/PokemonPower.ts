@@ -23,7 +23,6 @@ export class PokemonPower {
   const q=this.charge,blast=this.blast,alpha=this.fade;
   if(q>0){
    const r=9+q*17;
-   b.ellipse(0,204,60+q*80,11+q*15).stroke({color:c,width:2+q*2,alpha:q*.52*alpha});
    for(let i=0;i<(this.low?8:14);i++){
     const a=i/14*TAU+t*1.3,travel=(t*1.3+i*.071)%1,d=(1-travel)*100+18;
     const px=x+Math.cos(a)*d,py=y+Math.sin(a)*d*.8;
@@ -39,7 +38,6 @@ export class PokemonPower {
   const dx=Math.cos(direction),dy=Math.sin(direction),nx=-dy,ny=dx;
   const at=(u:number,v:number)=>[x+dx*u+nx*v,y+dy*u+ny*v];
   const count=this.low?9:17;
-  b.ellipse(0,204,85+blast*120,18+blast*18).stroke({color:c,width:4*(1-blast)+1,alpha:a*.55});
   if(p.kind==='water'){
    const reach=245*strength;
    for(let layer=0;layer<3;layer++){

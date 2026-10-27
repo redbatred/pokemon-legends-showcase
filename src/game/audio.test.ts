@@ -6,7 +6,7 @@ vi.mock('howler',()=>{
   play=vi.fn((id?:number)=>{id??=this.next++;this.playing.add(id);this.paused.delete(id);return id;});
   pause=vi.fn((id:number)=>{this.playing.delete(id);this.paused.add(id);});
   stop=vi.fn((id:number)=>{this.playing.delete(id);this.paused.delete(id);for(const e of [...this.events])if(e.name==='stop'&&e.id===id)e.fn(id);});
-  unload=vi.fn();volume=vi.fn();stereo=vi.fn();
+  unload=vi.fn();volume=vi.fn();stereo=vi.fn();fade=vi.fn();
   constructor(options:{src:string[]}){this.source=options.src[0];mock.howls.push(this);}
   state(){return mock.loaded?'loaded':'loading';}
   once(name:string,fn:()=>void,id?:number){this.events.push({name,fn,id});}
@@ -14,8 +14,8 @@ vi.mock('howler',()=>{
  }
  return {Howl,Howler:{mute:vi.fn(),ctx:{resume:vi.fn(async()=>{})}}};
 });
-import { destroyAudio, playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio } from './audio';
-const voice=(key:string)=>mock.howls.find(h=>h.source===`/assets/audio-v2/${key}.mp3`);
+import { destroyAudio, playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio } from './audio';
+const voice=(key:string)=>mock.howls.find(h=>h.source.endsWith(`/${key}.mp3`));
 beforeEach(()=>{destroyAudio();mock.howls=[];mock.loaded=true;});
 afterEach(()=>{destroyAudio();vi.useRealTimers();});
 it('uses the matching unpitched game cry and sampled ball cue',async()=>{
@@ -49,4 +49,33 @@ it('does not block a muted reveal on audio downloads',async()=>{
 it('does not resume skipped cinematic audio after leaving the settings panel',()=>{
  setSound(true);playSound('release');setAudioScenePaused(true);stopRevealAudio();setAudioScenePaused(false);
  expect(voice('release').play).toHaveBeenCalledTimes(1);expect(voice('release').paused.size).toBe(0);
+});
+
+it('uses distinct normal/rare payoffs and keeps menu clicks audible while the scene is paused',()=>{
+ setSound(true);playSound('reveal');playSound('rare');setAudioScenePaused(true);playSound('ui');
+ for(const key of ['normal','rare','ui'])expect(mock.howls.find(h=>h.source===`/assets/audio-v3/${key}.mp3`).play).toHaveBeenCalledOnce();
+});
+it('ducks release effects underneath the Pokemon cry',async()=>{
+ setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');playSound('release');playPokemonCry(6);expect(voice('release').fade).toHaveBeenCalledWith(.38,.38*.42,65,1);
+});
+
+it('does not duck the release when the cry is unavailable',()=>{
+ setSound(true);playSound('release');mock.loaded=false;playPokemonCry(6);expect(voice('release').fade).not.toHaveBeenCalled();
+});
+
+it('starts quiet looping music after interaction and pauses it on mute or hidden tabs',()=>{
+ setSound(true);expect(voice('ambience')).toBeUndefined();unlockAudio();const music=voice('ambience');
+ expect(music.play).toHaveBeenCalledOnce();expect(music.fade).toHaveBeenLastCalledWith(0,.14,650,1);
+ setAudioHidden(true);expect(music.pause).toHaveBeenCalledWith(1);setAudioHidden(false);expect(music.play).toHaveBeenLastCalledWith(1);
+ setSound(false);const count=music.play.mock.calls.length;setAudioHidden(false);expect(music.play).toHaveBeenCalledTimes(count);
+ setSound(true);expect(music.play).toHaveBeenLastCalledWith(1);
+});
+it('ducks music under suspense and restores it after the cinematic voices stop',()=>{
+ setSound(true);unlockAudio();playSound('suspense');expect(voice('ambience').fade).toHaveBeenLastCalledWith(.14,.035,110,1);
+ stopRevealAudio();expect(voice('ambience').fade).toHaveBeenLastCalledWith(.035,.14,650,1);
+ setAudioScenePaused(true);expect(voice('ambience').fade).toHaveBeenLastCalledWith(.14,.085,110,1);
+});
+it('does not start late-loading music after the user mutes',()=>{
+ vi.useFakeTimers();setSound(true);mock.loaded=false;unlockAudio();const music=voice('ambience');setSound(false);mock.loaded=true;
+ music.events.find((e:any)=>e.name==='load').fn();expect(music.play).not.toHaveBeenCalled();
 });

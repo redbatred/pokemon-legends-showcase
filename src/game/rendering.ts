@@ -8,20 +8,28 @@ export function pageWindow(total: number, size: number, requested: number) {
   return {page,pages,start:page*size,end:Math.min(total,(page+1)*size)};
 }
 export function gameLayout(width:number,height:number,opening=false) {
-  const portrait=width<700,compact=height<550&&width>=560;
-  const top=compact?68:portrait?82:76;
-  const dock=opening?(compact?92:158):(compact?148:portrait?216:226);
-  const actions=opening?(compact?74:144):(compact?52:72);
-  const playHeight=Math.max(90,height-top-dock-actions);
-  return {width,height,portrait,compact,top,dock,actions,playHeight,actionTop:height-dock-actions,dockTop:height-dock,worldY:top+playHeight/2,scale:Math.min(width/430,(playHeight-16)/435,1.4)};
+  const portrait=width<700,compact=height<550&&width>=560,short=height<620;
+  const sideControls=width>=900||compact;
+  const top=compact?68:sideControls?90:short?120:134;
+  const dock=opening?(compact?92:short?112:148):(compact?148:portrait?216:226);
+  const actions=opening?(sideControls?0:short?72:86):(compact?52:72);
+  const dockTop=height-dock,actionTop=dockTop-actions;
+  const stageWidth=Math.min(width*(compact?.52:sideControls?.60:1.02),900),stageFlatten=.82;
+  // The source platform has transparent padding; its physical front ends at v=.90.
+  const stageFrontOffset=stageWidth*.5*stageFlatten*.40;
+  const stageY=actionTop-stageFrontOffset-(compact?8:12),stageFront=stageY+stageFrontOffset;
+  const playHeight=Math.max(76,(opening?stageY-32:compact?dockTop-9:actionTop-16)-top);
+  const scale=Math.max(.17,Math.min(width/(sideControls?720:430),playHeight/435,1.4));
+  const worldY=opening?stageY-32-217.5*scale:top+playHeight/2;
+  return {width,height,portrait,compact,short,sideControls,top,dock,actions,playHeight,actionTop,dockTop,worldY,scale,stageY,stageFront,stageWidth,stageFlatten};
 }
 
 /** Shared by the collection strip and the card-flight animation: one landing coordinate. */
 export function cardTrayLayout(width:number,height:number,activeIndex:number){
-  const layout=gameLayout(width,height,true),cardWidth=layout.compact?48:width<700?76:82,cardHeight=cardWidth*435/312,stride=cardWidth+10;
+  const layout=gameLayout(width,height,true),cardWidth=layout.compact?48:layout.short?58:width<700?76:82,cardHeight=cardWidth*435/312,stride=cardWidth+10;
   const viewportX=18,viewportWidth=width-36,contentWidth=11*stride-10;
   const offset=Math.max(0,Math.min(Math.max(0,contentWidth-viewportWidth),activeIndex*stride-(viewportWidth-cardWidth)/2));
   const start=contentWidth<=viewportWidth?(width-contentWidth)/2:viewportX-offset;
-  const y=layout.dockTop+(layout.compact?12:31);
+  const y=layout.dockTop+(layout.compact?12:layout.short?28:31);
   return {cardWidth,cardHeight,stride,offset,start,y,viewportX,viewportWidth,slot:(index:number)=>({x:start+index*stride+cardWidth/2,y:y+cardHeight/2})};
 }

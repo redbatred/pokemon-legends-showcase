@@ -5,7 +5,7 @@ import { CanvasUI, type UIState, type HitTarget, type GameAction, type Panel } f
 import { openingMachine } from './machine';
 import { settleOpening, priceCard, DEFAULT_PACK, type Card, type Save, type Pack } from './model';
 import { loadSave, transactSave, resetSave } from './storage';
-import { setSound, playSound,setAudioScenePaused,destroyAudio,preloadRevealAudio } from './audio';
+import { setSound, playSound,setAudioScenePaused,destroyAudio,preloadRevealAudio,unlockAudio } from './audio';
 import { specialPokemon,type PokemonArtwork } from './specialReward';
 import { createPreviewOpening } from './previewOpening';
 
@@ -28,8 +28,8 @@ export class PokemonGame {
     this.announcer.className='screen-reader';this.announcer.setAttribute('role','status');this.announcer.setAttribute('aria-live','polite');
     host.append(this.controls,this.announcer);document.addEventListener('keydown',this.trackKeys);document.addEventListener('pointerdown',this.trackPointer);
   }
-  private trackKeys=(event:KeyboardEvent)=>{if(event.key==='Tab')this.keyboard=true;};
-  private trackPointer=()=>{this.keyboard=false;this.view?.setFocus(null);};
+  private trackKeys=(event:KeyboardEvent)=>{unlockAudio();if(event.key==='Tab')this.keyboard=true;};
+  private trackPointer=()=>{unlockAudio();this.keyboard=false;this.view?.setFocus(null);};
   private get selected(){return this.save?.active?.pack??this.packs.find(p=>p.id===this.selectedId)??DEFAULT_PACK;}
   private get pool(){return this.catalogs[this.selected.id]??[];}
   private get opening(){return !['browse','complete'].includes(this.phase);}
@@ -107,7 +107,7 @@ export class PokemonGame {
       Object.assign(button.style,{left:`${hit.x}px`,top:`${hit.y}px`,width:`${hit.width}px`,height:`${hit.height}px`});
       button.onclick=(event)=>{if(hit.canvasPointer&&event.detail>0)return;this.view?.setFocus(null);hit.action();};if(hit.canvasPointer){button.style.cursor='grab';button.style.zIndex='0';button.onpointerdown=event=>this.view?.railDown(event);button.onwheel=event=>this.view?.railWheel(event);}button.onfocus=()=>{if(this.keyboard)this.view?.setFocus(hit.id);};button.onblur=()=>this.view?.setFocus(null);
       if(!hit.canvasPointer)button.style.zIndex='1';
-      button.onpointerenter=()=>this.view?.hover(hit.id,true);button.onpointerleave=()=>this.view?.hover(hit.id,false);this.controls.append(button);
+      button.onpointerdown=hit.canvasPointer?button.onpointerdown:()=>this.view?.press(hit.id,true);button.onpointerup=()=>this.view?.press(hit.id,false);button.onpointerenter=()=>this.view?.hover(hit.id,true);button.onpointerleave=()=>this.view?.hover(hit.id,false);this.controls.append(button);
       if(this.keyboard&&old===hit.id&&!hit.disabled)button.focus({preventScroll:true});
     }
     this.announcer.textContent=summary;
@@ -115,7 +115,7 @@ export class PokemonGame {
   private select=(pack:Pack)=>{
     if(this.opening)return;
     if(this.phase==='complete'){this.stage.reset();this.actor.send({type:'RESET'});}
-    this.selectedId=pack.id;this.error='';void this.preparePack();
+    playSound('ui');this.selectedId=pack.id;this.error='';void this.preparePack();
   };
   private notify(message:string){clearTimeout(this.toastTimer);this.toast=message;this.render();this.toastTimer=window.setTimeout(()=>{this.toast='';this.render();},2200);}
   private async addCredits(){
@@ -129,6 +129,7 @@ export class PokemonGame {
   private settings(){setSound(this.sound);try{localStorage.setItem('legends-settings',JSON.stringify({sound:this.sound,reduced:this.reduced,low:this.low}));}catch{/* Memory-only settings. */}this.stage.updateOptions({reduced:this.reduced,low:this.low,onTear:()=>this.action('tear'),onNext:()=>this.action('next')});}
   action=(type:GameAction)=>{
     if(this.destroyed)return;
+    if(!['sound','next','all','tear'].includes(type))playSound('ui');
     const unobscured=!this.panel&&!this.inspected;
     switch(type){
       case 'close':if(this.inspected)this.inspected=null;else if(this.panel)this.panel=null;else if(this.phase==='complete'){this.stage.reset();this.actor.send({type:'RESET'});return;}break;
