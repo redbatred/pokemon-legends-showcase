@@ -105,3 +105,9 @@ it('uses the expanded move recordings at quiet gain and seeks to the measured at
  const thunder=voice('thunder');expect(thunder.source).toContain('/audio-v6/');expect(thunder.seek).toHaveBeenCalledWith(2.04,1);expect(thunder.volume.mock.calls.at(-1)[0]).toBeLessThanOrEqual(.15);
  setAudioScenePaused(true);expect(thunder.pause).toHaveBeenCalledWith(1);attack?.stop();setAudioScenePaused(false);expect(thunder.play).toHaveBeenCalledTimes(1);
 });
+
+it('preloads dedicated PCM bounce cues with independent floor contacts and scene pause ownership',async()=>{
+ setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');const first=mock.howls.find(h=>h.source.endsWith('/ballbounce.wav')),second=mock.howls.find(h=>h.source.endsWith('/ballsettle.wav'));expect(first).toBeDefined();expect(second).toBeDefined();
+ playSound('ballbounce');expect(first.play).toHaveBeenCalledOnce();expect(first.volume).toHaveBeenLastCalledWith(.38,1);expect(second.play).not.toHaveBeenCalled();playSound('ballsettle');expect(second.play).toHaveBeenCalledOnce();
+ setAudioScenePaused(true);expect(first.pause).toHaveBeenCalledWith(1);expect(second.pause).toHaveBeenCalledWith(1);stopRevealAudio();setAudioScenePaused(false);expect(first.play).toHaveBeenCalledTimes(1);expect(second.play).toHaveBeenCalledTimes(1);
+});

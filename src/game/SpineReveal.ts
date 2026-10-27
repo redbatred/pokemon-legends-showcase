@@ -7,7 +7,7 @@ import {EntranceEffects} from './EntranceEffects';
 import { PokemonPower } from './PokemonPower';
 import { createPokeballRig } from './PokeballRig';
 import { PokemonActor,disposePokemonRenderer } from './PokemonActor';
-import {ballFlight,ballLanding,ballLandingPlan,BALL_HIT} from './ballPhysics';
+import {ballFlight,ballLanding,ballLandingPlan,ballRevealCues,BALL_HIT} from './ballPhysics';
 
 const IMPACT={x:0,y:-98};
 /** Depth flight and local artwork puncture. The perimeter and card text stay connected. */
@@ -45,22 +45,22 @@ export class SpineReveal {
 
   }
   play(timeline:gsap.core.Timeline,skyY:number,onImpact:()=>void,onPower?:(color:number)=>void,onCharge?:(amount:number,color:number)=>void){
-    this.started=true;const profile=performanceProfile(this.power.profile.species),entryDuration=Math.max(.68,this.hero.entranceDuration),settle=profile.grounded?65:profile.settle-10;const entranceClock={time:0},attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,landing=ballLandingPlan(skyY,this.floor-50),open=hit+landing.settled+.10,form=open+.12,charge=form+entryDuration+.1,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,recoverEnd=attackEnd+this.hero.recoveryDuration,soundStart=attack-Math.min(this.hero.chargeDuration,pokemonSoundTiming(this.power.profile.cue).preRoll),moveEnvelope={gain:0},spin={frame:0},departure={progress:0},decay=Math.min(.22,this.hero.attackDuration*.3);
+    this.started=true;const profile=performanceProfile(this.power.profile.species),entryDuration=Math.max(.68,this.hero.entranceDuration),settle=profile.grounded?65:profile.settle-10;const entranceClock={time:0},attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,landing=ballLandingPlan(skyY,this.floor-50),cues=ballRevealCues(landing),open=cues.open,form=open+.12,charge=form+entryDuration+.28,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,recoverEnd=attackEnd+this.hero.recoveryDuration,soundStart=attack-Math.min(this.hero.chargeDuration,pokemonSoundTiming(this.power.profile.cue).preRoll),moveEnvelope={gain:0},spin={frame:0},departure={progress:0},decay=Math.min(.22,this.hero.attackDuration*.3);
     const project=()=>{const p=ballFlight(flight.t,skyY);this.ball.position.set(p.x,p.y);this.ball.scale.set(p.scale);this.ball.rotation=p.rotation;
       this.trail.clear();for(let i=8;i>=1;i--){const a=ballFlight(Math.max(0,flight.t-i*.014),skyY),b=ballFlight(Math.max(0,flight.t-(i-1)*.014),skyY);this.trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:(9-i)*p.scale*1.8,color:i<3?0xf0fbff:0x7ebfff,alpha:(9-i)*.035});}};project();
     const land=()=>{const p=ballLanding(fall.t,skyY,landing.floor),adapt=(this.floor-50-landing.floor)*Math.min(1,fall.t/landing.contact);this.ballFloorInfluence=Math.min(1,fall.t/landing.contact);this.ball.position.set(p.x,p.y+adapt);this.ball.rotation=p.rotation;this.ball.scale.set(p.scale);};
     timeline.call(()=>playSound('throw',{pan:.35}),[],.52)
       .to(flight,{t:hit,duration:hit,ease:'none',onUpdate:project},0)
-      .call(()=>{this.face.texture=this.punctured;this.front.addChildAt(this.ball,this.front.getChildIndex(this.energy));this.trail.visible=false;onImpact();playSound('impact');},[],hit)
+      .call(()=>{this.face.texture=this.punctured;this.front.addChildAt(this.ball,this.front.getChildIndex(this.energy));this.trail.visible=false;onImpact();playSound('slam',{gain:.48});},[],hit)
       .to(this.pressure,{alpha:1,duration:.04},hit).to(this.pressure.scale,{x:1.45,y:1.45,duration:.22,ease:'power3.out'},hit).to(this.pressure,{alpha:0,duration:.18},hit+.04)
       .to(this.flare,{alpha:.8,duration:.035},hit).to(this.flare.scale,{x:2.1,y:1.5,duration:.24,ease:'power2.out'},hit).to(this.flare,{alpha:0,duration:.22},hit+.05)
       .to(this.cardShell,{y:7,rotation:.014,duration:.06,ease:'power2.out'},hit).to(this.cardShell,{y:0,rotation:0,duration:.25,ease:'power2.out'},hit+.06)
       .to(fall,{t:landing.settled,duration:landing.settled,ease:'none',onUpdate:land},hit)
       .to(this.ball.state,{timeScale:.18,duration:landing.settled,ease:'power1.out'},hit)
-      .call(()=>{playSound('land',{gain:.62});const frame=Number(this.ball.skeleton.findSlot('closed')?.getAttachment()?.name.replace('spin',''))||0;spin.frame=frame>24?frame-48:frame;this.ball.state.clearTracks();},[],hit+landing.contact)
+      .call(()=>{playSound('ballbounce',{pan:this.ball.x/312,gain:Math.max(.8,Math.min(1,landing.impact/900))});const frame=Number(this.ball.skeleton.findSlot('closed')?.getAttachment()?.name.replace('spin',''))||0;spin.frame=frame>24?frame-48:frame;this.ball.state.clearTracks();},[],cues.first)
       .to(spin,{frame:0,duration:landing.settled-landing.contact,ease:'power2.out',onUpdate:()=>this.ball.skeleton.setAttachment('closed','spin'+((Math.round(spin.frame)%48+48)%48))},hit+landing.contact)
-      .call(()=>{this.ball.state.setAnimation(0,'ready',false);this.ball.state.timeScale=1;},[],hit+landing.settled)
-      .call(()=>playSound('latch'),[],open-.12)
+      .call(()=>{playSound('ballsettle',{pan:this.ball.x/312});this.ball.state.setAnimation(0,'ready',false);this.ball.state.timeScale=1;},[],cues.second)
+      .call(()=>playSound('latch'),[],cues.latch)
       .to(this.latch,{alpha:1,duration:.10},open-.12).to(this.latch,{alpha:0,duration:.14},open+.03)
       .to(this.shadow,{alpha:1,duration:.38},hit)
       .call(()=>{this.ball.state.setAnimation(0,'open',false);playSound('release',{pan:.1});},[],open)

@@ -16,6 +16,8 @@ export function ballLandingPlan(skyY=-500,floor=220){
  const settled=contact+2*reboundVelocity/bounceGravity;
  return {vx,vy,gravity,contact,impact,reboundVelocity,bounceGravity,settled,floor};
 }
+/** Both audible contacts and the latch share the same physical plan as the rendered fall. */
+export function ballRevealCues(plan:ReturnType<typeof ballLandingPlan>){return {first:BALL_HIT+plan.contact,second:BALL_HIT+plan.settled,latch:BALL_HIT+plan.settled+.12,open:BALL_HIT+plan.settled+.24};}
 /** One ballistic rebound with drag; the lid may open only after `settled`. */
 export function ballLanding(time:number,skyY=-500,floor=220){
  const t=Math.max(0,time),p=ballLandingPlan(skyY,floor),f=Math.min(t,p.contact),u=clamp(f/p.contact),x=p.vx*f*(1-u*.22);

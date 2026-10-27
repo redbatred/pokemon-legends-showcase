@@ -6,6 +6,7 @@ import { gameLayout } from './rendering';
 import {AnimeAtmosphere} from './AnimeAtmosphere';
 import { StageLightRig } from './StageLightRig';
 import {StadiumFloodlights} from './StadiumFloodlights';
+import {projectFloodlights} from './floodlightGeometry';
 
 /** Only emitter pixels are neutralized; stadium paint and platform shadows keep their original colors. */
 export class CanvasScene {
@@ -56,7 +57,7 @@ export class CanvasScene {
     if(this.celebrationAge>=0)this.celebrationAge+=dt;
     this.background.show(this.active?this.entrance.amount:0,this.celebrationAge,this.cinema.travel,reduced);
     this.focusShade.alpha=Math.max(this.cinema.amount*.69,this.cinema.travel*.23,this.active?this.entrance.amount*(this.chargeLevel>=0?.12+this.chargeLevel*.38:.09):0);
-    this.floodlights.resize([this.background.project(.149,.267),this.background.project(.851,.267)],this.width/2,this.targetY,this.stageWidth);
+    this.floodlights.resize(projectFloodlights((u,v)=>this.background!.project(u,v)),this.width/2,this.targetY,this.stageWidth);
     this.floodlights.update(time,this.active?this.entrance.amount:0,this.chargeLevel,this.impactState.amount,this.cinema.travel,this.lightTint,reduced,low);
     this.atmosphere.update(time,this.cinema.amount,this.impactState.amount*this.cinema.amount,this.cinema.travel,this.lightTint,reduced,low);
     if(this.platform){const shade=Math.round(255-this.cinema.amount*72);this.platform.tint=(shade<<16)|(shade<<8)|Math.min(255,shade+12);}

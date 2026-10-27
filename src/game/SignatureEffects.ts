@@ -2,10 +2,11 @@ import type {Graphics} from 'pixi.js';
 import type {PowerProfile} from './powerProfiles';
 type PointAt=(u:number,v:number)=>[number,number];
 const clamp=(v:number)=>Math.max(0,Math.min(1,v)),TAU=Math.PI*2;
+const shade=(color:number,value:number)=>Math.round((color>>16&255)*value)<<16|Math.round((color>>8&255)*value)<<8|Math.round((color&255)*value);
 /** Species move silhouettes. All geometry is finite and driven by the move's release clock. */
 export function signatureEffect(g:Graphics,b:Graphics,p:PowerProfile,at:PointAt,age:number,a:number,low:boolean,floor:{x:number;y:number}){
  const c=p.color,l=p.light,u=clamp(age/.62),n=low?6:11;
- const shard=(x:number,y:number,r:number,angle:number,color:number,alpha:number)=>{const co=Math.cos(angle),si=Math.sin(angle);g.poly([x-co*r,y-si*r,x-si*r*.35,y+co*r*.35,x+co*r,y+si*r,x+si*r*.35,y-co*r*.35]).fill({color,alpha}).stroke({color:l,width:1.1,alpha:alpha*.8});};
+ const shard=(x:number,y:number,r:number,angle:number,color:number,alpha:number)=>{const co=Math.cos(angle),si=Math.sin(angle),tip=[x+co*r,y+si*r],tail=[x-co*r,y-si*r],left=[x-si*r*.43,y+co*r*.43],right=[x+si*r*.43,y-co*r*.43],ridge=[x+co*r*.16,y+si*r*.16];g.poly([...tail,...left,...tip,...right]).fill({color:shade(color,.55),alpha}).stroke({color:shade(color,.4),width:1.2,alpha:alpha*.65});g.poly([...tail,...left,...ridge]).fill({color,alpha});g.poly([...left,...tip,...ridge]).fill({color:l,alpha:alpha*.85});g.poly([...tip,...right,...ridge]).fill({color,alpha:alpha*.9});g.moveTo(tail[0],tail[1]).lineTo(ridge[0],ridge[1]).lineTo(tip[0],tip[1]).stroke({color:l,width:.8,alpha:alpha*.85});};
  if(p.move==='crystals'||p.move==='gems'){
   for(let i=0;i<n;i++){const t=clamp((age-i*.025)/.52),d=25+t*210,spread=Math.sin(i*9.3)*(12+t*55),[x,y]=at(d,spread),r=(p.species==='aerodactyl'?15:9)+i%3*3;const alpha=a*(1-t*.65);
    g.moveTo(...at(Math.max(0,d-27),spread)).lineTo(x,y).stroke({color:c,width:2,alpha:alpha*.3});shard(x,y,r,age*5+i,p.move==='gems'?[c,0x7beedc,0xf4b2e7][i%3]:i%3?c:l,alpha);

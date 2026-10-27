@@ -2,14 +2,15 @@ import { Howl, Howler } from 'howler';
 import cueManifest from '../../public/assets/audio-v4/cues.json';
 import moveManifest from '../../public/assets/audio-v5/cues.json';
 import ensembleManifest from '../../public/assets/audio-v6/cues.json';
+import ballManifest from '../../public/assets/audio-v7/cues.json';
 import { pokemonPower, type PowerCue } from './powerProfiles';
-export type Sound = PowerCue|'throw'|'impact'|'release'|'charge'|'tear'|'flip'|'reveal'|'rare'|'complete'|'credit'|'ui'|'latch'|'stage'|'land'|'suspense'|'slam';
+export type Sound = PowerCue|'throw'|'impact'|'release'|'charge'|'tear'|'flip'|'reveal'|'rare'|'complete'|'credit'|'ui'|'latch'|'stage'|'land'|'suspense'|'slam'|'ballbounce'|'ballsettle';
 type Voice={howl:Howl;id:number;scene:boolean;paused:boolean;key:string;gain:number};
 const sounds=new Map<string,Howl>(), pending=new Map<string,Promise<void>>(), voices=new Set<OwnedVoice>();
 let enabled=false,scenePaused=false,hidden=false,lastCredit=-Infinity,lastLand=-Infinity;
 let music:Howl|null=null,musicId:number|undefined,musicPaused=false,interacted=false,musicGain=.14;
 const pokemonCues=new Set([...Object.keys(ensembleManifest),'fire','water','electric','psychic','leaf','wind','ice','dark','metal','ground','fairy','dragon','swift','hyperbeam','shadowball','aeroblast','petals','hydropump','waterpulse','psystrike']);
-const cues:Record<string,{gain:number;files:{mp3:string;ogg:string}}>={...cueManifest,...moveManifest,...ensembleManifest};
+const cues:Record<string,{gain:number;files:{mp3?:string;ogg?:string;wav?:string}}>={...cueManifest,...moveManifest,...ensembleManifest,...ballManifest};
 function mixMusic(){
  if(!music||musicId===undefined)return;
  const next=[...voices].some(v=>v.scene&&!v.paused)?.035:scenePaused?.085:.14;
@@ -27,7 +28,7 @@ function syncMusic(){
 export function unlockAudio(){interacted=true;if(enabled)void Howler.ctx?.resume();syncMusic();}
 function sample(key:string){
  let howl=sounds.get(key);
- if(!howl){const cue=cues[key];howl=new Howl({src:cue?[cue.files.mp3,cue.files.ogg]:[`/assets/audio-v2/${key}.mp3`,`/assets/audio-v2/${key}.ogg`],preload:true,pool:4});sounds.set(key,howl);}
+ if(!howl){const cue=cues[key],src=cue?(cue.files.wav?[cue.files.wav]:[cue.files.mp3,cue.files.ogg].filter((file):file is string=>!!file)):[`/assets/audio-v2/${key}.mp3`,`/assets/audio-v2/${key}.ogg`];howl=new Howl({src,preload:true,pool:4});sounds.set(key,howl);}
  return howl;
 }
 function ready(key:string){
@@ -39,8 +40,8 @@ function ready(key:string){
   howl.once('load',finish);howl.once('loaderror',finish);timer=setTimeout(finish,1800);
  });pending.set(key,promise);return promise;
 }
-export function preloadAudio(){for(const name of ['tear','flip','normal','rare','complete','credit','throw','impact','release','charge','ui','latch','stage','land','suspense','slam'])void ready(name);}
-export async function preloadRevealAudio(path:string){if(!enabled)return;const p=pokemonPower(path);await Promise.all([ready(p.cue),ready('release'),ready('throw'),ready('impact'),ready('charge'),ready('latch'),...(p.dexId===null?[]:[ready(`cries/${p.dexId}`)])]);}
+export function preloadAudio(){for(const name of ['tear','flip','normal','rare','complete','credit','throw','impact','release','charge','ui','latch','stage','land','suspense','slam','ballbounce','ballsettle'])void ready(name);}
+export async function preloadRevealAudio(path:string){if(!enabled)return;const p=pokemonPower(path);await Promise.all([ready(p.cue),ready('release'),ready('throw'),ready('impact'),ready('charge'),ready('latch'),ready('slam'),ready('ballbounce'),ready('ballsettle'),...(p.dexId===null?[]:[ready(`cries/${p.dexId}`)])]);}
 function forget(voice:OwnedVoice){voices.delete(voice);voice.howl.off('end',voice.done,voice.id);voice.howl.off('stop',voice.done,voice.id);if(voice.key.startsWith('cries/')&&![...voices].some(v=>v.key.startsWith('cries/')))for(const v of voices)if(v.scene&&!v.key.startsWith('cries/'))v.howl.fade(v.gain*.42,v.gain,120,v.id);mixMusic();}
 // Per-ID event ownership prevents old callbacks from retaining destroyed reveals.
 type OwnedVoice=Voice & {done:()=>void};

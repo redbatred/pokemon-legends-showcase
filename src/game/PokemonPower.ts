@@ -95,15 +95,15 @@ export class PokemonPower {
    for(let i=0;i<3;i++){const a=t*2+i*TAU/3;this.star(g,x+Math.cos(a)*r,y+Math.sin(a)*r*1.12,5,light,opacity,a);}return;
   }
   if(p.move==='beam'){
-   const reach=260*Math.min(strength,age/.15)*(.35+.65*(e.foreshortening??1));
+   const reach=300*Math.min(strength,age/.15)*(.35+.65*(e.foreshortening??1));
    for(let layer=0;layer<3;layer++){const pts:number[]=[],width=[23,13,4][layer];for(let side=0;side<2;side++)for(let i=0;i<=18;i++){const u=side?1-i/18:i/18;pts.push(...at(u*reach,(side?-1:1)*width*(.35+u*.8)*Math.min(1,(1-u)*16)));}g.poly(pts).fill({color:layer===0?c:layer===1?light:0xffffff,alpha:opacity*(layer===0?.65:.9)});}
    for(let phase=0;phase<2;phase++){const pts:number[]=[];for(let i=0;i<=24;i++){const u=i/24;pts.push(...at(u*reach,Math.sin(u*24-t*25+phase*Math.PI)*(4+u*13)));}g.poly(pts,false).stroke({color:light,width:1.5,alpha:opacity*.75});}return;
   }
   if(p.kind==='fire'||p.kind==='dragon'){
-   const length=(p.kind==='fire'?195:215)*Math.min(strength,age/.18)*(.35+.65*(e.foreshortening??1)),osc=t*19;
+   const length=(p.kind==='fire'?240:255)*Math.min(strength,age/.18)*(.35+.65*(e.foreshortening??1)),osc=t*19;
    // An accelerating stream with asymmetric tongues, dark cel edge and a slender hot core.
    for(let layer=0;layer<3;layer++){
-    const points:number[]=[],width=[26,17,6][layer],reach=length*(1-layer*.13);
+    const points:number[]=[],width=[30,19,6][layer],reach=length*(1-layer*.13);
     for(let side=0;side<2;side++)for(let j=0;j<=26;j++){
      const u=side?1-j/26:j/26,root=2*(1-u),shape=(.12+.88*u)*Math.min(1,(1-u)*13);
      const tongues=1+.21*Math.sin(u*27-osc+side*2)+.11*Math.sin(u*43-osc*1.4);
@@ -119,18 +119,19 @@ export class PokemonPower {
     g.moveTo(px-dx*r*2,py-dy*r*2).quadraticCurveTo(px+nx*r,py+ny*r,px+dx*r*2,py+dy*r*2).quadraticCurveTo(px-nx*r*.5,py-ny*r*.5,px-dx*r*2,py-dy*r*2).fill({color:i%3?c:light,alpha:opacity*(1-u)});
    }
   }else if(p.kind==='water'||p.kind==='ice'){
-   const reach=205*Math.min(strength,age/.18)*(.35+.65*(e.foreshortening??1)),w=p.species==='blastoise'?10:14;
+   const reach=240*Math.min(strength,age/.18)*(.35+.65*(e.foreshortening??1)),w=p.species==='blastoise'?12:16;
    for(let layer=0;layer<3;layer++){
     const pts:number[]=[],width=w*(1-layer*.31);
     for(let side=0;side<2;side++)for(let j=0;j<=20;j++){const u=side?1-j/20:j/20,taper=Math.min(1,(1-u)*12),wave=Math.sin(u*22-t*29+index)*2*u;pts.push(...at(u*reach,wave+(side?-1:1)*width*(.55+u*.8)*taper));}
     g.poly(pts).fill({color:layer===0?0x1675cf:layer===1?c:light,alpha:opacity*(layer===2?.88:1)});
    }
+   for(let i=0;i<3;i++){const u=(age*2.8+i/3)%1,from=.1+u*.6,to=Math.min(.95,from+.21),pts:number[]=[];for(let j=0;j<=9;j++){const v=from+(to-from)*j/9;pts.push(...at(v*reach,Math.sin(v*18-t*25+i)*w*.38));}g.poly(pts,false).stroke({color:light,width:1.5,alpha:opacity*Math.sin(u*Math.PI)*.85});}
    for(let i=0;i<(this.low?5:9);i++){
     const u=(age*2.6+i*.17)%1,[px,py]=at(reach*.88+u*34,Math.sin(i*13)*(6+u*28));
     g.moveTo(px-dx*6,py-dy*6).lineTo(px+nx*2,py+ny*2).lineTo(px+dx*9,py+dy*9).closePath().fill({color:light,alpha:opacity*(1-u)});
    }
   }else if(p.kind==='electric'){
-   const pulse=.65+.35*Math.sin(age*67)**2,seed=Math.floor(age*22),count=this.low?3:5;
+   const pulse=.8+.2*Math.sin(age*37)**2,seed=Math.floor(age*18),count=this.low?3:5;
    for(let i=0;i<count;i++){
     const angle=(index?-.4:.5)+i/count*TAU,length=(100+i%3*29)*strength,pts:number[]=[x,y];
     for(let j=1;j<=6;j++){const u=j/6,z=j===6?0:Math.sin(j*12.4+i*6.3+seed*4.1)*10;pts.push(x+Math.cos(angle)*length*u-Math.sin(angle)*z,y+Math.sin(angle)*length*u+Math.cos(angle)*z);}
@@ -156,11 +157,14 @@ export class PokemonPower {
  }
  private orb(g:Graphics,x:number,y:number,r:number,alpha:number,time:number){
   g.circle(x,y,r*1.2).fill({color:0x7034c3,alpha:alpha*.17}).circle(x,y,r).fill({color:0x281145,alpha}).circle(x-r*.15,y-r*.15,r*.7).fill({color:0x652a9d,alpha});
+  g.moveTo(x-r*.76,y-r*.22).bezierCurveTo(x-r*.65,y-r*.88,x+r*.23,y-r*.96,x+r*.53,y-r*.47).bezierCurveTo(x-r*.07,y-r*.74,x-r*.48,y-r*.52,x-r*.76,y-r*.22).fill({color:0xd5a8ff,alpha:alpha*.75});
+  g.moveTo(x+r*.75,y-r*.10).quadraticCurveTo(x+r*.93,y+r*.54,x-r*.1,y+r*.81).quadraticCurveTo(x+r*.48,y+r*.37,x+r*.75,y-r*.1).fill({color:0x8d56d4,alpha:alpha*.85});
   for(let i=0;i<3;i++){const a=time*4+i*TAU/3;g.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r).quadraticCurveTo(x+Math.cos(a+.6)*r*.2,y+Math.sin(a+.6)*r*.2,x+Math.cos(a+1.6)*r*.9,y+Math.sin(a+1.6)*r*.9).stroke({color:i%2?0xe3a9ff:0xb577ff,width:2,alpha:alpha*.85});}
  }
  private shuriken(g:Graphics,x:number,y:number,r:number,angle:number,alpha:number){
   const points:number[]=[];for(let i=0;i<12;i++){const a=angle+i*TAU/12,rr=i%3===0?r:i%3===1?r*.27:r*.36;points.push(x+Math.cos(a)*rr,y+Math.sin(a)*rr*.72);}
-  g.poly(points).fill({color:0x3aaeff,alpha:alpha*.85}).stroke({color:0xc6ffff,width:1.7,alpha});
+  g.poly(points).fill({color:0x2674d2,alpha:alpha*.9}).stroke({color:0xc6ffff,width:1.7,alpha});
+  for(let i=0;i<4;i++){const a=angle+i*Math.PI/2,tip=[x+Math.cos(a)*r,y+Math.sin(a)*r*.72],inner=[x+Math.cos(a+.52)*r*.27,y+Math.sin(a+.52)*r*.27*.72];g.poly([x,y,...tip,...inner]).fill({color:0x64deff,alpha:alpha*.86});}
   for(let i=0;i<4;i++){const a=angle+i*Math.PI/2;g.moveTo(x,y).lineTo(x+Math.cos(a)*r*.82,y+Math.sin(a)*r*.58).stroke({color:0xeaffff,width:1.6,alpha:alpha*.9});}
  }
  destroy(){this.back.destroy();this.front.destroy();}

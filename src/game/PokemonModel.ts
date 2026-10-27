@@ -1,9 +1,10 @@
 import {Texture as PixiTexture} from 'pixi.js';
-import {AnimationMixer,Box3,Color,DataTexture,DirectionalLight,Group,HemisphereLight,LoopOnce,LoopRepeat,Matrix4,Mesh,MeshToonMaterial,NearestFilter,NoToneMapping,OrthographicCamera,RGBAFormat,Scene,SRGBColorSpace,Vector3,WebGLRenderer,type AnimationAction,type Material,type MeshStandardMaterial,type Object3D,type Texture,type SkinnedMesh} from 'three';
+import {AnimationMixer,Box3,DataTexture,DirectionalLight,Group,HemisphereLight,LoopOnce,LoopRepeat,Matrix4,Mesh,NearestFilter,NoToneMapping,OrthographicCamera,RGBAFormat,Scene,SRGBColorSpace,Vector3,WebGLRenderer,type AnimationAction,type Material,type MeshStandardMaterial,type Object3D,type Texture,type SkinnedMesh} from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import type {PowerProfile} from './powerProfiles';
 import {createModelOutline} from './modelOutline';
+import {ensurePokemonNormals,pokemonToonMaterial,pokemonInkEligible} from './pokemonMaterials';
 import {performanceTiming} from './performanceTiming';
 import {performanceProfile} from './performanceProfiles';
 import {sampleAttack} from './attackClock';
@@ -41,12 +42,12 @@ export class PokemonModel {
   this.low=low;this.size=low?384:704;this.canvas.width=this.canvas.height=this.size;this.context=this.canvas.getContext('2d')!;this.texture=PixiTexture.from(this.canvas);
   this.gradient=new DataTexture(new Uint8Array([65,65,65,255,142,142,142,255,215,215,215,255,255,255,255,255]),4,1,RGBAFormat);this.gradient.minFilter=this.gradient.magFilter=NearestFilter;this.gradient.needsUpdate=true;
   const outlines:{mesh:Mesh;outline:Mesh}[]=[];
-  this.model.traverse(obj=>{if(!(obj instanceof Mesh))return;const materials=Array.isArray(obj.material)?obj.material:[obj.material];const converted=materials.map(material=>{
+  this.model.traverse(obj=>{if(!(obj instanceof Mesh))return;ensurePokemonNormals(obj.geometry);const materials=Array.isArray(obj.material)?obj.material:[obj.material];const converted=materials.map(material=>{
    const old=material as MeshStandardMaterial;this.originalMaterials.add(old);for(const value of Object.values(old))if(value&&typeof value==='object'&&'isTexture' in value)this.textures.add(value as Texture);
-   const mat=new MeshToonMaterial({map:old.map,color:old.color??new Color('white'),gradientMap:this.gradient,transparent:old.transparent,opacity:old.opacity,alphaTest:old.alphaTest,side:old.side,emissive:old.emissive??new Color(0x000000),emissiveMap:old.emissiveMap??null,emissiveIntensity:Math.min(old.emissiveIntensity??0,1.5)});this.toonMaterials.add(mat);return mat;});obj.material=Array.isArray(obj.material)?converted:converted[0];
-   if(materials.some(m=>/body/i.test(m.name))){const outline=obj.clone(false),ink=createModelOutline(obj.geometry);outline.material=ink;outline.renderOrder=-1;this.toonMaterials.add(ink);outlines.push({mesh:obj,outline});}
+   const mat=pokemonToonMaterial(old,this.gradient);this.toonMaterials.add(mat);return mat;});obj.material=Array.isArray(obj.material)?converted:converted[0];
+   if(pokemonInkEligible(stem,obj.name,materials)){const outline=obj.clone(false),ink=createModelOutline(obj.geometry);outline.material=ink;outline.renderOrder=-1;this.toonMaterials.add(ink);outlines.push({mesh:obj,outline});}
   });for(const {mesh,outline} of outlines)mesh.parent!.add(outline);
-  this.scene.add(model);this.scene.add(new HemisphereLight(0xeef7ff,0x66759c,1.15));const key=new DirectionalLight(0xffffff,1.65);key.position.set(-3,5,7);this.scene.add(key);const rim=new DirectionalLight(0x8fdcff,.7);rim.position.set(1,-1,3);this.scene.add(rim);
+  this.scene.add(model);this.scene.add(new HemisphereLight(0xeef7ff,0x66759c,.88));const key=new DirectionalLight(0xffffff,1.5);key.position.set(-3,5,7);this.scene.add(key);const rim=new DirectionalLight(0x8fdcff,.42);rim.position.set(1,-1,3);this.scene.add(rim);
   this.mixer=new AnimationMixer(model);this.clips=new Map(animations.map(clip=>[clip.name,this.mixer.clipAction(clip)]));this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);
   const performance=performanceProfile(stem),yaw=performance.cameraYaw*Math.PI/180,elevation=performance.cameraElevation*Math.PI/180,view=new Vector3(Math.sin(yaw)*Math.cos(elevation),Math.sin(elevation),Math.cos(yaw)*Math.cos(elevation));
   const bounds=new Box3().setFromObject(model,true),idleBounds=bounds.clone(),right=new Vector3(view.z,0,-view.x).normalize(),up=view.clone().cross(right).normalize(),vertex=new Vector3();
