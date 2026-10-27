@@ -8,11 +8,11 @@
       "sharp": "0.34.5"
     },
     "sourceBytes": 125421504,
-    "outputBytes": 61057644,
+    "outputBytes": 61381080,
     "modelCount": 33,
     "sourceOriginals": "source-assets/pokemon-3d-original/ (gitignored, outside public)",
     "operations": [
-      "Retain only runtime-mapped idle and attack animations; remove unused clips and unreachable accessors.",
+      "Retain runtime-mapped idle and action clips; Charizard also retains its previous attack while selecting the restored native happy celebration. Remove other unused clips and unreachable accessors.",
       "Deduplicate buffers and textures. All source node names, exact node transforms, hierarchy, geometry attributes, indices, skin joints and inverse bind matrices preserved.",
       "Resample redundant animation keys with tolerance 1e-7. This is a bounded numeric approximation, not an assertion of bit-identical motion.",
       "Encode smaller textures as lossless WebP only after exact decoded RGBA comparison; preserve all texture dimensions and other image bytes.",
@@ -24,7 +24,14 @@
     "maxSampledBoundsError": 1.9759719727119318e-07,
     "boundsSamples": 99,
     "validation": "All 33 outputs decoded successfully. Compared geometry/skin buffer hashes, node names/transforms/hierarchy, exact decoded texture pixels and dimensions, and clip presence. Sampled every original retained animation key and midpoint, using quaternion interpolation. Compared CPU-skinned world-space bounds at idle t=0 and two action poses per model; no full continuous-time error bound is claimed.",
-    "decoderRequirements": "EXT_texture_webp uses native WebP support. Existing material extensions remain. No KHR_draco_mesh_compression or EXT_meshopt_compression in outputs."
+    "decoderRequirements": "EXT_texture_webp uses native WebP support. Existing material extensions remain. No KHR_draco_mesh_compression or EXT_meshopt_compression in outputs.",
+    "charizardNativeHappyRestoration": {
+      "outputBytes": 3978892,
+      "outputSha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
+      "addedBytes": 323436,
+      "keyframesExact": true,
+      "sourceAction": "pm0006_00_00_00550_glad01.gfbanm"
+    }
   },
   "models": {
     "aerodactyl": {
@@ -1062,15 +1069,15 @@
     },
     "charizard": {
       "sourceBytes": 7238092,
-      "outputBytes": 3655456,
+      "outputBytes": 3978892,
       "sourceSha256": "3282da7efe1e4a070d37a648d5af3d105365ec1a6320a4f572bb1b4307f5ba0a",
-      "outputSha256": "5fe4dd7a4a785404c9c26dc5c174d0c68e4e9a5010213138694ccf2d405d22b3",
+      "outputSha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
       "keptClips": [
         "idle",
-        "attack"
+        "attack",
+        "happy"
       ],
       "removedClips": [
-        "happy",
         "run",
         "sleep",
         "walk"
@@ -1202,7 +1209,9 @@
         "decodedTexturePixelsAndDimensionsIdentical": true,
         "usedClipsPresent": true,
         "maxSampledAnimationComponentError": 4.2935502464480635e-07,
-        "checkedAnimationSamples": 48948
+        "checkedAnimationSamples": 48948,
+        "restoredNativeHappyChannelsExact": 381,
+        "existingOptimizedGeometrySkeletonTexturesAndClipsUnchanged": true
       },
       "posedBoundsValidation": [
         {
@@ -1358,7 +1367,35 @@
           },
           "maxAbsoluteBoundsError": 1.214306433183765e-17
         }
-      ]
+      ],
+      "celebrationRestoration": {
+        "sourceOriginalSha256": "3282da7efe1e4a070d37a648d5af3d105365ec1a6320a4f572bb1b4307f5ba0a",
+        "previousOptimizedSha256": "5fe4dd7a4a785404c9c26dc5c174d0c68e4e9a5010213138694ccf2d405d22b3",
+        "outputSha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
+        "previousBytes": 3655456,
+        "outputBytes": 3978892,
+        "nativeAnimationAccessorBytesAdded": 248808,
+        "addedClip": "happy",
+        "addedClipChannels": 381,
+        "addedAccessors": 298,
+        "existingJsonPropertiesAndAnimationDataPreserved": true,
+        "existingBinaryBytesPreserved": true,
+        "geometryTexturesMaterialsNodesAndSkinsUnchanged": true,
+        "nativeHappyKeyframesPreservedExactly": true,
+        "method": "Append original happy animation sampler/accessor bytes without reserializing existing geometry, textures, skeleton or retained animations.",
+        "nativeClip": {
+          "name": "happy",
+          "duration": 5.875,
+          "channels": 381,
+          "varyingSkinnedJointChannels": 113,
+          "movingSkinnedJointCount": 90
+        },
+        "sourceAction": "pm0006_00_00_00550_glad01.gfbanm",
+        "nodeCount": 132,
+        "skinCount": 4,
+        "validation": "glTF-Transform NodeIO decoded the result; all 381 happy channel input/output arrays match the archived source exactly. Previous idle/attack arrays, geometry/skin buffer hashes and node transforms/names/hierarchy match the previous optimized model exactly."
+      },
+      "animationErrorScope": "Existing sampled component-error figures cover previously optimized idle/attack. Restored happy input/output accessor bytes are identical to source; no resampling was applied to happy."
     },
     "dracozolt": {
       "sourceBytes": 358388,

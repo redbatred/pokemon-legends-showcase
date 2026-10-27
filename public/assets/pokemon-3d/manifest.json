@@ -259,7 +259,7 @@
     "name": "Charizard",
     "dexId": 6,
     "path": "/assets/pokemon-3d/charizard.glb",
-    "bytes": 3655456,
+    "bytes": 3978892,
     "extensionsRequired": [
       "EXT_texture_webp"
     ],
@@ -277,11 +277,18 @@
         "channels": 381,
         "varyingSkinnedJointChannels": 69,
         "movingSkinnedJointCount": 65
+      },
+      {
+        "name": "happy",
+        "duration": 5.875,
+        "channels": 381,
+        "varyingSkinnedJointChannels": 113,
+        "movingSkinnedJointCount": 90
       }
     ],
     "idle": "idle",
-    "attack": "attack",
-    "attackTimeScale": 1,
+    "attack": "happy",
+    "attackTimeScale": 1.3,
     "bounds": {
       "min": [
         -1.0757478866535444,
@@ -309,14 +316,14 @@
       "up": "+Y",
       "forward": "+Z"
     },
-    "powerAt": 1.9,
-    "powerPeakAt": 2.375,
+    "powerAt": 2.6,
+    "powerPeakAt": 3.5,
     "powerWindow": [
-      1.7916666269,
-      2.9583332539
+      2.216666666666667,
+      4.383333333333334
     ],
     "powerTimingUnits": "source clip seconds; divide by attackTimeScale for wall time",
-    "powerTimingEvidence": "jaw rotation reaches 47.0687 degrees from its attack-start orientation at 2.375s; window covers >=80% of that maximum",
+    "powerTimingEvidence": "Native happy holds an approximately 31.0406 degree open-jaw plateau; 60 Hz samples are >=80% open from 2.2167 to 4.3833 source seconds. powerPeakAt=3.5 is a representative upright plateau pose, not a unique jaw-opening maximum. Authored flame window is 2.60-3.85; complete native recovery ends at 5.875.",
     "bones": {
       "head": "head",
       "jaw": "jaw",
@@ -330,13 +337,16 @@
       "tail": "tail_01"
     },
     "notes": [
-      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized.",
+      "Native happy (pm0006_00_00_00550_glad01.gfbanm) is selected for the upright big-win celebration. Flame timing is an authored overlay, not official Flamethrower event metadata. Original attack remains available."
     ],
     "optimization": {
       "sourceBytes": 7238092,
-      "sha256": "5fe4dd7a4a785404c9c26dc5c174d0c68e4e9a5010213138694ccf2d405d22b3",
+      "sha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
       "resampleTolerance": 1e-07,
-      "maxSampledAnimationComponentError": 4.2935502464480635e-07
+      "maxSampledAnimationComponentError": 4.2935502464480635e-07,
+      "restoredNativeClip": "happy",
+      "restoredNativeClipKeyframesExact": true
     }
   },
   "dracozolt": {

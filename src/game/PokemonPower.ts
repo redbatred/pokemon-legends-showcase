@@ -22,7 +22,7 @@ export class PokemonPower {
   this.time=this.clock;let emitters=this.emitters();
   if(this.blast>0&&this.releasedAt<0){this.releasedAt=this.time;this.launch=emitters.map(p=>({...p}));}
   if(this.blast>0&&this.time>(this.history.at(-1)?.time??-1)){this.history.push({time:this.time,points:emitters});while(this.history.length>2&&this.history[1].time<this.time-.32)this.history.shift();}
-  if(['shuriken','orb','stars'].includes(this.profile.move)&&this.blast>0)emitters=this.launch;
+  if(['shuriken','orb','stars','pulse'].includes(this.profile.move)&&this.blast>0)emitters=this.launch;
   for(let i=0;i<emitters.length;i++)this.draw(emitters[i],i,g);
  }
  private star(g:Graphics,x:number,y:number,r:number,color:number,alpha:number,rotation=0){
@@ -74,6 +74,10 @@ export class PokemonPower {
    for(let i=0;i<3;i++){const u=Math.min(1,Math.max(0,(age-i*.07)*2.3)),[px,py]=at(12+u*170,0),r=12+u*37;
     g.moveTo(px+nx*r-dx*8,py+ny*r-dy*8).quadraticCurveTo(px+dx*r*.55,py+dy*r*.55,px-nx*r-dx*8,py-ny*r-dy*8).stroke({color:0x39205c,width:10,alpha:opacity*(1-u)*.85}).moveTo(px+nx*r-dx*8,py+ny*r-dy*8).quadraticCurveTo(px+dx*r*.55,py+dy*r*.55,px-nx*r-dx*8,py-ny*r-dy*8).stroke({color:c,width:6,alpha:opacity*(1-u)}).moveTo(px+nx*r-dx*8,py+ny*r-dy*8).quadraticCurveTo(px+dx*r*.55,py+dy*r*.55,px-nx*r-dx*8,py-ny*r-dy*8).stroke({color:light,width:1.5,alpha:opacity*(1-u)});
    }return;
+  }
+  if(p.move==='pulse'){
+   const u=Math.min(1,age/.36),[px,py]=at(18+u*100,0),r=9+u*34;
+   for(let ring=0;ring<2;ring++){const rr=Math.max(3,r-ring*7);g.ellipse(px-dx*ring*7,py-dy*ring*7,rr*.65,rr).stroke({color:0x1775bf,width:6,alpha:opacity*(1-ring*.28)}).ellipse(px-dx*ring*7,py-dy*ring*7,rr*.65,rr).stroke({color:light,width:2.5,alpha:opacity});}return;
   }
   if(p.move==='sphere'){
    const r=42+strength*45;this.back.ellipse(x,y,r,r*1.12).fill({color:c,alpha:opacity*.1}).stroke({color:c,width:6,alpha:opacity*.25}).ellipse(x,y,r,r*1.12).stroke({color:light,width:1.5,alpha:opacity*.8});

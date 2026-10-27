@@ -19,9 +19,9 @@ export class CanvasScene {
   private width=0;private height=0;private stageBottom=0;private destroyed=false;private lastTime=0;
   async init(){
     this.root.eventMode='none';this.root.interactiveChildren=false;
-    const [background,platform]=await Promise.all([Assets.load<Texture>('/assets/stage/pokemon-anime-arena-v2.png'),Assets.load<Texture>('/assets/stage/pokemon-anime-platform-v2.png')]);
+    const [background,platform,trees,clouds]=await Promise.all([Assets.load<Texture>('/assets/stage/pokemon-anime-arena-v2.png'),Assets.load<Texture>('/assets/stage/pokemon-anime-platform-v2.png'),Assets.load<Texture>('/assets/stage/living-v3/trees-atlas.png'),Assets.load<Texture>('/assets/stage/living-v3/clouds-atlas.png')]);
     if(this.destroyed)return;
-    this.background=new LivingBackdrop(background);this.platform=new Sprite(platform);this.platform.anchor.set(.5);this.lights=new StageLightRig(platform);this.platform.texture=this.lights.baseTexture;
+    this.background=new LivingBackdrop(background,trees,clouds);this.platform=new Sprite(platform);this.platform.anchor.set(.5);this.lights=new StageLightRig(platform);this.platform.texture=this.lights.baseTexture;
     const shadow=document.createElement('canvas');shadow.width=256;shadow.height=128;const c=shadow.getContext('2d')!;c.scale(1,.5);const shade=c.createRadialGradient(128,128,12,128,128,128);shade.addColorStop(0,'rgba(3,25,49,.32)');shade.addColorStop(.55,'rgba(3,25,49,.18)');shade.addColorStop(1,'transparent');c.fillStyle=shade;c.fillRect(0,0,256,256);this.contactTexture=Texture.from(shadow);this.contact=new Sprite(this.contactTexture);this.contact.anchor.set(.5);
     this.arena.addChild(this.contact,this.platform,this.lights.root);this.focusShade.tint=0x061235;this.focusShade.alpha=0;this.root.addChild(this.background.root,this.focusShade,this.atmosphere.root,this.arena);this.arena.visible=false;
     this.resize(this.width,this.height,this.stageBottom);

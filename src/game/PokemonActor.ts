@@ -12,6 +12,7 @@ export class PokemonActor extends Container {
  }
  private constructor(texture:Texture,model:PokemonModel|null){super();this.model=model;this.portrait=new Sprite(texture);this.portrait.anchor.set(.5);const span=model?430:310;const ratio=texture.width/texture.height;this.portrait.width=ratio>=1?span:span*ratio;this.portrait.height=ratio>=1?span/ratio:span;if(model)this.portrait.y=154-model.groundY*this.portrait.height/2;this.addChild(this.portrait);}
  get attackDuration(){return this.model?.attackDuration??.9;}
+ get recoveryDuration(){return this.model?.recoveryDuration??.35;}
  get chargeDuration(){return this.model?.chargeDuration??.65;}
  play(cue:'emerge'|'idle'|'charge'|'attack'|'recover'){this.model?.play(cue);}
  capturePose(){this.model?.capturePose();}

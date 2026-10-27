@@ -1,38 +1,42 @@
 {
   "charizard": {
     "form": "flamethrower",
-    "seek": 0.55,
-    "speed": 1.4,
-    "powerAt": 1.9,
-    "sustainEnd": 2.8,
-    "end": 2.96,
-    "recoverAt": 3.7,
+    "seek": 1.8,
+    "speed": 1.3,
+    "powerAt": 2.6,
+    "sustainEnd": 3.55,
+    "end": 3.85,
+    "recoverAt": 5.55,
     "emitters": [
       {
         "id": "mouth",
         "bone": "head",
         "tip": [
-          -0.03962,
-          -0.0,
-          0.176902
+          -0.00496,
+          -3.1e-05,
+          0.203129
         ],
         "forward": [
-          -0.073879,
-          -0.0,
-          0.47494
+          -0.03922,
+          -3e-05,
+          0.501166
         ]
       }
     ],
     "attachment": "continuous",
-    "evidence": "Tip is the mean world position of left/right upper_jaw_a and left/right lower_jaw, converted to head-local space at source t=2.375. Forward follows head to center_nose. The static socket approximates the mouth center during the open-jaw window; jaw has secondary motion. Jaw opening peaks at2.375 and stays >=80% of its maximum from1.7917 to2.9583. These effects/timing are authored recommendations for the supplied generic attack clip, not official Flamethrower animation event metadata.",
+    "evidence": "Native happy/glad01 is an upright celebration, not an official Flamethrower action. Mouth tip averages left/right upper_jaw_a and lower_jaw bone positions at source t=3.5, converted to head-local coordinates. Forward follows head to center_nose. At 60 Hz over authored emission t=2.60-3.85, this native muzzle axis points 27.28-40.25 degrees above the world horizontal; the head remains upright. Jaw opening has a roughly 31.04 degree plateau and >=80% window 2.2167-4.3833. The mouth socket is an approximation because secondary jaw movement continues. Preserve the source recovery from end=3.85 to recoveryEnd=5.875; recoverAt=5.55 is only a legacy blend-ready marker (~2.93% height-normalized joint RMS difference from happy start), not the full native end. All effect events are authored recommendations.",
     "sources": [
-      "https://assets.pokemon.com/assets/cms2/pdf/video-game/pokken/Charizard_Chart_EN.pdf"
+      "https://assets.pokemon.com/assets/cms2/pdf/video-game/pokken/Charizard_Chart_EN.pdf",
+      "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/006/model.glb"
     ],
-    "attackClip": "attack",
-    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and pulseTimes are source clip seconds; speed is playback rate; projectileLifetime is wall seconds",
+    "attackClip": "happy",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt, recoveryEnd and pulseTimes are source clip seconds; speed and recoverySpeed are playback rates; projectileLifetime is wall seconds",
     "coordinateUnits": "tip and forward are absolute points in the named bone local space, not direction vectors",
-    "chargeDuration": 0.9642857142857143,
-    "sourceGlbSha256": "5fe4dd7a4a785404c9c26dc5c174d0c68e4e9a5010213138694ccf2d405d22b3"
+    "chargeDuration": 0.6153846153846154,
+    "sourceGlbSha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
+    "recoveryEnd": 5.875,
+    "recoverySpeed": 1.8,
+    "socketSampleTime": 3.5
   },
   "blastoise": {
     "form": "twin-hydro-pump",
@@ -241,7 +245,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Native rangeattack01 has head rotation >=80% of its maximum about.65\u20131.15s and jaw secondary rotation peaks.867s. Mouth socket is the mean six native upper/lower tooth joint locations at.85s; axis follows head toward the upper-front teeth. Existing wind blade form does not represent the mouth-directed ranged pose. Aeroblast form is a recommendation supported by the official move association.",
+    "evidence": "Native rangeattack01 has head rotation >=80% of its maximum about.65–1.15s and jaw secondary rotation peaks.867s. Mouth socket is the mean six native upper/lower tooth joint locations at.85s; axis follows head toward the upper-front teeth. Existing wind blade form does not represent the mouth-directed ranged pose. Aeroblast form is a recommendation supported by the official move association.",
     "sources": [
       "https://pokemongo.com/news/apex-reveal"
     ],
@@ -280,7 +284,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Lower-jaw rotation peaks.60s; >=80% window .55\u20131.483s. Socket is the mean upper_jaw and teeth joint positions, converted to head space at.68s; forward follows head toward upper_jaw. Strong downward head motion makes a fixed stage angle incorrect. Water stream is an authored water-type interpretation of the generic attack; source clip is not named Hydro Pump.",
+    "evidence": "Lower-jaw rotation peaks.60s; >=80% window .55–1.483s. Socket is the mean upper_jaw and teeth joint positions, converted to head space at.68s; forward follows head toward upper_jaw. Strong downward head motion makes a fixed stage angle incorrect. Water stream is an authored water-type interpretation of the generic attack; source clip is not named Hydro Pump.",
     "sources": [
       "https://www.pokemon.com/uk/pokedex/gyarados"
     ],
@@ -319,7 +323,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Jaw rotation peaks1.717s and stays >=80% over.75\u20132.5s. Head pitches through2.083s. The native jaw joint is already near the snout; the socket moves a small distance forward along head-to-jaw direction. Head-relative Hyper Beam needs a finite straight light beam, rather than flame-shaped dragon particles. Generic supplied attack is not an official Hyper Beam event track.",
+    "evidence": "Jaw rotation peaks1.717s and stays >=80% over.75–2.5s. Head pitches through2.083s. The native jaw joint is already near the snout; the socket moves a small distance forward along head-to-jaw direction. Head-relative Hyper Beam needs a finite straight light beam, rather than flame-shaped dragon particles. Generic supplied attack is not an official Hyper Beam event track.",
     "sources": [
       "https://unite.pokemon.com/en-us/news/dragonite-dances-its-way-into-pokemon-unite/"
     ],
@@ -358,7 +362,7 @@
       }
     ],
     "attachment": "capture-at-release",
-    "evidence": "Jaw opening peaks1.5s with >=80% interval .983\u20132.267s. Socket uses the native teeth_01/02 center, shifted slightly toward the lower jaw to center within the open mouth, then expressed in head space at1.35s. A compact shadow orb fits this open-mouth pose; orbiting chest particles miss it. Capture projectile launch once.",
+    "evidence": "Jaw opening peaks1.5s with >=80% interval .983–2.267s. Socket uses the native teeth_01/02 center, shifted slightly toward the lower jaw to center within the open mouth, then expressed in head space at1.35s. A compact shadow orb fits this open-mouth pose; orbiting chest particles miss it. Capture projectile launch once.",
     "sources": [
       "https://assets.pokemon.com/assets/cms2/pdf/video-game/pokken/Gengar_Chart_EN.pdf"
     ],
@@ -491,7 +495,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Lower-jaw opening peaks.717s, with >=80% opening only .60\u2013.833s. Generic .36*duration trigger fires1.665s, well after the useful mouth pose. Socket is the mean left/right upper/lower lip-joint locations, expressed in head space at.72s. Use a short water pulse rather than a long jet while the mouth is closed. Named Water Pulse behavior is an authored interpretation, not a source clip label. Playback .75 keeps the narrow source window above the current runtime minimum .30-second effect duration.",
+    "evidence": "Lower-jaw opening peaks.717s, with >=80% opening only .60–.833s. Generic .36*duration trigger fires1.665s, well after the useful mouth pose. Socket is the mean left/right upper/lower lip-joint locations, expressed in head space at.72s. Use a short water pulse rather than a long jet while the mouth is closed. Named Water Pulse behavior is an authored interpretation, not a source clip label. Playback .75 keeps the narrow source window above the current runtime minimum .30-second effect duration.",
     "sources": [
       "https://sg.portal-pokemon.com/pokedex/0134/"
     ],
@@ -570,7 +574,7 @@
       }
     ],
     "attachment": "capture-at-release",
-    "evidence": "Native attack keeps lower_jaw effectively static while raising/swiping the forepaws near1.2\u20131.7s. Socket is the mean upper/lower snout joints in head space; a brief star volley can accompany the flourish. The previous wind blades are not a useful species-specific cue. Official UNITE descriptions explicitly associate Eevee Swift with star-shaped rays. The source generic body attack is not specifically labelled Swift.",
+    "evidence": "Native attack keeps lower_jaw effectively static while raising/swiping the forepaws near1.2–1.7s. Socket is the mean upper/lower snout joints in head space; a brief star volley can accompany the flourish. The previous wind blades are not a useful species-specific cue. Official UNITE descriptions explicitly associate Eevee Swift with star-shaped rays. The source generic body attack is not specifically labelled Swift.",
     "sources": [
       "https://unite.pokemon.com/en-us/news/espeon-unleashes-its-power-in-pokemon-unite/"
     ],

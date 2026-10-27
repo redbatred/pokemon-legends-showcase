@@ -6,7 +6,7 @@ vi.mock('howler',()=>{
   play=vi.fn((id?:number)=>{id??=this.next++;this.playing.add(id);this.paused.delete(id);return id;});
   pause=vi.fn((id:number)=>{this.playing.delete(id);this.paused.add(id);});
   stop=vi.fn((id:number)=>{this.playing.delete(id);this.paused.delete(id);for(const e of [...this.events])if(e.name==='stop'&&e.id===id)e.fn(id);});
-  unload=vi.fn();volume=vi.fn();stereo=vi.fn();fade=vi.fn();
+  unload=vi.fn();seek=vi.fn();volume=vi.fn();stereo=vi.fn();fade=vi.fn();
   constructor(options:{src:string[]}){this.source=options.src[0];mock.howls.push(this);}
   state(){return mock.loaded?'loaded':'loading';}
   once(name:string,fn:()=>void,id?:number){this.events.push({name,fn,id});}
@@ -14,7 +14,7 @@ vi.mock('howler',()=>{
  }
  return {Howl,Howler:{mute:vi.fn(),ctx:{resume:vi.fn(async()=>{})}}};
 });
-import { destroyAudio, playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio } from './audio';
+import { destroyAudio, playPokemonMove,pokemonSoundTiming,playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio } from './audio';
 import cueManifest from '../../public/assets/audio-v4/cues.json';
 const voice=(key:string)=>mock.howls.find(h=>h.source.endsWith(`/${key}.mp3`));
 beforeEach(()=>{destroyAudio();mock.howls=[];mock.loaded=true;});
@@ -87,4 +87,15 @@ it('ducks music under suspense and restores it after the cinematic voices stop',
 it('does not start late-loading music after the user mutes',()=>{
  vi.useFakeTimers();setSound(true);mock.loaded=false;unlockAudio();const music=voice('ambience');setSound(false);mock.loaded=true;
  music.events.find((e:any)=>e.name==='load').fn();expect(music.play).not.toHaveBeenCalled();
+});
+
+it('aligns authentic move excerpts and uses a quiet scene-owned envelope',()=>{
+ setSound(true);const move=playPokemonMove('psystrike');const h=voice('psystrike');
+ expect(h.seek).toHaveBeenCalledWith(2.78,1);expect(pokemonSoundTiming('hydropump').preRoll).toBe(.24);
+ move!.update(1,.2);expect(h.volume).toHaveBeenLastCalledWith(.14,1);
+ setAudioScenePaused(true);expect(h.pause).toHaveBeenCalledWith(1);setAudioScenePaused(false);expect(h.play).toHaveBeenLastCalledWith(1);
+ move!.update(.2,0);expect(h.volume).toHaveBeenLastCalledWith(.028000000000000004,1);move!.stop();expect(h.stop).toHaveBeenCalledWith(1);
+});
+it('never revives a Pokémon move after mute or disposal, even with pending animation callbacks',()=>{
+ setSound(true);const move=playPokemonMove('hydropump')!,h=voice('hydropump');move.update(1,0);setSound(false);const updates=h.volume.mock.calls.length;move.update(1,.4);move.stop();setSound(true);expect(h.volume).toHaveBeenCalledTimes(updates);expect(h.play).toHaveBeenCalledTimes(1);
 });

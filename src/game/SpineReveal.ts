@@ -1,6 +1,6 @@
 import { ColorMatrixFilter,Container,Graphics,Sprite,Texture } from 'pixi.js';
 import type { Spine } from '@esotericsoftware/spine-pixi-v8';
-import { playSound,playPokemonCry,preloadRevealAudio,stopRevealAudio } from './audio';
+import { playSound,playPokemonCry,preloadRevealAudio,stopRevealAudio,playPokemonMove,pokemonSoundTiming,type PokemonMoveVoice } from './audio';
 import { pokemonPower } from './powerProfiles';
 import { PokemonPower } from './PokemonPower';
 import { createPokeballRig } from './PokeballRig';
@@ -16,7 +16,7 @@ export class SpineReveal {
   private trail=new Graphics();private flare=new Graphics();private shadow=new Graphics();
   private shards:Graphics[]=[];private released=false;private started=false;
   private energy=new Graphics();private pressure=new Graphics();private latch=new Graphics();private power:PokemonPower;private white=new ColorMatrixFilter();
-  private release={amount:0,radius:0};
+  private release={amount:0,radius:0};private moveVoice:PokemonMoveVoice|null=null;
 
   static disposeResources(){disposePokemonRenderer();}
   static async create(card:Texture,pokemonImage:string,low=false){const [hero]=await Promise.all([PokemonActor.create(pokemonImage,low),preloadRevealAudio(pokemonImage)]);return new SpineReveal(card,hero,pokemonImage,low);}
@@ -42,7 +42,7 @@ export class SpineReveal {
 
   }
   play(timeline:gsap.core.Timeline,skyY:number,onImpact:()=>void,onPower?:(color:number)=>void){
-    this.started=true;const attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,open=hit+.78,form=open+.12,charge=form+.62,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,decay=Math.min(.22,this.hero.attackDuration*.3);
+    this.started=true;const attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,open=hit+.78,form=open+.12,charge=form+.62,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,recoverEnd=attackEnd+this.hero.recoveryDuration,soundStart=attack-Math.min(this.hero.chargeDuration,pokemonSoundTiming(this.power.profile.cue).preRoll),moveEnvelope={gain:0},decay=Math.min(.22,this.hero.attackDuration*.3);
     const project=()=>{const p=ballFlight(flight.t,skyY);this.ball.position.set(p.x,p.y);this.ball.scale.set(p.scale);this.ball.rotation=p.rotation;
       this.trail.clear();for(let i=5;i>=1;i--){const a=ballFlight(Math.max(0,flight.t-i*.015),skyY),b=ballFlight(Math.max(0,flight.t-(i-1)*.015),skyY);this.trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:(6-i)*.7,color:0xd3f5ff,alpha:(6-i)*.06});}};project();
     const land=()=>{const p=ballLanding(fall.t);this.ball.position.set(p.x,p.y);this.ball.rotation=p.rotation;};
@@ -68,17 +68,22 @@ export class SpineReveal {
       .to(this.hero.scale,{x:1,y:1,duration:.18,ease:'power2.out'},form+.42)
       .to(this.release,{amount:0,duration:.3,ease:'power1.out'},form+.23)
       .call(()=>playSound('impact',{gain:.32}),[],form+.6)
-      .call(()=>{this.ball.state.setAnimation(0,'closed',false);playPokemonCry(this.power.profile.dexId);},[],form+.53)
+      .call(()=>{this.ball.state.setAnimation(0,'closed',false);},[],form+.53)
       .to(this.ball,{x:155,y:188,rotation:.7,alpha:0,duration:.48,ease:'power2.in'},form+.53)
       .to(this.ball.scale,{x:.25,y:.25,duration:.48},form+.53)
-      .call(()=>{this.hero.play('charge');this.power.begin();playSound('charge',{gain:.5});},[],charge)
-      .to(attackClock,{time:this.hero.chargeDuration+this.hero.attackDuration+.24,duration:this.hero.chargeDuration+this.hero.attackDuration+.24,ease:'none',onUpdate:()=>{this.hero.setAttackTime(attackClock.time);this.power.clock=attackClock.time;}},charge)
+      .call(()=>{this.hero.play('charge');this.power.begin();},[],charge)
+      .call(()=>playPokemonCry(this.power.profile.dexId),[],charge+Math.min(.22,this.hero.chargeDuration*.32))
+      .to(attackClock,{time:this.hero.chargeDuration+this.hero.attackDuration+this.hero.recoveryDuration,duration:this.hero.chargeDuration+this.hero.attackDuration+this.hero.recoveryDuration,ease:'none',onUpdate:()=>{this.hero.setAttackTime(attackClock.time);this.power.clock=attackClock.time;}},charge)
       .to(this.power,{charge:1,duration:this.hero.chargeDuration,ease:'power2.in'},charge)
-      .call(()=>{this.hero.setAttackTime(this.hero.chargeDuration);this.hero.capturePose();this.power.release(this.hero.chargeDuration);this.hero.play('attack');playSound(this.power.profile.cue);onPower?.(this.power.profile.color);},[],attack)
+      .call(()=>{this.hero.setAttackTime(this.hero.chargeDuration);this.hero.capturePose();this.power.release(this.hero.chargeDuration);this.hero.play('attack');onPower?.(this.power.profile.color);},[],attack)
+      .call(()=>{this.moveVoice=playPokemonMove(this.power.profile.cue);},[],soundStart)
+      .to(moveEnvelope,{gain:1,duration:.07,ease:'sine.out',onUpdate:()=>this.moveVoice?.update(moveEnvelope.gain,0)},soundStart)
+      .to(moveEnvelope,{gain:0,duration:.18,ease:'sine.in',onUpdate:()=>this.moveVoice?.update(moveEnvelope.gain,0)},attackEnd-.02)
+      .call(()=>{this.moveVoice?.stop();this.moveVoice=null;},[],attackEnd+.17)
       .to(this.power,{charge:0,blast:1,duration:.08,ease:'power2.out'},attack)
       .to(this.power,{fade:0,duration:decay,ease:'power1.in'},attackEnd-decay)
-      .call(()=>{this.hero.play('recover');},[],attackEnd+.24)
-      .to({}, {duration:.46},attackEnd+.24);
+      .call(()=>{this.hero.play('recover');},[],recoverEnd)
+      .to({}, {duration:.4},recoverEnd);
     this.shards.forEach((shard,i)=>{const a=i/12*Math.PI*2;timeline.set(shard,{visible:true},hit).to(shard,{x:Math.cos(a)*(95+i*4),y:IMPACT.y+Math.sin(a)*86+60,rotation:(i-6)*.7,alpha:0,duration:.55,ease:'power2.out'},hit);});
   }
   update(dt:number){
@@ -93,5 +98,5 @@ export class SpineReveal {
     }
   }
   takeCard(){this.cardShell.removeFromParent();return this.cardShell;}
-  destroy(){if(this.started)stopRevealAudio();this.hero.filters=[];this.white.destroy();this.root.destroy({children:true});}
+  destroy(){this.moveVoice?.stop();this.moveVoice=null;if(this.started)stopRevealAudio();this.hero.filters=[];this.white.destroy();this.root.destroy({children:true});}
 }

@@ -1,0 +1,373 @@
+{
+  "restoration": {
+    "sourceOriginalSha256": "3282da7efe1e4a070d37a648d5af3d105365ec1a6320a4f572bb1b4307f5ba0a",
+    "previousOptimizedSha256": "5fe4dd7a4a785404c9c26dc5c174d0c68e4e9a5010213138694ccf2d405d22b3",
+    "outputSha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
+    "previousBytes": 3655456,
+    "outputBytes": 3978892,
+    "nativeAnimationAccessorBytesAdded": 248808,
+    "addedClip": "happy",
+    "addedClipChannels": 381,
+    "addedAccessors": 298,
+    "existingJsonPropertiesAndAnimationDataPreserved": true,
+    "existingBinaryBytesPreserved": true,
+    "geometryTexturesMaterialsNodesAndSkinsUnchanged": true,
+    "nativeHappyKeyframesPreservedExactly": true,
+    "method": "Append original happy animation sampler/accessor bytes without reserializing existing geometry, textures, skeleton or retained animations.",
+    "nativeClip": {
+      "name": "happy",
+      "duration": 5.875,
+      "channels": 381,
+      "varyingSkinnedJointChannels": 113,
+      "movingSkinnedJointCount": 90
+    },
+    "sourceAction": "pm0006_00_00_00550_glad01.gfbanm",
+    "nodeCount": 132,
+    "skinCount": 4,
+    "validation": "glTF-Transform NodeIO decoded the result; all 381 happy channel input/output arrays match the archived source exactly. Previous idle/attack arrays, geometry/skin buffer hashes and node transforms/names/hierarchy match the previous optimized model exactly."
+  },
+  "performanceCue": {
+    "form": "flamethrower",
+    "seek": 1.8,
+    "speed": 1.3,
+    "powerAt": 2.6,
+    "sustainEnd": 3.55,
+    "end": 3.85,
+    "recoverAt": 5.55,
+    "emitters": [
+      {
+        "id": "mouth",
+        "bone": "head",
+        "tip": [
+          -0.00496,
+          -3.1e-05,
+          0.203129
+        ],
+        "forward": [
+          -0.03922,
+          -3e-05,
+          0.501166
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Native happy/glad01 is an upright celebration, not an official Flamethrower action. Mouth tip averages left/right upper_jaw_a and lower_jaw bone positions at source t=3.5, converted to head-local coordinates. Forward follows head to center_nose. At 60 Hz over authored emission t=2.60-3.85, this native muzzle axis points 27.28-40.25 degrees above the world horizontal; the head remains upright. Jaw opening has a roughly 31.04 degree plateau and >=80% window 2.2167-4.3833. The mouth socket is an approximation because secondary jaw movement continues. Preserve the source recovery from end=3.85 to recoveryEnd=5.875; recoverAt=5.55 is only a legacy blend-ready marker (~2.93% height-normalized joint RMS difference from happy start), not the full native end. All effect events are authored recommendations.",
+    "sources": [
+      "https://assets.pokemon.com/assets/cms2/pdf/video-game/pokken/Charizard_Chart_EN.pdf",
+      "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/006/model.glb"
+    ],
+    "attackClip": "happy",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt, recoveryEnd and pulseTimes are source clip seconds; speed and recoverySpeed are playback rates; projectileLifetime is wall seconds",
+    "coordinateUnits": "tip and forward are absolute points in the named bone local space, not direction vectors",
+    "chargeDuration": 0.6153846153846154,
+    "sourceGlbSha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
+    "recoveryEnd": 5.875,
+    "recoverySpeed": 1.8,
+    "socketSampleTime": 3.5
+  },
+  "measurement": {
+    "samplingHz": 60,
+    "nativeDuration": 5.875,
+    "jawOpen80Window": [
+      2.216666666666667,
+      4.383333333333334
+    ],
+    "jawPlateauDegrees": 31.040590043433447,
+    "emissionPitchDegrees": [
+      27.277763314778692,
+      40.245491930665374
+    ],
+    "emissionHeadWorldY": [
+      1.359725487166511,
+      1.3869885915140043
+    ],
+    "socket": {
+      "bone": "head",
+      "tip": [
+        -0.004960365592486804,
+        -3.0510275129909392e-05,
+        0.20312884331511305
+      ],
+      "forward": [
+        -0.03921965580580222,
+        -3.047992419499823e-05,
+        0.5011663081415194
+      ],
+      "sampleTime": 3.5
+    },
+    "sourceRecoveryEnd": {
+      "time": 5.875,
+      "jawDegrees": 0.0,
+      "head": [
+        -0.03066750729462985,
+        1.257506792178686,
+        0.49317533575323086
+      ],
+      "noseDirection": [
+        -0.004420653038536277,
+        -0.29882332711596243,
+        0.9542982117755745
+      ],
+      "pitchDegrees": -17.38694313207838,
+      "rmsFractionHeight": 4.178664825748815e-08
+    },
+    "limitations": "60 Hz pose samples are discrete measurements, not a continuous bound. Joint RMS is a pose-difference diagnostic, not a visual perceptual metric. The celebration source is genuine; the flame overlay is authored."
+  },
+  "nativeHappyPosedBoundsValidation": [
+    {
+      "clip": "happy",
+      "time": 1.8,
+      "sourceBounds": {
+        "min": [
+          -0.8446646136892089,
+          -0.0741577068886062,
+          -1.871614595151072
+        ],
+        "max": [
+          0.6989290652969485,
+          1.7480686748628091,
+          0.945378398008621
+        ],
+        "size": [
+          1.5435936789861575,
+          1.8222263817514153,
+          2.816992993159693
+        ],
+        "center": [
+          -0.07286777419613016,
+          0.8369554839871015,
+          -0.46311809857122554
+        ],
+        "vertices": 3927
+      },
+      "outputBounds": {
+        "min": [
+          -0.8446646136892089,
+          -0.0741577068886062,
+          -1.871614595151072
+        ],
+        "max": [
+          0.6989290652969485,
+          1.7480686748628091,
+          0.945378398008621
+        ],
+        "size": [
+          1.5435936789861575,
+          1.8222263817514153,
+          2.816992993159693
+        ],
+        "center": [
+          -0.07286777419613016,
+          0.8369554839871015,
+          -0.46311809857122554
+        ],
+        "vertices": 3927
+      },
+      "maxAbsoluteBoundsError": 0.0
+    },
+    {
+      "clip": "happy",
+      "time": 2.6,
+      "sourceBounds": {
+        "min": [
+          -1.2020168196049819,
+          -0.06953126925701691,
+          -2.187349860866218
+        ],
+        "max": [
+          1.3968289992926841,
+          1.588211767169999,
+          0.7074035219331507
+        ],
+        "size": [
+          2.598845818897666,
+          1.6577430364270158,
+          2.894753382799369
+        ],
+        "center": [
+          0.09740608984385113,
+          0.759340248956491,
+          -0.7399731694665337
+        ],
+        "vertices": 3927
+      },
+      "outputBounds": {
+        "min": [
+          -1.2020168196049819,
+          -0.06953126925701691,
+          -2.187349860866218
+        ],
+        "max": [
+          1.3968289992926841,
+          1.588211767169999,
+          0.7074035219331507
+        ],
+        "size": [
+          2.598845818897666,
+          1.6577430364270158,
+          2.894753382799369
+        ],
+        "center": [
+          0.09740608984385113,
+          0.759340248956491,
+          -0.7399731694665337
+        ],
+        "vertices": 3927
+      },
+      "maxAbsoluteBoundsError": 0.0
+    },
+    {
+      "clip": "happy",
+      "time": 3.5,
+      "sourceBounds": {
+        "min": [
+          -1.336910535617342,
+          -0.06707759473113831,
+          -2.186648604659697
+        ],
+        "max": [
+          1.3323188608641507,
+          1.6600803192167137,
+          0.6974792957108018
+        ],
+        "size": [
+          2.6692293964814926,
+          1.7271579139478521,
+          2.8841279003704985
+        ],
+        "center": [
+          -0.0022958373765956663,
+          0.7965013622427877,
+          -0.7445846544744475
+        ],
+        "vertices": 3927
+      },
+      "outputBounds": {
+        "min": [
+          -1.336910535617342,
+          -0.06707759473113831,
+          -2.186648604659697
+        ],
+        "max": [
+          1.3323188608641507,
+          1.6600803192167137,
+          0.6974792957108018
+        ],
+        "size": [
+          2.6692293964814926,
+          1.7271579139478521,
+          2.8841279003704985
+        ],
+        "center": [
+          -0.0022958373765956663,
+          0.7965013622427877,
+          -0.7445846544744475
+        ],
+        "vertices": 3927
+      },
+      "maxAbsoluteBoundsError": 0.0
+    },
+    {
+      "clip": "happy",
+      "time": 3.85,
+      "sourceBounds": {
+        "min": [
+          -1.3624813417939428,
+          -0.06910491703981467,
+          -1.8138419889769812
+        ],
+        "max": [
+          1.3310237969827758,
+          1.6174429539504889,
+          0.6931353466591972
+        ],
+        "size": [
+          2.6935051387767186,
+          1.6865478709903035,
+          2.5069773356361784
+        ],
+        "center": [
+          -0.015728772405583458,
+          0.7741690184553371,
+          -0.560353321158892
+        ],
+        "vertices": 3927
+      },
+      "outputBounds": {
+        "min": [
+          -1.3624813417939428,
+          -0.06910491703981467,
+          -1.8138419889769812
+        ],
+        "max": [
+          1.3310237969827758,
+          1.6174429539504889,
+          0.6931353466591972
+        ],
+        "size": [
+          2.6935051387767186,
+          1.6865478709903035,
+          2.5069773356361784
+        ],
+        "center": [
+          -0.015728772405583458,
+          0.7741690184553371,
+          -0.560353321158892
+        ],
+        "vertices": 3927
+      },
+      "maxAbsoluteBoundsError": 0.0
+    },
+    {
+      "clip": "happy",
+      "time": 5.875,
+      "sourceBounds": {
+        "min": [
+          -1.075748105272563,
+          -0.06543326059515167,
+          -2.104206447349758
+        ],
+        "max": [
+          1.2401786323706951,
+          1.6806501722547145,
+          0.8961444242061913
+        ],
+        "size": [
+          2.315926737643258,
+          1.7460834328498662,
+          3.0003508715559493
+        ],
+        "center": [
+          0.08221526354906605,
+          0.8076084558297814,
+          -0.6040310115717834
+        ],
+        "vertices": 3927
+      },
+      "outputBounds": {
+        "min": [
+          -1.075748105272563,
+          -0.06543326059515167,
+          -2.104206447349758
+        ],
+        "max": [
+          1.2401786323706951,
+          1.6806501722547145,
+          0.8961444242061913
+        ],
+        "size": [
+          2.315926737643258,
+          1.7460834328498662,
+          3.0003508715559493
+        ],
+        "center": [
+          0.08221526354906605,
+          0.8076084558297814,
+          -0.6040310115717834
+        ],
+        "vertices": 3927
+      },
+      "maxAbsoluteBoundsError": 0.0
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Living stadium and native performance validation
+
+- `npm test`: 74 tests passed across 22 files. New coverage checks branch root anchoring, cloud drift/wrap, connected sky exclusions, continuous recovery, owned sound envelopes, and the native Charizard clip/hash.
+- `build-site.mjs`: TypeScript and Vite production build passed. Existing large-chunk advisory remains for the canvas/3D engines.
+- Desktop browser: pack selection, opening transition, guaranteed first Charizard special, reveal-all flight, settlement and return to selection completed on the isolated 127.0.0.1 save. User localhost/hosted saves were not spent or reset. About 58.5–58.7 game FPS at 1280 × 720, 8.6–10.7 ms p95 frame intervals, no frames over 33 ms in the sampled steady-state windows. These are local desktop observations, not a mobile-device benchmark.
+- 390 × 780 scenery checked with low graphics: new groves stay behind the stadium rim, mountain backdrop remains visible, the smaller upper cloud gives the portrait sky visible motion.
+- Reduced-motion still captures at t=0 and t=12 differ only in the debug controls/status region (x31–225, y40–65); the scenery remains fixed.
+- Native Charizard upright action and complete recovery visually checked; Blastoise complete sound-enabled reveal checked; Vaporeon detached Water Pulse and Mewtwo Psystrike exercised. No error-level console entries in the final QA tabs.
+- Model and audio source validation are in `new-animation-direction.md`, `charizard-upright-celebration-proof.json` and the asset provenance manifests. Charizard uses the native upright happy action with authored fire overlays, not a newly sourced official Flamethrower clip. Other species retain their genuine skeletal clips and now complete recovery before blending to idle.
+- New Hydro Pump, Water Pulse and Psystrike recordings have measured attack offsets, individual gain envelopes, quieter mix levels and scene-owned stop/pause/mute behavior. Audio correctness was checked by decoding/waveform analysis and browser playback lifecycle; no claim of a professional listening-room mix.
+- New cloud/tree artwork was created with built-in image generation using the existing stadium as reference. Exact prompts, output files and extraction notes are in `public/assets/stage/living-v3/ART-PROVENANCE.md`. Original stadium artwork is unchanged.
+- Local screenshots: `output/living-stadium-final.png`, `output/upright-charizard-final.png` (QA proof files are ignored from production source).
