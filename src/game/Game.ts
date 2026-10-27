@@ -72,9 +72,10 @@ export class PokemonGame {
       else if(phase==='tearing'){await this.stage.tear();if(valid())this.actor.send({type:'TORN'});}
       else if(phase==='revealing'){
         const card=this.save?.active?.cards[this.index];if(!card)throw new Error('Opening changed. Reload to sync your game.');
-        await this.stage.reveal(card,this.index===0);if(valid()){this.error='';this.actor.send({type:'FLIPPED'});}
+        await this.stage.reveal(card,this.index===0,Math.max(0,this.index-1));if(valid()){this.error='';this.actor.send({type:'FLIPPED'});}
       }else if(phase==='settling'){
         const id=this.save?.active?.id;if(!id)throw new Error('Opening changed. Reload to sync your game.');
+        await this.stage.storeCurrent(this.index);if(!valid())return;
         this.save=await transactSave(s=>settleOpening(s,id));if(!valid())return;
         this.resultId=id;this.stage.showResult();this.actor.send({type:'SETTLED'});playSound('complete');
       }
@@ -128,7 +129,7 @@ export class PokemonGame {
       case 'history':this.panel='history';break;
       case 'about':this.panel='about';break;
       case 'credits':void this.addCredits();return;
-      case 'sound':this.sound=!this.sound;this.settings();break;
+      case 'sound':this.sound=!this.sound;this.settings();if(this.sound)playSound('credit');break;
       case 'reduced':this.reduced=!this.reduced;this.settings();break;
       case 'low':this.low=!this.low;this.settings();break;
       case 'export':this.export();return;

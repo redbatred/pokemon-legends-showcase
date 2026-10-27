@@ -3,8 +3,9 @@ import { gsap } from 'gsap';
 import { createFoil } from './foil';
 import { playSound } from './audio';
 import type { Card } from './model';
+import { artworkColor } from './cardColor';
 import { CanvasScene } from './CanvasScene';
-import { gameLayout, renderResolution } from './rendering';
+import { gameLayout, renderResolution, cardTrayLayout } from './rendering';
 
 type Options = { reduced: boolean; low: boolean; onTear: () => void; onNext: () => void };
 type Particle = { sprite: Graphics; x: number; y: number; speed: number; phase: number; depth: number };
@@ -13,6 +14,7 @@ export class OpeningStage {
   app = new Application();
   scene = new CanvasScene();
   onLayout: (()=>void) | null = null;
+  onCardStored: ((index:number)=>void)|null=null;flightLayer=new Container();private cardColors=new Map<string,number>();
   blocked = false;
   private lastProjection = new WeakMap<PerspectiveMesh,string>();
   private shadowTexture: Texture | null = null;
@@ -145,7 +147,7 @@ export class OpeningStage {
   setLayoutMode(opening:boolean){if(opening!==this.openingLayout){this.openingLayout=opening;this.resize();}}
   setBlocked(value:boolean){
     if(value!==this.blocked){this.sampleStart=0;this.sampleFrames=0;}
-    this.blocked=value;this.world.visible=!value;this.scene.pause(value||document.hidden);
+    this.blocked=value;this.world.visible=!value;this.flightLayer.visible=!value;this.scene.pause(value||document.hidden);
     if(value){this.timeline?.pause();for(const t of this.tweens)t.pause();this.app.stop();}
     else if(!document.hidden){if(this.mode!=='result')this.app.start();this.timeline?.resume();for(const t of this.tweens)t.resume();}
     if(this.diagnostics)this.app.canvas.dataset.renderState=value?'paused':'running';
@@ -182,7 +184,7 @@ export class OpeningStage {
     if(this.diagnostics){
       const now=performance.now();
       if(!this.sampleStart)this.sampleStart=now;
-      else if(++this.sampleFrames>=120){this.app.canvas.dataset.renderFps=(1000*this.sampleFrames/(now-this.sampleStart)).toFixed(1);this.sampleStart=now;this.sampleFrames=0;}
+      else if(++this.sampleFrames>=120){this.app.canvas.dataset.renderFps=(1000*this.sampleFrames/(now-this.sampleStart)).toFixed(1);this.app.canvas.dataset.lightTint='#'+this.scene.lightTint.toString(16).padStart(6,'0');this.sampleStart=now;this.sampleFrames=0;}
     }
     this.time += dt;
     this.scene.tick(this.time,this.options.reduced,this.options.low);
@@ -314,20 +316,19 @@ export class OpeningStage {
     });
   }
 
-  async reveal(card: Card, first = false): Promise<void> {
+  async reveal(card: Card, first = false, previousIndex=0): Promise<void> {
     const request = ++this.revealToken;
     const texture = await Assets.load<Texture>(card.image);
     if (this.destroyed || request !== this.revealToken) return;
     this.mode = 'card'; this.pack.visible = false; this.packShadow.visible = false;
     this.cardLayer.visible = true;
     const d = this.options.reduced ? .01 : 1;
-    const old = this.cardMesh;
-    let departing: Container | null = null;
-    if (old) {
-      departing = new Container();
-      departing.position.copyFrom(this.cardLayer.position); departing.scale.copyFrom(this.cardLayer.scale); departing.rotation=this.cardLayer.rotation;
-      departing.addChild(old); this.world.addChild(departing);
-      old.filters = [];
+    const departing=this.detachCard();
+    let color=this.cardColors.get(card.image);
+    if(color===undefined){
+      try{const sample=document.createElement('canvas');sample.width=sample.height=32;const context=sample.getContext('2d',{willReadFrequently:true})!;context.drawImage(texture.source.resource as CanvasImageSource,texture.width*.1,texture.height*.15,texture.width*.8,texture.height*.39,0,0,32,32);color=artworkColor(context.getImageData(0,0,32,32).data);}catch{color=0x8cddff;}
+      this.cardColors.set(card.image,color);
+      if(this.diagnostics)this.app.canvas.dataset.cardLight='#'+color.toString(16).padStart(6,'0');
     }
     const next = new PerspectiveMesh({ texture: this.back, verticesX: 4, verticesY: 6 });
     next.filters = []; this.cardMesh = next; this.cardLayer.addChild(next);
@@ -337,29 +338,44 @@ export class OpeningStage {
     this.foil.resources.foil.uniforms.uSweep=-.6;
     const turn=first?.72:.3;
     return new Promise(resolve=>{
-      this.timeline=gsap.timeline({onComplete:()=>{departing?.destroy({children:true});resolve();}});
-      if(departing) {
-        this.timeline.to(departing,{x:-170,y:370,rotation:-.28,alpha:0,duration:.65*d,ease:'power2.inOut'},0)
-          .to(departing.scale,{x:.22,y:.22,duration:.65*d,ease:'power2.in'},0);
-      }
+      this.timeline=gsap.timeline({onComplete:resolve});
+      if(departing)this.flyToTray(this.timeline,departing,previousIndex,previousIndex+1,d);
       this.timeline.to(next,{alpha:1,duration:.14*d},first?0:.08*d)
         .to(this.motion,{lift:-17,scale:1.045,offsetX:0,roll:-.015,pitch:0,duration:(first?.73:.36)*d,ease:'power3.out'},0)
         .to(this.stack.scale,{x:.98,y:.98,duration:.7*d,ease:'power3.out'},0)
         .to(this.stack,{x:0,y:5,rotation:0,duration:.7*d,ease:'power3.out'},0)
         .call(()=>playSound('flip'),[],turn*d)
         .to(this.motion,{flip:Math.PI/2,offsetX:10,roll:.015,duration:.28*d,ease:'power2.in'},turn*d)
-        .call(()=>{next.texture=texture;next.filters=card.value>=600&&!this.options.low?[this.foil]:[];this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=this.options.low?.05:card.value>=600?.28:.035;const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(rare?'rare':'reveal');this.scene.impact(rare,this.options.reduced);this.burst(rare?30:10);},[],(turn+.28)*d)
+        .call(()=>{next.texture=texture;next.filters=card.value>=600&&!this.options.low?[this.foil]:[];this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=this.options.low?.05:card.value>=600?.28:.035;const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(rare?'rare':'reveal');this.scene.setCardColor(color!,this.options.reduced);this.scene.impact(rare,this.options.reduced);this.burst(rare?30:10);},[],(turn+.28)*d)
         .to(this.motion,{flip:0,offsetX:0,lift:-8,roll:0,pitch:0,scale:1,duration:.58*d,ease:'back.out(1.25)'},(turn+.28)*d)
         .to(this.foil.resources.foil.uniforms,{uSweep:.65,duration:.85*d,ease:'sine.inOut'},(turn+.38)*d);
       if(this.blocked||document.hidden)this.timeline.pause();
     });
   }
 
+  private detachCard(){
+    const mesh=this.cardMesh;if(!mesh)return null;
+    const flight=new Container();flight.position.set(this.world.x+this.cardLayer.x*this.world.scale.x,this.world.y+this.cardLayer.y*this.world.scale.y);flight.scale.set(this.world.scale.x*this.cardLayer.scale.x);flight.rotation=this.cardLayer.rotation;
+    mesh.filters=[];mesh.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);flight.addChild(mesh);this.flightLayer.addChild(flight);this.cardMesh=null;this.cardEdge.alpha=0;return flight;
+  }
+  private flyToTray(timeline:gsap.core.Timeline,flight:Container,index:number,activeIndex:number,durationScale:number){
+    const start={x:flight.x,y:flight.y,scale:flight.scale.x,rotation:flight.rotation},progress={value:0};
+    timeline.to(progress,{value:1,duration:.72*durationScale,ease:'power2.inOut',onUpdate:()=>{
+      const tray=cardTrayLayout(this.app.screen.width,this.app.screen.height,activeIndex),end=tray.slot(index),t=progress.value;
+      const controlX=start.x+(end.x-start.x)*.28,controlY=start.y-32;
+      flight.position.set((1-t)*(1-t)*start.x+2*(1-t)*t*controlX+t*t*end.x,(1-t)*(1-t)*start.y+2*(1-t)*t*controlY+t*t*end.y);
+      flight.scale.set(start.scale+(tray.cardWidth/312-start.scale)*t);flight.rotation=start.rotation*(1-t)+Math.sin(Math.PI*t)*Math.sign(end.x-start.x)*.08;
+    },onComplete:()=>{flight.destroy({children:true});this.onCardStored?.(index);}},0);
+  }
+  async storeCurrent(index:number){
+    const flight=this.detachCard();if(!flight)return;
+    return new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});this.flyToTray(this.timeline,flight,index,index,this.options.reduced?.01:1);if(this.blocked||document.hidden)this.timeline.pause();});
+  }
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }
   reset() {
     this.timeline?.kill(); this.mode = 'pack'; if(!this.blocked)this.app.start(); this.pack.visible = true; this.packMesh.visible = true; this.packShadow.visible = true;
-    this.cardMesh?.destroy(); this.cardMesh = null; this.cardEdge.alpha=0; this.stack.visible = false; this.cardLayer.visible = false; this.pack.alpha = 1; this.packShadow.alpha = 1; this.pack.scale.set(1); this.dragProgress = 0; this.tearLine.clear();
+    this.flightLayer.removeChildren().forEach(child=>child.destroy({children:true}));this.cardMesh?.destroy(); this.cardMesh = null; this.cardEdge.alpha=0; this.stack.visible = false; this.cardLayer.visible = false; this.pack.alpha = 1; this.packShadow.alpha = 1; this.pack.scale.set(1); this.dragProgress = 0; this.tearLine.clear();
   }
   private burst(count: number) {
     if (this.options.reduced) return;

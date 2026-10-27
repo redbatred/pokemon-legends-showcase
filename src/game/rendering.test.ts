@@ -1,5 +1,5 @@
 import { describe,it,expect } from 'vitest';
-import { renderResolution, pageWindow, gameLayout } from './rendering';
+import { renderResolution, pageWindow, gameLayout, cardTrayLayout } from './rendering';
 describe('bounded game rendering',()=>{
  it('caps render pixels on large high-density displays',()=>{
   const r=renderResolution(3840,2160,3,false);
@@ -17,6 +17,14 @@ describe('bounded game rendering',()=>{
   for(const size of [[390,700],[360,540],[568,320],[844,390],[1280,720]]){
    const layout=gameLayout(size[0],size[1],true);
    expect(layout.worldY+217.5*layout.scale).toBeLessThan(layout.actionTop);
+  }
+ });
+ it('lands flying cards exactly inside the visible strip on phone and desktop',()=>{
+  for(const [w,h] of [[360,540],[390,700],[568,320],[1280,720]])for(let index=0;index<11;index++){
+   const tray=cardTrayLayout(w,h,index),slot=tray.slot(index);
+   expect(slot.x-tray.cardWidth/2).toBeGreaterThanOrEqual(tray.viewportX-.01);
+   expect(slot.x+tray.cardWidth/2).toBeLessThanOrEqual(w-tray.viewportX+.01);
+   expect(slot.y+tray.cardHeight/2).toBeLessThan(h);
   }
  });
  it('limits collection pages and clamps stale page indices after filtering',()=>{

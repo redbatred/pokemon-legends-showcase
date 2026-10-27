@@ -6,6 +6,7 @@ export class CanvasScene {
   root=new Container(); selection=new Container(); arena=new Container();
   private sky!:Sprite; private platform!:Sprite; private glow!:Sprite;
   private beams:Sprite[]=[]; private stars:Sprite[]=[];private sockets:Sprite[]=[];
+  private light={r:140,g:221,b:255};private colorTween:gsap.core.Tween|null=null;private paused=false;
   private impactState={amount:0};private impactTween:gsap.core.Tween|null=null;
   private selectionArt=new Graphics(); private ring=new Graphics();
   private active=false; private entrance={amount:0}; private animation:gsap.core.Tween|null=null;
@@ -21,11 +22,11 @@ export class CanvasScene {
     if(this.destroyed)return;
     this.sky=new Sprite(background);this.sky.anchor.set(.5);this.sky.tint=0xffffff;this.root.addChildAt(this.sky,0);this.selection.alpha=.32;
     this.platform=new Sprite(platform);this.platform.anchor.set(.5);
-    const light=document.createElement('canvas');light.width=128;light.height=128;const lc=light.getContext('2d')!;const lg=lc.createRadialGradient(64,64,0,64,64,64);lg.addColorStop(0,'rgba(135,233,255,.8)');lg.addColorStop(.45,'rgba(98,194,255,.2)');lg.addColorStop(1,'rgba(98,194,255,0)');lc.fillStyle=lg;lc.fillRect(0,0,128,128);const lt=Texture.from(light);this.owned.push(lt);
-    this.glow=new Sprite(lt);this.glow.anchor.set(.5);this.glow.blendMode='add';this.arena.addChild(this.glow,this.platform,this.ring);
-    const beam=document.createElement('canvas');beam.width=128;beam.height=512;const bc=beam.getContext('2d')!;const bg=bc.createLinearGradient(0,0,0,512);bg.addColorStop(0,'rgba(201,246,255,.2)');bg.addColorStop(1,'rgba(119,205,255,0)');bc.fillStyle=bg;bc.beginPath();bc.moveTo(62,0);bc.lineTo(66,0);bc.lineTo(128,512);bc.lineTo(0,512);bc.fill();const bt=Texture.from(beam);this.owned.push(bt);
+    const light=document.createElement('canvas');light.width=128;light.height=128;const lc=light.getContext('2d')!;const lg=lc.createRadialGradient(64,64,0,64,64,64);lg.addColorStop(0,'rgba(255,255,255,.95)');lg.addColorStop(.45,'rgba(255,255,255,.32)');lg.addColorStop(1,'rgba(255,255,255,0)');lc.fillStyle=lg;lc.fillRect(0,0,128,128);const lt=Texture.from(light);this.owned.push(lt);
+    this.glow=new Sprite(lt);this.glow.anchor.set(.5);this.glow.blendMode='normal';this.arena.addChild(this.platform,this.glow,this.ring);
+    const beam=document.createElement('canvas');beam.width=128;beam.height=512;const bc=beam.getContext('2d')!;const bg=bc.createLinearGradient(0,0,0,512);bg.addColorStop(0,'rgba(255,255,255,.32)');bg.addColorStop(1,'rgba(255,255,255,0)');bc.fillStyle=bg;bc.beginPath();bc.moveTo(62,0);bc.lineTo(66,0);bc.lineTo(128,512);bc.lineTo(0,512);bc.fill();const bt=Texture.from(beam);this.owned.push(bt);
     for(let i=0;i<2;i++){const s=new Sprite(bt);s.anchor.set(.5,0);s.blendMode='add';this.beams.push(s);this.arena.addChild(s);}
-    for(let i=0;i<4;i++){const socket=new Sprite(lt);socket.anchor.set(.5);socket.blendMode='add';this.sockets.push(socket);this.arena.addChild(socket);}
+    for(let i=0;i<4;i++){const socket=new Sprite(lt);socket.anchor.set(.5);socket.blendMode='normal';this.sockets.push(socket);this.arena.addChild(socket);}
     for(let i=0;i<18;i++){const s=new Sprite(lt);s.anchor.set(.5);s.width=s.height=i%4===0?8:4;s.blendMode='add';this.stars.push(s);this.root.addChild(s);}
     this.arena.visible=false;this.resize(this.width,this.height,this.stageBottom);
   }
@@ -37,29 +38,31 @@ export class CanvasScene {
     if(!this.sky)return;
     this.sky.position.set(w/2,h/2);this.sky.scale.set(Math.max(w/this.sky.texture.width,h/this.sky.texture.height)*1.02);
     const pw=Math.min(w<700?w*1.25:w*.67,900);this.platform.width=pw;this.platform.height=pw/2;this.platform.position.set(w/2,bottom-17);
-    this.glow.position.set(w/2,bottom-15);this.glow.width=pw*.9;this.glow.height=pw*.18;
-    this.ring.clear().ellipse(w/2,bottom-20,pw*.36,pw*.085).stroke({width:2,color:0xb5f6ff,alpha:.7});this.ring.pivot.set(w/2,bottom-20);this.ring.position.set(w/2,bottom-20);
-    this.beams.forEach((s,i)=>{s.position.set(w/2+(i?1:-1)*pw*.3,bottom-190);s.width=pw*.31;s.height=310;s.rotation=i?.2:-.2;});
-    this.sockets.forEach((s,i)=>{s.position.set(w/2+pw*(i%2?.32:-.32),bottom+(i<2?-.105:.055)*pw);s.width=pw*.13;s.height=pw*.065;});
+    this.glow.position.set(w/2,bottom-15);this.glow.width=pw*.9;this.glow.height=pw*.3;
+    this.ring.clear().ellipse(w/2,bottom-20,pw*.36,pw*.085).stroke({width:2,color:0xffffff,alpha:.9});this.ring.pivot.set(w/2,bottom-20);this.ring.position.set(w/2,bottom-20);
+    this.beams.forEach((s,i)=>{s.position.set(w/2+(i?1:-1)*pw*.3,bottom-190);s.width=pw*.34;s.height=340;s.rotation=i?.2:-.2;});
+    this.sockets.forEach((s,i)=>{s.position.set(w/2+pw*(i%2?1:-1)*(i<2?.225:.34),bottom-17+(i<2?-.096:.059)*pw);s.width=pw*.13;s.height=pw*.065;});
   }
   setActive(active:boolean,reduced:boolean){
     if(active===this.active)return;this.active=active;this.animation?.kill();
     this.arena.visible=active;this.selection.visible=!active;
     if(active){this.entrance.amount=reduced?1:0;this.animation=gsap.to(this.entrance,{amount:1,duration:reduced?.01:1.05,ease:'power3.out'});}
   }
+  get lightTint(){return (Math.round(this.light.r)<<16)|(Math.round(this.light.g)<<8)|Math.round(this.light.b);}
+  setCardColor(color:number,reduced:boolean){this.colorTween?.kill();this.colorTween=gsap.to(this.light,{r:(color>>16)&255,g:(color>>8)&255,b:color&255,duration:reduced?.01:.48,ease:'power2.out',paused:this.paused});}
   impact(rare:boolean,reduced:boolean){this.impactTween?.kill();this.impactState.amount=reduced?0:rare?1:.45;this.impactTween=gsap.to(this.impactState,{amount:0,duration:rare?1.2:.65,ease:'power2.out'});}
   tick(time:number,reduced:boolean,low:boolean){
     if(!this.platform)return;
     this.sky.x=this.width/2+(reduced?0:Math.sin(time*.07)*7);
     this.stars.forEach((s,i)=>{s.visible=!reduced&&(!low||i<6);s.position.set((i*137+41+Math.sin(time*.2+i)*15)%Math.max(1,this.width),(this.height-((time*9+i*57)%this.height)));s.alpha=.24+Math.sin(time+i)*.12;});
     if(!this.active)return;
-    const a=this.entrance.amount;this.arena.alpha=a;
+    const a=this.entrance.amount;this.arena.alpha=a;const tint=(Math.round(this.light.r)<<16)|(Math.round(this.light.g)<<8)|Math.round(this.light.b);this.glow.tint=tint;this.ring.tint=tint;this.sockets.forEach(s=>s.tint=tint);this.beams.forEach(s=>s.tint=tint);
     this.platform.y=this.stageBottom-17+(1-a)*55;
-    this.glow.alpha=low?.15:.32+this.impactState.amount*.5+(reduced?0:Math.sin(time*.9)*.07);
+    this.glow.alpha=low?.15:.48+this.impactState.amount*.48+(reduced?0:Math.sin(time*.9)*.07);
     this.ring.visible=(a<1||this.impactState.amount>0)&&!reduced;this.ring.scale.set(a<1?.6+a*.8:1.35-this.impactState.amount*.5);this.ring.alpha=Math.max(1-a,this.impactState.amount);
-    this.beams.forEach((s,i)=>{s.visible=!low;s.alpha=.35+this.impactState.amount*.6;s.rotation=(i?1:-1)*(.32+(reduced?0:Math.sin(time*.16+i)*.04));});
-    this.sockets.forEach((s,i)=>{s.alpha=.5+this.impactState.amount*.5+(reduced?0:Math.sin(time*2+i)*.15);});
+    this.beams.forEach((s,i)=>{s.visible=!low;s.alpha=.65+this.impactState.amount*.35;s.rotation=(i?1:-1)*(.32+(reduced?0:Math.sin(time*.16+i)*.04));});
+    this.sockets.forEach((s,i)=>{s.alpha=.85+this.impactState.amount*.15+(reduced?0:Math.sin(time*2+i)*.15);});
   }
-  pause(value:boolean){if(value){this.animation?.pause();this.impactTween?.pause();}else{this.animation?.resume();this.impactTween?.resume();}}
-  destroy(){this.destroyed=true;this.animation?.kill();this.impactTween?.kill();this.root.destroy({children:true});this.owned.forEach(t=>t.destroy(true));}
+  pause(value:boolean){this.paused=value;value?this.colorTween?.pause():this.colorTween?.resume();if(value){this.animation?.pause();this.impactTween?.pause();}else{this.animation?.resume();this.impactTween?.resume();}}
+  destroy(){this.destroyed=true;this.animation?.kill();this.impactTween?.kill();this.colorTween?.kill();this.root.destroy({children:true});this.owned.forEach(t=>t.destroy(true));}
 }
