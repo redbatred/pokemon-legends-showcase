@@ -1,0 +1,2008 @@
+{
+  "aerodactyl": {
+    "name": "Aerodactyl",
+    "dexId": 142,
+    "path": "/assets/pokemon-3d/aerodactyl.glb",
+    "bytes": 582132,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.640000104904175,
+        "channels": 192,
+        "varyingSkinnedJointChannels": 64,
+        "movingSkinnedJointCount": 43
+      },
+      {
+        "name": "idle",
+        "duration": 1.6399999856948853,
+        "channels": 192,
+        "varyingSkinnedJointChannels": 46,
+        "movingSkinnedJointCount": 41
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -3.005399940838627,
+        -0.02637906856869296,
+        -2.3139968647937894
+      ],
+      "max": [
+        3.0042686590938885,
+        1.6750863167007124,
+        1.436243848494416
+      ],
+      "size": [
+        6.009668599932516,
+        1.7014653852694053,
+        3.750240713288205
+      ],
+      "center": [
+        -0.0005656408723693218,
+        0.8243536240660098,
+        -0.4388765081496867
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 965400,
+      "sha256": "0a8bd270ca8568b900112385d2622fbe7273f57b153fcda5c785ac79fc02160f",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.6508119305445064e-07
+    }
+  },
+  "alakazam": {
+    "name": "Alakazam",
+    "dexId": 65,
+    "path": "/assets/pokemon-3d/alakazam.glb",
+    "bytes": 822112,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.440000057220459,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 64,
+        "movingSkinnedJointCount": 56
+      },
+      {
+        "name": "idle",
+        "duration": 3.0399999618530273,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 48,
+        "movingSkinnedJointCount": 46
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.6923836459486988,
+        -3.068347026282735e-05,
+        -0.24502034326614602
+      ],
+      "max": [
+        0.6947736934016298,
+        1.4641527128388825,
+        0.6388153166211546
+      ],
+      "size": [
+        1.3871573393503285,
+        1.4641833963091453,
+        0.8838356598873007
+      ],
+      "center": [
+        0.0011950237264654606,
+        0.7320610146843098,
+        0.1968974866775043
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 1569892,
+      "sha256": "b0d5f12c215620814bdd2fbc20f6b95e0ac722040a40fb8b6e644d9124107fc9",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.781447254214143e-07
+    }
+  },
+  "articuno": {
+    "name": "Articuno",
+    "dexId": 144,
+    "path": "/assets/pokemon-3d/articuno.glb",
+    "bytes": 3746704,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 273,
+        "varyingSkinnedJointChannels": 84,
+        "movingSkinnedJointCount": 75
+      },
+      {
+        "name": "idle",
+        "duration": 5.041666507720947,
+        "channels": 273,
+        "varyingSkinnedJointChannels": 46,
+        "movingSkinnedJointCount": 45
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -1.90601052798791,
+        -0.013206352643774816,
+        -1.9353474243138373
+      ],
+      "max": [
+        1.9062208122958426,
+        1.5633168548353837,
+        0.4125484892437694
+      ],
+      "size": [
+        3.812231340283753,
+        1.5765232074791586,
+        2.3478959135576067
+      ],
+      "center": [
+        0.00010514215396628668,
+        0.7750552510958044,
+        -0.761399467535034
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 7081264,
+      "sha256": "8335bc94cabe6e28acaa00f0bb31dde184d6fc6ba1ef01f67d1fa26f4200ee93",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.875796882879534e-07
+    }
+  },
+  "blastoise": {
+    "name": "Blastoise",
+    "dexId": 9,
+    "path": "/assets/pokemon-3d/blastoise.glb",
+    "bytes": 4382380,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 345,
+        "varyingSkinnedJointChannels": 71,
+        "movingSkinnedJointCount": 60
+      },
+      {
+        "name": "idle",
+        "duration": 6.708333492279053,
+        "channels": 345,
+        "varyingSkinnedJointChannels": 35,
+        "movingSkinnedJointCount": 32
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.6562217681375112,
+        -0.0530650456507068,
+        -0.8987552811734487
+      ],
+      "max": [
+        0.6926020116872094,
+        1.3414357878685954,
+        0.7235296532984719
+      ],
+      "size": [
+        1.3488237798247207,
+        1.3945008335193023,
+        1.6222849344719206
+      ],
+      "center": [
+        0.018190121774849077,
+        0.6441853711089442,
+        -0.08761281393748843
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 7597532,
+      "sha256": "7dc079ae1905dbf6976fdb5fc2f1e941cddb735fc220521ecc912259b07cb105",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.503587348325677e-07
+    }
+  },
+  "charizard": {
+    "name": "Charizard",
+    "dexId": 6,
+    "path": "/assets/pokemon-3d/charizard.glb",
+    "bytes": 3655456,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 381,
+        "varyingSkinnedJointChannels": 96,
+        "movingSkinnedJointCount": 84
+      },
+      {
+        "name": "idle",
+        "duration": 6.041666507720947,
+        "channels": 381,
+        "varyingSkinnedJointChannels": 69,
+        "movingSkinnedJointCount": 65
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -1.0757478866535444,
+        -0.06543983738561494,
+        -2.104205950916734
+      ],
+      "max": [
+        1.2401784140837746,
+        1.680649694569843,
+        0.8961444184439703
+      ],
+      "size": [
+        2.3159263007373188,
+        1.746089531955458,
+        3.0003503693607043
+      ],
+      "center": [
+        0.08221526371511512,
+        0.8076049285921141,
+        -0.604030766236382
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "powerAt": 1.9,
+    "powerPeakAt": 2.375,
+    "powerWindow": [
+      1.7916666269,
+      2.9583332539
+    ],
+    "powerTimingUnits": "source clip seconds; divide by attackTimeScale for wall time",
+    "powerTimingEvidence": "jaw rotation reaches 47.0687 degrees from its attack-start orientation at 2.375s; window covers >=80% of that maximum",
+    "bones": {
+      "head": "head",
+      "jaw": "jaw",
+      "neck": [
+        "neck_01",
+        "neck_02",
+        "neck_03"
+      ],
+      "wingLeft": "left_wing_a_01",
+      "wingRight": "right_wing_a_01",
+      "tail": "tail_01"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 7238092,
+      "sha256": "5fe4dd7a4a785404c9c26dc5c174d0c68e4e9a5010213138694ccf2d405d22b3",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.2935502464480635e-07
+    }
+  },
+  "dracozolt": {
+    "name": "Dracozolt",
+    "dexId": 880,
+    "path": "/assets/pokemon-3d/dracozolt.glb",
+    "bytes": 539460,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|Armature|pm0880_00_00_ba10_waitA01|Base Layer",
+        "duration": 2.0,
+        "channels": 73,
+        "varyingSkinnedJointChannels": 65,
+        "movingSkinnedJointCount": 64
+      },
+      {
+        "name": "Armature|Armature|pm0880_00_00_ba21_tokusyu01|Base Layer",
+        "duration": 2.3499999046325684,
+        "channels": 199,
+        "varyingSkinnedJointChannels": 66,
+        "movingSkinnedJointCount": 65
+      }
+    ],
+    "idle": "Armature|Armature|pm0880_00_00_ba10_waitA01|Base Layer",
+    "attack": "Armature|Armature|pm0880_00_00_ba21_tokusyu01|Base Layer",
+    "attackTimeScale": 1,
+    "accessorBounds": {
+      "min": [
+        -0.6971361637115479,
+        -0.10200023651123047,
+        -2.3279480934143066
+      ],
+      "max": [
+        0.6971361637115479,
+        1.8541537523269653,
+        1.2443217039108276
+      ],
+      "size": [
+        1.3942723274230957,
+        1.9561539888381958,
+        3.5722697973251343
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "waitA01 / special-attack tokusyu01 / roar01 mapped by original game action names. Exact power timing and orientation require rendered validation."
+    ],
+    "optimization": {
+      "sourceBytes": 358388,
+      "sha256": "5b2f2f14d6139c46a55203ed1a3cb05f41b4377c2d285b3ac5ff02919be01c90",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0
+    }
+  },
+  "dragonite": {
+    "name": "Dragonite",
+    "dexId": 149,
+    "path": "/assets/pokemon-3d/dragonite.glb",
+    "bytes": 3158280,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 237,
+        "varyingSkinnedJointChannels": 55,
+        "movingSkinnedJointCount": 55
+      },
+      {
+        "name": "idle",
+        "duration": 6.291666507720947,
+        "channels": 237,
+        "varyingSkinnedJointChannels": 44,
+        "movingSkinnedJointCount": 44
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.9544094440609475,
+        -0.001393623820495057,
+        -2.033035520650111
+      ],
+      "max": [
+        0.9274826142409774,
+        2.276655481310748,
+        0.49763449831386686
+      ],
+      "size": [
+        1.881892058301925,
+        2.278049105131243,
+        2.5306700189639777
+      ],
+      "center": [
+        -0.013463414909985039,
+        1.1376309287451265,
+        -0.7677005111681221
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 6089268,
+      "sha256": "3e0fa8fed9a66c464354eb1c21596cac2dd9766cb7745474df7f136ff404f9ee",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.458309001559302e-07
+    }
+  },
+  "duraludon": {
+    "name": "Duraludon",
+    "dexId": 884,
+    "path": "/assets/pokemon-3d/duraludon.glb",
+    "bytes": 398104,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|Armature|pm0884_00_00_ba10_waitA01|Base Layer",
+        "duration": 2.0,
+        "channels": 40,
+        "varyingSkinnedJointChannels": 17,
+        "movingSkinnedJointCount": 16
+      },
+      {
+        "name": "Armature|Armature|pm0884_00_00_ba21_tokusyu01|Base Layer",
+        "duration": 2.5166666507720947,
+        "channels": 56,
+        "varyingSkinnedJointChannels": 33,
+        "movingSkinnedJointCount": 32
+      }
+    ],
+    "idle": "Armature|Armature|pm0884_00_00_ba10_waitA01|Base Layer",
+    "attack": "Armature|Armature|pm0884_00_00_ba21_tokusyu01|Base Layer",
+    "attackTimeScale": 1,
+    "accessorBounds": {
+      "min": [
+        -1.153963327407837,
+        0.14875872433185577,
+        -1.058868646621704
+      ],
+      "max": [
+        1.1368544101715088,
+        2.032949686050415,
+        0.5113421678543091
+      ],
+      "size": [
+        2.2908177375793457,
+        1.8841909617185593,
+        1.5702108144760132
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "waitA01 / special-attack tokusyu01 / roar01 mapped by original game action names. Exact power timing and orientation require rendered validation."
+    ],
+    "optimization": {
+      "sourceBytes": 234608,
+      "sha256": "152bd0289fc697b2de3e80c50facc09efcfe4369b9f3834a5648bf7ce75a1712",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0
+    }
+  },
+  "eevee": {
+    "name": "Eevee",
+    "dexId": 133,
+    "path": "/assets/pokemon-3d/eevee.glb",
+    "bytes": 1920004,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 3.7916667461395264,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 36,
+        "movingSkinnedJointCount": 35
+      },
+      {
+        "name": "idle",
+        "duration": 2.5416667461395264,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 36,
+        "movingSkinnedJointCount": 35
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.20969925181974944,
+        -0.0032946938469831377,
+        -0.29060558374543294
+      ],
+      "max": [
+        0.2171252141208072,
+        0.3655873278862729,
+        0.1891457265211229
+      ],
+      "size": [
+        0.4268244659405567,
+        0.368882021733256,
+        0.4797513102665558
+      ],
+      "center": [
+        0.003712981150528885,
+        0.1811463170196449,
+        -0.050729928612155015
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 3344216,
+      "sha256": "19fda0d0fe28813e996359e745c959d8d297ffb54ec4802a4c8026f62f3de28f",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.7578086697909185e-07
+    }
+  },
+  "espeon": {
+    "name": "Espeon",
+    "dexId": 196,
+    "path": "/assets/pokemon-3d/espeon.glb",
+    "bytes": 357140,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|ArmatureAction",
+        "duration": 7.0,
+        "channels": 97,
+        "varyingSkinnedJointChannels": 45,
+        "movingSkinnedJointCount": 44
+      }
+    ],
+    "idle": "Armature|ArmatureAction",
+    "accessorBounds": {
+      "min": [
+        -0.291729211807251,
+        -0.00029098812956362963,
+        -0.7421370148658752
+      ],
+      "max": [
+        0.3650667667388916,
+        0.7374989986419678,
+        0.3725539743900299
+      ],
+      "size": [
+        0.6567959785461426,
+        0.7377899867715314,
+        1.1146909892559052
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+    ],
+    "optimization": {
+      "sourceBytes": 208556,
+      "sha256": "410b9de8eddfe7890d2272e5cc5135ec5b4a9f565cbb2777f6e3d2f0fca6731a",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0
+    }
+  },
+  "gengar": {
+    "name": "Gengar",
+    "dexId": 94,
+    "path": "/assets/pokemon-3d/gengar.glb",
+    "bytes": 1322012,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 3.7916667461395264,
+        "channels": 201,
+        "varyingSkinnedJointChannels": 36,
+        "movingSkinnedJointCount": 35
+      },
+      {
+        "name": "idle",
+        "duration": 2.5416667461395264,
+        "channels": 201,
+        "varyingSkinnedJointChannels": 27,
+        "movingSkinnedJointCount": 26
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.8857302759025029,
+        -0.00081958222381427,
+        -0.7356570489184917
+      ],
+      "max": [
+        0.866370336691018,
+        1.543309709369098,
+        0.5804874880486183
+      ],
+      "size": [
+        1.7521006125935208,
+        1.5441292915929121,
+        1.3161445369671099
+      ],
+      "center": [
+        -0.009679969605742411,
+        0.7712450635726419,
+        -0.07758478043493672
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 2562652,
+      "sha256": "2bce51fe5552a3dc43c102d383916646a6b648a4d152c97611be44fe8a9389ce",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 2.586750851019115e-07
+    }
+  },
+  "glaceon": {
+    "name": "Glaceon",
+    "dexId": 471,
+    "path": "/assets/pokemon-3d/glaceon.glb",
+    "bytes": 342040,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|ArmatureAction",
+        "duration": 5.666666507720947,
+        "channels": 42,
+        "varyingSkinnedJointChannels": 41,
+        "movingSkinnedJointCount": 40
+      }
+    ],
+    "idle": "Armature|ArmatureAction",
+    "accessorBounds": {
+      "min": [
+        -0.3124399781227112,
+        -0.0007670123595744371,
+        -0.8633460402488708
+      ],
+      "max": [
+        0.3124399781227112,
+        0.8075479865074158,
+        0.382485955953598
+      ],
+      "size": [
+        0.6248799562454224,
+        0.8083149988669902,
+        1.2458319962024689
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+    ],
+    "optimization": {
+      "sourceBytes": 183012,
+      "sha256": "7ff06d27e6241240dc771d05a5147718d9a60a8948858e2bf8438eeff6df07f9",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0
+    }
+  },
+  "gloom": {
+    "name": "Gloom",
+    "dexId": 44,
+    "path": "/assets/pokemon-3d/gloom.glb",
+    "bytes": 1480352,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 1.850000023841858,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 40,
+        "movingSkinnedJointCount": 34
+      },
+      {
+        "name": "idle",
+        "duration": 1.5166666507720947,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 40,
+        "movingSkinnedJointCount": 34
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.4998497202124091,
+        -0.02364131077916604,
+        -0.4845166106238383
+      ],
+      "max": [
+        0.45179628356046436,
+        0.796381243527776,
+        0.2674648843500794
+      ],
+      "size": [
+        0.9516460037728735,
+        0.820022554306942,
+        0.7519814949739176
+      ],
+      "center": [
+        -0.024026718325972363,
+        0.38636996637430493,
+        -0.10852586313687942
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 2808932,
+      "sha256": "ae530222af19fcdd8432c4752a068127c6e1d16621baf79a83da8494e24b6fc6",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.5560249971152684e-07
+    }
+  },
+  "greninja": {
+    "name": "Greninja",
+    "dexId": 658,
+    "path": "/assets/pokemon-3d/greninja.glb",
+    "bytes": 551396,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "pm0725_11_00_00000_defaultwait01_loop",
+        "duration": 2.0166666507720947,
+        "channels": 203,
+        "varyingSkinnedJointChannels": 47,
+        "movingSkinnedJointCount": 46
+      },
+      {
+        "name": "pm0725_11_00_00450_rangeattack01",
+        "duration": 2.0166666507720947,
+        "channels": 211,
+        "varyingSkinnedJointChannels": 72,
+        "movingSkinnedJointCount": 59
+      }
+    ],
+    "idle": "pm0725_11_00_00000_defaultwait01_loop",
+    "attack": "pm0725_11_00_00450_rangeattack01",
+    "attackTimeScale": 1,
+    "accessorBounds": {
+      "min": [
+        -0.9268615245819092,
+        0.025487283244729042,
+        -0.9103299379348755
+      ],
+      "max": [
+        0.9268615245819092,
+        1.6362801790237427,
+        0.8251477479934692
+      ],
+      "size": [
+        1.8537230491638184,
+        1.6107928957790136,
+        1.7354776859283447
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Provider model is identified as Greninja (Official), with uploader attribution embedded in the GLB. Internal pm0725 model numbering is retained unchanged; it is not a National Dex identifier."
+    ],
+    "optimization": {
+      "sourceBytes": 7047624,
+      "sha256": "0ece25a7f9e92a5a1485639dd238ed69ac7eef4fa4a936421c8e8ecf35955100",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0
+    }
+  },
+  "gyarados": {
+    "name": "Gyarados",
+    "dexId": 130,
+    "path": "/assets/pokemon-3d/gyarados.glb",
+    "bytes": 3003988,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.183333396911621,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 48,
+        "movingSkinnedJointCount": 48
+      },
+      {
+        "name": "idle",
+        "duration": 3.0166666507720947,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 38,
+        "movingSkinnedJointCount": 38
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.7302853851042135,
+        0.39090924614830225,
+        -3.572956115300585
+      ],
+      "max": [
+        0.7984153233913363,
+        3.085303507058262,
+        2.1247758039747007
+      ],
+      "size": [
+        1.5287007084955497,
+        2.69439426090996,
+        5.697731919275286
+      ],
+      "center": [
+        0.034064969143561386,
+        1.7381063766032823,
+        -0.7240901556629422
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 5668360,
+      "sha256": "a18c93fb70ada8e2e4c6c28adbef8b618d406c074ee2d40f367cc8dd4e02a728",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.793891731462441e-07
+    }
+  },
+  "leafeon": {
+    "name": "Leafeon",
+    "dexId": 470,
+    "path": "/assets/pokemon-3d/leafeon.glb",
+    "bytes": 453488,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|ArmatureAction",
+        "duration": 4.833333492279053,
+        "channels": 159,
+        "varyingSkinnedJointChannels": 52,
+        "movingSkinnedJointCount": 51
+      }
+    ],
+    "idle": "Armature|ArmatureAction",
+    "accessorBounds": {
+      "min": [
+        -0.24574600160121918,
+        -0.0022209854796528816,
+        -1.1602710485458374
+      ],
+      "max": [
+        0.24574600160121918,
+        0.9203649759292603,
+        0.4075259566307068
+      ],
+      "size": [
+        0.49149200320243835,
+        0.9225859614089131,
+        1.5677970051765442
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+    ],
+    "optimization": {
+      "sourceBytes": 247756,
+      "sha256": "539f3e140219b3f1877e74e33e42cde476d2c3c4f006f91a67d1fec10f4cef36",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0
+    }
+  },
+  "lugia": {
+    "name": "Lugia",
+    "dexId": 249,
+    "path": "/assets/pokemon-3d/lugia.glb",
+    "bytes": 839628,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "pm0249_00_00_20000_defaultwait01_loop",
+        "duration": 1.850000023841858,
+        "channels": 293,
+        "varyingSkinnedJointChannels": 97,
+        "movingSkinnedJointCount": 85
+      },
+      {
+        "name": "pm0249_00_00_20450_rangeattack01",
+        "duration": 2.316666603088379,
+        "channels": 298,
+        "varyingSkinnedJointChannels": 114,
+        "movingSkinnedJointCount": 92
+      }
+    ],
+    "idle": "pm0249_00_00_20000_defaultwait01_loop",
+    "attack": "pm0249_00_00_20450_rangeattack01",
+    "attackTimeScale": 1,
+    "accessorBounds": {
+      "min": [
+        -4.515246868133545,
+        -0.6702763438224792,
+        -4.5005035400390625
+      ],
+      "max": [
+        4.515246868133545,
+        4.168520927429199,
+        1.7268483638763428
+      ],
+      "size": [
+        9.03049373626709,
+        4.8387972712516785,
+        6.227351903915405
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Matching 20000-series idle/roar/ranged-attack pose family selected. Other grounded/movement pose families remain in the GLB."
+    ],
+    "optimization": {
+      "sourceBytes": 15049208,
+      "sha256": "b0c6d51f7f022e2eea96719cb725e71454aa3a1bc780883febe4e58780350b2d",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0
+    }
+  },
+  "mew": {
+    "name": "Mew",
+    "dexId": 151,
+    "path": "/assets/pokemon-3d/mew.glb",
+    "bytes": 1167268,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 3.7916667461395264,
+        "channels": 162,
+        "varyingSkinnedJointChannels": 32,
+        "movingSkinnedJointCount": 26
+      },
+      {
+        "name": "idle",
+        "duration": 4.208333492279053,
+        "channels": 162,
+        "varyingSkinnedJointChannels": 25,
+        "movingSkinnedJointCount": 25
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.22850760956010097,
+        0.0005996830975611711,
+        -0.3568783522286364
+      ],
+      "max": [
+        0.09492160017901513,
+        0.4669524675757372,
+        0.19130641976696888
+      ],
+      "size": [
+        0.3234292097391161,
+        0.4663527844781761,
+        0.5481847719956052
+      ],
+      "center": [
+        -0.06679300469054292,
+        0.23377607533664918,
+        -0.08278596623083376
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 2336332,
+      "sha256": "1a62d21116a57ab2f8e4be8e762b1b7c6b6047e6fba833ed9d12d3a39a57ae18",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.091340477935246e-07
+    }
+  },
+  "mewtwo": {
+    "name": "Mewtwo",
+    "dexId": 150,
+    "path": "/assets/pokemon-3d/mewtwo.glb",
+    "bytes": 2075524,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 261,
+        "varyingSkinnedJointChannels": 76,
+        "movingSkinnedJointCount": 66
+      },
+      {
+        "name": "idle",
+        "duration": 7.541666507720947,
+        "channels": 261,
+        "varyingSkinnedJointChannels": 60,
+        "movingSkinnedJointCount": 51
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.5849693275754149,
+        -0.010289746073157819,
+        -2.589096834990814
+      ],
+      "max": [
+        1.26427972107522,
+        2.0745698443364016,
+        0.20949425303195324
+      ],
+      "size": [
+        1.8492490486506348,
+        2.0848595904095593,
+        2.798591088022767
+      ],
+      "center": [
+        0.3396551967499025,
+        1.032140049131622,
+        -1.1898012909794304
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 3707764,
+      "sha256": "5eaebda94a95fa7099adc66737e1ee0720c9040c691f5c5757236c4188423039",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.062109488778276e-07
+    }
+  },
+  "moltres": {
+    "name": "Moltres",
+    "dexId": 146,
+    "path": "/assets/pokemon-3d/moltres.glb",
+    "bytes": 4033948,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 330,
+        "varyingSkinnedJointChannels": 90,
+        "movingSkinnedJointCount": 88
+      },
+      {
+        "name": "idle",
+        "duration": 6.041666507720947,
+        "channels": 330,
+        "varyingSkinnedJointChannels": 82,
+        "movingSkinnedJointCount": 81
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -2.379675803506571,
+        -0.005325058018313697,
+        -1.9637500627296565
+      ],
+      "max": [
+        2.471777423203261,
+        2.6528189316116504,
+        1.0403997104032772
+      ],
+      "size": [
+        4.8514532267098325,
+        2.658143989629964,
+        3.0041497731329336
+      ],
+      "center": [
+        0.0460508098483452,
+        1.3237469367966683,
+        -0.46167517616318965
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 7254332,
+      "sha256": "318c6ee4e2c78c26deeb004a7de14443973bfa3c61fefe7dc7d5edb893d9de77",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.5157159947462056e-07
+    }
+  },
+  "ninetales": {
+    "name": "Ninetales",
+    "dexId": 38,
+    "path": "/assets/pokemon-3d/ninetales.glb",
+    "bytes": 3567376,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 480,
+        "varyingSkinnedJointChannels": 117,
+        "movingSkinnedJointCount": 115
+      },
+      {
+        "name": "idle",
+        "duration": 5.041666507720947,
+        "channels": 480,
+        "varyingSkinnedJointChannels": 111,
+        "movingSkinnedJointCount": 109
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.7352796773891743,
+        -0.0007837883393864574,
+        -1.0546855914566708
+      ],
+      "max": [
+        0.702843794960829,
+        1.2297787938371187,
+        0.6599583232355868
+      ],
+      "size": [
+        1.4381234723500034,
+        1.2305625821765052,
+        1.7146439146922576
+      ],
+      "center": [
+        -0.016217941214172638,
+        0.6144975027488662,
+        -0.19736363411054203
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 6202404,
+      "sha256": "33bbd061669aec6bb7b9544e2c2b0e3d16665100f9c98bbe65e98b8cf4ea80fe",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.949470316899628e-07
+    }
+  },
+  "oddish": {
+    "name": "Oddish",
+    "dexId": 43,
+    "path": "/assets/pokemon-3d/oddish.glb",
+    "bytes": 1136536,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 4.625,
+        "channels": 150,
+        "varyingSkinnedJointChannels": 32,
+        "movingSkinnedJointCount": 27
+      },
+      {
+        "name": "idle",
+        "duration": 4.625,
+        "channels": 150,
+        "varyingSkinnedJointChannels": 28,
+        "movingSkinnedJointCount": 23
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.2885078658948288,
+        -0.0009761080818416843,
+        -0.16864262855386927
+      ],
+      "max": [
+        0.28288301760941764,
+        0.5013516685772212,
+        0.11350650010474439
+      ],
+      "size": [
+        0.5713908835042465,
+        0.5023277766590629,
+        0.28214912865861363
+      ],
+      "center": [
+        -0.0028124241427055774,
+        0.2501877802476898,
+        -0.02756806422456244
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 2138116,
+      "sha256": "5ab8938e4af28a77f82f88ab6cea3a21ccfd2adfa05634b0be87df910e407465",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.263088889371435e-07
+    }
+  },
+  "pidgeot": {
+    "name": "Pidgeot",
+    "dexId": 18,
+    "path": "/assets/pokemon-3d/pidgeot.glb",
+    "bytes": 773204,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.5199999809265137,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 71,
+        "movingSkinnedJointCount": 66
+      },
+      {
+        "name": "idle",
+        "duration": 1.2400000095367432,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 61,
+        "movingSkinnedJointCount": 61
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.4153545547658884,
+        -0.0014948002267148545,
+        -0.9409445991684903
+      ],
+      "max": [
+        0.5331218712796563,
+        1.314311829490286,
+        0.6907967808807924
+      ],
+      "size": [
+        0.9484764260455447,
+        1.3158066297170008,
+        1.6317413800492826
+      ],
+      "center": [
+        0.058883658256883936,
+        0.6564085146317856,
+        -0.12507390914384892
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 1268292,
+      "sha256": "19b69ef139d10ff7b6084d91eb55e6edacfe4ff7f8c2c56885a8c46e1ab25805",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.499360050091994e-07
+    }
+  },
+  "pidgey": {
+    "name": "Pidgey",
+    "dexId": 16,
+    "path": "/assets/pokemon-3d/pidgey.glb",
+    "bytes": 493540,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.0399999618530273,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 32,
+        "movingSkinnedJointCount": 32
+      },
+      {
+        "name": "idle",
+        "duration": 1.4800000190734863,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 30,
+        "movingSkinnedJointCount": 30
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.07444283307493398,
+        -0.005521205408665239,
+        -0.1725339805095263
+      ],
+      "max": [
+        0.0744239813780728,
+        0.3002835471152672,
+        0.1524637087409971
+      ],
+      "size": [
+        0.14886681445300676,
+        0.30580475252393247,
+        0.3249976892505234
+      ],
+      "center": [
+        -9.425848430590078e-06,
+        0.147381170853301,
+        -0.010035135884264607
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 788816,
+      "sha256": "00fb193e6d91a3d9b272561aeb179592830c5e0f0dd090bcdcca8085a1d0b770",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.252697250930801e-07
+    }
+  },
+  "pikachu": {
+    "name": "Pikachu",
+    "dexId": 25,
+    "path": "/assets/pokemon-3d/pikachu.glb",
+    "bytes": 4437612,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 1.850000023841858,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 85,
+        "movingSkinnedJointCount": 53
+      },
+      {
+        "name": "idle",
+        "duration": 1.149999976158142,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 40,
+        "movingSkinnedJointCount": 29
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.14159276133148674,
+        -0.0001834087675050602,
+        -0.27408166777341325
+      ],
+      "max": [
+        0.261426659823941,
+        0.4627639100961957,
+        0.15655010744171238
+      ],
+      "size": [
+        0.4030194211554277,
+        0.4629473188637008,
+        0.43063177521512563
+      ],
+      "center": [
+        0.05991694924622712,
+        0.23129025066434533,
+        -0.058765780165850434
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 7344736,
+      "sha256": "634e7e7d9971dd5b179661d313b3935e1a159c16e46b817360b7e8edcfc91fb8",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.4941829712400434e-07
+    }
+  },
+  "pinsir": {
+    "name": "Pinsir",
+    "dexId": 127,
+    "path": "/assets/pokemon-3d/pinsir.glb",
+    "bytes": 588428,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.440000057220459,
+        "channels": 195,
+        "varyingSkinnedJointChannels": 45,
+        "movingSkinnedJointCount": 44
+      },
+      {
+        "name": "idle",
+        "duration": 1.6399999856948853,
+        "channels": 195,
+        "varyingSkinnedJointChannels": 44,
+        "movingSkinnedJointCount": 44
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.6922766090576217,
+        0.0002055183658218599,
+        -0.28457090089650955
+      ],
+      "max": [
+        0.645800349403566,
+        1.4119805416322362,
+        0.31015942926564566
+      ],
+      "size": [
+        1.3380769584611878,
+        1.4117750232664144,
+        0.5947303301621552
+      ],
+      "center": [
+        -0.02323812982702783,
+        0.706093029999029,
+        0.012794264184568055
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 895864,
+      "sha256": "6ee030163ca79c135349ff5e8ae58d177a5872b9904bcb7ffb9f292b01105bc6",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.967597279550759e-07
+    }
+  },
+  "raichu": {
+    "name": "Raichu",
+    "dexId": 26,
+    "path": "/assets/pokemon-3d/raichu.glb",
+    "bytes": 3293948,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 1.5166666507720947,
+        "channels": 183,
+        "varyingSkinnedJointChannels": 34,
+        "movingSkinnedJointCount": 34
+      },
+      {
+        "name": "idle",
+        "duration": 1.0166666507720947,
+        "channels": 183,
+        "varyingSkinnedJointChannels": 33,
+        "movingSkinnedJointCount": 33
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.7027692942476662,
+        -0.004854671861669281,
+        -0.6478429742224738
+      ],
+      "max": [
+        0.3192013000875504,
+        0.8201263425087376,
+        0.31985159325491347
+      ],
+      "size": [
+        1.0219705943352166,
+        0.8249810143704069,
+        0.9676945674773874
+      ],
+      "center": [
+        -0.19178399708005792,
+        0.40763583532353415,
+        -0.16399569048378018
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 5769908,
+      "sha256": "4e10e7cc437619f315ea78194064652935d468ebef04548c9edc28a64f2ec7c0",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 6.508221350731702e-08
+    }
+  },
+  "scizor": {
+    "name": "Scizor",
+    "dexId": 212,
+    "path": "/assets/pokemon-3d/scizor.glb",
+    "bytes": 372428,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ArmatureAction.002",
+        "duration": 5.833333492279053,
+        "channels": 106,
+        "varyingSkinnedJointChannels": 43,
+        "movingSkinnedJointCount": 35
+      }
+    ],
+    "idle": "ArmatureAction.002",
+    "accessorBounds": {
+      "min": [
+        -1.7453796863555908,
+        -0.0003627410624176264,
+        -2.1797986030578613
+      ],
+      "max": [
+        1.7453796863555908,
+        6.028799057006836,
+        2.911137580871582
+      ],
+      "size": [
+        3.4907593727111816,
+        6.029161798069254,
+        5.090936183929443
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+    ],
+    "optimization": {
+      "sourceBytes": 142388,
+      "sha256": "2922e8e63faa1295098cc5b06eb000e520d332a72118f6704158a9bf14800b6e",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0
+    }
+  },
+  "starmie": {
+    "name": "Starmie",
+    "dexId": 121,
+    "path": "/assets/pokemon-3d/starmie.glb",
+    "bytes": 454916,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.119999885559082,
+        "channels": 129,
+        "varyingSkinnedJointChannels": 26,
+        "movingSkinnedJointCount": 22
+      },
+      {
+        "name": "idle",
+        "duration": 2.319999933242798,
+        "channels": 129,
+        "varyingSkinnedJointChannels": 22,
+        "movingSkinnedJointCount": 18
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.5704651735864509,
+        7.72739501002373e-06,
+        -0.29999649810296236
+      ],
+      "max": [
+        0.5688634321302164,
+        1.0780789043926389,
+        0.25535781262023394
+      ],
+      "size": [
+        1.1393286057166674,
+        1.0780711769976288,
+        0.5553543107231963
+      ],
+      "center": [
+        -0.0008008707281172422,
+        0.5390433158938245,
+        -0.022319342741364212
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 660408,
+      "sha256": "aad262e1fa0b9bf0f217a7dd9cf025995e3df90035aaa7f940ba5115afb494c1",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.66881564234167e-07
+    }
+  },
+  "umbreon": {
+    "name": "Umbreon",
+    "dexId": 197,
+    "path": "/assets/pokemon-3d/umbreon.glb",
+    "bytes": 431932,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|ArmatureAction",
+        "duration": 5.416666507720947,
+        "channels": 92,
+        "varyingSkinnedJointChannels": 33,
+        "movingSkinnedJointCount": 32
+      }
+    ],
+    "idle": "Armature|ArmatureAction",
+    "accessorBounds": {
+      "min": [
+        -0.24147899448871613,
+        -0.0012850103667005897,
+        -0.6725620627403259
+      ],
+      "max": [
+        0.24147899448871613,
+        0.8420839905738831,
+        0.4219529628753662
+      ],
+      "size": [
+        0.48295798897743225,
+        0.8433690009405836,
+        1.0945150256156921
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+    ],
+    "optimization": {
+      "sourceBytes": 172224,
+      "sha256": "c5775e6b1c7dc77ba0f25a7afc449a02a678725e8a4f91866c4f4aba2abcdef9",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0
+    }
+  },
+  "vaporeon": {
+    "name": "Vaporeon",
+    "dexId": 134,
+    "path": "/assets/pokemon-3d/vaporeon.glb",
+    "bytes": 2769484,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 4.625,
+        "channels": 204,
+        "varyingSkinnedJointChannels": 51,
+        "movingSkinnedJointCount": 51
+      },
+      {
+        "name": "idle",
+        "duration": 5.375,
+        "channels": 204,
+        "varyingSkinnedJointChannels": 35,
+        "movingSkinnedJointCount": 35
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.37460900492061144,
+        -0.006361648348078466,
+        -1.1553889382978466
+      ],
+      "max": [
+        0.39715881083003357,
+        0.8890573203670964,
+        0.5267325663145612
+      ],
+      "size": [
+        0.771767815750645,
+        0.8954189687151749,
+        1.6821215046124078
+      ],
+      "center": [
+        0.011274902954711064,
+        0.44134783600950894,
+        -0.3143281859916427
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 4825716,
+      "sha256": "61daa6adcacc55cbb72645b0a299d35a5dc0e7301063f944f2ef3f1a69783aa3",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.662375612807246e-07
+    }
+  },
+  "venusaur": {
+    "name": "Venusaur",
+    "dexId": 3,
+    "path": "/assets/pokemon-3d/venusaur.glb",
+    "bytes": 4558856,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.183333396911621,
+        "channels": 423,
+        "varyingSkinnedJointChannels": 56,
+        "movingSkinnedJointCount": 56
+      },
+      {
+        "name": "idle",
+        "duration": 2.0166666507720947,
+        "channels": 423,
+        "varyingSkinnedJointChannels": 51,
+        "movingSkinnedJointCount": 51
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -1.229342705799397,
+        -0.010235379715174561,
+        -1.2054403537049714
+      ],
+      "max": [
+        1.2130109113311431,
+        1.7365706423633795,
+        1.3132677100561594
+      ],
+      "size": [
+        2.44235361713054,
+        1.7468060220785542,
+        2.5187080637611308
+      ],
+      "center": [
+        -0.008165897234126973,
+        0.8631676313241025,
+        0.053913678175594004
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 8046340,
+      "sha256": "6b4f64dbbdf70fd8c545312464356b8fb5b98f41a923abe7b2f263a5e1ae4482",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.6111116193949016e-07
+    }
+  },
+  "zapdos": {
+    "name": "Zapdos",
+    "dexId": 145,
+    "path": "/assets/pokemon-3d/zapdos.glb",
+    "bytes": 3347968,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 225,
+        "varyingSkinnedJointChannels": 64,
+        "movingSkinnedJointCount": 61
+      },
+      {
+        "name": "idle",
+        "duration": 3.7916667461395264,
+        "channels": 225,
+        "varyingSkinnedJointChannels": 44,
+        "movingSkinnedJointCount": 44
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -1.5240790216173676,
+        -0.0026991868906571237,
+        -1.1079392788238254
+      ],
+      "max": [
+        1.5058182272769436,
+        1.5224049404610167,
+        1.0625436103271333
+      ],
+      "size": [
+        3.0298972488943114,
+        1.5251041273516739,
+        2.170482889150959
+      ],
+      "center": [
+        -0.009130397170212023,
+        0.7598528767851798,
+        -0.022697834248346038
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 5613104,
+      "sha256": "e33b760528ad18d23fd37f1927211d67495659076a83f29adaf7bcea97fd22c6",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.089017771741199e-07
+    }
+  }
+}

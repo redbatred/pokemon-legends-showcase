@@ -1,5 +1,5 @@
 import { Graphics, Point } from 'pixi.js';
-import { Vector2,type Spine } from '@esotericsoftware/spine-pixi-v8';
+import type {PokemonActor} from './PokemonActor';
 import type { PowerProfile } from './powerProfiles';
 
 const TAU=Math.PI*2;
@@ -7,17 +7,12 @@ const TAU=Math.PI*2;
 export class PokemonPower {
  readonly back=new Graphics();readonly front=new Graphics();
  charge=0;blast=0;fade=1;
- private t=0;private origin=new Point();private local=new Vector2();
- constructor(private hero:Spine,readonly profile:PowerProfile,private low=false){}
+ private t=0;private origin=new Point();
+ constructor(private hero:PokemonActor,readonly profile:PowerProfile,private low=false){}
  update(dt:number){
   this.t+=dt;const b=this.back.clear(),g=this.front.clear(),p=this.profile;
   if(this.fade<=0||(!this.charge&&!this.blast))return;
-  const bone=this.hero.skeleton.findBone(p.bone)??this.hero.skeleton.findBone('head')!;
-  let ox=0,oy=0;
-  if(p.origin){let bx=0,by=0;for(let parent:typeof bone|null=bone;parent;parent=parent.parent){bx+=parent.data.x;by+=parent.data.y;}ox=(p.origin[0]-.5)*this.hero.skeleton.data.width-bx;oy=(.5-p.origin[1])*this.hero.skeleton.data.height-by;}
-  const local=this.local.set(ox,oy);bone.localToWorld(local);
-  // Spine's skeleton uses yDown in the Pixi runtime. Convert through the display
-  // transform so charge and projectile follow the actual posed head/hand.
+  const local=this.hero.powerOrigin(p);
   this.hero.parent!.toLocal(this.hero.toGlobal(local),undefined,this.origin);
   const x=this.origin.x,y=this.origin.y,t=this.t,c=p.color,light=p.light;
   const q=this.charge,blast=this.blast,alpha=this.fade;

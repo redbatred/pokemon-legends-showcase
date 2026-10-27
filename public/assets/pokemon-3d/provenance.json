@@ -1,0 +1,6153 @@
+{
+  "description": "33 genuine skinned animated community-distributed Pokémon game models, optimized from archived original GLBs. Retains real idle/attack motion, original geometry, native texture resolution, exact decoded texture pixels, and node/skin identity. Animation key reduction is a small bounded approximation documented below. No synthetic motion or fabricated geometry.",
+  "rights": "Pokémon assets belong to their respective rights holders, included under user-stated license. Source repository code licenses do not grant ownership of Pokémon assets. Preserve embedded Sketchfab uploader attribution; those models claim CC-BY-4.0 in their metadata.",
+  "validation": "All 33 outputs decoded successfully. Compared geometry/skin buffer hashes, node names/transforms/hierarchy, exact decoded texture pixels and dimensions, and clip presence. Sampled every original retained animation key and midpoint, using quaternion interpolation. Compared CPU-skinned world-space bounds at idle t=0 and two action poses per model; no full continuous-time error bound is claimed.",
+  "unavailable": [
+    {
+      "name": "Arceus",
+      "dexId": 493,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/493.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Breloom",
+      "dexId": 286,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/286.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Cinderace",
+      "dexId": 815,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/815.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Cleffa",
+      "dexId": 173,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/173.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Forretress",
+      "dexId": 205,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/205.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Gardevoir",
+      "dexId": 282,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/282.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Genesect",
+      "dexId": 649,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/649.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Giratina",
+      "dexId": 487,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/487.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Kyogre",
+      "dexId": 382,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/382.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Paldean Clodsire",
+      "dexId": 980,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/980.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Raikou",
+      "dexId": 243,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/243.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Rayquaza",
+      "dexId": 384,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/384.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Rotom",
+      "dexId": 479,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/479.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Suicune",
+      "dexId": 245,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/245.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Sylveon",
+      "dexId": 700,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/700.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Trevenant",
+      "dexId": 709,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/709.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Tyranitar",
+      "dexId": 248,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/248.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    }
+  ],
+  "models": {
+    "aerodactyl": {
+      "name": "Aerodactyl",
+      "dexId": 142,
+      "localPath": "/assets/pokemon-3d/aerodactyl.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/142/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "0a8bd270ca8568b900112385d2622fbe7273f57b153fcda5c785ac79fc02160f",
+      "byteLength": 582132,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 1,
+      "jointsPerSkin": [
+        44
+      ],
+      "uniqueSkinnedJointCount": 44,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "vertexCount": 3883,
+      "triangleCount": 5488,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 30638
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 43822
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 42954
+        }
+      ],
+      "materials": [
+        {
+          "name": "Eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "BodyB_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "BodyA_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/142/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0142_00_kw01_wait01.gfbanm",
+            "duration": 1.64
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0142_00_fi20_walk01.gfbanm",
+            "duration": 3.24
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0142_00_fi21_run01.gfbanm",
+            "duration": 2.44
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0142_00_ba20_buturi01.gfbanm",
+            "duration": 2.64
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0142_00_kw32_happyB01.gfbanm",
+            "duration": 2.04
+          }
+        ],
+        "source": "pm0142_00.blend",
+        "fps": 25.0,
+        "bytes": 965400
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "311bd8a0e399b97cee3e9746f70d43ce7827c05a5450d14dd937f7cc3f7c19a9",
+      "sourceByteLength": 965400,
+      "originalPath": "source-assets/pokemon-3d-original/aerodactyl.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 965400,
+        "outputBytes": 582132,
+        "sourceSha256": "311bd8a0e399b97cee3e9746f70d43ce7827c05a5450d14dd937f7cc3f7c19a9",
+        "outputSha256": "0a8bd270ca8568b900112385d2622fbe7273f57b153fcda5c785ac79fc02160f",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "walk"
+        ],
+        "sourceNodeCount": 66,
+        "outputNodeCount": 66,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 3.6508119305445064e-07,
+        "checkedAnimationSamples": 15176,
+        "orphanAccessorsRemoved": 394,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 3.6508119305445064e-07,
+          "checkedAnimationSamples": 15176
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "alakazam": {
+      "name": "Alakazam",
+      "dexId": 65,
+      "localPath": "/assets/pokemon-3d/alakazam.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/065/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "b0d5f12c215620814bdd2fbc20f6b95e0ac722040a40fb8b6e644d9124107fc9",
+      "byteLength": 822112,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 2,
+      "jointsPerSkin": [
+        47,
+        15
+      ],
+      "uniqueSkinnedJointCount": 61,
+      "meshCount": 2,
+      "primitiveCount": 5,
+      "vertexCount": 3609,
+      "triangleCount": 5014,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 125768
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 26724
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 26630
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 125540
+        }
+      ],
+      "materials": [
+        {
+          "name": "Body01_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "EyeL_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "EyeR_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Body00_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/065/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0065_00_kw01_wait01.gfbanm",
+            "duration": 3.04
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0065_00_fi20_walk01.gfbanm",
+            "duration": 5.64
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0065_00_fi21_run01.gfbanm",
+            "duration": 4.04
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0065_00_ba20_buturi01.gfbanm",
+            "duration": 2.44
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0065_00_kw32_happyB01.gfbanm",
+            "duration": 2.04
+          }
+        ],
+        "source": "pm0065_00.blend",
+        "fps": 25.0,
+        "bytes": 1569892
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "9409c76f9b20c2f9972c9af143bc167f4cb861810278f56ae6ae3dd82713b761",
+      "sourceByteLength": 1569892,
+      "originalPath": "source-assets/pokemon-3d-original/alakazam.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 1569892,
+        "outputBytes": 822112,
+        "sourceSha256": "9409c76f9b20c2f9972c9af143bc167f4cb861810278f56ae6ae3dd82713b761",
+        "outputSha256": "b0d5f12c215620814bdd2fbc20f6b95e0ac722040a40fb8b6e644d9124107fc9",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "walk"
+        ],
+        "sourceNodeCount": 91,
+        "outputNodeCount": 91,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 3.781447254214143e-07,
+        "checkedAnimationSamples": 19152,
+        "orphanAccessorsRemoved": 528,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 3.781447254214143e-07,
+          "checkedAnimationSamples": 19152
+        },
+        "maxSampledBoundsError": 9.866190087137738e-10,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "articuno": {
+      "name": "Articuno",
+      "dexId": 144,
+      "localPath": "/assets/pokemon-3d/articuno.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/144/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "8335bc94cabe6e28acaa00f0bb31dde184d6fc6ba1ef01f67d1fa26f4200ee93",
+      "byteLength": 3746704,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 2,
+      "jointsPerSkin": [
+        77,
+        1
+      ],
+      "uniqueSkinnedJointCount": 77,
+      "meshCount": 2,
+      "primitiveCount": 4,
+      "vertexCount": 5117,
+      "triangleCount": 6852,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 687348
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 626970
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 254496
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 644626
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 594194
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 222228
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 8622
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 5356
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/144/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0144_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 5.041666666666667
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0144_00_00_00030_walk01_loop.gfbanm",
+            "duration": 3.375
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0144_00_00_00100_run01_loop.gfbanm",
+            "duration": 1.7083333333333333
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0144_00_00_20400_attack01.gfbanm",
+            "duration": 5.458333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0144_00_00_00550_glad01.gfbanm",
+            "duration": 5.041666666666667
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0144_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 10.041666666666666
+          }
+        ],
+        "source": "pm0144_00.blend",
+        "fps": 24.0,
+        "bytes": 7081264
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "ba316f3ad4d40be1baac1dc06701b7c6286beb32d7ad9bd836da1dbf5aba8de7",
+      "sourceByteLength": 7081264,
+      "originalPath": "source-assets/pokemon-3d-original/articuno.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 7081264,
+        "outputBytes": 3746704,
+        "sourceSha256": "ba316f3ad4d40be1baac1dc06701b7c6286beb32d7ad9bd836da1dbf5aba8de7",
+        "outputSha256": "8335bc94cabe6e28acaa00f0bb31dde184d6fc6ba1ef01f67d1fa26f4200ee93",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 94,
+        "outputNodeCount": 94,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 3.875796882879534e-07,
+        "checkedAnimationSamples": 35324,
+        "orphanAccessorsRemoved": 688,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 3.875796882879534e-07,
+          "checkedAnimationSamples": 35324
+        },
+        "maxSampledBoundsError": 5.6852686558528376e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "blastoise": {
+      "name": "Blastoise",
+      "dexId": 9,
+      "localPath": "/assets/pokemon-3d/blastoise.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/009/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "7dc079ae1905dbf6976fdb5fc2f1e941cddb735fc220521ecc912259b07cb105",
+      "byteLength": 4382380,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 10,
+      "jointsPerSkin": [
+        16,
+        13,
+        12,
+        1,
+        31,
+        7,
+        18,
+        5,
+        3,
+        2
+      ],
+      "uniqueSkinnedJointCount": 73,
+      "meshCount": 10,
+      "primitiveCount": 13,
+      "vertexCount": 4133,
+      "triangleCount": 6076,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 593028
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 409229
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 406020
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 623152
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 456181
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 314174
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 623150
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 323852
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 3610
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 836
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_b_01_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/009/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0009_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 6.708333333333333
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0009_00_00_00030_walk01_loop.gfbanm",
+            "duration": 3.375
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0009_00_00_00100_run01_loop.gfbanm",
+            "duration": 2.125
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0009_00_00_00400_attack01.gfbanm",
+            "duration": 5.458333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0009_00_00_00550_glad01.gfbanm",
+            "duration": 4.208333333333333
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0009_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 8.375
+          }
+        ],
+        "source": "pm0009_00.blend",
+        "fps": 24.0,
+        "bytes": 7597532
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "759ad9d4c1851d3950e87a0bd747a40c5c8c8ed406b31bd5a4b4b67bbcb635b0",
+      "sourceByteLength": 7597532,
+      "originalPath": "source-assets/pokemon-3d-original/blastoise.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 7597532,
+        "outputBytes": 4382380,
+        "sourceSha256": "759ad9d4c1851d3950e87a0bd747a40c5c8c8ed406b31bd5a4b4b67bbcb635b0",
+        "outputSha256": "7dc079ae1905dbf6976fdb5fc2f1e941cddb735fc220521ecc912259b07cb105",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 126,
+        "outputNodeCount": 126,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.503587348325677e-07,
+        "checkedAnimationSamples": 34420,
+        "orphanAccessorsRemoved": 694,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.503587348325677e-07,
+          "checkedAnimationSamples": 34420
+        },
+        "maxSampledBoundsError": 1.701027882439199e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "charizard": {
+      "name": "Charizard",
+      "dexId": 6,
+      "localPath": "/assets/pokemon-3d/charizard.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/006/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "5fe4dd7a4a785404c9c26dc5c174d0c68e4e9a5010213138694ccf2d405d22b3",
+      "byteLength": 3655456,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 4,
+      "jointsPerSkin": [
+        99,
+        7,
+        3,
+        4
+      ],
+      "uniqueSkinnedJointCount": 104,
+      "meshCount": 4,
+      "primitiveCount": 6,
+      "vertexCount": 3927,
+      "triangleCount": 6000,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 551888
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 462984
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 409834
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 539130
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 413672
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 485334
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 5648
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 1718
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 12075
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 11075
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "fire_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_emissive_strength": {
+              "emissiveStrength": 11.409722328186035
+            }
+          }
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp",
+        "KHR_materials_emissive_strength"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/006/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0006_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 6.041666666666667
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0006_00_00_00030_walk01_loop.gfbanm",
+            "duration": 4.041666666666667
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0006_00_00_00100_run01_loop.gfbanm",
+            "duration": 2.125
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0006_00_00_00400_attack01.gfbanm",
+            "duration": 5.458333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0006_00_00_00550_glad01.gfbanm",
+            "duration": 5.875
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0006_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 5.875
+          }
+        ],
+        "source": "pm0006_00.blend",
+        "fps": 24.0,
+        "bytes": 7238092
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "3282da7efe1e4a070d37a648d5af3d105365ec1a6320a4f572bb1b4307f5ba0a",
+      "sourceByteLength": 7238092,
+      "originalPath": "source-assets/pokemon-3d-original/charizard.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 7238092,
+        "outputBytes": 3655456,
+        "sourceSha256": "3282da7efe1e4a070d37a648d5af3d105365ec1a6320a4f572bb1b4307f5ba0a",
+        "outputSha256": "5fe4dd7a4a785404c9c26dc5c174d0c68e4e9a5010213138694ccf2d405d22b3",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 132,
+        "outputNodeCount": 132,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.2935502464480635e-07,
+        "checkedAnimationSamples": 48948,
+        "orphanAccessorsRemoved": 940,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.2935502464480635e-07,
+          "checkedAnimationSamples": 48948
+        },
+        "maxSampledBoundsError": 1.1121570361871669e-07,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "dracozolt": {
+      "name": "Dracozolt",
+      "dexId": 880,
+      "localPath": "/assets/pokemon-3d/dracozolt.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/880.glb",
+      "repository": "https://github.com/pokemon-party/3d-pokemon",
+      "revision": "429de1288cea0d43f5b4f56305d2276e94239d65",
+      "sha256": "5b2f2f14d6139c46a55203ed1a3cb05f41b4377c2d285b3ac5ff02919be01c90",
+      "byteLength": 539460,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": {
+        "author": "LunaEagle (https://sketchfab.com/LunaEagle)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/dracozolt-3d84369880cb46ef863ccb2871fd9afe",
+        "title": "Dracozolt"
+      },
+      "skinCount": 1,
+      "jointsPerSkin": [
+        96
+      ],
+      "uniqueSkinnedJointCount": 96,
+      "meshCount": 3,
+      "primitiveCount": 3,
+      "vertexCount": 5093,
+      "triangleCount": 7372,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 52328
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 11604
+        }
+      ],
+      "materials": [
+        {
+          "name": "pm0880_00_00-Body",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "pm0880_00_00-Eye",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": null,
+      "notes": [
+        "waitA01 / special-attack tokusyu01 / roar01 mapped by original game action names. Exact power timing and orientation require rendered validation."
+      ],
+      "sourceSha256": "2ff04b355fbbec516e2031a9462c8ea8b84b01eb86a9a08b33c67ce134fdd9d2",
+      "sourceByteLength": 358388,
+      "originalPath": "source-assets/pokemon-3d-original/dracozolt.glb",
+      "sourceGenerator": "glTF-Transform v4.3.0",
+      "remainingClips": [
+        "Armature|Armature|pm0880_00_00_ba10_waitA01|Base Layer",
+        "Armature|Armature|pm0880_00_00_ba21_tokusyu01|Base Layer"
+      ],
+      "optimization": {
+        "sourceBytes": 358388,
+        "outputBytes": 539460,
+        "sourceSha256": "2ff04b355fbbec516e2031a9462c8ea8b84b01eb86a9a08b33c67ce134fdd9d2",
+        "outputSha256": "5b2f2f14d6139c46a55203ed1a3cb05f41b4377c2d285b3ac5ff02919be01c90",
+        "keptClips": [
+          "Armature|Armature|pm0880_00_00_ba10_waitA01|Base Layer",
+          "Armature|Armature|pm0880_00_00_ba21_tokusyu01|Base Layer"
+        ],
+        "removedClips": [
+          "Armature|Armature|pm0880_00_00_ba02_roar01|Base Layer",
+          "Armature|Armature|pm0880_00_00_ba20_buturi01|Base Layer"
+        ],
+        "sourceNodeCount": 99,
+        "outputNodeCount": 99,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 0,
+        "checkedAnimationSamples": 5924,
+        "orphanAccessorsRemoved": 260,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 0,
+          "checkedAnimationSamples": 5924
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "dragonite": {
+      "name": "Dragonite",
+      "dexId": 149,
+      "localPath": "/assets/pokemon-3d/dragonite.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/149/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "3e0fa8fed9a66c464354eb1c21596cac2dd9766cb7745474df7f136ff404f9ee",
+      "byteLength": 3158280,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 2,
+      "jointsPerSkin": [
+        64,
+        1
+      ],
+      "uniqueSkinnedJointCount": 64,
+      "meshCount": 2,
+      "primitiveCount": 4,
+      "vertexCount": 3792,
+      "triangleCount": 5890,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 557202
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 375988
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 379500
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 498460
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 382202
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 371494
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 10136
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 6568
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "r_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/149/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0149_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 6.291666666666667
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0149_00_00_00030_walk01_loop.gfbanm",
+            "duration": 3.9583333333333335
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0149_00_00_00100_run01_loop.gfbanm",
+            "duration": 1.7083333333333333
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0149_00_00_20400_attack01.gfbanm",
+            "duration": 5.458333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0149_00_00_00550_glad01.gfbanm",
+            "duration": 4.208333333333333
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0149_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 6.708333333333333
+          }
+        ],
+        "source": "pm0149_00.blend",
+        "fps": 24.0,
+        "bytes": 6089268
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "159d58225012cd6919eda06119c3b8e0a607da57627e2ca3fbfbb329a671f7cb",
+      "sourceByteLength": 6089268,
+      "originalPath": "source-assets/pokemon-3d-original/dragonite.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 6089268,
+        "outputBytes": 3158280,
+        "sourceSha256": "159d58225012cd6919eda06119c3b8e0a607da57627e2ca3fbfbb329a671f7cb",
+        "outputSha256": "3e0fa8fed9a66c464354eb1c21596cac2dd9766cb7745474df7f136ff404f9ee",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 82,
+        "outputNodeCount": 82,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.458309001559302e-07,
+        "checkedAnimationSamples": 30516,
+        "orphanAccessorsRemoved": 613,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.458309001559302e-07,
+          "checkedAnimationSamples": 30516
+        },
+        "maxSampledBoundsError": 4.117889496058069e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "duraludon": {
+      "name": "Duraludon",
+      "dexId": 884,
+      "localPath": "/assets/pokemon-3d/duraludon.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/884.glb",
+      "repository": "https://github.com/pokemon-party/3d-pokemon",
+      "revision": "429de1288cea0d43f5b4f56305d2276e94239d65",
+      "sha256": "152bd0289fc697b2de3e80c50facc09efcfe4369b9f3834a5648bf7ce75a1712",
+      "byteLength": 398104,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": {
+        "author": "Dodogamer (https://sketchfab.com/lazaronogueira832)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/duraludon-with-animation-e4a3e4c21a7e41099e70192acd41cddb",
+        "title": "Duraludon With Animation"
+      },
+      "skinCount": 1,
+      "jointsPerSkin": [
+        63
+      ],
+      "uniqueSkinnedJointCount": 63,
+      "meshCount": 7,
+      "primitiveCount": 7,
+      "vertexCount": 4411,
+      "triangleCount": 5527,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 15214
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 5646
+        }
+      ],
+      "materials": [
+        {
+          "name": "pm0884_00_00-BodyA01",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "pm0884_00_00-BodyBInc",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "pm0884_00_00-Eye",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": null,
+      "notes": [
+        "waitA01 / special-attack tokusyu01 / roar01 mapped by original game action names. Exact power timing and orientation require rendered validation."
+      ],
+      "sourceSha256": "87510abfa4d94fba2b9e106c09322f22067f823240d533ca8d524138f3012120",
+      "sourceByteLength": 234608,
+      "originalPath": "source-assets/pokemon-3d-original/duraludon.glb",
+      "sourceGenerator": "glTF-Transform v4.3.0",
+      "remainingClips": [
+        "Armature|Armature|pm0884_00_00_ba10_waitA01|Base Layer",
+        "Armature|Armature|pm0884_00_00_ba21_tokusyu01|Base Layer"
+      ],
+      "optimization": {
+        "sourceBytes": 234608,
+        "outputBytes": 398104,
+        "sourceSha256": "87510abfa4d94fba2b9e106c09322f22067f823240d533ca8d524138f3012120",
+        "outputSha256": "152bd0289fc697b2de3e80c50facc09efcfe4369b9f3834a5648bf7ce75a1712",
+        "keptClips": [
+          "Armature|Armature|pm0884_00_00_ba10_waitA01|Base Layer",
+          "Armature|Armature|pm0884_00_00_ba21_tokusyu01|Base Layer"
+        ],
+        "removedClips": [
+          "Armature|Armature|pm0884_00_00_ba02_roar01|Base Layer",
+          "Armature|Armature|pm0884_00_00_ba20_buturi01|Base Layer"
+        ],
+        "sourceNodeCount": 70,
+        "outputNodeCount": 70,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 0,
+        "checkedAnimationSamples": 5366,
+        "orphanAccessorsRemoved": 97,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 0,
+          "checkedAnimationSamples": 5366
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "eevee": {
+      "name": "Eevee",
+      "dexId": 133,
+      "localPath": "/assets/pokemon-3d/eevee.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/133/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "19fda0d0fe28813e996359e745c959d8d297ffb54ec4802a4c8026f62f3de28f",
+      "byteLength": 1920004,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 4,
+      "jointsPerSkin": [
+        45,
+        1,
+        12,
+        3
+      ],
+      "uniqueSkinnedJointCount": 57,
+      "meshCount": 4,
+      "primitiveCount": 5,
+      "vertexCount": 2763,
+      "triangleCount": 4000,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 588770
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 431181
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 496720
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 18558
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 7546
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/133/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0133_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 2.5416666666666665
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0133_00_00_00030_walk01_loop.gfbanm",
+            "duration": 2.5416666666666665
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0133_00_00_00100_run01_loop.gfbanm",
+            "duration": 0.875
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0133_00_00_00400_attack01.gfbanm",
+            "duration": 3.7916666666666665
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0133_00_00_00550_glad01.gfbanm",
+            "duration": 5.041666666666667
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0133_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 6.708333333333333
+          }
+        ],
+        "source": "pm0133_00.blend",
+        "fps": 24.0,
+        "bytes": 3344216
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "9760a789048a76192afbf18dd1d5dbc6a780b0267a7ff953396384debaa19bd9",
+      "sourceByteLength": 3344216,
+      "originalPath": "source-assets/pokemon-3d-original/eevee.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 3344216,
+        "outputBytes": 1920004,
+        "sourceSha256": "9760a789048a76192afbf18dd1d5dbc6a780b0267a7ff953396384debaa19bd9",
+        "outputSha256": "19fda0d0fe28813e996359e745c959d8d297ffb54ec4802a4c8026f62f3de28f",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 86,
+        "outputNodeCount": 86,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 3.7578086697909185e-07,
+        "checkedAnimationSamples": 13044,
+        "orphanAccessorsRemoved": 549,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 3.7578086697909185e-07,
+          "checkedAnimationSamples": 13044
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "espeon": {
+      "name": "Espeon",
+      "dexId": 196,
+      "localPath": "/assets/pokemon-3d/espeon.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/196.glb",
+      "repository": "https://github.com/pokemon-party/3d-pokemon",
+      "revision": "429de1288cea0d43f5b4f56305d2276e94239d65",
+      "sha256": "410b9de8eddfe7890d2272e5cc5135ec5b4a9f565cbb2777f6e3d2f0fca6731a",
+      "byteLength": 357140,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": {
+        "author": "seth the yutyrannus (https://sketchfab.com/slang107123456789)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/pokedex-3d-pro-espeon-6e839167f75c47129d03dc0802d838d6",
+        "title": "Pokedex 3d Pro Espeon"
+      },
+      "skinCount": 1,
+      "jointsPerSkin": [
+        73
+      ],
+      "uniqueSkinnedJointCount": 73,
+      "meshCount": 6,
+      "primitiveCount": 6,
+      "vertexCount": 2738,
+      "triangleCount": 3952,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 724
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 1584
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 3122
+        }
+      ],
+      "materials": [
+        {
+          "name": "Mouth",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "material",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "BodyB",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": null,
+      "notes": [
+        "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+      ],
+      "sourceSha256": "2e14f4e0a636b0ef3390b91994dabacf83f262c75d1ea732f29840aae020baeb",
+      "sourceByteLength": 208556,
+      "originalPath": "source-assets/pokemon-3d-original/espeon.glb",
+      "sourceGenerator": "glTF-Transform v4.3.0",
+      "remainingClips": [
+        "Armature|ArmatureAction"
+      ],
+      "optimization": {
+        "sourceBytes": 208556,
+        "outputBytes": 357140,
+        "sourceSha256": "2e14f4e0a636b0ef3390b91994dabacf83f262c75d1ea732f29840aae020baeb",
+        "outputSha256": "410b9de8eddfe7890d2272e5cc5135ec5b4a9f565cbb2777f6e3d2f0fca6731a",
+        "keptClips": [
+          "Armature|ArmatureAction"
+        ],
+        "removedClips": [],
+        "sourceNodeCount": 79,
+        "outputNodeCount": 79,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 0,
+        "checkedAnimationSamples": 12994,
+        "orphanAccessorsRemoved": 0,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 0,
+          "checkedAnimationSamples": 12994
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "gengar": {
+      "name": "Gengar",
+      "dexId": 94,
+      "localPath": "/assets/pokemon-3d/gengar.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/094/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "2bce51fe5552a3dc43c102d383916646a6b648a4d152c97611be44fe8a9389ce",
+      "byteLength": 1322012,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 3,
+      "jointsPerSkin": [
+        43,
+        1,
+        3
+      ],
+      "uniqueSkinnedJointCount": 44,
+      "meshCount": 3,
+      "primitiveCount": 4,
+      "vertexCount": 3362,
+      "triangleCount": 5588,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 374516
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 392916
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 173504
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 3362
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 1698
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 1674
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "r_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/094/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0094_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 2.5416666666666665
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0094_00_00_00030_walk01_loop.gfbanm",
+            "duration": 2.5416666666666665
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0094_00_00_00100_run01_loop.gfbanm",
+            "duration": 1.7916666666666667
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0094_00_00_00400_attack01.gfbanm",
+            "duration": 3.7916666666666665
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0094_00_00_00550_glad01.gfbanm",
+            "duration": 5.875
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0094_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 6.291666666666667
+          }
+        ],
+        "source": "pm0094_00.blend",
+        "fps": 24.0,
+        "bytes": 2562652
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "c631fdac52a9d91775983a63187b748a0c4e765038bc2f657ffc1a480ee1d557",
+      "sourceByteLength": 2562652,
+      "originalPath": "source-assets/pokemon-3d-original/gengar.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 2562652,
+        "outputBytes": 1322012,
+        "sourceSha256": "c631fdac52a9d91775983a63187b748a0c4e765038bc2f657ffc1a480ee1d557",
+        "outputSha256": "2bce51fe5552a3dc43c102d383916646a6b648a4d152c97611be44fe8a9389ce",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 71,
+        "outputNodeCount": 71,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 2.586750851019115e-07,
+        "checkedAnimationSamples": 12888,
+        "orphanAccessorsRemoved": 443,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 2.586750851019115e-07,
+          "checkedAnimationSamples": 12888
+        },
+        "maxSampledBoundsError": 6.995328771797205e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "glaceon": {
+      "name": "Glaceon",
+      "dexId": 471,
+      "localPath": "/assets/pokemon-3d/glaceon.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/471.glb",
+      "repository": "https://github.com/pokemon-party/3d-pokemon",
+      "revision": "429de1288cea0d43f5b4f56305d2276e94239d65",
+      "sha256": "7ff06d27e6241240dc771d05a5147718d9a60a8948858e2bf8438eeff6df07f9",
+      "byteLength": 342040,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": {
+        "author": "seth the yutyrannus (https://sketchfab.com/slang107123456789)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/pokedex-3d-pro-glaceon-5c54cd2360f247eb9b976ddec6a478ca",
+        "title": "Pokedex 3d Pro Glaceon"
+      },
+      "skinCount": 1,
+      "jointsPerSkin": [
+        69
+      ],
+      "uniqueSkinnedJointCount": 69,
+      "meshCount": 5,
+      "primitiveCount": 5,
+      "vertexCount": 2880,
+      "triangleCount": 4594,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 2180
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 1806
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 6710
+        }
+      ],
+      "materials": [
+        {
+          "name": "EyeA",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Mouth",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "BodyB",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": null,
+      "notes": [
+        "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+      ],
+      "sourceSha256": "88865df58f5259b6c313af8295f41b631757d2b6e80c7ff46c24549b8c7f952f",
+      "sourceByteLength": 183012,
+      "originalPath": "source-assets/pokemon-3d-original/glaceon.glb",
+      "sourceGenerator": "glTF-Transform v4.3.0",
+      "remainingClips": [
+        "Armature|ArmatureAction"
+      ],
+      "optimization": {
+        "sourceBytes": 183012,
+        "outputBytes": 342040,
+        "sourceSha256": "88865df58f5259b6c313af8295f41b631757d2b6e80c7ff46c24549b8c7f952f",
+        "outputSha256": "7ff06d27e6241240dc771d05a5147718d9a60a8948858e2bf8438eeff6df07f9",
+        "keptClips": [
+          "Armature|ArmatureAction"
+        ],
+        "removedClips": [],
+        "sourceNodeCount": 74,
+        "outputNodeCount": 74,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 0,
+        "checkedAnimationSamples": 10856,
+        "orphanAccessorsRemoved": 0,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 0,
+          "checkedAnimationSamples": 10856
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "gloom": {
+      "name": "Gloom",
+      "dexId": 44,
+      "localPath": "/assets/pokemon-3d/gloom.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/044/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "ae530222af19fcdd8432c4752a068127c6e1d16621baf79a83da8494e24b6fc6",
+      "byteLength": 1480352,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 3,
+      "jointsPerSkin": [
+        38,
+        1,
+        1
+      ],
+      "uniqueSkinnedJointCount": 38,
+      "meshCount": 3,
+      "primitiveCount": 3,
+      "vertexCount": 3292,
+      "triangleCount": 5372,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 449332
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 349776
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 278446
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_00_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/044/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0044_00_00_00000_defaultwait01_loop",
+            "duration": 1.5
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0044_00_00_00030_walk01_loop",
+            "duration": 1.3333333333333333
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0044_00_00_00100_run01_loop",
+            "duration": 0.6666666666666666
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0044_00_00_00400_attack01",
+            "duration": 1.8333333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0044_00_00_00550_glad01",
+            "duration": 1.6666666666666667
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0044_00_00_00281_sleep01_loop",
+            "duration": 1.6666666666666667
+          }
+        ],
+        "source": "pm0044.blend",
+        "fps": 60.0,
+        "bytes": 2808932
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "d250742d34875d38dda759b42bc68cb8711dd6c575574ecb4f80293831bc82bf",
+      "sourceByteLength": 2808932,
+      "originalPath": "source-assets/pokemon-3d-original/gloom.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 2808932,
+        "outputBytes": 1480352,
+        "sourceSha256": "d250742d34875d38dda759b42bc68cb8711dd6c575574ecb4f80293831bc82bf",
+        "outputSha256": "ae530222af19fcdd8432c4752a068127c6e1d16621baf79a83da8494e24b6fc6",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 62,
+        "outputNodeCount": 62,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 1.5560249971152684e-07,
+        "checkedAnimationSamples": 17232,
+        "orphanAccessorsRemoved": 364,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 1.5560249971152684e-07,
+          "checkedAnimationSamples": 17232
+        },
+        "maxSampledBoundsError": 8.195210798866981e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "greninja": {
+      "name": "Greninja",
+      "dexId": 658,
+      "localPath": "/assets/pokemon-3d/greninja.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/658.glb",
+      "repository": "https://github.com/pokemon-party/3d-pokemon",
+      "revision": "429de1288cea0d43f5b4f56305d2276e94239d65",
+      "sha256": "0ece25a7f9e92a5a1485639dd238ed69ac7eef4fa4a936421c8e8ecf35955100",
+      "byteLength": 551396,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": {
+        "author": "Mariokart07 (https://sketchfab.com/Mariokart07)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/greninja-official-812359f8004644459ba50f309a6265ef",
+        "title": "Greninja (Official)"
+      },
+      "skinCount": 1,
+      "jointsPerSkin": [
+        101
+      ],
+      "uniqueSkinnedJointCount": 101,
+      "meshCount": 10,
+      "primitiveCount": 10,
+      "vertexCount": 4042,
+      "triangleCount": 5952,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 53252
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 15234
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            128
+          ],
+          "bytes": 788
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            128
+          ],
+          "bytes": 210
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a_00",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        },
+        {
+          "name": "body_b_01",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        },
+        {
+          "name": "body_b_00",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        },
+        {
+          "name": "l_eye_a",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        },
+        {
+          "name": "r_eye_a",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        },
+        {
+          "name": "l_eye_b",
+          "alphaMode": "BLEND",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp",
+        "KHR_materials_unlit",
+        "KHR_texture_transform"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": null,
+      "notes": [
+        "Provider model is identified as Greninja (Official), with uploader attribution embedded in the GLB. Internal pm0725 model numbering is retained unchanged; it is not a National Dex identifier."
+      ],
+      "sourceSha256": "5367156594cf7d1fd0c970f5f78472e4b247c1d355a177707d993cd05f2ff294",
+      "sourceByteLength": 7047624,
+      "originalPath": "source-assets/pokemon-3d-original/greninja.glb",
+      "sourceGenerator": "glTF-Transform v4.3.0",
+      "remainingClips": [
+        "pm0725_11_00_00000_defaultwait01_loop",
+        "pm0725_11_00_00450_rangeattack01"
+      ],
+      "optimization": {
+        "sourceBytes": 7047624,
+        "outputBytes": 551396,
+        "sourceSha256": "5367156594cf7d1fd0c970f5f78472e4b247c1d355a177707d993cd05f2ff294",
+        "outputSha256": "0ece25a7f9e92a5a1485639dd238ed69ac7eef4fa4a936421c8e8ecf35955100",
+        "keptClips": [
+          "pm0725_11_00_00000_defaultwait01_loop",
+          "pm0725_11_00_00450_rangeattack01"
+        ],
+        "removedClips": [
+          "pm0725_11_00_00001_battlewait01_loop",
+          "pm0725_11_00_00010_defaultidle01",
+          "pm0725_11_00_00011_defaultidle02",
+          "pm0725_11_00_00021_turn_r090",
+          "pm0725_11_00_00024_turn_l090",
+          "pm0725_11_00_00030_walk01_loop",
+          "pm0725_11_00_00100_run01_loop",
+          "pm0725_11_00_00145_stepout01_start",
+          "pm0725_11_00_00146_stepout01",
+          "pm0725_11_00_00147_stepout01_end",
+          "pm0725_11_00_00150_jumpup01_start",
+          "pm0725_11_00_00151_jumpup01_loop",
+          "pm0725_11_00_00152_jumpdown01_start",
+          "pm0725_11_00_00153_jumpdown01_loop",
+          "pm0725_11_00_00155_land02",
+          "pm0725_11_00_00270_rest01_start",
+          "pm0725_11_00_00271_rest01_loop",
+          "pm0725_11_00_00272_rest01_end",
+          "pm0725_11_00_00280_sleep01_start",
+          "pm0725_11_00_00281_sleep01_loop",
+          "pm0725_11_00_00282_sleep01_end",
+          "pm0725_11_00_00290_eat01_start",
+          "pm0725_11_00_00291_eat01_loop",
+          "pm0725_11_00_00292_eat01_end",
+          "pm0725_11_00_00300_roar01",
+          "pm0725_11_00_00320_refresh01",
+          "pm0725_11_00_00400_attack01",
+          "pm0725_11_00_00410_attack02",
+          "pm0725_11_00_00460_rangeattack02_start",
+          "pm0725_11_00_00461_rangeattack02_loop",
+          "pm0725_11_00_00462_rangeattack02_end",
+          "pm0725_11_00_00500_damage01",
+          "pm0725_11_00_00501_damage02",
+          "pm0725_11_00_00510_stun01_start",
+          "pm0725_11_00_00511_stun01_loop",
+          "pm0725_11_00_00512_stun01_end",
+          "pm0725_11_00_00520_down01_start",
+          "pm0725_11_00_00521_down01_loop",
+          "pm0725_11_00_00522_down01_end",
+          "pm0725_11_00_00550_glad01",
+          "pm0725_11_00_00560_notice01",
+          "pm0725_11_00_00563_hate01",
+          "pm0725_11_00_08000_eye01",
+          "pm0725_11_00_08100_mouth01",
+          "pm0725_11_00_10000_defaultwait01_loop",
+          "pm0725_11_00_10010_defaultidle01",
+          "pm0725_11_00_10021_turn_r090",
+          "pm0725_11_00_10024_turn_l090",
+          "pm0725_11_00_10030_walk01_loop",
+          "pm0725_11_00_10100_run01_loop",
+          "pm0725_11_00_10145_stepout01_start",
+          "pm0725_11_00_10146_stepout01",
+          "pm0725_11_00_10147_stepout01_end",
+          "pm0725_11_00_10150_jumpup01_start",
+          "pm0725_11_00_10151_jumpup01_loop",
+          "pm0725_11_00_10152_jumpdown01_start",
+          "pm0725_11_00_10153_jumpdown01_loop",
+          "pm0725_11_00_10155_land02",
+          "pm0725_11_00_10300_roar01",
+          "pm0725_11_00_10400_attack01",
+          "pm0725_11_00_10460_rangeattack02_start",
+          "pm0725_11_00_10461_rangeattack02_loop",
+          "pm0725_11_00_10462_rangeattack02_end",
+          "pm0725_11_00_10500_damage01",
+          "pm0725_11_00_10501_damage02",
+          "pm0725_11_00_10510_stun01_start",
+          "pm0725_11_00_10511_stun01_loop",
+          "pm0725_11_00_10512_stun01_end",
+          "pm0725_11_00_10520_down01_start",
+          "pm0725_11_00_10521_down01_loop",
+          "pm0725_11_00_10522_down01_end",
+          "pm0725_11_00_10560_notice01"
+        ],
+        "sourceNodeCount": 111,
+        "outputNodeCount": 111,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 0,
+        "checkedAnimationSamples": 15804,
+        "orphanAccessorsRemoved": 16308,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 0,
+          "checkedAnimationSamples": 15804
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "gyarados": {
+      "name": "Gyarados",
+      "dexId": 130,
+      "localPath": "/assets/pokemon-3d/gyarados.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/130/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "a18c93fb70ada8e2e4c6c28adbef8b618d406c074ee2d40f367cc8dd4e02a728",
+      "byteLength": 3003988,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 3,
+      "jointsPerSkin": [
+        36,
+        1,
+        13
+      ],
+      "uniqueSkinnedJointCount": 48,
+      "meshCount": 3,
+      "primitiveCount": 5,
+      "vertexCount": 4194,
+      "triangleCount": 6068,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 442364
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 419938
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 225628
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 603728
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 501114
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 239746
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 5160
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 1178
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/130/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0130_00_00_10000_defaultwait01_loop",
+            "duration": 3.0
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0130_00_00_10030_walk01_loop",
+            "duration": 2.0
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0130_00_00_10100_run01_loop",
+            "duration": 1.5
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0130_00_00_10400_attack01",
+            "duration": 2.1666666666666665
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0130_00_00_10550_glad01",
+            "duration": 1.6666666666666667
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0130_00_00_10281_sleep01_loop",
+            "duration": 2.0
+          }
+        ],
+        "source": "pm0130.blend",
+        "fps": 60.0,
+        "bytes": 5668360
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "058efa0b961869bfff9b3c87c4655ae9b384af543ef7d073245fc52c950882a7",
+      "sourceByteLength": 5668360,
+      "originalPath": "source-assets/pokemon-3d-original/gyarados.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 5668360,
+        "outputBytes": 3003988,
+        "sourceSha256": "058efa0b961869bfff9b3c87c4655ae9b384af543ef7d073245fc52c950882a7",
+        "outputSha256": "a18c93fb70ada8e2e4c6c28adbef8b618d406c074ee2d40f367cc8dd4e02a728",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 73,
+        "outputNodeCount": 73,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.793891731462441e-07,
+        "checkedAnimationSamples": 28876,
+        "orphanAccessorsRemoved": 435,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.793891731462441e-07,
+          "checkedAnimationSamples": 28876
+        },
+        "maxSampledBoundsError": 2.2164797150447946e-09,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "leafeon": {
+      "name": "Leafeon",
+      "dexId": 470,
+      "localPath": "/assets/pokemon-3d/leafeon.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/470.glb",
+      "repository": "https://github.com/pokemon-party/3d-pokemon",
+      "revision": "429de1288cea0d43f5b4f56305d2276e94239d65",
+      "sha256": "539f3e140219b3f1877e74e33e42cde476d2c3c4f006f91a67d1fec10f4cef36",
+      "byteLength": 453488,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": {
+        "author": "seth the yutyrannus (https://sketchfab.com/slang107123456789)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/pokedex-3d-pro-leafeon-49bb156c9e33401a9a73b63e48bd935f",
+        "title": "Pokedex 3d Pro Leafeon"
+      },
+      "skinCount": 1,
+      "jointsPerSkin": [
+        96
+      ],
+      "uniqueSkinnedJointCount": 96,
+      "meshCount": 6,
+      "primitiveCount": 6,
+      "vertexCount": 3743,
+      "triangleCount": 5974,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 1880
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 1278
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 6570
+        }
+      ],
+      "materials": [
+        {
+          "name": "material",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Mouth",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Body",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": null,
+      "notes": [
+        "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+      ],
+      "sourceSha256": "7b34829c0bd9b953a36bac6fca974f213efd09ec96e848b03517a81b14a86660",
+      "sourceByteLength": 247756,
+      "originalPath": "source-assets/pokemon-3d-original/leafeon.glb",
+      "sourceGenerator": "glTF-Transform v4.3.0",
+      "remainingClips": [
+        "Armature|ArmatureAction"
+      ],
+      "optimization": {
+        "sourceBytes": 247756,
+        "outputBytes": 453488,
+        "sourceSha256": "7b34829c0bd9b953a36bac6fca974f213efd09ec96e848b03517a81b14a86660",
+        "outputSha256": "539f3e140219b3f1877e74e33e42cde476d2c3c4f006f91a67d1fec10f4cef36",
+        "keptClips": [
+          "Armature|ArmatureAction"
+        ],
+        "removedClips": [],
+        "sourceNodeCount": 102,
+        "outputNodeCount": 102,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 0,
+        "checkedAnimationSamples": 13654,
+        "orphanAccessorsRemoved": 0,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 0,
+          "checkedAnimationSamples": 13654
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "lugia": {
+      "name": "Lugia",
+      "dexId": 249,
+      "localPath": "/assets/pokemon-3d/lugia.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/249.glb",
+      "repository": "https://github.com/pokemon-party/3d-pokemon",
+      "revision": "429de1288cea0d43f5b4f56305d2276e94239d65",
+      "sha256": "b0c6d51f7f022e2eea96719cb725e71454aa3a1bc780883febe4e58780350b2d",
+      "byteLength": 839628,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": {
+        "author": "Mariokart07 (https://sketchfab.com/Mariokart07)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/lugia-official-95fcd59551404286925dd9d05fd3b9d5",
+        "title": "Lugia (Official)"
+      },
+      "skinCount": 1,
+      "jointsPerSkin": [
+        121
+      ],
+      "uniqueSkinnedJointCount": 121,
+      "meshCount": 7,
+      "primitiveCount": 7,
+      "vertexCount": 5029,
+      "triangleCount": 8078,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 6332
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 5310
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 712
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 4028
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        },
+        {
+          "name": "body_b",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        },
+        {
+          "name": "l_eye",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        },
+        {
+          "name": "r_eye",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        },
+        {
+          "name": "body_c",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {
+            "KHR_materials_unlit": {}
+          }
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp",
+        "KHR_materials_unlit",
+        "KHR_texture_transform"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": null,
+      "notes": [
+        "Matching 20000-series idle/roar/ranged-attack pose family selected. Other grounded/movement pose families remain in the GLB."
+      ],
+      "sourceSha256": "5bedc776bf589cb50d2cb6c4c8d548194a6414f0058113e0556ae86fecdf90c8",
+      "sourceByteLength": 15049208,
+      "originalPath": "source-assets/pokemon-3d-original/lugia.glb",
+      "sourceGenerator": "glTF-Transform v4.3.0",
+      "remainingClips": [
+        "pm0249_00_00_20000_defaultwait01_loop",
+        "pm0249_00_00_20450_rangeattack01"
+      ],
+      "optimization": {
+        "sourceBytes": 15049208,
+        "outputBytes": 839628,
+        "sourceSha256": "5bedc776bf589cb50d2cb6c4c8d548194a6414f0058113e0556ae86fecdf90c8",
+        "outputSha256": "b0c6d51f7f022e2eea96719cb725e71454aa3a1bc780883febe4e58780350b2d",
+        "keptClips": [
+          "pm0249_00_00_20000_defaultwait01_loop",
+          "pm0249_00_00_20450_rangeattack01"
+        ],
+        "removedClips": [
+          "pm0249_00_00_00000_defaultwait01_loop",
+          "pm0249_00_00_00010_defaultidle01",
+          "pm0249_00_00_00021_turn_r090",
+          "pm0249_00_00_00024_turn_l090",
+          "pm0249_00_00_00030_walk01_loop",
+          "pm0249_00_00_00100_run01_loop",
+          "pm0249_00_00_00150_jumpup01_start",
+          "pm0249_00_00_00151_jumpup01_loop",
+          "pm0249_00_00_00152_jumpdown01_start",
+          "pm0249_00_00_00153_jumpdown01_loop",
+          "pm0249_00_00_00155_land02",
+          "pm0249_00_00_00280_sleep01_start",
+          "pm0249_00_00_00281_sleep01_loop",
+          "pm0249_00_00_00282_sleep01_end",
+          "pm0249_00_00_00290_eat01_start",
+          "pm0249_00_00_00291_eat01_loop",
+          "pm0249_00_00_00292_eat01_end",
+          "pm0249_00_00_00300_roar01",
+          "pm0249_00_00_00320_refresh01",
+          "pm0249_00_00_00550_glad01",
+          "pm0249_00_00_00560_notice01",
+          "pm0249_00_00_00563_hate01",
+          "pm0249_00_00_10000_defaultwait01_loop",
+          "pm0249_00_00_10010_defaultidle01",
+          "pm0249_00_00_10021_turn_r090",
+          "pm0249_00_00_10024_turn_l090",
+          "pm0249_00_00_10030_walk01_loop",
+          "pm0249_00_00_10100_run01_loop",
+          "pm0249_00_00_10145_stepout01_start",
+          "pm0249_00_00_10146_stepout01",
+          "pm0249_00_00_10147_stepout01_end",
+          "pm0249_00_00_10150_jumpup01_start",
+          "pm0249_00_00_10151_jumpup01_loop",
+          "pm0249_00_00_10152_jumpdown01_start",
+          "pm0249_00_00_10153_jumpdown01_loop",
+          "pm0249_00_00_10155_land02",
+          "pm0249_00_00_10300_roar01",
+          "pm0249_00_00_10400_attack01",
+          "pm0249_00_00_10460_rangeattack02_start",
+          "pm0249_00_00_10461_rangeattack02_loop",
+          "pm0249_00_00_10462_rangeattack02_end",
+          "pm0249_00_00_10500_damage01",
+          "pm0249_00_00_10501_damage02",
+          "pm0249_00_00_10510_stun01_start",
+          "pm0249_00_00_10511_stun01_loop",
+          "pm0249_00_00_10512_stun01_end",
+          "pm0249_00_00_10520_down01_start",
+          "pm0249_00_00_10521_down01_loop",
+          "pm0249_00_00_10522_down01_end",
+          "pm0249_00_00_10560_notice01",
+          "pm0249_00_00_20001_battlewait01_loop",
+          "pm0249_00_00_20010_defaultidle01",
+          "pm0249_00_00_20011_defaultidle02",
+          "pm0249_00_00_20021_turn_r090",
+          "pm0249_00_00_20024_turn_l090",
+          "pm0249_00_00_20030_walk01_loop",
+          "pm0249_00_00_20100_run01_loop",
+          "pm0249_00_00_20145_stepout01_start",
+          "pm0249_00_00_20146_stepout01",
+          "pm0249_00_00_20147_stepout01_end",
+          "pm0249_00_00_20150_jumpup01_start",
+          "pm0249_00_00_20151_jumpup01_loop",
+          "pm0249_00_00_20152_jumpdown01_start",
+          "pm0249_00_00_20153_jumpdown01_loop",
+          "pm0249_00_00_20155_land02",
+          "pm0249_00_00_20300_roar01",
+          "pm0249_00_00_20400_attack01",
+          "pm0249_00_00_20410_attack02",
+          "pm0249_00_00_20460_rangeattack02_start",
+          "pm0249_00_00_20461_rangeattack02_loop",
+          "pm0249_00_00_20462_rangeattack02_end",
+          "pm0249_00_00_20500_damage01",
+          "pm0249_00_00_20501_damage02",
+          "pm0249_00_00_20510_stun01_start",
+          "pm0249_00_00_20511_stun01_loop",
+          "pm0249_00_00_20512_stun01_end",
+          "pm0249_00_00_20520_down01_start",
+          "pm0249_00_00_20521_down01_loop",
+          "pm0249_00_00_20522_down01_end",
+          "pm0249_00_00_20560_notice01",
+          "pm0249_00_00_28000_eye01",
+          "pm0249_00_00_28100_mouth01"
+        ],
+        "sourceNodeCount": 128,
+        "outputNodeCount": 128,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 0,
+        "checkedAnimationSamples": 40030,
+        "orphanAccessorsRemoved": 28228,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 0,
+          "checkedAnimationSamples": 40030
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "mew": {
+      "name": "Mew",
+      "dexId": 151,
+      "localPath": "/assets/pokemon-3d/mew.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/151/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "1a62d21116a57ab2f8e4be8e762b1b7c6b6047e6fba833ed9d12d3a39a57ae18",
+      "byteLength": 1167268,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 2,
+      "jointsPerSkin": [
+        39,
+        1
+      ],
+      "uniqueSkinnedJointCount": 39,
+      "meshCount": 2,
+      "primitiveCount": 4,
+      "vertexCount": 2535,
+      "triangleCount": 3998,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 319554
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 129997
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 742
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 180666
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 189334
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 8934
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 10410
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 5148
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "r_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/151/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0151_00_00_20000_defaultwait01_loop.gfbanm",
+            "duration": 4.208333333333333
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0151_00_00_20030_walk01_loop.gfbanm",
+            "duration": 2.5416666666666665
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0151_00_00_20100_run01_loop.gfbanm",
+            "duration": 1.2916666666666667
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0151_00_00_20400_attack01.gfbanm",
+            "duration": 3.7916666666666665
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0151_00_00_20550_glad01.gfbanm",
+            "duration": 4.208333333333333
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0151_00_00_20281_sleep01_loop.gfbanm",
+            "duration": 7.541666666666667
+          }
+        ],
+        "source": "pm0151_00.blend",
+        "fps": 24.0,
+        "bytes": 2336332
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "f72afcd89f989c9e9879f43ee05d9e14bca59f95ea32bbea731824420edef880",
+      "sourceByteLength": 2336332,
+      "originalPath": "source-assets/pokemon-3d-original/mew.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 2336332,
+        "outputBytes": 1167268,
+        "sourceSha256": "f72afcd89f989c9e9879f43ee05d9e14bca59f95ea32bbea731824420edef880",
+        "outputSha256": "1a62d21116a57ab2f8e4be8e762b1b7c6b6047e6fba833ed9d12d3a39a57ae18",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 57,
+        "outputNodeCount": 57,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.091340477935246e-07,
+        "checkedAnimationSamples": 12816,
+        "orphanAccessorsRemoved": 374,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.091340477935246e-07,
+          "checkedAnimationSamples": 12816
+        },
+        "maxSampledBoundsError": 4.05521789481611e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "mewtwo": {
+      "name": "Mewtwo",
+      "dexId": 150,
+      "localPath": "/assets/pokemon-3d/mewtwo.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/150/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "5eaebda94a95fa7099adc66737e1ee0720c9040c691f5c5757236c4188423039",
+      "byteLength": 2075524,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 2,
+      "jointsPerSkin": [
+        72,
+        1
+      ],
+      "uniqueSkinnedJointCount": 72,
+      "meshCount": 2,
+      "primitiveCount": 4,
+      "vertexCount": 6061,
+      "triangleCount": 9986,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 199720
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 138499
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 191142
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 326816
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 150777
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 238098
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 6950
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 2520
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/150/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0150_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 7.541666666666667
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0150_00_00_00030_walk01_loop.gfbanm",
+            "duration": 4.041666666666667
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0150_00_00_00100_run01_loop.gfbanm",
+            "duration": 1.7083333333333333
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0150_00_00_00400_attack01.gfbanm",
+            "duration": 5.458333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0150_00_00_00550_glad01.gfbanm",
+            "duration": 4.208333333333333
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0150_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 5.875
+          }
+        ],
+        "source": "pm0150_00.blend",
+        "fps": 24.0,
+        "bytes": 3707764
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "f29ed4c0081a5e600543e3ae35476af596418ca3dbcb6bdf9bbfa73f842542b2",
+      "sourceByteLength": 3707764,
+      "originalPath": "source-assets/pokemon-3d-original/mewtwo.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 3707764,
+        "outputBytes": 2075524,
+        "sourceSha256": "f29ed4c0081a5e600543e3ae35476af596418ca3dbcb6bdf9bbfa73f842542b2",
+        "outputSha256": "5eaebda94a95fa7099adc66737e1ee0720c9040c691f5c5757236c4188423039",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 90,
+        "outputNodeCount": 90,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.062109488778276e-07,
+        "checkedAnimationSamples": 44948,
+        "orphanAccessorsRemoved": 680,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.062109488778276e-07,
+          "checkedAnimationSamples": 44948
+        },
+        "maxSampledBoundsError": 1.9759719727119318e-07,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "moltres": {
+      "name": "Moltres",
+      "dexId": 146,
+      "localPath": "/assets/pokemon-3d/moltres.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/146/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "318c6ee4e2c78c26deeb004a7de14443973bfa3c61fefe7dc7d5edb893d9de77",
+      "byteLength": 4033948,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 5,
+      "jointsPerSkin": [
+        68,
+        1,
+        8,
+        14,
+        24
+      ],
+      "uniqueSkinnedJointCount": 88,
+      "meshCount": 5,
+      "primitiveCount": 7,
+      "vertexCount": 6377,
+      "triangleCount": 9548,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 634990
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 287733
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 557496
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 565918
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 598772
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 379626
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 7624
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 4754
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 5626
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 11448
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 12846
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_a_00_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "r_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "fire_a_00_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "fire_a_01_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "fire_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/146/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0146_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 6.041666666666667
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0146_00_00_00030_walk01_loop.gfbanm",
+            "duration": 3.375
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0146_00_00_00100_run01_loop.gfbanm",
+            "duration": 1.7083333333333333
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0146_00_00_20400_attack01.gfbanm",
+            "duration": 5.458333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0146_00_00_00550_glad01.gfbanm",
+            "duration": 5.041666666666667
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0146_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 8.375
+          }
+        ],
+        "source": "pm0146_00.blend",
+        "fps": 24.0,
+        "bytes": 7254332
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "254eb09ca385ed39da877621af302efbaa7a91a5f233a604aca3836e0b6ba4b4",
+      "sourceByteLength": 7254332,
+      "originalPath": "source-assets/pokemon-3d-original/moltres.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 7254332,
+        "outputBytes": 4033948,
+        "sourceSha256": "254eb09ca385ed39da877621af302efbaa7a91a5f233a604aca3836e0b6ba4b4",
+        "outputSha256": "318c6ee4e2c78c26deeb004a7de14443973bfa3c61fefe7dc7d5edb893d9de77",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 116,
+        "outputNodeCount": 116,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.5157159947462056e-07,
+        "checkedAnimationSamples": 49916,
+        "orphanAccessorsRemoved": 784,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.5157159947462056e-07,
+          "checkedAnimationSamples": 49916
+        },
+        "maxSampledBoundsError": 5.7561338806522144e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "ninetales": {
+      "name": "Ninetales",
+      "dexId": 38,
+      "localPath": "/assets/pokemon-3d/ninetales.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/038/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "33bbd061669aec6bb7b9544e2c2b0e3d16665100f9c98bbe65e98b8cf4ea80fe",
+      "byteLength": 3567376,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 9,
+      "jointsPerSkin": [
+        28,
+        7,
+        1,
+        15,
+        24,
+        10,
+        12,
+        14,
+        14
+      ],
+      "uniqueSkinnedJointCount": 121,
+      "meshCount": 9,
+      "primitiveCount": 11,
+      "vertexCount": 3905,
+      "triangleCount": 5986,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 456600
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 502976
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 519742
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 233082
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 469585
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 421852
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 13388
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 424
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "eye_l_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/038/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0038_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 5.041666666666667
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0038_00_00_00030_walk01_loop.gfbanm",
+            "duration": 2.5416666666666665
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0038_00_00_00100_run01_loop.gfbanm",
+            "duration": 1.2916666666666667
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0038_00_00_00400_attack01.gfbanm",
+            "duration": 5.458333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0038_00_00_00550_glad01.gfbanm",
+            "duration": 4.208333333333333
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0038_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 10.041666666666666
+          }
+        ],
+        "source": "pm0038_00.blend",
+        "fps": 24.0,
+        "bytes": 6202404
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "f90e246daadf45168884fad084f97d1d59dbe75fd24bf42b43a1a3307c1e5026",
+      "sourceByteLength": 6202404,
+      "originalPath": "source-assets/pokemon-3d-original/ninetales.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 6202404,
+        "outputBytes": 3567376,
+        "sourceSha256": "f90e246daadf45168884fad084f97d1d59dbe75fd24bf42b43a1a3307c1e5026",
+        "outputSha256": "33bbd061669aec6bb7b9544e2c2b0e3d16665100f9c98bbe65e98b8cf4ea80fe",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 170,
+        "outputNodeCount": 170,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 3.949470316899628e-07,
+        "checkedAnimationSamples": 63160,
+        "orphanAccessorsRemoved": 1224,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 3.949470316899628e-07,
+          "checkedAnimationSamples": 63160
+        },
+        "maxSampledBoundsError": 2.379988206513417e-09,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "oddish": {
+      "name": "Oddish",
+      "dexId": 43,
+      "localPath": "/assets/pokemon-3d/oddish.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/043/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "5ab8938e4af28a77f82f88ab6cea3a21ccfd2adfa05634b0be87df910e407465",
+      "byteLength": 1136536,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 3,
+      "jointsPerSkin": [
+        17,
+        17,
+        1
+      ],
+      "uniqueSkinnedJointCount": 33,
+      "meshCount": 3,
+      "primitiveCount": 4,
+      "vertexCount": 2447,
+      "triangleCount": 3994,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 363308
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 246312
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 177604
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 15146
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 9824
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/043/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0043_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 4.625
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0043_00_00_00030_walk01_loop.gfbanm",
+            "duration": 2.0416666666666665
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0043_00_00_00100_run01_loop.gfbanm",
+            "duration": 1.5416666666666667
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0043_00_00_00400_attack01.gfbanm",
+            "duration": 4.625
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0043_00_00_00550_glad01.gfbanm",
+            "duration": 3.7916666666666665
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0043_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 7.541666666666667
+          }
+        ],
+        "source": "pm0043_00.blend",
+        "fps": 24.0,
+        "bytes": 2138116
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "7a178057d91c194c2cf672420d923e8c04537df865833fcedc37af87f9cb6555",
+      "sourceByteLength": 2138116,
+      "originalPath": "source-assets/pokemon-3d-original/oddish.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 2138116,
+        "outputBytes": 1136536,
+        "sourceSha256": "7a178057d91c194c2cf672420d923e8c04537df865833fcedc37af87f9cb6555",
+        "outputSha256": "5ab8938e4af28a77f82f88ab6cea3a21ccfd2adfa05634b0be87df910e407465",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 54,
+        "outputNodeCount": 54,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 3.263088889371435e-07,
+        "checkedAnimationSamples": 14620,
+        "orphanAccessorsRemoved": 319,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 3.263088889371435e-07,
+          "checkedAnimationSamples": 14620
+        },
+        "maxSampledBoundsError": 2.4567411105458348e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "pidgeot": {
+      "name": "Pidgeot",
+      "dexId": 18,
+      "localPath": "/assets/pokemon-3d/pidgeot.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/018/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "19b69ef139d10ff7b6084d91eb55e6edacfe4ff7f8c2c56885a8c46e1ab25805",
+      "byteLength": 773204,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 3,
+      "jointsPerSkin": [
+        66,
+        2,
+        2
+      ],
+      "uniqueSkinnedJointCount": 70,
+      "meshCount": 3,
+      "primitiveCount": 6,
+      "vertexCount": 5060,
+      "triangleCount": 6072,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 18010
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 17432
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 90133
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 61120
+        }
+      ],
+      "materials": [
+        {
+          "name": "EyeL_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "EyeR_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "BodyB_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "BodyA_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/018/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0018_00_kw01_wait01.gfbanm",
+            "duration": 1.24
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0018_00_fi20_walk01.gfbanm",
+            "duration": 2.28
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0018_00_fi21_run01.gfbanm",
+            "duration": 1.64
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0018_00_ba20_buturi01.gfbanm",
+            "duration": 2.52
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0018_00_kw32_happyB01.gfbanm",
+            "duration": 2.32
+          }
+        ],
+        "source": "pm0018_00.blend",
+        "fps": 25.0,
+        "bytes": 1268292
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "d14e888f807920d063a80cbe9c24f4da7c894e45c608c5fb11e22d78bb1f4130",
+      "sourceByteLength": 1268292,
+      "originalPath": "source-assets/pokemon-3d-original/pidgeot.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 1268292,
+        "outputBytes": 773204,
+        "sourceSha256": "d14e888f807920d063a80cbe9c24f4da7c894e45c608c5fb11e22d78bb1f4130",
+        "outputSha256": "19b69ef139d10ff7b6084d91eb55e6edacfe4ff7f8c2c56885a8c46e1ab25805",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "walk"
+        ],
+        "sourceNodeCount": 92,
+        "outputNodeCount": 92,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.499360050091994e-07,
+        "checkedAnimationSamples": 14944,
+        "orphanAccessorsRemoved": 544,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.499360050091994e-07,
+          "checkedAnimationSamples": 14944
+        },
+        "maxSampledBoundsError": 3.2567738172950556e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "pidgey": {
+      "name": "Pidgey",
+      "dexId": 16,
+      "localPath": "/assets/pokemon-3d/pidgey.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/016/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "00fb193e6d91a3d9b272561aeb179592830c5e0f0dd090bcdcca8085a1d0b770",
+      "byteLength": 493540,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 1,
+      "jointsPerSkin": [
+        36
+      ],
+      "uniqueSkinnedJointCount": 36,
+      "meshCount": 1,
+      "primitiveCount": 2,
+      "vertexCount": 3967,
+      "triangleCount": 4744,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 25982
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 59989
+        }
+      ],
+      "materials": [
+        {
+          "name": "Eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Body_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/016/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0016_00_kw01_wait01.gfbanm",
+            "duration": 1.48
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0016_00_fi20_walk01.gfbanm",
+            "duration": 1.32
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0016_00_fi21_run01.gfbanm",
+            "duration": 1.0
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0016_00_ba20_buturi01.gfbanm",
+            "duration": 2.04
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0016_00_kw32_happyB01.gfbanm",
+            "duration": 2.64
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0016_00_kw20_drowseB01.gfbanm",
+            "duration": 2.44
+          }
+        ],
+        "source": "pm0016_00.blend",
+        "fps": 25.0,
+        "bytes": 788816
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "5f7dafc0306e331b571fd3b28f58a83f6823d253348901aa3c03e6073bbecec5",
+      "sourceByteLength": 788816,
+      "originalPath": "source-assets/pokemon-3d-original/pidgey.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 788816,
+        "outputBytes": 493540,
+        "sourceSha256": "5f7dafc0306e331b571fd3b28f58a83f6823d253348901aa3c03e6073bbecec5",
+        "outputSha256": "00fb193e6d91a3d9b272561aeb179592830c5e0f0dd090bcdcca8085a1d0b770",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 60,
+        "outputNodeCount": 60,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 1.252697250930801e-07,
+        "checkedAnimationSamples": 7984,
+        "orphanAccessorsRemoved": 480,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 1.252697250930801e-07,
+          "checkedAnimationSamples": 7984
+        },
+        "maxSampledBoundsError": 2.6670602358558337e-10,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "pikachu": {
+      "name": "Pikachu",
+      "dexId": 25,
+      "localPath": "/assets/pokemon-3d/pikachu.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/025/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "634e7e7d9971dd5b179661d313b3935e1a159c16e46b817360b7e8edcfc91fb8",
+      "byteLength": 4437612,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 4,
+      "jointsPerSkin": [
+        48,
+        4,
+        2,
+        1
+      ],
+      "uniqueSkinnedJointCount": 54,
+      "meshCount": 5,
+      "primitiveCount": 7,
+      "vertexCount": 2482,
+      "triangleCount": 3950,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 371586
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 499739
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 619260
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 438060
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 482440
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 501522
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 505444
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 264996
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 275686
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 59338
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 7330
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_c_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/025/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0025_00_00_00000_defaultwait01_loop",
+            "duration": 1.1333333333333333
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0025_00_00_00030_walk01_loop",
+            "duration": 1.0
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0025_00_00_00100_run01_loop",
+            "duration": 0.4
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0025_00_00_00400_attack01",
+            "duration": 1.8333333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0025_00_00_00550_glad01",
+            "duration": 1.6666666666666667
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0025_00_00_00281_sleep01_loop",
+            "duration": 4.0
+          }
+        ],
+        "source": "pm0025.blend",
+        "fps": 60.0,
+        "bytes": 7344736
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "5c9e14325cd7f2d4fcf8b9a6ba3a3bcd0c5947c2fd5b102de24643014a9c758c",
+      "sourceByteLength": 7344736,
+      "originalPath": "source-assets/pokemon-3d-original/pikachu.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 7344736,
+        "outputBytes": 4437612,
+        "sourceSha256": "5c9e14325cd7f2d4fcf8b9a6ba3a3bcd0c5947c2fd5b102de24643014a9c758c",
+        "outputSha256": "634e7e7d9971dd5b179661d313b3935e1a159c16e46b817360b7e8edcfc91fb8",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 87,
+        "outputNodeCount": 87,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 1.4941829712400434e-07,
+        "checkedAnimationSamples": 25834,
+        "orphanAccessorsRemoved": 588,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 1.4941829712400434e-07,
+          "checkedAnimationSamples": 25834
+        },
+        "maxSampledBoundsError": 2.2820009631940863e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "pinsir": {
+      "name": "Pinsir",
+      "dexId": 127,
+      "localPath": "/assets/pokemon-3d/pinsir.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/127/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "6ee030163ca79c135349ff5e8ae58d177a5872b9904bcb7ffb9f292b01105bc6",
+      "byteLength": 588428,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 1,
+      "jointsPerSkin": [
+        45
+      ],
+      "uniqueSkinnedJointCount": 45,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "vertexCount": 3883,
+      "triangleCount": 4864,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 30132
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 64177
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 64182
+        }
+      ],
+      "materials": [
+        {
+          "name": "Eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Body01_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Body00_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/127/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0127_00_kw01_wait01.gfbanm",
+            "duration": 1.64
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0127_00_fi20_walk01.gfbanm",
+            "duration": 2.44
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0127_00_fi21_run01.gfbanm",
+            "duration": 1.24
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0127_00_ba20_buturi01.gfbanm",
+            "duration": 2.44
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0127_00_kw32_happyB01.gfbanm",
+            "duration": 2.12
+          }
+        ],
+        "source": "pm0127_00.blend",
+        "fps": 25.0,
+        "bytes": 895864
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "8e7368488cb31aaf8acb89d39b05d622ec39ae2fcd6926fd5cd6a8190ec5dbeb",
+      "sourceByteLength": 895864,
+      "originalPath": "source-assets/pokemon-3d-original/pinsir.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 895864,
+        "outputBytes": 588428,
+        "sourceSha256": "8e7368488cb31aaf8acb89d39b05d622ec39ae2fcd6926fd5cd6a8190ec5dbeb",
+        "outputSha256": "6ee030163ca79c135349ff5e8ae58d177a5872b9904bcb7ffb9f292b01105bc6",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "walk"
+        ],
+        "sourceNodeCount": 67,
+        "outputNodeCount": 67,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 1.967597279550759e-07,
+        "checkedAnimationSamples": 10880,
+        "orphanAccessorsRemoved": 410,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 1.967597279550759e-07,
+          "checkedAnimationSamples": 10880
+        },
+        "maxSampledBoundsError": 8.054496264398026e-09,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "raichu": {
+      "name": "Raichu",
+      "dexId": 26,
+      "localPath": "/assets/pokemon-3d/raichu.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/026/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "4e10e7cc437619f315ea78194064652935d468ebef04548c9edc28a64f2ec7c0",
+      "byteLength": 3293948,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 3,
+      "jointsPerSkin": [
+        32,
+        1,
+        10
+      ],
+      "uniqueSkinnedJointCount": 40,
+      "meshCount": 3,
+      "primitiveCount": 6,
+      "vertexCount": 3703,
+      "triangleCount": 6000,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 391772
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 692818
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 529130
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 24954
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 17413
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 33822
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 21612
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 4720
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 384790
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 373949
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 418236
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a_00_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_c_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/026/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0026_00_00_00000_defaultwait01_loop",
+            "duration": 1.0
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0026_00_00_00030_walk01_loop",
+            "duration": 1.0
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0026_00_00_00100_run01_loop",
+            "duration": 0.4666666666666667
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0026_00_00_00400_attack01",
+            "duration": 1.5
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0026_00_00_00550_glad01",
+            "duration": 1.9333333333333333
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0026_00_00_00281_sleep01_loop",
+            "duration": 1.3333333333333333
+          }
+        ],
+        "source": "pm0026.blend",
+        "fps": 60.0,
+        "bytes": 5769908
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "7c45392537e65810f9f61378787748e9a26e54724fffc7f8c48d80f15523ca20",
+      "sourceByteLength": 5769908,
+      "originalPath": "source-assets/pokemon-3d-original/raichu.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 5769908,
+        "outputBytes": 3293948,
+        "sourceSha256": "7c45392537e65810f9f61378787748e9a26e54724fffc7f8c48d80f15523ca20",
+        "outputSha256": "4e10e7cc437619f315ea78194064652935d468ebef04548c9edc28a64f2ec7c0",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 65,
+        "outputNodeCount": 65,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 6.508221350731702e-08,
+        "checkedAnimationSamples": 12002,
+        "orphanAccessorsRemoved": 376,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 6.508221350731702e-08,
+          "checkedAnimationSamples": 12002
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "scizor": {
+      "name": "Scizor",
+      "dexId": 212,
+      "localPath": "/assets/pokemon-3d/scizor.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/212.glb",
+      "repository": "https://github.com/pokemon-party/3d-pokemon",
+      "revision": "429de1288cea0d43f5b4f56305d2276e94239d65",
+      "sha256": "2922e8e63faa1295098cc5b06eb000e520d332a72118f6704158a9bf14800b6e",
+      "byteLength": 372428,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": {
+        "author": "ijackprovostjr (https://sketchfab.com/ijackprovostjr)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/pokemon-3ds-scizor-cc15c8ab51914206b912ad11e5439274",
+        "title": "Pokemon 3DS Scizor"
+      },
+      "skinCount": 1,
+      "jointsPerSkin": [
+        48
+      ],
+      "uniqueSkinnedJointCount": 48,
+      "meshCount": 5,
+      "primitiveCount": 5,
+      "vertexCount": 4080,
+      "triangleCount": 5494,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 3130
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 1104
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 7592
+        }
+      ],
+      "materials": [
+        {
+          "name": "Eye.002",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Mouth.002",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Wing",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": null,
+      "notes": [
+        "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+      ],
+      "sourceSha256": "8521e1b185ce3e477c353584c13c1b6553a591bacd38209d01c3a33495f4e38c",
+      "sourceByteLength": 142388,
+      "originalPath": "source-assets/pokemon-3d-original/scizor.glb",
+      "sourceGenerator": "glTF-Transform v4.3.0",
+      "remainingClips": [
+        "ArmatureAction.002"
+      ],
+      "optimization": {
+        "sourceBytes": 142388,
+        "outputBytes": 372428,
+        "sourceSha256": "8521e1b185ce3e477c353584c13c1b6553a591bacd38209d01c3a33495f4e38c",
+        "outputSha256": "2922e8e63faa1295098cc5b06eb000e520d332a72118f6704158a9bf14800b6e",
+        "keptClips": [
+          "ArmatureAction.002"
+        ],
+        "removedClips": [],
+        "sourceNodeCount": 53,
+        "outputNodeCount": 53,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 0,
+        "checkedAnimationSamples": 6126,
+        "orphanAccessorsRemoved": 0,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 0,
+          "checkedAnimationSamples": 6126
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "starmie": {
+      "name": "Starmie",
+      "dexId": 121,
+      "localPath": "/assets/pokemon-3d/starmie.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/121/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "aad262e1fa0b9bf0f217a7dd9cf025995e3df90035aaa7f940ba5115afb494c1",
+      "byteLength": 454916,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 1,
+      "jointsPerSkin": [
+        22
+      ],
+      "uniqueSkinnedJointCount": 22,
+      "meshCount": 1,
+      "primitiveCount": 5,
+      "vertexCount": 2824,
+      "triangleCount": 3816,
+      "images": [
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 66524
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 94368
+        }
+      ],
+      "materials": [
+        {
+          "name": "BodyB02_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "BodyB03_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "BodyA02_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/121/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0121_00_kw01_wait01.gfbanm",
+            "duration": 2.32
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0121_00_fi20_walk01.gfbanm",
+            "duration": 2.44
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0121_00_fi21_run01.gfbanm",
+            "duration": 2.44
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0121_00_ba20_buturi01.gfbanm",
+            "duration": 2.12
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0121_00_kw32_happyB01.gfbanm",
+            "duration": 1.84
+          }
+        ],
+        "source": "pm0121_00.blend",
+        "fps": 25.0,
+        "bytes": 660408
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "b60ad9a10029afa1fc981357e107ad45548a3068846913394aa9bd1f922d3adf",
+      "sourceByteLength": 660408,
+      "originalPath": "source-assets/pokemon-3d-original/starmie.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 660408,
+        "outputBytes": 454916,
+        "sourceSha256": "b60ad9a10029afa1fc981357e107ad45548a3068846913394aa9bd1f922d3adf",
+        "outputSha256": "aad262e1fa0b9bf0f217a7dd9cf025995e3df90035aaa7f940ba5115afb494c1",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "walk"
+        ],
+        "sourceNodeCount": 45,
+        "outputNodeCount": 45,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 1.66881564234167e-07,
+        "checkedAnimationSamples": 6244,
+        "orphanAccessorsRemoved": 230,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 1.66881564234167e-07,
+          "checkedAnimationSamples": 6244
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "umbreon": {
+      "name": "Umbreon",
+      "dexId": 197,
+      "localPath": "/assets/pokemon-3d/umbreon.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/197.glb",
+      "repository": "https://github.com/pokemon-party/3d-pokemon",
+      "revision": "429de1288cea0d43f5b4f56305d2276e94239d65",
+      "sha256": "c5775e6b1c7dc77ba0f25a7afc449a02a678725e8a4f91866c4f4aba2abcdef9",
+      "byteLength": 431932,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": {
+        "author": "seth the yutyrannus (https://sketchfab.com/slang107123456789)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/pokedex-3d-pro-umbreon-8fda51cf8e664142ae6f037b68993fcb",
+        "title": "Pokedex 3d Pro Umbreon"
+      },
+      "skinCount": 1,
+      "jointsPerSkin": [
+        61
+      ],
+      "uniqueSkinnedJointCount": 61,
+      "meshCount": 8,
+      "primitiveCount": 8,
+      "vertexCount": 4820,
+      "triangleCount": 7070,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 2122
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            128,
+            256
+          ],
+          "bytes": 712
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 4808
+        }
+      ],
+      "materials": [
+        {
+          "name": "material",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Mouth",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        },
+        {
+          "name": "Body",
+          "alphaMode": "OPAQUE",
+          "doubleSided": true,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": null,
+      "notes": [
+        "Only one unlabeled authored animation is available. It is used as the display loop; no attack/roar role is invented. Loop seam and pose need rendered validation."
+      ],
+      "sourceSha256": "b109f07a1ea5a2ada4bab8312dd54efa6b324d837d2de7ff0f14f697bfd68dd8",
+      "sourceByteLength": 172224,
+      "originalPath": "source-assets/pokemon-3d-original/umbreon.glb",
+      "sourceGenerator": "glTF-Transform v4.3.0",
+      "remainingClips": [
+        "Armature|ArmatureAction"
+      ],
+      "optimization": {
+        "sourceBytes": 172224,
+        "outputBytes": 431932,
+        "sourceSha256": "b109f07a1ea5a2ada4bab8312dd54efa6b324d837d2de7ff0f14f697bfd68dd8",
+        "outputSha256": "c5775e6b1c7dc77ba0f25a7afc449a02a678725e8a4f91866c4f4aba2abcdef9",
+        "keptClips": [
+          "Armature|ArmatureAction"
+        ],
+        "removedClips": [],
+        "sourceNodeCount": 69,
+        "outputNodeCount": 69,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 0,
+        "checkedAnimationSamples": 7612,
+        "orphanAccessorsRemoved": 0,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 0,
+          "checkedAnimationSamples": 7612
+        },
+        "maxSampledBoundsError": 0.0,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "vaporeon": {
+      "name": "Vaporeon",
+      "dexId": 134,
+      "localPath": "/assets/pokemon-3d/vaporeon.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/134/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "61daa6adcacc55cbb72645b0a299d35a5dc0e7301063f944f2ef3f1a69783aa3",
+      "byteLength": 2769484,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 2,
+      "jointsPerSkin": [
+        53,
+        1
+      ],
+      "uniqueSkinnedJointCount": 53,
+      "meshCount": 2,
+      "primitiveCount": 4,
+      "vertexCount": 3848,
+      "triangleCount": 5998,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 421096
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 358266
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 308030
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 568346
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 237918
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 361772
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 18190
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 1612
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/134/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0134_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 5.375
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0134_00_00_00030_walk01_loop.gfbanm",
+            "duration": 2.5416666666666665
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0134_00_00_00100_run01_loop.gfbanm",
+            "duration": 1.125
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0134_00_00_00400_attack01.gfbanm",
+            "duration": 4.625
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0134_00_00_00550_glad01.gfbanm",
+            "duration": 4.041666666666667
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0134_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 5.375
+          }
+        ],
+        "source": "pm0134_00.blend",
+        "fps": 24.0,
+        "bytes": 4825716
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "4e4e93c8890fc3f685a9dc931a6eeaf39ab086ac0b039922af5ea53a028a0836",
+      "sourceByteLength": 4825716,
+      "originalPath": "source-assets/pokemon-3d-original/vaporeon.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 4825716,
+        "outputBytes": 2769484,
+        "sourceSha256": "4e4e93c8890fc3f685a9dc931a6eeaf39ab086ac0b039922af5ea53a028a0836",
+        "outputSha256": "61daa6adcacc55cbb72645b0a299d35a5dc0e7301063f944f2ef3f1a69783aa3",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 71,
+        "outputNodeCount": 71,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.662375612807246e-07,
+        "checkedAnimationSamples": 22508,
+        "orphanAccessorsRemoved": 504,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.662375612807246e-07,
+          "checkedAnimationSamples": 22508
+        },
+        "maxSampledBoundsError": 4.1851449306129496e-08,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "venusaur": {
+      "name": "Venusaur",
+      "dexId": 3,
+      "localPath": "/assets/pokemon-3d/venusaur.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/003/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "6b4f64dbbdf70fd8c545312464356b8fb5b98f41a923abe7b2f263a5e1ae4482",
+      "byteLength": 4558856,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 14,
+      "jointsPerSkin": [
+        33,
+        1,
+        1,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        14,
+        3,
+        1,
+        29,
+        21
+      ],
+      "uniqueSkinnedJointCount": 87,
+      "meshCount": 15,
+      "primitiveCount": 16,
+      "vertexCount": 6395,
+      "triangleCount": 9832,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 731814
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 336152
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 531348
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 570704
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 404390
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 412484
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 6280
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 3452
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 379666
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 160529
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 210824
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_b_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_c_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/003/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0003_00_00_00000_defaultwait01_loop",
+            "duration": 2.0
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0003_00_00_00030_walk01_loop",
+            "duration": 1.3333333333333333
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0003_00_00_00100_run01_loop",
+            "duration": 0.6
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0003_00_00_00400_attack01",
+            "duration": 2.1666666666666665
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0003_00_00_00550_glad01",
+            "duration": 2.0
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0003_00_00_00281_sleep01_loop",
+            "duration": 2.0
+          }
+        ],
+        "source": "pm0003.blend",
+        "fps": 60.0,
+        "bytes": 8046340
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "af4ebb0595c10597faabcfc223d12a441d164a252b196b673dd98b42e666745b",
+      "sourceByteLength": 8046340,
+      "originalPath": "source-assets/pokemon-3d-original/venusaur.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 8046340,
+        "outputBytes": 4558856,
+        "sourceSha256": "af4ebb0595c10597faabcfc223d12a441d164a252b196b673dd98b42e666745b",
+        "outputSha256": "6b4f64dbbdf70fd8c545312464356b8fb5b98f41a923abe7b2f263a5e1ae4482",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 157,
+        "outputNodeCount": 157,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 1.6111116193949016e-07,
+        "checkedAnimationSamples": 31458,
+        "orphanAccessorsRemoved": 877,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 1.6111116193949016e-07,
+          "checkedAnimationSamples": 31458
+        },
+        "maxSampledBoundsError": 1.1213252548714081e-13,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    },
+    "zapdos": {
+      "name": "Zapdos",
+      "dexId": 145,
+      "localPath": "/assets/pokemon-3d/zapdos.glb",
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/145/model.glb",
+      "repository": "https://github.com/06wj/pokemon",
+      "revision": "00d96f7f18894055e7f1db44fa0df6462e5e4c8a",
+      "sha256": "e33b760528ad18d23fd37f1927211d67495659076a83f29adaf7bcea97fd22c6",
+      "byteLength": 3347968,
+      "generator": "glTF-Transform v4.3.0",
+      "embeddedUpstreamAttribution": null,
+      "skinCount": 2,
+      "jointsPerSkin": [
+        62,
+        1
+      ],
+      "uniqueSkinnedJointCount": 62,
+      "meshCount": 2,
+      "primitiveCount": 5,
+      "vertexCount": 4440,
+      "triangleCount": 6236,
+      "images": [
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 593692
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 384439
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 405662
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 584940
+        },
+        {
+          "mimeType": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 409515
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 374630
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 3320
+        },
+        {
+          "mimeType": "image/webp",
+          "size": [
+            256,
+            256
+          ],
+          "bytes": 770
+        }
+      ],
+      "materials": [
+        {
+          "name": "body_b_01_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "body_a_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        },
+        {
+          "name": "l_eye_gltf",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "extensions": {}
+        }
+      ],
+      "extensionsUsed": [
+        "EXT_texture_webp"
+      ],
+      "extensionsRequired": [
+        "EXT_texture_webp"
+      ],
+      "sourceActionMetadata": {
+        "model": "models/145/model.glb",
+        "exportVersion": 4,
+        "idleAnimation": "idle",
+        "animations": [
+          {
+            "name": "idle",
+            "label": "待机",
+            "sourceAction": "pm0145_00_00_00000_defaultwait01_loop.gfbanm",
+            "duration": 3.7916666666666665
+          },
+          {
+            "name": "walk",
+            "label": "行走",
+            "sourceAction": "pm0145_00_00_00030_walk01_loop.gfbanm",
+            "duration": 3.375
+          },
+          {
+            "name": "run",
+            "label": "奔跑",
+            "sourceAction": "pm0145_00_00_00100_run01_loop.gfbanm",
+            "duration": 1.7083333333333333
+          },
+          {
+            "name": "attack",
+            "label": "攻击",
+            "sourceAction": "pm0145_00_00_20400_attack01.gfbanm",
+            "duration": 5.458333333333333
+          },
+          {
+            "name": "happy",
+            "label": "开心",
+            "sourceAction": "pm0145_00_00_00550_glad01.gfbanm",
+            "duration": 4.208333333333333
+          },
+          {
+            "name": "sleep",
+            "label": "睡眠",
+            "sourceAction": "pm0145_00_00_00281_sleep01_loop.gfbanm",
+            "duration": 5.041666666666667
+          }
+        ],
+        "source": "pm0145_00.blend",
+        "fps": 24.0,
+        "bytes": 5613104
+      },
+      "notes": [
+        "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+      ],
+      "sourceSha256": "1f880e9d6953420b58c6e80348b2cf81f314dbb1596ae005da5a822404268f68",
+      "sourceByteLength": 5613104,
+      "originalPath": "source-assets/pokemon-3d-original/zapdos.glb",
+      "sourceGenerator": "Khronos glTF Blender I/O v5.1.20",
+      "remainingClips": [
+        "attack",
+        "idle"
+      ],
+      "optimization": {
+        "sourceBytes": 5613104,
+        "outputBytes": 3347968,
+        "sourceSha256": "1f880e9d6953420b58c6e80348b2cf81f314dbb1596ae005da5a822404268f68",
+        "outputSha256": "e33b760528ad18d23fd37f1927211d67495659076a83f29adaf7bcea97fd22c6",
+        "keptClips": [
+          "idle",
+          "attack"
+        ],
+        "removedClips": [
+          "happy",
+          "run",
+          "sleep",
+          "walk"
+        ],
+        "sourceNodeCount": 78,
+        "outputNodeCount": 78,
+        "geometryAndSkinBuffersIdentical": true,
+        "nodeNamesIdentical": true,
+        "maxSampledAnimationComponentError": 4.089017771741199e-07,
+        "checkedAnimationSamples": 27240,
+        "orphanAccessorsRemoved": 569,
+        "originalNodeTransformValuesRestoredExactly": true,
+        "finalValidation": {
+          "geometryAndSkinBuffersIdentical": true,
+          "nodeTransformsNamesAndHierarchyIdentical": true,
+          "decodedTexturePixelsAndDimensionsIdentical": true,
+          "usedClipsPresent": true,
+          "maxSampledAnimationComponentError": 4.089017771741199e-07,
+          "checkedAnimationSamples": 27240
+        },
+        "maxSampledBoundsError": 1.5666678829240333e-07,
+        "detailReport": "/assets/pokemon-3d/optimization-report.json"
+      }
+    }
+  },
+  "optimization": {
+    "toolVersions": {
+      "@gltf-transform/core": "4.3.0",
+      "@gltf-transform/functions": "4.3.0",
+      "@gltf-transform/extensions": "4.3.0",
+      "draco3dgltf": "1.5.7",
+      "sharp": "0.34.5"
+    },
+    "sourceBytes": 125421504,
+    "outputBytes": 61057644,
+    "modelCount": 33,
+    "sourceOriginals": "source-assets/pokemon-3d-original/ (gitignored, outside public)",
+    "operations": [
+      "Retain only runtime-mapped idle and attack animations; remove unused clips and unreachable accessors.",
+      "Deduplicate buffers and textures. All source node names, exact node transforms, hierarchy, geometry attributes, indices, skin joints and inverse bind matrices preserved.",
+      "Resample redundant animation keys with tolerance 1e-7. This is a bounded numeric approximation, not an assertion of bit-identical motion.",
+      "Encode smaller textures as lossless WebP only after exact decoded RGBA comparison; preserve all texture dimensions and other image bytes.",
+      "Decode pre-existing Draco geometry without re-quantization; output decoded geometry buffers unchanged. No Meshopt or new geometry decoder required.",
+      "Restore exact original JSON node transforms after serializer omitted tiny near-identity values."
+    ],
+    "maxSampledAnimationComponentError": 4.793891731462441e-07,
+    "checkedAnimationSamples": 718496,
+    "maxSampledBoundsError": 1.9759719727119318e-07,
+    "boundsSamples": 99,
+    "validation": "All 33 outputs decoded successfully. Compared geometry/skin buffer hashes, node names/transforms/hierarchy, exact decoded texture pixels and dimensions, and clip presence. Sampled every original retained animation key and midpoint, using quaternion interpolation. Compared CPU-skinned world-space bounds at idle t=0 and two action poses per model; no full continuous-time error bound is claimed.",
+    "decoderRequirements": "EXT_texture_webp uses native WebP support. Existing material extensions remain. No KHR_draco_mesh_compression or EXT_meshopt_compression in outputs."
+  }
+}

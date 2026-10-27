@@ -20,6 +20,8 @@ uniform float uTime;
 uniform float uTilt;
 uniform float uStrength;
 uniform float uSweep;
+uniform vec3 uLightColor;
+uniform float uLightStrength;
 void main() {
  vec2 uv = vTextureCoord;
  vec4 color = texture(uTexture, uv);
@@ -32,8 +34,10 @@ void main() {
  float printProtection = 1. - smoothstep(.48, .75, uv.y) * .82;
  color.rgb += foil * uStrength * color.a * printProtection;
  color.rgb += vec3(.78, .94, 1.) * shine * .035 * color.a * printProtection;
+ float uplight=pow(clamp(uv.y,0.,1.),2.6)*.7+pow(abs(uv.x-.5)*2.,5.)*.3;
+ color.rgb += uLightColor * uplight * uLightStrength * color.a;
  finalColor = color;
 }`;
 export function createFoil(strength = 0.5) {
-  return new Filter({ resolution: 'inherit', antialias: 'inherit', glProgram: GlProgram.from({ vertex, fragment }), resources: { foil: { uTime: { value: 0, type: 'f32' }, uTilt: { value: 0, type: 'f32' }, uStrength: { value: strength, type: 'f32' }, uSweep: { value: 0, type: 'f32' } } } });
+  return new Filter({ resolution: 'inherit', antialias: 'inherit', glProgram: GlProgram.from({ vertex, fragment }), resources: { foil: { uTime: { value: 0, type: 'f32' }, uTilt: { value: 0, type: 'f32' }, uStrength: { value: strength, type: 'f32' }, uSweep: { value: 0, type: 'f32' }, uLightColor:{value:[.5,.85,1],type:'vec3<f32>'},uLightStrength:{value:0,type:'f32'} } } });
 }

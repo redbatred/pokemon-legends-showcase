@@ -8,9 +8,9 @@ export function stageEmissionStrength(r:number,g:number,b:number,u:number,v:numb
   return clamp((g-160)/42)*clamp((b-r-48)/65)*clamp((g-r-35)/60)*clamp((g/b-.65)/.2);
 }
 
-/** The white inner Poké Ball ring is an emitter; the larger painted court stays neutral. */
+/** The whole white Poké Ball emblem emits, including its large circle and crossbar. */
 export function centerEmissionStrength(r:number,g:number,b:number,u:number,v:number){
- const radius=((u-.498)/.080)**2+((v-.454)/.052)**2;
- if(radius<.50||radius>1.10)return 0;
- return clamp((Math.min(r,g,b)-175)/45);
+ const radius=((u-.5)/.303)**2+((v-.471)/.171)**2;
+ if(radius>1.12||v<.29||v>.66)return 0;
+ return clamp((Math.min(r,g,b)-180)/40)*clamp(1-(Math.max(r,g,b)-Math.min(r,g,b))/75);
 }

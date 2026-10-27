@@ -7,10 +7,11 @@ it('selects cyan light strips but never white court paint, blue surfaces, or low
   expect(stageEmissionStrength(100,140,190,.5,.8)).toBe(0);
   expect(stageEmissionStrength(60,210,232,.5,.82)).toBe(0);
 });
-it('lights the central ring without coloring the platform center, outer paint, or chassis',()=>{
- expect(centerEmissionStrength(235,245,250,.568,.454)).toBeGreaterThan(.9);
- expect(centerEmissionStrength(235,245,250,.498,.454)).toBe(0);
- expect(centerEmissionStrength(235,245,250,.8,.454)).toBe(0);
+it('lights the complete white emblem while excluding blue floor and chassis',()=>{
+ expect(centerEmissionStrength(235,245,250,.568,.454)).toBeGreaterThan(.7);
+ expect(centerEmissionStrength(235,245,250,.498,.454)).toBeGreaterThan(.7);
+ expect(centerEmissionStrength(235,245,250,.78,.47)).toBeGreaterThan(.7);
+ expect(centerEmissionStrength(235,245,250,.9,.47)).toBe(0);
  expect(centerEmissionStrength(235,245,250,.5,.8)).toBe(0);
  expect(centerEmissionStrength(38,110,232,.568,.454)).toBe(0);
 });

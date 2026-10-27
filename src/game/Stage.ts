@@ -36,7 +36,7 @@ export class OpeningStage {
   motion = { flip: 0, scale: 1, lift: 0, offsetX: 0, roll: 0, pitch: 0 };
   private back!: Texture;
   private cardEdge = new Graphics();
-  private special:SpineReveal|null=null;private charging=false;
+  private special:SpineReveal|null=null;private charging=false;private disposeSpecialResources:(()=>void)|null=null;
   particles: Particle[] = [];
   mode: 'pack' | 'sealed' | 'tearing' | 'card' | 'result' = 'pack';
   time = 0;
@@ -223,11 +223,12 @@ export class OpeningStage {
       this.cardEdge.alpha=edge;
       this.cardLayer.y = this.motion.lift + (move ? Math.sin(this.time*.7)*3 : 0);
       this.cardLayer.scale.set(this.motion.scale);
+      const tint=this.scene.lightTint;this.foil.resources.foil.uniforms.uLightColor=[((tint>>16)&255)/255,((tint>>8)&255)/255,(tint&255)/255];this.foil.resources.foil.uniforms.uLightStrength=this.scene.illumination;
       this.foil.resources.foil.uniforms.uTime = move ? this.time : 0;
       this.foil.resources.foil.uniforms.uTilt = this.tilt.x;
     }
     for (const p of this.particles) {
-      p.sprite.visible = move && (!this.options.low || p.depth > .6);
+      p.sprite.visible = move && (this.mode==='pack'||this.mode==='sealed') && (!this.options.low || p.depth > .6);
       if (!move) continue;
       p.y -= p.speed * dt;
       if (p.y < -290) p.y = 290;
@@ -336,7 +337,7 @@ export class OpeningStage {
     const texture = await Assets.load<Texture>(card.image);
     if (this.destroyed || request !== this.revealToken) return;
     let special:SpineReveal|null=null;
-    if(pokemonImage&&!this.options.reduced){try{const {SpineReveal}=await import('./SpineReveal');special=await SpineReveal.create(texture,pokemonImage,this.options.low);}catch(error){console.warn('Special reveal artwork unavailable',error);}}
+    if(pokemonImage&&!this.options.reduced){try{const {SpineReveal}=await import('./SpineReveal');if(this.destroyed||request!==this.revealToken)return;this.disposeSpecialResources=()=>SpineReveal.disposeResources();special=await SpineReveal.create(texture,pokemonImage,this.options.low);}catch(error){console.warn('Special reveal artwork unavailable',error);}}
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     if(this.options.reduced){special?.destroy();special=null;}
     this.revealEffects.clear();this.scene.beginReveal(this.options.reduced);
@@ -351,7 +352,7 @@ export class OpeningStage {
       if(this.diagnostics)this.app.canvas.dataset.cardLight='#'+color.toString(16).padStart(6,'0');
     }
     const next = new PerspectiveMesh({ texture: this.back, verticesX: 4, verticesY: 6 });
-    next.filters = []; this.cardMesh = next; this.cardLayer.addChild(next);
+    next.filters = this.options.low?[]:[this.foil]; this.cardMesh = next; this.cardLayer.addChild(next);
     Object.assign(this.motion,{flip:0,scale:first?.7:.86,lift:first?55:24,offsetX:first?35:-22,roll:first?-.09:-.065,pitch:first?.18:.14});
     next.alpha=0;
     this.foil.resources.foil.uniforms.uStrength=0;
@@ -377,7 +378,7 @@ export class OpeningStage {
         .to(this.stack,{x:0,y:5,rotation:0,duration:.7*d,ease:'power3.out'},0)
         .call(()=>playSound('flip'),[],turn*d)
         .to(this.motion,{flip:Math.PI/2,offsetX:15,roll:.035,duration:.24*d,ease:'power2.in'},turn*d)
-        .call(()=>{next.texture=texture;next.filters=card.value>=600&&!this.options.low?[this.foil]:[];this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=this.options.low?.05:card.value>=600?.28:.035;const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(dramatic?'slam':rare?'rare':'reveal');this.charging=false;this.revealEffects.fire(color!,rare,this.options.reduced,this.options.low);this.scene.setCardColor(color!,this.options.reduced);this.scene.impact(rare,this.options.reduced);if(rare)this.burst(8,color!);},[],(turn+.24)*d)
+        .call(()=>{next.texture=texture;next.filters=this.options.low?[]:[this.foil];this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=this.options.low?.05:card.value>=600?.28:.035;const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(dramatic?'slam':rare?'rare':'reveal');this.charging=false;this.revealEffects.fire(color!,rare,this.options.reduced,this.options.low);this.scene.setCardColor(color!,this.options.reduced);this.scene.impact(rare,this.options.reduced);},[],(turn+.24)*d)
         .to(this.motion,{flip:0,offsetX:0,lift:-8,roll:0,pitch:0,scale:1,duration:.43*d,ease:'back.out(1.08)'},(turn+.24)*d)
         .to(this.foil.resources.foil.uniforms,{uSweep:.65,duration:.54*d,ease:'sine.inOut'},(turn+.28)*d);
       if(this.blocked||document.hidden)this.timeline.pause();
@@ -386,7 +387,7 @@ export class OpeningStage {
     if(this.options.reduced){special?.destroy();special=null;}
     if(special){
       this.special=special;this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
-      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced);this.burst(22);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced);this.scene.impact(true,this.options.reduced);});if(this.blocked||document.hidden)this.timeline.pause();});
+      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced);this.scene.impact(true,this.options.reduced);});if(this.blocked||document.hidden)this.timeline.pause();});
       if(!this.destroyed&&request===this.revealToken)this.scene.setCardColor(color!,this.options.reduced);
     }
   }
@@ -436,23 +437,13 @@ export class OpeningStage {
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }
   reset() {
-    this.revealEffects.clear();this.charging=false;this.scene.setCharge(null);stopRevealAudio();
+    this.revealEffects.clear();this.charging=false;this.scene.setCharge(null);this.timeline?.kill();this.timeline=null;stopRevealAudio();
     this.special?.destroy();this.special=null;++this.revealToken;
-    this.timeline?.kill(); this.mode = 'pack'; if(!this.blocked)this.app.start(); this.pack.visible = true; this.packMesh.visible = true; this.packShadow.visible = true;
+    this.mode = 'pack'; if(!this.blocked)this.app.start(); this.pack.visible = true; this.packMesh.visible = true; this.packShadow.visible = true;
     this.flightLayer.removeChildren().forEach(child=>child.destroy({children:true}));this.cardMesh?.destroy(); this.cardMesh = null; this.cardEdge.alpha=0; this.stack.visible = false; this.cardLayer.visible = false; this.pack.alpha = 1; this.packShadow.alpha = 1; this.pack.scale.set(1); this.dragProgress = 0; this.tearLine.clear();
   }
-  private burst(count: number,color=0xa8efff) {
-    if (this.options.reduced) return;
-    for (let i = 0; i < (this.options.low ? 8 : count); i++) {
-      const p = new Graphics().roundRect(-1,-3,2,6,1).fill(i%3 ? color : 0xffffff);
-      p.blendMode = 'add'; p.y = -90; this.effects.addChild(p);
-      const angle = Math.random()*Math.PI*2, distance = 100+Math.random()*190;
-      const tween = gsap.to(p, { x: Math.cos(angle)*distance, y: -80+Math.sin(angle)*distance, alpha: 0, rotation: Math.random()*6, duration: 1+Math.random(), ease: 'power3.out', onComplete: () => { this.tweens.delete(tween); p.destroy(); } });
-      this.tweens.add(tween);
-    }
-  }
   destroy() {
-    this.special?.destroy();this.special=null;
+    this.special?.destroy();this.special=null;this.disposeSpecialResources?.();
     this.destroyed = true;cancelAnimationFrame(this.drawFrame); ++this.revealToken; ++this.packToken; this.timeline?.kill(); this.observer?.disconnect();
     for (const t of this.tweens) t.kill(); this.tweens.clear();
     document.removeEventListener('visibilitychange',this.visibility);
