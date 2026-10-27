@@ -1,8 +1,9 @@
 import {Texture as PixiTexture} from 'pixi.js';
-import {AnimationMixer,BackSide,Box3,Color,DataTexture,DirectionalLight,Group,HemisphereLight,LoopOnce,LoopRepeat,Matrix4,Mesh,MeshBasicMaterial,MeshToonMaterial,NearestFilter,NoToneMapping,OrthographicCamera,RGBAFormat,Scene,SRGBColorSpace,Vector3,WebGLRenderer,type AnimationAction,type Material,type MeshStandardMaterial,type Object3D,type Texture,type SkinnedMesh} from 'three';
+import {AnimationMixer,Box3,Color,DataTexture,DirectionalLight,Group,HemisphereLight,LoopOnce,LoopRepeat,Matrix4,Mesh,MeshToonMaterial,NearestFilter,NoToneMapping,OrthographicCamera,RGBAFormat,Scene,SRGBColorSpace,Vector3,WebGLRenderer,type AnimationAction,type Material,type MeshStandardMaterial,type Object3D,type Texture,type SkinnedMesh} from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import type {PowerProfile} from './powerProfiles';
+import {createModelOutline} from './modelOutline';
 import {sampleAttack} from './attackClock';
 import {moveRigs,type ProjectedEmitter} from './moveRig';
 
@@ -41,7 +42,7 @@ export class PokemonModel {
   this.model.traverse(obj=>{if(!(obj instanceof Mesh))return;const materials=Array.isArray(obj.material)?obj.material:[obj.material];const converted=materials.map(material=>{
    const old=material as MeshStandardMaterial;this.originalMaterials.add(old);for(const value of Object.values(old))if(value&&typeof value==='object'&&'isTexture' in value)this.textures.add(value as Texture);
    const mat=new MeshToonMaterial({map:old.map,color:old.color??new Color('white'),gradientMap:this.gradient,transparent:old.transparent,opacity:old.opacity,alphaTest:old.alphaTest,side:old.side,emissive:old.emissive??new Color(0x000000),emissiveMap:old.emissiveMap??null,emissiveIntensity:Math.min(old.emissiveIntensity??0,1.5)});this.toonMaterials.add(mat);return mat;});obj.material=Array.isArray(obj.material)?converted:converted[0];
-   if(materials.some(m=>/body/i.test(m.name))){const outline=obj.clone(false),ink=new MeshBasicMaterial({color:0x25374a,side:BackSide});ink.onBeforeCompile=shader=>{shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n transformed += objectNormal * 0.006;');};outline.material=ink;outline.renderOrder=-1;this.toonMaterials.add(ink);outlines.push({mesh:obj,outline});}
+   if(materials.some(m=>/body/i.test(m.name))){const outline=obj.clone(false),ink=createModelOutline(obj.geometry);outline.material=ink;outline.renderOrder=-1;this.toonMaterials.add(ink);outlines.push({mesh:obj,outline});}
   });for(const {mesh,outline} of outlines)mesh.parent!.add(outline);
   this.scene.add(model);this.scene.add(new HemisphereLight(0xeef7ff,0x66759c,1.15));const key=new DirectionalLight(0xffffff,1.65);key.position.set(-3,5,7);this.scene.add(key);const rim=new DirectionalLight(0x8fdcff,.7);rim.position.set(1,-1,3);this.scene.add(rim);
   this.mixer=new AnimationMixer(model);this.clips=new Map(animations.map(clip=>[clip.name,this.mixer.clipAction(clip)]));this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);

@@ -11,9 +11,11 @@
 
 ## Validation
 
-- 65 tests across 18 files pass; TypeScript and production build pass. Vite reports the existing large lazy-loaded renderer chunks.
+- 66 tests across 19 files pass; TypeScript and production build pass. Vite reports the existing large lazy-loaded renderer chunks.
 - Added regression coverage for reduced-motion toggling before the suspense callback, quieter attack/cry gains, expanded move routing, panel boundaries and reward clearance.
 - Independent review checked prepared-special ownership/cancellation and modal hit/focus coordinate translation. Its reduced-motion callback-order issue was fixed and reproduced in a real-GSAP regression test.
 - Browser QA used 127.0.0.1 or in-memory fixtures, preserving user localhost and hosted saves. Checked desktop, 390px and 320px portrait layouts, and 568×320 landscape. Verified settings, collection, results and history spacing; hit regions remain inside the canvas.
 - Full opening, special reveal, next-card transition and reveal-all/settlement exercised. Desktop preview held roughly 58–59 game FPS with no console errors in the checked flow. This is a local observation, not a mobile performance guarantee.
 - Audited all 33 supplied model mappings and all 14 cue records for source clips, bones, timing and finite projected vectors. Visually inspected Charizard, Mewtwo, Lugia, Venusaur and Alakazam in the cinematic preview. See the expanded power audit for source and measurement details.
+
+- Final visual QA exposed an existing Alakazam outline fault: applying the already-skinned normal before vertex skinning magnified the ink shell on a differently scaled imported rig. Outlines now extrude normalized native normals, with width proportional to native mesh dimensions. Alakazam is visible again, with spoon effects attached correctly. A meter/centimeter scale regression test covers the fix.
