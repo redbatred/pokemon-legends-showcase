@@ -53,10 +53,10 @@ it('does not resume skipped cinematic audio after leaving the settings panel',()
 
 it('uses distinct normal/rare payoffs and keeps menu clicks audible while the scene is paused',()=>{
  setSound(true);playSound('reveal');playSound('rare');setAudioScenePaused(true);playSound('ui');
- for(const key of ['normal','rare','ui'])expect(mock.howls.find(h=>h.source===`/assets/audio-v3/${key}.mp3`).play).toHaveBeenCalledOnce();
+ for(const key of ['normal','rare','ui'])expect(mock.howls.find(h=>h.source===`/assets/audio-v4/${key}.mp3`).play).toHaveBeenCalledOnce();
 });
 it('ducks release effects underneath the Pokemon cry',async()=>{
- setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');playSound('release');playPokemonCry(6);expect(voice('release').fade).toHaveBeenCalledWith(.38,.38*.42,65,1);
+ setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');playSound('release');playPokemonCry(6);expect(voice('release').fade).toHaveBeenCalledWith(0.44,0.44*.42,65,1);
 });
 
 it('does not duck the release when the cry is unavailable',()=>{

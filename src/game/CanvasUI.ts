@@ -1,9 +1,10 @@
 import { Assets, Container, Graphics, Sprite, Text, Texture, BitmapFont, BitmapText,Rectangle } from 'pixi.js';
 import { gsap } from 'gsap';
-import { playSound } from './audio';
 import { railElastic,railPosition,railSnap } from './carousel';
 import { gameLayout, pageWindow, cardTrayLayout } from './rendering';
-import { money, type Card, type Pack, type Save, type Result } from './model';
+import { money, recordedWinnings, type Card, type Pack, type Save, type Result } from './model';
+import {MoneyReadout} from './MoneyReadout';
+import {moneyState,type MoneyState} from './moneyMotion';
 import { loadPackTexture } from './packTexture';
 import type { OpeningStage } from './Stage';
 
@@ -20,7 +21,7 @@ export class CanvasUI {
   private frozenHud:Sprite|null=null;
   private dismissal:'close'|'continue'|null=null;
   private tray:Texture;
-  private moneyAnimations:gsap.core.Tween[]=[];private moneyValues=new Map<string,{identity:string,value:number}>();
+  private moneyAnimations:gsap.core.Tween[]=[];private moneyValues=new Map<string,MoneyState>();
   private updating=false;
   private railMotion={offset:0};private railTween:gsap.core.Tween|null=null;
   private rail:{content:Container;x:number;y:number;width:number;height:number;tile:number;stride:number;max:number;groups:Container[];hits:HitTarget[]}|null=null;
@@ -30,7 +31,7 @@ export class CanvasUI {
   private page=0;private collected=false;private openingId='';private landed=new Set<number>();
   private trayArt:Texture|null=null;private redrawTray:(()=>void)|null=null;private trayOffset={value:0};private trayTween:gsap.core.Tween|null=null;
   private trayStrip:Container|null=null;private collectingIndex:number|null=null;
-  private packValueLabel:BitmapText|null=null;private revealCountLabel:Text|null=null;
+  private packValueLabel:MoneyReadout|null=null;private revealCountLabel:Text|null=null;
   private thumbs=new Map<string,Texture>();private pending=new Map<string,Promise<Texture>>();private destroyed=false;
   constructor(private stage:OpeningStage,private onTargets:(hits:HitTarget[],summary:string)=>void){
     BitmapFont.install({name:'LegendsMoney',style:{fontFamily:'Nunito',fontSize:48,fontWeight:'900',fill:0xffffff,stroke:{color:0x082e52,width:3}},chars:'0123456789$.,+- ',resolution:2,padding:3,skipKerning:true});
@@ -64,18 +65,10 @@ export class CanvasUI {
     const text=new Text({text:value,style:{fontFamily:'Nunito, Arial, sans-serif',fontSize:size,fontWeight:weight==='bold'?'800':'600',fill:color,align,wordWrap:!!maxWidth,wordWrapWidth:maxWidth,lineHeight:size*1.3},resolution:Math.min(2,devicePixelRatio)});
     text.anchor.set(align==='center'?.5:align==='right'?1:0,0);text.position.set(x,y);parent.addChild(text);return text;
   }
-  private money(amount:number,x:number,y:number,size:number,color:number,align:'left'|'center'|'right',key:string,identity:string,plus=false){
-    const previous=this.moneyValues.get(key);this.moneyValues.set(key,{identity,value:amount});
-    const start=previous?.identity===identity?previous.value:(key==='wallet'?amount:0);
-    const label=new BitmapText({text:`${plus?'+':''}${money(amount)}`,style:{fontFamily:'LegendsMoney',fontSize:size,align}});
-    label.anchor.set(align==='right'?1:align==='center'?.5:0,0);label.position.set(x,y);label.tint=color;this.root.addChild(label);
-    if(start!==amount&&!this.state!.reduced){
-      const counter={value:start};let lastTick=0;label.scale.set(key==='reward'?.76:1.06);
-      if(key==='reward'){label.alpha=0;label.y=y+11;this.moneyAnimations.push(gsap.to(label,{alpha:1,y,duration:.42,ease:'power3.out',onUpdate:()=>this.stage.draw()}));for(let i=0;i<4;i++){const star=new Graphics().poly([0,-5,1,-1,5,0,1,1,0,5,-1,1,-5,0,-1,-1]).fill(0xd0faff);star.position.set(x+(i%2?1:-1)*(label.width/2+13+i*4),y+size*.5);this.root.addChild(star);this.moneyAnimations.push(gsap.to(star,{y:star.y-18-i*3,alpha:0,duration:.65,delay:i*.035,onUpdate:()=>this.stage.draw(),onComplete:()=>star.destroy()}));}}
-      this.moneyAnimations.push(gsap.to(counter,{value:amount,duration:.85,ease:'power2.out',onUpdate:()=>{label.text=`${plus?'+':''}${money(Math.round(counter.value))}`;if(key==='result'&&performance.now()-lastTick>115){playSound('credit');lastTick=performance.now();}this.stage.draw();}}));
-      this.moneyAnimations.push(gsap.to(label.scale,{x:1,y:1,duration:.55,ease:'back.out(2.2)',onUpdate:()=>this.stage.draw()}));
-    }
-    return label;
+  private money(amount:number,x:number,y:number,size:number,color:number,align:'left'|'center'|'right',key:string,identity:string,plus=false,width=240){
+    const state=moneyState(this.moneyValues.get(key),identity,amount,key==='wallet'||key==='lifetime');this.moneyValues.set(key,state);
+    const label=new MoneyReadout(state,{size,color,align,width,plus,hero:key==='reward'||key==='result',reduced:this.state!.reduced,ticks:key==='result',draw:()=>this.stage.draw()});
+    label.position.set(x,y);this.root.addChild(label);return label;
   }
   private panel(x:number,y:number,w:number,h:number,fill=C.panel,line=C.line,parent=this.root,cut=9){
     const radius=Math.min(cut+3,h/2);
@@ -238,12 +231,13 @@ export class CanvasUI {
   }
   private hud(w:number,h:number){
     const s=this.state!,l=gameLayout(w,h,!['browse','complete'].includes(s.phase));
+    if(s.save&&!this.moneyValues.has('lifetime'))this.moneyValues.set('lifetime',moneyState(undefined,'lifetime',recordedWinnings(s.save),true));
     const logoW=l.portrait?116:148,logoH=l.portrait?44:55;
     this.picture('/assets/pokemon-logo.png',18,10,logoW,logoH);this.text('LEGENDS',18+logoW/2,l.portrait?50:59,8,0xffffff,this.root,'center','bold');
     const walletW=l.portrait?Math.min(181,w*.46):205,walletX=w-walletW-16,walletY=13;
     const wallet=new Graphics().roundRect(walletX,walletY,walletW,48,22).fill({color:0x06315a,alpha:.91}).stroke({width:1.5,color:0xa7e8ff,alpha:.85});this.root.addChild(wallet);
     this.text('Demo credits',walletX+17,walletY+5,8,C.muted);
-    this.money(s.save?.balance??10000,w-59,walletY+15,Math.min(l.portrait?23:27,(walletW-60)/(money(s.save?.balance??10000).length*.62)),C.white,'right','wallet','balance');
+    this.money(s.save?.balance??10000,w-59,walletY+15,l.portrait?26:28,C.white,'right','wallet','balance',false,walletW-61);
     this.iconButton('credits','Add 1000 free demo credits',w-49,walletY+8,32,'plus',()=>s.action('credits'));
     const size=l.compact?34:l.portrait?40:44,side=l.portrait?18:25,iconsY=l.compact?18:76;
     if(l.compact){
@@ -272,7 +266,7 @@ export class CanvasUI {
       if(title.width>captionW-22)title.scale.set((captionW-22)/title.width);
       this.button('inspect',`Inspect ${card.name}`,captionX+title.width+3,captionY-1,24,24,()=>s.inspect(card),{visibleLabel:'⌕'});
       const rarity=this.text(card.rarity,captionX,captionY+(l.compact?22:27),l.compact?8:9,C.cyan,this.root,'left','bold');rarity.style.stroke={color:0x08294a,width:3};if(rarity.width>captionW)rarity.scale.set(captionW/rarity.width);
-      if(card.id!=='energy')this.money(card.value,captionX,captionY+(l.compact?36:42),Math.min(l.compact?24:l.sideControls?38:28,captionW/((money(card.value).length+1)*.65)),C.white,'left','reward',`${s.save!.active!.id}-${s.index}`,true);
+      if(card.id!=='energy')this.money(card.value,captionX,captionY+(l.compact?36:42),l.compact?26:l.sideControls?44:32,C.cyan,'left','reward',`${s.save!.active!.id}-${s.index}`,true,captionW);
       if(l.sideControls){
         const cx=w-space/2,cy=Math.max(l.compact?117:213,l.worldY+17),size=l.compact?48:76;
         this.command('next',s.index===10?'Collect':'Next card',cx,cy,size,'next',()=>s.action('next'));
@@ -294,7 +288,7 @@ export class CanvasUI {
     const fade=new Sprite(this.tray);fade.position.set(0,y-25);fade.width=w;fade.height=l.dock+25;this.root.addChild(fade);
     if(s.save?.active){
       const revealed=Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),total=s.save.active.cards.slice(0,revealed).reduce((n,c)=>n+c.value,0),tray=cardTrayLayout(w,h,this.collectingIndex??s.index);
-      if(!l.compact){this.text('Pack value',20,y+8,10,C.white);this.packValueLabel=this.money(total,w-20,y+1,l.short?20:24,C.white,'right','revealed',s.save.active.id);}
+      if(!l.compact){this.text('Pack value',20,y+8,10,C.white);this.packValueLabel=this.money(total,w-20,y+1,l.short?22:26,C.cyan,'right','revealed',s.save.active.id,false,w-130);}
       const viewport=new Container(),strip=new Container();this.trayStrip=strip;strip.y=tray.y;viewport.addChild(strip);this.root.addChild(viewport);const mask=new Graphics().rect(tray.viewportX,tray.y-5,tray.viewportWidth,tray.cardHeight+12).fill(0xffffff);this.root.addChild(mask);viewport.mask=mask;
       const base=tray.start+tray.offset;strip.x=base-this.trayOffset.value;
       if(s.phase==='revealing'&&this.trayOffset.value!==tray.offset&&!s.reduced)this.trayTween=gsap.to(this.trayOffset,{value:tray.offset,duration:.48,ease:'power3.out',onUpdate:()=>{strip.x=base-this.trayOffset.value;this.stage.draw();}});else{this.trayOffset.value=tray.offset;strip.x=tray.start;}
@@ -360,9 +354,8 @@ export class CanvasUI {
     this.landed.add(index);this.redrawTray?.();
     if(this.state?.phase==='collecting'){
       const active=this.state.save!.active!,total=active.cards.filter((_,i)=>this.landed.has(i)).reduce((n,c)=>n+c.value,0);
-      if(this.packValueLabel)this.packValueLabel.text=money(total);
+      if(this.packValueLabel)this.packValueLabel.retarget(total);
       if(this.revealCountLabel)this.revealCountLabel.text=`${this.landed.size} / 11`;
-      this.moneyValues.set('revealed',{identity:active.id,value:total});
     }
     this.stage.draw();
   };
@@ -433,11 +426,13 @@ export class CanvasUI {
   private menu(w:number,h:number){
     const s=this.state!;if(s.panel==='settings'){this.settingsDrawer(w,h);return;}
     this.screen(s.panel==='history'?'Opening history':'How to play',w,h);
-    const x=Math.max(28,(w-520)/2),width=Math.min(520,w-56);const y=107;
+    const x=Math.max(28,(w-520)/2),width=Math.min(520,w-56);const y=s.panel==='history'?171:107;
     if(s.panel==='history'){
-      const rows=Math.max(1,Math.floor((h-175)/66)),history=s.save?.history??[],pg=pageWindow(history.length,rows,this.page);this.page=pg.page;
+      this.text('TOTAL WON',x,108,10,C.muted,this.root,'left','bold');
+      this.money(s.save?recordedWinnings(s.save):0,x+width,99,34,C.cyan,'right','lifetime','lifetime',false,width-100);
+      const rows=Math.max(1,Math.floor((h-239)/66)),history=s.save?.history??[],pg=pageWindow(history.length,rows,this.page);this.page=pg.page;
       if(!history.length)this.text('No completed openings yet.',w/2,h/2,16,C.muted,this.root,'center');
-      history.slice(pg.start,pg.end).forEach((result,i)=>{const yy=y+i*66;this.panel(x,yy,width,55,0x112b42,0x25465f);this.picture(result.pack?.packImage??s.packs[0].packImage,x+10,yy+4,28,48);this.text(result.pack?.name??'Obsidian Flames',x+53,yy+9,13,C.white,this.root,'left','bold');this.text(new Date(result.at).toLocaleString(),x+53,yy+31,9,C.muted);this.text(`+${money(result.total)}`,x+width-13,yy+19,14,C.cyan,this.root,'right','bold');});
+      history.slice(pg.start,pg.end).forEach((result,i)=>{const yy=y+i*66;this.panel(x,yy,width,55,0x112b42,0x25465f);this.picture(result.pack?.packImage??s.packs[0].packImage,x+10,yy+4,28,48);const title=this.text(result.pack?.name??'Obsidian Flames',x+53,yy+9,13,C.white,this.root,'left','bold');if(title.width>width-70)title.scale.set((width-70)/title.width);this.text(new Date(result.at).toLocaleDateString(),x+53,yy+33,9,C.muted);this.money(result.total,x+width-13,yy+29,18,C.cyan,'right',`history-${result.id}`,result.id,false,Math.min(150,width*.42));});
       this.button('history-back','Previous history page',x,h-54,68,30,()=>{this.page--;this.build();},{disabled:pg.page===0,visibleLabel:'‹',small:true});this.text(`${pg.page+1} / ${pg.pages}`,w/2,h-49,12,C.muted,this.root,'center');this.button('history-next','Next history page',x+width-68,h-54,68,30,()=>{this.page++;this.build();},{disabled:pg.page+1===pg.pages,visibleLabel:'›',small:true});
     }else{
       const lines=['Choose a pack, then slide across its seal to open it.','Tap Next card or press Space to reveal. Inspect a card for a closer look.','The revealed value is credited when you collect the pack. Energy has no value.','Your cards and unfinished pack are saved in this browser.','This is a frontend demo. Credits have no cash value; card values and odds are illustrative.'];
@@ -450,16 +445,13 @@ export class CanvasUI {
     this.picture(card.image,area.x,area.y,area.w,area.h,this.root,true);
   }
   private results(w:number,h:number,result:Result){
-    const compact=h<550&&w>=560;
+    const compact=h<550&&w>=560,short=h<620;
     this.screen('Pack collected',w,h,result.pack?.name??'Obsidian Flames');
-    const fresh=this.moneyValues.get('result')?.identity!==result.id;
-    this.money(result.total,w/2,compact?87:96,compact?30:w<700?40:52,C.cyan,'center','result',result.id,true);this.text('Added to your balance',w/2,compact?124:w<700?140:150,11,C.muted,this.root,'center');
-    const columns=compact?11:w<700?4:6,rows=Math.ceil(11/columns),top=compact?148:183,bottom=h-95;
+    this.money(result.total,w/2,compact?87:short?92:96,compact?32:short?32:w<700?42:52,C.cyan,'center','result',result.id,true,w-56);this.text('Added to your balance',w/2,compact?124:short?139:w<700?151:162,11,C.muted,this.root,'center');
+    if(!compact&&this.state!.save){this.text('TOTAL WON',w/2-110,short?168:184,9,C.muted,this.root,'left','bold');this.money(recordedWinnings(this.state!.save!),w/2+110,short?160:176,23,C.white,'right','lifetime','lifetime',false,145);}
+    const columns=compact?11:w<700?4:6,rows=Math.ceil(11/columns),top=compact?148:short?200:221,bottom=h-95;
     const cw=Math.min(145,(w-54-(columns-1)*12)/columns),ch=Math.min(cw*1.4,(bottom-top-(rows-1)*23)/rows-20),drawW=ch/1.4;
-    result.cards.forEach((card,i)=>{const row=Math.floor(i/columns),col=i%columns,number=Math.min(columns,11-row*columns),rowWidth=number*(drawW+12)-12,x=(w-rowWidth)/2+col*(drawW+12),y=top+row*(ch+33);this.picture(card.image,x,y,drawW,ch);this.text(card.id==='energy'?'Energy':money(card.value),x+drawW/2,y+ch+7,10,C.cyan,this.root,'center');this.hit(`result-${i}`,`Inspect ${card.name}`,x,y,drawW,ch,()=>this.state!.inspect(card));});
-    if(fresh&&!this.state!.reduced){
-      for(let i=0;i<12;i++){const coin=new Graphics().circle(0,0,5+i%3).fill(i%2?0xb7f3ff:0xffffff).stroke({color:0x3883ba,width:2});coin.position.set(w/2,124);this.root.addChild(coin);const angle=(i/12)*Math.PI*2;const distance=55+(i%4)*18;this.moneyAnimations.push(gsap.to(coin,{x:w/2+Math.cos(angle)*distance,y:124+Math.sin(angle)*distance,alpha:0,rotation:3,duration:.8,delay:i*.025,ease:'power2.out',onUpdate:()=>this.stage.draw(),onComplete:()=>coin.destroy()}));}
-    }
+    result.cards.forEach((card,i)=>{const row=Math.floor(i/columns),col=i%columns,number=Math.min(columns,11-row*columns),rowWidth=number*(drawW+12)-12,x=(w-rowWidth)/2+col*(drawW+12),y=top+row*(ch+33);this.picture(card.image,x,y,drawW,ch);const exact=money(card.value),caption=drawW<55&&exact.length>6?'$'+new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:1}).format(card.value/100):exact;const price=this.text(card.id==='energy'?'Energy':caption,x+drawW/2,y+ch+7,10,C.cyan,this.root,'center');if(price.width>drawW+8)price.scale.set((drawW+8)/price.width);this.hit(`result-${i}`,`Inspect ${card.name}`,x,y,drawW,ch,()=>this.state!.inspect(card));});
     this.button('result-collection','View collection',w/2-151,h-68,140,42,()=>this.state!.action('collection'),{visibleLabel:'Collection'});this.button('result-continue','Continue',w/2+1,h-68,150,42,()=>this.dismissModal('continue'),{primary:true});
   }
   destroy(){this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.railTween?.kill();this.cancelRailDrag();const canvas=this.stage.app.canvas;canvas.removeEventListener('pointerdown',this.railDown);canvas.removeEventListener('pointermove',this.railMove);canvas.removeEventListener('pointerup',this.railUp);canvas.removeEventListener('pointercancel',this.railCancel);canvas.removeEventListener('wheel',this.railWheel);this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}

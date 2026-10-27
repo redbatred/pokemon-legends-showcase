@@ -1,8 +1,8 @@
 import artwork from '../../public/assets/pokemon/manifest.json';
 
 export type PowerKind = 'fire'|'water'|'electric'|'psychic'|'leaf'|'wind'|'ice'|'dark'|'metal'|'ground'|'fairy'|'dragon';
-export type PowerCue = Exclude<PowerKind,'fairy'|'dragon'>;
-export type PowerProfile = { dexId:number|null; kind:PowerKind; cue:PowerCue; color:number; light:number; bone:string; origin:[number,number]|null; direction:number };
+export type PowerCue = PowerKind;
+export type PowerProfile = { species:string;move:'stream'|'shuriken'|'discharge'|'aura'|'blade';dexId:number|null; kind:PowerKind; cue:PowerCue; color:number; light:number; bone:string; origin:[number,number]|null; direction:number };
 const groups:Record<PowerKind,string[]>={
  fire:['charizard','moltres','ninetales','cinderace'],
  water:['blastoise','greninja','gyarados','kyogre','suicune','vaporeon'],
@@ -21,6 +21,6 @@ export function pokemonPower(path:string):PowerProfile{
  const entry=Object.values(artwork).find(p=>p.image.split('/').pop()?.replace(/\.[^.]+$/,'')===name);
  const [color,light]=colors[kind];
  const origins:Record<string,[number,number]>={charizard:[.405,.225],pikachu:[.29,.43],blastoise:[.805,.32],gyarados:[.34,.27],rayquaza:[.35,.27]};
- return {dexId:entry?.dexId??null,kind,cue:kind==='fairy'?'psychic':kind==='dragon'?'wind':kind,color,light,
+ return {species:name,move:name==='greninja'?'shuriken':kind==='electric'?'discharge':['fire','water','dragon','ice'].includes(kind)?'stream':['leaf','metal','wind'].includes(kind)?'blade':'aura',dexId:entry?.dexId??null,kind,cue:kind,color,light,
   bone:name==='blastoise'?'chest':['psychic','fairy','dark','metal','ground'].includes(kind)?'chest':'head',origin:origins[name]??null,direction:name==='blastoise'?-.3:kind==='fire'||kind==='dragon'?-2.45:-2.2};
 }

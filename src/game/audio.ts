@@ -1,12 +1,12 @@
 import { Howl, Howler } from 'howler';
+import cueManifest from '../../public/assets/audio-v4/cues.json';
 import { pokemonPower, type PowerCue } from './powerProfiles';
 export type Sound = PowerCue|'throw'|'impact'|'release'|'charge'|'tear'|'flip'|'reveal'|'rare'|'complete'|'credit'|'ui'|'latch'|'stage'|'land'|'suspense'|'slam';
 type Voice={howl:Howl;id:number;scene:boolean;paused:boolean;key:string;gain:number};
 const sounds=new Map<string,Howl>(), pending=new Map<string,Promise<void>>(), voices=new Set<OwnedVoice>();
 let enabled=false,scenePaused=false,hidden=false,lastCredit=-Infinity,lastLand=-Infinity;
 let music:Howl|null=null,musicId:number|undefined,musicPaused=false,interacted=false,musicGain=.14;
-const gains:Partial<Record<Sound,number>>={suspense:.32,slam:.48,ui:.18,latch:.34,stage:.14,land:.22,throw:.34,impact:.37,release:.38,charge:.19,fire:.34,water:.32,electric:.30,psychic:.30,tear:.34,flip:.24,reveal:.34,rare:.40,complete:.32,credit:.12};
-const newer=new Set(['ui','latch','normal','rare','stage','land','credit','suspense','slam','release']);
+const cues:Record<string,{gain:number;files:{mp3:string;ogg:string}}>=cueManifest;
 function mixMusic(){
  if(!music||musicId===undefined)return;
  const next=[...voices].some(v=>v.scene&&!v.paused)?.035:scenePaused?.085:.14;
@@ -24,7 +24,7 @@ function syncMusic(){
 export function unlockAudio(){interacted=true;if(enabled)void Howler.ctx?.resume();syncMusic();}
 function sample(key:string){
  let howl=sounds.get(key);
- if(!howl){const directory=newer.has(key)?'audio-v3':'audio-v2';howl=new Howl({src:[`/assets/${directory}/${key}.mp3`,`/assets/${directory}/${key}.ogg`],preload:true,pool:4});sounds.set(key,howl);}
+ if(!howl){const cue=cues[key];howl=new Howl({src:cue?[cue.files.mp3,cue.files.ogg]:[`/assets/audio-v2/${key}.mp3`,`/assets/audio-v2/${key}.ogg`],preload:true,pool:4});sounds.set(key,howl);}
  return howl;
 }
 function ready(key:string){
@@ -54,7 +54,7 @@ function start(key:string,gain:number,scene:boolean,pan=0){
 export function playSound(name:Sound,options:{pan?:number;gain?:number}={}){
  if(name==='credit'){const now=performance.now();if(now-lastCredit<90)return;lastCredit=now;}
  if(name==='land'){const now=performance.now();if(now-lastLand<75)return;lastLand=now;}
- start(name==='reveal'?'normal':name,(gains[name]??.32)*(options.gain??1),name!=='credit'&&name!=='complete'&&name!=='ui',options.pan);
+ start(name==='reveal'?'normal':name,(cues[name==='reveal'?'normal':name]?.gain??.32)*(options.gain??1),name!=='credit'&&name!=='complete'&&name!=='ui',options.pan);
 }
 export function playPokemonCry(dexId:number|null){if(dexId===null||!enabled||hidden||scenePaused)return;const cry=start(`cries/${dexId}`,.56,true);if(!cry)return;for(const voice of voices)if(voice.scene&&!voice.key.startsWith('cries/'))voice.howl.fade(voice.gain,voice.gain*.42,65,voice.id);}
 function syncPause(){for(const voice of voices){const shouldPause=hidden||(voice.scene&&scenePaused);if(shouldPause&&!voice.paused){voice.howl.pause(voice.id);voice.paused=true;}else if(!shouldPause&&voice.paused&&enabled){voice.howl.play(voice.id);voice.paused=false;}}}

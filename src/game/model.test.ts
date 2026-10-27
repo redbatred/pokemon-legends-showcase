@@ -64,3 +64,16 @@ describe('demo accounting', () => {
     expect(settleOpening(opened).balance).toBe(100225);
   });
 });
+it('keeps total winnings after history rolls off and does not count free credits or duplicate settlement',()=>{
+ let save=newSave();
+ for(let i=0;i<34;i++)save=settleOpening(createOpening({...save,balance:100000},pool,()=>0));
+ expect(save.history).toHaveLength(30);expect(save.totalWon).toBe(8500);
+ expect(settleOpening(save,save.history[0].id).totalWon).toBe(8500);
+ expect(validateSave({...save,balance:999999})?.totalWon).toBe(8500);
+});
+it('preserves old saves and seeds recorded winnings from retained completed openings',()=>{
+ const save=settleOpening(createOpening(newSave(),pool,()=>0));
+ const {totalWon:_,...legacy}=save;
+ expect(validateSave(legacy)?.totalWon).toBe(250);
+ expect(validateSave({...save,totalWon:-1})).toBeNull();
+});

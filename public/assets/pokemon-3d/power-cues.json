@@ -1,0 +1,179 @@
+{
+  "charizard": {
+    "form": "flamethrower",
+    "seek": 0.55,
+    "speed": 1.4,
+    "powerAt": 1.9,
+    "sustainEnd": 2.8,
+    "end": 2.96,
+    "recoverAt": 3.7,
+    "emitters": [
+      {
+        "id": "mouth",
+        "bone": "head",
+        "tip": [
+          -0.03962,
+          -0.0,
+          0.176902
+        ],
+        "forward": [
+          -0.073879,
+          -0.0,
+          0.47494
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Tip is the mean world position of left/right upper_jaw_a and left/right lower_jaw, converted to head-local space at source t=2.375. Forward follows head to center_nose. The static socket approximates the mouth center during the open-jaw window; jaw has secondary motion. Jaw opening peaks at2.375 and stays >=80% of its maximum from1.7917 to2.9583. These effects/timing are authored recommendations for the supplied generic attack clip, not official Flamethrower animation event metadata.",
+    "sources": [
+      "https://assets.pokemon.com/assets/cms2/pdf/video-game/pokken/Charizard_Chart_EN.pdf"
+    ],
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and pulseTimes are source clip seconds; speed is playback rate; projectileLifetime is wall seconds",
+    "coordinateUnits": "tip and forward are absolute points in the named bone local space, not direction vectors",
+    "chargeDuration": 0.9642857142857143,
+    "sourceGlbSha256": "5fe4dd7a4a785404c9c26dc5c174d0c68e4e9a5010213138694ccf2d405d22b3"
+  },
+  "blastoise": {
+    "form": "twin-hydro-pump",
+    "seek": 0.55,
+    "speed": 1.4,
+    "powerAt": 1.65,
+    "sustainEnd": 2.75,
+    "end": 3.05,
+    "recoverAt": 3.5,
+    "emitters": [
+      {
+        "id": "cannon-left",
+        "bone": "left_feeler_b_02",
+        "tip": [
+          0.26,
+          0,
+          0
+        ],
+        "forward": [
+          0.52,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "cannon-right",
+        "bone": "right_feeler_b_02",
+        "tip": [
+          0.26,
+          0,
+          0
+        ],
+        "forward": [
+          0.52,
+          0,
+          0
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Each terminal barrel has177 fully weighted vertices attached to its b_02 bone. Native bone-local geometry spans X=-.00763.. .26094; Y/Z roughly +/-.083. Both barrels therefore emit along local +X, not global +Z. Cannon-forward maxima occur source t=1.67..1.72 after the windup. Body holds the extended firing pose through roughly3.0; chosen envelope is a recommendation.",
+    "sources": [
+      "https://unite.pokemon.com/en-gb/news/blastoise-has-blasted-into-pokemon-unite/"
+    ],
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and pulseTimes are source clip seconds; speed is playback rate; projectileLifetime is wall seconds",
+    "coordinateUnits": "tip and forward are absolute points in the named bone local space, not direction vectors",
+    "chargeDuration": 0.7857142857142857,
+    "sourceGlbSha256": "7dc079ae1905dbf6976fdb5fc2f1e941cddb735fc220521ecc912259b07cb105"
+  },
+  "pikachu": {
+    "form": "cheek-lightning",
+    "seek": 0,
+    "speed": 1.0,
+    "powerAt": 0.56,
+    "sustainEnd": 0.73,
+    "end": 0.88,
+    "recoverAt": 1.7,
+    "emitters": [
+      {
+        "id": "cheek-left",
+        "bone": "head",
+        "tip": [
+          0.034184,
+          -0.085334,
+          0.076179
+        ],
+        "forward": [
+          0.034184,
+          -0.085334,
+          0.276179
+        ]
+      },
+      {
+        "id": "cheek-right",
+        "bone": "head",
+        "tip": [
+          0.034184,
+          0.085334,
+          0.076179
+        ],
+        "forward": [
+          0.034184,
+          0.085334,
+          0.276179
+        ]
+      }
+    ],
+    "attachment": "continuous-pulses",
+    "pulseTimes": [
+      0.56,
+      0.64,
+      0.73
+    ],
+    "evidence": "Cheek centers are native head-local centroids of14 red-texture body vertices per side, isolated from the body mesh; bilateral symmetry was verified. pointlight1/2 sit by the eyes and should not substitute for cheeks. Source attack is a jump/flip: head apex0.5667; front-facing air pose around .55-.85; landing/crouch minimum1.0167. Recommended short discharge fits the frontal air pose and ends before landing.",
+    "sources": [
+      "https://www.pokemon.com/uk/pokedex/pikachu",
+      "https://unite.pokemon.com/en-us/pokemon/pikachu/"
+    ],
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and pulseTimes are source clip seconds; speed is playback rate; projectileLifetime is wall seconds",
+    "coordinateUnits": "tip and forward are absolute points in the named bone local space, not direction vectors",
+    "chargeDuration": 0.56,
+    "sourceGlbSha256": "634e7e7d9971dd5b179661d313b3935e1a159c16e46b817360b7e8edcfc91fb8"
+  },
+  "greninja": {
+    "form": "water-shuriken",
+    "seek": 0.12,
+    "speed": 1.2,
+    "powerAt": 0.666667,
+    "sustainEnd": 0.72,
+    "end": 1.2,
+    "recoverAt": 1.65,
+    "emitters": [
+      {
+        "id": "throwing-left-hand",
+        "bone": "left_hand_24",
+        "tip": [
+          0.090442,
+          1.9e-05,
+          -0.001424
+        ],
+        "forward": [
+          0.358153,
+          -0.071911,
+          -0.091815
+        ]
+      }
+    ],
+    "attachment": "capture-at-release",
+    "projectileCount": 1,
+    "projectileLifetime": 0.44,
+    "evidence": "Throwing hand is left_hand_24, not jaw_01_5/head_8. Tip is the mean of left middle/index/ring first finger joints transformed into hand-local space. Forward is measured hand velocity from source .65 to .666667, transformed into the hand frame at .683333. Peak forward hand velocity occurs .658333; hand extends and holds from about .70 to1.0. Capture world origin and direction once at release; never keep released shuriken attached to the wrist. Source clip is named rangeattack01, not an explicit named Water Shuriken event track.",
+    "sources": [
+      "https://www.pokemon.com/us/pokedex/greninja?mo_ar=true&so_ar=true",
+      "https://unite.pokemon.com/en-us/pokemon/greninja/"
+    ],
+    "attackClip": "pm0725_11_00_00450_rangeattack01",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and pulseTimes are source clip seconds; speed is playback rate; projectileLifetime is wall seconds",
+    "coordinateUnits": "tip and forward are absolute points in the named bone local space, not direction vectors",
+    "chargeDuration": 0.4555558333333334,
+    "sourceGlbSha256": "0ece25a7f9e92a5a1485639dd238ed69ac7eef4fa4a936421c8e8ecf35955100"
+  }
+}

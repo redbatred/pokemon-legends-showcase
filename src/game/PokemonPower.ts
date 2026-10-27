@@ -1,103 +1,122 @@
-import { Graphics, Point } from 'pixi.js';
+import {Graphics,Point} from 'pixi.js';
 import type {PokemonActor} from './PokemonActor';
-import type { PowerProfile } from './powerProfiles';
-
+import type {PowerProfile} from './powerProfiles';
+import type {ProjectedEmitter} from './moveRig';
 const TAU=Math.PI*2;
-/** One finite, cel-shaded move, attached to the animated skeleton, never to the screen. */
+
+/** Finite, pose-synchronized cel effects. Released projectiles retain their launch vector. */
 export class PokemonPower {
- readonly back=new Graphics();readonly front=new Graphics();
- charge=0;blast=0;fade=1;
- private t=0;private origin=new Point();
+ readonly back=new Graphics();readonly front=new Graphics();charge=0;blast=0;fade=1;clock=0;
+ private history:{time:number;points:ProjectedEmitter[]}[]=[];private time=0;private releasedAt=-1;private launch:ProjectedEmitter[]=[];private point=new Point();private target=new Point();
  constructor(private hero:PokemonActor,readonly profile:PowerProfile,private low=false){}
- update(dt:number){
-  this.t+=dt;const b=this.back.clear(),g=this.front.clear(),p=this.profile;
-  if(this.fade<=0||(!this.charge&&!this.blast))return;
-  const local=this.hero.powerOrigin(p);
-  this.hero.parent!.toLocal(this.hero.toGlobal(local),undefined,this.origin);
-  const x=this.origin.x,y=this.origin.y,t=this.t,c=p.color,light=p.light;
-  const q=this.charge,blast=this.blast,alpha=this.fade;
+ begin(){this.history=[];this.time=0;this.clock=0;this.releasedAt=-1;this.launch=[];this.charge=0;this.blast=0;this.fade=1;}
+ release(at:number){this.releasedAt=at;this.launch=this.emitters();this.history=[{time:at,points:this.launch}];}
+ private emitters():ProjectedEmitter[]{return this.hero.powerEmitters(this.profile).map(p=>{
+  this.hero.parent!.toLocal(this.hero.toGlobal(new Point(p.x,p.y)),undefined,this.point);
+  this.hero.parent!.toLocal(this.hero.toGlobal(new Point(p.x+p.dx*20,p.y+p.dy*20)),undefined,this.target);
+  const dx=this.target.x-this.point.x,dy=this.target.y-this.point.y,d=Math.hypot(dx,dy)||1;
+  return {x:this.point.x,y:this.point.y,dx:dx/d,dy:dy/d,foreshortening:p.foreshortening};
+ });}
+ update(_dt:number){
+  this.back.clear();const g=this.front.clear();if(this.fade<=0||(!this.charge&&!this.blast))return;
+  this.time=this.clock;let emitters=this.emitters();
+  if(this.blast>0&&this.releasedAt<0){this.releasedAt=this.time;this.launch=emitters.map(p=>({...p}));}
+  if(this.blast>0&&this.time>(this.history.at(-1)?.time??-1)){this.history.push({time:this.time,points:emitters});while(this.history.length>2&&this.history[1].time<this.time-.32)this.history.shift();}
+  if(this.profile.move==='shuriken'&&this.blast>0)emitters=this.launch;
+  for(let i=0;i<emitters.length;i++)this.draw(emitters[i],i,g);
+ }
+ private star(g:Graphics,x:number,y:number,r:number,color:number,alpha:number,rotation=0){
+  const points:number[]=[];for(let j=0;j<8;j++){const a=rotation+j*Math.PI/4,rr=j%2?r*.19:r;points.push(x+Math.cos(a)*rr,y+Math.sin(a)*rr);}g.poly(points).fill({color,alpha});
+ }
+ private draw(e:ProjectedEmitter,index:number,g:Graphics){
+  const p=this.profile,t=this.time,c=p.color,light=p.light,q=this.charge,alpha=this.fade;
+  const {x,y,dx,dy}=e,nx=-dy,ny=dx;
+  const at=(u:number,v:number):[number,number]=>{
+   if(p.move==='stream'&&this.history.length&&this.blast>0){
+    const birth=this.time-u/900;let a=this.history[0],b=a;
+    for(const sample of this.history){b=sample;if(sample.time>=birth)break;a=sample;}
+    const t=a===b?0:Math.max(0,Math.min(1,(birth-a.time)/(b.time-a.time))),a0=a.points[index]??e,b0=b.points[index]??e;
+    const hx=a0.x+(b0.x-a0.x)*t,hy=a0.y+(b0.y-a0.y)*t,fx=a0.dx+(b0.dx-a0.dx)*t,fy=a0.dy+(b0.dy-a0.dy)*t;
+    return [hx+fx*u-fy*v,hy+fy*u+fx*v];
+   }
+   return [x+dx*u+nx*v,y+dy*u+ny*v];
+  };
   if(q>0){
-   const r=9+q*17;
-   for(let i=0;i<(this.low?8:14);i++){
-    const a=i/14*TAU+t*1.3,travel=(t*1.3+i*.071)%1,d=(1-travel)*100+18;
-    const px=x+Math.cos(a)*d,py=y+Math.sin(a)*d*.8;
-    g.moveTo(px,py).lineTo(px+Math.cos(a)*8,py+Math.sin(a)*8).stroke({color:c,width:2,alpha:q*travel*alpha});
+   if(p.move==='shuriken')this.shuriken(g,x,y,9+q*27,t*13,q);
+   else if(p.kind==='electric'){
+    this.star(g,x,y,3+q*8,light,q,t*2);for(let i=0;i<3;i++){const a=i/3*TAU+t,pts=[x,y,x+Math.cos(a)*14,y+Math.sin(a)*14,x+Math.cos(a+.4)*(25+q*20),y+Math.sin(a+.4)*(25+q*20)];g.poly(pts,false).stroke({color:c,width:2,alpha:q*.85});}
+   }else{
+    // Small anatomical ignition; the character remains readable through the windup.
+    const count=this.low?5:9;for(let i=0;i<count;i++){const u=(t*1.7+i/count)%1,a=i/count*TAU,r=12+(1-u)*52*q;const px=x+Math.cos(a)*r,py=y+Math.sin(a)*r*.65;g.moveTo(px,py).lineTo(x+Math.cos(a)*(r+7),y+Math.sin(a)*(r+7)*.65).stroke({color:c,width:1.2,alpha:u*q*.65});}
+    this.star(g,x,y,3+q*7,light,q*.85,t*.8);
    }
-   g.circle(x,y,r*1.6).fill({color:c,alpha:q*.15*alpha});
-   g.circle(x,y,r).fill({color:c,alpha:q*.9*alpha}).circle(x-2,y-2,r*.6).fill({color:light,alpha:q*alpha});
-   g.circle(x-3,y-3,r*.3).fill({color:0xffffff,alpha:q*alpha});
   }
-  if(blast<=0)return;
-  const strength=Math.sin(Math.min(1,blast)*Math.PI*.5),a=alpha*strength;
-  const direction=p.direction;
-  const dx=Math.cos(direction),dy=Math.sin(direction),nx=-dy,ny=dx;
-  const at=(u:number,v:number)=>[x+dx*u+nx*v,y+dy*u+ny*v];
-  const count=this.low?9:17;
-  if(p.kind==='water'){
-   const reach=245*strength;
+  if(!this.blast)return;
+  const age=Math.max(0,this.time-this.releasedAt),strength=Math.min(1,this.blast*1.35),opacity=alpha*strength;
+  if(p.move==='shuriken'){
+   const u=Math.min(1,age/.44),distance=u*235,[px,py]=at(distance,-Math.sin(u*Math.PI)*18);
+   for(let trail=4;trail>0;trail--){const [tx,ty]=at(Math.max(0,distance-trail*15),-Math.sin(u*Math.PI)*18);this.shuriken(this.back,tx,ty,(31+u*9)*(1-trail*.08),age*24-trail*.3,opacity*(.12-trail*.018));}
+   this.shuriken(g,px,py,31+u*9,age*24,opacity);return;
+  }
+  if(p.kind==='fire'||p.kind==='dragon'){
+   const length=(p.kind==='fire'?195:215)*Math.min(strength,age/.18)*(.35+.65*(e.foreshortening??1)),osc=t*19;
+   // An accelerating stream with asymmetric tongues, dark cel edge and a slender hot core.
    for(let layer=0;layer<3;layer++){
-    const points:number[]=[];const width=(13-layer*4)*strength;
-    for(let i=0;i<=24;i++){const u=i/24;points.push(...at(u*reach,Math.sin(u*12-t*17)*6*u+width*(1-u*.4)));}
-    for(let i=24;i>=0;i--){const u=i/24;points.push(...at(u*reach,Math.sin(u*12-t*17)*6*u-width*(1-u*.4)));}
-    g.poly(points).fill({color:layer===0?c:layer===1?light:0xffffff,alpha:a*.9});
+    const points:number[]=[],width=[26,17,6][layer],reach=length*(1-layer*.13);
+    for(let side=0;side<2;side++)for(let j=0;j<=26;j++){
+     const u=side?1-j/26:j/26,root=2*(1-u),shape=(.12+.88*u)*Math.min(1,(1-u)*13);
+     const tongues=1+.21*Math.sin(u*27-osc+side*2)+.11*Math.sin(u*43-osc*1.4);
+     const center=Math.sin(u*8-t*7)*u*6;
+     points.push(...at(u*reach,center+(side?-1:1)*(root+width*shape*tongues)));
+    }
+    g.poly(points).fill({color:layer===0?c:layer===1?(p.kind==='fire'?0xffcc53:light):0xfff9d9,alpha:opacity});
+    if(layer===0)g.poly(points).stroke({color:p.kind==='fire'?0xbc3449:0x394da4,width:1.2,alpha:opacity*.65});
    }
-   for(let ribbon=0;ribbon<2;ribbon++){
-    const points:number[]=[];for(let j=0;j<=25;j++){const u=j/25;points.push(...at(u*reach,Math.sin(u*19-t*17+ribbon*Math.PI)*14));}
-    g.poly(points,false).stroke({color:light,width:2,alpha:a*.7});
+   for(let i=0;i<(this.low?5:10);i++){
+    const u=(age*2.2+i*.103)%1,side=Math.sin(i*4.7),[px,py]=at(length*(.4+u*.75),side*(16+u*32)),r=(1-u)*7+2;
+    // Curved tear-off tongues follow the jet instead of orbiting the Pokémon.
+    g.moveTo(px-dx*r*2,py-dy*r*2).quadraticCurveTo(px+nx*r,py+ny*r,px+dx*r*2,py+dy*r*2).quadraticCurveTo(px-nx*r*.5,py-ny*r*.5,px-dx*r*2,py-dy*r*2).fill({color:i%3?c:light,alpha:opacity*(1-u)});
    }
-   for(let i=0;i<count;i++){
-    const u=(t*1.4+i/count)%1,side=Math.sin(i*47),[px,py]=at(reach*.7+u*65,side*(10+u*45));
-    g.ellipse(px,py,2+u*3,4+u*4).fill({color:i%2?c:light,alpha:a*(1-u)});
-   }
-  }else if(['fire','dragon'].includes(p.kind)){
-   const reach=55+205*strength;
+  }else if(p.kind==='water'||p.kind==='ice'){
+   const reach=205*Math.min(strength,age/.18)*(.35+.65*(e.foreshortening??1)),w=p.species==='blastoise'?10:14;
    for(let layer=0;layer<3;layer++){
-    const w=(32-layer*9)*strength,col=layer===0?c:layer===1?light:0xffffff;
-    const pts:number[]=[];
-    for(let i=0;i<=14;i++){const u=i/14;const v=(Math.sin(u*19-t*26)*.22+1)*w*Math.sin(u*Math.PI)**.6;pts.push(...at(u*reach,v));}
-    for(let i=14;i>=0;i--){const u=i/14;const v=-(Math.sin(u*21-t*22+2)*.23+1)*w*Math.sin(u*Math.PI)**.6;pts.push(...at(u*reach,v));}
-    g.poly(pts).fill({color:col,alpha:a*(layer===0?.9:.95)});
+    const pts:number[]=[],width=w*(1-layer*.31);
+    for(let side=0;side<2;side++)for(let j=0;j<=20;j++){const u=side?1-j/20:j/20,taper=Math.min(1,(1-u)*12),wave=Math.sin(u*22-t*29+index)*2*u;pts.push(...at(u*reach,wave+(side?-1:1)*width*(.55+u*.8)*taper));}
+    g.poly(pts).fill({color:layer===0?0x1675cf:layer===1?c:light,alpha:opacity*(layer===2?.88:1)});
    }
-   for(let i=0;i<count;i++){
-    const u=(i/count+t*1.3)%1,spread=Math.sin(i*14.7)*55*u;
-    const [px,py]=at(u*reach,spread),r=(1-u)*4+1;
-    g.poly([px-r,py,px,py-r*3,px+r,py,px,py+r*2]).fill({color:i%2?c:light,alpha:a*(1-u)});
+   for(let i=0;i<(this.low?5:9);i++){
+    const u=(age*2.6+i*.17)%1,[px,py]=at(reach*.88+u*34,Math.sin(i*13)*(6+u*28));
+    g.moveTo(px-dx*6,py-dy*6).lineTo(px+nx*2,py+ny*2).lineTo(px+dx*9,py+dy*9).closePath().fill({color:light,alpha:opacity*(1-u)});
    }
   }else if(p.kind==='electric'){
-   for(let ray=0;ray<(this.low?5:9);ray++){
-    const angle=ray/9*TAU+t*.1,reach=(155+Math.sin(ray*17)*45)*strength;
-    const pts:number[]=[x,y];
-    for(let j=1;j<7;j++){const r=j/6*reach,zig=j===6?0:Math.sin(j*9+ray*4+Math.floor(t*24))*15;pts.push(x+Math.cos(angle)*r+Math.sin(angle)*zig,y+Math.sin(angle)*r-Math.cos(angle)*zig);}
-    g.poly(pts,false).stroke({color:c,width:10,alpha:a*.22}).poly(pts,false).stroke({color:c,width:5,alpha:a*.9}).poly(pts,false).stroke({color:0xffffef,width:1.8,alpha:a});
-    const px=pts[8],py=pts[9];g.moveTo(px,py).lineTo(px+Math.cos(angle+.7)*22,py+Math.sin(angle+.7)*22).lineTo(px+Math.cos(angle+.4)*42,py+Math.sin(angle+.4)*42).stroke({color:light,width:1.7,alpha:a*.9});
-   }
-  }else if(p.kind==='psychic'||p.kind==='fairy'||p.kind==='dark'){
-   for(let i=0;i<(this.low?8:15);i++){
-    const angle=i/15*TAU+t*(p.kind==='dark'?-2.3:1.8),r=50+blast*110;
-    const px=x+Math.cos(angle)*r,py=y+Math.sin(angle)*r*.7;
-    if(p.kind==='dark')g.moveTo(px,py).quadraticCurveTo(px+Math.sin(angle)*40,py-Math.cos(angle)*40,x+Math.cos(angle+.5)*r*.65,y+Math.sin(angle+.5)*r*.65).stroke({color:c,width:8,alpha:a*.8});
-    else {const size=i%3===0?9:5;g.poly([px,py-size,px+size*.25,py-size*.25,px+size,py,px+size*.25,py+size*.25,px,py+size,px-size*.25,py+size*.25,px-size,py,px-size*.25,py-size*.25]).fill({color:i%2?c:light,alpha:a});}
-   }
-   b.ellipse(x,y,120*strength,48*strength).stroke({color:c,width:4,alpha:a*.7});
-   b.ellipse(x,y,80*strength,100*strength).stroke({color:light,width:2,alpha:a*.6});
-  }else{
+   const pulse=.65+.35*Math.sin(age*67)**2,seed=Math.floor(age*22),count=this.low?3:5;
    for(let i=0;i<count;i++){
-    const angle=i/count*TAU+t*.6,r=35+((t*1.1+i/count)%1)*140*strength;
-    const px=x+Math.cos(angle)*r,py=y+Math.sin(angle)*r*.75,s=(4+i%4)*strength;
-    if(p.kind==='leaf'){
-     const vx=Math.cos(angle)*s*2,vy=Math.sin(angle)*s*2;
-     g.moveTo(px-vx,py-vy).quadraticCurveTo(px-vy*1.1,py+vx*1.1,px+vx,py+vy).quadraticCurveTo(px+vy,py-vx,px-vx,py-vy).fill({color:i%2?c:light,alpha:a});
-     g.moveTo(px-vx,py-vy).lineTo(px+vx,py+vy).stroke({color:0x1c754d,width:1,alpha:a});
-    }else if(p.kind==='ice'||p.kind==='metal'){
-     g.poly([px,py-s*2,px+s*.7,py,px,py+s*2,px-s*.7,py]).fill({color:c,alpha:a});
-     g.poly([px,py-s*2,px+s*.7,py,px,py+s*2]).fill({color:light,alpha:a});
-    }else if(p.kind==='ground'){
-     g.poly([px-s,py-s*.4,px-s*.3,py-s,px+s*.8,py-s*.6,px+s,py+s*.6,px-s*.5,py+s]).fill({color:i%2?c:light,alpha:a});
-    }else{
-     g.moveTo(px,py).quadraticCurveTo(px+Math.sin(angle)*35,py-Math.cos(angle)*35,x+Math.cos(angle+.4)*r*.5,y+Math.sin(angle+.4)*r*.5).stroke({color:i%2?c:light,width:2+i%3,alpha:a});
-    }
+    const angle=(index?-.4:.5)+i/count*TAU,length=(75+i%3*23)*strength,pts:number[]=[x,y];
+    for(let j=1;j<=6;j++){const u=j/6,z=j===6?0:Math.sin(j*12.4+i*6.3+seed*4.1)*10;pts.push(x+Math.cos(angle)*length*u-Math.sin(angle)*z,y+Math.sin(angle)*length*u+Math.cos(angle)*z);}
+    g.poly(pts,false).stroke({color:c,width:7,alpha:opacity*.18*pulse}).poly(pts,false).stroke({color:c,width:3.6,alpha:opacity*pulse}).poly(pts,false).stroke({color:light,width:1.1,alpha:opacity*pulse});
+    const bx=pts[6],by=pts[7];g.moveTo(bx,by).lineTo(bx+Math.cos(angle+.8)*18,by+Math.sin(angle+.8)*18).lineTo(bx+Math.cos(angle+.3)*34,by+Math.sin(angle+.3)*34).stroke({color:light,width:1,alpha:opacity});
    }
+  }else if(p.move==='blade'){
+   const count=this.low?5:9;for(let i=0;i<count;i++){
+    const u=(age*1.7+i/count)%1,side=Math.sin(i*9.1),[px,py]=at(22+u*185,side*(35+u*45)),r=(6+i%3*2)*(1-u*.35),a=t*8+i;
+    const vx=Math.cos(a)*r,vy=Math.sin(a)*r;
+    g.moveTo(px-vx,py-vy).quadraticCurveTo(px-vy,py+vx,px+vx*2,py+vy*2).quadraticCurveTo(px+vy*.4,py-vx*.4,px-vx,py-vy).fill({color:i%2?c:light,alpha:opacity*(1-u*.7)});
+    g.moveTo(px-vx,py-vy).lineTo(px+vx*1.6,py+vy*1.6).stroke({color:p.kind==='leaf'?0x247a55:0xf1ffff,width:.8,alpha:opacity});
+   }
+  }else{
+   // Aura pressure travels outward in staggered crescents, with a single focal flash.
+   const count=this.low?5:8;
+   for(let i=0;i<count;i++){
+    const u=Math.min(1,Math.max(0,age*2.3-i*.045)),angle=i/count*TAU,r=22+u*115,span=.28+(i%2)*.12;
+    g.moveTo(x+Math.cos(angle-span)*r,y+Math.sin(angle-span)*r*.75).quadraticCurveTo(x+Math.cos(angle)*(r+12),y+Math.sin(angle)*(r+12)*.75,x+Math.cos(angle+span)*r,y+Math.sin(angle+span)*r*.75).stroke({color:i%2?c:light,width:5*(1-u)+1,alpha:opacity*(1-u)});
+   }
+   if(age<.18)this.star(g,x,y,30*(1-age/.18),light,opacity*(1-age/.18),.2);
   }
+ }
+ private shuriken(g:Graphics,x:number,y:number,r:number,angle:number,alpha:number){
+  const points:number[]=[];for(let i=0;i<12;i++){const a=angle+i*TAU/12,rr=i%3===0?r:i%3===1?r*.27:r*.36;points.push(x+Math.cos(a)*rr,y+Math.sin(a)*rr*.72);}
+  g.poly(points).fill({color:0x3aaeff,alpha:alpha*.85}).stroke({color:0xc6ffff,width:1.7,alpha});
+  for(let i=0;i<4;i++){const a=angle+i*Math.PI/2;g.moveTo(x,y).lineTo(x+Math.cos(a)*r*.82,y+Math.sin(a)*r*.58).stroke({color:0xeaffff,width:1.6,alpha:alpha*.9});}
  }
  destroy(){this.back.destroy();this.front.destroy();}
 }

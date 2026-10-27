@@ -3,8 +3,8 @@ export interface Pack { id: string; name: string; price: number; packImage: stri
 export const DEFAULT_PACK: Pack = { id: 'obsidian-flames', name: 'Obsidian Flames', price: 1000, packImage: '/assets/pack.webp', catalogUrl: '/assets/catalog.json', accent: '#f09749', rewardCount: 10 };
 export interface Opening { id: string; at: string; cards: Card[]; pack?: Pack; previewSpecial?: boolean }
 export interface Result extends Opening { total: number }
-export interface Save { version: 1; balance: number; collection: Record<string, number>; history: Result[]; active: Opening | null }
-export const newSave = (): Save => ({ version: 1, balance: 10000, collection: {}, history: [], active: null });
+export interface Save { version: 1; balance: number; totalWon?: number; collection: Record<string, number>; history: Result[]; active: Opening | null }
+export const newSave = (): Save => ({ version: 1, balance: 10000, totalWon: 0, collection: {}, history: [], active: null });
 export const PACK_COST = 1000;
 export const money = (cents: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
 export const energy: Card = { id: 'energy', number: '', name: 'Basic Fire Energy', rarity: 'Energy', image: '/assets/cards/energy.webp', value: 0, weight: 0 };
@@ -30,8 +30,9 @@ export function settleOpening(save: Save, expectedId?: string): Save {
   const total = save.active.cards.reduce((n, c) => n + c.value, 0);
   const collection = { ...save.collection };
   for (const card of save.active.cards) if (card.id !== 'energy') collection[card.id] = (collection[card.id] ?? 0) + 1;
-  return { ...save, balance: save.balance + total, collection, history: [{ ...save.active, total }, ...save.history].slice(0, 30), active: null };
+  return { ...save, balance: save.balance + total, totalWon: recordedWinnings(save) + total, collection, history: [{ ...save.active, total }, ...save.history].slice(0, 30), active: null };
 }
+export const recordedWinnings=(save:Save)=>save.totalWon??save.history.reduce((sum,result)=>sum+result.total,0);
 export function validateSave(value: unknown): Save | null {
   if (!value || typeof value !== 'object') return null;
   const s = value as Save;
@@ -41,8 +42,8 @@ export function validateSave(value: unknown): Save | null {
     const count = o?.pack?.rewardCount ?? 10;
     return o && (o.previewSpecial===undefined||typeof o.previewSpecial==='boolean') && [9,10].includes(count) && (!o.pack || (typeof o.pack.id === 'string' && typeof o.pack.name === 'string' && cents(o.pack.price))) && typeof o.id === 'string' && typeof o.at === 'string' && Array.isArray(o.cards) && o.cards.length === 11 && o.cards.every(validCard) && o.cards.slice(count).every(c => c.id === 'energy' && c.value === 0) && o.cards.slice(0,count).every(c => c.id !== 'energy');
   };
-  if (s.version !== 1 || !cents(s.balance) || !s.collection || typeof s.collection !== 'object' || Array.isArray(s.collection) || !Object.values(s.collection).every(cents) || !Array.isArray(s.history) || !s.history.every(o => validOpening(o) && cents(o.total)) || (s.active !== null && !validOpening(s.active))) return null;
-  return s;
+  if (s.version !== 1 || (s.totalWon!==undefined&&!cents(s.totalWon)) || !cents(s.balance) || !s.collection || typeof s.collection !== 'object' || Array.isArray(s.collection) || !Object.values(s.collection).every(cents) || !Array.isArray(s.history) || !s.history.every(o => validOpening(o) && cents(o.total)) || (s.active !== null && !validOpening(s.active))) return null;
+  return {...s,totalWon:recordedWinnings(s)};
 }
 export function priceCard(raw: Omit<Card, 'value' | 'weight'>): Card {
   const n = Number(raw.number);

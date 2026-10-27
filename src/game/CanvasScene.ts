@@ -34,9 +34,9 @@ export class CanvasScene {
     if(active===this.active)return;this.active=active;this.chargeLevel=-1;this.animation?.kill();this.arena.visible=active;
     if(active){playSound('stage');this.entrance.amount=reduced?1:0;this.animation=gsap.to(this.entrance,{amount:1,duration:reduced?.01:.8,ease:'power3.out',paused:this.paused});}
   }
-  get illumination(){return this.active?(this.chargeLevel>=0?.04+this.chargeLevel*.32:.16+this.impactState.amount*.23):0;}
+  get illumination(){return this.active?(this.chargeLevel>=0?.02+this.chargeLevel*.14:.07+this.impactState.amount*.10):0;}
   get lightTint(){return (Math.round(this.light.r)<<16)|(Math.round(this.light.g)<<8)|Math.round(this.light.b);}
-  setCardColor(color:number,reduced:boolean){this.colorTween?.kill();this.colorTween=gsap.to(this.light,{r:(color>>16)&255,g:(color>>8)&255,b:color&255,duration:reduced?.01:.55,ease:'power2.out',paused:this.paused});}
+  setCardColor(color:number,reduced:boolean,duration=.55){this.colorTween?.kill();this.colorTween=gsap.to(this.light,{r:(color>>16)&255,g:(color>>8)&255,b:color&255,duration:reduced?.01:duration,ease:'power2.out',paused:this.paused});}
   setCharge(amount:number|null){this.chargeLevel=amount??-1;}
   beginReveal(reduced:boolean){this.chargeLevel=-1;this.exposureTween?.kill();this.exposureTween=gsap.to(this.exposure,{amount:reduced?1:.45,duration:.18,ease:'power2.out',paused:this.paused});}
   impact(rare:boolean,reduced:boolean){this.chargeLevel=-1;this.exposureTween?.kill();this.exposure.amount=reduced?1:1.2;this.exposureTween=gsap.to(this.exposure,{amount:1,duration:.65,paused:this.paused});this.impactTween?.kill();this.impactState.amount=reduced?0:rare?1:.45;this.impactTween=gsap.to(this.impactState,{amount:0,duration:rare?1.2:.65,ease:'power2.out',paused:this.paused});}
