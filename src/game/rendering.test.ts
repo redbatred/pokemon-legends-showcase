@@ -12,7 +12,7 @@ describe('bounded game rendering',()=>{
  it('keeps narrow phones stacked and reserves a full caption above reveal controls',()=>{
   const narrow=gameLayout(360,540,true),landscape=gameLayout(568,320,true);
   expect(narrow.compact).toBe(false);
-  expect(narrow.dockTop-narrow.actionTop).toBe(132);
+  expect(narrow.dockTop-narrow.actionTop).toBe(144);
   expect(landscape.compact).toBe(true);
   for(const size of [[390,700],[360,540],[568,320],[844,390],[1280,720]]){
    const layout=gameLayout(size[0],size[1],true);

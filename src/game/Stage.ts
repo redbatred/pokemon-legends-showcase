@@ -6,6 +6,7 @@ import type { Card } from './model';
 import { artworkColor } from './cardColor';
 import { CanvasScene } from './CanvasScene';
 import { gameLayout, renderResolution, cardTrayLayout } from './rendering';
+import { loadPackTexture } from './packTexture';
 
 type Options = { reduced: boolean; low: boolean; onTear: () => void; onNext: () => void };
 type Particle = { sprite: Graphics; x: number; y: number; speed: number; phase: number; depth: number };
@@ -15,6 +16,8 @@ export class OpeningStage {
   scene = new CanvasScene();
   onLayout: (()=>void) | null = null;
   onCardStored: ((index:number)=>void)|null=null;flightLayer=new Container();private cardColors=new Map<string,number>();
+  onCollectFocus:((index:number)=>void)|null=null;
+  cardDestination:((index:number)=>{x:number;y:number;cardWidth:number})|null=null;
   blocked = false;
   private lastProjection = new WeakMap<PerspectiveMesh,string>();
   private shadowTexture: Texture | null = null;
@@ -83,7 +86,7 @@ export class OpeningStage {
     shade.addColorStop(0,'rgba(0,5,19,.4)');shade.addColorStop(1,'rgba(0,5,19,0)');shadowContext.scale(1,.25);shadowContext.fillStyle=shade;shadowContext.fillRect(0,0,256,256);
     this.shadowTexture=Texture.from(shadow);this.shadows.texture=this.shadowTexture;this.shadows.anchor.set(.5);this.shadows.position.set(0,235);this.shadows.width=340;this.shadows.height=60;
     await this.scene.init();
-    const [packTexture, back] = await Promise.all([Assets.load<Texture>('/assets/pack.webp'), Assets.load<Texture>('/assets/card-back.webp')]);
+    const [packTexture, back] = await Promise.all([loadPackTexture('/assets/pack.webp'), Assets.load<Texture>('/assets/card-back.webp')]);
     if (this.destroyed) return;
     // Clip white source-corner pixels once, at native resolution.
     const backCanvas = document.createElement('canvas');
@@ -158,7 +161,7 @@ export class OpeningStage {
 
   async setPack(path: string, accent: string) {
     const request = ++this.packToken;
-    const texture = await Assets.load<Texture>(path);
+    const texture = await loadPackTexture(path);
     if (this.destroyed || request !== this.packToken) return;
     this.packMesh.texture = texture;
     this.lastProjection.delete(this.packMesh);
@@ -358,14 +361,36 @@ export class OpeningStage {
     const flight=new Container();flight.position.set(this.world.x+this.cardLayer.x*this.world.scale.x,this.world.y+this.cardLayer.y*this.world.scale.y);flight.scale.set(this.world.scale.x*this.cardLayer.scale.x);flight.rotation=this.cardLayer.rotation;
     mesh.filters=[];mesh.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);flight.addChild(mesh);this.flightLayer.addChild(flight);this.cardMesh=null;this.cardEdge.alpha=0;return flight;
   }
-  private flyToTray(timeline:gsap.core.Timeline,flight:Container,index:number,activeIndex:number,durationScale:number){
-    const start={x:flight.x,y:flight.y,scale:flight.scale.x,rotation:flight.rotation},progress={value:0};
-    timeline.to(progress,{value:1,duration:.72*durationScale,ease:'power2.inOut',onUpdate:()=>{
-      const tray=cardTrayLayout(this.app.screen.width,this.app.screen.height,activeIndex),end=tray.slot(index),t=progress.value;
+  private flyToTray(timeline:gsap.core.Timeline,flight:Container,index:number,activeIndex:number,durationScale:number,at=0){
+    let start={x:flight.x,y:flight.y,scale:flight.scale.x,rotation:flight.rotation};const progress={value:0};
+    timeline.to(progress,{value:1,duration:.72*durationScale,ease:'power2.inOut',onStart:()=>{start={x:flight.x,y:flight.y,scale:flight.scale.x,rotation:flight.rotation};},onUpdate:()=>{
+      const tray=cardTrayLayout(this.app.screen.width,this.app.screen.height,activeIndex),end=this.cardDestination?.(index)??{...tray.slot(index),cardWidth:tray.cardWidth},t=progress.value;
       const controlX=start.x+(end.x-start.x)*.28,controlY=start.y-32;
       flight.position.set((1-t)*(1-t)*start.x+2*(1-t)*t*controlX+t*t*end.x,(1-t)*(1-t)*start.y+2*(1-t)*t*controlY+t*t*end.y);
-      flight.scale.set(start.scale+(tray.cardWidth/312-start.scale)*t);flight.rotation=start.rotation*(1-t)+Math.sin(Math.PI*t)*Math.sign(end.x-start.x)*.08;
-    },onComplete:()=>{flight.destroy({children:true});this.onCardStored?.(index);}},0);
+      flight.scale.set(start.scale+(end.cardWidth/312-start.scale)*t);flight.rotation=start.rotation*(1-t)+Math.sin(Math.PI*t)*Math.sign(end.x-start.x)*.08;
+    },onComplete:()=>{flight.destroy({children:true});this.onCardStored?.(index);}},at);
+  }
+  async collectRemaining(cards:Card[],from:number){
+    const request=++this.revealToken;
+    const textures=await Promise.all(cards.slice(from).map(card=>Assets.load<Texture>(card.image)));
+    if(this.destroyed||request!==this.revealToken)return;
+    const first=this.detachCard();this.stack.visible=false;
+    const d=this.options.reduced?.01:1;
+    return new Promise<void>(resolve=>{
+      const timeline=gsap.timeline({onComplete:resolve});this.timeline=timeline;
+      textures.forEach((texture,offset)=>{
+        const index=from+offset,flight=offset===0&&first?first:new Container();
+        if(flight!==first){const face=new Sprite(texture);face.anchor.set(.5);face.width=312;face.height=435;flight.addChild(face);this.flightLayer.addChild(flight);}
+        flight.visible=false;
+        const at=offset*.04*d,duration=(offset===0?.3:.36)*d;
+        timeline.call(()=>{if(flight!==first){flight.position.set(this.world.x+(offset%2?15:-15)*this.world.scale.x,this.world.y);flight.scale.set(this.world.scale.x*.8);flight.rotation=(offset%2?1:-1)*.045;}flight.visible=true;if(offset%2===0)playSound('flip');},[],at);
+        if(offset>0){flight.alpha=0;timeline.to(flight,{alpha:1,duration:.07*d},at);}
+        this.flyToTray(timeline,flight,index,index,duration/.72,at);
+        timeline.call(()=>this.onCollectFocus?.(index),[],at+duration);
+      });
+      timeline.to({}, {duration:.12*d});
+      if(this.blocked||document.hidden)timeline.pause();
+    });
   }
   async storeCurrent(index:number){
     const flight=this.detachCard();if(!flight)return;

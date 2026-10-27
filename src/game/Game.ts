@@ -73,16 +73,18 @@ export class PokemonGame {
       else if(phase==='revealing'){
         const card=this.save?.active?.cards[this.index];if(!card)throw new Error('Opening changed. Reload to sync your game.');
         await this.stage.reveal(card,this.index===0,Math.max(0,this.index-1));if(valid()){this.error='';this.actor.send({type:'FLIPPED'});}
+      }else if(phase==='collecting'){
+        const cards=this.save?.active?.cards;if(!cards)throw new Error('Opening changed. Reload to sync your game.');
+        await this.stage.collectRemaining(cards,this.index);if(valid())this.actor.send({type:'COLLECTED'});
       }else if(phase==='settling'){
         const id=this.save?.active?.id;if(!id)throw new Error('Opening changed. Reload to sync your game.');
-        await this.stage.storeCurrent(this.index);if(!valid())return;
         this.save=await transactSave(s=>settleOpening(s,id));if(!valid())return;
         this.resultId=id;this.stage.showResult();this.actor.send({type:'SETTLED'});playSound('complete');
       }
     }catch(e){
       if(!valid())return;
       this.error=phase==='revealing'?'Card image could not load. Retry the reveal.':(e as Error).message;
-      if(phase==='reserving'||phase==='settling')this.actor.send({type:'FAIL'});
+      if(phase==='reserving'||phase==='collecting'||phase==='settling')this.actor.send({type:'FAIL'});
       this.render();
     }
   }

@@ -11,7 +11,7 @@ export function gameLayout(width:number,height:number,opening=false) {
   const portrait=width<700,compact=height<550&&width>=560;
   const top=compact?68:portrait?82:76;
   const dock=opening?(compact?92:158):(compact?148:portrait?216:226);
-  const actions=opening?(compact?74:132):(compact?52:72);
+  const actions=opening?(compact?74:144):(compact?52:72);
   const playHeight=Math.max(90,height-top-dock-actions);
   return {width,height,portrait,compact,top,dock,actions,playHeight,actionTop:height-dock-actions,dockTop:height-dock,worldY:top+playHeight/2,scale:Math.min(width/430,(playHeight-16)/435,1.4)};
 }

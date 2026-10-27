@@ -13,3 +13,15 @@ it('gates duplicate purchase and reveal inputs until animation completion', () =
   expect(actor.getSnapshot().context.index).toBe(1);
   actor.stop();
 });
+it('waits for every collected card before allowing settlement and results', () => {
+  const actor=createActor(openingMachine).start();
+  for(const type of ['OPEN','RESERVED','TEAR','TORN','FLIPPED','ALL'] as const)actor.send({type});
+  expect(actor.getSnapshot().value).toBe('collecting');
+  actor.send({type:'ALL'});actor.send({type:'NEXT'});actor.send({type:'SETTLED'});
+  expect(actor.getSnapshot().value).toBe('collecting');
+  actor.send({type:'COLLECTED'});
+  expect(actor.getSnapshot().value).toBe('settling');
+  actor.send({type:'SETTLED'});
+  expect(actor.getSnapshot().value).toBe('complete');
+  actor.stop();
+});
