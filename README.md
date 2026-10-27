@@ -17,11 +17,12 @@ Use the Local URL printed by Vite. The development preview for this session uses
 ## Implemented
 
 - Ten selectable packs at the supplied PDF prices ($10–$1,000 demo credits), with 25 genuine card scans per set. All 30 featured references from the brief are included.
-- A dedicated selection scene. After the wrapper tears, cards enter an anime-style scene drawn in SVG with official Charizard and Charmander artwork, layered clouds, fire, embers and a Poké Ball platform. No generated background is used.
+- A dedicated selection scene. After the wrapper tears, cards enter a generated anime arena in indigo, silver and icy cyan. A separate detailed platform activates with light pulses, rising energy rings, moving spotlights, mist and particles. No Pokémon characters appear in the scenery.
 - Deforming wrapper meshes, progressively torn edges, a curled seal, foil interior and sliding card stack. Pointer drag and a keyboard-accessible tear button share the opening sequence.
 - Perspective card flips, pointer tilt and restrained holographic effects. Card text is protected from glare. Filters inherit display resolution; the inspector has a native-size view.
 - Ten rewards plus one zero-value Energy for modern packs; nine rewards plus two Energy for Base Set. Results are fixed and saved before animation; settlement credits their total exactly once.
 - Collection, duplicate counts, inspection, export, history, free credits, sound, reduced motion and low graphics. IndexedDB restores unfinished openings after refresh.
+- Native-resolution rounded masking removes the white card-back corners. Reward values, revealed total, credited total and wallet animate without per-frame React state updates.
 
 ## Rendering
 
@@ -29,7 +30,7 @@ React owns menus and discrete game events. PixiJS owns the render loop, geometry
 
 ## Assets and rules
 
-[ASSET-SOURCES.md](ASSET-SOURCES.md) records source URLs. Modern scans are native 733/734×1024; Base Set scans are source-native 600×825. Character art is native 2356×2356 and 932×932. Images are stored locally. Refresh with `node scripts/fetch-assets.mjs`; original downloads are preserved in ignored `source-assets/`, outside the deployed bundle. UI sounds are original synthesized effects. Typography uses Google Fonts with system fallbacks.
+[ASSET-SOURCES.md](ASSET-SOURCES.md) records source URLs. Modern scans are native 733/734×1024; Base Set scans are source-native 600×825. The generated environment is 1672×941; the separate transparent platform is 1774×887. Images are stored locally. Refresh with `node scripts/fetch-assets.mjs`; original downloads are preserved in ignored `source-assets/`, outside the deployed bundle. UI sounds are original synthesized effects. Typography uses Google Fonts with system fallbacks.
 
 The supplied PDF references a separate 250-card pool and payout weights that were not provided. This implementation uses curated genuine cards and illustrative values/weights. It does not reproduce physical booster odds or claim a verified 94.5% RTP. Credits have no cash value; no payments, withdrawal or backend is implemented.
 

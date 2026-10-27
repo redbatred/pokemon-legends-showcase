@@ -57,3 +57,10 @@ User removed the editorial/marketing layout in favour of a full game canvas belo
 User then rejected the generated cave and required Pokémon anime art direction with the stage appearing only after tearing. Replaced the cave with original SVG scenery and real high-resolution Sugimori Pokémon art. The selection scene has no platform. The reveal scene uses layered cel-shaded mountains/clouds, flame motion, energy particles and a Poké Ball platform. Archived rejected art outside public.
 
 Validation: ten unit tests pass; production build and browser checks performed. Reviewer found one remaining stale-tab credit-update edge; added transaction guard to preserve local reveal state when another tab changes the active opening.
+
+
+## Final user direction
+
+Replaced vector-only art with generated anime paintings for the arena and separate transparent mechanical platform. No characters in scenery, no orange UI. Added composed spotlight/mist/star/energy layers, stage activation, refined fold/turn/travel/departure timelines, clipped card-back corners and animated money counters. Sources for motion implementation: https://gsap.com/docs/v3/GSAP/Timeline/ and https://pixijs.download/release/docs/scene.MeshPlane.html; Pokémon TCG Pocket official presentation reviewed at https://tcgpocket.pokemon.com/en-us/.
+
+Private source upload initially exceeded the Git request size limit. Importing unchanged native-resolution image objects in bounded commits avoids lowering image quality; final source helper still verifies/builds/packages the exact final commit.

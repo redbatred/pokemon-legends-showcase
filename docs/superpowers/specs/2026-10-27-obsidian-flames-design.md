@@ -6,7 +6,9 @@ User approved React, PixiJS, GSAP, XState, Howler and IndexedDB, authentic onlin
 
 The Pokémon Legends header and two tabs sit above the game itself. No marketing headings, explanatory sidebars or promotional copy in the main play area. Ten priced pack types appear in the bottom selector. A clean dark-indigo selection scene holds the unopened pack. Only after the wrapper tears do cards enter the illustrated Pokémon arena.
 
-The latest user correction explicitly rejects hyperrealistic/generated scenery. The final environment is code-drawn, cel-shaded SVG, official Sugimori Charizard/Charmander art, drifting clouds, outlined mountains, animated flames/embers and a Poké Ball platform. The rejected generated cave is archived outside public assets.
+The final user direction requests generated, intricate Pokémon anime atmosphere, no Pokémon characters in the scenery, and no orange interface accents. The environment and separate transparent platform are high-resolution generated anime paintings. CSS composites moving light beams, mist, stars and energy effects, with platform activation timed to card arrival. Buttons and pack selections use indigo, cyan and silver. Earlier cave, vector-only scenery and character-bearing designs are superseded.
+
+Card-back corners are masked at native resolution. The wrapper folds to expose silver material, tears in stages under tension, and falls away. Cards travel onto the stage, turn with perspective and a visible thin edge, then depart toward the collection strip. Money counts up through DOM animations rather than React frame updates.
 
 ## Flow and rules
 
