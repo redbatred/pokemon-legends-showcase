@@ -17,10 +17,10 @@ Development preview: http://localhost:5174/.
 ## Game
 
 - Ten packs at the supplied PDF prices ($10–$1,000 demo credits), 25 genuine scans per set, including all 30 featured references from the brief.
-- One Pixi canvas renders the entire game: HUD, floating pack selector, binder, settings/history, card inspection and results. No React runtime or components. Invisible semantic controls provide keyboard and screen-reader access to the same canvas controls.
+- One Pixi canvas renders the entire game: HUD, square draggable pack rail, binder, settings/history, card inspection and results. No React runtime or components. Invisible semantic controls provide keyboard and screen-reader access to the same canvas controls.
 - A Pokémon anime stadium with blue-and-white stands, hand-painted clouds, green hills and Poké Ball emblems. Its separate cel-shaded platform appears after tearing. Slow environment drift, moving lights, socket glows and expanding reveal pulses share the same renderer.
 - Deforming wrapper tear, curled seal and foil interior; sliding stack, perspective flips, spring landing and rarity-sensitive light/particle bursts. Sound is optional.
-- Larger pack artwork and price badges float over a transparent bottom fade. Money uses cached bitmap glyphs, animated credit counts and a short payout sparkle sequence; no per-frame text rasterization.
+- Large square pack tiles sit over a transparent bottom fade. Mouse/touch dragging has elastic edges, momentum and snapping, with wheel and keyboard-button alternatives. The logo floats over the scene; circular binder/history/settings/sound icons replace the header bar and tabs. Money uses cached bitmap glyphs, animated credit counts and a short payout sparkle sequence; no per-frame text rasterization.
 - Modern packs contain ten rewards plus one zero-value Energy. Base Set contains nine rewards plus two Energy. Results are fixed/saved before animation and credited once when collected.
 - Browser-local persistence, unfinished pack recovery, collection/duplicate counts, native-size inspection with pan, export, opening history, free credits, sound, reduced motion and low graphics.
 
@@ -40,7 +40,7 @@ The supplied PDF references a separate 250-card pool and payout weights that wer
 
 ## Verification
 
-14 automated tests cover debit/settlement idempotency, pack prices, reward counts, Energy, recovery, invalid saves, insufficient funds, stale-tab settlement, state-machine gating, renderer pixel budgets, collection pagination and responsive stage bounds. Browser checks cover desktop/portrait/landscape UI, pause/resume, collection/inspection, repeated reveals, payout, settings and pack selection. Production build includes an expected Pixi vendor size advisory (~178 kB gzip).
+17 automated tests cover debit/settlement idempotency, pack prices, reward counts, Energy, recovery, invalid saves, insufficient funds, stale-tab settlement, state-machine gating, renderer pixel budgets, collection pagination and responsive stage bounds, drag momentum, snap limits and edge resistance. Browser checks cover desktop/portrait/landscape UI, pause/resume, collection/inspection, repeated reveals, payout, settings and pack selection. Production build includes an expected Pixi vendor size advisory (~178 kB gzip).
 
 ## Source
 

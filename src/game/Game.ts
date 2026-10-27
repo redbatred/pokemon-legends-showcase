@@ -94,9 +94,10 @@ export class PokemonGame {
   private syncTargets=(hits:HitTarget[],summary:string)=>{
     const old=document.activeElement instanceof HTMLButtonElement?document.activeElement.dataset.control:undefined;
     this.controls.replaceChildren();
-    for(const hit of hits){const button=document.createElement('button');button.type='button';button.dataset.control=hit.id;button.setAttribute('aria-label',hit.label);button.disabled=hit.disabled;
+    for(const hit of hits){const button=document.createElement('button');button.type='button';button.dataset.control=hit.id;button.setAttribute('aria-label',hit.label);button.disabled=hit.disabled;if(hit.selected!==undefined)button.setAttribute('aria-pressed',String(hit.selected));
       Object.assign(button.style,{left:`${hit.x}px`,top:`${hit.y}px`,width:`${hit.width}px`,height:`${hit.height}px`});
-      button.onclick=()=>{this.view?.setFocus(null);hit.action();};button.onfocus=()=>{if(this.keyboard)this.view?.setFocus(hit.id);};button.onblur=()=>this.view?.setFocus(null);
+      button.onclick=(event)=>{if(hit.canvasPointer&&event.detail>0)return;this.view?.setFocus(null);hit.action();};if(hit.canvasPointer){button.style.cursor='grab';button.style.zIndex='0';button.onpointerdown=event=>this.view?.railDown(event);button.onwheel=event=>this.view?.railWheel(event);}button.onfocus=()=>{if(this.keyboard)this.view?.setFocus(hit.id);};button.onblur=()=>this.view?.setFocus(null);
+      if(!hit.canvasPointer)button.style.zIndex='1';
       button.onpointerenter=()=>this.view?.hover(hit.id,true);button.onpointerleave=()=>this.view?.hover(hit.id,false);this.controls.append(button);
       if(this.keyboard&&old===hit.id&&!hit.disabled)button.focus({preventScroll:true});
     }
