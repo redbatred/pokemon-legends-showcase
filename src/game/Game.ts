@@ -3,10 +3,11 @@ import { Assets } from 'pixi.js';
 import { OpeningStage } from './Stage';
 import { CanvasUI, type UIState, type HitTarget, type GameAction, type Panel } from './CanvasUI';
 import { openingMachine } from './machine';
-import { createOpening, settleOpening, priceCard, DEFAULT_PACK, type Card, type Save, type Pack } from './model';
+import { settleOpening, priceCard, DEFAULT_PACK, type Card, type Save, type Pack } from './model';
 import { loadSave, transactSave, resetSave } from './storage';
 import { setSound, playSound } from './audio';
 import { specialPokemon,type PokemonArtwork } from './specialReward';
+import { createPreviewOpening } from './previewOpening';
 
 /** Discrete game state and persistence. Pixi owns every visible screen and frame. */
 export class PokemonGame {
@@ -70,13 +71,13 @@ export class PokemonGame {
     const valid=()=>!this.destroyed&&token===this.flowToken;
     try{
       if(phase==='reserving'){
-        this.save=await transactSave(s=>createOpening(s,this.pool,Math.random,this.selected));if(!valid())return;
+        this.save=await transactSave(s=>createPreviewOpening(s,this.pool,this.selected,this.pokemonArt));if(!valid())return;
         this.preloadOpening();await this.preparePack();if(valid())this.actor.send({type:'RESERVED'});
       }else if(phase==='sealed'){if(this.ready)this.stage.setSealed();}
       else if(phase==='tearing'){await this.stage.tear();if(valid())this.actor.send({type:'TORN'});}
       else if(phase==='revealing'){
         const card=this.save?.active?.cards[this.index];if(!card)throw new Error('Opening changed. Reload to sync your game.');
-        await this.stage.reveal(card,this.index===0,Math.max(0,this.index-1),specialPokemon(card,this.selected.price,this.pokemonArt));if(valid()){this.error='';this.actor.send({type:'FLIPPED'});}
+        await this.stage.reveal(card,this.index===0,Math.max(0,this.index-1),specialPokemon(card,this.index===0&&this.save?.active?.previewSpecial?0:this.selected.price,this.pokemonArt));if(valid()){this.error='';this.actor.send({type:'FLIPPED'});}
       }else if(phase==='collecting'){
         const cards=this.save?.active?.cards;if(!cards)throw new Error('Opening changed. Reload to sync your game.');
         await this.stage.collectRemaining(cards,this.index);if(valid())this.actor.send({type:'COLLECTED'});

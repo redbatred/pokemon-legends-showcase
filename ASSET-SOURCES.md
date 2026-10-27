@@ -120,4 +120,10 @@ Refresh only these bounded assets with `ASSET_PYTHON`'s interpreter, for example
 - Runtime: `@esotericsoftware/spine-pixi-v8` 4.2.120, from the official Esoteric Software package. Runtime license is shipped at `public/assets/spine/LICENSE.txt`. User confirmed the required Spine Editor license in the project chat.
 - Poké Ball: original canvas-authored cel-shaded atlas and Spine bone animation data in `src/game/SpineReveal.ts`.
 - Pokémon: official artwork listed in `public/assets/pokemon/provenance.json`, displayed through original Spine mesh/breathing animation data. These are artwork rigs, not studio-authored articulated character rigs.
-- Big-win eligibility is at least the selected pack's demo price and a supported Pokémon artwork. This presentation threshold does not change card values or odds.
+- Big-win eligibility is at least the selected pack's demo price and a supported Pokémon artwork. Normal eligibility does not change card values or odds. The user-requested temporary first-card preview is documented in README.md; it deliberately overrides the first draw and animation eligibility while preserving the real demo value.
+
+## Living arena light rig
+
+- Existing anime stadium/platform artwork is retained. No replacement artwork was generated for this revision.
+- `StageLightRig.ts` creates original transparent emitter, inner-core, bloom, fixture and beam attachments and animates them through Spine. Masks exclude court paint and lower-body shadows.
+- `LivingBackdrop.ts` applies restrained sky/foliage mesh motion to the original scene, pins its borders and stadium architecture, and adds original soft daylight textures.

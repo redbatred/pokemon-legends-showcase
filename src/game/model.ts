@@ -1,7 +1,7 @@
 export interface Card { id: string; number: string; name: string; rarity: string; image: string; value: number; weight: number }
 export interface Pack { id: string; name: string; price: number; packImage: string; catalogUrl: string; accent: string; rewardCount: 9 | 10 }
 export const DEFAULT_PACK: Pack = { id: 'obsidian-flames', name: 'Obsidian Flames', price: 1000, packImage: '/assets/pack.webp', catalogUrl: '/assets/catalog.json', accent: '#f09749', rewardCount: 10 };
-export interface Opening { id: string; at: string; cards: Card[]; pack?: Pack }
+export interface Opening { id: string; at: string; cards: Card[]; pack?: Pack; previewSpecial?: boolean }
 export interface Result extends Opening { total: number }
 export interface Save { version: 1; balance: number; collection: Record<string, number>; history: Result[]; active: Opening | null }
 export const newSave = (): Save => ({ version: 1, balance: 10000, collection: {}, history: [], active: null });
@@ -39,7 +39,7 @@ export function validateSave(value: unknown): Save | null {
   const validCard = (c: Card) => c && typeof c.id === 'string' && typeof c.name === 'string' && typeof c.rarity === 'string' && typeof c.image === 'string' && c.image.startsWith('/assets/') && cents(c.value);
   const validOpening = (o: Opening) => {
     const count = o?.pack?.rewardCount ?? 10;
-    return o && [9,10].includes(count) && (!o.pack || (typeof o.pack.id === 'string' && typeof o.pack.name === 'string' && cents(o.pack.price))) && typeof o.id === 'string' && typeof o.at === 'string' && Array.isArray(o.cards) && o.cards.length === 11 && o.cards.every(validCard) && o.cards.slice(count).every(c => c.id === 'energy' && c.value === 0) && o.cards.slice(0,count).every(c => c.id !== 'energy');
+    return o && (o.previewSpecial===undefined||typeof o.previewSpecial==='boolean') && [9,10].includes(count) && (!o.pack || (typeof o.pack.id === 'string' && typeof o.pack.name === 'string' && cents(o.pack.price))) && typeof o.id === 'string' && typeof o.at === 'string' && Array.isArray(o.cards) && o.cards.length === 11 && o.cards.every(validCard) && o.cards.slice(count).every(c => c.id === 'energy' && c.value === 0) && o.cards.slice(0,count).every(c => c.id !== 'energy');
   };
   if (s.version !== 1 || !cents(s.balance) || !s.collection || typeof s.collection !== 'object' || Array.isArray(s.collection) || !Object.values(s.collection).every(cents) || !Array.isArray(s.history) || !s.history.every(o => validOpening(o) && cents(o.total)) || (s.active !== null && !validOpening(s.active))) return null;
   return s;
