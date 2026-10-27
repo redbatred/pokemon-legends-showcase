@@ -5,7 +5,7 @@ import { CanvasUI, type UIState, type HitTarget, type GameAction, type Panel } f
 import { openingMachine } from './machine';
 import { settleOpening, priceCard, DEFAULT_PACK, type Card, type Save, type Pack } from './model';
 import { loadSave, transactSave, resetSave } from './storage';
-import { setSound, playSound } from './audio';
+import { setSound, playSound,setAudioScenePaused,destroyAudio,preloadRevealAudio } from './audio';
 import { specialPokemon,type PokemonArtwork } from './specialReward';
 import { createPreviewOpening } from './previewOpening';
 
@@ -65,7 +65,7 @@ export class PokemonGame {
     catch{if(token===this.packToken)this.error='Pack image could not load. Select another pack or reload.';}
     this.render();
   }
-  private preloadOpening(){this.save?.active?.cards.forEach(c=>{void Assets.load(c.image).catch(()=>{});});}
+  private preloadOpening(){this.save?.active?.cards.forEach((c,i)=>{void Assets.load(c.image).catch(()=>{});const art=specialPokemon(c,i===0&&this.save?.active?.previewSpecial?0:this.selected.price,this.pokemonArt);if(art)void preloadRevealAudio(art);});}
   private async runPhase(){
     const token=++this.flowToken;const phase=this.phase;
     const valid=()=>!this.destroyed&&token===this.flowToken;
@@ -94,6 +94,7 @@ export class PokemonGame {
     }
   }
   private render(){
+    setAudioScenePaused(!!this.panel||!!this.inspected);
     if(!this.view||this.destroyed)return;
     const cards=Array.from(new Map([...Object.values(this.catalogs).flat(),...(this.save?.history.flatMap(o=>o.cards)??[])].filter(c=>c.id!=='energy').map(c=>[c.id,c])).values());
     const state:UIState={phase:this.phase,index:this.index,save:this.save,packs:this.packs,selected:this.selected,pool:this.pool,cards,ready:this.ready,error:this.error,toast:this.toast,panel:this.panel,inspected:this.inspected,result:this.save?.history.find(o=>o.id===this.resultId),sound:this.sound,reduced:this.reduced,low:this.low,action:this.action,select:this.select,inspect:card=>{this.inspected=card;this.render();}};
@@ -152,5 +153,5 @@ export class PokemonGame {
     }
     this.render();
   };
-  destroy(){this.destroyed=true;++this.flowToken;++this.packToken;clearTimeout(this.toastTimer);this.actor.stop();this.view?.destroy();this.stage.destroy();this.controls.remove();this.announcer.remove();document.removeEventListener('keydown',this.trackKeys);document.removeEventListener('pointerdown',this.trackPointer);}
+  destroy(){destroyAudio();this.destroyed=true;++this.flowToken;++this.packToken;clearTimeout(this.toastTimer);this.actor.stop();this.view?.destroy();this.stage.destroy();this.controls.remove();this.announcer.remove();document.removeEventListener('keydown',this.trackKeys);document.removeEventListener('pointerdown',this.trackPointer);}
 }

@@ -1,7 +1,7 @@
 import { Application, Assets, Container, Graphics, PerspectiveMesh, MeshPlane, Sprite, Texture, Rectangle } from 'pixi.js';
 import { gsap } from 'gsap';
 import { createFoil } from './foil';
-import { playSound } from './audio';
+import { playSound,setAudioHidden,stopRevealAudio } from './audio';
 import type { Card } from './model';
 import { artworkColor } from './cardColor';
 import { CanvasScene } from './CanvasScene';
@@ -68,6 +68,7 @@ export class OpeningStage {
     if(this.blocked||this.mode==='result')this.draw();
   };
   private visibility = () => {
+    setAudioHidden(document.hidden);
     this.scene.pause(document.hidden||this.blocked);
     if (document.hidden) { this.app.stop(); this.timeline?.pause(); for (const t of this.tweens) t.pause(); }
     else if (!this.blocked && this.mode !== 'result') { this.sampleStart=0;this.sampleFrames=0;this.app.start(); this.timeline?.resume(); for (const t of this.tweens) t.resume(); }
@@ -149,7 +150,7 @@ export class OpeningStage {
     gsap.to(this.pack, { alpha: 1, duration: this.options.reduced ? .01 : .6 });
   }
 
-  updateOptions(options: Options) { const changed=this.options.low!==options.low,reducing=!this.options.reduced&&options.reduced;this.options=options;if(reducing&&this.special){this.timeline?.progress(1);this.special.update(3);}if(changed&&this.app.renderer)this.resize(); }
+  updateOptions(options: Options) { const changed=this.options.low!==options.low,reducing=!this.options.reduced&&options.reduced;this.options=options;if(reducing&&this.special){this.timeline?.progress(1);this.special.update(3);stopRevealAudio();}if(changed&&this.app.renderer)this.resize(); }
   draw(){
     if(this.destroyed||!this.app.renderer||this.app.ticker.started||this.drawFrame)return;
     this.drawFrame=requestAnimationFrame(()=>{this.drawFrame=0;if(!this.destroyed&&!this.app.ticker.started)this.app.renderer.render(this.app.stage);});
@@ -333,7 +334,7 @@ export class OpeningStage {
     const texture = await Assets.load<Texture>(card.image);
     if (this.destroyed || request !== this.revealToken) return;
     let special:SpineReveal|null=null;
-    if(pokemonImage&&!this.options.reduced){try{const {SpineReveal}=await import('./SpineReveal');special=await SpineReveal.create(texture,pokemonImage);}catch(error){console.warn('Special reveal artwork unavailable',error);}}
+    if(pokemonImage&&!this.options.reduced){try{const {SpineReveal}=await import('./SpineReveal');special=await SpineReveal.create(texture,pokemonImage,this.options.low);}catch(error){console.warn('Special reveal artwork unavailable',error);}}
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     this.scene.beginReveal(this.options.reduced);
     this.mode = 'card'; this.pack.visible = false; this.packShadow.visible = false;
@@ -371,7 +372,8 @@ export class OpeningStage {
     if(this.options.reduced){special?.destroy();special=null;}
     if(special){
       this.special=special;this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
-      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced);this.burst(22);});if(this.blocked||document.hidden)this.timeline.pause();});
+      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced);this.burst(22);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced);this.scene.impact(true,this.options.reduced);});if(this.blocked||document.hidden)this.timeline.pause();});
+      if(!this.destroyed&&request===this.revealToken)this.scene.setCardColor(color!,this.options.reduced);
     }
   }
 

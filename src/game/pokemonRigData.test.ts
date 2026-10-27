@@ -72,13 +72,21 @@ describe('weighted Pokémon artwork rigs', () => {
   it('parses and evaluates all 50 supported species and an unknown fallback in Spine 4.2', () => {
     for (const path of [...Object.values(manifest).map(value => value.image), '/unknown-pokemon.png']) {
       const rig = load(path);
-      for (const animation of ['emerge', 'roar', 'idle']) {
+      for (const animation of ['emerge', 'roar', 'idle', 'charge', 'attack', 'recover']) {
         expect(rig.data.findAnimation(animation), `${path}: ${animation}`).not.toBeNull();
         for (const time of [0, .25, .6, 1, 1.35, 3.2]) {
           expect(rig.pose(animation, time).every(Number.isFinite), `${path}: ${animation} at ${time}`).toBe(true);
         }
       }
     }
+  });
+
+  it('opens Charizard’s separate jaw for the attack and closes it on recovery',()=>{
+    const {skeleton,pose}=load();
+    pose('charge',.48);expect(skeleton.findBone('jaw')!.rotation).toBeCloseTo(7);
+    pose('attack',.12);expect(skeleton.findBone('jaw')!.rotation).toBeCloseTo(23);
+    pose('recover',.46);expect(skeleton.findBone('jaw')!.rotation).toBeCloseTo(0);
+    pose('idle',.8);expect(skeleton.findBone('jaw')!.rotation).toBeCloseTo(0);
   });
 
   it('queues the emergence into a continuous idle loop', () => {

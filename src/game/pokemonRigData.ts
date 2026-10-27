@@ -17,7 +17,7 @@ type Zone = {
 type Anatomy = 'dragon' | 'quadruped' | 'bird' | 'serpent' | 'humanoid' | 'conservative';
 type Profile = { anatomy: Anatomy; joints: Joint[]; zones: Zone[]; amplitude: number };
 type Frame = { time: number; value?: number; x?: number; y?: number };
-type Timeline = { rotate?: Frame[]; scale?: Frame[] };
+type Timeline = { rotate?: Frame[]; scale?: Frame[]; translate?: Frame[] };
 
 export const POKEMON_RIG_SIZE = 350;
 
@@ -38,6 +38,7 @@ function torso(head: Point = [.5, .25], pelvis: Point = [.5, .65], chest: Point 
 
 function charizard(): Profile {
   const joints = torso([.47, .23], [.52, .69], [.52, .48]);
+  joints.push(joint('jaw','head',[.52,.24]));
   joints.push(
     joint('wingLeft', 'chest', [.44, .44], 6.5),
     joint('wingLeftTip', 'wingLeft', [.29, .32], 3.8, -.8),
@@ -76,6 +77,27 @@ function charizard(): Profile {
     ellipse('tailMid', [.57, .77], [.19, .035]),
   ];
   return { anatomy: 'dragon', joints, zones, amplitude: 1 };
+}
+
+// Pikachu's raised hand, tilted face, long ears and tail do not fit a symmetric humanoid mask.
+function pikachu(): Profile {
+ const joints=torso([.29,.39],[.46,.72],[.38,.58]);
+ joints.push(joint('armLeft','chest',[.25,.55],2,.4),joint('handLeft','armLeft',[.10,.61],1,.8),
+  joint('armRight','chest',[.49,.54],-3,.3),joint('handRight','armRight',[.45,.57],-2,.7),
+  joint('earLeft','head',[.20,.30],3,-.4),joint('earLeftTip','earLeft',[.22,.14],2,-.8),
+  joint('earRight','head',[.40,.30],-3,-.3),joint('earRightTip','earRight',[.57,.25],-2,-.7),
+  joint('tail','pelvis',[.62,.70],2,-.8),joint('tailTip','tail',[.74,.44],2,-1.2),
+  joint('footLeft','root',[.36,.88]),joint('footRight','root',[.63,.89]));
+ const zones:Zone[]=[
+  ellipse('footLeft',[.35,.89],[.08,.08]),ellipse('footRight',[.63,.89],[.08,.08]),
+  {bone:'armRight',distal:'handRight',axis:[[.49,.54],[.45,.57]],polygon:[[.40,.50],[.48,.50],[.54,.56],[.50,.65],[.42,.65],[.39,.58]]},
+  {bone:'earLeft',distal:'earLeftTip',axis:[[.20,.30],[.22,.06]],polygon:[[.13,.31],[.16,.14],[.23,0],[.30,0],[.27,.30]]},
+  {bone:'earRight',distal:'earRightTip',axis:[[.4,.30],[.65,.20]],polygon:[[.36,.30],[.48,.22],[.75,.14],[.68,.27],[.50,.36]]},
+  {bone:'head',polygon:[[.1,.30],[.29,.27],[.41,.32],[.48,.44],[.45,.53],[.29,.58],[.12,.52],[.06,.43]]},
+  {bone:'armLeft',distal:'handLeft',axis:[[.25,.55],[.1,.61]],polygon:[[.04,.56],[.23,.53],[.31,.61],[.23,.67],[0,.66],[0,.59]]},
+  {bone:'tail',distal:'tailTip',axis:[[.62,.70],[.74,.44]],polygon:[[.64,.66],[.68,.62],[.62,.47],[.94,.15],[1,.13],[1,.4],[.74,.56],[.73,.66],[.65,.72]]},
+ ];
+ return {anatomy:'humanoid',joints,zones,amplitude:.75};
 }
 
 const quadrupeds: Record<string, Point> = {
@@ -163,6 +185,7 @@ function conservative(name: string): Profile {
 function profileFor(path: string): Profile {
   const name = path.split(/[?#]/)[0].split('/').pop()?.replace(/\.[^.]+$/, '').toLowerCase() ?? '';
   if (name === 'charizard') return charizard();
+  if (name === 'pikachu') return pikachu();
   if (name in quadrupeds) return quadruped(name);
   if (name in birds) return bird(name);
   if (name in humanoids) return humanoid(name);
@@ -217,7 +240,7 @@ function influences(point: Point, profile: Profile): [string, number][] {
 }
 
 function animations(profile: Profile): Record<string, { bones: Record<string, Timeline> }> {
-  const idle: Record<string, Timeline> = {}, emerge: Record<string, Timeline> = {}, roar: Record<string, Timeline> = {};
+  const idle: Record<string, Timeline> = {}, emerge: Record<string, Timeline> = {}, roar: Record<string, Timeline> = {}, charge: Record<string, Timeline> = {}, attack: Record<string, Timeline> = {}, recover: Record<string, Timeline> = {};
   for (const bone of profile.joints) {
     const motion = bone.motion;
     if (!motion || (!motion.angle && !motion.breathe)) continue;
@@ -244,12 +267,32 @@ function animations(profile: Profile): Record<string, { bones: Record<string, Ti
       { time: 0, value: angle * Math.sin(phase) }, { time: .20, value: -value * .35 },
       { time: .46, value }, { time: .72, value: value * .7 }, { time: 1.10, value: angle * Math.sin(phase) },
     ] };
+    // Anticipation -> thrust -> recoil. Distal feet have no motion and stay planted.
+    const windup = bone.name === 'head' ? -7 : bone.name === 'neck' ? 4 : bone.name === 'chest' ? 2.2 : bone.name.startsWith('wing') ? -accent * .65 : bone.name.startsWith('ear') ? -4 * sign : bone.name.startsWith('arm') ? -7 * sign : bone.name.startsWith('tail') ? 1.3 : 0;
+    const hit = bone.name === 'head' ? 9 : bone.name === 'neck' ? -5 : bone.name === 'chest' ? -2.8 : bone.name.startsWith('wing') ? accent * .95 : bone.name.startsWith('ear') ? 6 * sign : bone.name.startsWith('arm') ? 9 * sign : bone.name.startsWith('tail') ? -1.3 : 0;
+    const w = windup * profile.amplitude, h = hit * profile.amplitude;
+    charge[bone.name] = { rotate: [{time:0,value:0},{time:.25,value:w*.6},{time:.48,value:w}] };
+    attack[bone.name] = { rotate: [{time:0,value:w},{time:.12,value:h},{time:.23,value:h*.7},{time:.39,value:h*.9},{time:.61,value:h*.65},{time:.82,value:h*.35}] };
+    recover[bone.name] = { rotate: [{time:0,value:h*.35},{time:.2,value:-h*.1},{time:.46,value:angle*Math.sin(phase)}] };
+    if (bone.name === 'chest') {
+      charge[bone.name].scale=[{time:0,x:1,y:1},{time:.48,x:1.025,y:.97}];
+      attack[bone.name].scale=[{time:0,x:1.025,y:.97},{time:.12,x:.99,y:1.025},{time:.82,x:1,y:1}];
+      recover[bone.name].scale=[{time:0,x:1,y:1},{time:.46,x:1,y:1}];
+    }
     if (motion.breathe) {
       emerge[bone.name].scale = [{ time: 0, x: 1, y: .99 }, { time: .55, x: 1.01, y: 1.02 }, { time: 1.35, x: 1, y: 1 }];
       roar[bone.name].scale = [{ time: 0, x: 1, y: 1 }, { time: .46, x: 1.015, y: 1.025 }, { time: 1.10, x: 1, y: 1 }];
     }
   }
-  return { emerge: { bones: emerge }, roar: { bones: roar }, idle: { bones: idle } };
+  if(profile.joints.some(bone=>bone.name==='jaw')){
+    idle.jaw={rotate:[{time:0,value:0},{time:3.2,value:0}]};
+    emerge.jaw={rotate:[{time:0,value:0},{time:.42,value:17},{time:.72,value:12},{time:1.1,value:0},{time:1.35,value:0}]};
+    roar.jaw={rotate:[{time:0,value:0},{time:.3,value:24},{time:.7,value:17},{time:1.1,value:0}]};
+    charge.jaw={rotate:[{time:0,value:0},{time:.48,value:7}]};
+    attack.jaw={rotate:[{time:0,value:7},{time:.12,value:23},{time:.5,value:21},{time:.82,value:17}]};
+    recover.jaw={rotate:[{time:0,value:17},{time:.25,value:5},{time:.46,value:0}]};
+  }
+  return { emerge: { bones: emerge }, roar: { bones: roar }, idle: { bones: idle }, charge: { bones: charge }, attack: { bones: attack }, recover: { bones: recover } };
 }
 
 /** Pure builder, also used by runtime tests without a GPU or DOM. */
