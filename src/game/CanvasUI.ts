@@ -243,13 +243,19 @@ export class CanvasUI {
     this.railMotion.offset=railPosition(this.railMotion.offset,Math.max(0,s.packs.length*stride-14-viewport.width));
     s.packs.forEach((pack,i)=>{
       const selected=pack.id===s.selected.id,group=new Container();group.pivot.set(tile/2,tile/2);group.position.set(i*stride+tile/2,tile/2);content.addChild(group);groups.push(group);this.paints.set(`pack-${pack.id}`,group);
-      const frame=new Graphics().roundRect(0,3,tile,tile,17).fill({color:0x061d37,alpha:.4}).roundRect(0,0,tile,tile,17).fill({color:selected?0x276f9d:0x123c63,alpha:selected?.88:.76}).stroke({width:selected?2.8:1.4,color:selected?0xb5f9ff:0x679fc1,alpha:.95});
-      frame.roundRect(5,5,tile-10,tile*.55,13).fill({color:0xb6edff,alpha:selected?.11:.04});group.addChild(frame);
-      const artH=l.compact?68:tile-63;this.picture(pack.packImage,tile/2-49,7,98,artH,group);
+      const artH=l.compact?68:tile-63,footY=artH+5;
+      // Packs float directly over the scene, like the original selector.
+      // Keep the larger hit area without drawing a tile around the artwork.
+      const shadow=new Graphics().ellipse(tile/2,footY,selected?59:48,7).fill({color:selected?0x9eefff:0x031d34,alpha:selected?.3:.48});group.addChild(shadow);
+      if(selected){
+        const glow=new Graphics().ellipse(tile/2,footY,69,12).fill({color:0x7fe8ff,alpha:.08}).ellipse(tile/2,footY,57,6).stroke({color:0xc6fbff,width:1.5,alpha:.65});group.addChild(glow);
+        if(!s.reduced)this.moneyAnimations.push(gsap.to(glow,{alpha:.45,duration:1.15,repeat:-1,yoyo:true,ease:'sine.inOut',onUpdate:()=>this.stage.draw()}));
+      }
+      this.picture(pack.packImage,tile/2-49,7,98,artH,group);
       this.text(pack.name,tile/2,tile-53,l.compact?10:12,C.white,group,'center','bold',tile-14);
       const badgeWidth=l.compact?tile-16:132,badgeHeight=l.compact?26:32;const badge=new Graphics().roundRect((tile-badgeWidth)/2,tile-34,badgeWidth,badgeHeight,badgeHeight/2).fill({color:selected?0xc9f6ff:0x0b3052,alpha:.96}).stroke({color:selected?0xf1ffff:0x72a4c6,width:selected?2:1});group.addChild(badge);
       const price=new BitmapText({text:money(pack.price),style:{fontFamily:'LegendsMoney',fontSize:l.compact?20:27}});price.anchor.set(.5,0);price.position.set(tile/2,tile-31);price.tint=selected?0x17436a:C.white;group.addChild(price);
-      if(selected){const rim=new Graphics().roundRect(4,4,tile-8,tile-8,14).stroke({color:0xe5ffff,width:1,alpha:.75});group.addChild(rim);this.ball(tile-17,17,7,0xd6ffff,group);}
+      if(selected)this.ball((tile-badgeWidth)/2-11,tile-34+badgeHeight/2,4,0xd6ffff,group);
       hits.push({id:`pack-${pack.id}`,label:`${pack.name}, ${money(pack.price)}`,x:0,y:viewport.y,width:tile,height:tile,disabled:false,action:()=>s.select(pack),canvasPointer:true,selected});
       if(selected&&this.lastPackId!==pack.id&&!s.reduced)this.moneyAnimations.push(gsap.from(group.scale,{x:.95,y:.95,duration:.36,ease:'back.out(1.8)'}));
     });
