@@ -55,6 +55,14 @@ export class PokemonPower {
   }
   if(!this.blast)return;
   const age=Math.max(0,this.time-this.releasedAt),strength=Math.min(1,this.blast*1.35),opacity=alpha*strength;
+  // An anatomical launch drawing: dark cel edge, colored pressure crescent and fine hot core.
+  // It lasts a fraction of the move, so the native body attack remains the focal point.
+  if(age<.32){
+   const u=Math.min(1,age/.32),a=opacity*(1-u),radius=12+u*77,spread=p.kind==='electric'?.95:p.kind==='psychic'||p.kind==='dark'?1.25:.72;
+   const start=at(radius,-radius*spread),mid=at(radius*1.38,0),end=at(radius,radius*spread);
+   for(const [width,col,opacityScale] of [[7,0x111e3b,.7],[4,c,1],[1.3,light,.9]])g.moveTo(...start).quadraticCurveTo(...mid,...end).stroke({color:col,width,alpha:a*opacityScale});
+   for(let i=0;i<(this.low?3:5);i++){const side=i-2,dist=18+u*(92+Math.abs(side)*22),offset=side*(12+u*11),tip=at(dist+30,offset*1.2),root=at(dist,offset),edge=at(dist-13,offset+Math.sign(side||1)*3);this.back.poly([...root,...tip,...edge]).fill({color:i%2?c:light,alpha:a*.62});}
+  }
   if(p.move==='quake'&&index>0)return;
   if(signatureEffect(g,this.back,p,at,age,opacity,this.low,{x:this.hero.x,y:this.hero.y+154}))return;
   if(p.move==='shuriken'){

@@ -1,11 +1,24 @@
 import {expect,it} from 'vitest';
-import {ballFlight,ballLanding,BALL_HIT} from './ballPhysics';
-it('projects a distant small ball into the card artwork without a position or scale overshoot',()=>{
+import {ballFlight,ballLanding,ballLandingPlan,BALL_HIT} from './ballPhysics';
+it('projects a distant small ball into the card artwork with increasing apparent size',()=>{
  const start=ballFlight(0,-500),end=ballFlight(BALL_HIT,-500);
  expect(start.scale).toBeLessThan(.15);expect(start.y).toBeLessThan(-250);expect(end).toMatchObject({x:0,y:-98,scale:.72});
  for(let i=1;i<=30;i++)expect(ballFlight(BALL_HIT*i/30,-500).scale).toBeGreaterThan(ballFlight(BALL_HIT*(i-1)/30,-500).scale);
 });
-it('preserves contact position, accelerates downward and settles after one rebound',()=>{
- expect(ballLanding(0).y).toBe(-98);expect(ballLanding(.53).y).toBeCloseTo(174);expect(ballLanding(.67).y).toBeLessThan(174);expect(ballLanding(.9).y).toBe(174);
- const early=ballLanding(.12).y-ballLanding(.1).y,late=ballLanding(.42).y-ballLanding(.4).y;expect(late).toBeGreaterThan(early);
+it('keeps the through-card direction and dissipates collision energy without a position jump',()=>{
+ for(const sky of [-350,-500,-900]){
+  const end=ballFlight(BALL_HIT,sky),before=ballFlight(BALL_HIT-.001,sky),after=ballLanding(.001,sky);
+  expect(ballLanding(0,sky).x).toBeCloseTo(0);expect(ballLanding(0,sky)).toMatchObject({y:-98,scale:.72});
+  expect(after.x).toBeLessThan(end.x);expect(after.y).toBeGreaterThan(end.y);
+  expect((after.y-end.y)/(end.y-before.y)).toBeGreaterThan(.3);expect((after.y-end.y)/(end.y-before.y)).toBeLessThan(.4);
+ }
+});
+it('lands on the responsive stage floor, rebounds visibly once, and settles before opening',()=>{
+ for(const floor of [190,220,285]){
+  const p=ballLandingPlan(-500,floor);
+  expect(ballLanding(p.contact,-500,floor).y).toBeCloseTo(floor);
+  expect(floor-ballLanding((p.contact+p.settled)/2,-500,floor).y).toBeGreaterThan(16);
+  const end=ballLanding(p.settled+.1,-500,floor);expect(end.y).toBeCloseTo(floor);expect(end.rotation).toBeCloseTo(0);
+  expect(ballLanding(p.settled+2,-500,floor)).toEqual(end);
+ }
 });

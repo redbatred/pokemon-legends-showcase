@@ -1,6 +1,7 @@
 import {Container,Graphics,MeshPlane,Sprite,Texture} from 'pixi.js';
 import regions from '../../public/assets/stage/living-v3/atlas-regions.json';
 import {branchWind,cloudPosition,groundWarp,skyPixels,stadiumRim} from './backdropMotion';
+import {StadiumAudience} from './StadiumAudience';
 
 type Tree={mesh:MeshPlane;base:Float32Array;x:number;y:number;width:number;height:number;seed:number};
 type Cloud={sprite:Sprite;start:number;y:number;speed:number;width:number};
@@ -10,7 +11,8 @@ export class LivingBackdrop {
  root=new Container();private terrain:MeshPlane;private stadium:MeshPlane;private base:Float32Array;private foliage:Float32Array;
  private trees:Tree[]=[];private clouds:Cloud[]=[];private leaves=new Graphics();private textures:Texture[]=[];
  private previous=-1;private wasReduced=false;private floorShift=0;private width:number;private height:number;
- constructor(texture:Texture,treeAtlas:Texture,cloudAtlas:Texture){
+ private audience:StadiumAudience;private baseScale=1;
+ constructor(texture:Texture,treeAtlas:Texture,cloudAtlas:Texture,crowd:[Texture,Texture]){
   this.width=texture.width;this.height=texture.height;
   const canvas=document.createElement('canvas');canvas.width=this.width;canvas.height=this.height;
   const context=canvas.getContext('2d',{willReadFrequently:true})!;context.drawImage(texture.source.resource as CanvasImageSource,0,0);
@@ -41,12 +43,15 @@ export class LivingBackdrop {
   // Drawing into a fresh combined canvas avoids carrying the rim clip into the tower layer.
   const composite=document.createElement('canvas');composite.width=this.width;composite.height=this.height;const cc=composite.getContext('2d')!;cc.drawImage(architecture,0,0);cc.drawImage(towers,0,0);
   const stadiumTexture=Texture.from(composite);this.textures.push(stadiumTexture);this.stadium=new MeshPlane({texture:stadiumTexture,verticesX:97,verticesY:55});this.stadium.geometry.batchMode='no-batch';this.root.addChild(this.stadium);
+  this.audience=new StadiumAudience(crowd,this.width,this.height);this.root.addChild(this.audience.root);this.audience.update(0,-1,false);
   this.root.pivot.set(this.width/2,this.height/2);this.root.eventMode='none';
  }
  private extract(atlas:Texture,parts:{contentBounds:{x:number;y:number;width:number;height:number}}[]){
   return parts.map(({contentBounds:b})=>{const canvas=document.createElement('canvas');canvas.width=b.width;canvas.height=b.height;const c=canvas.getContext('2d',{willReadFrequently:true})!;c.drawImage(atlas.source.resource as CanvasImageSource,b.x,b.y,b.width,b.height,0,0,b.width,b.height);const pixels=c.getImageData(0,0,b.width,b.height);for(let i=3;i<pixels.data.length;i+=4){const alpha=pixels.data[i];pixels.data[i]=alpha*clamp((alpha-28)/48);}c.putImageData(pixels,0,0);const t=Texture.from(canvas);this.textures.push(t);return t;});
  }
- resize(w:number,h:number,floorY?:number){const scale=Math.max(w/this.width,h/this.height)*1.035;this.root.position.set(w/2,h/2);this.root.scale.set(scale);const ground=h/2+this.height*.18*scale;this.floorShift=floorY===undefined?0:(floorY-ground)/scale;this.wasReduced=false;this.previous=-1;}
+ resize(w:number,h:number,floorY?:number){const scale=Math.max(w/this.width,h/this.height)*1.035;this.baseScale=scale;this.root.position.set(w/2,h/2);this.root.scale.set(scale);const ground=h/2+this.height*.18*scale;this.floorShift=floorY===undefined?0:(floorY-ground)/scale;this.audience.warp(this.floorShift);this.wasReduced=false;this.previous=-1;}
+ show(visibility:number,celebrationAge:number,travel:number,reduced:boolean){this.audience.update(visibility,celebrationAge,reduced,travel);this.root.scale.set(this.baseScale*(1+(reduced?0:travel*.018)));}
+ project(u:number,v:number){return {x:this.root.x+(u-.5)*this.width*this.root.scale.x,y:this.root.y+((v-.5)*this.height+this.floorShift*groundWarp(v))*this.root.scale.y};}
  tick(time:number,reduced:boolean,low:boolean){
   if(reduced&&this.wasReduced)return;if(!reduced&&time-this.previous<(low?1/24:1/40))return;this.previous=time;this.wasReduced=reduced;const t=reduced?0:time;
   const terrain=this.terrain.geometry.getBuffer('aPosition'),architecture=this.stadium.geometry.getBuffer('aPosition');
@@ -58,5 +63,5 @@ export class LivingBackdrop {
   for(let i=0;i<(low?8:18);i++){const cycle=11+i%5,u=((t+i*1.91)%cycle)/cycle,origin=(i*.173)%1,x=this.width*(origin-.035+u*.14),v=stadiumRim(clamp(origin))-.065+u*.045,y=this.height*v+this.floorShift*groundWarp(v)+Math.sin(u*9+i)*7,alpha=Math.sin(Math.PI*u)*.65,r=2.2+i%3,angle=t*(.8+i%3*.15)+i,s=Math.sin(angle),c=Math.cos(angle),flip=Math.cos(angle*1.3)*.65;
    g.moveTo(x-c*r,y-s*r).quadraticCurveTo(x-s*r*flip,y+c*r*flip,x+c*r,y+s*r).quadraticCurveTo(x+s*r*flip,y-c*r*flip,x-c*r,y-s*r).fill({color:[0xa4ce4d,0x69a348,0xc3db66][i%3],alpha});}
  }
- destroy(){this.root.destroy({children:true});for(const texture of this.textures)texture.destroy(true);}
+ destroy(){this.audience.destroy();this.root.destroy({children:true});for(const texture of this.textures)texture.destroy(true);}
 }

@@ -34,7 +34,7 @@ export async function createPokemonModel(path:string,low:boolean){
 }
 export class PokemonModel {
  readonly texture:PixiTexture;readonly groundY:number;readonly horizontalAnchor:number;private canvas=document.createElement('canvas');private context:CanvasRenderingContext2D;
- private scene=new Scene();private camera=new OrthographicCamera(-1,1,1,-1,.01,100);private mixer:AnimationMixer;
+ private scene=new Scene();private camera=new OrthographicCamera(-1,1,1,-1,.01,100);private mixer:AnimationMixer;private attackLight=new DirectionalLight(0x8fdcff,0);
  private current:AnimationAction|null=null;private clips:Map<string,AnimationAction>;private elapsed=0;private size:number;private stopped=false;private charging=false;private emerging=false;private entranceClock=0;private attackClock=0;private sourceClock=0;private low=false;private renderCost=0;
  private poses=new Map<string,Matrix4>();private bones:Object3D[]=[];private bodySpan=1;private tip=new Vector3();private forward=new Vector3();private fallback=new Vector3();private head:Object3D|undefined;private torso:Object3D|undefined;private gradient:DataTexture;private originalMaterials=new Set<Material>();private toonMaterials=new Set<Material>();private textures=new Set<Texture>();
  constructor(private model:Group,animations:import('three').AnimationClip[],private entry:Entry,low:boolean,private stem:string){
@@ -66,6 +66,9 @@ export class PokemonModel {
   center.addScaledVector(right,(left+rightEdge)/2-center.dot(right)).addScaledVector(up,(bottom+top)/2-center.dot(up));
   const span=Math.max(rightEdge-left,top-bottom,.1)*1.10;this.camera.left=this.camera.bottom=-span/2;this.camera.right=this.camera.top=span/2;
   this.camera.position.copy(center).addScaledVector(view,span*2);this.camera.lookAt(center);this.camera.updateProjectionMatrix();this.camera.updateMatrixWorld(true);
+  // A real oblique light catches the moving silhouette during the charge and attack.
+  // It lights model normals instead of tinting the entire character sprite.
+  this.attackLight.position.copy(center).addScaledVector(right,-span*1.6).addScaledVector(view,-span*.55).addScaledVector(up,span*.8);this.attackLight.target.position.copy(center);this.scene.add(this.attackLight,this.attackLight.target);
   const foot=idleBounds.getCenter(new Vector3());foot.y=idleBounds.min.y;foot.project(this.camera);this.groundY=-foot.y;const bodyAnchor=this.stem==='mewtwo'?model.getObjectByName('waist'):null;this.horizontalAnchor=bodyAnchor?bodyAnchor.getWorldPosition(new Vector3()).project(this.camera).x:0;
   const bones:Object3D[]=[];model.traverse(o=>{if('isBone' in o)bones.push(o);});const named=(keys:string[])=>keys.map(key=>bones.find(b=>b.name.toLowerCase().replace(/[_\s]*\d+$/,'')===key)).find(Boolean);
   this.bones=bones;this.bodySpan=size.y;this.head=named(['head','jaw','neck']);this.torso=named(['chest','waist','body','spine']);this.fallback.copy(center).add(new Vector3(0,size.y*.22,size.z*.1));this.render();
@@ -87,6 +90,7 @@ export class PokemonModel {
  setAttackTime(seconds:number){if(!this.charging||!this.current)return;const source=this.timing.sourceAt(seconds),dt=Math.max(0,seconds-this.attackClock);this.current.timeScale=1;sampleAttack(this.mixer,this.current,source,this.sourceClock,0,1,dt);this.attackClock=seconds;this.sourceClock=source;}
  update(dt:number){if(this.stopped)return;if(!this.charging&&!this.emerging)this.mixer.update(dt);this.elapsed+=dt;const hz=this.low?24:(this.charging||this.emerging)&&this.renderCost<7?60:30;if(this.elapsed<1/hz)return;this.elapsed%=1/hz;const start=performance.now();this.render();this.renderCost=this.renderCost*.85+(performance.now()-start)*.15;}
  capturePose(){this.render();}
+ setEnergy(color:number,amount:number){this.attackLight.color.setHex(color);this.attackLight.intensity=Math.max(0,Math.min(1,amount))*1.65;}
  private render(){this.model.updateMatrixWorld(true);for(const bone of this.bones){let m=this.poses.get(bone.name.toLowerCase());if(!m){m=new Matrix4();this.poses.set(bone.name.toLowerCase(),m);}m.copy(bone.matrixWorld);}const r=rendererFor(this.size);r.render(this.scene,this.camera);this.context.clearRect(0,0,this.size,this.size);this.context.drawImage(r.domElement,0,0);this.texture.source.update();}
  emitters(profile:PowerProfile):ProjectedEmitter[]{
   const rig=moveRigs[this.stem];

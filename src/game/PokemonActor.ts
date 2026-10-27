@@ -20,6 +20,7 @@ export class PokemonActor extends Container {
  capturePose(){this.model?.capturePose();}
  setEntranceTime(seconds:number){this.model?.setEntranceTime(seconds);}
  setAttackTime(seconds:number){this.model?.setAttackTime(seconds);}
+ setEnergy(color:number,amount:number){this.model?.setEnergy(color,amount);}
  update(dt:number){this.model?.update(dt);}
  powerEmitters(profile:PowerProfile):ProjectedEmitter[]{
   if(this.model)return this.model.emitters(profile).map(p=>({...p,x:this.portrait.x+p.x*this.portrait.width/2,y:this.portrait.y+p.y*this.portrait.height/2}));

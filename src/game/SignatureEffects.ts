@@ -38,7 +38,16 @@ export function signatureEffect(g:Graphics,b:Graphics,p:PowerProfile,at:PointAt,
   return true;
  }
  if(p.move==='quake'){
-  const {x,y}=floor;for(let i=0;i<n;i++){const angle=i/n*TAU,r=35+u*130,xx=x+Math.cos(angle)*r,yy=y+Math.sin(angle)*r*.25,seed=Math.sin(i*16.7);b.moveTo(x+Math.cos(angle)*25,y+Math.sin(angle)*7).lineTo(xx+seed*8,yy-5).lineTo(xx,yy).lineTo(xx+Math.cos(angle)*25,yy+Math.sin(angle)*8).stroke({color:c,width:3,alpha:a*(1-u*.7)});shard(xx,yy-Math.sin(u*Math.PI)*(15+i%3*12),6+i%3*3,age*4+i,c,a*(1-u*.6));}return true;
+  const {x,y}=floor;for(let i=0;i<n;i++){
+   const angle=i/n*TAU,r=76+u*138,xx=x+Math.cos(angle)*r,yy=y+Math.sin(angle)*r*.25,seed=Math.sin(i*16.7),opacity=a*(1-u*.8),rise=Math.sin(u*Math.PI)*(35+i%3*17),size=(10+i%3*5)*Math.min(1,age*18);
+   b.moveTo(x+Math.cos(angle)*32,y+Math.sin(angle)*9).lineTo(xx+seed*11,yy-5).lineTo(xx,yy).lineTo(xx+Math.cos(angle)*31,yy+Math.sin(angle)*10).stroke({color:0x26354b,width:5,alpha:opacity*.8}).stroke({color:c,width:1.5,alpha:opacity});
+   b.ellipse(xx,yy,size*.9,size*.2).fill({color:0x071b31,alpha:opacity*.22});
+   const ry=yy-rise,points=[xx-size,ry-size*.3,xx-size*.35,ry-size,xx+size*.65,ry-size*.66,xx+size,ry+size*.45,xx-size*.3,ry+size*.8];
+   g.poly(points).fill({color:0x6c7d8e,alpha:opacity}).stroke({color:0x26364b,width:1.5,alpha:opacity});
+   g.poly([xx-size*.35,ry-size,xx+size*.65,ry-size*.66,xx+size*.3,ry,xx-size,ry-size*.3]).fill({color:0xb0c7d6,alpha:opacity});
+   g.moveTo(xx-size*.35,ry-size).lineTo(xx+size*.65,ry-size*.66).lineTo(xx+size,ry+size*.45).stroke({color:l,width:1.2,alpha:opacity*.85});
+   b.moveTo(xx,yy-3).lineTo(xx-seed*5,ry+size*1.7).stroke({color:c,width:1.8,alpha:opacity*.45});
+  }return true;
  }
  if(p.move==='thunder'){
   const [x,y]=at(80,0),seed=Math.floor(age*18),pts:number[]=[];for(let i=0;i<9;i++){const t=i/8;pts.push(x+Math.sin(i*7.2+seed)*(i===8?0:20),y-150+t*180);}g.poly(pts,false).stroke({color:c,width:15,alpha:a*.13}).poly(pts,false).stroke({color:c,width:7,alpha:a}).poly(pts,false).stroke({color:l,width:2.2,alpha:a});for(let i=0;i<6;i++){const an=i/6*TAU;g.moveTo(x,y+28).lineTo(x+Math.cos(an)*(30+u*45),y+28+Math.sin(an)*(15+u*25)).stroke({color:l,width:2,alpha:a*(1-u*.6)});}return true;

@@ -6,7 +6,7 @@ import type { Card } from './model';
 import { artworkColor } from './cardColor';
 import { CardRevealEffects } from './CardRevealEffects';
 import { CanvasScene } from './CanvasScene';
-import { gameLayout, renderResolution, cardTrayLayout } from './rendering';
+import { gameLayout, renderResolution, cardTrayLayout, performanceFloor } from './rendering';
 import { loadPackTexture } from './packTexture';
 import type { SpineReveal } from './SpineReveal';
 
@@ -64,7 +64,7 @@ export class OpeningStage {
     this.app.renderer.resolution = renderResolution(w,h,devicePixelRatio,this.options.low);
     this.app.renderer.resize(w, h);
     const layout=gameLayout(w,h,this.openingLayout);
-    this.world.position.set(w/2,layout.worldY);this.world.scale.set(layout.scale);this.special?.fitPresentation((w/2-12)/layout.scale);
+    this.world.position.set(w/2,layout.worldY);this.world.scale.set(layout.scale);this.special?.fitPresentation((w/2-12)/layout.scale);this.special?.setFloor(performanceFloor(layout));this.special?.update(0);
     this.scene.resize(w,h,layout.stageY,layout);
     this.onLayout?.();
     if(this.blocked||this.mode==='result')this.draw();
@@ -221,7 +221,7 @@ export class OpeningStage {
       this.cardLayer.rotation = this.motion.roll;
       const edge = Math.max(0, 1 - Math.abs(Math.cos(this.motion.flip)) * 8);
       this.cardEdge.alpha=edge;
-      this.cardLayer.y = this.motion.lift + (move ? Math.sin(this.time*.7)*3 : 0);
+      this.cardLayer.y = this.motion.lift + (move && !this.special ? Math.sin(this.time*.7)*3 : 0);
       this.cardLayer.scale.set(this.motion.scale);
       const tint=this.scene.lightTint;this.foil.resources.foil.uniforms.uLightColor=[((tint>>16)&255)/255,((tint>>8)&255)/255,(tint&255)/255];this.foil.resources.foil.uniforms.uLightStrength=this.scene.illumination;
       this.foil.resources.foil.uniforms.uTime = move ? this.time : 0;
@@ -399,8 +399,8 @@ export class OpeningStage {
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     if(this.options.reduced){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
     if(special){
-      this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
-      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);});if(this.blocked||document.hidden)this.timeline.pause();});
+      this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);special.setFloor(performanceFloor(gameLayout(this.app.screen.width,this.app.screen.height,true)));if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
+      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);});if(this.blocked||document.hidden)this.timeline.pause();});
       if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(false,this.options.reduced);}
     }
   }

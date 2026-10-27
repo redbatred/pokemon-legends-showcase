@@ -24,6 +24,9 @@ export function gameLayout(width:number,height:number,opening=false) {
   return {width,height,portrait,compact,short,sideControls,top,dock,actions,playHeight,actionTop,dockTop,worldY,scale,stageY,stageFront,stageWidth,stageFlatten};
 }
 
+/** Card-local floor, including its settled -8px lift; a little forward of the centre emblem. */
+export function performanceFloor(layout:ReturnType<typeof gameLayout>){return (layout.stageY+layout.stageWidth*.012-layout.worldY)/layout.scale+8;}
+
 /** Shared by the collection strip and the card-flight animation: one landing coordinate. */
 export function cardTrayLayout(width:number,height:number,activeIndex:number){
   const layout=gameLayout(width,height,true),cardWidth=layout.compact?48:layout.short?58:width<700?76:82,cardHeight=cardWidth*435/312,stride=cardWidth+10;

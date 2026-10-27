@@ -7,15 +7,15 @@ import {EntranceEffects} from './EntranceEffects';
 import { PokemonPower } from './PokemonPower';
 import { createPokeballRig } from './PokeballRig';
 import { PokemonActor,disposePokemonRenderer } from './PokemonActor';
-import {ballFlight,ballLanding,BALL_HIT} from './ballPhysics';
+import {ballFlight,ballLanding,ballLandingPlan,BALL_HIT} from './ballPhysics';
 
 const IMPACT={x:0,y:-98};
 /** Depth flight and local artwork puncture. The perimeter and card text stay connected. */
 export class SpineReveal {
   root=new Container();cardShell=new Container();
-  private behind=new Container({isRenderGroup:true});private front=new Container({isRenderGroup:true});
+  private behind=new Container({isRenderGroup:true});private front=new Container({isRenderGroup:true});private actors=new Container();private floor=270;private ballFloorInfluence=0;
   private ball:Spine;private hero:PokemonActor;private face:PerspectiveMesh;private punctured:Texture;
-  private trail=new Graphics();private flare=new Graphics();private shadow=new Graphics();
+  private trail=new Graphics();private flare=new Graphics();private shadow=new Graphics();private ballShadow=new Graphics();
   private shards:Graphics[]=[];private released=false;private started=false;
   private energy=new Graphics();private pressure=new Graphics();private latch=new Graphics();private power:PokemonPower;private white=new ColorMatrixFilter();
   private entrance:EntranceEffects;private release={amount:0,radius:0};private moveVoice:PokemonMoveVoice|null=null;
@@ -24,10 +24,11 @@ export class SpineReveal {
   static async create(card:Texture,pokemonImage:string,low=false){const [hero]=await Promise.all([PokemonActor.create(pokemonImage,low),preloadRevealAudio(pokemonImage)]);return new SpineReveal(card,hero,pokemonImage,low);}
   private constructor(card:Texture,hero:PokemonActor,pokemonImage:string,low:boolean){
     this.hero=hero;this.power=new PokemonPower(hero,pokemonPower(pokemonImage),low);this.entrance=new EntranceEffects(performanceProfile(this.power.profile.species),this.power.profile.color,this.power.profile.light,low);this.ball=createPokeballRig();this.face=new PerspectiveMesh({texture:card,verticesX:4,verticesY:6});this.face.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);
-    this.cardShell.addChild(this.face);this.root.addChild(this.behind,this.cardShell,this.front);this.behind.addChild(this.trail,this.ball);this.front.addChild(this.shadow,this.entrance.back,this.power.back,this.hero,this.power.front,this.entrance.front,this.energy,this.pressure,this.latch,this.flare);
+    this.cardShell.addChild(this.face);this.root.addChild(this.behind,this.cardShell,this.front);this.behind.addChild(this.trail,this.ball);this.actors.addChild(this.entrance.back,this.power.back,this.hero,this.power.front,this.entrance.front);this.front.addChild(this.ballShadow,this.shadow,this.actors,this.energy,this.pressure,this.latch,this.flare);this.actors.y=this.floor-219;
     this.white.matrix=[0,0,0,0,.91,0,0,0,0,.99,0,0,0,0,1,0,0,0,1,0];this.hero.filters=[this.white];
     this.hero.visible=false;this.hero.position.set(70,174);this.hero.scale.set(.025);this.hero.alpha=0;
-    this.shadow.ellipse(0,0,45,8).fill({color:0x07223a,alpha:.28});this.shadow.position.set(18,219);this.shadow.alpha=0;
+    this.shadow.ellipse(0,0,60,10).fill({color:0x041528,alpha:.15}).ellipse(0,0,42,5).fill({color:0x041528,alpha:.3});this.shadow.position.set(0,this.floor);this.shadow.alpha=0;
+    this.ballShadow.ellipse(0,0,36,5).fill({color:0x021827,alpha:.26}).ellipse(0,0,22,3).fill({color:0x021827,alpha:.18});this.ballShadow.alpha=0;
     this.flare.circle(0,0,34).fill({color:0xeafaff,alpha:.5}).circle(0,0,13).fill(0xffffff);this.flare.position.set(IMPACT.x,IMPACT.y);this.flare.alpha=0;this.flare.blendMode='add';
     for(let i=0;i<12;i++){const a=i/12*Math.PI*2,r=i%2?104:145;this.pressure.poly([Math.cos(a-.08)*52,Math.sin(a-.08)*45,Math.cos(a)*r,Math.sin(a)*r*.8,Math.cos(a+.06)*55,Math.sin(a+.06)*46]).fill({color:i%3?0xb9f3ff:0xffffff,alpha:.8});}this.pressure.position.set(IMPACT.x,IMPACT.y);this.pressure.alpha=0;this.pressure.blendMode='add';
     this.latch.circle(0,0,16).fill({color:0x8beeff,alpha:.18}).circle(0,0,8).fill({color:0xbdf7ff,alpha:.7}).circle(0,0,4).fill(0xffffff);this.latch.alpha=0;this.latch.blendMode='add';
@@ -43,26 +44,28 @@ export class SpineReveal {
     for(let i=0;i<12;i++){const a=i/12*Math.PI*2;const shard=new Graphics().poly([-5,-3,3,-7,8,1,-2,10]).fill(i%3===0?0xd8e4ef:i%3===1?0x7285af:0x3d6893).moveTo(-5,-3).lineTo(3,-7).lineTo(8,1).stroke({color:0xe7eff5,width:.8});shard.position.set(Math.cos(a)*52,IMPACT.y+Math.sin(a)*43);shard.visible=false;this.front.addChild(shard);this.shards.push(shard);}
 
   }
-  play(timeline:gsap.core.Timeline,skyY:number,onImpact:()=>void,onPower?:(color:number)=>void){
-    this.started=true;const profile=performanceProfile(this.power.profile.species),entryDuration=Math.max(.68,this.hero.entranceDuration),settle=profile.settle;const entranceClock={time:0},attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,open=hit+.78,form=open+.12,charge=form+entryDuration+.1,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,recoverEnd=attackEnd+this.hero.recoveryDuration,soundStart=attack-Math.min(this.hero.chargeDuration,pokemonSoundTiming(this.power.profile.cue).preRoll),moveEnvelope={gain:0},decay=Math.min(.22,this.hero.attackDuration*.3);
+  play(timeline:gsap.core.Timeline,skyY:number,onImpact:()=>void,onPower?:(color:number)=>void,onCharge?:(amount:number,color:number)=>void){
+    this.started=true;const profile=performanceProfile(this.power.profile.species),entryDuration=Math.max(.68,this.hero.entranceDuration),settle=profile.grounded?65:profile.settle-10;const entranceClock={time:0},attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,landing=ballLandingPlan(skyY,this.floor-50),open=hit+landing.settled+.10,form=open+.12,charge=form+entryDuration+.1,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,recoverEnd=attackEnd+this.hero.recoveryDuration,soundStart=attack-Math.min(this.hero.chargeDuration,pokemonSoundTiming(this.power.profile.cue).preRoll),moveEnvelope={gain:0},spin={frame:0},departure={progress:0},decay=Math.min(.22,this.hero.attackDuration*.3);
     const project=()=>{const p=ballFlight(flight.t,skyY);this.ball.position.set(p.x,p.y);this.ball.scale.set(p.scale);this.ball.rotation=p.rotation;
-      this.trail.clear();for(let i=5;i>=1;i--){const a=ballFlight(Math.max(0,flight.t-i*.015),skyY),b=ballFlight(Math.max(0,flight.t-(i-1)*.015),skyY);this.trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:(6-i)*.7,color:0xd3f5ff,alpha:(6-i)*.06});}};project();
-    const land=()=>{const p=ballLanding(fall.t);this.ball.position.set(p.x,p.y);this.ball.rotation=p.rotation;};
+      this.trail.clear();for(let i=8;i>=1;i--){const a=ballFlight(Math.max(0,flight.t-i*.014),skyY),b=ballFlight(Math.max(0,flight.t-(i-1)*.014),skyY);this.trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:(9-i)*p.scale*1.8,color:i<3?0xf0fbff:0x7ebfff,alpha:(9-i)*.035});}};project();
+    const land=()=>{const p=ballLanding(fall.t,skyY,landing.floor),adapt=(this.floor-50-landing.floor)*Math.min(1,fall.t/landing.contact);this.ballFloorInfluence=Math.min(1,fall.t/landing.contact);this.ball.position.set(p.x,p.y+adapt);this.ball.rotation=p.rotation;this.ball.scale.set(p.scale);};
     timeline.call(()=>playSound('throw',{pan:.35}),[],.52)
       .to(flight,{t:hit,duration:hit,ease:'none',onUpdate:project},0)
       .call(()=>{this.face.texture=this.punctured;this.front.addChildAt(this.ball,this.front.getChildIndex(this.energy));this.trail.visible=false;onImpact();playSound('impact');},[],hit)
       .to(this.pressure,{alpha:1,duration:.04},hit).to(this.pressure.scale,{x:1.45,y:1.45,duration:.22,ease:'power3.out'},hit).to(this.pressure,{alpha:0,duration:.18},hit+.04)
       .to(this.flare,{alpha:.8,duration:.035},hit).to(this.flare.scale,{x:2.1,y:1.5,duration:.24,ease:'power2.out'},hit).to(this.flare,{alpha:0,duration:.22},hit+.05)
       .to(this.cardShell,{y:7,rotation:.014,duration:.06,ease:'power2.out'},hit).to(this.cardShell,{y:0,rotation:0,duration:.25,ease:'power2.out'},hit+.06)
-      .to(fall,{t:.83,duration:.83,ease:'none',onUpdate:land},hit)
-      .to(this.ball.scale,{x:.62,y:.62,duration:.53,ease:'none'},hit)
-      .call(()=>{playSound('land');this.ball.state.setAnimation(0,'ready',false);},[],hit+.53)
+      .to(fall,{t:landing.settled,duration:landing.settled,ease:'none',onUpdate:land},hit)
+      .to(this.ball.state,{timeScale:.18,duration:landing.settled,ease:'power1.out'},hit)
+      .call(()=>{playSound('land',{gain:.62});const frame=Number(this.ball.skeleton.findSlot('closed')?.getAttachment()?.name.replace('spin',''))||0;spin.frame=frame>24?frame-48:frame;this.ball.state.clearTracks();},[],hit+landing.contact)
+      .to(spin,{frame:0,duration:landing.settled-landing.contact,ease:'power2.out',onUpdate:()=>this.ball.skeleton.setAttachment('closed','spin'+((Math.round(spin.frame)%48+48)%48))},hit+landing.contact)
+      .call(()=>{this.ball.state.setAnimation(0,'ready',false);this.ball.state.timeScale=1;},[],hit+landing.settled)
       .call(()=>playSound('latch'),[],open-.12)
       .to(this.latch,{alpha:1,duration:.10},open-.12).to(this.latch,{alpha:0,duration:.14},open+.03)
       .to(this.shadow,{alpha:1,duration:.38},hit)
       .call(()=>{this.ball.state.setAnimation(0,'open',false);playSound('release',{pan:.1});},[],open)
       .to(this.release,{amount:1,radius:1,duration:.16,ease:'power2.out'},open+.04)
-      .call(()=>{this.hero.visible=true;this.released=true;this.hero.alpha=1;this.hero.play('emerge');},[],form)
+      .call(()=>{this.hero.position.set(this.ball.x,this.ball.y-this.actors.y);this.hero.visible=true;this.released=true;this.hero.alpha=1;this.hero.play('emerge');},[],form)
       .to(entranceClock,{time:entryDuration,duration:entryDuration,ease:'none',onUpdate:()=>this.hero.setEntranceTime(entranceClock.time)},form)
       .to(this.hero,{x:profile.side,y:settle-profile.lift,duration:entryDuration*.58,ease:'power3.out'},form)
       .to(this.hero.scale,{x:1,y:1,duration:entryDuration*.58,ease:'power3.out'},form)
@@ -74,12 +77,13 @@ export class SpineReveal {
       .to(this.release,{amount:0,duration:.3,ease:'power1.out'},form+.23)
       .call(()=>playSound(profile.weight>.5?'land':'release',{gain:.16+profile.weight*.2}),[],form+entryDuration)
       .call(()=>{this.ball.state.setAnimation(0,'closed',false);},[],form+.53)
-      .to(this.ball,{x:155,y:188,rotation:.7,alpha:0,duration:.48,ease:'power2.in'},form+.53)
+      .to(this.ball,{x:-155,rotation:-.7,alpha:0,duration:.48,ease:'power2.in'},form+.53)
+      .to(departure,{progress:1,duration:.48,ease:'power2.in',onUpdate:()=>{this.ball.y=this.floor-50+21*departure.progress;}},form+.53)
       .to(this.ball.scale,{x:.25,y:.25,duration:.48},form+.53)
       .call(()=>{this.hero.play('charge');this.power.begin();},[],charge)
       .call(()=>playPokemonCry(this.power.profile.dexId),[],charge+Math.min(.22,this.hero.chargeDuration*.32))
       .to(attackClock,{time:this.hero.chargeDuration+this.hero.attackDuration+this.hero.recoveryDuration,duration:this.hero.chargeDuration+this.hero.attackDuration+this.hero.recoveryDuration,ease:'none',onUpdate:()=>{this.hero.setAttackTime(attackClock.time);this.power.clock=attackClock.time;}},charge)
-      .to(this.power,{charge:1,duration:this.hero.chargeDuration,ease:'power2.in'},charge)
+      .to(this.power,{charge:1,duration:this.hero.chargeDuration,ease:'power2.in',onUpdate:()=>onCharge?.(this.power.charge,this.power.profile.color)},charge)
       .call(()=>{this.hero.setAttackTime(this.hero.chargeDuration);this.hero.capturePose();this.power.release(this.hero.chargeDuration);this.hero.play('attack');onPower?.(this.power.profile.color);},[],attack)
       .call(()=>{this.moveVoice=playPokemonMove(this.power.profile.cue);},[],soundStart)
       .to(moveEnvelope,{gain:1,duration:.07,ease:'sine.out',onUpdate:()=>this.moveVoice?.update(moveEnvelope.gain,0)},soundStart)
@@ -94,7 +98,9 @@ export class SpineReveal {
     this.shards.forEach((shard,i)=>{const a=i/12*Math.PI*2;timeline.set(shard,{visible:true},hit).to(shard,{x:Math.cos(a)*(95+i*4),y:IMPACT.y+Math.sin(a)*86+60,rotation:(i-6)*.7,alpha:0,duration:.55,ease:'power2.out'},hit);});
   }
   update(dt:number){
-    this.ball.update(dt);this.latch.position.set(this.ball.x-19*this.ball.scale.x,this.ball.y);if(this.released)this.hero.update(dt);this.power.update(dt);this.entrance.update(this.hero.x,this.hero.y);if(this.released){this.shadow.x=this.hero.x;const lift=Math.max(0,65-this.hero.y);this.shadow.scale.set(1-lift*.0025);this.shadow.alpha=Math.max(.16,.65-lift*.004);}
+    this.hero.setEnergy(this.power.profile.color,Math.min(1,this.power.charge*.7+this.power.blast*this.power.fade*.9+this.release.amount*.45));
+    this.ball.update(dt);this.latch.position.set(this.ball.x-19*this.ball.scale.x,this.ball.y);if(this.released)this.hero.update(dt);this.power.update(dt);this.entrance.update(this.hero.x,this.hero.y);if(this.released){this.shadow.x=this.hero.x;const lift=Math.max(0,65-this.hero.y);this.shadow.scale.set(Math.max(.4,1-lift*.0025));this.shadow.alpha=Math.max(.16,.85-lift*.006);}
+    const height=Math.max(0,this.floor-this.ball.y-50),proximity=Math.max(0,1-height/330);this.ballShadow.position.set(this.ball.x,this.floor);this.ballShadow.scale.set(.55+proximity*.45);this.ballShadow.alpha=proximity*this.ball.alpha;
     const g=this.energy.clear(),a=this.release.amount,r=this.release.radius;
     if(a>0){
       const x=this.ball.x,y=this.ball.y-12;
@@ -105,6 +111,7 @@ export class SpineReveal {
     }
   }
   fitPresentation(halfWidth:number){this.hero.fitPresentation(halfWidth);}
+  setFloor(y:number){this.ball.y+=(y-this.floor)*this.ballFloorInfluence;this.floor=y;this.actors.y=y-219;this.shadow.y=y;}
   setCardTilt(x:number,y:number){const yaw=x*.19,pitch=-y*.13,points:number[]=[];for(const [xx,yy] of [[-156,-217.5],[156,-217.5],[156,217.5],[-156,217.5]]){const z=-xx*Math.sin(yaw)+yy*Math.sin(pitch),p=700/(700+z);points.push(xx*Math.cos(yaw)*p,yy*Math.cos(pitch)*p);}this.face.setCorners(points[0],points[1],points[2],points[3],points[4],points[5],points[6],points[7]);}
   setCardFoil(filter:Filter){this.face.filters=[filter];}
   takeCard(){this.face.filters=[];this.setCardTilt(0,0);this.cardShell.removeFromParent();return this.cardShell;}
