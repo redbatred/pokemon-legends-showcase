@@ -7,6 +7,8 @@ import {modalLayout,rewardLayout} from './modalLayout';
 import {MoneyReadout} from './MoneyReadout';
 import {moneyState,type MoneyState} from './moneyMotion';
 import { loadPackTexture } from './packTexture';
+import {HoloCard} from './HoloCard';
+import {foilStrength} from './foil';
 import type { OpeningStage } from './Stage';
 
 export type Panel = 'collection'|'settings'|'history'|'about'|null;
@@ -132,9 +134,9 @@ export class CanvasUI {
       this.thumbs.set(path,texture);this.pending.delete(path);return texture;
     })().catch(error=>{this.pending.delete(path);throw error;});this.pending.set(path,promise);return promise;
   }
-  private picture(path:string,x:number,y:number,w:number,h:number,parent=this.root,full=false){
+  private picture(path:string,x:number,y:number,w:number,h:number,parent=this.root,full=false,holo=0){
     const generation=this.generation;
-    const render=(texture:Texture)=>{if(this.destroyed||generation!==this.generation||parent.destroyed)return;const sprite=new Sprite(texture);sprite.anchor.set(.5);const scale=Math.min(w/texture.width,h/texture.height);sprite.scale.set(scale);sprite.position.set(x+w/2,y+h/2);parent.addChild(sprite);this.stage.draw();};
+    const render=(texture:Texture)=>{if(this.destroyed||generation!==this.generation||parent.destroyed)return;const scale=Math.min(w/texture.width,h/texture.height);if(holo){const card=new HoloCard(texture,texture.width*scale*.96,texture.height*scale*.96,this.stage.app.canvas,()=>this.stage.draw(),holo,!!this.state?.reduced);card.position.set(x+w/2,y+h/2);parent.addChild(card);}else{const sprite=new Sprite(texture);sprite.anchor.set(.5);sprite.scale.set(scale);sprite.position.set(x+w/2,y+h/2);parent.addChild(sprite);}this.stage.draw();};
     const ready=full?Assets.get<Texture>(path):this.thumbs.get(path);
     if(ready){if(!full){this.thumbs.delete(path);this.thumbs.set(path,ready);}render(ready);}else void (full?Assets.load<Texture>(path):this.thumbnail(path)).then(render).catch(()=>{if(generation===this.generation&&!parent.destroyed){this.text('Image unavailable',x+w/2,y+h/2,10,C.muted,parent,'center');this.stage.draw();}});
   }
@@ -453,7 +455,7 @@ export class CanvasUI {
   private inspector(w:number,h:number,card:Card){
     this.screen(card.name,w,h,`${card.rarity} · #${card.number||'Energy'}`);
     const area={x:24,y:91,w:w-48,h:h-115};
-    this.picture(card.image,area.x,area.y,area.w,area.h,this.root,true);
+    this.picture(card.image,area.x,area.y,area.w,area.h,this.root,true,foilStrength(card.rarity,card.value));
   }
   private results(w:number,h:number,result:Result){
     const compact=h<550&&w>=560,short=h<620;

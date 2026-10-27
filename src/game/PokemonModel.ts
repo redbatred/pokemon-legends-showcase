@@ -5,10 +5,11 @@ import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import type {PowerProfile} from './powerProfiles';
 import {createModelOutline} from './modelOutline';
 import {performanceTiming} from './performanceTiming';
+import {performanceProfile} from './performanceProfiles';
 import {sampleAttack} from './attackClock';
 import {moveRigs,type ProjectedEmitter} from './moveRig';
 
-type Entry={path:string;optimization?:{sha256?:string};idle?:string;attack?:string;powerAt?:number;attackTimeScale?:number;enter?:string;runtime?:{idle?:string;attack?:string}};
+type Entry={path:string;optimization?:{sha256?:string};idle?:string;attack?:string;powerAt?:number;attackTimeScale?:number;enter?:string;enterStart?:number;enterEnd?:number;enterSpeed?:number;entranceDuration?:number;runtime?:{idle?:string;attack?:string}};
 let manifest:Promise<Record<string,Entry>>|null=null,renderer:WebGLRenderer|null=null,decoder:DRACOLoader|null=null,generation=0,inflight=0,releaseDecoder=false;
 function rendererFor(size:number){if(!renderer){renderer=new WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});renderer.setClearColor(0x000000,0);renderer.outputColorSpace=SRGBColorSpace;renderer.toneMapping=NoToneMapping;}if(renderer.domElement.width!==size||renderer.domElement.height!==size)renderer.setSize(size,size,false);return renderer;}
 function disposeDecoder(){decoder?.dispose();decoder=null;releaseDecoder=false;}
@@ -32,9 +33,9 @@ export async function createPokemonModel(path:string,low:boolean){
  }finally{inflight--;if(!inflight&&releaseDecoder)disposeDecoder();}
 }
 export class PokemonModel {
- readonly texture:PixiTexture;readonly groundY:number;private canvas=document.createElement('canvas');private context:CanvasRenderingContext2D;
+ readonly texture:PixiTexture;readonly groundY:number;readonly horizontalAnchor:number;private canvas=document.createElement('canvas');private context:CanvasRenderingContext2D;
  private scene=new Scene();private camera=new OrthographicCamera(-1,1,1,-1,.01,100);private mixer:AnimationMixer;
- private current:AnimationAction|null=null;private clips:Map<string,AnimationAction>;private elapsed=0;private size:number;private stopped=false;private charging=false;private attackClock=0;private sourceClock=0;private low=false;private renderCost=0;
+ private current:AnimationAction|null=null;private clips:Map<string,AnimationAction>;private elapsed=0;private size:number;private stopped=false;private charging=false;private emerging=false;private entranceClock=0;private attackClock=0;private sourceClock=0;private low=false;private renderCost=0;
  private poses=new Map<string,Matrix4>();private bones:Object3D[]=[];private bodySpan=1;private tip=new Vector3();private forward=new Vector3();private fallback=new Vector3();private head:Object3D|undefined;private torso:Object3D|undefined;private gradient:DataTexture;private originalMaterials=new Set<Material>();private toonMaterials=new Set<Material>();private textures=new Set<Texture>();
  constructor(private model:Group,animations:import('three').AnimationClip[],private entry:Entry,low:boolean,private stem:string){
   this.low=low;this.size=low?384:704;this.canvas.width=this.canvas.height=this.size;this.context=this.canvas.getContext('2d')!;this.texture=PixiTexture.from(this.canvas);
@@ -47,37 +48,44 @@ export class PokemonModel {
   });for(const {mesh,outline} of outlines)mesh.parent!.add(outline);
   this.scene.add(model);this.scene.add(new HemisphereLight(0xeef7ff,0x66759c,1.15));const key=new DirectionalLight(0xffffff,1.65);key.position.set(-3,5,7);this.scene.add(key);const rim=new DirectionalLight(0x8fdcff,.7);rim.position.set(1,-1,3);this.scene.add(rim);
   this.mixer=new AnimationMixer(model);this.clips=new Map(animations.map(clip=>[clip.name,this.mixer.clipAction(clip)]));this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);
-  const bounds=new Box3().setFromObject(model,true),idleBounds=bounds.clone(),right=new Vector3(1.75,0,-.70).normalize(),up=new Vector3(.70,.22,1.75).normalize().cross(right).normalize(),vertex=new Vector3();
+  const performance=performanceProfile(stem),yaw=performance.cameraYaw*Math.PI/180,elevation=performance.cameraElevation*Math.PI/180,view=new Vector3(Math.sin(yaw)*Math.cos(elevation),Math.sin(elevation),Math.cos(yaw)*Math.cos(elevation));
+  const bounds=new Box3().setFromObject(model,true),idleBounds=bounds.clone(),right=new Vector3(view.z,0,-view.x).normalize(),up=view.clone().cross(right).normalize(),vertex=new Vector3();
   let left=Infinity,rightEdge=-Infinity,bottom=Infinity,top=-Infinity;
   const includePose=()=>{model.traverse(o=>{if(!(o instanceof Mesh)||o.renderOrder===-1)return;const positions=o.geometry.getAttribute('position');if(!positions)return;for(let i=0;i<positions.count;i++){o.getVertexPosition(i,vertex).applyMatrix4(o.matrixWorld);const x=vertex.dot(right),y=vertex.dot(up);left=Math.min(left,x);rightEdge=Math.max(rightEdge,x);bottom=Math.min(bottom,y);top=Math.max(top,y);}});};includePose();
   const rig=moveRigs[this.stem],attackAction=this.clips.get(this.entry.attack??this.entry.runtime?.attack??'');
   if(attackAction){
    const original=this.current;original?.stop();attackAction.reset().setLoop(LoopOnce,1).play();attackAction.clampWhenFinished=true;
    const start=rig?.seek??0,end=Math.min(attackAction.getClip().duration,rig?.recoveryEnd??attackAction.getClip().duration);
-   for(let i=0;i<=12;i++){attackAction.time=start+(end-start)*i/12;this.mixer.update(0);model.updateMatrixWorld(true);bounds.union(new Box3().setFromObject(model,true));includePose();}
+   const samples=this.stem==='mewtwo'?48:12;
+   for(let i=0;i<=samples;i++){attackAction.time=start+(end-start)*i/samples;this.mixer.update(0);model.updateMatrixWorld(true);bounds.union(new Box3().setFromObject(model,true));includePose();}
    attackAction.stop();this.current=null;this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);
   }
+  const entranceAction=this.entry.enter?this.clips.get(this.entry.enter):null;
+  if(entranceAction){this.current?.stop();entranceAction.reset().setLoop(LoopOnce,1).play();const start=this.entry.enterStart??0,end=this.entry.enterEnd??entranceAction.getClip().duration;for(let i=0;i<=8;i++){entranceAction.time=start+(end-start)*i/8;this.mixer.update(0);model.updateMatrixWorld(true);includePose();}entranceAction.stop();this.current=null;this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);}
   const center=bounds.getCenter(new Vector3()),size=bounds.getSize(new Vector3());
   center.addScaledVector(right,(left+rightEdge)/2-center.dot(right)).addScaledVector(up,(bottom+top)/2-center.dot(up));
   const span=Math.max(rightEdge-left,top-bottom,.1)*1.10;this.camera.left=this.camera.bottom=-span/2;this.camera.right=this.camera.top=span/2;
-  this.camera.position.copy(center).add(new Vector3(span*.70,span*.22,span*1.75));this.camera.lookAt(center);this.camera.updateProjectionMatrix();this.camera.updateMatrixWorld(true);
-  const foot=idleBounds.getCenter(new Vector3());foot.y=idleBounds.min.y;foot.project(this.camera);this.groundY=-foot.y;
+  this.camera.position.copy(center).addScaledVector(view,span*2);this.camera.lookAt(center);this.camera.updateProjectionMatrix();this.camera.updateMatrixWorld(true);
+  const foot=idleBounds.getCenter(new Vector3());foot.y=idleBounds.min.y;foot.project(this.camera);this.groundY=-foot.y;const bodyAnchor=this.stem==='mewtwo'?model.getObjectByName('waist'):null;this.horizontalAnchor=bodyAnchor?bodyAnchor.getWorldPosition(new Vector3()).project(this.camera).x:0;
   const bones:Object3D[]=[];model.traverse(o=>{if('isBone' in o)bones.push(o);});const named=(keys:string[])=>keys.map(key=>bones.find(b=>b.name.toLowerCase().replace(/[_\s]*\d+$/,'')===key)).find(Boolean);
   this.bones=bones;this.bodySpan=size.y;this.head=named(['head','jaw','neck']);this.torso=named(['chest','waist','body','spine']);this.fallback.copy(center).add(new Vector3(0,size.y*.22,size.z*.1));this.render();
  }
  private get timing(){const clip=this.clips.get(this.entry.attack??this.entry.runtime?.attack??'');return performanceTiming(this.stem,clip?.getClip().duration??2,moveRigs[this.stem]);}
+ get entranceDuration(){const clip=this.entry.enter?this.clips.get(this.entry.enter):null;return clip?Math.min(1.4,Math.max(.4,((this.entry.enterEnd??clip.getClip().duration)-(this.entry.enterStart??0))/(this.entry.enterSpeed??1))):.68;}
  get chargeDuration(){return this.timing.charge;}
  get attackDuration(){return this.timing.attack;}
  get recoveryDuration(){return this.timing.recovery;}
  play(cue:'emerge'|'idle'|'charge'|'attack'|'recover'){
   if(cue==='attack'&&this.charging)return;
+  this.emerging=cue==='emerge'&&!!this.entry.enter&&this.clips.has(this.entry.enter);if(this.emerging){this.entranceClock=0;this.sourceClock=this.entry.enterStart??0;}
   const requested=cue==='charge'||cue==='attack',mapped=this.entry.attack??this.entry.runtime?.attack;const attack=requested&&!!mapped&&this.clips.has(mapped);this.charging=attack;if(attack){this.attackClock=0;this.sourceClock=moveRigs[this.stem]?.seek??0;}
-  const names=[...(attack?[this.entry.attack,this.entry.runtime?.attack,'attack','Attack','Attack01','attack01']:[]),this.entry.idle,this.entry.runtime?.idle,'idle','Idle','wait','Wait'];
+  const names=[...(this.emerging?[this.entry.enter]:[]),...(attack?[this.entry.attack,this.entry.runtime?.attack,'attack','Attack','Attack01','attack01']:[]),this.entry.idle,this.entry.runtime?.idle,'idle','Idle','wait','Wait'];
   let next:AnimationAction|undefined;for(const name of names)if(name&&this.clips.has(name)){next=this.clips.get(name);break;}next??=this.clips.values().next().value;if(!next)return;
-  if(next===this.current&&!attack)return;const previous=this.current;next.reset().setEffectiveWeight(1).setLoop(attack?LoopOnce:LoopRepeat,attack?1:Infinity);next.clampWhenFinished=attack;next.timeScale=attack?(moveRigs[this.stem]?.speed??1.4):1;next.time=attack?(moveRigs[this.stem]?.seek??0):0;next.play();if(previous&&previous!==next)next.crossFadeFrom(previous,cue==='recover'?.32:.18,false);this.current=next;
+  if(next===this.current&&!attack)return;const previous=this.current;next.reset().setEffectiveWeight(1).setLoop(attack||this.emerging?LoopOnce:LoopRepeat,attack||this.emerging?1:Infinity);next.clampWhenFinished=attack||this.emerging;next.timeScale=attack?(moveRigs[this.stem]?.speed??1.4):this.emerging?(this.entry.enterSpeed??1):1;next.time=attack?(moveRigs[this.stem]?.seek??0):this.emerging?(this.entry.enterStart??0):0;next.play();if(previous&&previous!==next)next.crossFadeFrom(previous,cue==='recover'?.32:.18,false);this.current=next;
  }
+ setEntranceTime(seconds:number){if(!this.emerging||!this.current)return;const start=this.entry.enterStart??0,end=this.entry.enterEnd??this.current.getClip().duration,source=start+(end-start)*Math.min(1,Math.max(0,seconds/this.entranceDuration)),dt=Math.max(0,seconds-this.entranceClock);this.current.timeScale=1;sampleAttack(this.mixer,this.current,source,this.sourceClock,0,1,dt);this.entranceClock=seconds;this.sourceClock=source;}
  setAttackTime(seconds:number){if(!this.charging||!this.current)return;const source=this.timing.sourceAt(seconds),dt=Math.max(0,seconds-this.attackClock);this.current.timeScale=1;sampleAttack(this.mixer,this.current,source,this.sourceClock,0,1,dt);this.attackClock=seconds;this.sourceClock=source;}
- update(dt:number){if(this.stopped)return;if(!this.charging)this.mixer.update(dt);this.elapsed+=dt;const hz=this.low?24:this.charging&&this.renderCost<7?60:30;if(this.elapsed<1/hz)return;this.elapsed%=1/hz;const start=performance.now();this.render();this.renderCost=this.renderCost*.85+(performance.now()-start)*.15;}
+ update(dt:number){if(this.stopped)return;if(!this.charging&&!this.emerging)this.mixer.update(dt);this.elapsed+=dt;const hz=this.low?24:(this.charging||this.emerging)&&this.renderCost<7?60:30;if(this.elapsed<1/hz)return;this.elapsed%=1/hz;const start=performance.now();this.render();this.renderCost=this.renderCost*.85+(performance.now()-start)*.15;}
  capturePose(){this.render();}
  private render(){this.model.updateMatrixWorld(true);for(const bone of this.bones){let m=this.poses.get(bone.name.toLowerCase());if(!m){m=new Matrix4();this.poses.set(bone.name.toLowerCase(),m);}m.copy(bone.matrixWorld);}const r=rendererFor(this.size);r.render(this.scene,this.camera);this.context.clearRect(0,0,this.size,this.size);this.context.drawImage(r.domElement,0,0);this.texture.source.update();}
  emitters(profile:PowerProfile):ProjectedEmitter[]{

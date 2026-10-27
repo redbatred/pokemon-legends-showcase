@@ -1,0 +1,935 @@
+#!/usr/bin/env python3
+"""Add 27 exact Pokémon GO moves and map all 50 big-win species.
+
+Run: python3 scripts/fetch-ensemble-audio-v6.py
+Requires Python 3, curl, ffmpeg and ffprobe. Writes only public/assets/audio-v6.
+Matching v4/v5 recordings are referenced in place, never rewritten. Source
+SHA-256 and Git blob SHA-1 values are pinned and checked before encoding.
+"""
+
+import array
+import concurrent.futures
+import hashlib
+import json
+import math
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
+from urllib.parse import quote
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "public/assets/audio-v6"
+CACHE = Path(tempfile.gettempdir()) / "pokemon-genuine-audio-sources"
+REPOSITORY = "https://github.com/PokeMiners/pogo_assets"
+COMMIT = "c2a686eb08ace6e890d8fe3d2134c76988db87b5"
+FFMPEG = os.environ.get("ASSET_FFMPEG") or shutil.which("ffmpeg") or "/opt/homebrew/bin/ffmpeg"
+FFPROBE = os.environ.get("ASSET_FFPROBE") or shutil.which("ffprobe") or "/opt/homebrew/bin/ffprobe"
+RATE, TARGET, GUARD = 48000, -6.2, .020
+
+RECIPES = {'aurorabeam': {'file': '062-0_aurora_beam.wav',
+                'gitBlobSha1': 'c1edbec0c0cebd709d7c5051ddf18bc03f7317aa',
+                'species': ['suicune'],
+                'sha256': '862593ffb3e39cf04d41ecded980a66effa24a30b9e7225ede1d963f19f7635d',
+                'label': 'Aurora Beam',
+                'trim': 0,
+                'startOffset': 0,
+                'preRoll': 0.12,
+                'gain': 0.28,
+                'note': 'The original beam texture begins immediately and swells through 0.8 s; preserve the '
+                        'small late accent near 2.0 s.'},
+ 'blazekick': {'file': '299-0_blaze_kick.wav',
+               'gitBlobSha1': '615260fbbcb442343105d103a1c3ba0378825995',
+               'species': ['cinderace'],
+               'sha256': '10f55b27428065f972aca08d4eea9199c7e849be0023efd36b0c6ee8e63ff67e',
+               'label': 'Blaze Kick',
+               'trim': 0,
+               'startOffset': 0,
+               'preRoll': 0.45,
+               'gain': 0.28,
+               'note': 'The recorded lead-in builds to the kick impact around 0.8–0.9 s. Use the beginning '
+                       'for the foot preparation.'},
+ 'bulletpunch': {'file': '418-0_bullet_punch.wav',
+                 'gitBlobSha1': '7a862809a87bce02184c7745492689acd8e9d9fb',
+                 'species': ['scizor'],
+                 'sha256': '565931ab94627c045e9daf958bfbeb3e6bea7f4871e88242b672257ac57ee5f7',
+                 'label': 'Bullet Punch',
+                 'trim': 0,
+                 'startOffset': 0,
+                 'preRoll': 0.08,
+                 'gain': 0.28,
+                 'note': 'The fast metallic attack has a broad impact over 0.1–0.9 s, followed by its '
+                         'original short decay.'},
+ 'disarmingvoice': {'file': '574-0_disarming_voice.wav',
+                    'gitBlobSha1': '4f2c7014ed90f86834b8b0804ca3159b8eacf2d4',
+                    'species': ['cleffa'],
+                    'sha256': 'ff1ee1a79a5e138686c8ba7c3d8ebb77c07b0f0f2c899524bb39e5f18777b64e',
+                    'label': 'Disarming Voice',
+                    'trim': 0,
+                    'startOffset': 0,
+                    'preRoll': 0.04,
+                    'gain': 0.26,
+                    'note': 'Preserve the initial voiced game effect and the second accent at 1.8–2.1 s; '
+                            'this is the named move recording, not a fabricated species voice.'},
+ 'discharge': {'file': '435-0_discharge.wav',
+               'gitBlobSha1': '46e8d25216e34e497f95433db780595937cacb7d',
+               'species': ['dracozolt', 'rotom'],
+               'sha256': '3151cf03cc01a62eed4ffcff14fd9a874c70bb2255ab39aec1556e95d6c3ef35',
+               'label': 'Discharge',
+               'trim': 0,
+               'startOffset': 0,
+               'preRoll': 0.2,
+               'gain': 0.28,
+               'note': 'Let the original electrical onset build into the sustained discharge; stop spawning '
+                       'new arcs before the natural tail.'},
+ 'dragonascent': {'file': '620-0_dragon_ascent.wav',
+                  'gitBlobSha1': '9ed1e5b0e3af2de20957b252d07c8adaae864414',
+                  'species': ['rayquaza'],
+                  'sha256': '6ca2c83ff51dca90918b7167550ec834f86c030b3e880f5658da6ac635d79be1',
+                  'label': 'Dragon Ascent',
+                  'trim': 0,
+                  'startOffset': 3.3,
+                  'preRoll': 0.62,
+                  'gain': 0.28,
+                  'note': 'Compact default selects the final rising attack phrase after the 3.3 s trough, '
+                          'with payoff near 4.0 s. Full-sequence alternative starts at zero; no claim that a '
+                          'waveform phrase is official engine metadata.'},
+ 'fireblast': {'file': '126-0_fire_blast.wav',
+               'gitBlobSha1': '888a6fd535df77875468c7de7d3d243d028564ee',
+               'species': ['ninetales'],
+               'sha256': 'a4b22de46d71ebffb04ab93efbfc8ae35c68938dd68a747024758c0563078d96',
+               'label': 'Fire Blast',
+               'trim': 0,
+               'startOffset': 0.84,
+               'preRoll': 0.08,
+               'gain': 0.28,
+               'note': 'The source has a preparation phrase before the low-energy gap at 0.8 s. Compact '
+                       'playback begins at this gap and retains both subsequent blast phrases.'},
+ 'firespin': {'file': '083-0_fire_spin.wav',
+              'gitBlobSha1': '6aed83920185afcd03c7c7329330e2eba08bb7a1',
+              'species': ['moltres'],
+              'sha256': '9630a0f7573cac4fb41653c73fc2cd83b1102eaf9653d35d03fad860196d5af4',
+              'label': 'Fire Spin',
+              'trim': 0,
+              'startOffset': 0,
+              'preRoll': 0.02,
+              'gain': 0.28,
+              'note': 'Immediate original fire swirl, with a second rotating accent near 0.6–0.9 s; do not '
+                      'loop or synthesize a flame layer.'},
+ 'flashcannon': {'file': '430-0_flash_cannon.wav',
+                 'gitBlobSha1': '2f1cda0db667f97d82331e0db911868e36882e75',
+                 'species': ['duraludon'],
+                 'sha256': 'bb7051daf1f5fca502dc24d14a240fa41b9d22931e77389d8bbd80e7b37da2d1',
+                 'label': 'Flash Cannon',
+                 'trim': 0,
+                 'startOffset': 0,
+                 'preRoll': 0.5,
+                 'gain': 0.28,
+                 'note': 'The first 0.5 s is the original low-level charge. The brighter cannon release '
+                         'begins near 0.5 s and continues through about 2.4 s.'},
+ 'gyroball': {'file': '360-0_gyro_ball.wav',
+              'gitBlobSha1': '5d5876daff0c6ff9b7f939e5d6c808fb1ef7d479',
+              'species': ['forretress'],
+              'sha256': '31819331ef2e55db9a4c4350304b1a72610bd197d987eff001e53faa4a57f2e0',
+              'label': 'Gyro Ball',
+              'trim': 0,
+              'startOffset': 0,
+              'preRoll': 0.96,
+              'gain': 0.26,
+              'note': 'Retain the roughly one-second original spin-up before the stronger rolling passage at '
+                      '1.0–3.0 s.'},
+ 'hurricane': {'file': '542-0_hurricane.wav',
+               'gitBlobSha1': '6176f4845e49b6cc9cbcb91fbffce581fb15f592',
+               'species': ['pidgeot'],
+               'sha256': '9cc63b561549528a32b74ca796ee652e5c4c9937af60391147a29fbb7cc5f19c',
+               'label': 'Hurricane',
+               'trim': 0,
+               'startOffset': 0,
+               'preRoll': 0.16,
+               'gain': 0.26,
+               'note': 'Broad sustained original wind envelope; increase visible vortex strength with the '
+                       'swell, then allow the recorded decay.'},
+ 'icywind': {'file': '196-0_icy_wind.wav',
+             'gitBlobSha1': '56976cdc9e18c50c42a146042e9dd3ffe2422f2c',
+             'species': ['glaceon'],
+             'sha256': '55040d8a1024c2e00fb12c0e483b3f8e63b8a12399787b75b2753af0fc5ec7a3',
+             'label': 'Icy Wind',
+             'trim': 0.06,
+             'startOffset': 0,
+             'preRoll': 0.1,
+             'gain': 0.26,
+             'note': 'Only the first 60 ms of near-silence is removed; preserve the long natural decay '
+                     'rather than truncating it at the gust peak.'},
+ 'leafblade': {'file': '348-0_leaf_blade.wav',
+               'gitBlobSha1': '4ada560df36676d55fcfbddcae34cf7f95fba9c4',
+               'species': ['leafeon'],
+               'sha256': 'ce0f9c51eaf45b128c04007bacbcaf8538c12870baee566aa21c7005e2bb65ac',
+               'label': 'Leaf Blade',
+               'trim': 0,
+               'startOffset': 0,
+               'preRoll': 0.08,
+               'gain': 0.28,
+               'note': 'One original slash sequence with several internal accents around 0.4, 0.8 and 1.2 s; '
+                       'never retrigger the audio per rendered leaf.'},
+ 'megadrain': {'file': '072-0_mega_drain.wav',
+               'gitBlobSha1': '1a32372440d5d7ca66aeb3cea7e69cdeab2a38c6',
+               'species': ['oddish'],
+               'sha256': '202a28a07c3ddc8fcc2ee64941476783d8067ce554ed82eabe61422c9d42f036',
+               'label': 'Mega Drain',
+               'trim': 0,
+               'startOffset': 0,
+               'preRoll': 0.06,
+               'gain': 0.26,
+               'note': 'The original sustained drain phrase rises toward 1.2–2.0 s and then decays. Suitable '
+                       'for one inward travelling particle stream.'},
+ 'moonblast': {'file': '585-0_moonblast.wav',
+               'gitBlobSha1': '93e55029a8561b2a6e232da7c071ca85e2f139b9',
+               'species': ['sylveon'],
+               'sha256': '6dbe988c85b84cbc78e9edc11e01d3dcf81a9b377f93cfb62e8c4067a846b4ef',
+               'label': 'Moonblast',
+               'trim': 0,
+               'startOffset': 1.02,
+               'preRoll': 0.14,
+               'gain': 0.26,
+               'note': 'Compact default seeks past the low-level opening phrase to the strong rising '
+                       'moonblast sequence; its peak follows near 2.4 s in the file.'},
+ 'originpulse': {'file': '618-0_origin_pulse.wav',
+                 'gitBlobSha1': '005ec196b0fbbf7c2df9a3d590b7dd8eda5b9bf8',
+                 'species': ['kyogre'],
+                 'sha256': 'fcc42cab6b90ac2cf32ec54bd552f3b6c5bf4354031a82203f01251792fae0ef',
+                 'label': 'Origin Pulse',
+                 'trim': 0,
+                 'startOffset': 3.48,
+                 'preRoll': 0.12,
+                 'gain': 0.28,
+                 'note': 'Compact default selects the second original wave phrase after the trough near 3.5 '
+                         's. The whole source remains available at offset zero.'},
+ 'powergem': {'file': '408-0_power_gem.wav',
+              'gitBlobSha1': '634a009a49cac93d57671bb3d900df3a72ac3c23',
+              'species': ['starmie'],
+              'sha256': '8c24d30cecaff258077af147d6ee0451dfe844a6cf9314d6c504362837bb85d9',
+              'label': 'Power Gem',
+              'trim': 0,
+              'startOffset': 0.94,
+              'preRoll': 0.08,
+              'gain': 0.26,
+              'note': 'Compact default selects the second brighter gem phrase after the low-energy gap '
+                      'around 0.9 s, preserving its full decay.'},
+ 'psybeam': {'file': '060-0_psybeam.wav',
+             'gitBlobSha1': 'c7942ee0c5d1127307ade72bef50f301f99d3f84',
+             'species': ['espeon'],
+             'sha256': 'bc82e695ecb097fdf5ab60ca782b43f4c18b43d487902fafef5f8a6a14c33807',
+             'label': 'Psybeam',
+             'trim': 0,
+             'startOffset': 0,
+             'preRoll': 0.4,
+             'gain': 0.28,
+             'note': 'Use the original 0.4 s onset as preparation, then release the beam with the stronger '
+                     'passage. Retain the later 1.8 s accent.'},
+ 'rockslide': {'file': '157-0_rock_slide.wav',
+               'gitBlobSha1': '3692ad98e6db5d41acd858767ef634f9de0973f9',
+               'species': ['aerodactyl'],
+               'sha256': '3052457a8b25d7149aceb27836b7c8c94a7354a235b4ccb6de74a247a0299366',
+               'label': 'Rock Slide',
+               'trim': 0,
+               'startOffset': 0,
+               'preRoll': 0.08,
+               'gain': 0.26,
+               'note': 'Original continuous rockslide body; one voice for the full falling-rock effect, not '
+                       'an audio trigger on every rock.'},
+ 'seedbomb': {'file': '402-0_seed_bomb.wav',
+              'gitBlobSha1': 'd52d15df18c590368633c09be2b66c8555cb78da',
+              'species': ['breloom', 'trevenant'],
+              'sha256': 'a32448d78738af6214c9abe24c0703c1b9b868de061d214ad86ed15415d1d7a0',
+              'label': 'Seed Bomb',
+              'trim': 0,
+              'startOffset': 0,
+              'preRoll': 0.02,
+              'gain': 0.26,
+              'note': 'Immediate launch with the strongest original explosion around 0.4–0.6 s; retain the '
+                      'smaller follow-through accents.'},
+ 'shadowforce': {'file': '467-0_shadow_force.wav',
+                 'gitBlobSha1': '4e4827614689c5b255f9e162d25d0acb0fac9829',
+                 'species': ['giratina'],
+                 'sha256': '9739104179fcf7a8dc5e613da38bdf68a9e38398ab8ea6bff37c5efefefea160',
+                 'label': 'Shadow Force',
+                 'trim': 0.04,
+                 'startOffset': 0,
+                 'preRoll': 0.1,
+                 'gain': 0.28,
+                 'note': 'Only 40 ms of near-silence is removed. The original whoosh grows quickly into the '
+                         'dark attack body.'},
+ 'technoblast': {'file': '546-0_techno_blast.wav',
+                 'gitBlobSha1': 'd43c564285ad51681a9c444878c982d23aa23144',
+                 'species': ['genesect'],
+                 'sha256': '48127dfc65b359b13165307f0c170580100bd48ed610c7947b656126a04f8eab',
+                 'label': 'Techno Blast',
+                 'trim': 0,
+                 'startOffset': 0,
+                 'preRoll': 0.12,
+                 'gain': 0.28,
+                 'note': 'Retain the original pulsing beam and its separate late accent around 3.0 s. One '
+                         'voice owns the whole sequence.'},
+ 'thunder': {'file': '087-0_thunder.wav',
+             'gitBlobSha1': 'b2e6924fed090078371d3a0034d9cb902e8120da',
+             'species': ['zapdos'],
+             'sha256': '7caf1aa77b180485bf074eec4c214952c92783533b455244342f89979fe9b648',
+             'label': 'Thunder',
+             'trim': 0,
+             'startOffset': 2.04,
+             'preRoll': 0.12,
+             'gain': 0.28,
+             'note': 'Compact default selects the second original thunder phrase after the 2.0 s trough, '
+                     'preserving its growing strike and tail.'},
+ 'thunderpunch': {'file': '009-0_thunder_punch.wav',
+                  'gitBlobSha1': '6be975b654fc5252491e45d2496879486f49156f',
+                  'species': ['raichu'],
+                  'sha256': '479fe4ac44f9785b1e9e0978eca0ed368aa751129c49f2b3d3279064ea61aed1',
+                  'label': 'Thunder Punch',
+                  'trim': 0,
+                  'startOffset': 0,
+                  'preRoll': 0.12,
+                  'gain': 0.28,
+                  'note': 'The electrical punch rises immediately, with the strongest impact around 0.8–1.0 '
+                          's and a natural short tail.'},
+ 'watershuriken': {'file': '594-0_water_shuriken_fast.wav',
+                   'gitBlobSha1': '403ddd4ea86cd03fb4e1c1785c1edd422577f85e',
+                   'species': ['greninja'],
+                   'sha256': 'eb6c8a977d0da87086df49c9caed4c8e945301f0b3671bb95f17873d11bc483b',
+                   'label': 'Water Shuriken',
+                   'trim': 0,
+                   'startOffset': 0,
+                   'preRoll': 0.02,
+                   'gain': 0.28,
+                   'note': 'Exact Water Shuriken fast-move recording. Immediate watery throw with a second '
+                           'internal accent near 0.65 s; one voice per thrown shuriken, not per blade.'},
+ 'wildcharge': {'file': '528-0_wild_charge.wav',
+                'gitBlobSha1': '650586bf7e65f42a75858a5efd81c7608a7593c5',
+                'species': ['raikou'],
+                'sha256': 'f80bd811d6724579d554ec41b06abb348f753fdda5ee223ee0175199e47c5bb6',
+                'label': 'Wild Charge',
+                'trim': 0,
+                'startOffset': 0.26,
+                'preRoll': 0.04,
+                'gain': 0.28,
+                'note': 'Compact default seeks to the first clear electrical surge after the short 0.2 s '
+                        'trough; keep the second surge around 1.6–2.2 s.'},
+ 'xscissor': {'file': '404-0_x_scissor.wav',
+              'gitBlobSha1': 'ddbbabb37047db3a800fd8eec0273ba0be35c32e',
+              'species': ['pinsir'],
+              'sha256': '55d45805bd6fff4b08f6fba7b15239f6c611cf182eccabea24f4e0c4c5e9227c',
+              'label': 'X-Scissor',
+              'trim': 0,
+              'startOffset': 0,
+              'preRoll': 0.08,
+              'gain': 0.28,
+              'note': 'Exact X-Scissor recording; fast crossed-slash body at 0.2–0.7 s and its original '
+                      'decay.'}}
+
+SPECIES = {'aerodactyl': 'rockslide',
+ 'alakazam': 'psychic',
+ 'arceus': 'hyperbeam',
+ 'articuno': 'ice',
+ 'blastoise': 'hydropump',
+ 'breloom': 'seedbomb',
+ 'charizard': 'fire',
+ 'cinderace': 'blazekick',
+ 'cleffa': 'disarmingvoice',
+ 'clodsire': 'ground',
+ 'dracozolt': 'discharge',
+ 'dragonite': 'hyperbeam',
+ 'duraludon': 'flashcannon',
+ 'eevee': 'swift',
+ 'espeon': 'psybeam',
+ 'forretress': 'gyroball',
+ 'gardevoir': 'fairy',
+ 'genesect': 'technoblast',
+ 'gengar': 'shadowball',
+ 'giratina': 'shadowforce',
+ 'glaceon': 'icywind',
+ 'gloom': 'petals',
+ 'greninja': 'watershuriken',
+ 'gyarados': 'hydropump',
+ 'kyogre': 'originpulse',
+ 'leafeon': 'leafblade',
+ 'lugia': 'aeroblast',
+ 'mew': 'psychic',
+ 'mewtwo': 'psystrike',
+ 'moltres': 'firespin',
+ 'ninetales': 'fireblast',
+ 'oddish': 'megadrain',
+ 'pidgeot': 'hurricane',
+ 'pidgey': 'wind',
+ 'pikachu': 'electric',
+ 'pinsir': 'xscissor',
+ 'raichu': 'thunderpunch',
+ 'raikou': 'wildcharge',
+ 'rayquaza': 'dragonascent',
+ 'rotom': 'discharge',
+ 'scizor': 'bulletpunch',
+ 'starmie': 'powergem',
+ 'suicune': 'aurorabeam',
+ 'sylveon': 'moonblast',
+ 'trevenant': 'seedbomb',
+ 'tyranitar': 'ground',
+ 'umbreon': 'dark',
+ 'vaporeon': 'waterpulse',
+ 'venusaur': 'petals',
+ 'zapdos': 'thunder'}
+
+LEARNSETS = {'source': {'commit': '2cf5a6889bf422803724e4d077078e0c7c722664',
+            'url': 'https://github.com/smogon/pokemon-showdown/blob/2cf5a6889bf422803724e4d077078e0c7c722664/data/learnsets.ts'},
+ 'evidence': {'aerodactyl': {'move': 'rockslide',
+                             'methods': ['8M',
+                                         '8L20',
+                                         '8V',
+                                         '7M',
+                                         '7L73',
+                                         '6M',
+                                         '6L73',
+                                         '5M',
+                                         '5L73',
+                                         '4M',
+                                         '4L65',
+                                         '3T']},
+              'alakazam': {'move': 'psychic',
+                           'methods': ['8M',
+                                       '8L35',
+                                       '8V',
+                                       '7M',
+                                       '7L38',
+                                       '7V',
+                                       '6M',
+                                       '6L38',
+                                       '5M',
+                                       '5L46',
+                                       '4M',
+                                       '4L40',
+                                       '3M',
+                                       '3L36',
+                                       '3S0']},
+              'arceus': {'move': 'hyperbeam',
+                         'methods': ['9M',
+                                     '9L80',
+                                     '7M',
+                                     '7L80',
+                                     '7S4',
+                                     '6M',
+                                     '6L80',
+                                     '6S3',
+                                     '5M',
+                                     '5L80',
+                                     '5S1',
+                                     '4M',
+                                     '4L80']},
+              'articuno': {'move': 'icebeam',
+                           'methods': ['9M',
+                                       '9L45',
+                                       '8M',
+                                       '8L45',
+                                       '8V',
+                                       '8S8',
+                                       '7M',
+                                       '7L71',
+                                       '7V',
+                                       '6M',
+                                       '6L43',
+                                       '6S5',
+                                       '6S6',
+                                       '5M',
+                                       '5L43',
+                                       '4M',
+                                       '4L43',
+                                       '4S3',
+                                       '4S4',
+                                       '3M',
+                                       '3L49',
+                                       '3S0',
+                                       '3S1',
+                                       '3S2']},
+              'blastoise': {'move': 'hydropump',
+                            'methods': ['9M',
+                                        '9L49',
+                                        '8M',
+                                        '8L49',
+                                        '8V',
+                                        '7L60',
+                                        '7V',
+                                        '6L60',
+                                        '6S1',
+                                        '5L60',
+                                        '4L53',
+                                        '3L68',
+                                        '3S0']},
+              'breloom': {'move': 'seedbomb',
+                          'methods': ['9M', '9L44', '7T', '7L44', '6T', '6L41', '5T', '5L41', '4T', '4L41']},
+              'charizard': {'move': 'flamethrower',
+                            'methods': ['9M',
+                                        '9L30',
+                                        '8M',
+                                        '8L30',
+                                        '8V',
+                                        '8S10',
+                                        '7M',
+                                        '7L47',
+                                        '7V',
+                                        '7S8',
+                                        '6M',
+                                        '6L47',
+                                        '6S5',
+                                        '5M',
+                                        '5L47',
+                                        '4M',
+                                        '4L42',
+                                        '3M',
+                                        '3L34']},
+              'cinderace': {'move': 'blazekick', 'methods': ['8M']},
+              'cleffa': {'move': 'disarmingvoice', 'methods': ['9M', '9L12', '8L12']},
+              'clodsire': {'move': 'earthquake', 'methods': ['9M', '9L48']},
+              'dracozolt': {'move': 'discharge', 'methods': ['8L56']},
+              'dragonite': {'move': 'hyperbeam',
+                            'methods': ['9M',
+                                        '9L80',
+                                        '8M',
+                                        '8L80',
+                                        '8V',
+                                        '7M',
+                                        '7L75',
+                                        '7V',
+                                        '6M',
+                                        '6L75',
+                                        '6S8',
+                                        '5M',
+                                        '5L75',
+                                        '5S6',
+                                        '4M',
+                                        '4L73',
+                                        '3M',
+                                        '3L75',
+                                        '3S1']},
+              'duraludon': {'move': 'flashcannon', 'methods': ['9M', '9L54', '8M', '8L54']},
+              'eevee': {'move': 'swift',
+                        'methods': ['9M',
+                                    '9L20',
+                                    '8M',
+                                    '8L20',
+                                    '8V',
+                                    '7L17',
+                                    '7V',
+                                    '6L10',
+                                    '6S3',
+                                    '6S4',
+                                    '5D',
+                                    '4T',
+                                    '3T']},
+              'espeon': {'move': 'psybeam',
+                         'methods': ['9M',
+                                     '9L25',
+                                     '8L25',
+                                     '7L20',
+                                     '7V',
+                                     '6L20',
+                                     '5L21',
+                                     '4L36',
+                                     '3L36',
+                                     '3S0']},
+              'forretress': {'move': 'gyroball',
+                             'methods': ['9M',
+                                         '9L46',
+                                         '7M',
+                                         '7L46',
+                                         '6M',
+                                         '6L50',
+                                         '5M',
+                                         '5L50',
+                                         '4M',
+                                         '4L45']},
+              'gardevoir': {'move': 'dazzlinggleam',
+                            'methods': ['9M', '9L0', '8M', '8L0', '7M', '6M', '6S1']},
+              'genesect': {'move': 'technoblast',
+                           'methods': ['8L84', '8S4', '7L1', '6L1', '6S3', '5L1', '5S0', '5S1', '5S2']},
+              'gengar': {'move': 'shadowball',
+                         'methods': ['9M',
+                                     '9L48',
+                                     '8M',
+                                     '8L48',
+                                     '8V',
+                                     '8S7',
+                                     '7M',
+                                     '7L33',
+                                     '7V',
+                                     '6M',
+                                     '6L33',
+                                     '6S3',
+                                     '6S4',
+                                     '5M',
+                                     '5L33',
+                                     '4M',
+                                     '4L33',
+                                     '3M',
+                                     '3L45']},
+              'giratina': {'move': 'shadowforce',
+                           'methods': ['9L77',
+                                       '8L77',
+                                       '7L46',
+                                       '7S7',
+                                       '6L46',
+                                       '6S5',
+                                       '6S6',
+                                       '5L46',
+                                       '5S4',
+                                       '4L40',
+                                       '4S0',
+                                       '4S1']},
+              'glaceon': {'move': 'icywind',
+                          'methods': ['9M',
+                                      '9L0',
+                                      '8M',
+                                      '8L0',
+                                      '7T',
+                                      '7L1',
+                                      '6T',
+                                      '6L9',
+                                      '6S1',
+                                      '5T',
+                                      '5L9',
+                                      '4T',
+                                      '4L15']},
+              'gloom': {'move': 'petalblizzard', 'methods': ['9M', '7L49', '6L49']},
+              'greninja': {'move': 'watershuriken', 'methods': ['9L0', '7L1', '6L36', '6S0']},
+              'gyarados': {'move': 'hydropump',
+                           'methods': ['9M',
+                                       '9L40',
+                                       '8M',
+                                       '8L40',
+                                       '8V',
+                                       '7L42',
+                                       '7V',
+                                       '6L41',
+                                       '5L41',
+                                       '4L41',
+                                       '3L40']},
+              'kyogre': {'move': 'originpulse',
+                         'methods': ['9L1', '8L63', '7L45', '7S7', '7S8', '7S9', '7S10', '6L45', '6S5']},
+              'leafeon': {'move': 'leafblade',
+                          'methods': ['9L50', '8M', '8L50', '7L45', '7S2', '6L45', '5L45', '4L71']},
+              'lugia': {'move': 'aeroblast',
+                        'methods': ['9L54',
+                                    '9S13',
+                                    '8L54',
+                                    '7L43',
+                                    '7V',
+                                    '7S7',
+                                    '7S8',
+                                    '7S9',
+                                    '7S10',
+                                    '6L43',
+                                    '6S5',
+                                    '6S6',
+                                    '5L43',
+                                    '4L43',
+                                    '4S2',
+                                    '4S3',
+                                    '3L77']},
+              'mew': {'move': 'psychic',
+                      'methods': ['9M',
+                                  '9L100',
+                                  '8M',
+                                  '8L100',
+                                  '8V',
+                                  '7M',
+                                  '7L30',
+                                  '7V',
+                                  '7S24',
+                                  '6M',
+                                  '6L30',
+                                  '5M',
+                                  '5L30',
+                                  '4M',
+                                  '4L30',
+                                  '4S19',
+                                  '3M',
+                                  '3L40']},
+              'mewtwo': {'move': 'psystrike',
+                         'methods': ['9L72', '9S9', '8L72', '7L100', '6L100', '6S5', '5L100', '5S2', '5S3']},
+              'moltres': {'move': 'firespin',
+                          'methods': ['9M',
+                                      '8M',
+                                      '8V',
+                                      '8S8',
+                                      '7L8',
+                                      '7V',
+                                      '6L8',
+                                      '5L8',
+                                      '4L8',
+                                      '4S4',
+                                      '3L13',
+                                      '3S0']},
+              'ninetales': {'move': 'fireblast',
+                            'methods': ['9M', '9L1', '8M', '8L1', '8V', '7M', '7V', '6M', '5M', '4M', '3M']},
+              'oddish': {'move': 'megadrain',
+                         'methods': ['9L12', '8L12', '8V', '7L19', '7V', '6L19', '5L21', '4L21']},
+              'pidgeot': {'move': 'hurricane', 'methods': ['7L1', '6L1', '5L68']},
+              'pidgey': {'move': 'gust', 'methods': ['8V', '7L9', '7V', '6L9', '5L9', '5D', '4L9', '3L9']},
+              'pikachu': {'move': 'thunderbolt',
+                          'methods': ['9M',
+                                      '9L36',
+                                      '9S55',
+                                      '8M',
+                                      '8L36',
+                                      '8V',
+                                      '8S51',
+                                      '7M',
+                                      '7L42',
+                                      '7V',
+                                      '7S49',
+                                      '6M',
+                                      '6L29',
+                                      '6S33',
+                                      '6S34',
+                                      '6S37',
+                                      '5M',
+                                      '5L29',
+                                      '5S26',
+                                      '5S27',
+                                      '5S30',
+                                      '4M',
+                                      '4L26',
+                                      '4S11',
+                                      '4S13',
+                                      '4S18',
+                                      '4S21',
+                                      '3M',
+                                      '3L26',
+                                      '3S0',
+                                      '3S6',
+                                      '3S7',
+                                      '3S8']},
+              'pinsir': {'move': 'xscissor',
+                         'methods': ['8M',
+                                     '8L32',
+                                     '8V',
+                                     '7M',
+                                     '7L29',
+                                     '6M',
+                                     '6L29',
+                                     '6S1',
+                                     '5M',
+                                     '5L29',
+                                     '4M',
+                                     '4L30']},
+              'raichu': {'move': 'thunderpunch',
+                         'methods': ['9M', '9L0', '8M', '8L0', '8V', '7T', '7V', '6T', '5T', '4T', '3T']},
+              'raikou': {'move': 'wildcharge', 'methods': ['9M', '8M', '7M', '6M', '5M']},
+              'rayquaza': {'move': 'dragonascent',
+                           'methods': ['9L1', '8L1', '8S9', '7T', '6T', '6S4', '6S6', '6S7']},
+              'rotom': {'move': 'discharge', 'methods': ['9L50', '8L50', '7L1', '6L1', '5L64', '4L50']},
+              'scizor': {'move': 'bulletpunch',
+                         'methods': ['9L0', '8L0', '7L1', '6L1', '6S7', '5L1', '5S2', '4L1']},
+              'starmie': {'move': 'powergem', 'methods': ['8M', '8L1']},
+              'suicune': {'move': 'aurorabeam',
+                          'methods': ['7L29',
+                                      '7V',
+                                      '7S6',
+                                      '6L29',
+                                      '6S5',
+                                      '5L29',
+                                      '4L29',
+                                      '4S3',
+                                      '3L41',
+                                      '3S0',
+                                      '3S1']},
+              'sylveon': {'move': 'moonblast', 'methods': ['9L50', '8L50', '7L37', '6L37']},
+              'trevenant': {'move': 'seedbomb', 'methods': ['9M', '8M', '7T', '6T']},
+              'tyranitar': {'move': 'earthquake',
+                            'methods': ['9M',
+                                        '9L33',
+                                        '8M',
+                                        '8L33',
+                                        '7M',
+                                        '7L54',
+                                        '7V',
+                                        '6M',
+                                        '6L54',
+                                        '6S3',
+                                        '6S4',
+                                        '5M',
+                                        '5L54',
+                                        '5S2',
+                                        '4M',
+                                        '4L47',
+                                        '3M',
+                                        '3L61',
+                                        '3S0']},
+              'umbreon': {'move': 'darkpulse',
+                          'methods': ['9M', '9L40', '8M', '8L40', '7M', '6M', '5T', '4M']},
+              'vaporeon': {'move': 'waterpulse',
+                           'methods': ['9M', '9L25', '8L25', '7T', '7L17', '6T', '6L17', '5L17', '4M', '3M']},
+              'venusaur': {'move': 'petalblizzard', 'methods': ['9M', '9L0', '8L0', '7L50', '6L50']},
+              'zapdos': {'move': 'thunder',
+                         'methods': ['9M',
+                                     '9L55',
+                                     '9S10',
+                                     '8M',
+                                     '8L55',
+                                     '8V',
+                                     '8S8',
+                                     '7M',
+                                     '7L78',
+                                     '7V',
+                                     '6M',
+                                     '6L78',
+                                     '5M',
+                                     '5L78',
+                                     '4M',
+                                     '4L78',
+                                     '3M',
+                                     '3L85']}}}
+
+def run(args):
+    result = subprocess.run(args, capture_output=True)
+    if result.returncode:
+        raise RuntimeError(result.stderr.decode(errors="replace"))
+    return result.stdout
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def source_url(path):
+    return f"https://raw.githubusercontent.com/PokeMiners/pogo_assets/{COMMIT}/" + quote(path)
+
+
+def probe(path):
+    data = json.loads(run([FFPROBE, "-v", "error", "-show_entries", "format=duration:stream=codec_name,sample_rate,channels", "-of", "json", str(path)]))
+    return {"duration": round(float(data["format"]["duration"]), 6), **data["streams"][0]}
+
+
+def decode(path, rate=RATE):
+    samples = array.array("f")
+    samples.frombytes(run([FFMPEG, "-v", "error", "-xerror", "-i", str(path), "-vn", "-f", "f32le", "-ac", "1", "-ar", str(rate), "-"]))
+    if not samples or not all(math.isfinite(v) for v in samples):
+        raise ValueError(f"Invalid decoded PCM: {path}")
+    return samples
+
+
+def db(value):
+    return round(20 * math.log10(max(value, 1e-9)), 3)
+
+
+def metrics(path):
+    samples = decode(path)
+    return {"decodedDuration": round(len(samples) / RATE, 6), "peakDbfs": db(max(map(abs, samples))),
+            "oversampledPeakDbfs": db(max(map(abs, decode(path, RATE * 4)))),
+            "rmsDbfs": db(math.sqrt(sum(v*v for v in samples) / len(samples))),
+            "lastSampleDbfs": db(abs(samples[-1]))}
+
+
+def envelope(path):
+    samples, size = decode(path, 16000), 320
+    energies = [math.sqrt(sum(v*v for v in samples[i:i+size]) / len(samples[i:i+size])) for i in range(0, len(samples), size)]
+    threshold = max(energies) * .015
+    return {"firstActive20msWindowAt": round(next(i*.020 for i, v in enumerate(energies) if v > threshold), 3),
+            "lastActive20msWindowEnd": round(min(len(samples)/16000, max(i*.020 for i,v in enumerate(energies) if v > threshold) + .020), 3),
+            "strongest20msWindowAt": round(energies.index(max(energies))*.020, 3),
+            "thresholdRelativeToStrongestRmsDb": db(.015),
+            "rms100msDbfs": [db(math.sqrt(sum(v*v for v in samples[i:i+1600])/len(samples[i:i+1600]))) for i in range(0,len(samples),1600)]}
+
+
+def build(pair):
+    name, recipe = pair
+    relative = "Sounds/Pokemon Moves/" + recipe["file"]
+    source = CACHE / relative
+    source.parent.mkdir(parents=True, exist_ok=True)
+    if not source.exists():
+        pending = source.with_suffix(".download")
+        run(["curl", "-fsSL", "--retry", "3", "--connect-timeout", "15", "--max-time", "90", source_url(relative), "-o", str(pending)])
+        pending.replace(source)
+    data = source.read_bytes()
+    blob = hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+    if digest(source) != recipe["sha256"] or blob != recipe["gitBlobSha1"]:
+        raise ValueError(f"Pinned source mismatch: {source}")
+    source_duration = len(decode(source)) / RATE
+    kept_duration = source_duration - recipe["trim"]
+    duration = kept_duration + GUARD
+    with tempfile.TemporaryDirectory(prefix="pokemon-ensemble-" + name + "-") as folder:
+        edited = Path(folder) / (name + ".wav")
+        filters = f"atrim=start={recipe['trim']},asetpts=PTS-STARTPTS,highpass=f=35,afade=t=in:d=0.002,afade=t=out:st={kept_duration-.080:.9f}:d=0.080,apad=pad_dur={GUARD},atrim=duration={duration:.9f}"
+        run([FFMPEG, "-v", "error", "-y", "-i", str(source), "-af", filters, "-ar", str(RATE), "-ac", "1", "-c:a", "pcm_f32le", str(edited)])
+        scale = 10 ** (TARGET / 20) / max(map(abs, decode(edited, RATE * 4)))
+        files = {}
+        for ext, codec, rate in [("mp3", ["-c:a", "libmp3lame", "-b:a", "160k"], 44100), ("ogg", ["-c:a", "libopus", "-b:a", "96k", "-vbr", "on"], 48000)]:
+            destination, gain = OUT / f"{name}.{ext}", scale
+            for attempt in range(4):
+                run([FFMPEG, "-v", "error", "-y", "-i", str(edited), "-map_metadata", "-1", "-af", f"volume={gain:.12f}", "-ar", str(rate), "-ac", "1", *codec, str(destination)])
+                measured = metrics(destination)
+                if TARGET-.15 <= measured["oversampledPeakDbfs"] <= TARGET+.12:
+                    break
+                gain *= 10 ** ((TARGET-measured["oversampledPeakDbfs"]) / 20)
+            if not -6.5 <= measured["oversampledPeakDbfs"] <= -6.0:
+                raise ValueError(f"Peak target failed: {destination}: {measured}")
+            if abs(measured["decodedDuration"] - duration) > .003 or measured["lastSampleDbfs"] > -65:
+                raise ValueError(f"Duration/tail check failed: {destination}: {measured}")
+            files[ext] = {"path": "/" + str(destination.relative_to(ROOT / "public")), **probe(destination), **measured, "bytes": destination.stat().st_size, "sha256": digest(destination)}
+    analysis = envelope(source)
+    timing = {"startOffset": recipe["startOffset"], "preRoll": recipe["preRoll"],
+              "releaseAt": round(recipe["startOffset"] + recipe["preRoll"], 6),
+              "activeEnd": round(analysis["lastActive20msWindowEnd"] - recipe["trim"], 6),
+              "strongest20msWindowAt": round(analysis["strongest20msWindowAt"] - recipe["trim"], 6),
+              "playbackDuration": round(duration - recipe["startOffset"], 6), "earlyStopFade": .18}
+    print(f"{name}: {duration:.3f}s; seek {timing['startOffset']:.2f}s; preRoll {timing['preRoll']:.2f}s; peaks " + " / ".join(f"{ext} {f['oversampledPeakDbfs']:.2f} dBFS" for ext,f in files.items()), flush=True)
+    return name, {"sourceSound": recipe["label"], "species": recipe["species"], "files": files,
+        "source": {"path": relative, "url": source_url(relative), "page": f"{REPOSITORY}/blob/{COMMIT}/" + quote(relative), **probe(source), "bytes": len(data), "sha256": digest(source), "gitBlobSha1": blob},
+        "processing": {"sourceStartOffset": recipe["trim"], "sourceDurationKept": round(kept_duration,6), "duration": round(duration,6), "attackFade": .002, "tailFade": .080, "silentTail": GUARD, "dcRemovalHz":35, "targetPeakDbfs":TARGET, "pitchChange":0,
+            "method":"Original recording at original speed and pitch. Only near-silent lead trimmed on Icy Wind (60 ms) and Shadow Force (40 ms); otherwise whole source retained. 35 Hz DC removal, 2 ms edge fade, 80 ms final-tail fade, and 20 ms silent codec guard. No generated voices, invented layers, reverb, time stretching or sustain removal."},
+        "recommendedPlaybackGain": recipe["gain"], "runtimePokemonMultiplier": .5, "effectivePlaybackGain": recipe["gain"]*.5,
+        "timing": timing, "timingNotes": recipe["note"], "sourceEnvelope": analysis}
+
+
+def main():
+    OUT.mkdir(parents=True, exist_ok=True)
+    artwork = json.loads((ROOT / "public/assets/pokemon/manifest.json").read_text())
+    actual = {Path(entry["image"]).stem for entry in artwork.values()}
+    if set(SPECIES) != actual:
+        raise ValueError(f"Species coverage changed: missing {actual-set(SPECIES)}, obsolete {set(SPECIES)-actual}")
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+        effects = dict(pool.map(build, RECIPES.items()))
+    cues = {name: {"files": {ext:f["path"] for ext,f in effect["files"].items()}, "duration":effect["processing"]["duration"], "decay":.080, "peakDbfs":TARGET, "gain":effect["recommendedPlaybackGain"], "pokemonMultiplier":.5, "sourceSound":effect["sourceSound"], "species":effect["species"], "timing":effect["timing"]} for name,effect in effects.items()}
+    reused = {}
+    for version in ["v4", "v5"]:
+        previous = json.loads((ROOT/f"public/assets/audio-{version}/cues.json").read_text())
+        prior_provenance = json.loads((ROOT/f"public/assets/audio-{version}/provenance.json").read_text())
+        for key in sorted(set(SPECIES.values()) & previous.keys()):
+            item = dict(previous[key])
+            item["species"] = [sp for sp, cue in SPECIES.items() if cue == key]
+            item.setdefault("pokemonMultiplier", .5)
+            item.setdefault("timing", {"startOffset":0, "preRoll":0, "releaseAt":0, "activeEnd":round(item["duration"]-item["decay"],6), "playbackDuration":item["duration"], "earlyStopFade":.18})
+            cues[key] = item
+            outputs = {}
+            for ext,path in item["files"].items():
+                local = ROOT/"public"/path.lstrip("/")
+                if not local.is_file(): raise ValueError(f"Missing reused file {local}")
+                outputs[ext] = {"path":path,"bytes":local.stat().st_size,"sha256":digest(local)}
+            reused[key] = {"manifest":f"/assets/audio-{version}/cues.json", "provenance":f"/assets/audio-{version}/provenance.json", "sourceSound":item["sourceSound"], "species":item["species"], "files":outputs, "source":prior_provenance["effects"][key].get("source",prior_provenance["effects"][key].get("sources"))}
+    if set(SPECIES.values()) != set(cues): raise ValueError("Unresolved cue in species mapping")
+    provenance = {"description":"27 additional exact Pokémon GO move recordings, with 16 existing cues reused in place, covering all 50 big-win Pokémon with 43 distinct named moves.",
+        "repository":{"url":REPOSITORY,"commit":COMMIT,"readme":f"{REPOSITORY}/blob/{COMMIT}/README.md","claim":"PokeMiners identifies these as mined Pokémon GO files and states it did not create or modify the source sounds. Source SHA-256 and Git blob SHA-1 pins are verified before encoding."},
+        "rights":"Used under the user's stated Pokémon license. Public datamining mirror, not a rights-holder delivery service; no open-license assertion.",
+        "reproduce":"python3 scripts/fetch-ensemble-audio-v6.py; requires Python 3, curl, ffmpeg and ffprobe. Optional ASSET_FFMPEG/ASSET_FFPROBE. Writes only audio-v6; reuses v4/v5 files without modification.",
+        "mixing":"Manifest gain is before the existing 0.5 Pokémon-effects multiplier. New effective gains are 0.13–0.14. Keep the multiplier; one scene-owned voice per move, not per particle, ring, slash or beam. Fade a stopped voice over 180 ms. Do not replay a completed voice to fill a visual hold.",
+        "timingConvention":"timing.startOffset seeks into the encoded audio, preRoll is elapsed audio time before visual release, and releaseAt is startOffset+preRoll. All timing landmarks are seconds in the encoded file. processing.sourceStartOffset separately records physically removed source lead. The original source envelope is recorded in source seconds. New natural tails are retained; a compact default seek can select a genuine later phrase. Play at zero to hear the whole original sequence.",
+        "limitations":"Move names come from original filenames. Species mappings are authoring choices verified against Pokémon Showdown community learnsets, not claims about supplied model animations or current Pokémon GO legal movesets. No human audition, retail gameplay comparison or official event timestamps are claimed. Arceus uses learnable Hyper Beam because no Judgment sound is present in the pinned collection; Cinderace similarly uses learnable Blaze Kick, not a falsely named Pyro Ball. Most sources are mono 11.025 kHz; codec resampling adds no source detail. Reused v4 clips remain their previously authored compact excerpts; v5 clips retain their original envelopes.",
+        "validation":"Every new output decodes with ffmpeg -xerror to finite samples, duration within 3 ms, four-times-oversampled peak at or below -6 dBFS, and final sample below -65 dBFS. All source/output hashes are recorded. Species coverage equals the 50-entry artwork manifest. Folder budget is 4,000,000 bytes.",
+        "effects":effects,"reused":reused,"learnsets":LEARNSETS}
+    (OUT/"cues.json").write_text(json.dumps(dict(sorted(cues.items())),indent=2)+"\n")
+    (OUT/"species-cues.json").write_text(json.dumps(SPECIES,indent=2)+"\n")
+    (OUT/"provenance.json").write_text(json.dumps(provenance,indent=2)+"\n")
+    size=sum(p.stat().st_size for p in OUT.rglob("*") if p.is_file())
+    if size>4000000:raise ValueError(f"Asset budget exceeded: {size} bytes")
+    print(f"Verified 54 new encodes, {len(reused)} reused cues, {len(cues)} distinct moves, {len(SPECIES)} Pokémon; audio-v6 is {size} bytes.")
+
+
+if __name__ == "__main__":
+    main()

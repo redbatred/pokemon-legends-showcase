@@ -1,7 +1,9 @@
-import { ColorMatrixFilter,Container,Graphics,Sprite,Texture } from 'pixi.js';
+import { ColorMatrixFilter,Container,Graphics,PerspectiveMesh,Texture,type Filter } from 'pixi.js';
 import type { Spine } from '@esotericsoftware/spine-pixi-v8';
 import { playSound,playPokemonCry,preloadRevealAudio,stopRevealAudio,playPokemonMove,pokemonSoundTiming,type PokemonMoveVoice } from './audio';
 import { pokemonPower } from './powerProfiles';
+import {performanceProfile} from './performanceProfiles';
+import {EntranceEffects} from './EntranceEffects';
 import { PokemonPower } from './PokemonPower';
 import { createPokeballRig } from './PokeballRig';
 import { PokemonActor,disposePokemonRenderer } from './PokemonActor';
@@ -12,17 +14,17 @@ const IMPACT={x:0,y:-98};
 export class SpineReveal {
   root=new Container();cardShell=new Container();
   private behind=new Container({isRenderGroup:true});private front=new Container({isRenderGroup:true});
-  private ball:Spine;private hero:PokemonActor;private face:Sprite;private punctured:Texture;
+  private ball:Spine;private hero:PokemonActor;private face:PerspectiveMesh;private punctured:Texture;
   private trail=new Graphics();private flare=new Graphics();private shadow=new Graphics();
   private shards:Graphics[]=[];private released=false;private started=false;
   private energy=new Graphics();private pressure=new Graphics();private latch=new Graphics();private power:PokemonPower;private white=new ColorMatrixFilter();
-  private release={amount:0,radius:0};private moveVoice:PokemonMoveVoice|null=null;
+  private entrance:EntranceEffects;private release={amount:0,radius:0};private moveVoice:PokemonMoveVoice|null=null;
 
   static disposeResources(){disposePokemonRenderer();}
   static async create(card:Texture,pokemonImage:string,low=false){const [hero]=await Promise.all([PokemonActor.create(pokemonImage,low),preloadRevealAudio(pokemonImage)]);return new SpineReveal(card,hero,pokemonImage,low);}
   private constructor(card:Texture,hero:PokemonActor,pokemonImage:string,low:boolean){
-    this.hero=hero;this.power=new PokemonPower(hero,pokemonPower(pokemonImage),low);this.ball=createPokeballRig();this.face=new Sprite(card);this.face.anchor.set(.5);this.face.width=312;this.face.height=435;
-    this.cardShell.addChild(this.face);this.root.addChild(this.behind,this.cardShell,this.front);this.behind.addChild(this.trail,this.ball);this.front.addChild(this.shadow,this.power.back,this.hero,this.power.front,this.energy,this.pressure,this.latch,this.flare);
+    this.hero=hero;this.power=new PokemonPower(hero,pokemonPower(pokemonImage),low);this.entrance=new EntranceEffects(performanceProfile(this.power.profile.species),this.power.profile.color,this.power.profile.light,low);this.ball=createPokeballRig();this.face=new PerspectiveMesh({texture:card,verticesX:4,verticesY:6});this.face.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);
+    this.cardShell.addChild(this.face);this.root.addChild(this.behind,this.cardShell,this.front);this.behind.addChild(this.trail,this.ball);this.front.addChild(this.shadow,this.entrance.back,this.power.back,this.hero,this.power.front,this.entrance.front,this.energy,this.pressure,this.latch,this.flare);
     this.white.matrix=[0,0,0,0,.91,0,0,0,0,.99,0,0,0,0,1,0,0,0,1,0];this.hero.filters=[this.white];
     this.hero.visible=false;this.hero.position.set(70,174);this.hero.scale.set(.025);this.hero.alpha=0;
     this.shadow.ellipse(0,0,45,8).fill({color:0x07223a,alpha:.28});this.shadow.position.set(18,219);this.shadow.alpha=0;
@@ -42,7 +44,7 @@ export class SpineReveal {
 
   }
   play(timeline:gsap.core.Timeline,skyY:number,onImpact:()=>void,onPower?:(color:number)=>void){
-    this.started=true;const attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,open=hit+.78,form=open+.12,charge=form+.62,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,recoverEnd=attackEnd+this.hero.recoveryDuration,soundStart=attack-Math.min(this.hero.chargeDuration,pokemonSoundTiming(this.power.profile.cue).preRoll),moveEnvelope={gain:0},decay=Math.min(.22,this.hero.attackDuration*.3);
+    this.started=true;const profile=performanceProfile(this.power.profile.species),entryDuration=Math.max(.68,this.hero.entranceDuration),settle=profile.settle;const entranceClock={time:0},attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,open=hit+.78,form=open+.12,charge=form+entryDuration+.1,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,recoverEnd=attackEnd+this.hero.recoveryDuration,soundStart=attack-Math.min(this.hero.chargeDuration,pokemonSoundTiming(this.power.profile.cue).preRoll),moveEnvelope={gain:0},decay=Math.min(.22,this.hero.attackDuration*.3);
     const project=()=>{const p=ballFlight(flight.t,skyY);this.ball.position.set(p.x,p.y);this.ball.scale.set(p.scale);this.ball.rotation=p.rotation;
       this.trail.clear();for(let i=5;i>=1;i--){const a=ballFlight(Math.max(0,flight.t-i*.015),skyY),b=ballFlight(Math.max(0,flight.t-(i-1)*.015),skyY);this.trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:(6-i)*.7,color:0xd3f5ff,alpha:(6-i)*.06});}};project();
     const land=()=>{const p=ballLanding(fall.t);this.ball.position.set(p.x,p.y);this.ball.rotation=p.rotation;};
@@ -61,13 +63,16 @@ export class SpineReveal {
       .call(()=>{this.ball.state.setAnimation(0,'open',false);playSound('release',{pan:.1});},[],open)
       .to(this.release,{amount:1,radius:1,duration:.16,ease:'power2.out'},open+.04)
       .call(()=>{this.hero.visible=true;this.released=true;this.hero.alpha=1;this.hero.play('emerge');},[],form)
-      .to(this.hero,{x:0,y:47,duration:.42,ease:'power3.out'},form)
-      .to(this.hero.scale,{x:1.04,y:1.04,duration:.42,ease:'power3.out'},form)
+      .to(entranceClock,{time:entryDuration,duration:entryDuration,ease:'none',onUpdate:()=>this.hero.setEntranceTime(entranceClock.time)},form)
+      .to(this.hero,{x:profile.side,y:settle-profile.lift,duration:entryDuration*.58,ease:'power3.out'},form)
+      .to(this.hero.scale,{x:1,y:1,duration:entryDuration*.58,ease:'power3.out'},form)
+      .to(this.entrance,{opacity:1,duration:.1},form+.1)
+      .to(this.entrance,{progress:1,duration:entryDuration+.2,ease:'none'},form+.1)
+      .to(this.entrance,{opacity:0,duration:.3},form+entryDuration-.05)
       .to(this.white,{alpha:0,duration:.30,ease:'power2.inOut',onComplete:()=>{this.hero.filters=[];}},form+.27)
-      .to(this.hero,{y:65,duration:.18,ease:'power2.in'},form+.42)
-      .to(this.hero.scale,{x:1,y:1,duration:.18,ease:'power2.out'},form+.42)
+      .to(this.hero,{x:0,y:settle,duration:entryDuration*.42,ease:profile.weight>.5?'power2.in':'sine.inOut'},form+entryDuration*.58)
       .to(this.release,{amount:0,duration:.3,ease:'power1.out'},form+.23)
-      .call(()=>playSound('impact',{gain:.32}),[],form+.6)
+      .call(()=>playSound(profile.weight>.5?'land':'release',{gain:.16+profile.weight*.2}),[],form+entryDuration)
       .call(()=>{this.ball.state.setAnimation(0,'closed',false);},[],form+.53)
       .to(this.ball,{x:155,y:188,rotation:.7,alpha:0,duration:.48,ease:'power2.in'},form+.53)
       .to(this.ball.scale,{x:.25,y:.25,duration:.48},form+.53)
@@ -81,13 +86,15 @@ export class SpineReveal {
       .to(moveEnvelope,{gain:0,duration:.18,ease:'sine.in',onUpdate:()=>this.moveVoice?.update(moveEnvelope.gain,0)},attackEnd-.02)
       .call(()=>{this.moveVoice?.stop();this.moveVoice=null;},[],attackEnd+.17)
       .to(this.power,{charge:0,blast:1,duration:.08,ease:'power2.out'},attack)
+      .to(this.hero,{x:profile.side*.12,y:settle+2*profile.impact,duration:.055,ease:'power2.out'},attack)
+      .to(this.hero,{x:0,y:settle,duration:.19,ease:'sine.out'},attack+.055)
       .to(this.power,{fade:0,duration:decay,ease:'power1.in'},attackEnd-decay)
       .call(()=>{this.hero.play('recover');},[],recoverEnd)
       .to({}, {duration:.4},recoverEnd);
     this.shards.forEach((shard,i)=>{const a=i/12*Math.PI*2;timeline.set(shard,{visible:true},hit).to(shard,{x:Math.cos(a)*(95+i*4),y:IMPACT.y+Math.sin(a)*86+60,rotation:(i-6)*.7,alpha:0,duration:.55,ease:'power2.out'},hit);});
   }
   update(dt:number){
-    this.ball.update(dt);this.latch.position.set(this.ball.x-19*this.ball.scale.x,this.ball.y);if(this.released)this.hero.update(dt);this.power.update(dt);
+    this.ball.update(dt);this.latch.position.set(this.ball.x-19*this.ball.scale.x,this.ball.y);if(this.released)this.hero.update(dt);this.power.update(dt);this.entrance.update(this.hero.x,this.hero.y);if(this.released){this.shadow.x=this.hero.x;const lift=Math.max(0,65-this.hero.y);this.shadow.scale.set(1-lift*.0025);this.shadow.alpha=Math.max(.16,.65-lift*.004);}
     const g=this.energy.clear(),a=this.release.amount,r=this.release.radius;
     if(a>0){
       const x=this.ball.x,y=this.ball.y-12;
@@ -97,6 +104,9 @@ export class SpineReveal {
       for(let i=0;i<9;i++){const angle=i/9*Math.PI*2;const d=32+r*52;g.moveTo(x+Math.cos(angle)*20,y+Math.sin(angle)*13).lineTo(x+Math.cos(angle)*d,y+Math.sin(angle)*d*.7).stroke({color:0xd1faff,width:2,alpha:a*.7});}
     }
   }
-  takeCard(){this.cardShell.removeFromParent();return this.cardShell;}
+  fitPresentation(halfWidth:number){this.hero.fitPresentation(halfWidth);}
+  setCardTilt(x:number,y:number){const yaw=x*.19,pitch=-y*.13,points:number[]=[];for(const [xx,yy] of [[-156,-217.5],[156,-217.5],[156,217.5],[-156,217.5]]){const z=-xx*Math.sin(yaw)+yy*Math.sin(pitch),p=700/(700+z);points.push(xx*Math.cos(yaw)*p,yy*Math.cos(pitch)*p);}this.face.setCorners(points[0],points[1],points[2],points[3],points[4],points[5],points[6],points[7]);}
+  setCardFoil(filter:Filter){this.face.filters=[filter];}
+  takeCard(){this.face.filters=[];this.setCardTilt(0,0);this.cardShell.removeFromParent();return this.cardShell;}
   destroy(){this.moveVoice?.stop();this.moveVoice=null;if(this.started)stopRevealAudio();this.hero.filters=[];this.white.destroy();this.root.destroy({children:true});}
 }

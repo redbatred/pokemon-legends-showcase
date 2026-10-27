@@ -2,6 +2,7 @@ import {Graphics,Point} from 'pixi.js';
 import type {PokemonActor} from './PokemonActor';
 import type {PowerProfile} from './powerProfiles';
 import type {ProjectedEmitter} from './moveRig';
+import {signatureEffect} from './SignatureEffects';
 const TAU=Math.PI*2;
 
 /** Finite, pose-synchronized cel effects. Released projectiles retain their launch vector. */
@@ -22,7 +23,7 @@ export class PokemonPower {
   this.time=this.clock;let emitters=this.emitters();
   if(this.blast>0&&this.releasedAt<0){this.releasedAt=this.time;this.launch=emitters.map(p=>({...p}));}
   if(this.blast>0&&this.time>(this.history.at(-1)?.time??-1)){this.history.push({time:this.time,points:emitters});while(this.history.length>2&&this.history[1].time<this.time-.32)this.history.shift();}
-  if(['shuriken','orb','stars','pulse'].includes(this.profile.move)&&this.blast>0)emitters=this.launch;
+  if(['shuriken','orb','stars','pulse','crystals','gems','seeds','moon','firestar'].includes(this.profile.move)&&this.blast>0)emitters=this.launch;
   for(let i=0;i<emitters.length;i++)this.draw(emitters[i],i,g);
  }
  private star(g:Graphics,x:number,y:number,r:number,color:number,alpha:number,rotation=0){
@@ -54,18 +55,20 @@ export class PokemonPower {
   }
   if(!this.blast)return;
   const age=Math.max(0,this.time-this.releasedAt),strength=Math.min(1,this.blast*1.35),opacity=alpha*strength;
+  if(p.move==='quake'&&index>0)return;
+  if(signatureEffect(g,this.back,p,at,age,opacity,this.low,{x:this.hero.x,y:this.hero.y+154}))return;
   if(p.move==='shuriken'){
-   const u=Math.min(1,age/.44),distance=u*235,[px,py]=at(distance,-Math.sin(u*Math.PI)*18);
-   for(let trail=4;trail>0;trail--){const [tx,ty]=at(Math.max(0,distance-trail*15),-Math.sin(u*Math.PI)*18);this.shuriken(this.back,tx,ty,(31+u*9)*(1-trail*.08),age*24-trail*.3,opacity*(.12-trail*.018));}
-   this.shuriken(g,px,py,31+u*9,age*24,opacity);return;
+   const u=Math.min(1,age/.44),distance=u*260,[px,py]=at(distance,-Math.sin(u*Math.PI)*18);
+   for(let trail=4;trail>0;trail--){const [tx,ty]=at(Math.max(0,distance-trail*15),-Math.sin(u*Math.PI)*18);this.shuriken(this.back,tx,ty,(37+u*12)*(1-trail*.08),age*24-trail*.3,opacity*(.12-trail*.018));}
+   this.shuriken(g,px,py,37+u*12,age*24,opacity);return;
   }
   if(p.move==='orb'){
-   const progress=Math.min(1,age/.55),distance=progress*175,[px,py]=at(distance,-Math.sin(progress*Math.PI)*20);
+   const progress=Math.min(1,age/.55),distance=progress*220,[px,py]=at(distance,-Math.sin(progress*Math.PI)*20);
    for(let i=3;i>0;i--){const [tx,ty]=at(Math.max(0,distance-i*13),-Math.sin(progress*Math.PI)*20);this.orb(this.back,tx,ty,19-i*2,opacity*(.16-i*.03),t-i*.1);}
-   this.orb(g,px,py,19+progress*6,opacity,t);return;
+   this.orb(g,px,py,26+progress*10,opacity,t);return;
   }
   if(p.move==='stars'){
-   for(let i=0;i<4;i++){const life=age-i*.055;if(life<0)continue;const u=Math.min(1,life/.44),angle=(i-1.5)*.17,ax=dx*Math.cos(angle)-dy*Math.sin(angle),ay=dy*Math.cos(angle)+dx*Math.sin(angle),px=x+ax*(20+u*185),py=y+ay*(20+u*185)-Math.sin(u*Math.PI)*15,r=10+u*4;
+   for(let i=0;i<6;i++){const life=age-i*.045;if(life<0)continue;const u=Math.min(1,life/.44),angle=(i-1.5)*.17,ax=dx*Math.cos(angle)-dy*Math.sin(angle),ay=dy*Math.cos(angle)+dx*Math.sin(angle),px=x+ax*(20+u*185),py=y+ay*(20+u*185)-Math.sin(u*Math.PI)*15,r=10+u*4;
     const pts:number[]=[];for(let j=0;j<10;j++){const a=t*4+j*Math.PI/5,rr=j%2?r*.43:r;pts.push(px+Math.cos(a)*rr,py+Math.sin(a)*rr);}g.moveTo(px-ax*26,py-ay*26).lineTo(px,py).stroke({color:c,width:2,alpha:opacity*.4}).poly(pts).fill({color:c,alpha:opacity}).stroke({color:light,width:1.2,alpha:opacity});
    }return;
   }
@@ -84,8 +87,8 @@ export class PokemonPower {
    for(let i=0;i<3;i++){const a=t*2+i*TAU/3;this.star(g,x+Math.cos(a)*r,y+Math.sin(a)*r*1.12,5,light,opacity,a);}return;
   }
   if(p.move==='beam'){
-   const reach=220*Math.min(strength,age/.15)*(.35+.65*(e.foreshortening??1));
-   for(let layer=0;layer<3;layer++){const pts:number[]=[],width=[16,9,3][layer];for(let side=0;side<2;side++)for(let i=0;i<=18;i++){const u=side?1-i/18:i/18;pts.push(...at(u*reach,(side?-1:1)*width*(.35+u*.8)*Math.min(1,(1-u)*16)));}g.poly(pts).fill({color:layer===0?c:layer===1?light:0xffffff,alpha:opacity*(layer===0?.65:.9)});}
+   const reach=260*Math.min(strength,age/.15)*(.35+.65*(e.foreshortening??1));
+   for(let layer=0;layer<3;layer++){const pts:number[]=[],width=[23,13,4][layer];for(let side=0;side<2;side++)for(let i=0;i<=18;i++){const u=side?1-i/18:i/18;pts.push(...at(u*reach,(side?-1:1)*width*(.35+u*.8)*Math.min(1,(1-u)*16)));}g.poly(pts).fill({color:layer===0?c:layer===1?light:0xffffff,alpha:opacity*(layer===0?.65:.9)});}
    for(let phase=0;phase<2;phase++){const pts:number[]=[];for(let i=0;i<=24;i++){const u=i/24;pts.push(...at(u*reach,Math.sin(u*24-t*25+phase*Math.PI)*(4+u*13)));}g.poly(pts,false).stroke({color:light,width:1.5,alpha:opacity*.75});}return;
   }
   if(p.kind==='fire'||p.kind==='dragon'){
@@ -121,7 +124,7 @@ export class PokemonPower {
   }else if(p.kind==='electric'){
    const pulse=.65+.35*Math.sin(age*67)**2,seed=Math.floor(age*22),count=this.low?3:5;
    for(let i=0;i<count;i++){
-    const angle=(index?-.4:.5)+i/count*TAU,length=(75+i%3*23)*strength,pts:number[]=[x,y];
+    const angle=(index?-.4:.5)+i/count*TAU,length=(100+i%3*29)*strength,pts:number[]=[x,y];
     for(let j=1;j<=6;j++){const u=j/6,z=j===6?0:Math.sin(j*12.4+i*6.3+seed*4.1)*10;pts.push(x+Math.cos(angle)*length*u-Math.sin(angle)*z,y+Math.sin(angle)*length*u+Math.cos(angle)*z);}
     g.poly(pts,false).stroke({color:c,width:7,alpha:opacity*.18*pulse}).poly(pts,false).stroke({color:c,width:3.6,alpha:opacity*pulse}).poly(pts,false).stroke({color:light,width:1.1,alpha:opacity*pulse});
     const bx=pts[6],by=pts[7];g.moveTo(bx,by).lineTo(bx+Math.cos(angle+.8)*18,by+Math.sin(angle+.8)*18).lineTo(bx+Math.cos(angle+.3)*34,by+Math.sin(angle+.3)*34).stroke({color:light,width:1,alpha:opacity});

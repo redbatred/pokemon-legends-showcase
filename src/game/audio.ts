@@ -1,14 +1,15 @@
 import { Howl, Howler } from 'howler';
 import cueManifest from '../../public/assets/audio-v4/cues.json';
 import moveManifest from '../../public/assets/audio-v5/cues.json';
+import ensembleManifest from '../../public/assets/audio-v6/cues.json';
 import { pokemonPower, type PowerCue } from './powerProfiles';
 export type Sound = PowerCue|'throw'|'impact'|'release'|'charge'|'tear'|'flip'|'reveal'|'rare'|'complete'|'credit'|'ui'|'latch'|'stage'|'land'|'suspense'|'slam';
 type Voice={howl:Howl;id:number;scene:boolean;paused:boolean;key:string;gain:number};
 const sounds=new Map<string,Howl>(), pending=new Map<string,Promise<void>>(), voices=new Set<OwnedVoice>();
 let enabled=false,scenePaused=false,hidden=false,lastCredit=-Infinity,lastLand=-Infinity;
 let music:Howl|null=null,musicId:number|undefined,musicPaused=false,interacted=false,musicGain=.14;
-const pokemonCues=new Set(['fire','water','electric','psychic','leaf','wind','ice','dark','metal','ground','fairy','dragon','swift','hyperbeam','shadowball','aeroblast','petals','hydropump','waterpulse','psystrike']);
-const cues:Record<string,{gain:number;files:{mp3:string;ogg:string}}>={...cueManifest,...moveManifest};
+const pokemonCues=new Set([...Object.keys(ensembleManifest),'fire','water','electric','psychic','leaf','wind','ice','dark','metal','ground','fairy','dragon','swift','hyperbeam','shadowball','aeroblast','petals','hydropump','waterpulse','psystrike']);
+const cues:Record<string,{gain:number;files:{mp3:string;ogg:string}}>={...cueManifest,...moveManifest,...ensembleManifest};
 function mixMusic(){
  if(!music||musicId===undefined)return;
  const next=[...voices].some(v=>v.scene&&!v.paused)?.035:scenePaused?.085:.14;
@@ -58,7 +59,7 @@ export function playSound(name:Sound,options:{pan?:number;gain?:number}={}){
  if(name==='land'){const now=performance.now();if(now-lastLand<75)return;lastLand=now;}
  start(name==='reveal'?'normal':name,(cues[name==='reveal'?'normal':name]?.gain??.32)*(pokemonCues.has(name)?.5:1)*(options.gain??1),name!=='credit'&&name!=='complete'&&name!=='ui',options.pan);
 }
-export function pokemonSoundTiming(cue:PowerCue){const value=(moveManifest as Record<string,{timing:{startOffset:number;preRoll:number}}>)[cue];return value?.timing??{startOffset:0,preRoll:0};}
+export function pokemonSoundTiming(cue:PowerCue){const value=({...moveManifest,...ensembleManifest} as Record<string,{timing:{startOffset:number;preRoll:number}}>)[cue];return value?.timing??{startOffset:0,preRoll:0};}
 export type PokemonMoveVoice={update:(gain:number,pan:number)=>void;stop:()=>void};
 /** Scene-clock envelopes pause with the action and can never restart a muted/stale voice. */
 export function playPokemonMove(cue:PowerCue,pan=0):PokemonMoveVoice|null{

@@ -99,3 +99,9 @@ it('aligns authentic move excerpts and uses a quiet scene-owned envelope',()=>{
 it('never revives a Pokémon move after mute or disposal, even with pending animation callbacks',()=>{
  setSound(true);const move=playPokemonMove('hydropump')!,h=voice('hydropump');move.update(1,0);setSound(false);const updates=h.volume.mock.calls.length;move.update(1,.4);move.stop();setSound(true);expect(h.volume).toHaveBeenCalledTimes(updates);expect(h.play).toHaveBeenCalledTimes(1);
 });
+
+it('uses the expanded move recordings at quiet gain and seeks to the measured attack phase',()=>{
+ setSound(true);const attack=playPokemonMove('thunder');attack?.update(1,0);
+ const thunder=voice('thunder');expect(thunder.source).toContain('/audio-v6/');expect(thunder.seek).toHaveBeenCalledWith(2.04,1);expect(thunder.volume.mock.calls.at(-1)[0]).toBeLessThanOrEqual(.15);
+ setAudioScenePaused(true);expect(thunder.pause).toHaveBeenCalledWith(1);attack?.stop();setAudioScenePaused(false);expect(thunder.play).toHaveBeenCalledTimes(1);
+});

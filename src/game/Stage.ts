@@ -1,6 +1,6 @@
 import { Application, Assets, Container, Graphics, PerspectiveMesh, MeshPlane, Sprite, Texture, Rectangle } from 'pixi.js';
 import { gsap } from 'gsap';
-import { createFoil } from './foil';
+import { createFoil,foilStrength } from './foil';
 import { playSound,setAudioHidden,stopRevealAudio } from './audio';
 import type { Card } from './model';
 import { artworkColor } from './cardColor';
@@ -64,7 +64,7 @@ export class OpeningStage {
     this.app.renderer.resolution = renderResolution(w,h,devicePixelRatio,this.options.low);
     this.app.renderer.resize(w, h);
     const layout=gameLayout(w,h,this.openingLayout);
-    this.world.position.set(w/2,layout.worldY);this.world.scale.set(layout.scale);
+    this.world.position.set(w/2,layout.worldY);this.world.scale.set(layout.scale);this.special?.fitPresentation((w/2-12)/layout.scale);
     this.scene.resize(w,h,layout.stageY,layout);
     this.onLayout?.();
     if(this.blocked||this.mode==='result')this.draw();
@@ -115,10 +115,9 @@ export class OpeningStage {
     this.app.stage.hitArea = this.app.screen;
     this.app.stage.on('globalpointermove', e => {
       if(this.blocked)return;
-      const b = this.host.getBoundingClientRect();
       const wrapper=this.mode==='pack'||this.mode==='sealed';
-      this.target.x = wrapper?Math.max(-1,Math.min(1,(e.global.x-this.world.x)/(150*this.world.scale.x))):(e.global.x / b.width - .5) * 2;
-      this.target.y = wrapper?Math.max(-1,Math.min(1,(e.global.y-this.world.y)/(230*this.world.scale.y))):(e.global.y / b.height - .5) * 2;
+      this.target.x = wrapper?Math.max(-1,Math.min(1,(e.global.x-this.world.x)/(150*this.world.scale.x))):Math.max(-1,Math.min(1,(e.global.x-this.world.x)/(156*this.world.scale.x)));
+      this.target.y = wrapper?Math.max(-1,Math.min(1,(e.global.y-this.world.y)/(230*this.world.scale.y))):Math.max(-1,Math.min(1,(e.global.y-this.world.y)/(218*this.world.scale.y)));
       if (this.dragStart !== null && this.mode === 'sealed') {
         const progress = Math.min(1, Math.abs(e.global.x - this.dragStart) / (230 * this.world.scale.x * .72));
         this.dragProgress = progress;
@@ -180,11 +179,11 @@ export class OpeningStage {
   }
   private project(mesh: PerspectiveMesh, w: number, h: number, flip = 0, extraPitch = 0) {
     const wrapper=mesh===this.packMesh;
-    const yaw = this.tilt.x * (wrapper?.32:.13) + flip;
+    const yaw = this.tilt.x * (wrapper?.32:.19) + flip;
     const signature=`${yaw.toFixed(4)},${this.tilt.y.toFixed(3)},${extraPitch.toFixed(4)}`;
     if(this.lastProjection.get(mesh)===signature)return;
     this.lastProjection.set(mesh,signature);
-    const pitch = -this.tilt.y * (wrapper?.19:.07) + extraPitch;
+    const pitch = -this.tilt.y * (wrapper?.19:.13) + extraPitch;
     const coordinates: number[] = [];
     for (const [x, y] of [[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]]) {
       const z = -x * Math.sin(yaw) + y * Math.sin(pitch);
@@ -227,6 +226,8 @@ export class OpeningStage {
       const tint=this.scene.lightTint;this.foil.resources.foil.uniforms.uLightColor=[((tint>>16)&255)/255,((tint>>8)&255)/255,(tint&255)/255];this.foil.resources.foil.uniforms.uLightStrength=this.scene.illumination;
       this.foil.resources.foil.uniforms.uTime = move ? this.time : 0;
       this.foil.resources.foil.uniforms.uTilt = this.tilt.x;
+      this.foil.resources.foil.uniforms.uTiltY = this.tilt.y;
+      this.special?.setCardTilt(this.tilt.x,this.tilt.y);
     }
     for (const p of this.particles) {
       p.sprite.visible = move && (this.mode==='pack'||this.mode==='sealed') && (!this.options.low || p.depth > .6);
@@ -389,15 +390,16 @@ export class OpeningStage {
         .to(this.stack,{x:0,y:5,rotation:0,duration:.7*d,ease:'power3.out'},0)
         .call(()=>playSound('flip'),[],turn*d)
         .to(this.motion,{flip:Math.PI/2,offsetX:15,roll:.035,duration:.24*d,ease:'power2.in'},turn*d)
-        .call(()=>{next.texture=texture;next.filters=this.options.low?[]:[this.foil];this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=this.options.low?.05:card.value>=600?.28:.035;const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(dramatic?'slam':rare?'rare':'reveal');this.charging=false;this.revealEffects.fire(color!,rare,this.options.reduced,this.options.low);this.scene.setCardColor(color!,this.options.reduced);this.scene.impact(rare,this.options.reduced);},[],(turn+.24)*d)
+        .call(()=>{next.texture=texture;next.filters=this.options.low?[]:[this.foil];this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=foilStrength(card.rarity,card.value)*(this.options.low?.55:1);const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(dramatic?'slam':rare?'rare':'reveal');this.charging=false;this.revealEffects.fire(color!,rare,this.options.reduced,this.options.low);this.scene.setCardColor(color!,this.options.reduced);this.scene.impact(rare,this.options.reduced);},[],(turn+.24)*d)
         .to(this.motion,{flip:0,offsetX:0,lift:-8,roll:0,pitch:0,scale:1,duration:.43*d,ease:'back.out(1.08)'},(turn+.24)*d)
-        .to(this.foil.resources.foil.uniforms,{uSweep:.65,duration:.54*d,ease:'sine.inOut'},(turn+.28)*d);
+        .to(this.foil.resources.foil.uniforms,{uSweep:.8,duration:.46*d,ease:'sine.inOut'},(turn+.28)*d)
+        .to(this.foil.resources.foil.uniforms,{uSweep:0,duration:.24*d,ease:'sine.out'},(turn+.74)*d);
       if(this.blocked||document.hidden)this.timeline.pause();
     });
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     if(this.options.reduced){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
     if(special){
-      this.scene.setCinematic(true,this.options.reduced);this.special=special;this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
+      this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
       await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);});if(this.blocked||document.hidden)this.timeline.pause();});
       if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(false,this.options.reduced);}
     }
