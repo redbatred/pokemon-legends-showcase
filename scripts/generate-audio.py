@@ -3,7 +3,7 @@ import math, random, wave, struct
 from pathlib import Path
 out = Path('public/assets/audio'); out.mkdir(parents=True, exist_ok=True)
 random.seed(7)
-for name, duration in [('tear', .62), ('flip', .25), ('reveal', .65), ('rare', 1.7), ('complete', 1.2)]:
+for name, duration in [('tear', .62), ('flip', .25), ('reveal', .65), ('rare', 1.7), ('complete', 1.2), ('credit', .14)]:
     rate = 22050; samples = []
     prev = 0
     for i in range(int(duration * rate)):

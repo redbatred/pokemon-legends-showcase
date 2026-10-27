@@ -100,3 +100,7 @@ Pokémon artwork remains the property of its respective rights holders. Its incl
 - `public/assets/pokemon/charmander.webp`: **932 × 932**, transparent RGBA. [Original image](https://archives.bulbagarden.net/media/upload/2/27/0004Charmander.png); [source attribution and file history](https://archives.bulbagarden.net/wiki/File:0004Charmander.png).
 
 Both are official Ken Sugimori artwork released for Pokémon FireRed and LeafGreen, mirrored by Bulbagarden Archives. PNG originals are retained in `source-assets/originals/pokemon/`. Runtime WebPs use lossless encoding; exact decoded RGBA pixel equality with the originals was verified. No resizing, cropping, recoloring, background generation, or other alterations were performed.
+
+## Canvas interface font
+
+Nunito variable font, Google Fonts: https://github.com/google/fonts/tree/main/ofl/nunito . Bundled `public/assets/fonts/Nunito.ttf` and `OFL.txt` (SIL Open Font License). Used for canvas UI and pre-rendered numeric glyphs.
