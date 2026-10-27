@@ -118,8 +118,8 @@ Refresh only these bounded assets with `ASSET_PYTHON`'s interpreter, for example
 ## Spine special reveals
 
 - Runtime: `@esotericsoftware/spine-pixi-v8` 4.2.120, from the official Esoteric Software package. Runtime license is shipped at `public/assets/spine/LICENSE.txt`. User confirmed the required Spine Editor license in the project chat.
-- Poké Ball: original canvas-authored cel-shaded atlas and Spine bone animation data in `src/game/SpineReveal.ts`.
-- Pokémon: official artwork listed in `public/assets/pokemon/provenance.json`, displayed through original Spine mesh/breathing animation data. These are artwork rigs, not studio-authored articulated character rigs.
+- Poké Ball: original shaded sphere turntable atlas (32 orientations) and separate Spine lid/base animation in `src/game/PokeballRig.ts`; projected depth flight and local artwork puncture in `SpineReveal.ts`.
+- Pokémon: official artwork listed in `public/assets/pokemon/provenance.json`, displayed through original weighted Spine skeletal meshes in `PokemonRig.ts` / `pokemonRigData.ts`. Charizard has 21 anatomical bones, including independent wing roots/tips, head/neck, arms, grounded feet and tail/flame. Other species use restrained anatomy profiles. These are locally authored single-view artwork rigs, not studio-provided rigs; hidden surfaces, mouth interiors and turnarounds are not available.
 - Big-win eligibility is at least the selected pack's demo price and a supported Pokémon artwork. Normal eligibility does not change card values or odds. The user-requested temporary first-card preview is documented in README.md; it deliberately overrides the first draw and animation eligibility while preserving the real demo value.
 
 ## Living arena light rig

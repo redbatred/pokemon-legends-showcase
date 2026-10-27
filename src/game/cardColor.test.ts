@@ -8,3 +8,10 @@ it('takes the saturated artwork instead of white border or black print',()=>{
 it('uses an icy default for grayscale artwork and ignores transparency',()=>{
  expect(artworkColor([255,0,0,0,120,120,120,255])).toBe(0x8cddff);
 });
+it('keeps pastel artwork hue but gives the emitter a visibly saturated color',()=>{
+ const color=artworkColor([180,100,200,255,190,110,210,255]);
+ const channels=[color>>16&255,color>>8&255,color&255];
+ expect(Math.max(...channels)-Math.min(...channels)).toBeGreaterThan(170);
+ expect(channels[2]).toBeGreaterThan(channels[0]);
+ expect(channels[0]).toBeGreaterThan(channels[1]);
+});

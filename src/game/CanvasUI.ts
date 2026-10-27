@@ -19,7 +19,6 @@ export class CanvasUI {
   private backdrop=new Graphics();private modalTween:gsap.core.Timeline|null=null;private modalKind='';private transitioning=false;
   private frozenHud:Sprite|null=null;
   private dismissal:'close'|'continue'|null=null;
-  private scrollIndicator:Graphics|null=null;
   private tray:Texture;
   private moneyAnimations:gsap.core.Tween[]=[];private moneyValues=new Map<string,{identity:string,value:number}>();
   private updating=false;
@@ -131,7 +130,7 @@ export class CanvasUI {
     this.root.removeChild(this.focus);this.root.removeChildren().forEach(child=>child.destroy({children:true}));
     const s=this.state,w=this.stage.app.screen.width,h=this.stage.app.screen.height,l=gameLayout(w,h,!['browse','complete'].includes(s.phase));
     const modal=s.inspected?'inspect':s.panel??(s.phase==='complete'?'results':'');const changed=modal!==this.modalKind;this.modalKind=modal;
-    this.modalTween?.kill();this.modalTween=null;this.transitioning=false;this.root.position.set(0);this.root.scale.set(1);this.root.alpha=1;this.scrollIndicator=null;
+    this.modalTween?.kill();this.modalTween=null;this.transitioning=false;this.root.position.set(0);this.root.scale.set(1);this.root.alpha=1;
     this.backdrop.clear();this.backdrop.visible=!!modal;this.backdrop.alpha=1;if(modal)this.backdrop.rect(0,0,w,h).fill({color:0x03192d,alpha:modal==='settings'?.45:.6});
     if(s.panel==='collection'&&!s.inspected)this.collection(w,h);
     else {
@@ -197,7 +196,6 @@ export class CanvasUI {
     this.railTween=gsap.to(this.railMotion,{offset,duration,ease:'power3.out',onUpdate:()=>this.positionRail(),onComplete:()=>{this.railTween=null;this.positionRail();this.syncRailTargets();}});
   }
   private positionRail(velocity=0){const r=this.rail;if(!r)return;r.content.x=r.x-this.railMotion.offset;r.groups.forEach(group=>{group.rotation=this.state!.reduced?0:Math.max(-.025,Math.min(.025,-velocity*.012));});
-    if(this.scrollIndicator){const thumb=Math.max(34,r.width*r.width/(r.max+r.width)),x=r.x+(r.width-thumb)*(r.max?railPosition(this.railMotion.offset,r.max)/r.max:0),y=this.stage.app.screen.height-7;this.scrollIndicator.clear().roundRect(r.x,y,r.width,3,1.5).fill({color:0xa1d9f7,alpha:.15}).roundRect(x,y-1,thumb,5,2.5).fill({color:0xc4f5ff,alpha:.65});}
     this.stage.draw();}
   private syncRailTargets(){
     const r=this.rail;if(!r)return;
@@ -282,8 +280,12 @@ export class CanvasUI {
     const tile=l.compact?124:l.portrait?190:200,stride=tile+14,margin=l.portrait?14:24;
     const viewport={x:margin,y:y+8,width:w-margin*2,height:tile+7};
     const content=new Container();content.y=viewport.y;this.root.addChild(content);
-    const footY=(l.compact?68:tile-63)+5,beltWidth=s.packs.length*stride-14;
-    const belt=new Graphics().roundRect(10,footY-9,beltWidth-20,20,10).fill({color:0x0a3359,alpha:.3}).roundRect(10,footY-6,beltWidth-20,8,4).fill({color:0x7bbbe1,alpha:.12});content.addChild(belt);
+    const footY=(l.compact?68:tile-63)+5;
+    // Light chevrons travel with the carousel, between the pack holders.
+    for(let i=0;i<s.packs.length-1;i++){
+      const arrows=new Container();arrows.position.set(i*stride+tile+7,footY-4);content.addChild(arrows);
+      for(let n=0;n<2;n++){const a=new Graphics().moveTo(-9+n*10,-4).lineTo(-5+n*10,0).lineTo(-9+n*10,4).stroke({color:0xa8f6ff,width:2,alpha:.85});a.alpha=.3+n*.3;arrows.addChild(a);if(!s.reduced)this.moneyAnimations.push(gsap.to(a,{alpha:.9,x:4,duration:.65,delay:n*.16,repeat:-1,yoyo:true,ease:'sine.inOut',onUpdate:()=>this.stage.draw()}));}
+    }
     const mask=new Graphics().rect(viewport.x,viewport.y-4,viewport.width,viewport.height+8).fill(0xffffff);this.root.addChild(mask);content.mask=mask;
     const groups:Container[]=[],hits:HitTarget[]=[];
     this.railMotion.offset=railPosition(this.railMotion.offset,Math.max(0,s.packs.length*stride-14-viewport.width));
@@ -306,11 +308,14 @@ export class CanvasUI {
       if(selected&&this.lastPackId!==pack.id&&!s.reduced)this.moneyAnimations.push(gsap.from(group.scale,{x:.95,y:.95,duration:.36,ease:'back.out(1.8)'}));
     });
     this.lastPackId=s.selected.id;
-    this.scrollIndicator=new Graphics();this.root.addChild(this.scrollIndicator);
     this.rail={content,...viewport,tile,stride,max:Math.max(0,s.packs.length*stride-14-viewport.width),groups,hits};this.positionRail();
-    // Arrow buttons are keyboard alternatives to mouse/touch dragging.
-    this.button('pack-prev','Previous packs',6,viewport.y+tile/2-18,26,36,()=>this.animateRail(railPosition(this.railMotion.offset-stride*2,this.rail!.max)),{small:true,visibleLabel:'‹'});
-    this.button('pack-next','Next packs',w-32,viewport.y+tile/2-18,26,36,()=>this.animateRail(railPosition(this.railMotion.offset+stride*2,this.rail!.max)),{small:true,visibleLabel:'›'});
+    // The edge affordances use the same small luminous chevrons, with 36px hit targets.
+    for(const direction of [-1,1]){
+      const x=direction<0?3:w-39,ay=viewport.y+tile/2-22,id=direction<0?'pack-prev':'pack-next',label=direction<0?'Previous packs':'Next packs';
+      const arrow=new Graphics();for(let n=0;n<2;n++)arrow.moveTo(14+direction*(n*7-4),12).lineTo(14+direction*(n*7+1),20).lineTo(14+direction*(n*7-4),28).stroke({color:0xc6f9ff,width:2.5,alpha:1-n*.3});
+      arrow.position.set(x,ay);this.root.addChild(arrow);this.hit(id,label,x,ay,36,44,()=>this.animateRail(railPosition(this.railMotion.offset+direction*stride,this.rail!.max)));
+      if(!s.reduced)this.moneyAnimations.push(gsap.to(arrow,{alpha:.4,duration:.85,repeat:-1,yoyo:true,ease:'sine.inOut',onUpdate:()=>this.stage.draw()}));
+    }
     hits.forEach((hit,i)=>{const left=viewport.x+i*stride-this.railMotion.offset,right=left+tile;hit.x=Math.max(viewport.x,left);hit.width=Math.max(0,Math.min(viewport.x+viewport.width,right)-hit.x);if(hit.width>24)this.hits.push(hit);});
   }
   private storeCard=(index:number)=>{

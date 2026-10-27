@@ -4,7 +4,7 @@ const clamp=(n:number)=>Math.max(0,Math.min(1,n));
 /** Deform only sky and foliage; stadium architecture remains pinned to its source coordinates. */
 export class LivingBackdrop {
   root=new Container();private mesh:MeshPlane;private base:Float32Array;private sky:Float32Array;private foliage:Float32Array;
-  private rays:Sprite[]=[];private lightTexture:Texture;private previous=-1;private wasReduced=false;
+  private rays:Sprite[]=[];private lightTexture:Texture;private previous=-1;private wasReduced=false;private floorShift=0;
   constructor(texture:Texture){
     this.mesh=new MeshPlane({texture,verticesX:97,verticesY:55});this.mesh.geometry.batchMode='no-batch';this.root.addChild(this.mesh);
     this.base=new Float32Array(this.mesh.geometry.getBuffer('aPosition').data);const count=this.base.length/2;this.sky=new Float32Array(count);this.foliage=new Float32Array(count);
@@ -23,7 +23,7 @@ export class LivingBackdrop {
     for(let i=0;i<3;i++){const ray=new Sprite(this.lightTexture);ray.anchor.set(.5,0);ray.position.set(texture.width*(.83+i*.04),-texture.height*.12);ray.width=texture.width*(i===1?.055:.12);ray.height=texture.height*.61;ray.rotation=.35+i*.075;ray.blendMode='add';ray.alpha=.13;this.rays.push(ray);this.root.addChild(ray);}
     this.root.pivot.set(texture.width/2,texture.height/2);
   }
-  resize(w:number,h:number){this.root.position.set(w/2,h/2);this.root.scale.set(Math.max(w/this.mesh.texture.width,h/this.mesh.texture.height)*1.035);}
+  resize(w:number,h:number,floorY?:number){const scale=Math.max(w/this.mesh.texture.width,h/this.mesh.texture.height)*1.035;this.root.position.set(w/2,h/2);this.root.scale.set(scale);const ground=h/2+this.mesh.texture.height*.18*scale;this.floorShift=floorY===undefined?0:(floorY-ground)/scale;this.wasReduced=false;this.previous=-1;}
   tick(time:number,reduced:boolean,low:boolean){
     this.rays.forEach(ray=>{ray.visible=!low;});
     if(reduced&&this.wasReduced)return;
@@ -33,7 +33,8 @@ export class LivingBackdrop {
     for(let i=0;i<this.sky.length;i++){
       const x=this.base[i*2],y=this.base[i*2+1],wind=reduced?0:Math.sin(t*1.15+x*.013)*2.5+Math.sin(t*.63+y*.018)*1.1;
       vertices[i*2]=x+this.sky[i]*cloudDrift+this.foliage[i]*wind;
-      vertices[i*2+1]=y+this.sky[i]*Math.sin(t*.035)*2.8+this.foliage[i]*wind*.2;
+      const v=y/this.mesh.texture.height,above=Math.min(1,v/.68),groundWeight=v<=.68?above*above*(3-2*above):Math.max(0,(1-v)/.32);
+      vertices[i*2+1]=y+this.floorShift*groundWeight+this.sky[i]*Math.sin(t*.035)*2.8+this.foliage[i]*wind*.2;
     }
     buffer.update();
     this.rays.forEach((ray,i)=>{ray.visible=!low;ray.alpha=reduced?.12:.12+Math.sin(time*.16+i)*.045;ray.rotation=.35+i*.075+(reduced?0:Math.sin(time*.04+i)*.009);});

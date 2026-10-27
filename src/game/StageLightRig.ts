@@ -5,7 +5,7 @@ import { stageEmissionStrength } from './stageLighting';
 /** The chassis never enters this rig: every attachment is light on transparent pixels. */
 export class StageLightRig {
   root=new Container({isRenderGroup:true});
-  private rig:Spine;private atlasTexture:Texture;private reduced=false;
+  private rig:Spine;private atlasTexture:Texture;private reduced=false;private flatten=.57;
   constructor(platform:Texture){
     const mask=document.createElement('canvas');mask.width=1024;mask.height=512;
     const context=mask.getContext('2d',{willReadFrequently:true})!;context.drawImage(platform.source.resource as CanvasImageSource,0,0,1024,512);
@@ -29,25 +29,25 @@ export class StageLightRig {
     const atlas=new TextureAtlas('stage-lights.png\nsize: 2048,1024\nfilter: Linear,Linear\npma: false\nrim\n  bounds: 0,0,1024,512\nbloom\n  bounds: 1024,0,1024,512\nhighlight\n  bounds: 1024,512,1024,512\nspot\n  bounds: 0,512,128,128\nbeam\n  bounds: 128,512,256,512\n');atlas.pages[0].setTexture(SpineTexture.from(this.atlasTexture.source));
     const bones:Record<string,unknown>[]=[{name:'root'},{name:'emitter',parent:'root',y:23},{name:'beamL',parent:'emitter',rotation:4},{name:'beamR',parent:'emitter',rotation:-5}];
     const slots:Record<string,unknown>[]=[],attachments:Record<string,unknown>={};
-    const slot=(name:string,bone:string,path:string,width:number,height:number,alpha:number,y=0)=>{slots.push({name,bone,attachment:name,blend:name==='rimCore'?'normal':'additive',color:`ffffff${Math.round(alpha*255).toString(16).padStart(2,'0')}`});attachments[name]={[name]:{path,width,height,y}};};
-    slot('rimBloom','root','bloom',1024,512,.7);slot('rimCore','root','rim',1024,512,.88);slot('rimHighlight','root','highlight',1024,512,.55);
+    const slot=(name:string,bone:string,path:string,width:number,height:number,alpha:number,y=0)=>{slots.push({name,bone,attachment:name,blend:['rimCore','pool','beamLeft','beamRight'].includes(name)?'normal':'additive',color:`ffffff${Math.round(alpha*255).toString(16).padStart(2,'0')}`});attachments[name]={[name]:{path,width,height,y}};};
+    slot('rimBloom','root','bloom',1024,512,.9);slot('rimCore','root','rim',1024,512,1);slot('rimHighlight','root','highlight',1024,512,.16);
     for(let i=0;i<4;i++){const name=`socket${i}`;bones.push({name,parent:'root',x:(i%2?1:-1)*(i<2?231:351),y:i<2?100:-56});slot(name,name,'spot',i<2?104:116,i<2?40:50,.68);}
-    slot('pool','emitter','spot',260,54,.4);slot('beamLeft','beamL','beam',350,425,.48,212.5);slot('beamRight','beamR','beam',230,380,.35,190);slot('source','emitter','spot',130,27,.8);
+    slot('pool','emitter','spot',340,70,.8);slot('beamLeft','beamL','beam',620,460,.95,230);slot('beamRight','beamR','beam',450,420,.68,210);slot('source','emitter','spot',115,24,.72);
     const idleBones:Record<string,unknown>={beamL:{rotate:[{value:-2},{time:4,value:2},{time:8,value:-2}]},beamR:{rotate:[{value:2},{time:4,value:-2},{time:8,value:2}]}};
     for(let i=0;i<4;i++)idleBones[`socket${i}`]={scale:[{x:.94,y:.94},{time:2+i*.14,x:1.04,y:1.04},{time:4+i*.28,x:.94,y:.94}]};
     const data=new SkeletonJson(new AtlasAttachmentLoader(atlas)).readSkeletonData({skeleton:{spine:'4.2.22'},bones,slots,skins:[{name:'default',attachments}],animations:{idle:{bones:idleBones}}});
     this.rig=new Spine({skeletonData:data,autoUpdate:false});this.rig.state.setAnimation(0,'idle',true);this.rig.update(0);this.root.addChild(this.rig);
   }
-  resize(x:number,y:number,width:number){this.root.position.set(x,y);this.root.scale.set(width/1024);}
-  update(dt:number,color:number,reduced:boolean,low:boolean,impact:number){
+  resize(x:number,y:number,width:number,flatten=.57){this.flatten=flatten;this.root.position.set(x,y);this.root.scale.set(width/1024,width/1024*flatten);for(const name of ['beamL','beamR'])this.rig.skeleton.findBone(name)!.scaleY=1/flatten;}
+  update(dt:number,color:number,reduced:boolean,low:boolean,impact:number,exposure=1){
     if(reduced!==this.reduced){this.reduced=reduced;this.rig.state.clearTracks();this.rig.skeleton.setToSetupPose();if(!reduced)this.rig.state.setAnimation(0,'idle',true);}
-    this.rig.update(reduced?0:dt);
+    for(const name of ['beamL','beamR'])this.rig.skeleton.findBone(name)!.scaleY=1/this.flatten;this.rig.update(reduced?0:dt);
     const rgb=[((color>>16)&255)/255,((color>>8)&255)/255,(color&255)/255];
-    for(const slot of this.rig.skeleton.slots){const white=slot.data.name==='rimHighlight'?1:slot.data.name==='rimCore'?.35:slot.data.name==='source'?.45:0;slot.color.r=white+(1-white)*rgb[0];slot.color.g=white+(1-white)*rgb[1];slot.color.b=white+(1-white)*rgb[2];}
-    for(const name of ['beamLeft','beamRight'])this.rig.skeleton.findSlot(name)!.color.a=low?0:(name==='beamLeft'?.48:.35)*(1+impact*.65);
-    this.rig.skeleton.findSlot('rimCore')!.color.a=.88+impact*.1;
-    this.rig.skeleton.findSlot('rimBloom')!.color.a=.7+impact*.3;
-    this.root.alpha=low?.75:1;
+    for(const slot of this.rig.skeleton.slots){const white=slot.data.name==='rimHighlight'?1:slot.data.name==='source'?.2:0;slot.color.r=white+(1-white)*rgb[0];slot.color.g=white+(1-white)*rgb[1];slot.color.b=white+(1-white)*rgb[2];}
+    for(const name of ['beamLeft','beamRight'])this.rig.skeleton.findSlot(name)!.color.a=low?0:(name==='beamLeft'?.95:.68)*(1+impact*.2);
+    this.rig.skeleton.findSlot('rimCore')!.color.a=1;
+    this.rig.skeleton.findSlot('rimBloom')!.color.a=.9+impact*.1;
+    this.root.alpha=(low?.8:1)*exposure;
   }
   destroy(){this.root.destroy({children:true});this.atlasTexture.destroy(true);}
 }
