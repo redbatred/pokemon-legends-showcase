@@ -8,7 +8,7 @@
     "verification": "Source downloads are pinned to an immutable commit. SHA-256 and Git blob SHA-1 recorded per file; selected downloads matched the repository's Git tree blob identifiers during preparation."
   },
   "rights": "Copyrighted game audio reused under the user's stated Pok\u00e9mon license. PokeMiners is the datamining source, not a rights-holder delivery service; no open-license claim is made. No private ROM, login, DRM bypass or region-block bypass was used.",
-  "reproduce": "python3 scripts/fetch-genuine-audio.py. Requires Python 3, curl, ffmpeg and ffprobe; optional ASSET_FFMPEG and ASSET_FFPROBE. Only selected small WAVs download, and each pinned source hash is checked before encoding.",
+  "reproduce": "python3 scripts/fetch-genuine-audio.py. To build selected cues and preserve the others, append --only swift hyperbeam shadowball aeroblast petals. Requires Python 3, curl, ffmpeg and ffprobe; optional ASSET_FFMPEG and ASSET_FFPROBE. Only selected small WAVs download, and each pinned source hash is checked before encoding.",
   "validation": "Each MP3 and OGG decodes with ffmpeg -xerror; PCM is finite, duration is within 3 ms of its cue, four-times-oversampled peaks are within 0.4 dB of target, and final samples are below -65 dBFS. Output hashes and metrics recorded per file.",
   "limitations": "Source clips are chiefly mono 11.025 kHz game audio, with some 22.05 kHz clips. Resampling does not create additional detail. Names and repository provenance identify the assets; no human listening review or direct comparison against a retail game capture is claimed. Card/pack roles are explicitly labeled artistic reuse of game UI or Master Ball sounds.",
   "originalFlamethrower": {
@@ -1616,6 +1616,291 @@
         "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
       },
       "recommendedPlaybackGain": 0.42
+    },
+    "swift": {
+      "sourceSound": "Swift",
+      "role": "Eevee's Swift; excerpt of the star-burst passage",
+      "files": {
+        "mp3": {
+          "path": "/assets/audio-v4/swift.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.264,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -20.36,
+          "lastSampleDbfs": -180.0,
+          "bytes": 24494,
+          "sha256": "5b15874bc60c0bd7bcc57f14f29e74bf7747f4967b492382bedb9ecc47a25674"
+        },
+        "ogg": {
+          "path": "/assets/audio-v4/swift.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -6.145,
+          "oversampledPeakDbfs": -6.145,
+          "rmsDbfs": -20.095,
+          "lastSampleDbfs": -141.822,
+          "bytes": 12677,
+          "sha256": "a666d0c8a999f47eeacb0be0a5d33e90c0778a53105af6c5888aea727df7c222"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/129-0_swift.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/129-0_swift.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/129-0_swift.wav",
+        "duration": 2.919909,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "26dd7273e57432ea725bd2846fedc6033bc8697ea3564d3ed4728fa1ccbf7f4a",
+        "gitBlobSha1": "a86c705b7ed1116b2d6dd26f8991d7b96dc171ad"
+      },
+      "processing": {
+        "sourceStart": 0.85,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.2,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.26
+    },
+    "hyperbeam": {
+      "sourceSound": "Hyper Beam",
+      "role": "Dragonite's Hyper Beam; excerpt of the beam body",
+      "files": {
+        "mp3": {
+          "path": "/assets/audio-v4/hyperbeam.mp3",
+          "duration": 1.0,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.283,
+          "oversampledPeakDbfs": -6.265,
+          "rmsDbfs": -17.71,
+          "lastSampleDbfs": -159.601,
+          "bytes": 25748,
+          "sha256": "985bc8f7aeb6f9d67d922c3882f4efbc63971fbca06cc075a70a19b2f4fd7c1f"
+        },
+        "ogg": {
+          "path": "/assets/audio-v4/hyperbeam.ogg",
+          "duration": 1.0065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.015,
+          "oversampledPeakDbfs": -6.001,
+          "rmsDbfs": -17.41,
+          "lastSampleDbfs": -108.284,
+          "bytes": 12646,
+          "sha256": "ded6389ea21317f1b42c7ee7f4719a2b8f2778ecbb799c379e05cd8dc0e30139"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/063-0_hyper_beam.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/063-0_hyper_beam.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/063-0_hyper_beam.wav",
+        "duration": 5.816599,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "3bb7b3590a2e3d230ec1ddf228adcfac8735048146e11c7ee272e843d7b73154",
+        "gitBlobSha1": "1224e9c7d8c58beb4a549f056813e15c1462085a"
+      },
+      "processing": {
+        "sourceStart": 1.85,
+        "duration": 1.0,
+        "attackFade": 0.002,
+        "decay": 0.24,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.3
+    },
+    "shadowball": {
+      "sourceSound": "Shadow Ball",
+      "role": "Gengar's Shadow Ball",
+      "files": {
+        "mp3": {
+          "path": "/assets/audio-v4/shadowball.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.268,
+          "oversampledPeakDbfs": -6.262,
+          "rmsDbfs": -19.552,
+          "lastSampleDbfs": -180.0,
+          "bytes": 24494,
+          "sha256": "d027bcb89a103827639195be4e57704dd2148da4b1ceef1abbe18786cc53fbeb"
+        },
+        "ogg": {
+          "path": "/assets/audio-v4/shadowball.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -6.101,
+          "oversampledPeakDbfs": -6.087,
+          "rmsDbfs": -19.315,
+          "lastSampleDbfs": -109.272,
+          "bytes": 17782,
+          "sha256": "0444b4ad1c0d0fd263dc10a8886081805b81c3629f747cd195273ffac3d4ba1f"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/247-0_shadow_ball.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/247-0_shadow_ball.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/247-0_shadow_ball.wav",
+        "duration": 3.424943,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "34272b0016462f5eb83d0c35d99b6197faba133720453fe392414d2beb802f5e",
+        "gitBlobSha1": "757e707764cb24f8373b1d38c25e1ef0d59dd12c"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.22,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.28
+    },
+    "aeroblast": {
+      "sourceSound": "Aeroblast",
+      "role": "Lugia's Aeroblast",
+      "files": {
+        "mp3": {
+          "path": "/assets/audio-v4/aeroblast.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.267,
+          "oversampledPeakDbfs": -6.263,
+          "rmsDbfs": -21.864,
+          "lastSampleDbfs": -180.0,
+          "bytes": 24494,
+          "sha256": "0599ebdf59fe2ef49dbfe07933e000e1982349e62f4d2947a5539d83b416da00"
+        },
+        "ogg": {
+          "path": "/assets/audio-v4/aeroblast.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -5.954,
+          "oversampledPeakDbfs": -5.954,
+          "rmsDbfs": -21.531,
+          "lastSampleDbfs": -120.504,
+          "bytes": 14134,
+          "sha256": "16f7357c967be112d0c6284658cc75be147a463c666fd9c1a8466c703e90a02d"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/170-0_aeroblast.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/170-0_aeroblast.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/170-0_aeroblast.wav",
+        "duration": 1.973696,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "d2dee988eb2e76da8cf5498790fd3c0686d67ae6e864f674914dc49025add066",
+        "gitBlobSha1": "70bbfac5e053784c0b410c3830f68d9f4e2b7d23"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.22,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.28
+    },
+    "petals": {
+      "sourceSound": "Petal Blizzard",
+      "role": "Venusaur's Petal Blizzard",
+      "files": {
+        "mp3": {
+          "path": "/assets/audio-v4/petals.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.264,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -19.952,
+          "lastSampleDbfs": -180.0,
+          "bytes": 24494,
+          "sha256": "665b2682d5caddcc779aa549ab713556e4bb813451efe9124e5ba234278db585"
+        },
+        "ogg": {
+          "path": "/assets/audio-v4/petals.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -5.952,
+          "oversampledPeakDbfs": -5.952,
+          "rmsDbfs": -19.686,
+          "lastSampleDbfs": -121.192,
+          "bytes": 11576,
+          "sha256": "e67a7753529d2a4dd90ca97823befc9099114264a53b6bd0a5f1b8276658738f"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/572-0_petal_blizzard.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/572-0_petal_blizzard.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/572-0_petal_blizzard.wav",
+        "duration": 3.564263,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "c9e89097ce6b28e6c112f2731e0c65e09c328d7e09e17d825bc8d707a16bcf35",
+        "gitBlobSha1": "aeb2a4a2e1558a1da05a09d7a2b07a24a1487f34"
+      },
+      "processing": {
+        "sourceStart": 0.25,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.22,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.26
     }
   }
 }

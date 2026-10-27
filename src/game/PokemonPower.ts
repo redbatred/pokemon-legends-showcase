@@ -22,7 +22,7 @@ export class PokemonPower {
   this.time=this.clock;let emitters=this.emitters();
   if(this.blast>0&&this.releasedAt<0){this.releasedAt=this.time;this.launch=emitters.map(p=>({...p}));}
   if(this.blast>0&&this.time>(this.history.at(-1)?.time??-1)){this.history.push({time:this.time,points:emitters});while(this.history.length>2&&this.history[1].time<this.time-.32)this.history.shift();}
-  if(this.profile.move==='shuriken'&&this.blast>0)emitters=this.launch;
+  if(['shuriken','orb','stars'].includes(this.profile.move)&&this.blast>0)emitters=this.launch;
   for(let i=0;i<emitters.length;i++)this.draw(emitters[i],i,g);
  }
  private star(g:Graphics,x:number,y:number,r:number,color:number,alpha:number,rotation=0){
@@ -32,7 +32,7 @@ export class PokemonPower {
   const p=this.profile,t=this.time,c=p.color,light=p.light,q=this.charge,alpha=this.fade;
   const {x,y,dx,dy}=e,nx=-dy,ny=dx;
   const at=(u:number,v:number):[number,number]=>{
-   if(p.move==='stream'&&this.history.length&&this.blast>0){
+   if(['stream','beam'].includes(p.move)&&this.history.length&&this.blast>0){
     const birth=this.time-u/900;let a=this.history[0],b=a;
     for(const sample of this.history){b=sample;if(sample.time>=birth)break;a=sample;}
     const t=a===b?0:Math.max(0,Math.min(1,(birth-a.time)/(b.time-a.time))),a0=a.points[index]??e,b0=b.points[index]??e;
@@ -42,7 +42,8 @@ export class PokemonPower {
    return [x+dx*u+nx*v,y+dy*u+ny*v];
   };
   if(q>0){
-   if(p.move==='shuriken')this.shuriken(g,x,y,9+q*27,t*13,q);
+   if(p.move==='orb'){this.orb(g,x,y,5+q*16,q,t);}
+   else if(p.move==='shuriken')this.shuriken(g,x,y,9+q*27,t*13,q);
    else if(p.kind==='electric'){
     this.star(g,x,y,3+q*8,light,q,t*2);for(let i=0;i<3;i++){const a=i/3*TAU+t,pts=[x,y,x+Math.cos(a)*14,y+Math.sin(a)*14,x+Math.cos(a+.4)*(25+q*20),y+Math.sin(a+.4)*(25+q*20)];g.poly(pts,false).stroke({color:c,width:2,alpha:q*.85});}
    }else{
@@ -57,6 +58,31 @@ export class PokemonPower {
    const u=Math.min(1,age/.44),distance=u*235,[px,py]=at(distance,-Math.sin(u*Math.PI)*18);
    for(let trail=4;trail>0;trail--){const [tx,ty]=at(Math.max(0,distance-trail*15),-Math.sin(u*Math.PI)*18);this.shuriken(this.back,tx,ty,(31+u*9)*(1-trail*.08),age*24-trail*.3,opacity*(.12-trail*.018));}
    this.shuriken(g,px,py,31+u*9,age*24,opacity);return;
+  }
+  if(p.move==='orb'){
+   const progress=Math.min(1,age/.55),distance=progress*175,[px,py]=at(distance,-Math.sin(progress*Math.PI)*20);
+   for(let i=3;i>0;i--){const [tx,ty]=at(Math.max(0,distance-i*13),-Math.sin(progress*Math.PI)*20);this.orb(this.back,tx,ty,19-i*2,opacity*(.16-i*.03),t-i*.1);}
+   this.orb(g,px,py,19+progress*6,opacity,t);return;
+  }
+  if(p.move==='stars'){
+   for(let i=0;i<4;i++){const life=age-i*.055;if(life<0)continue;const u=Math.min(1,life/.44),angle=(i-1.5)*.17,ax=dx*Math.cos(angle)-dy*Math.sin(angle),ay=dy*Math.cos(angle)+dx*Math.sin(angle),px=x+ax*(20+u*185),py=y+ay*(20+u*185)-Math.sin(u*Math.PI)*15,r=10+u*4;
+    const pts:number[]=[];for(let j=0;j<10;j++){const a=t*4+j*Math.PI/5,rr=j%2?r*.43:r;pts.push(px+Math.cos(a)*rr,py+Math.sin(a)*rr);}g.moveTo(px-ax*26,py-ay*26).lineTo(px,py).stroke({color:c,width:2,alpha:opacity*.4}).poly(pts).fill({color:c,alpha:opacity}).stroke({color:light,width:1.2,alpha:opacity});
+   }return;
+  }
+  if(p.move==='wave'){
+   g.circle(x,y,11).fill({color:c,alpha:opacity*.4}).circle(x,y,4).fill({color:light,alpha:opacity});
+   for(let i=0;i<3;i++){const u=Math.min(1,Math.max(0,(age-i*.07)*2.3)),[px,py]=at(12+u*170,0),r=12+u*37;
+    g.moveTo(px+nx*r-dx*8,py+ny*r-dy*8).quadraticCurveTo(px+dx*r*.55,py+dy*r*.55,px-nx*r-dx*8,py-ny*r-dy*8).stroke({color:0x39205c,width:10,alpha:opacity*(1-u)*.85}).moveTo(px+nx*r-dx*8,py+ny*r-dy*8).quadraticCurveTo(px+dx*r*.55,py+dy*r*.55,px-nx*r-dx*8,py-ny*r-dy*8).stroke({color:c,width:6,alpha:opacity*(1-u)}).moveTo(px+nx*r-dx*8,py+ny*r-dy*8).quadraticCurveTo(px+dx*r*.55,py+dy*r*.55,px-nx*r-dx*8,py-ny*r-dy*8).stroke({color:light,width:1.5,alpha:opacity*(1-u)});
+   }return;
+  }
+  if(p.move==='sphere'){
+   const r=42+strength*45;this.back.ellipse(x,y,r,r*1.12).fill({color:c,alpha:opacity*.1}).stroke({color:c,width:6,alpha:opacity*.25}).ellipse(x,y,r,r*1.12).stroke({color:light,width:1.5,alpha:opacity*.8});
+   for(let i=0;i<3;i++){const a=t*2+i*TAU/3;this.star(g,x+Math.cos(a)*r,y+Math.sin(a)*r*1.12,5,light,opacity,a);}return;
+  }
+  if(p.move==='beam'){
+   const reach=220*Math.min(strength,age/.15)*(.35+.65*(e.foreshortening??1));
+   for(let layer=0;layer<3;layer++){const pts:number[]=[],width=[16,9,3][layer];for(let side=0;side<2;side++)for(let i=0;i<=18;i++){const u=side?1-i/18:i/18;pts.push(...at(u*reach,(side?-1:1)*width*(.35+u*.8)*Math.min(1,(1-u)*16)));}g.poly(pts).fill({color:layer===0?c:layer===1?light:0xffffff,alpha:opacity*(layer===0?.65:.9)});}
+   for(let phase=0;phase<2;phase++){const pts:number[]=[];for(let i=0;i<=24;i++){const u=i/24;pts.push(...at(u*reach,Math.sin(u*24-t*25+phase*Math.PI)*(4+u*13)));}g.poly(pts,false).stroke({color:light,width:1.5,alpha:opacity*.75});}return;
   }
   if(p.kind==='fire'||p.kind==='dragon'){
    const length=(p.kind==='fire'?195:215)*Math.min(strength,age/.18)*(.35+.65*(e.foreshortening??1)),osc=t*19;
@@ -96,12 +122,12 @@ export class PokemonPower {
     g.poly(pts,false).stroke({color:c,width:7,alpha:opacity*.18*pulse}).poly(pts,false).stroke({color:c,width:3.6,alpha:opacity*pulse}).poly(pts,false).stroke({color:light,width:1.1,alpha:opacity*pulse});
     const bx=pts[6],by=pts[7];g.moveTo(bx,by).lineTo(bx+Math.cos(angle+.8)*18,by+Math.sin(angle+.8)*18).lineTo(bx+Math.cos(angle+.3)*34,by+Math.sin(angle+.3)*34).stroke({color:light,width:1,alpha:opacity});
    }
-  }else if(p.move==='blade'){
+  }else if(p.move==='blade'||p.move==='petals'){
    const count=this.low?5:9;for(let i=0;i<count;i++){
     const u=(age*1.7+i/count)%1,side=Math.sin(i*9.1),[px,py]=at(22+u*185,side*(35+u*45)),r=(6+i%3*2)*(1-u*.35),a=t*8+i;
     const vx=Math.cos(a)*r,vy=Math.sin(a)*r;
     g.moveTo(px-vx,py-vy).quadraticCurveTo(px-vy,py+vx,px+vx*2,py+vy*2).quadraticCurveTo(px+vy*.4,py-vx*.4,px-vx,py-vy).fill({color:i%2?c:light,alpha:opacity*(1-u*.7)});
-    g.moveTo(px-vx,py-vy).lineTo(px+vx*1.6,py+vy*1.6).stroke({color:p.kind==='leaf'?0x247a55:0xf1ffff,width:.8,alpha:opacity});
+    g.moveTo(px-vx,py-vy).lineTo(px+vx*1.6,py+vy*1.6).stroke({color:p.move==='petals'?0xffd5ed:p.kind==='leaf'?0x247a55:0xf1ffff,width:.8,alpha:opacity});
    }
   }else{
    // Aura pressure travels outward in staggered crescents, with a single focal flash.
@@ -112,6 +138,10 @@ export class PokemonPower {
    }
    if(age<.18)this.star(g,x,y,30*(1-age/.18),light,opacity*(1-age/.18),.2);
   }
+ }
+ private orb(g:Graphics,x:number,y:number,r:number,alpha:number,time:number){
+  g.circle(x,y,r*1.2).fill({color:0x7034c3,alpha:alpha*.17}).circle(x,y,r).fill({color:0x281145,alpha}).circle(x-r*.15,y-r*.15,r*.7).fill({color:0x652a9d,alpha});
+  for(let i=0;i<3;i++){const a=time*4+i*TAU/3;g.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r).quadraticCurveTo(x+Math.cos(a+.6)*r*.2,y+Math.sin(a+.6)*r*.2,x+Math.cos(a+1.6)*r*.9,y+Math.sin(a+1.6)*r*.9).stroke({color:i%2?0xe3a9ff:0xb577ff,width:2,alpha:alpha*.85});}
  }
  private shuriken(g:Graphics,x:number,y:number,r:number,angle:number,alpha:number){
   const points:number[]=[];for(let i=0;i<12;i++){const a=angle+i*TAU/12,rr=i%3===0?r:i%3===1?r*.27:r*.36;points.push(x+Math.cos(a)*rr,y+Math.sin(a)*rr*.72);}

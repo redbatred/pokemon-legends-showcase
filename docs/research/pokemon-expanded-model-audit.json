@@ -1,0 +1,1045 @@
+{
+  "models": {
+    "aerodactyl": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 44,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 2.640000104904175,
+          "channels": 192,
+          "varyingSkinnedJointChannels": 64,
+          "movingSkinnedJointCount": 43
+        },
+        {
+          "name": "idle",
+          "duration": 1.6399999856948853,
+          "channels": 192,
+          "varyingSkinnedJointChannels": 46,
+          "movingSkinnedJointCount": 41
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/142/model.glb"
+    },
+    "alakazam": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 61,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 2.440000057220459,
+          "channels": 264,
+          "varyingSkinnedJointChannels": 64,
+          "movingSkinnedJointCount": 56
+        },
+        {
+          "name": "idle",
+          "duration": 3.0399999618530273,
+          "channels": 264,
+          "varyingSkinnedJointChannels": 48,
+          "movingSkinnedJointCount": 46
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/065/model.glb"
+    },
+    "articuno": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 77,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 5.458333492279053,
+          "channels": 273,
+          "varyingSkinnedJointChannels": 84,
+          "movingSkinnedJointCount": 75
+        },
+        {
+          "name": "idle",
+          "duration": 5.041666507720947,
+          "channels": 273,
+          "varyingSkinnedJointChannels": 46,
+          "movingSkinnedJointCount": 45
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/144/model.glb"
+    },
+    "blastoise": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 73,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 5.458333492279053,
+          "channels": 345,
+          "varyingSkinnedJointChannels": 71,
+          "movingSkinnedJointCount": 60
+        },
+        {
+          "name": "idle",
+          "duration": 6.708333492279053,
+          "channels": 345,
+          "varyingSkinnedJointChannels": 35,
+          "movingSkinnedJointCount": 32
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/009/model.glb"
+    },
+    "charizard": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 104,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 5.458333492279053,
+          "channels": 381,
+          "varyingSkinnedJointChannels": 96,
+          "movingSkinnedJointCount": 84
+        },
+        {
+          "name": "idle",
+          "duration": 6.041666507720947,
+          "channels": 381,
+          "varyingSkinnedJointChannels": 69,
+          "movingSkinnedJointCount": 65
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/006/model.glb"
+    },
+    "dracozolt": {
+      "idle": "Armature|Armature|pm0880_00_00_ba10_waitA01|Base Layer",
+      "attack": "Armature|Armature|pm0880_00_00_ba21_tokusyu01|Base Layer",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 96,
+      "clips": [
+        {
+          "name": "Armature|Armature|pm0880_00_00_ba10_waitA01|Base Layer",
+          "duration": 2.0,
+          "channels": 73,
+          "varyingSkinnedJointChannels": 65,
+          "movingSkinnedJointCount": 64
+        },
+        {
+          "name": "Armature|Armature|pm0880_00_00_ba21_tokusyu01|Base Layer",
+          "duration": 2.3499999046325684,
+          "channels": 199,
+          "varyingSkinnedJointChannels": 66,
+          "movingSkinnedJointCount": 65
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/880.glb"
+    },
+    "dragonite": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 64,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 5.458333492279053,
+          "channels": 237,
+          "varyingSkinnedJointChannels": 55,
+          "movingSkinnedJointCount": 55
+        },
+        {
+          "name": "idle",
+          "duration": 6.291666507720947,
+          "channels": 237,
+          "varyingSkinnedJointChannels": 44,
+          "movingSkinnedJointCount": 44
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/149/model.glb"
+    },
+    "duraludon": {
+      "idle": "Armature|Armature|pm0884_00_00_ba10_waitA01|Base Layer",
+      "attack": "Armature|Armature|pm0884_00_00_ba21_tokusyu01|Base Layer",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 63,
+      "clips": [
+        {
+          "name": "Armature|Armature|pm0884_00_00_ba10_waitA01|Base Layer",
+          "duration": 2.0,
+          "channels": 40,
+          "varyingSkinnedJointChannels": 17,
+          "movingSkinnedJointCount": 16
+        },
+        {
+          "name": "Armature|Armature|pm0884_00_00_ba21_tokusyu01|Base Layer",
+          "duration": 2.5166666507720947,
+          "channels": 56,
+          "varyingSkinnedJointChannels": 33,
+          "movingSkinnedJointCount": 32
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/884.glb"
+    },
+    "eevee": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 57,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 3.7916667461395264,
+          "channels": 243,
+          "varyingSkinnedJointChannels": 36,
+          "movingSkinnedJointCount": 35
+        },
+        {
+          "name": "idle",
+          "duration": 2.5416667461395264,
+          "channels": 243,
+          "varyingSkinnedJointChannels": 36,
+          "movingSkinnedJointCount": 35
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/133/model.glb"
+    },
+    "espeon": {
+      "idle": "Armature|ArmatureAction",
+      "attack": null,
+      "clipCount": 1,
+      "status": "single-authored-clip-no-verified-attack",
+      "skinnedJointCount": 73,
+      "clips": [
+        {
+          "name": "Armature|ArmatureAction",
+          "duration": 7.0,
+          "channels": 97,
+          "varyingSkinnedJointChannels": 45,
+          "movingSkinnedJointCount": 44
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/196.glb"
+    },
+    "gengar": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 44,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 3.7916667461395264,
+          "channels": 201,
+          "varyingSkinnedJointChannels": 36,
+          "movingSkinnedJointCount": 35
+        },
+        {
+          "name": "idle",
+          "duration": 2.5416667461395264,
+          "channels": 201,
+          "varyingSkinnedJointChannels": 27,
+          "movingSkinnedJointCount": 26
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/094/model.glb"
+    },
+    "glaceon": {
+      "idle": "Armature|ArmatureAction",
+      "attack": null,
+      "clipCount": 1,
+      "status": "single-authored-clip-no-verified-attack",
+      "skinnedJointCount": 69,
+      "clips": [
+        {
+          "name": "Armature|ArmatureAction",
+          "duration": 5.666666507720947,
+          "channels": 42,
+          "varyingSkinnedJointChannels": 41,
+          "movingSkinnedJointCount": 40
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/471.glb"
+    },
+    "gloom": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 38,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 1.850000023841858,
+          "channels": 174,
+          "varyingSkinnedJointChannels": 40,
+          "movingSkinnedJointCount": 34
+        },
+        {
+          "name": "idle",
+          "duration": 1.5166666507720947,
+          "channels": 174,
+          "varyingSkinnedJointChannels": 40,
+          "movingSkinnedJointCount": 34
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/044/model.glb"
+    },
+    "greninja": {
+      "idle": "pm0725_11_00_00000_defaultwait01_loop",
+      "attack": "pm0725_11_00_00450_rangeattack01",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 101,
+      "clips": [
+        {
+          "name": "pm0725_11_00_00000_defaultwait01_loop",
+          "duration": 2.0166666507720947,
+          "channels": 203,
+          "varyingSkinnedJointChannels": 47,
+          "movingSkinnedJointCount": 46
+        },
+        {
+          "name": "pm0725_11_00_00450_rangeattack01",
+          "duration": 2.0166666507720947,
+          "channels": 211,
+          "varyingSkinnedJointChannels": 72,
+          "movingSkinnedJointCount": 59
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/658.glb"
+    },
+    "gyarados": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 48,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 2.183333396911621,
+          "channels": 207,
+          "varyingSkinnedJointChannels": 48,
+          "movingSkinnedJointCount": 48
+        },
+        {
+          "name": "idle",
+          "duration": 3.0166666507720947,
+          "channels": 207,
+          "varyingSkinnedJointChannels": 38,
+          "movingSkinnedJointCount": 38
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/130/model.glb"
+    },
+    "leafeon": {
+      "idle": "Armature|ArmatureAction",
+      "attack": null,
+      "clipCount": 1,
+      "status": "single-authored-clip-no-verified-attack",
+      "skinnedJointCount": 96,
+      "clips": [
+        {
+          "name": "Armature|ArmatureAction",
+          "duration": 4.833333492279053,
+          "channels": 159,
+          "varyingSkinnedJointChannels": 52,
+          "movingSkinnedJointCount": 51
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/470.glb"
+    },
+    "lugia": {
+      "idle": "pm0249_00_00_20000_defaultwait01_loop",
+      "attack": "pm0249_00_00_20450_rangeattack01",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 121,
+      "clips": [
+        {
+          "name": "pm0249_00_00_20000_defaultwait01_loop",
+          "duration": 1.850000023841858,
+          "channels": 293,
+          "varyingSkinnedJointChannels": 97,
+          "movingSkinnedJointCount": 85
+        },
+        {
+          "name": "pm0249_00_00_20450_rangeattack01",
+          "duration": 2.316666603088379,
+          "channels": 298,
+          "varyingSkinnedJointChannels": 114,
+          "movingSkinnedJointCount": 92
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/249.glb"
+    },
+    "mew": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 39,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 3.7916667461395264,
+          "channels": 162,
+          "varyingSkinnedJointChannels": 32,
+          "movingSkinnedJointCount": 26
+        },
+        {
+          "name": "idle",
+          "duration": 4.208333492279053,
+          "channels": 162,
+          "varyingSkinnedJointChannels": 25,
+          "movingSkinnedJointCount": 25
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/151/model.glb"
+    },
+    "mewtwo": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 72,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 5.458333492279053,
+          "channels": 261,
+          "varyingSkinnedJointChannels": 76,
+          "movingSkinnedJointCount": 66
+        },
+        {
+          "name": "idle",
+          "duration": 7.541666507720947,
+          "channels": 261,
+          "varyingSkinnedJointChannels": 60,
+          "movingSkinnedJointCount": 51
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/150/model.glb"
+    },
+    "moltres": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 88,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 5.458333492279053,
+          "channels": 330,
+          "varyingSkinnedJointChannels": 90,
+          "movingSkinnedJointCount": 88
+        },
+        {
+          "name": "idle",
+          "duration": 6.041666507720947,
+          "channels": 330,
+          "varyingSkinnedJointChannels": 82,
+          "movingSkinnedJointCount": 81
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/146/model.glb"
+    },
+    "ninetales": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 121,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 5.458333492279053,
+          "channels": 480,
+          "varyingSkinnedJointChannels": 117,
+          "movingSkinnedJointCount": 115
+        },
+        {
+          "name": "idle",
+          "duration": 5.041666507720947,
+          "channels": 480,
+          "varyingSkinnedJointChannels": 111,
+          "movingSkinnedJointCount": 109
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/038/model.glb"
+    },
+    "oddish": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 33,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 4.625,
+          "channels": 150,
+          "varyingSkinnedJointChannels": 32,
+          "movingSkinnedJointCount": 27
+        },
+        {
+          "name": "idle",
+          "duration": 4.625,
+          "channels": 150,
+          "varyingSkinnedJointChannels": 28,
+          "movingSkinnedJointCount": 23
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/043/model.glb"
+    },
+    "pidgeot": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 70,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 2.5199999809265137,
+          "channels": 264,
+          "varyingSkinnedJointChannels": 71,
+          "movingSkinnedJointCount": 66
+        },
+        {
+          "name": "idle",
+          "duration": 1.2400000095367432,
+          "channels": 264,
+          "varyingSkinnedJointChannels": 61,
+          "movingSkinnedJointCount": 61
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/018/model.glb"
+    },
+    "pidgey": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 36,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 2.0399999618530273,
+          "channels": 174,
+          "varyingSkinnedJointChannels": 32,
+          "movingSkinnedJointCount": 32
+        },
+        {
+          "name": "idle",
+          "duration": 1.4800000190734863,
+          "channels": 174,
+          "varyingSkinnedJointChannels": 30,
+          "movingSkinnedJointCount": 30
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/016/model.glb"
+    },
+    "pikachu": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 54,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 1.850000023841858,
+          "channels": 243,
+          "varyingSkinnedJointChannels": 85,
+          "movingSkinnedJointCount": 53
+        },
+        {
+          "name": "idle",
+          "duration": 1.149999976158142,
+          "channels": 243,
+          "varyingSkinnedJointChannels": 40,
+          "movingSkinnedJointCount": 29
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/025/model.glb"
+    },
+    "pinsir": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 45,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 2.440000057220459,
+          "channels": 195,
+          "varyingSkinnedJointChannels": 45,
+          "movingSkinnedJointCount": 44
+        },
+        {
+          "name": "idle",
+          "duration": 1.6399999856948853,
+          "channels": 195,
+          "varyingSkinnedJointChannels": 44,
+          "movingSkinnedJointCount": 44
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/127/model.glb"
+    },
+    "raichu": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 40,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 1.5166666507720947,
+          "channels": 183,
+          "varyingSkinnedJointChannels": 34,
+          "movingSkinnedJointCount": 34
+        },
+        {
+          "name": "idle",
+          "duration": 1.0166666507720947,
+          "channels": 183,
+          "varyingSkinnedJointChannels": 33,
+          "movingSkinnedJointCount": 33
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/026/model.glb"
+    },
+    "scizor": {
+      "idle": "ArmatureAction.002",
+      "attack": null,
+      "clipCount": 1,
+      "status": "single-authored-clip-no-verified-attack",
+      "skinnedJointCount": 48,
+      "clips": [
+        {
+          "name": "ArmatureAction.002",
+          "duration": 5.833333492279053,
+          "channels": 106,
+          "varyingSkinnedJointChannels": 43,
+          "movingSkinnedJointCount": 35
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/212.glb"
+    },
+    "starmie": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 22,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 2.119999885559082,
+          "channels": 129,
+          "varyingSkinnedJointChannels": 26,
+          "movingSkinnedJointCount": 22
+        },
+        {
+          "name": "idle",
+          "duration": 2.319999933242798,
+          "channels": 129,
+          "varyingSkinnedJointChannels": 22,
+          "movingSkinnedJointCount": 18
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/121/model.glb"
+    },
+    "umbreon": {
+      "idle": "Armature|ArmatureAction",
+      "attack": null,
+      "clipCount": 1,
+      "status": "single-authored-clip-no-verified-attack",
+      "skinnedJointCount": 61,
+      "clips": [
+        {
+          "name": "Armature|ArmatureAction",
+          "duration": 5.416666507720947,
+          "channels": 92,
+          "varyingSkinnedJointChannels": 33,
+          "movingSkinnedJointCount": 32
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/197.glb"
+    },
+    "vaporeon": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 53,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 4.625,
+          "channels": 204,
+          "varyingSkinnedJointChannels": 51,
+          "movingSkinnedJointCount": 51
+        },
+        {
+          "name": "idle",
+          "duration": 5.375,
+          "channels": 204,
+          "varyingSkinnedJointChannels": 35,
+          "movingSkinnedJointCount": 35
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/134/model.glb"
+    },
+    "venusaur": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 87,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 2.183333396911621,
+          "channels": 423,
+          "varyingSkinnedJointChannels": 56,
+          "movingSkinnedJointCount": 56
+        },
+        {
+          "name": "idle",
+          "duration": 2.0166666507720947,
+          "channels": 423,
+          "varyingSkinnedJointChannels": 51,
+          "movingSkinnedJointCount": 51
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/003/model.glb"
+    },
+    "zapdos": {
+      "idle": "idle",
+      "attack": "attack",
+      "clipCount": 2,
+      "status": "attack-mapped",
+      "skinnedJointCount": 62,
+      "clips": [
+        {
+          "name": "attack",
+          "duration": 5.458333492279053,
+          "channels": 225,
+          "varyingSkinnedJointChannels": 64,
+          "movingSkinnedJointCount": 61
+        },
+        {
+          "name": "idle",
+          "duration": 3.7916667461395264,
+          "channels": 225,
+          "varyingSkinnedJointChannels": 44,
+          "movingSkinnedJointCount": 44
+        }
+      ],
+      "sourceGlb": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/145/model.glb"
+    }
+  },
+  "cues": {
+    "charizard": {
+      "validated": true,
+      "form": "flamethrower",
+      "emitterBones": [
+        "head"
+      ],
+      "minimumWorldAxisLength": 0.30000053410071276,
+      "powerAt": 1.9,
+      "end": 2.96,
+      "chargeWallSeconds": 0.9642857142857143,
+      "effectWallSeconds": 0.7571428571428572
+    },
+    "blastoise": {
+      "validated": true,
+      "form": "twin-hydro-pump",
+      "emitterBones": [
+        "left_feeler_b_02",
+        "right_feeler_b_02"
+      ],
+      "minimumWorldAxisLength": 0.2600000815701372,
+      "powerAt": 1.65,
+      "end": 3.05,
+      "chargeWallSeconds": 0.7857142857142857,
+      "effectWallSeconds": 1.0
+    },
+    "pikachu": {
+      "validated": true,
+      "form": "cheek-lightning",
+      "emitterBones": [
+        "head",
+        "head"
+      ],
+      "minimumWorldAxisLength": 0.20005082953886638,
+      "powerAt": 0.56,
+      "end": 0.88,
+      "chargeWallSeconds": 0.56,
+      "effectWallSeconds": 0.31999999999999995
+    },
+    "greninja": {
+      "validated": true,
+      "form": "water-shuriken",
+      "emitterBones": [
+        "left_hand_24"
+      ],
+      "minimumWorldAxisLength": 0.5000012598053333,
+      "powerAt": 0.666667,
+      "end": 1.2,
+      "chargeWallSeconds": 0.4555558333333334,
+      "effectWallSeconds": 0.44444416666666664
+    },
+    "mewtwo": {
+      "validated": true,
+      "form": "psychic-palm-wave",
+      "emitterBones": [
+        "left_hand"
+      ],
+      "minimumWorldAxisLength": 0.39999951280067114,
+      "powerAt": 2.02,
+      "end": 3.05,
+      "chargeWallSeconds": 0.9785714285714288,
+      "effectWallSeconds": 0.7357142857142857
+    },
+    "lugia": {
+      "validated": true,
+      "form": "aeroblast",
+      "emitterBones": [
+        "head_14"
+      ],
+      "minimumWorldAxisLength": 0.299999801084252,
+      "powerAt": 0.7,
+      "end": 1.22,
+      "chargeWallSeconds": 0.5043478260869565,
+      "effectWallSeconds": 0.4521739130434783
+    },
+    "gyarados": {
+      "validated": true,
+      "form": "hydro-pump",
+      "emitterBones": [
+        "head"
+      ],
+      "minimumWorldAxisLength": 0.7000000427663847,
+      "powerAt": 0.62,
+      "end": 1.42,
+      "chargeWallSeconds": 0.4166666666666667,
+      "effectWallSeconds": 0.6666666666666666
+    },
+    "dragonite": {
+      "validated": true,
+      "form": "hyper-beam",
+      "emitterBones": [
+        "head"
+      ],
+      "minimumWorldAxisLength": 0.35000069935901074,
+      "powerAt": 1.78,
+      "end": 2.5,
+      "chargeWallSeconds": 0.9481481481481481,
+      "effectWallSeconds": 0.5333333333333333
+    },
+    "gengar": {
+      "validated": true,
+      "form": "shadow-ball",
+      "emitterBones": [
+        "head"
+      ],
+      "minimumWorldAxisLength": 0.3000007667454333,
+      "powerAt": 1.1,
+      "end": 1.8,
+      "chargeWallSeconds": 0.6782608695652175,
+      "effectWallSeconds": 0.6086956521739131
+    },
+    "alakazam": {
+      "validated": true,
+      "form": "spoon-psychic-wave",
+      "emitterBones": [
+        "lfeelera",
+        "rfeelera"
+      ],
+      "minimumWorldAxisLength": 0.3999999965920791,
+      "powerAt": 0.8,
+      "end": 1.55,
+      "chargeWallSeconds": 0.6000000000000001,
+      "effectWallSeconds": 0.625
+    },
+    "venusaur": {
+      "validated": true,
+      "form": "petal-burst",
+      "emitterBones": [
+        "center_feeler"
+      ],
+      "minimumWorldAxisLength": 0.4999995825184419,
+      "powerAt": 0.58,
+      "end": 1.18,
+      "chargeWallSeconds": 0.4545454545454545,
+      "effectWallSeconds": 0.5454545454545454
+    },
+    "vaporeon": {
+      "validated": true,
+      "form": "water-pulse",
+      "emitterBones": [
+        "head"
+      ],
+      "minimumWorldAxisLength": 0.2000005332538811,
+      "powerAt": 0.63,
+      "end": 0.86,
+      "chargeWallSeconds": 0.68,
+      "effectWallSeconds": 0.30666666666666664
+    },
+    "mew": {
+      "validated": true,
+      "form": "psychic-sphere",
+      "emitterBones": [
+        "spine_02"
+      ],
+      "minimumWorldAxisLength": 0.18000009903167621,
+      "powerAt": 1.32,
+      "end": 2.15,
+      "chargeWallSeconds": 0.8500000000000001,
+      "effectWallSeconds": 0.6916666666666665
+    },
+    "eevee": {
+      "validated": true,
+      "form": "swift-stars",
+      "emitterBones": [
+        "head"
+      ],
+      "minimumWorldAxisLength": 0.1800004338538966,
+      "powerAt": 1.2,
+      "end": 1.8,
+      "chargeWallSeconds": 0.7083333333333334,
+      "effectWallSeconds": 0.5000000000000001
+    }
+  },
+  "fallbacks": [
+    {
+      "name": "Arceus",
+      "dexId": 493,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/493.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Breloom",
+      "dexId": 286,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/286.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Cinderace",
+      "dexId": 815,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/815.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Cleffa",
+      "dexId": 173,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/173.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Forretress",
+      "dexId": 205,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/205.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Gardevoir",
+      "dexId": 282,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/282.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Genesect",
+      "dexId": 649,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/649.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Giratina",
+      "dexId": 487,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/487.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Kyogre",
+      "dexId": 382,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/382.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Paldean Clodsire",
+      "dexId": 980,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/980.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Raikou",
+      "dexId": 243,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/243.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Rayquaza",
+      "dexId": 384,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/384.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Rotom",
+      "dexId": 479,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/479.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Suicune",
+      "dexId": 245,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/245.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Sylveon",
+      "dexId": 700,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/700.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Trevenant",
+      "dexId": 709,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/709.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    },
+    {
+      "name": "Tyranitar",
+      "dexId": 248,
+      "candidateSource": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/248.glb",
+      "reason": "Candidate has a skeleton but zero animation clips; not shipped. Use the existing undeformed illustration until an authored animated model is sourced."
+    }
+  ],
+  "counts": {
+    "models": 33,
+    "attackMapped": 28,
+    "singleClipWithoutAttack": 5,
+    "illustrationFallbacks": 17,
+    "measuredCues": 14
+  }
+}

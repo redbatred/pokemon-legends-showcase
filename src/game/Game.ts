@@ -65,7 +65,8 @@ export class PokemonGame {
     catch{if(token===this.packToken)this.error='Pack image could not load. Select another pack or reload.';}
     this.render();
   }
-  private preloadOpening(){this.save?.active?.cards.forEach((c,i)=>{void Assets.load(c.image).catch(()=>{});const art=specialPokemon(c,i===0&&this.save?.active?.previewSpecial?0:this.selected.price,this.pokemonArt);if(art)void preloadRevealAudio(art);});}
+  private warmReveal(index:number){const card=this.save?.active?.cards[index];if(card)this.stage.prepareReveal(card,specialPokemon(card,index===0&&this.save?.active?.previewSpecial?0:this.selected.price,this.pokemonArt));}
+  private preloadOpening(){this.warmReveal(0);this.save?.active?.cards.forEach((c,i)=>{void Assets.load(c.image).catch(()=>{});const art=specialPokemon(c,i===0&&this.save?.active?.previewSpecial?0:this.selected.price,this.pokemonArt);if(art)void preloadRevealAudio(art);});}
   private async runPhase(){
     const token=++this.flowToken;const phase=this.phase;
     const valid=()=>!this.destroyed&&token===this.flowToken;
@@ -78,6 +79,7 @@ export class PokemonGame {
       else if(phase==='revealing'){
         const card=this.save?.active?.cards[this.index];if(!card)throw new Error('Opening changed. Reload to sync your game.');
         await this.stage.reveal(card,this.index===0,Math.max(0,this.index-1),specialPokemon(card,this.index===0&&this.save?.active?.previewSpecial?0:this.selected.price,this.pokemonArt));if(valid()){this.error='';this.actor.send({type:'FLIPPED'});}
+      }else if(phase==='revealed'){this.warmReveal(this.index+1);
       }else if(phase==='collecting'){
         const cards=this.save?.active?.cards;if(!cards)throw new Error('Opening changed. Reload to sync your game.');
         await this.stage.collectRemaining(cards,this.index);if(valid())this.actor.send({type:'COLLECTED'});

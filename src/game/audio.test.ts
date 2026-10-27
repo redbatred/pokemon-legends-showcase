@@ -15,9 +15,18 @@ vi.mock('howler',()=>{
  return {Howl,Howler:{mute:vi.fn(),ctx:{resume:vi.fn(async()=>{})}}};
 });
 import { destroyAudio, playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio } from './audio';
+import cueManifest from '../../public/assets/audio-v4/cues.json';
 const voice=(key:string)=>mock.howls.find(h=>h.source.endsWith(`/${key}.mp3`));
 beforeEach(()=>{destroyAudio();mock.howls=[];mock.loaded=true;});
 afterEach(()=>{destroyAudio();vi.useRealTimers();});
+it('halves Pokémon attacks and cries while preserving menu and card volume',()=>{
+ setSound(true);
+ for(const key of ['fire','water','electric','psychic','swift','hyperbeam','shadowball','aeroblast','petals'] as const){
+  playSound(key);expect(voice(key).volume).toHaveBeenLastCalledWith(cueManifest[key].gain*.5,1);
+ }
+ playSound('ui');expect(voice('ui').volume).toHaveBeenLastCalledWith(cueManifest.ui.gain,1);
+ playPokemonCry(6);expect(voice('cries/6').volume).toHaveBeenLastCalledWith(.28,1);
+});
 it('uses the matching unpitched game cry and sampled ball cue',async()=>{
  setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');playPokemonCry(6);playSound('release');
  expect(voice('cries/6').play).toHaveBeenCalledOnce();expect(voice('release').play).toHaveBeenCalledOnce();

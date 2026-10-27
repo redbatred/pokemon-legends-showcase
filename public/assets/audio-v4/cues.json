@@ -306,5 +306,60 @@
     "peakDbfs": -6,
     "gain": 0.42,
     "sourceSound": "Tackle"
+  },
+  "swift": {
+    "files": {
+      "mp3": "/assets/audio-v4/swift.mp3",
+      "ogg": "/assets/audio-v4/swift.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.2,
+    "peakDbfs": -6,
+    "gain": 0.26,
+    "sourceSound": "Swift"
+  },
+  "hyperbeam": {
+    "files": {
+      "mp3": "/assets/audio-v4/hyperbeam.mp3",
+      "ogg": "/assets/audio-v4/hyperbeam.ogg"
+    },
+    "duration": 1.0,
+    "decay": 0.24,
+    "peakDbfs": -6,
+    "gain": 0.3,
+    "sourceSound": "Hyper Beam"
+  },
+  "shadowball": {
+    "files": {
+      "mp3": "/assets/audio-v4/shadowball.mp3",
+      "ogg": "/assets/audio-v4/shadowball.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "sourceSound": "Shadow Ball"
+  },
+  "aeroblast": {
+    "files": {
+      "mp3": "/assets/audio-v4/aeroblast.mp3",
+      "ogg": "/assets/audio-v4/aeroblast.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "sourceSound": "Aeroblast"
+  },
+  "petals": {
+    "files": {
+      "mp3": "/assets/audio-v4/petals.mp3",
+      "ogg": "/assets/audio-v4/petals.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.26,
+    "sourceSound": "Petal Blizzard"
   }
 }

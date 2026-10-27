@@ -9,3 +9,7 @@ it('assigns a cry and an elemental performance to all supported Pokemon',()=>{
  expect(pokemonPower('/assets/pokemon/mewtwo.png').kind).toBe('psychic');
 });
 it('does not invent a Pokemon cry for unknown artwork',()=>expect(pokemonPower('/missing.png').dexId).toBeNull());
+it('routes the expanded species to their distinct attack forms and sampled cues',()=>{
+ const cases=[['mewtwo','wave','psychic'],['alakazam','wave','psychic'],['lugia','beam','aeroblast'],['dragonite','beam','hyperbeam'],['gengar','orb','shadowball'],['mew','sphere','psychic'],['venusaur','petals','petals'],['eevee','stars','swift'],['vaporeon','stream','water'],['gyarados','stream','water']];
+ for(const [name,move,cue] of cases){const p=pokemonPower(`/assets/pokemon/${name}.png`);expect(p.move).toBe(move);expect(p.cue).toBe(cue);}
+});

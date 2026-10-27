@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { railElastic,railPosition,railSnap } from './carousel';
 import { gameLayout, pageWindow, cardTrayLayout } from './rendering';
 import { money, recordedWinnings, type Card, type Pack, type Save, type Result } from './model';
+import {modalLayout,rewardLayout} from './modalLayout';
 import {MoneyReadout} from './MoneyReadout';
 import {moneyState,type MoneyState} from './moneyMotion';
 import { loadPackTexture } from './packTexture';
@@ -19,6 +20,7 @@ export class CanvasUI {
   root=new Container({isRenderGroup:true}); private focus=new Graphics();private state:UIState|null=null;
   private backdrop=new Graphics();private modalTween:gsap.core.Timeline|null=null;private modalKind='';private transitioning=false;
   private frozenHud:Sprite|null=null;
+  private modalOrigin={x:0,y:0};
   private dismissal:'close'|'continue'|null=null;
   private tray:Texture;
   private moneyAnimations:gsap.core.Tween[]=[];private moneyValues=new Map<string,MoneyState>();
@@ -85,7 +87,7 @@ export class CanvasUI {
     if(chosen){const light=new Graphics().roundRect(x+3,y+3,w-6,h*.4,5).fill({color:0xd7f7ff,alpha:.12});group.addChild(light);}
     if(options.primary)this.ball(x+24,y+h/2,7,C.white,group);
     const fontSize=options.large?23:options.small?12:14;
-    this.text(options.visibleLabel??label,x+w/2+(options.primary?6:0),y+(h-fontSize*1.3)/2,fontSize,chosen?C.white:C.muted,group,'center','bold');
+    const textX=x+(options.primary?43:12),textW=w-(options.primary?55:24),caption=this.text(options.visibleLabel??label,textX+textW/2,y+(h-fontSize*1.3)/2,fontSize,chosen?C.white:C.muted,group,'center','bold');if(caption.width>textW)caption.scale.set(textW/caption.width);
     group.pivot.set(x+w/2,y+h/2);group.position.set(x+w/2,y+h/2);group.alpha=options.disabled?.38:1;
     const hit={id,label,x,y,width:w,height:h,disabled:!!options.disabled,action};this.hits.push(hit);
     group.eventMode=options.disabled?'none':'static';group.cursor='pointer';group.on('pointertap',()=>{if(!options.disabled&&!this.transitioning)action();});
@@ -115,7 +117,7 @@ export class CanvasUI {
     g.poly([x+width-45,y+21,x+width-37,y+28,x+width-45,y+35]).stroke({color:0xdfffff,width:2.5});
     group.alpha=disabled?.4:1;this.hits.push({id:'primary',label:'Open',x,y,width,height,disabled,action:()=>s.action(s.phase==='sealed'?'tear':'open')});
   }
-  setFocus(id:string|null){this.focus.clear();const hit=this.hits.find(h=>h.id===id);if(hit)this.focus.roundRect(hit.x-3,hit.y-3,hit.width+6,hit.height+6,8).stroke({color:0xe3fcff,width:2});this.stage.draw();}
+  setFocus(id:string|null){this.focus.clear();const hit=this.hits.find(h=>h.id===id);if(hit)this.focus.roundRect(hit.x-this.modalOrigin.x-3,hit.y-this.modalOrigin.y-3,hit.width+6,hit.height+6,8).stroke({color:0xe3fcff,width:2});this.stage.draw();}
   private async thumbnail(path:string){
     const cached=this.thumbs.get(path);if(cached){this.thumbs.delete(path);this.thumbs.set(path,cached);return cached;}
     if(this.pending.has(path))return this.pending.get(path)!;
@@ -143,10 +145,11 @@ export class CanvasUI {
     if(this.state.panel!=='settings'&&this.frozenHud){this.frozenHud.destroy({texture:true,textureSource:true});this.frozenHud=null;}
     ++this.generation;this.railTween?.kill();this.railTween=null;this.cancelRailDrag();this.rail=null;this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.trayArt?.destroy(true);this.trayArt=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
     this.root.removeChild(this.focus);this.root.removeChildren().forEach(child=>child.destroy({children:true}));
-    const s=this.state,w=this.stage.app.screen.width,h=this.stage.app.screen.height,l=gameLayout(w,h,!['browse','complete'].includes(s.phase));
-    const modal=s.inspected?'inspect':s.panel??(s.phase==='complete'?'results':'');const changed=modal!==this.modalKind;this.modalKind=modal;
-    this.modalTween?.kill();this.modalTween=null;this.transitioning=false;this.root.position.set(0);this.root.scale.set(1);this.root.alpha=1;
-    this.backdrop.clear();this.backdrop.visible=!!modal;this.backdrop.alpha=1;if(modal)this.backdrop.rect(0,0,w,h).fill({color:0x03192d,alpha:modal==='settings'?.45:.6});
+    const s=this.state,sw=this.stage.app.screen.width,sh=this.stage.app.screen.height,modal=s.inspected?'inspect':s.panel??(s.phase==='complete'?'results':'');
+    const frame=modal&&modal!=='settings'?modalLayout(sw,sh,modal):{x:0,y:0,width:sw,height:sh};this.modalOrigin={x:frame.x,y:frame.y};
+    const w=frame.width,h=frame.height,l=gameLayout(w,h,!['browse','complete'].includes(s.phase)),changed=modal!==this.modalKind;this.modalKind=modal;
+    this.modalTween?.kill();this.modalTween=null;this.transitioning=false;this.root.position.set(frame.x,frame.y);this.root.scale.set(1);this.root.alpha=1;
+    this.backdrop.clear();this.backdrop.visible=!!modal;this.backdrop.alpha=1;if(modal)this.backdrop.rect(0,0,sw,sh).fill({color:0x03192d,alpha:modal==='settings'?.45:.6});
     if(s.panel==='collection'&&!s.inspected)this.collection(w,h);
     else {
       if(!s.inspected&&!s.panel&&s.phase!=='complete'){this.hud(w,h);this.playControls(w,h);this.rack(w,h);}
@@ -161,7 +164,7 @@ export class CanvasUI {
       if(s.phase==='revealing')this.button('retry','Retry reveal',w-132,l.top+17,66,32,()=>s.action('retry'),{small:true,visibleLabel:'Retry'});
     }
     if(s.toast){this.panel(w/2-145,h-46,290,32,0x163c54,C.line);this.text(s.toast,w/2,h-40,12,C.cyan,this.root,'center');}
-    this.root.addChild(this.focus);this.stage.draw();
+    this.hits.forEach(hit=>{hit.x+=frame.x;hit.y+=frame.y;});this.root.addChild(this.focus);this.stage.draw();
     if(modal&&changed&&!s.reduced)this.animateModal(modal,w,h);
     this.emitTargets();
     // Keep thumbnail memory bounded. A screen uses fewer than 24; oldest pages can be discarded.
@@ -170,16 +173,16 @@ export class CanvasUI {
   private emitTargets(){const s=this.state!;this.onTargets(this.hits.map(hit=>({...hit,disabled:hit.disabled||this.transitioning})),s.inspected?`Viewing ${s.inspected.name}`:s.panel?`${s.panel} screen`:`${s.selected.name}. ${s.phase}. Balance ${money(s.save?.balance??10000)}. ${s.phase==='revealed'?s.save?.active?.cards[s.index]?.name??'':''}`);}
   private animateModal(kind:string,w:number,h:number){
     this.transitioning=true;this.root.alpha=0;this.backdrop.alpha=0;
-    if(kind==='settings')this.root.x=Math.min(440,w)+24;else{this.root.scale.set(.985);this.root.position.set(w*.0075,h*.0075+14);}
+    if(kind==='settings')this.root.x=Math.min(440,w)+24;else{this.root.scale.set(.985);this.root.position.set(this.modalOrigin.x+w*.0075,this.modalOrigin.y+h*.0075+14);}
     this.modalTween=gsap.timeline({onUpdate:()=>this.stage.draw(),onComplete:()=>{this.transitioning=false;this.emitTargets();}})
-      .to(this.backdrop,{alpha:1,duration:.2},0).to(this.root,{x:0,y:0,alpha:1,duration:kind==='settings'?.38:.3,ease:'power3.out'},0).to(this.root.scale,{x:1,y:1,duration:.3,ease:'power3.out'},0);
+      .to(this.backdrop,{alpha:1,duration:.2},0).to(this.root,{x:this.modalOrigin.x,y:this.modalOrigin.y,alpha:1,duration:kind==='settings'?.38:.3,ease:'power3.out'},0).to(this.root.scale,{x:1,y:1,duration:.3,ease:'power3.out'},0);
   }
   private dismissModal(action:'close'|'continue'='close'){
     if(this.transitioning)return;const s=this.state!;
     if(!this.modalKind||s.reduced){s.action(action);return;}
     this.transitioning=true;this.dismissal=action;this.emitTargets();this.modalTween?.kill();
     this.modalTween=gsap.timeline({onUpdate:()=>this.stage.draw(),onComplete:()=>{this.dismissal=null;this.transitioning=false;s.action(action);}})
-      .to(this.root,{x:s.panel==='settings'?Math.min(440,this.stage.app.screen.width)+24:0,y:s.panel==='settings'?0:12,alpha:0,duration:.2,ease:'power2.in'},0).to(this.backdrop,{alpha:0,duration:.2},0);
+      .to(this.root,{x:s.panel==='settings'?Math.min(440,this.stage.app.screen.width)+24:this.modalOrigin.x,y:s.panel==='settings'?0:this.modalOrigin.y+12,alpha:0,duration:.2,ease:'power2.in'},0).to(this.backdrop,{alpha:0,duration:.2},0);
   }
   private point(event:MouseEvent){const b=this.stage.app.canvas.getBoundingClientRect();return {x:(event.clientX-b.left)*this.stage.app.screen.width/b.width,y:(event.clientY-b.top)*this.stage.app.screen.height/b.height};}
   railDown=(event:PointerEvent)=>{
@@ -259,21 +262,22 @@ export class CanvasUI {
     const s=this.state!,l=gameLayout(w,h,!['browse','complete'].includes(s.phase)),busy=['reserving','tearing','revealing','collecting','settling'].includes(s.phase);
     if(s.phase==='revealed'){
       const card=s.save!.active!.cards[s.index],space=(w-l.stageWidth)/2;
-      const captionW=l.sideControls?Math.min(238,space-24):w-174;
-      const captionX=l.sideControls?(space-captionW)/2:18,captionY=l.sideControls?Math.max(l.compact?85:172,l.worldY-3):l.actionTop+4;
-      const titleSize=l.compact?14:l.sideControls?21:17;
-      const title=this.text(card.name,captionX,captionY,titleSize,C.white,this.root,'left','bold');title.style.stroke={color:0x08294a,width:3};
-      if(title.width>captionW-22)title.scale.set((captionW-22)/title.width);
-      this.button('inspect',`Inspect ${card.name}`,captionX+title.width+3,captionY-1,24,24,()=>s.inspect(card),{visibleLabel:'⌕'});
-      const rarity=this.text(card.rarity,captionX,captionY+(l.compact?22:27),l.compact?8:9,C.cyan,this.root,'left','bold');rarity.style.stroke={color:0x08294a,width:3};if(rarity.width>captionW)rarity.scale.set(captionW/rarity.width);
-      if(card.id!=='energy')this.money(card.value,captionX,captionY+(l.compact?36:42),l.compact?26:l.sideControls?44:32,C.cyan,'left','reward',`${s.save!.active!.id}-${s.index}`,true,captionW);
+      const captionW=l.sideControls?Math.min(238,space-32):w-128;
+      const captionX=l.sideControls?(space-captionW)/2:(w-captionW)/2,captionY=l.sideControls?Math.max(l.compact?85:172,l.worldY-3):l.actionTop-5;
+      const titleSize=l.compact?14:l.sideControls?22:16;
+      const title=this.text(card.name,l.sideControls?captionX: w/2,captionY,titleSize,C.white,this.root,l.sideControls?'left':'center','bold');title.style.stroke={color:0x08294a,width:3};
+      if(title.width>captionW)title.scale.set(captionW/title.width);
+      const rarity=this.text(card.rarity,l.sideControls?captionX:w/2,captionY+(l.compact?23:l.sideControls?32:22),l.sideControls?10:9,C.cyan,this.root,l.sideControls?'left':'center','bold');rarity.style.stroke={color:0x08294a,width:3};if(rarity.width>captionW)rarity.scale.set(captionW/rarity.width);
+      this.hit('inspect',`Inspect ${card.name}`,captionX,captionY-5,captionW,l.sideControls?55:44,()=>s.inspect(card));
+      const reward=rewardLayout(w,h,l.dockTop,l.sideControls,l.compact);
+      if(card.id!=='energy')this.money(card.value,reward.x,reward.y,reward.size,C.white,'center','reward',`${s.save!.active!.id}-${s.index}`,true,reward.width);
       if(l.sideControls){
         const cx=w-space/2,cy=Math.max(l.compact?117:213,l.worldY+17),size=l.compact?48:76;
         this.command('next',s.index===10?'Collect':'Next card',cx,cy,size,'next',()=>s.action('next'));
         if(s.index<10)this.command('reveal-all','Reveal all',cx,cy+(l.compact?76:113),l.compact?34:44,'all',()=>s.action('all'));
       }else{
-        this.command('next',s.index===10?'Collect':'Next card',w-48,l.actionTop+31,l.short?46:52,'next',()=>s.action('next'));
-        if(s.index<10)this.command('reveal-all','Reveal all',w-115,l.actionTop+31,l.short?36:40,'all',()=>s.action('all'));
+        this.command('next',s.index===10?'Collect':'Next card',w-37,l.dockTop-48,l.short?44:48,'next',()=>s.action('next'));
+        if(s.index<10)this.command('reveal-all','Reveal all',37,l.dockTop-48,44,'all',()=>s.action('all'));
       }
     }else if(busy){
       const label=s.phase==='tearing'?'Opening':s.phase==='revealing'?'Revealing':['collecting','settling'].includes(s.phase)?'Collecting':'Preparing';
@@ -286,6 +290,7 @@ export class CanvasUI {
   private rack(w:number,h:number){
     const s=this.state!,l=gameLayout(w,h,!['browse','complete'].includes(s.phase)),y=l.dockTop;
     const fade=new Sprite(this.tray);fade.position.set(0,y-25);fade.width=w;fade.height=l.dock+25;this.root.addChild(fade);
+    if(s.save?.active&&!['revealing','revealed','collecting','settling'].includes(s.phase))return;
     if(s.save?.active){
       const revealed=Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),total=s.save.active.cards.slice(0,revealed).reduce((n,c)=>n+c.value,0),tray=cardTrayLayout(w,h,this.collectingIndex??s.index);
       if(!l.compact){this.text('Pack value',20,y+8,10,C.white);this.packValueLabel=this.money(total,w-20,y+1,l.short?22:26,C.cyan,'right','revealed',s.save.active.id,false,w-130);}
@@ -371,57 +376,63 @@ export class CanvasUI {
     else this.trayTween=gsap.to(this.trayOffset,{value:tray.offset,duration:.06,ease:'power2.out',onUpdate:()=>{strip.x=base-this.trayOffset.value;this.stage.draw();}});
   };
   private screen(title:string,w:number,h:number,subtitle?:string){
-    const body=new Graphics().roundRect(10,10,w-20,h-20,25).fill({color:0x0b2d50,alpha:.98}).stroke({width:4,color:0x071c32}).roundRect(14,14,w-28,h-28,21).stroke({width:2,color:0x8dd8f6,alpha:.65});
-    body.roundRect(18,18,w-36,57,17).fill(0x2473ad).roundRect(24,22,w-48,5,2).fill({color:0xd9f8ff,alpha:.3});this.root.addChild(body);
-    this.ball(w-60,h-60,100,0x19466c);this.ball(54,51,30,0x184e7d);
-    this.picture('/assets/pokemon-logo.png',29,29,73,28);
-    const heading=this.text(title,119,24,w<700?21:26,C.white,this.root,'left','bold');
-    if(heading.width>w-185)heading.scale.set((w-185)/heading.width);
-    if(subtitle)this.text(subtitle,120,55,10,0xb8dbef);
-    this.button('close',this.state!.inspected?'Close card viewer':'Return to game',w-57,27,30,30,()=>this.dismissModal(),{visibleLabel:'×'});
+    const shape=(x:number,y:number,width:number,height:number,cut:number)=>[x+cut,y,x+width-cut,y,x+width,y+cut,x+width,y+height-cut,x+width-cut,y+height,x+cut,y+height,x,y+height-cut,x,y+cut];
+    const body=new Graphics().poly(shape(8,8,w-16,h-16,20)).fill(0x06182e).stroke({color:0x03101d,width:4}).poly(shape(12,12,w-24,h-24,18)).fill(0x0d2c4a).stroke({color:0x8abed7,width:2});
+    body.poly(shape(17,17,w-34,66,13)).fill(0x195f93).moveTo(34,21).lineTo(w-34,21).stroke({color:0xb3edff,width:2,alpha:.55});
+    body.moveTo(30,h-77).lineTo(w-30,h-77).stroke({color:0x6da5bc,width:1,alpha:.22});
+    body.circle(48,48,22).fill(0x06182e).stroke({color:0xb4d4df,width:3}).circle(48,48,16).fill(0x318ed1).circle(43,42,6).fill({color:0xd4f9ff,alpha:.8});
+    for(let i=0;i<3;i++)body.roundRect(31+i*11,77,7,3,1).fill(i===0?0xe15c73:i===1?0x7fdef3:0x3c8caf);
+    this.root.addChild(body);
+    const heading=this.text(title,84,26,w<700?21:25,C.white,this.root,'left','bold');if(heading.width>w-164)heading.scale.set((w-164)/heading.width);
+    if(subtitle){const sub=this.text(subtitle,85,58,10,0xc2e3f4);if(sub.width>w-166)sub.scale.set((w-166)/sub.width);}
+    this.button('close',this.state!.inspected?'Close card viewer':'Return to game',w-68,26,44,44,()=>this.dismissModal(),{visibleLabel:'×',large:true});
   }
   private collection(w:number,h:number){
-    const s=this.state!,portrait=w<700;
+    const s=this.state!,portrait=w<700,compact=h<550&&w>=560;
     const source=this.collected?s.cards.filter(c=>s.save?.collection[c.id]):s.pool;
-    const rows=h<550&&w>=560?1:2,columns=portrait?2:Math.max(4,Math.min(6,Math.floor((w-70)/150))),size=columns*rows;
+    const rows=compact?1:2,columns=portrait?2:Math.max(4,Math.min(6,Math.floor((w-70)/150))),size=columns*rows;
     const page=pageWindow(source.length,size,this.page);this.page=page.page;
     this.screen('Card binder',w,h,`${Object.keys(s.save?.collection??{}).length} cards discovered`);
-    this.button('set-filter',s.selected.name,26,87,portrait?160:190,34,()=>{this.collected=false;this.page=0;this.build();},{active:!this.collected,small:true});
-    this.button('collected-filter','Collected cards',portrait?194:228,87,portrait?135:165,34,()=>{this.collected=true;this.page=0;this.build();},{active:this.collected,small:true,visibleLabel:'Collected'});
-    if(!portrait)this.button('export','Export collection',w-183,87,155,34,()=>s.action('export'),{small:true});
+    const filterW=portrait?(w-74)/2:190;
+    this.button('set-filter',s.selected.name,32,96,filterW,44,()=>{this.collected=false;this.page=0;this.build();},{active:!this.collected,small:true});
+    this.button('collected-filter','Collected cards',32+filterW+10,96,portrait?filterW:165,44,()=>{this.collected=true;this.page=0;this.build();},{active:this.collected,small:true,visibleLabel:'Collected'});
+    if(!portrait)this.button('export','Export collection',w-187,96,155,44,()=>s.action('export'),{small:true});
     if(!source.length){this.ball(w/2,h/2-30,36,C.line);this.text('Your binder is waiting.',w/2,h/2+22,20,C.white,this.root,'center','bold');this.text('Open a pack to collect your first cards.',w/2,h/2+54,12,C.muted,this.root,'center');}
-    const top=137,bottom=h-68,slotW=(w-52-(columns-1)*12)/columns,slotH=(bottom-top-17*(rows-1))/rows;
+    const top=156,bottom=h-93,slotW=(w-64-(columns-1)*14)/columns,slotH=(bottom-top-16*(rows-1))/rows;
     source.slice(page.start,page.end).forEach((card,i)=>{
-      const x=26+(i%columns)*(slotW+12),y=top+Math.floor(i/columns)*(slotH+17),count=s.save?.collection[card.id]??0;
+      const x=32+(i%columns)*(slotW+14),y=top+Math.floor(i/columns)*(slotH+16),count=s.save?.collection[card.id]??0;
       this.panel(x,y,slotW,slotH,0x102b44,count?0x416d89:0x223f5b,this.root,6);
-      const imgH=Math.max(60,slotH-40),imgW=Math.min(slotW-12,imgH/1.397);this.picture(card.image,x+(slotW-imgW)/2,y+5,imgW,imgH);
-      this.text(card.name,x+7,y+slotH-31,portrait?9:11,C.white,this.root,'left','bold',slotW-12);
-      this.text(count?`×${count}`:`#${card.number}`,x+7,y+slotH-15,9,count?C.cyan:C.muted);
+      const imgH=Math.max(24,slotH-(compact?12:49)),imgW=Math.min(slotW-12,imgH/1.397);this.picture(card.image,compact?x+7:x+(slotW-imgW)/2,y+5,imgW,imgH);
+      const textX=compact?x+imgW+18:x+9,textW=compact?slotW-imgW-27:slotW-18;
+      const name=this.text(card.name,textX,compact?y+12:y+slotH-37,portrait?11:12,C.white,this.root,'left','bold');if(name.width>textW)name.scale.set(textW/name.width);
+      this.text(count?`×${count}`:`#${card.number}`,compact?textX:x+7,compact?y+33:y+slotH-15,9,count?C.cyan:C.muted);
       this.text(money(card.value),x+slotW-7,y+slotH-15,9,C.muted,this.root,'right');
       this.hit(`binder-${card.id}`,`${card.name}, ${count} collected`,x,y,slotW,slotH,()=>s.inspect(card));
     });
-    this.button('page-prev','Previous collection page',26,h-52,68,30,()=>{this.page--;this.build();},{disabled:page.page===0,visibleLabel:'‹ Back',small:true});
-    this.text(`${page.page+1} / ${page.pages}`,w/2,h-46,12,C.cyan,this.root,'center','bold');
-    this.button('page-next','Next collection page',w-94,h-52,68,30,()=>{this.page++;this.build();},{disabled:page.page+1===page.pages,visibleLabel:'Next ›',small:true});
+    this.button('page-prev','Previous collection page',32,h-65,76,44,()=>{this.page--;this.build();},{disabled:page.page===0,visibleLabel:'‹ Back',small:true});
+    this.text(`${page.page+1} / ${page.pages}`,w/2,h-50,12,C.cyan,this.root,'center','bold');
+    this.button('page-next','Next collection page',w-108,h-65,76,44,()=>{this.page++;this.build();},{disabled:page.page+1===page.pages,visibleLabel:'Next ›',small:true});
   }
   private settingsDrawer(w:number,h:number){
-    const s=this.state!,width=Math.min(400,w-28),x=w-width-14,short=h<500,contentX=x+20,contentW=width-40;
-    const shell=new Graphics().roundRect(x,14,width,h-28,24).fill({color:0x0c3154,alpha:.98}).stroke({color:0x061d33,width:4}).roundRect(x+4,18,width-8,h-36,20).stroke({color:0x99e3fa,width:2,alpha:.7});
-    shell.roundRect(x+8,22,width-16,short?43:61,15).fill(0x2679b6);this.root.addChild(shell);
-    this.ball(x+34,short?44:53,13,0xd3f8ff);this.text('Settings',x+57,short?30:36,short?22:26,C.white,this.root,'left','bold');
-    this.button('close','Return to game',x+width-49,short?29:36,30,30,()=>this.dismissModal(),{visibleLabel:'×'});
-    const top=short?78:104,rowH=short?34:56,gap=short?7:16;
-    [['Sound effects',s.sound,'sound'],['Reduced motion',s.reduced,'reduced'],['Low graphics',s.low,'low']].forEach(([label,value,action],i)=>{
-      const yy=top+i*(rowH+gap);this.panel(contentX,yy,contentW,rowH,0x16476d,0x386d91);this.text(String(label),contentX+12,yy+(rowH-18)/2,13,C.white,this.root,'left','bold');
-      this.button(String(action),`${label}: ${value?'on':'off'}`,contentX+contentW-74,yy+(rowH-28)/2,62,28,()=>s.action(action as GameAction),{active:!!value,visibleLabel:value?'ON':'OFF',small:true});
+    const s=this.state!,wide=h<500&&w>=560,width=Math.min(wide?660:400,w-28),x=w-width-14,contentX=x+22,contentW=width-44;
+    const shell=new Graphics().roundRect(x,14,width,h-28,22).fill(0x06182e).stroke({color:0x03101d,width:4}).roundRect(x+4,18,width-8,h-36,18).fill(0x0d2c4a).stroke({color:0x8abed7,width:2});
+    shell.roundRect(x+9,23,width-18,58,12).fill(0x195f93).circle(x+34,51,14).fill(0x318ed1).stroke({color:0xc7edff,width:3}).circle(x+30,47,4).fill(0xe2ffff);this.root.addChild(shell);
+    this.text('Settings',x+60,34,23,C.white,this.root,'left','bold');
+    this.button('close','Return to game',x+width-66,30,44,44,()=>this.dismissModal(),{visibleLabel:'×',large:true});
+    const top=wide?90:96,rowH=wide?50:h<620?48:60,gap=10,mainW=wide?(contentW-20)/2:contentW;
+    [['Sound',s.sound,'sound'],['Reduced motion',s.reduced,'reduced'],['Low graphics',s.low,'low']].forEach(([label,value,action],i)=>{
+      const yy=top+i*(rowH+gap);this.panel(contentX,yy,mainW,rowH,0x123c5c,0x2b617c);const name=this.text(String(label),contentX+12,yy+(rowH-19)/2,14,C.white,this.root,'left','bold');if(name.width>mainW-94)name.scale.set((mainW-94)/name.width);
+      const sx=contentX+mainW-72,cy=yy+rowH/2,on=!!value;
+      const toggle=new Graphics().roundRect(sx,cy-15,58,30,15).fill(on?0x278dc0:0x061e34).stroke({color:on?0x8de8ff:0x47728d,width:1.5}).circle(sx+(on?43:15),cy,11).fill(on?0xe5faff:0x8caabd);this.root.addChild(toggle);this.ball(sx+(on?43:15),cy,5,on?0x27688d:0x34566a);
+      this.hit(String(action),`${label}: ${value?'on':'off'}`,contentX,yy,mainW,rowH,()=>s.action(action as GameAction));
     });
-    let y=top+3*(rowH+gap);const half=(contentW-8)/2;
-    this.button('credits-menu','Add 1000 demo credits',contentX,y,half,short?28:40,()=>s.action('credits'),{primary:true,small:true,visibleLabel:'+$1,000 credits'});
-    this.button('fullscreen','Full screen',contentX+half+8,y,half,short?28:40,()=>s.action('fullscreen'),{small:true});y+=short?37:56;
-    const third=(contentW-12)/3;
-    [['History','history'],['Help','about'],['Export','export']].forEach(([label,action],i)=>this.button(`drawer-${action}`,label,contentX+i*(third+6),y,third,short?25:34,()=>s.action(action as GameAction),{small:true}));y+=short?34:50;
-    this.button('reset-menu','Reset demo and collection',contentX,y,contentW,short?24:34,()=>s.action('reset'),{disabled:!!s.save?.active,small:true});
-    if(h>500)this.text('Demo credits only',x+width/2,h-43,10,C.muted,this.root,'center');
+    const ax=wide?contentX+mainW+20:contentX,aw=wide?mainW:contentW,start=wide?top:top+3*(rowH+gap)+8,half=(aw-10)/2;
+    this.button('credits-menu','Add 1000 demo credits',ax,start,wide?aw:half,44,()=>s.action('credits'),{primary:true,small:true,visibleLabel:'+1,000 credits'});
+    this.button('fullscreen','Full screen',wide?ax:ax+half+10,wide?start+54:start,wide?aw:half,44,()=>s.action('fullscreen'),{small:true});
+    const navY=start+(wide?108:54),third=(aw-20)/3;
+    [['History','history'],['Help','about'],['Export','export']].forEach(([label,action],i)=>this.button(`drawer-${action}`,label,ax+i*(third+10),navY,third,44,()=>s.action(action as GameAction),{small:true}));
+    this.button('reset-menu','Reset demo and collection',ax,navY+54,aw,44,()=>s.action('reset'),{disabled:!!s.save?.active,small:true,visibleLabel:'Reset demo'});
+    if(!wide&&h>550)this.text('Demo credits only',x+width/2,h-39,10,C.muted,this.root,'center');
   }
   private menu(w:number,h:number){
     const s=this.state!;if(s.panel==='settings'){this.settingsDrawer(w,h);return;}
@@ -433,7 +444,7 @@ export class CanvasUI {
       const rows=Math.max(1,Math.floor((h-239)/66)),history=s.save?.history??[],pg=pageWindow(history.length,rows,this.page);this.page=pg.page;
       if(!history.length)this.text('No completed openings yet.',w/2,h/2,16,C.muted,this.root,'center');
       history.slice(pg.start,pg.end).forEach((result,i)=>{const yy=y+i*66;this.panel(x,yy,width,55,0x112b42,0x25465f);this.picture(result.pack?.packImage??s.packs[0].packImage,x+10,yy+4,28,48);const title=this.text(result.pack?.name??'Obsidian Flames',x+53,yy+9,13,C.white,this.root,'left','bold');if(title.width>width-70)title.scale.set((width-70)/title.width);this.text(new Date(result.at).toLocaleDateString(),x+53,yy+33,9,C.muted);this.money(result.total,x+width-13,yy+29,18,C.cyan,'right',`history-${result.id}`,result.id,false,Math.min(150,width*.42));});
-      this.button('history-back','Previous history page',x,h-54,68,30,()=>{this.page--;this.build();},{disabled:pg.page===0,visibleLabel:'‹',small:true});this.text(`${pg.page+1} / ${pg.pages}`,w/2,h-49,12,C.muted,this.root,'center');this.button('history-next','Next history page',x+width-68,h-54,68,30,()=>{this.page++;this.build();},{disabled:pg.page+1===pg.pages,visibleLabel:'›',small:true});
+      this.button('history-back','Previous history page',x,h-65,76,44,()=>{this.page--;this.build();},{disabled:pg.page===0,visibleLabel:'‹',small:true});this.text(`${pg.page+1} / ${pg.pages}`,w/2,h-50,12,C.muted,this.root,'center');this.button('history-next','Next history page',x+width-76,h-65,76,44,()=>{this.page++;this.build();},{disabled:pg.page+1===pg.pages,visibleLabel:'›',small:true});
     }else{
       const lines=['Choose a pack, then slide across its seal to open it.','Tap Next card or press Space to reveal. Inspect a card for a closer look.','The revealed value is credited when you collect the pack. Energy has no value.','Your cards and unfinished pack are saved in this browser.','This is a frontend demo. Credits have no cash value; card values and odds are illustrative.'];
       lines.forEach((line,i)=>this.text(line,x,y+i*Math.min(72,(h-135)/5),h<550?12:14,i===4?C.muted:C.white,this.root,'left','normal',width));
@@ -452,7 +463,7 @@ export class CanvasUI {
     const columns=compact?11:w<700?4:6,rows=Math.ceil(11/columns),top=compact?148:short?200:221,bottom=h-95;
     const cw=Math.min(145,(w-54-(columns-1)*12)/columns),ch=Math.min(cw*1.4,(bottom-top-(rows-1)*23)/rows-20),drawW=ch/1.4;
     result.cards.forEach((card,i)=>{const row=Math.floor(i/columns),col=i%columns,number=Math.min(columns,11-row*columns),rowWidth=number*(drawW+12)-12,x=(w-rowWidth)/2+col*(drawW+12),y=top+row*(ch+33);this.picture(card.image,x,y,drawW,ch);const exact=money(card.value),caption=drawW<55&&exact.length>6?'$'+new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:1}).format(card.value/100):exact;const price=this.text(card.id==='energy'?'Energy':caption,x+drawW/2,y+ch+7,10,C.cyan,this.root,'center');if(price.width>drawW+8)price.scale.set((drawW+8)/price.width);this.hit(`result-${i}`,`Inspect ${card.name}`,x,y,drawW,ch,()=>this.state!.inspect(card));});
-    this.button('result-collection','View collection',w/2-151,h-68,140,42,()=>this.state!.action('collection'),{visibleLabel:'Collection'});this.button('result-continue','Continue',w/2+1,h-68,150,42,()=>this.dismissModal('continue'),{primary:true});
+    this.button('result-collection','View collection',Math.max(28,w/2-165),h-65,Math.min(155,(w-68)/2),44,()=>this.state!.action('collection'),{visibleLabel:'Collection'});this.button('result-continue','Continue',w/2+6,h-65,Math.min(155,(w-68)/2),44,()=>this.dismissModal('continue'),{primary:true});
   }
   destroy(){this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.railTween?.kill();this.cancelRailDrag();const canvas=this.stage.app.canvas;canvas.removeEventListener('pointerdown',this.railDown);canvas.removeEventListener('pointermove',this.railMove);canvas.removeEventListener('pointerup',this.railUp);canvas.removeEventListener('pointercancel',this.railCancel);canvas.removeEventListener('wheel',this.railWheel);this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
 }

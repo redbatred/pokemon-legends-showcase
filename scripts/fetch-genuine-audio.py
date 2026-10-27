@@ -2,11 +2,13 @@
 """Build compact authentic Pokémon GO-derived cues; no synthetic replacements.
 
 Run: python3 scripts/fetch-genuine-audio.py
+Rebuild selected cues without changing others: --only swift hyperbeam
 Requires Python 3, curl, ffmpeg and ffprobe. Downloads only the small selected
 WAVs from a pinned PokeMiners commit. Pokémon audio use is based on the user's
 stated license; this is not a claim that these game recordings are open-licensed.
 """
 
+import argparse
 import array
 import concurrent.futures
 import hashlib
@@ -50,6 +52,11 @@ RECIPES = {
     "ground": cue("Pokemon Moves/089-0_earthquake.wav", 1.10, .25, .32, "Earthquake", role="Ground attack"),
     "dragon": cue("Pokemon Moves/406-0_dragon_pulse.wav", 1.15, .25, .35, "Dragon Pulse", start=.85, role="Dragon attack; excerpt of the strongest beam passage"),
     "fairy": cue("Pokemon Moves/605-0_dazzling_gleam.wav", 1.10, .23, .34, "Dazzling Gleam", start=1.25, role="Fairy attack; excerpt of the bright payoff passage"),
+    "swift": cue("Pokemon Moves/129-0_swift.wav", .95, .20, .26, "Swift", start=.85, role="Eevee's Swift; excerpt of the star-burst passage"),
+    "hyperbeam": cue("Pokemon Moves/063-0_hyper_beam.wav", 1.00, .24, .30, "Hyper Beam", start=1.85, role="Dragonite's Hyper Beam; excerpt of the beam body"),
+    "shadowball": cue("Pokemon Moves/247-0_shadow_ball.wav", .95, .22, .28, "Shadow Ball", role="Gengar's Shadow Ball"),
+    "aeroblast": cue("Pokemon Moves/170-0_aeroblast.wav", .95, .22, .28, "Aeroblast", role="Lugia's Aeroblast"),
+    "petals": cue("Pokemon Moves/572-0_petal_blizzard.wav", .95, .22, .26, "Petal Blizzard", start=.25, role="Venusaur's Petal Blizzard"),
     "throw": cue("Encounter/se_go_ball_throw.wav", .54, .045, .34, "Poké Ball throw", role="Ball throw"),
     "impact": cue("Encounter/se_go_ball_ground.wav", .52, .12, .28, "Poké Ball ground contact", role="Ball impact; first ground contact retained"),
     "release": cue("Encounter/se_go_ball_bowa1.wav", .366, .035, .44, "Poké Ball bowa/poof", role="The actual game's short ball-opening burst, followed by the species cry"),
@@ -71,6 +78,11 @@ RECIPES = {
 # Filled from the exact downloaded commit files, and verified against Git tree
 # blob identifiers during preparation. Pins prevent stale-cache substitution.
 SOURCE_HASHES = {
+    "Sounds/Pokemon Moves/129-0_swift.wav": "26dd7273e57432ea725bd2846fedc6033bc8697ea3564d3ed4728fa1ccbf7f4a",
+    "Sounds/Pokemon Moves/063-0_hyper_beam.wav": "3bb7b3590a2e3d230ec1ddf228adcfac8735048146e11c7ee272e843d7b73154",
+    "Sounds/Pokemon Moves/247-0_shadow_ball.wav": "34272b0016462f5eb83d0c35d99b6197faba133720453fe392414d2beb802f5e",
+    "Sounds/Pokemon Moves/170-0_aeroblast.wav": "d2dee988eb2e76da8cf5498790fd3c0686d67ae6e864f674914dc49025add066",
+    "Sounds/Pokemon Moves/572-0_petal_blizzard.wav": "c9e89097ce6b28e6c112f2731e0c65e09c328d7e09e17d825bc8d707a16bcf35",
     "Sounds/Pokemon Moves/053-0_flamethrower.wav": "790ad2c9f81735d3acf5a61b9df67e9c7e17758a7cbfac933ab441f4a26e99a1",
     "Sounds/Pokemon Moves/055-0_water_gun.wav": "bc65d91b12c30d766e53232bc5241d1879895c3e8a0ceae76d17edf78e16b07d",
     "Sounds/Pokemon Moves/085-0_thunderbolt.wav": "9528c66e63d730c683ca6b8dafe3f39112c3213f0b06be8bad38059cfcce7543",
@@ -201,23 +213,35 @@ def build(item, working):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--only", nargs="+", choices=sorted(RECIPES), help="Build only these cues and preserve every other existing asset and manifest entry")
+    args = parser.parse_args()
+    selected = {name: RECIPES[name] for name in args.only} if args.only else RECIPES
+    previous = {}
+    if args.only:
+        provenance_path = OUT / "provenance.json"
+        if not provenance_path.exists():
+            parser.error("--only requires an existing audio-v4/provenance.json; run the full build first")
+        previous = json.loads(provenance_path.read_text())["effects"]
     OUT.mkdir(parents=True, exist_ok=True)
-    paths = sorted({recipe["path"] for recipe in RECIPES.values()})
+    paths = sorted({recipe["path"] for recipe in selected.values()})
     with concurrent.futures.ThreadPoolExecutor(5) as pool:
         list(pool.map(fetch, paths))
     with tempfile.TemporaryDirectory(prefix="pokemon-genuine-audio-") as folder:
         working = Path(folder)
         with concurrent.futures.ThreadPoolExecutor(3) as pool:
-            effects = dict(pool.map(lambda item: build(item, working), RECIPES.items()))
+            built = dict(pool.map(lambda item: build(item, working), selected.items()))
+    effects = {**previous, **built}
     originals = OUT / "originals"
     originals.mkdir(exist_ok=True)
     original_fire = originals / "flamethrower.wav"
-    shutil.copyfile(CACHE / RECIPES["fire"]["path"], original_fire)
+    if not args.only:
+        shutil.copyfile(CACHE / RECIPES["fire"]["path"], original_fire)
     provenance = {
         "description": "Compact authentic Pokémon GO-derived ball, move, UI and reward cues. Replaces generic sampled effects with actual game recordings; no Kenney samples or arbitrary synthesizer tones are used.",
         "repository": {"url": REPOSITORY, "commit": COMMIT, "readme": f"{REPOSITORY}/blob/{COMMIT}/README.md", "claim": "The PokeMiners repository states these are mined Pokémon GO audio assets and that it did not create or modify the sound files. It attributes copyright to The Pokémon Company and Niantic.", "verification": "Source downloads are pinned to an immutable commit. SHA-256 and Git blob SHA-1 recorded per file; selected downloads matched the repository's Git tree blob identifiers during preparation."},
         "rights": "Copyrighted game audio reused under the user's stated Pokémon license. PokeMiners is the datamining source, not a rights-holder delivery service; no open-license claim is made. No private ROM, login, DRM bypass or region-block bypass was used.",
-        "reproduce": "python3 scripts/fetch-genuine-audio.py. Requires Python 3, curl, ffmpeg and ffprobe; optional ASSET_FFMPEG and ASSET_FFPROBE. Only selected small WAVs download, and each pinned source hash is checked before encoding.",
+        "reproduce": "python3 scripts/fetch-genuine-audio.py. To build selected cues and preserve the others, append --only swift hyperbeam shadowball aeroblast petals. Requires Python 3, curl, ffmpeg and ffprobe; optional ASSET_FFMPEG and ASSET_FFPROBE. Only selected small WAVs download, and each pinned source hash is checked before encoding.",
         "validation": "Each MP3 and OGG decodes with ffmpeg -xerror; PCM is finite, duration is within 3 ms of its cue, four-times-oversampled peaks are within 0.4 dB of target, and final samples are below -65 dBFS. Output hashes and metrics recorded per file.",
         "limitations": "Source clips are chiefly mono 11.025 kHz game audio, with some 22.05 kHz clips. Resampling does not create additional detail. Names and repository provenance identify the assets; no human listening review or direct comparison against a retail game capture is claimed. Card/pack roles are explicitly labeled artistic reuse of game UI or Master Ball sounds.",
         "originalFlamethrower": {"path": "/assets/audio-v4/originals/flamethrower.wav", **probe(original_fire), "sha256": sha256(original_fire), "bytes": original_fire.stat().st_size},
@@ -226,7 +250,7 @@ def main():
     (OUT / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
     manifest = {name: {"files": {ext: f["path"] for ext, f in entry["files"].items()}, "duration": entry["processing"]["duration"], "decay": entry["processing"]["decay"], "peakDbfs": entry["processing"]["targetPeakDbfs"], "gain": entry["recommendedPlaybackGain"], "sourceSound": entry["sourceSound"]} for name, entry in effects.items()}
     (OUT / "cues.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    print(f"Verified {len(effects)*2} cue files; original Flamethrower also retained. Total cue bytes: {sum(f['bytes'] for e in effects.values() for f in e['files'].values())}")
+    print(f"Built and verified {len(built)*2} cue files; manifest contains {len(effects)*2} files. Original Flamethrower retained. Total cue bytes: {sum(f['bytes'] for e in effects.values() for f in e['files'].values())}")
 
 
 if __name__ == "__main__":

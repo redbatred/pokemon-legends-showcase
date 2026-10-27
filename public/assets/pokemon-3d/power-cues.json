@@ -175,5 +175,412 @@
     "coordinateUnits": "tip and forward are absolute points in the named bone local space, not direction vectors",
     "chargeDuration": 0.4555558333333334,
     "sourceGlbSha256": "0ece25a7f9e92a5a1485639dd238ed69ac7eef4fa4a936421c8e8ecf35955100"
+  },
+  "mewtwo": {
+    "form": "psychic-palm-wave",
+    "seek": 0.65,
+    "speed": 1.4,
+    "powerAt": 2.02,
+    "sustainEnd": 2.82,
+    "end": 3.05,
+    "recoverAt": 3.6,
+    "emitters": [
+      {
+        "id": "left-palm",
+        "bone": "left_hand",
+        "sourceBone": "left_hand",
+        "tip": [
+          0.079092,
+          0.002358,
+          -0.011917
+        ],
+        "forward": [
+          0.114822,
+          0.026178,
+          -0.409605
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Supplied attack makes a short right-hand jab near1.67s, then holds LEFT palm forward from about2.0 to3.2s. Socket is the mean left first finger joints plus a small offset along the palm normal, computed from native finger landmarks at2.05s. The previous torso fallback missed the active hand. This is a psychic-wave adaptation of a generic body attack, not an official Psystrike event track.",
+    "sources": [
+      "https://unite.pokemon.com/en-au/news/celebrate-pokemon-unites-2nd-anniversary-with-mega-mewtwo-x/"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/150/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.9785714285714288,
+    "sourceGlbSha256": "5eaebda94a95fa7099adc66737e1ee0720c9040c691f5c5757236c4188423039",
+    "socketSampleTime": 2.05,
+    "requiresMoveFormRouting": true
+  },
+  "lugia": {
+    "form": "aeroblast",
+    "seek": 0.12,
+    "speed": 1.15,
+    "powerAt": 0.7,
+    "sustainEnd": 1.1,
+    "end": 1.22,
+    "recoverAt": 1.75,
+    "emitters": [
+      {
+        "id": "beak",
+        "bone": "head_14",
+        "sourceBone": "head_14",
+        "tip": [
+          0.012292,
+          -3e-06,
+          0.384232
+        ],
+        "forward": [
+          0.201026,
+          -3e-06,
+          1.218473
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Native rangeattack01 has head rotation >=80% of its maximum about.65\u20131.15s and jaw secondary rotation peaks.867s. Mouth socket is the mean six native upper/lower tooth joint locations at.85s; axis follows head toward the upper-front teeth. Existing wind blade form does not represent the mouth-directed ranged pose. Aeroblast form is a recommendation supported by the official move association.",
+    "sources": [
+      "https://pokemongo.com/news/apex-reveal"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/249.glb",
+    "attackClip": "pm0249_00_00_20450_rangeattack01",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.5043478260869565,
+    "sourceGlbSha256": "b0c6d51f7f022e2eea96719cb725e71454aa3a1bc780883febe4e58780350b2d",
+    "socketSampleTime": 0.85,
+    "requiresMoveFormRouting": true
+  },
+  "gyarados": {
+    "form": "hydro-pump",
+    "seek": 0.12,
+    "speed": 1.2,
+    "powerAt": 0.62,
+    "sustainEnd": 1.18,
+    "end": 1.42,
+    "recoverAt": 1.85,
+    "emitters": [
+      {
+        "id": "mouth",
+        "bone": "head",
+        "sourceBone": "head",
+        "tip": [
+          0.847187,
+          2e-06,
+          0.074033
+        ],
+        "forward": [
+          1.546674,
+          2e-06,
+          0.100832
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Lower-jaw rotation peaks.60s; >=80% window .55\u20131.483s. Socket is the mean upper_jaw and teeth joint positions, converted to head space at.68s; forward follows head toward upper_jaw. Strong downward head motion makes a fixed stage angle incorrect. Water stream is an authored water-type interpretation of the generic attack; source clip is not named Hydro Pump.",
+    "sources": [
+      "https://www.pokemon.com/uk/pokedex/gyarados"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/130/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.4166666666666667,
+    "sourceGlbSha256": "a18c93fb70ada8e2e4c6c28adbef8b618d406c074ee2d40f367cc8dd4e02a728",
+    "socketSampleTime": 0.68,
+    "requiresMoveFormRouting": true
+  },
+  "dragonite": {
+    "form": "hyper-beam",
+    "seek": 0.5,
+    "speed": 1.35,
+    "powerAt": 1.78,
+    "sustainEnd": 2.35,
+    "end": 2.5,
+    "recoverAt": 3.25,
+    "emitters": [
+      {
+        "id": "mouth",
+        "bone": "head",
+        "sourceBone": "head",
+        "tip": [
+          0.123917,
+          1e-06,
+          0.228082
+        ],
+        "forward": [
+          0.291005,
+          1e-06,
+          0.535624
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Jaw rotation peaks1.717s and stays >=80% over.75\u20132.5s. Head pitches through2.083s. The native jaw joint is already near the snout; the socket moves a small distance forward along head-to-jaw direction. Head-relative Hyper Beam needs a finite straight light beam, rather than flame-shaped dragon particles. Generic supplied attack is not an official Hyper Beam event track.",
+    "sources": [
+      "https://unite.pokemon.com/en-us/news/dragonite-dances-its-way-into-pokemon-unite/"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/149/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.9481481481481481,
+    "sourceGlbSha256": "3e0fa8fed9a66c464354eb1c21596cac2dd9766cb7745474df7f136ff404f9ee",
+    "socketSampleTime": 1.95,
+    "requiresMoveFormRouting": true
+  },
+  "gengar": {
+    "form": "shadow-ball",
+    "seek": 0.32,
+    "speed": 1.15,
+    "powerAt": 1.1,
+    "sustainEnd": 1.4,
+    "end": 1.8,
+    "recoverAt": 2.6,
+    "emitters": [
+      {
+        "id": "mouth",
+        "bone": "head",
+        "sourceBone": "head",
+        "tip": [
+          -0.02669,
+          1e-06,
+          0.160952
+        ],
+        "forward": [
+          -0.027702,
+          1e-06,
+          0.460951
+        ]
+      }
+    ],
+    "attachment": "capture-at-release",
+    "evidence": "Jaw opening peaks1.5s with >=80% interval .983\u20132.267s. Socket uses the native teeth_01/02 center, shifted slightly toward the lower jaw to center within the open mouth, then expressed in head space at1.35s. A compact shadow orb fits this open-mouth pose; orbiting chest particles miss it. Capture projectile launch once.",
+    "sources": [
+      "https://assets.pokemon.com/assets/cms2/pdf/video-game/pokken/Gengar_Chart_EN.pdf"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/094/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.6782608695652175,
+    "sourceGlbSha256": "2bce51fe5552a3dc43c102d383916646a6b648a4d152c97611be44fe8a9389ce",
+    "socketSampleTime": 1.35,
+    "requiresMoveFormRouting": true
+  },
+  "alakazam": {
+    "form": "spoon-psychic-wave",
+    "seek": 0.08,
+    "speed": 1.2,
+    "powerAt": 0.8,
+    "sustainEnd": 1.25,
+    "end": 1.55,
+    "recoverAt": 2.15,
+    "emitters": [
+      {
+        "id": "spoon-left",
+        "bone": "lfeelera",
+        "sourceBone": "LFeelerA",
+        "tip": [
+          35.769501,
+          -0.043169,
+          -1.062851
+        ],
+        "forward": [
+          18.236475,
+          -3.39565,
+          -36.858856
+        ]
+      },
+      {
+        "id": "spoon-right",
+        "bone": "rfeelera",
+        "sourceBone": "RFeelerA",
+        "tip": [
+          35.769501,
+          0.043146,
+          -1.062865
+        ],
+        "forward": [
+          33.682103,
+          2.475525,
+          -40.934236
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "The real floating spoons are controlled by LFeelerA/RFeelerA, not LFeelerD/RFeelerD or the hands. Native silver-texture geometry identifies81 spoon vertices per side. Bowl centers use the farthest40% of spoon vertices from each spoon bone; forward follows Head to EffMouth01 at1.0s. Lowercase bone keys intentionally match runtime cached-pose lookup. Original clip is pm0065_00_ba20_buturi01; psychic waves are an authored adaptation, not verified named-move animation.",
+    "sources": [
+      "https://sg.portal-pokemon.com/pokedex/0065/"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/065/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.6000000000000001,
+    "sourceGlbSha256": "b0d5f12c215620814bdd2fbc20f6b95e0ac722040a40fb8b6e644d9124107fc9",
+    "socketSampleTime": 1.0,
+    "requiresMoveFormRouting": true
+  },
+  "venusaur": {
+    "form": "petal-burst",
+    "seek": 0.08,
+    "speed": 1.1,
+    "powerAt": 0.58,
+    "sustainEnd": 0.88,
+    "end": 1.18,
+    "recoverAt": 1.75,
+    "emitters": [
+      {
+        "id": "flower-crown",
+        "bone": "center_feeler",
+        "sourceBone": "center_feeler",
+        "tip": [
+          0.433157,
+          -0.000155,
+          -0.013595
+        ],
+        "forward": [
+          0.18267,
+          -0.079319,
+          0.411833
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "All184 vertices of the yellow flower crown are controlled by center_feeler. Socket is that native mesh centroid at.62s, expressed in center_feeler space; forward follows head toward nose. Source body jumps and thrusts; crown pitch peaks.617s. A brief flower petal burst around.58s fits the active flourish better than leaf particles emitted from the face. Generic clip is not named Petal Dance.",
+    "sources": [
+      "https://unite.pokemon.com/en-us/pokemon/venusaur/",
+      "https://unite.pokemon.com/en-us/news/pokemon-unite-patch-10-27-2022/"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/003/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.4545454545454545,
+    "sourceGlbSha256": "6b4f64dbbdf70fd8c545312464356b8fb5b98f41a923abe7b2f263a5e1ae4482",
+    "socketSampleTime": 0.62,
+    "requiresMoveFormRouting": true
+  },
+  "vaporeon": {
+    "form": "water-pulse",
+    "seek": 0.12,
+    "speed": 0.75,
+    "powerAt": 0.63,
+    "sustainEnd": 0.76,
+    "end": 0.86,
+    "recoverAt": 1.25,
+    "emitters": [
+      {
+        "id": "mouth",
+        "bone": "head",
+        "sourceBone": "head",
+        "tip": [
+          0.104249,
+          -0.0,
+          0.03757
+        ],
+        "forward": [
+          0.293642,
+          -0.0,
+          0.101839
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Lower-jaw opening peaks.717s, with >=80% opening only .60\u2013.833s. Generic .36*duration trigger fires1.665s, well after the useful mouth pose. Socket is the mean left/right upper/lower lip-joint locations, expressed in head space at.72s. Use a short water pulse rather than a long jet while the mouth is closed. Named Water Pulse behavior is an authored interpretation, not a source clip label. Playback .75 keeps the narrow source window above the current runtime minimum .30-second effect duration.",
+    "sources": [
+      "https://sg.portal-pokemon.com/pokedex/0134/"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/134/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.68,
+    "sourceGlbSha256": "61daa6adcacc55cbb72645b0a299d35a5dc0e7301063f944f2ef3f1a69783aa3",
+    "socketSampleTime": 0.72,
+    "requiresMoveFormRouting": true
+  },
+  "mew": {
+    "form": "psychic-sphere",
+    "seek": 0.3,
+    "speed": 1.2,
+    "powerAt": 1.32,
+    "sustainEnd": 1.8,
+    "end": 2.15,
+    "recoverAt": 2.8,
+    "emitters": [
+      {
+        "id": "psychic-core",
+        "bone": "spine_02",
+        "sourceBone": "spine_02",
+        "tip": [
+          -0.01378,
+          -0.004801,
+          0.005
+        ],
+        "forward": [
+          0.120677,
+          0.110439,
+          -0.027266
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Native attack is a floating tumble; there is no sustained mouth-firing pose. Socket is the midpoint between spine_01 and spine_02 at1.5s, in spine_02 space, for a bounded body-centered psychic sphere. Direction follows head toward upper_jaw but a local pulse does not need a long beam. Psychic-sphere form is a visual interpretation, not a specific official move event track.",
+    "sources": [
+      "https://unite.pokemon.com/en-us/pokemon/mew/",
+      "https://sg.portal-pokemon.com/pokedex/0151/"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/151/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.8500000000000001,
+    "sourceGlbSha256": "1a62d21116a57ab2f8e4be8e762b1b7c6b6047e6fba833ed9d12d3a39a57ae18",
+    "socketSampleTime": 1.5,
+    "requiresMoveFormRouting": true
+  },
+  "eevee": {
+    "form": "swift-stars",
+    "seek": 0.35,
+    "speed": 1.2,
+    "powerAt": 1.2,
+    "sustainEnd": 1.55,
+    "end": 1.8,
+    "recoverAt": 2.6,
+    "emitters": [
+      {
+        "id": "swift-source",
+        "bone": "head",
+        "sourceBone": "head",
+        "tip": [
+          0.032238,
+          0.0,
+          0.023056
+        ],
+        "forward": [
+          0.156517,
+          0.0,
+          0.153267
+        ]
+      }
+    ],
+    "attachment": "capture-at-release",
+    "evidence": "Native attack keeps lower_jaw effectively static while raising/swiping the forepaws near1.2\u20131.7s. Socket is the mean upper/lower snout joints in head space; a brief star volley can accompany the flourish. The previous wind blades are not a useful species-specific cue. Official UNITE descriptions explicitly associate Eevee Swift with star-shaped rays. The source generic body attack is not specifically labelled Swift.",
+    "sources": [
+      "https://unite.pokemon.com/en-us/news/espeon-unleashes-its-power-in-pokemon-unite/"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/133/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.7083333333333334,
+    "sourceGlbSha256": "19fda0d0fe28813e996359e745c959d8d297ffb54ec4802a4c8026f62f3de28f",
+    "socketSampleTime": 1.25,
+    "requiresMoveFormRouting": true
   }
 }

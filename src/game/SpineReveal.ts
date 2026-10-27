@@ -14,7 +14,7 @@ export class SpineReveal {
   private behind=new Container({isRenderGroup:true});private front=new Container({isRenderGroup:true});
   private ball:Spine;private hero:PokemonActor;private face:Sprite;private punctured:Texture;
   private trail=new Graphics();private flare=new Graphics();private shadow=new Graphics();
-  private shards:Graphics[]=[];private released=false;
+  private shards:Graphics[]=[];private released=false;private started=false;
   private energy=new Graphics();private pressure=new Graphics();private latch=new Graphics();private power:PokemonPower;private white=new ColorMatrixFilter();
   private release={amount:0,radius:0};
 
@@ -42,7 +42,7 @@ export class SpineReveal {
 
   }
   play(timeline:gsap.core.Timeline,skyY:number,onImpact:()=>void,onPower?:(color:number)=>void){
-    const attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,open=hit+.78,form=open+.12,charge=form+.62,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,decay=Math.min(.22,this.hero.attackDuration*.3);
+    this.started=true;const attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,open=hit+.78,form=open+.12,charge=form+.62,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,decay=Math.min(.22,this.hero.attackDuration*.3);
     const project=()=>{const p=ballFlight(flight.t,skyY);this.ball.position.set(p.x,p.y);this.ball.scale.set(p.scale);this.ball.rotation=p.rotation;
       this.trail.clear();for(let i=5;i>=1;i--){const a=ballFlight(Math.max(0,flight.t-i*.015),skyY),b=ballFlight(Math.max(0,flight.t-(i-1)*.015),skyY);this.trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:(6-i)*.7,color:0xd3f5ff,alpha:(6-i)*.06});}};project();
     const land=()=>{const p=ballLanding(fall.t);this.ball.position.set(p.x,p.y);this.ball.rotation=p.rotation;};
@@ -93,5 +93,5 @@ export class SpineReveal {
     }
   }
   takeCard(){this.cardShell.removeFromParent();return this.cardShell;}
-  destroy(){stopRevealAudio();this.hero.filters=[];this.white.destroy();this.root.destroy({children:true});}
+  destroy(){if(this.started)stopRevealAudio();this.hero.filters=[];this.white.destroy();this.root.destroy({children:true});}
 }
