@@ -6,6 +6,7 @@ import { openingMachine } from './machine';
 import { createOpening, settleOpening, priceCard, DEFAULT_PACK, type Card, type Save, type Pack } from './model';
 import { loadSave, transactSave, resetSave } from './storage';
 import { setSound, playSound } from './audio';
+import { specialPokemon,type PokemonArtwork } from './specialReward';
 
 /** Discrete game state and persistence. Pixi owns every visible screen and frame. */
 export class PokemonGame {
@@ -17,6 +18,7 @@ export class PokemonGame {
   private sound=false;private reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;private low=false;
   private flowToken=0;private packToken=0;private destroyed=false;private toastTimer=0;private stateKey='';
   private controls=document.createElement('div');private announcer=document.createElement('p');private keyboard=false;
+  private pokemonArt:PokemonArtwork={};
   constructor(private host:HTMLElement){
     try{const settings=JSON.parse(localStorage.getItem('legends-settings')??'{}');this.sound=!!settings.sound;this.reduced ||= !!settings.reduced;this.low=!!settings.low;}catch{/* Use device defaults. */}
     setSound(this.sound);
@@ -33,6 +35,7 @@ export class PokemonGame {
   async init(){
     const savePromise=loadSave().catch((e:Error)=>{this.error=e.message;return null;});
     const packPromise=fetch('/assets/packs.json').then(r=>r.ok?r.json():[DEFAULT_PACK]).catch(()=>[DEFAULT_PACK]) as Promise<Pack[]>;
+    const artworkPromise=fetch('/assets/pokemon/manifest.json').then(r=>r.ok?r.json():{}).catch(()=>({})) as Promise<PokemonArtwork>;
     await Promise.all([this.stage.init(),document.fonts.load('800 24px Nunito').catch(()=>{})]);if(this.destroyed)return;
     this.view=new CanvasUI(this.stage,this.syncTargets);
     this.actor.subscribe(snapshot=>{
@@ -41,6 +44,7 @@ export class PokemonGame {
       if(key!==this.stateKey){this.stateKey=key;void this.runPhase();}
     });this.actor.start();
     [this.save,this.packs]=await Promise.all([savePromise,packPromise]);if(this.destroyed)return;
+    this.pokemonArt=await artworkPromise;if(this.destroyed)return;
     try{
       const entries=await Promise.allSettled(this.packs.map(async pack=>{
         const response=await fetch(pack.catalogUrl);if(!response.ok)throw new Error(`Could not load ${pack.name}. Reload to retry.`);
@@ -72,7 +76,7 @@ export class PokemonGame {
       else if(phase==='tearing'){await this.stage.tear();if(valid())this.actor.send({type:'TORN'});}
       else if(phase==='revealing'){
         const card=this.save?.active?.cards[this.index];if(!card)throw new Error('Opening changed. Reload to sync your game.');
-        await this.stage.reveal(card,this.index===0,Math.max(0,this.index-1));if(valid()){this.error='';this.actor.send({type:'FLIPPED'});}
+        await this.stage.reveal(card,this.index===0,Math.max(0,this.index-1),specialPokemon(card,this.selected.price,this.pokemonArt));if(valid()){this.error='';this.actor.send({type:'FLIPPED'});}
       }else if(phase==='collecting'){
         const cards=this.save?.active?.cards;if(!cards)throw new Error('Opening changed. Reload to sync your game.');
         await this.stage.collectRemaining(cards,this.index);if(valid())this.actor.send({type:'COLLECTED'});

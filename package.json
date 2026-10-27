@@ -10,11 +10,12 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "pixi.js": "^8.16.0",
+    "@esotericsoftware/spine-pixi-v8": "~4.2.0",
     "gsap": "^3.14.0",
-    "xstate": "^5.25.0",
     "howler": "^2.2.4",
-    "idb": "^8.0.3"
+    "idb": "^8.0.3",
+    "pixi.js": "^8.16.0",
+    "xstate": "^5.25.0"
   },
   "devDependencies": {
     "@types/howler": "^2.2.12",

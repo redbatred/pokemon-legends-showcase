@@ -1,0 +1,202 @@
+{
+  "Aerodactyl": {
+    "dexId": 142,
+    "image": "/assets/pokemon/aerodactyl.png"
+  },
+  "Alakazam": {
+    "dexId": 65,
+    "image": "/assets/pokemon/alakazam.png"
+  },
+  "Arceus": {
+    "dexId": 493,
+    "image": "/assets/pokemon/arceus.png"
+  },
+  "Articuno": {
+    "dexId": 144,
+    "image": "/assets/pokemon/articuno.png"
+  },
+  "Blastoise": {
+    "dexId": 9,
+    "image": "/assets/pokemon/blastoise.png"
+  },
+  "Breloom": {
+    "dexId": 286,
+    "image": "/assets/pokemon/breloom.png"
+  },
+  "Charizard": {
+    "dexId": 6,
+    "image": "/assets/pokemon/charizard.png"
+  },
+  "Cinderace": {
+    "dexId": 815,
+    "image": "/assets/pokemon/cinderace.png"
+  },
+  "Cleffa": {
+    "dexId": 173,
+    "image": "/assets/pokemon/cleffa.png"
+  },
+  "Dracozolt": {
+    "dexId": 880,
+    "image": "/assets/pokemon/dracozolt.png"
+  },
+  "Dragonite": {
+    "dexId": 149,
+    "image": "/assets/pokemon/dragonite.png"
+  },
+  "Duraludon": {
+    "dexId": 884,
+    "image": "/assets/pokemon/duraludon.png"
+  },
+  "Eevee": {
+    "dexId": 133,
+    "image": "/assets/pokemon/eevee.png"
+  },
+  "Espeon": {
+    "dexId": 196,
+    "image": "/assets/pokemon/espeon.png"
+  },
+  "Forretress": {
+    "dexId": 205,
+    "image": "/assets/pokemon/forretress.png"
+  },
+  "Gardevoir": {
+    "dexId": 282,
+    "image": "/assets/pokemon/gardevoir.png"
+  },
+  "Genesect": {
+    "dexId": 649,
+    "image": "/assets/pokemon/genesect.png"
+  },
+  "Gengar": {
+    "dexId": 94,
+    "image": "/assets/pokemon/gengar.png"
+  },
+  "Giratina": {
+    "dexId": 487,
+    "image": "/assets/pokemon/giratina.png"
+  },
+  "Glaceon": {
+    "dexId": 471,
+    "image": "/assets/pokemon/glaceon.png"
+  },
+  "Gloom": {
+    "dexId": 44,
+    "image": "/assets/pokemon/gloom.png"
+  },
+  "Greninja": {
+    "dexId": 658,
+    "image": "/assets/pokemon/greninja.png"
+  },
+  "Gyarados": {
+    "dexId": 130,
+    "image": "/assets/pokemon/gyarados.png"
+  },
+  "Kyogre": {
+    "dexId": 382,
+    "image": "/assets/pokemon/kyogre.png"
+  },
+  "Leafeon": {
+    "dexId": 470,
+    "image": "/assets/pokemon/leafeon.png"
+  },
+  "Lugia": {
+    "dexId": 249,
+    "image": "/assets/pokemon/lugia.png"
+  },
+  "Mew": {
+    "dexId": 151,
+    "image": "/assets/pokemon/mew.png"
+  },
+  "Mewtwo": {
+    "dexId": 150,
+    "image": "/assets/pokemon/mewtwo.png"
+  },
+  "Moltres": {
+    "dexId": 146,
+    "image": "/assets/pokemon/moltres.png"
+  },
+  "Ninetales": {
+    "dexId": 38,
+    "image": "/assets/pokemon/ninetales.png"
+  },
+  "Oddish": {
+    "dexId": 43,
+    "image": "/assets/pokemon/oddish.png"
+  },
+  "Paldean Clodsire": {
+    "dexId": 980,
+    "image": "/assets/pokemon/clodsire.png"
+  },
+  "Pidgeot": {
+    "dexId": 18,
+    "image": "/assets/pokemon/pidgeot.png"
+  },
+  "Pidgey": {
+    "dexId": 16,
+    "image": "/assets/pokemon/pidgey.png"
+  },
+  "Pikachu": {
+    "dexId": 25,
+    "image": "/assets/pokemon/pikachu.png"
+  },
+  "Pinsir": {
+    "dexId": 127,
+    "image": "/assets/pokemon/pinsir.png"
+  },
+  "Raichu": {
+    "dexId": 26,
+    "image": "/assets/pokemon/raichu.png"
+  },
+  "Raikou": {
+    "dexId": 243,
+    "image": "/assets/pokemon/raikou.png"
+  },
+  "Rayquaza": {
+    "dexId": 384,
+    "image": "/assets/pokemon/rayquaza.png"
+  },
+  "Rotom": {
+    "dexId": 479,
+    "image": "/assets/pokemon/rotom.png"
+  },
+  "Scizor": {
+    "dexId": 212,
+    "image": "/assets/pokemon/scizor.png"
+  },
+  "Starmie": {
+    "dexId": 121,
+    "image": "/assets/pokemon/starmie.png"
+  },
+  "Suicune": {
+    "dexId": 245,
+    "image": "/assets/pokemon/suicune.png"
+  },
+  "Sylveon": {
+    "dexId": 700,
+    "image": "/assets/pokemon/sylveon.png"
+  },
+  "Trevenant": {
+    "dexId": 709,
+    "image": "/assets/pokemon/trevenant.png"
+  },
+  "Tyranitar": {
+    "dexId": 248,
+    "image": "/assets/pokemon/tyranitar.png"
+  },
+  "Umbreon": {
+    "dexId": 197,
+    "image": "/assets/pokemon/umbreon.png"
+  },
+  "Vaporeon": {
+    "dexId": 134,
+    "image": "/assets/pokemon/vaporeon.png"
+  },
+  "Venusaur": {
+    "dexId": 3,
+    "image": "/assets/pokemon/venusaur.png"
+  },
+  "Zapdos": {
+    "dexId": 145,
+    "image": "/assets/pokemon/zapdos.png"
+  }
+}

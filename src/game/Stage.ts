@@ -7,6 +7,7 @@ import { artworkColor } from './cardColor';
 import { CanvasScene } from './CanvasScene';
 import { gameLayout, renderResolution, cardTrayLayout } from './rendering';
 import { loadPackTexture } from './packTexture';
+import type { SpineReveal } from './SpineReveal';
 
 type Options = { reduced: boolean; low: boolean; onTear: () => void; onNext: () => void };
 type Particle = { sprite: Graphics; x: number; y: number; speed: number; phase: number; depth: number };
@@ -34,6 +35,7 @@ export class OpeningStage {
   motion = { flip: 0, scale: 1, lift: 0, offsetX: 0, roll: 0, pitch: 0 };
   private back!: Texture;
   private cardEdge = new Graphics();
+  private special:SpineReveal|null=null;
   particles: Particle[] = [];
   mode: 'pack' | 'sealed' | 'tearing' | 'card' | 'result' = 'pack';
   time = 0;
@@ -50,6 +52,7 @@ export class OpeningStage {
   private openingLayout = false;
   private dragProgress = 0;
   private dragStart: number | null = null;
+  private resetPointer=()=>{this.target.x=0;this.target.y=0;};
   private tearLine = new Graphics();
   private shadows = new Sprite();
   private packShadow = new Container();
@@ -72,6 +75,8 @@ export class OpeningStage {
   constructor(private host: HTMLElement, private options: Options) {}
 
   async init() {
+    // Register the Spine render pipe before Pixi constructs its renderer.
+    await import('@esotericsoftware/spine-pixi-v8');
     await this.app.init({ backgroundAlpha: 0, antialias: true, resolution: renderResolution(this.host.clientWidth,this.host.clientHeight,devicePixelRatio,this.options.low), autoDensity: true, preference: 'webgl', powerPreference: 'high-performance' });
     if (this.destroyed) { this.app.destroy(true, { children: true }); return; }
     this.host.appendChild(this.app.canvas);
@@ -108,8 +113,9 @@ export class OpeningStage {
     this.app.stage.on('globalpointermove', e => {
       if(this.blocked)return;
       const b = this.host.getBoundingClientRect();
-      this.target.x = (e.global.x / b.width - .5) * 2;
-      this.target.y = (e.global.y / b.height - .5) * 2;
+      const wrapper=this.mode==='pack'||this.mode==='sealed';
+      this.target.x = wrapper?Math.max(-1,Math.min(1,(e.global.x-this.world.x)/(150*this.world.scale.x))):(e.global.x / b.width - .5) * 2;
+      this.target.y = wrapper?Math.max(-1,Math.min(1,(e.global.y-this.world.y)/(230*this.world.scale.y))):(e.global.y / b.height - .5) * 2;
       if (this.dragStart !== null && this.mode === 'sealed') {
         const progress = Math.min(1, Math.abs(e.global.x - this.dragStart) / (230 * this.world.scale.x * .72));
         this.dragProgress = progress;
@@ -121,6 +127,7 @@ export class OpeningStage {
     });
     this.app.stage.on('pointerup', () => { this.dragStart = null; this.dragProgress = 0; this.tearLine.clear(); });
     this.app.stage.on('pointerupoutside', () => { this.dragStart = null; this.dragProgress = 0; this.tearLine.clear(); });
+    this.app.canvas.addEventListener('pointerleave',this.resetPointer);
     this.cardLayer.eventMode = 'static'; this.cardLayer.cursor = 'pointer';
     this.cardLayer.on('pointertap', () => {if(!this.blocked)this.options.onNext();});
     for (let i = 3; i >= 0; i--) {
@@ -142,15 +149,15 @@ export class OpeningStage {
     gsap.to(this.pack, { alpha: 1, duration: this.options.reduced ? .01 : .6 });
   }
 
-  updateOptions(options: Options) { const changed=this.options.low!==options.low;this.options=options;if(changed&&this.app.renderer)this.resize(); }
+  updateOptions(options: Options) { const changed=this.options.low!==options.low,reducing=!this.options.reduced&&options.reduced;this.options=options;if(reducing&&this.special){this.timeline?.progress(1);this.special.update(3);}if(changed&&this.app.renderer)this.resize(); }
   draw(){
     if(this.destroyed||!this.app.renderer||this.app.ticker.started||this.drawFrame)return;
     this.drawFrame=requestAnimationFrame(()=>{this.drawFrame=0;if(!this.destroyed&&!this.app.ticker.started)this.app.renderer.render(this.app.stage);});
   }
   setLayoutMode(opening:boolean){if(opening!==this.openingLayout){this.openingLayout=opening;this.resize();}}
-  setBlocked(value:boolean){
+  setBlocked(value:boolean,keepScene=false){
     if(value!==this.blocked){this.sampleStart=0;this.sampleFrames=0;}
-    this.blocked=value;this.world.visible=!value;this.flightLayer.visible=!value;this.scene.pause(value||document.hidden);
+    this.blocked=value;this.world.visible=!value||keepScene;this.flightLayer.visible=!value||keepScene;this.scene.pause(value||document.hidden);
     if(value){this.timeline?.pause();for(const t of this.tweens)t.pause();this.app.stop();}
     else if(!document.hidden){if(this.mode!=='result')this.app.start();this.timeline?.resume();for(const t of this.tweens)t.resume();}
     if(this.diagnostics)this.app.canvas.dataset.renderState=value?'paused':'running';
@@ -169,11 +176,12 @@ export class OpeningStage {
     for (const p of this.particles) p.sprite.tint = color;
   }
   private project(mesh: PerspectiveMesh, w: number, h: number, flip = 0, extraPitch = 0) {
-    const yaw = this.tilt.x * .13 + flip;
+    const wrapper=mesh===this.packMesh;
+    const yaw = this.tilt.x * (wrapper?.32:.13) + flip;
     const signature=`${yaw.toFixed(4)},${this.tilt.y.toFixed(3)},${extraPitch.toFixed(4)}`;
     if(this.lastProjection.get(mesh)===signature)return;
     this.lastProjection.set(mesh,signature);
-    const pitch = -this.tilt.y * .07 + extraPitch;
+    const pitch = -this.tilt.y * (wrapper?.19:.07) + extraPitch;
     const coordinates: number[] = [];
     for (const [x, y] of [[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]]) {
       const z = -x * Math.sin(yaw) + y * Math.sin(pitch);
@@ -190,6 +198,7 @@ export class OpeningStage {
       else if(++this.sampleFrames>=120){this.app.canvas.dataset.renderFps=(1000*this.sampleFrames/(now-this.sampleStart)).toFixed(1);this.app.canvas.dataset.lightTint='#'+this.scene.lightTint.toString(16).padStart(6,'0');this.sampleStart=now;this.sampleFrames=0;}
     }
     this.time += dt;
+    if(!this.options.reduced)this.special?.update(dt);
     this.scene.tick(this.time,this.options.reduced,this.options.low);
     const move = !this.options.reduced;
     this.tilt.x += ((move ? this.target.x : 0) - this.tilt.x) * Math.min(1, dt * 5);
@@ -197,7 +206,7 @@ export class OpeningStage {
     if ((this.mode === 'pack' || this.mode === 'sealed') && this.packMesh) {
       this.project(this.packMesh, 230, 421);
       this.pack.y = move ? Math.sin(this.time * .8) * 7 - 8 : -8;
-      this.pack.rotation = -.055 + this.tilt.x * .025 + this.dragProgress * .045;
+      this.pack.rotation = -.055 + this.tilt.x * .045 + this.dragProgress * .045;
       this.pack.scale.set(1 + this.dragProgress*.025, 1-this.dragProgress*.016);
       this.packShadow.x = 17 - this.tilt.x * 15; this.packShadow.y = 10 - this.tilt.y * 10;
       this.packFoil.resources.foil.uniforms.uTilt = this.tilt.x;
@@ -319,10 +328,13 @@ export class OpeningStage {
     });
   }
 
-  async reveal(card: Card, first = false, previousIndex=0): Promise<void> {
+  async reveal(card: Card, first = false, previousIndex=0,pokemonImage:string|null=null): Promise<void> {
     const request = ++this.revealToken;
     const texture = await Assets.load<Texture>(card.image);
     if (this.destroyed || request !== this.revealToken) return;
+    let special:SpineReveal|null=null;
+    if(pokemonImage&&!this.options.reduced){try{const {SpineReveal}=await import('./SpineReveal');special=await SpineReveal.create(texture,pokemonImage);}catch(error){console.warn('Special reveal artwork unavailable',error);}}
+    if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     this.mode = 'card'; this.pack.visible = false; this.packShadow.visible = false;
     this.cardLayer.visible = true;
     const d = this.options.reduced ? .01 : 1;
@@ -340,7 +352,7 @@ export class OpeningStage {
     this.foil.resources.foil.uniforms.uStrength=0;
     this.foil.resources.foil.uniforms.uSweep=-.6;
     const turn=first?.72:.3;
-    return new Promise(resolve=>{
+    await new Promise<void>(resolve=>{
       this.timeline=gsap.timeline({onComplete:resolve});
       if(departing)this.flyToTray(this.timeline,departing,previousIndex,previousIndex+1,d);
       this.timeline.to(next,{alpha:1,duration:.14*d},first?0:.08*d)
@@ -354,16 +366,24 @@ export class OpeningStage {
         .to(this.foil.resources.foil.uniforms,{uSweep:.65,duration:.85*d,ease:'sine.inOut'},(turn+.38)*d);
       if(this.blocked||document.hidden)this.timeline.pause();
     });
+    if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
+    if(this.options.reduced){special?.destroy();special=null;}
+    if(special){
+      this.special=special;this.stack.visible=false;this.cardLayer.addChild(special.root);
+      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced);this.burst(22);});if(this.blocked||document.hidden)this.timeline.pause();});
+    }
   }
 
   private detachCard(){
     const mesh=this.cardMesh;if(!mesh)return null;
     const flight=new Container();flight.position.set(this.world.x+this.cardLayer.x*this.world.scale.x,this.world.y+this.cardLayer.y*this.world.scale.y);flight.scale.set(this.world.scale.x*this.cardLayer.scale.x);flight.rotation=this.cardLayer.rotation;
-    mesh.filters=[];mesh.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);flight.addChild(mesh);this.flightLayer.addChild(flight);this.cardMesh=null;this.cardEdge.alpha=0;return flight;
+    if(this.special){flight.addChild(this.special.takeCard());this.special.destroy();this.special=null;mesh.destroy();}
+    else{mesh.filters=[];mesh.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);flight.addChild(mesh);}
+    this.flightLayer.addChild(flight);this.cardMesh=null;this.cardEdge.alpha=0;return flight;
   }
-  private flyToTray(timeline:gsap.core.Timeline,flight:Container,index:number,activeIndex:number,durationScale:number,at=0){
+  private flyToTray(timeline:gsap.core.Timeline,flight:Container,index:number,activeIndex:number,durationScale:number,at=0,initialize?:()=>void){
     let start={x:flight.x,y:flight.y,scale:flight.scale.x,rotation:flight.rotation};const progress={value:0};
-    timeline.to(progress,{value:1,duration:.72*durationScale,ease:'power2.inOut',onStart:()=>{start={x:flight.x,y:flight.y,scale:flight.scale.x,rotation:flight.rotation};},onUpdate:()=>{
+    timeline.to(progress,{value:1,duration:.72*durationScale,ease:'power2.inOut',onStart:()=>{initialize?.();start={x:flight.x,y:flight.y,scale:flight.scale.x,rotation:flight.rotation};},onUpdate:()=>{
       const tray=cardTrayLayout(this.app.screen.width,this.app.screen.height,activeIndex),end=this.cardDestination?.(index)??{...tray.slot(index),cardWidth:tray.cardWidth},t=progress.value;
       const controlX=start.x+(end.x-start.x)*.28,controlY=start.y-32;
       flight.position.set((1-t)*(1-t)*start.x+2*(1-t)*t*controlX+t*t*end.x,(1-t)*(1-t)*start.y+2*(1-t)*t*controlY+t*t*end.y);
@@ -383,9 +403,9 @@ export class OpeningStage {
         if(flight!==first){const face=new Sprite(texture);face.anchor.set(.5);face.width=312;face.height=435;flight.addChild(face);this.flightLayer.addChild(flight);}
         flight.visible=false;
         const at=offset*.04*d,duration=(offset===0?.3:.36)*d;
-        timeline.call(()=>{if(flight!==first){flight.position.set(this.world.x+(offset%2?15:-15)*this.world.scale.x,this.world.y);flight.scale.set(this.world.scale.x*.8);flight.rotation=(offset%2?1:-1)*.045;}flight.visible=true;if(offset%2===0)playSound('flip');},[],at);
+        const launch=()=>{if(flight!==first){flight.position.set(this.world.x+(offset%2?15:-15)*this.world.scale.x,this.world.y);flight.scale.set(this.world.scale.x*.8);flight.rotation=(offset%2?1:-1)*.045;}flight.visible=true;if(offset%2===0)playSound('flip');};
         if(offset>0){flight.alpha=0;timeline.to(flight,{alpha:1,duration:.07*d},at);}
-        this.flyToTray(timeline,flight,index,index,duration/.72,at);
+        this.flyToTray(timeline,flight,index,index,duration/.72,at,launch);
         timeline.call(()=>this.onCollectFocus?.(index),[],at+duration);
       });
       timeline.to({}, {duration:.12*d});
@@ -399,6 +419,7 @@ export class OpeningStage {
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }
   reset() {
+    this.special?.destroy();this.special=null;++this.revealToken;
     this.timeline?.kill(); this.mode = 'pack'; if(!this.blocked)this.app.start(); this.pack.visible = true; this.packMesh.visible = true; this.packShadow.visible = true;
     this.flightLayer.removeChildren().forEach(child=>child.destroy({children:true}));this.cardMesh?.destroy(); this.cardMesh = null; this.cardEdge.alpha=0; this.stack.visible = false; this.cardLayer.visible = false; this.pack.alpha = 1; this.packShadow.alpha = 1; this.pack.scale.set(1); this.dragProgress = 0; this.tearLine.clear();
   }
@@ -413,9 +434,11 @@ export class OpeningStage {
     }
   }
   destroy() {
+    this.special?.destroy();this.special=null;
     this.destroyed = true;cancelAnimationFrame(this.drawFrame); ++this.revealToken; ++this.packToken; this.timeline?.kill(); this.observer?.disconnect();
     for (const t of this.tweens) t.kill(); this.tweens.clear();
     document.removeEventListener('visibilitychange',this.visibility);
+    this.app.canvas?.removeEventListener('pointerleave',this.resetPointer);
     this.scene.destroy();
     if (this.app.renderer) { gsap.killTweensOf(this.pack); this.app.destroy(true, { children: true }); this.back?.destroy(true); this.shadowTexture?.destroy(true); }
   }

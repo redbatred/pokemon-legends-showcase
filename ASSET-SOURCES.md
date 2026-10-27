@@ -104,3 +104,20 @@ Both are official Ken Sugimori artwork released for Pokémon FireRed and LeafGre
 ## Canvas interface font
 
 Nunito variable font, Google Fonts: https://github.com/google/fonts/tree/main/ofl/nunito . Bundled `public/assets/fonts/Nunito.ttf` and `OFL.txt` (SIL Open Font License). Used for canvas UI and pre-rendered numeric glyphs.
+
+## Official Pokémon artwork for high-value card reveals
+
+`public/assets/pokemon/manifest.json` maps 50 card base Pokémon names to `{ "dexId": number, "image": "/assets/pokemon/<species>.png" }`. These cover all 89 Pokémon cards in the current catalogs with Double, Illustration, Ultra, Special, Hyper, Secret, Shiny, Radiant, or Holo Rare V/VMAX/VSTAR rarity. Trainer Serena is excluded; ordinary Rare/Holo Rare cards do not expand this selection.
+
+The original transparent **475 × 475 PNGs** come from the [PokeAPI/sprites official-artwork directory](https://github.com/PokeAPI/sprites/tree/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork), pinned to commit `d8c2fb78563e28ad7b3abe938cf6e79998d04e90`. Only the regular official-artwork directory is used. The separate shiny directory, which includes fan recolors, is excluded. All PNG bytes are served unchanged, without resizing, cropping, recoloring, or generation. The existing higher-resolution `charizard.webp` and `charmander.webp` stage assets remain separate and unchanged.
+
+`public/assets/pokemon/provenance.json` records each source URL, Pokédex ID, dimensions, SHA-256, and covered card IDs. Names and IDs were resolved against the [PokeAPI species API](https://pokeapi.co/api/v2/pokemon-species?limit=1025). The `Paldean Clodsire` catalog name maps to Clodsire #980 at `/assets/pokemon/clodsire.png`. The Moltres & Zapdos & Articuno GX card maps to three separate species entries, with group membership recorded in provenance; no combined illustration was fabricated. Base-species artwork does not reproduce the cards' individual shiny, Tera, Dynamax, or other forms.
+
+Refresh only these bounded assets with `ASSET_PYTHON`'s interpreter, for example `/path/to/python scripts/fetch-reveal-pokemon.py` (requires existing Pillow and `curl`). Every selected image was decoded, checked for native dimensions and alpha transparency, and visually inspected in a contact sheet. Coverage is complete; the 50 PNG files total 6,762,592 bytes.
+
+## Spine special reveals
+
+- Runtime: `@esotericsoftware/spine-pixi-v8` 4.2.120, from the official Esoteric Software package. Runtime license is shipped at `public/assets/spine/LICENSE.txt`. User confirmed the required Spine Editor license in the project chat.
+- Poké Ball: original canvas-authored cel-shaded atlas and Spine bone animation data in `src/game/SpineReveal.ts`.
+- Pokémon: official artwork listed in `public/assets/pokemon/provenance.json`, displayed through original Spine mesh/breathing animation data. These are artwork rigs, not studio-authored articulated character rigs.
+- Big-win eligibility is at least the selected pack's demo price and a supported Pokémon artwork. This presentation threshold does not change card values or odds.
