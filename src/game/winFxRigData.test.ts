@@ -28,6 +28,12 @@ function load(epic = false, special = false) {
 }
 
 describe('native Spine win celebration', () => {
+  it('loops quiet glints after the entrance without repeating the burst',()=>{
+    const {data,skeleton}=load(true),state=new AnimationState(new AnimationStateData(data));
+    state.setAnimation(0,'celebrate',false);state.addAnimation(0,'idle',true,0);
+    let glints=0;for(let i=0;i<180;i++){state.update(.05);state.apply(skeleton);if(i>65){glints+=skeleton.slots.filter(s=>s.data.name.startsWith('glint')&&s.color.a>.2).length;for(const slot of skeleton.slots.filter(s=>!s.data.name.startsWith('glint')))expect(slot.color.a).toBe(0);}}
+    expect(glints).toBeGreaterThan(10);
+  });
   it.each([[false, false, 36], [true, false, 54], [false, true, 12], [true, true, 12]] as const)(
     'parses the %s/%s tier and keeps all attachments finite and invisible after the effect', (epic, special, count) => {
       const { data, skeleton, pose, vertices } = load(epic, special);

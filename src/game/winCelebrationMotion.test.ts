@@ -1,6 +1,5 @@
 import {expect,it} from 'vitest';
-import {celebrationHold,celebrationPose,specialWinGeometry} from './winCelebrationMotion';
-import {WIN_LAUNCH_TIME} from './winTransfer';
+import {celebrationPose,specialWinGeometry} from './winCelebrationMotion';
 import {cardTrayLayout,gameLayout,revealControlsLayout} from './rendering';
 
 it('keeps the award clear of the card tray and action buttons across game sizes',()=>{
@@ -14,13 +13,9 @@ it('keeps the award clear of the card tray and action buttons across game sizes'
   expect(g.amountY-g.titleY).toBeGreaterThan(g.titleSize);
  }
 });
-it('finishes the count before launch and clears the frame for the transferring amount',()=>{
- for(const tier of ['special','big','epic'] as const){
-  const hold=celebrationHold(tier),launch=hold+WIN_LAUNCH_TIME;
-  expect(celebrationPose(.2,hold).count).toBe(0);
-  expect(celebrationPose(launch-.2,hold).count).toBe(1);
-  expect(celebrationPose(launch,hold).alpha).toBeCloseTo(0);
-  expect(celebrationPose(launch,hold).amountAlpha).toBe(1);
- }
- expect(celebrationHold('epic')).toBeGreaterThan(celebrationHold('big'));
+it('holds the fully counted banner indefinitely and fades only after advance',()=>{
+ expect(celebrationPose(.2,0).count).toBe(0);
+ for(const age of [1,3,30,600])expect(celebrationPose(age,0)).toMatchObject({alpha:1,count:1,amountAlpha:1});
+ expect(celebrationPose(600,.09).alpha).toBeCloseTo(.5);
+ expect(celebrationPose(600,.18)).toMatchObject({alpha:0,count:1,amountAlpha:1});
 });

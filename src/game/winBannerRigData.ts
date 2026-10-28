@@ -11,5 +11,11 @@ export function buildWinBannerRigJson(){
    right:{rotate:[{value:28},{time:.23,value:-5},{time:.40,value:1.3},{time:.53,value:0}],translate:[{x:-100},{time:.23,x:8},{time:.40,x:-2},{time:.53,x:0}],scale:[{x:.25,y:.75},{time:.26,x:1.05,y:1.03},{time:.53,x:1,y:1}]},
    title:{scale:[{x:.55,y:.55},{time:.10,x:.55,y:.55},{time:.25,x:1.10,y:1.10},{time:.40,x:1,y:1}]},
    amount:{scale:[{x:.72,y:.72},{time:.20,x:.72,y:.72},{time:.36,x:1.10,y:1.10},{time:.52,x:1,y:1}]}
-  },slots:{plate:{alpha:[{value:0},{time:.08,value:1}]},left:{alpha:[{value:0},{time:.08,value:1}]},right:{alpha:[{value:0},{time:.08,value:1}]}}}}};
+  },slots:{plate:{alpha:[{value:0},{time:.08,value:1}]},left:{alpha:[{value:0},{time:.08,value:1}]},right:{alpha:[{value:0},{time:.08,value:1}]}}},
+  idle:{bones:{
+   plaque:{translate:[{y:0},{time:1.2,y:3},{time:2.4,y:0}],scale:[{x:1,y:1},{time:1.2,x:1.005,y:1.005},{time:2.4,x:1,y:1}]},
+   left:{rotate:[{value:0},{time:1.2,value:-1.2},{time:2.4,value:0}]},
+   right:{rotate:[{value:0},{time:1.2,value:1.2},{time:2.4,value:0}]}
+  },slots:{plate:{alpha:[{value:1}]},left:{alpha:[{value:1}]},right:{alpha:[{value:1}]}}}
+  }};
 }

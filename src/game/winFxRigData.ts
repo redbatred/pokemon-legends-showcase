@@ -48,6 +48,8 @@ export function buildWinFxRigJson(epic: boolean, special = false) {
   const attachments: Record<string, Record<string, Region | Mesh>> = {};
   const boneMotion: Record<string, BoneMotion> = {};
   const slotMotion: Record<string, { alpha: Frame[] }> = {};
+  const idleBones: Record<string, BoneMotion> = {};
+  const idleSlots: Record<string, { alpha: Frame[] }> = {};
   const alpha = (name: string, keys: readonly Point[]) => {
     slotMotion[name] = { alpha: keys.map(([time, value]) => ({ time: round(time), value })) };
   };
@@ -165,11 +167,14 @@ export function buildWinFxRigJson(epic: boolean, special = false) {
       rotate: [{ time: 0, value: -12 }, { time: delay, value: -12 }, { time: delay + .35, value: 35 }],
     };
     alpha(name, [[0, 0], [delay, 0], [delay + .10, .94], [delay + .35, 0], [2.5, 0]]);
+    const idleStart=round(.2+i*.28);
+    idleBones[name]={scale:[{time:0,x:0,y:0},{time:idleStart,x:0,y:0},{time:round(idleStart+.16),x:.8,y:.8},{time:round(idleStart+.55),x:0,y:0},{time:2.8,x:0,y:0}],rotate:[{time:0,value:-10},{time:idleStart,value:-10},{time:round(idleStart+.55),value:35}]};
+    idleSlots[name]={alpha:[{time:0,value:0},{time:idleStart,value:0},{time:round(idleStart+.16),value:.65},{time:round(idleStart+.55),value:0},{time:2.8,value:0}]};
   }
 
   return {
     skeleton: { spine: '4.2.22', x: -500, y: -175, width: 1000, height: 700 },
     bones, slots, skins: [{ name: 'default', attachments }],
-    animations: { celebrate: { bones: boneMotion, slots: slotMotion } },
+    animations: { celebrate: { bones: boneMotion, slots: slotMotion }, idle: { bones: idleBones, slots: idleSlots } },
   };
 }

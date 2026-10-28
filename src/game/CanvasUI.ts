@@ -140,9 +140,10 @@ export class CanvasUI {
     const shape=(inset:number,dy=0)=>[x+20+inset,y+inset+dy,x+width-20-inset,y+inset+dy,x+width-inset,y+height/2+dy,x+width-20-inset,y+height-inset+dy,x+20+inset,y+height-inset+dy,x+inset,y+height/2+dy];
     g.poly(shape(0,4)).fill({color:0x06283e,alpha:.55}).poly(shape(0)).fill(0x103f6b).stroke({color:0xa6e9fa,width:2}).poly(shape(5)).fill(0x247bc1);
     g.moveTo(x+23,y+8).lineTo(x+width-23,y+8).stroke({color:0xe6ffff,width:2,alpha:.65});
-    this.ball(x+45,y+28,13,0xefffff,group);this.text('OPEN',center+6,y+12,24,C.white,group,'center','bold');
+    const label=['browse','reserving'].includes(s.phase)?'Buy pack':'Open';
+    this.ball(x+45,y+28,13,0xefffff,group);const caption=this.text(label.toUpperCase(),center+13,y+12,24,C.white,group,'center','bold');if(caption.width>width-118)caption.scale.set((width-118)/caption.width);
     g.poly([x+width-45,y+21,x+width-37,y+28,x+width-45,y+35]).stroke({color:0xdfffff,width:2.5});
-    group.alpha=disabled?.4:1;this.hits.push({id:'primary',label:'Open',x,y,width,height,disabled,action:()=>s.action(s.phase==='sealed'?'tear':'open')});
+    group.alpha=disabled?.4:1;this.hits.push({id:'primary',label,x,y,width,height,disabled,action:()=>s.action(s.phase==='sealed'?'tear':'open')});
   }
   setFocus(id:string|null){this.focus.clear();const hit=this.hits.find(h=>h.id===id);if(hit)this.focus.roundRect(hit.x-this.modalOrigin.x-3,hit.y-this.modalOrigin.y-3,hit.width+6,hit.height+6,8).stroke({color:0xe3fcff,width:2});this.stage.draw();}
   private async thumbnail(path:string){

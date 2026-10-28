@@ -16,3 +16,11 @@ it('emits one impact event on the authored Spine frame',()=>{
  const rig=new Skeleton(data),state=new AnimationState(new AnimationStateData(data)),events:string[]=[];state.addListener({event:(_track,event)=>events.push(event.data.name)});state.setAnimation(0,'celebrate',false);
  state.update(.16);state.apply(rig);expect(events).toEqual([]);state.update(.04);state.apply(rig);expect(events).toEqual(['impact']);state.update(1);state.apply(rig);expect(events).toEqual(['impact']);
 });
+it('keeps the award gently animated while waiting without replaying its impact',()=>{
+ const data=new SkeletonJson(new AtlasAttachmentLoader(new TextureAtlas(WIN_BANNER_ATLAS))).readSkeletonData(buildWinBannerRigJson());
+ const rig=new Skeleton(data),state=new AnimationState(new AnimationStateData(data)),events:string[]=[];
+ state.addListener({event:(_track,event)=>events.push(event.data.name)});state.setAnimation(0,'celebrate',false);state.addAnimation(0,'idle',true,0);
+ const heights:number[]=[];for(let i=0;i<180;i++){state.update(.05);state.apply(rig);rig.updateWorldTransform(Physics.none);if(i>60)heights.push(rig.findBone('plaque')!.worldY);}
+ expect(Math.max(...heights)-Math.min(...heights)).toBeGreaterThan(2);expect(events).toEqual(['impact']);
+ expect(rig.findSlot('plate')!.color.a).toBe(1);expect(rig.findBone('amount')!.scaleX).toBe(1);
+});
