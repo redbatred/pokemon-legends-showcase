@@ -113,13 +113,19 @@ it('preloads dedicated PCM bounce cues with independent floor contacts and scene
 });
 
 it('keeps one rare crowd loop until next card, including loop boundaries and pause/resume',()=>{
- setSound(true);playCrowdReaction(true);const rise=voice('crowdrise'),loop=voice('crowdcheer');
+ setSound(true);playCrowdReaction(4);const rise=voice('crowdrise'),loop=voice('crowdcheer');
  expect(rise.play).toHaveBeenCalledOnce();expect(loop.loop).toHaveBeenCalledWith(true,1);expect(loop.events.some((e:any)=>e.name==='end')).toBe(false);
- playCrowdReaction(true);expect(loop.play).toHaveBeenCalledOnce();expect(rise.play).toHaveBeenCalledOnce();
+ playCrowdReaction(4);expect(loop.play).toHaveBeenCalledOnce();expect(rise.play).toHaveBeenCalledOnce();
  setAudioScenePaused(true);expect(loop.pause).toHaveBeenCalledWith(1);setAudioScenePaused(false);expect(loop.play).toHaveBeenLastCalledWith(1);
  stopCrowdReaction();expect(loop.stop).toHaveBeenCalledWith(1);expect(loop.events).toHaveLength(0);setAudioHidden(true);setAudioHidden(false);expect(loop.play).toHaveBeenCalledTimes(2);
 });
 it('uses a quieter normal reaction without a loop and does not revive muted cheers',()=>{
- setSound(true);playCrowdReaction(false);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.3*.42,1);expect(voice('crowdcheer').play).not.toHaveBeenCalled();
- playCrowdReaction(true);setSound(false);setSound(true);setAudioScenePaused(false);expect(voice('crowdcheer').play).toHaveBeenCalledOnce();
+ setSound(true);playCrowdReaction(1);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.048,1);expect(voice('crowdcheer').play).not.toHaveBeenCalled();
+ playCrowdReaction(4);setSound(false);setSound(true);setAudioScenePaused(false);expect(voice('crowdcheer').play).toHaveBeenCalledOnce();
+});
+
+it('plays no crowd for ordinary cards and reduces sustained gain for a mid-value reveal',()=>{
+ setSound(true);playCrowdReaction(0);expect(voice('crowdrise').play).not.toHaveBeenCalled();expect(voice('crowdcheer').play).not.toHaveBeenCalled();
+ playCrowdReaction(2);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.10,1);expect(voice('crowdcheer').fade).toHaveBeenLastCalledWith(0,.035,240,1);
+ stopCrowdReaction();playCrowdReaction(4);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.25,2);expect(voice('crowdcheer').fade).toHaveBeenLastCalledWith(0,.105,240,2);
 });

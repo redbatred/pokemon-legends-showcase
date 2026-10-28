@@ -7,6 +7,7 @@ import {AnimeAtmosphere} from './AnimeAtmosphere';
 import { StageLightRig } from './StageLightRig';
 import {StadiumFloodlights} from './StadiumFloodlights';
 import {projectFloodlights} from './floodlightGeometry';
+import type {CrowdLevel} from './crowdReaction';
 
 /** Only emitter pixels are neutralized; stadium paint and platform shadows keep their original colors. */
 export class CanvasScene {
@@ -18,7 +19,7 @@ export class CanvasScene {
   private exposure={amount:1};private exposureTween:gsap.core.Tween|null=null;
   private impactState={amount:0};private impactTween:gsap.core.Tween|null=null;
   private active=false;private entrance={amount:0};private animation:gsap.core.Tween|null=null;
-  private floodlights=new StadiumFloodlights();private celebrationAge=-1;private targetY=0;private stageWidth=0;
+  private floodlights=new StadiumFloodlights();private celebrationAge=-1;private reactionLevel:CrowdLevel=0;private targetY=0;private stageWidth=0;
   private width=0;private height=0;private stageBottom=0;private destroyed=false;private lastTime=0;private lastReduced=false;private lastLow=false;
   async init(){
     this.root.eventMode='none';this.root.interactiveChildren=false;
@@ -48,9 +49,9 @@ export class CanvasScene {
   get lightTint(){return (Math.round(this.light.r)<<16)|(Math.round(this.light.g)<<8)|Math.round(this.light.b);}
   setCardColor(color:number,reduced:boolean,duration=.55){this.colorTween?.kill();this.colorTween=gsap.to(this.light,{r:(color>>16)&255,g:(color>>8)&255,b:color&255,duration:reduced?.01:duration,ease:'power2.out',paused:this.paused});}
   setCharge(amount:number|null){this.chargeLevel=amount??-1;}
-  beginReveal(reduced:boolean){this.chargeLevel=-1;this.exposureTween?.kill();this.exposureTween=gsap.to(this.exposure,{amount:reduced?1:.45,duration:.18,ease:'power2.out',paused:this.paused});}
+  beginReveal(reduced:boolean,reaction:CrowdLevel=0){this.reactionLevel=reaction;this.chargeLevel=-1;this.exposureTween?.kill();this.exposureTween=gsap.to(this.exposure,{amount:reduced?1:.45,duration:.18,ease:'power2.out',paused:this.paused});}
   endCelebration(){this.celebrationAge=-1;stopCrowdReaction();}
-  impact(rare:boolean,reduced:boolean,celebrate=rare){if(celebrate){if(this.celebrationAge<0)this.celebrationAge=0;playCrowdReaction(true);}else if(!rare)playCrowdReaction(false);this.chargeLevel=-1;this.exposureTween?.kill();this.exposure.amount=reduced?1:1.2;this.exposureTween=gsap.to(this.exposure,{amount:1,duration:.65,paused:this.paused});this.impactTween?.kill();this.impactState.amount=reduced?0:rare?1:.45;this.impactTween=gsap.to(this.impactState,{amount:0,duration:rare?1.2:.65,ease:'power2.out',paused:this.paused});}
+  impact(rare:boolean,reduced:boolean,celebrate=rare){if(celebrate||!rare){if(this.reactionLevel>=2&&this.celebrationAge<0)this.celebrationAge=0;playCrowdReaction(this.reactionLevel);}this.chargeLevel=-1;this.exposureTween?.kill();this.exposure.amount=reduced?1:1.2;this.exposureTween=gsap.to(this.exposure,{amount:1,duration:.65,paused:this.paused});this.impactTween?.kill();this.impactState.amount=reduced?0:rare?1:.45;this.impactTween=gsap.to(this.impactState,{amount:0,duration:rare?1.2:.65,ease:'power2.out',paused:this.paused});}
   tick(time:number,reduced:boolean,low:boolean){
     this.lastReduced=reduced;this.lastLow=low;
     const dt=Math.min(.05,Math.max(0,time-this.lastTime));this.lastTime=time;if(!this.background)return;

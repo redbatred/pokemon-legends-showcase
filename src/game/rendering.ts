@@ -10,9 +10,9 @@ export function pageWindow(total: number, size: number, requested: number) {
 export function gameLayout(width:number,height:number,opening=false) {
   const portrait=width<700,compact=height<550&&width>=560,short=height<620;
   const sideControls=width>=900||compact;
-  const top=compact?68:sideControls?90:short?120:134;
+  const top=compact?84:sideControls?90:short?148:156;
   const dock=opening?(compact?92:short?112:148):(compact?148:portrait?216:226);
-  const actions=opening?(sideControls?0:short?72:86):(compact?52:72);
+  const actions=opening?(sideControls?0:short?112:124):(compact?52:72);
   const dockTop=height-dock,actionTop=dockTop-actions;
   const stageWidth=Math.min(width*(compact?.52:sideControls?.60:1.02),900),stageFlatten=.82;
   // The source platform has transparent padding; its physical front ends at v=.90.
@@ -22,6 +22,13 @@ export function gameLayout(width:number,height:number,opening=false) {
   const scale=Math.max(.17,Math.min(width/(sideControls?720:430),playHeight/435,1.4));
   const worldY=opening?stageY-32-217.5*scale:top+playHeight/2;
   return {width,height,portrait,compact,short,sideControls,top,dock,actions,playHeight,actionTop,dockTop,worldY,scale,stageY,stageFront,stageWidth,stageFlatten};
+}
+
+export function revealControlsLayout(width:number,height:number){
+ const l=gameLayout(width,height,true),space=(width-l.stageWidth)/2;
+ if(l.compact&&height<430){const next=width<650?60:68,all=width<650?58:62,gap=(next+all)/2+8,x=width-space/2,y=Math.min(l.dockTop-next/2-32,Math.max(l.top+next/2+8,l.worldY+30));return {next:{x:x+gap/2,y,size:next},all:{x:x-gap/2,y,size:all}};}
+ if(l.sideControls){const x=width-space/2,y=Math.max(l.compact?120:220,l.worldY+16);return {next:{x,y,size:l.compact?64:100},all:{x,y:y+(l.compact?92:142),size:l.compact?58:82}};}
+ return {next:{x:width-58,y:l.dockTop-66,size:84},all:{x:56,y:l.dockTop-66,size:76}};
 }
 
 /** Card-local floor, including its settled -8px lift; a little forward of the centre emblem. */

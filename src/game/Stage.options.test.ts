@@ -12,3 +12,11 @@ it('restores the arena when reduced motion skips a pending suspense callback',()
  expect(scene.setCharge).toHaveBeenLastCalledWith(null);
  expect(stage.charging).toBe(false);timeline.kill();
 });
+
+it('keeps the stadium layout through HUD updates while the pack travels',()=>{
+ const stage={openingLayout:true,travelling:true,resize:vi.fn()};
+ OpeningStage.prototype.setLayoutMode.call(stage as unknown as OpeningStage,false);
+ expect(stage.openingLayout).toBe(true);expect(stage.resize).not.toHaveBeenCalled();
+ stage.travelling=false;OpeningStage.prototype.setLayoutMode.call(stage as unknown as OpeningStage,false);
+ expect(stage.openingLayout).toBe(false);expect(stage.resize).toHaveBeenCalledOnce();
+});

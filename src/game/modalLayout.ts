@@ -5,5 +5,5 @@ export function modalLayout(w:number,h:number,kind:string){
 }
 export function rewardLayout(w:number,_h:number,dockTop:number,side:boolean,compact:boolean){
  const y=compact?dockTop-57:side?dockTop-65:dockTop-62;
- return {x:w/2,y,width:Math.max(100,Math.min(side?420:280,w-(side?260:156))),size:compact?30:side?46:36};
+  return {x:w/2,y,width:Math.max(96,Math.min(side?420:280,w-(side?260:220))),size:compact?30:side?46:36};
 }

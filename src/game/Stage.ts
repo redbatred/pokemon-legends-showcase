@@ -1,4 +1,4 @@
-import { Application, Assets, Container, Graphics, PerspectiveMesh, MeshPlane, Sprite, Texture, Rectangle } from 'pixi.js';
+import { Application, Assets, Container, Graphics, PerspectiveMesh, Sprite, Texture, Rectangle } from 'pixi.js';
 import { gsap } from 'gsap';
 import { createFoil,foilStrength } from './foil';
 import { playSound,setAudioHidden,stopRevealAudio } from './audio';
@@ -9,6 +9,9 @@ import { CanvasScene } from './CanvasScene';
 import { gameLayout, renderResolution, cardTrayLayout, performanceFloor } from './rendering';
 import { loadPackTexture } from './packTexture';
 import type { SpineReveal } from './SpineReveal';
+import {PackOpening} from './PackOpening';
+import {PACK_CLEARANCE_TIME} from './packTearGeometry';
+import {crowdLevel} from './crowdReaction';
 
 type Options = { reduced: boolean; low: boolean; onTear: () => void; onNext: () => void };
 type Particle = { sprite: Graphics; x: number; y: number; speed: number; phase: number; depth: number };
@@ -43,6 +46,7 @@ export class OpeningStage {
   destroyed = false;
   private observer!: ResizeObserver;
   private timeline: gsap.core.Timeline | null = null;
+  private packOpening:PackOpening|null=null;
   private tweens = new Set<gsap.core.Tween>();
   private revealToken = 0;
   private packToken = 0;
@@ -51,6 +55,7 @@ export class OpeningStage {
   private sampleFrames = 0;
   private drawFrame = 0;
   private openingLayout = false;private travelling=false;
+  private journey:{amount:number}|null=null;
   private prepared:{key:string;cancelled:boolean;promise:Promise<{texture:Texture;special:SpineReveal|null}>}|null=null;
   private dragProgress = 0;
   private dragStart: number | null = null;
@@ -65,6 +70,7 @@ export class OpeningStage {
     this.app.renderer.resize(w, h);
     const layout=gameLayout(w,h,this.openingLayout);
     this.world.position.set(w/2,layout.worldY);this.world.scale.set(layout.scale);this.special?.fitPresentation((w/2-12)/layout.scale);this.special?.setFloor(performanceFloor(layout));this.special?.update(0);
+    this.positionJourney();
     this.scene.resize(w,h,layout.stageY,layout);
     this.onLayout?.();
     if(this.blocked||this.mode==='result')this.draw();
@@ -133,7 +139,7 @@ export class OpeningStage {
     this.cardLayer.eventMode = 'static'; this.cardLayer.cursor = 'pointer';
     this.cardLayer.on('pointertap', () => {if(!this.blocked)this.options.onNext();});
     for (let i = 3; i >= 0; i--) {
-      const s = new Sprite(this.back); s.anchor.set(.5); s.width = 305; s.height = 426; s.y = i * 1.3; s.x = i * .8; s.rotation = (i - 1) * .003; this.stack.addChild(s);
+      const s = new Sprite(this.back); s.anchor.set(.5); s.width = 312; s.height = 435; s.y = i * 1.3; s.x = i * .8; s.rotation = (i - 1) * .003; this.stack.addChild(s);
     }
     this.stack.visible = false;
     const count = 12;
@@ -156,7 +162,8 @@ export class OpeningStage {
     if(this.destroyed||!this.app.renderer||this.app.ticker.started||this.drawFrame)return;
     this.drawFrame=requestAnimationFrame(()=>{this.drawFrame=0;if(!this.destroyed&&!this.app.ticker.started)this.app.renderer.render(this.app.stage);});
   }
-  setLayoutMode(opening:boolean){if(opening!==this.openingLayout){this.openingLayout=opening;this.resize();}}
+  setLayoutMode(opening:boolean){opening=opening||this.travelling;if(opening!==this.openingLayout){this.openingLayout=opening;this.resize();}}
+  private positionJourney(){if(!this.journey)return;const w=this.app.screen.width,h=this.app.screen.height,a=gameLayout(w,h,false),b=gameLayout(w,h,true),t=this.journey.amount;this.world.y=a.worldY+(b.worldY-a.worldY)*t;this.world.scale.set(a.scale+(b.scale-a.scale)*t);}
   setBlocked(value:boolean,keepScene=false){
     if(value!==this.blocked){this.sampleStart=0;this.sampleFrames=0;}
     this.blocked=value;this.world.visible=!value||keepScene;this.flightLayer.visible=!value||keepScene;this.scene.pause(value||document.hidden);
@@ -240,98 +247,41 @@ export class OpeningStage {
   }
 
   setSealed() { this.mode = 'sealed'; }
+  private clearPackOpening(){
+    if(!this.packOpening)return;
+    if(this.stack.parent!==this.world)this.world.addChildAt(this.stack,2);
+    this.packOpening.destroy();this.packOpening=null;
+  }
   async tear(): Promise<void> {
-    this.mode = 'tearing'; this.dragStart = null; this.dragProgress = 0; this.tearLine.clear();
-    this.pack.scale.set(1);
-    const texture = this.packMesh.texture;
-    const cut = Math.round(texture.height * 45 / 421);
-    const topTexture = new Texture({ source: texture.source, frame: new Rectangle(0, 0, texture.width, cut) });
-    const bodyTexture = new Texture({ source: texture.source, frame: new Rectangle(0, cut, texture.width, texture.height - cut) });
-    const top = new MeshPlane({ texture: topTexture, verticesX: 33, verticesY: 6 });
-    const body = new MeshPlane({ texture: bodyTexture, verticesX: 33, verticesY: 24 });
-    top.autoResize = false; body.autoResize = false;
-    const topGroup = new Container(), bodyGroup = new Container();
-    const silver = new Graphics(), cutEdge = new Graphics(), creases = new Graphics(), foldedFoil = new Graphics();
-    const innerShadow = new Graphics();
-    topGroup.position.set(-115, -210.5); bodyGroup.position.set(-115, -165.5);
-    topGroup.addChild(top,foldedFoil); bodyGroup.addChild(silver, body, innerShadow, cutEdge, creases);
-    this.packMesh.visible = false; this.pack.addChild(bodyGroup, topGroup);
-    this.stack.visible = true; this.stack.scale.set(.66); this.stack.alpha = 0;
-    this.stack.position.set(0, 9); this.stack.rotation = this.pack.rotation;
-    const state = { tension: 0, rip: 0, curl: 0, open: 0, drop: 0 };
-    const topBuffer = top.geometry.getAttribute('aPosition').buffer;
-    const bodyBuffer = body.geometry.getAttribute('aPosition').buffer;
-    const jag = (i: number) => Math.sin(i*7.7)*1.8 + (i%2?1.2:-1.2);
-    const deform = () => {
-      for (let y=0; y<6; y++) for (let x=0; x<33; x++) {
-        const u=x/32, v=y/5, i=(y*33+x)*2;
-        const peeled=Math.max(0, Math.min(1, (state.rip-u)*3));
-        const curlAngle=peeled*state.curl*Math.PI*.88;
-        topBuffer.data[i]=u*230 + Math.sin(curlAngle)*v*13 - peeled*state.curl*17;
-        topBuffer.data[i+1]=v*45*Math.cos(curlAngle) - peeled*(10+state.curl*26) + Math.sin(u*17+v*2)*state.tension*2 + (y===5?jag(x):0)*state.rip;
-      }
-      topBuffer.update();
-      foldedFoil.clear();
-      for(let x=0;x<32;x++) {
-        const peeled=Math.max(0,Math.min(1,(state.rip-x/32)*3));
-        const visibility=Math.max(0,-Math.cos(peeled*state.curl*Math.PI*.88));
-        if(visibility>0) {
-          const a=x*2,b=(x+1)*2,c=(5*33+x+1)*2,e=(5*33+x)*2;
-          foldedFoil.poly([topBuffer.data[a],topBuffer.data[a+1],topBuffer.data[b],topBuffer.data[b+1],topBuffer.data[c],topBuffer.data[c+1],topBuffer.data[e],topBuffer.data[e+1]]).fill({color:x%3===0?0xe0e5e9:0x9da9b5,alpha:visibility*.95});
-        }
-      }
-      const points: number[]=[];
-      for (let y=0; y<24; y++) for (let x=0; x<33; x++) {
-        const u=x/32, v=y/23, i=(y*33+x)*2;
-        const rim=(1-v)**5;
-        const ripple=Math.sin(u*22+v*5)*state.tension*(1-v)*2;
-        const edgeY=Math.sin(u*Math.PI)*state.open*30+jag(x)*state.rip;
-        bodyBuffer.data[i]=u*230+(u-.5)*state.open*18*rim+ripple+Math.sin(v*18+u*3)*state.drop*6;
-        bodyBuffer.data[i+1]=v*376+edgeY*rim+Math.sin(u*28)*state.tension*(1-v)*2;
-        if (y===0) points.push(bodyBuffer.data[i],bodyBuffer.data[i+1]);
-      }
-      bodyBuffer.update();
-      silver.clear().poly([0,-3,230,-3,...points.slice().reverse().reduce<number[]>((a,_,i,arr)=>{if(i%2===0)a.push(arr[i+1],arr[i]);return a;},[])]).fill({color:0xd3d4d5,alpha:state.open*.8});
-      cutEdge.clear(); innerShadow.clear(); creases.clear();
-      if(state.rip>0) {
-        cutEdge.moveTo(points[0],points[1]);
-        for(let x=1;x<=Math.floor(state.rip*32);x++)cutEdge.lineTo(points[x*2],points[x*2+1]);
-        cutEdge.stroke({color:0xf3ece5,width:1.2,alpha:.9});
-      }
-      innerShadow.moveTo(0,0).quadraticCurveTo(115,state.open*48,230,0).stroke({width:4,color:0x08090b,alpha:state.open*.7});
-      for(let x=1;x<9;x++) {
-        const px=x*26;
-        creases.moveTo(px,8+Math.sin(x)*8).quadraticCurveTo(px-7,36,px+Math.sin(x)*11,90).stroke({width:1,color:x%2?0xffffff:0x000000,alpha:state.tension*.12});
-      }
-    };
-    deform();
-    return new Promise(resolve => {
-      const d = this.options.reduced ? .008 : 1;
-      this.timeline = gsap.timeline({ onUpdate: deform, onComplete: () => {
-        this.pack.visible=false; this.packShadow.visible=false;
-        topGroup.destroy({children:true}); bodyGroup.destroy({children:true});
-        topTexture.destroy(false); bodyTexture.destroy(false); resolve();
-      }});
-      this.timeline.to(state,{tension:1,duration:.24*d,ease:'power2.inOut'},0)
-        .to(this.pack,{rotation:.015,duration:.24*d,ease:'power2.out'},0)
-        .call(()=>playSound('tear'),[],.2*d)
-        .to(state,{rip:.16,curl:.24,duration:.22*d,ease:'power2.in'},.2*d)
-        .to(state,{rip:.42,curl:.5,duration:.22*d,ease:'power1.out'},.42*d)
-        .to(state,{rip:1,curl:.72,duration:.3*d,ease:'power2.in'},.64*d)
-        .to(topGroup,{x:-138,y:-220,rotation:-.08,duration:.5*d,ease:'power1.inOut'},.25*d)
-        .to(state,{curl:1,open:1,duration:.36*d,ease:'power2.out'},.76*d)
-        .to(topGroup,{x:-180,y:-245,rotation:-.35,duration:.3*d,ease:'power2.out'},.94*d)
-        .to(topGroup,{x:-275,y:-75,rotation:-1.3,alpha:0,duration:.65*d,ease:'power2.in'},1.24*d)
-        .to(this.stack,{alpha:1,duration:.15*d},.9*d)
-        .to(this.stack,{y:-32,rotation:0,duration:.55*d,ease:'power2.out'},.96*d)
-        .to(bodyGroup,{y:-115,duration:.4*d,ease:'power2.inOut'},1.04*d)
-        .to(state,{drop:1,tension:.4,duration:.6*d},1.25*d)
-        .to(bodyGroup,{y:360,x:-85,rotation:.22,alpha:0,duration:.65*d,ease:'power2.in'},1.3*d)
-        .to(this.packShadow,{alpha:0,duration:.5*d},1.25*d)
-        .call(()=>{this.travelling=true;this.scene.arrive(this.options.reduced);},[],1.18*d)
-        .to(this.stack.scale,{x:.96,y:.96,duration:.85*d,ease:'power2.inOut'},1.3*d)
-        .to(this.stack,{x:24,y:-58,rotation:.065,duration:.34*d,ease:'power2.out'},1.3*d)
-        .to(this.stack,{x:0,y:0,rotation:0,duration:.51*d,ease:'power2.inOut'},1.64*d);
+    this.clearPackOpening();this.mode='tearing';this.dragStart=null;this.dragProgress=0;this.tearLine.clear();
+    const opening=new PackOpening(this.packMesh.texture);this.packOpening=opening;opening.root.visible=false;this.pack.addChild(opening.root);
+    const projection={yaw:this.tilt.x*.32,pitch:-this.tilt.y*.19};
+    const align=()=>{const a:number[]=[];for(const [x,y] of [[-115,-210.5],[115,-210.5],[115,210.5],[-115,210.5]]){const depth=700/(700-x*Math.sin(projection.yaw)+y*Math.sin(projection.pitch));a.push(x*Math.cos(projection.yaw)*depth,y*Math.cos(projection.pitch)*depth);}this.packMesh.setCorners(a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]);};
+    const s=opening.state,d=this.options.reduced?.008:1,travel={amount:0};
+    return new Promise(resolve=>{
+      this.timeline=gsap.timeline({onUpdate:()=>opening.update(),onComplete:()=>{this.pack.visible=false;this.packShadow.visible=false;this.journey=null;this.clearPackOpening();resolve();}});
+      this.timeline.to(projection,{yaw:0,pitch:0,duration:.18*d,ease:'power2.out',onUpdate:align},0)
+        .to(this.pack,{rotation:0,y:0,duration:.18*d,ease:'power2.out'},0)
+        .to(this.pack.scale,{x:1,y:1,duration:.18*d},0)
+        .call(()=>{opening.root.visible=true;this.packMesh.visible=false;this.stack.visible=true;this.stack.alpha=1;this.stack.scale.set(.66);this.stack.position.set(0,9);this.stack.rotation=0;opening.root.addChildAt(this.stack,1);},[],.18*d)
+        .to(s,{tension:1,duration:.19*d,ease:'power2.inOut'},.18*d)
+        .call(()=>playSound('packrustle'),[],.18*d)
+        .call(()=>playSound('packtear'),[],.34*d)
+        .to(s,{rip:.06,curl:.15,duration:.1*d,ease:'power3.in'},.34*d)
+        .to(s,{rip:.32,curl:.48,duration:.2*d,ease:'power1.out'},.44*d)
+        .to(s,{rip:.37,tension:1.15,curl:.62,duration:.1*d,ease:'sine.inOut'},.64*d)
+        .to(s,{rip:.98,curl:.86,duration:.27*d,ease:'power2.in'},.74*d)
+        .to(s,{rip:1.12,curl:1,tension:.35,duration:.15*d,ease:'power2.out'},1.01*d)
+        .to(s,{open:1,duration:.25*d,ease:'power2.out'},1.06*d)
+        .to(opening.sealRoot,{x:-80,y:-140,rotation:-.20,duration:.22*d,ease:'power2.out'},1.16*d)
+        .to(opening.sealRoot,{x:-260,y:240,rotation:-1.4,alpha:0,duration:.65*d,ease:'power2.in'},1.38*d)
+        .to(this.stack,{y:-90,duration:.54*d,ease:'power2.inOut'},1.22*d)
+        .to(opening.bodyRoot,{y:230,duration:.54*d,ease:'power2.inOut'},1.22*d)
+        .call(()=>{this.world.addChildAt(this.stack,2);this.travelling=true;this.journey=travel;this.openingLayout=true;this.resize();this.scene.arrive(this.options.reduced);playSound('flip',{gain:.38});},[],PACK_CLEARANCE_TIME*d)
+        .to(s,{crumple:1,tension:0,duration:.4*d,ease:'power2.out'},PACK_CLEARANCE_TIME*d)
+        .to(opening.bodyRoot,{x:35,y:570,rotation:.24,alpha:0,duration:.49*d,ease:'power2.in'},PACK_CLEARANCE_TIME*d)
+        .to(this.packShadow,{alpha:0,duration:.38*d},PACK_CLEARANCE_TIME*d)
+        .to(travel,{amount:1,duration:.94*d,ease:'power2.inOut',onUpdate:()=>{const p=travel.amount;this.positionJourney();this.stack.position.set(Math.sin(Math.PI*p)*21,-90*(1-p)-Math.sin(Math.PI*p)*18);this.stack.scale.set(.66+.30*p);this.stack.rotation=Math.sin(Math.PI*p)*.045;}},PACK_CLEARANCE_TIME*d);
       if(this.blocked||document.hidden)this.timeline.pause();
     });
   }
@@ -346,14 +296,14 @@ export class OpeningStage {
     void entry.promise.catch(()=>{});
   }
 
-  async reveal(card: Card, first = false, previousIndex=0,pokemonImage:string|null=null): Promise<void> {
+  async reveal(card: Card, first = false, previousIndex=0,pokemonImage:string|null=null,packPrice=1000): Promise<void> {
     this.scene.endCelebration();
     const request = ++this.revealToken;
     this.prepareReveal(card,pokemonImage);const prepared=this.prepared!;this.prepared=null;
     const loaded=await prepared.promise,texture=loaded.texture;let special=loaded.special;
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     if(this.options.reduced){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
-    this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced);
+    this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced,crowdLevel(card,packPrice));
     this.mode = 'card'; this.pack.visible = false; this.packShadow.visible = false;
     this.cardLayer.visible = true;
     const d = this.options.reduced ? .01 : 1;
@@ -452,15 +402,15 @@ export class OpeningStage {
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }
   reset() {
-    this.discardPrepared();this.travelling=false;this.scene.endCelebration();this.scene.setCinematic(false,this.options.reduced);
-    this.revealEffects.clear();this.charging=false;this.scene.setCharge(null);this.timeline?.kill();this.timeline=null;stopRevealAudio();
+    this.discardPrepared();this.travelling=false;this.journey=null;this.scene.endCelebration();this.scene.setCinematic(false,this.options.reduced);
+    this.revealEffects.clear();this.charging=false;this.scene.setCharge(null);this.timeline?.kill();this.timeline=null;this.clearPackOpening();stopRevealAudio();
     this.special?.destroy();this.special=null;++this.revealToken;
     this.mode = 'pack'; if(!this.blocked)this.app.start(); this.pack.visible = true; this.packMesh.visible = true; this.packShadow.visible = true;
     this.flightLayer.removeChildren().forEach(child=>child.destroy({children:true}));this.cardMesh?.destroy(); this.cardMesh = null; this.cardEdge.alpha=0; this.stack.visible = false; this.cardLayer.visible = false; this.pack.alpha = 1; this.packShadow.alpha = 1; this.pack.scale.set(1); this.dragProgress = 0; this.tearLine.clear();
   }
   destroy() {
     this.discardPrepared();
-    this.special?.destroy();this.special=null;this.disposeSpecialResources?.();
+    this.clearPackOpening();this.special?.destroy();this.special=null;this.disposeSpecialResources?.();
     this.destroyed = true;cancelAnimationFrame(this.drawFrame); ++this.revealToken; ++this.packToken; this.timeline?.kill(); this.observer?.disconnect();
     for (const t of this.tweens) t.kill(); this.tweens.clear();
     document.removeEventListener('visibilitychange',this.visibility);

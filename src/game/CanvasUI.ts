@@ -1,7 +1,7 @@
 import { Assets, Container, Graphics, Sprite, Text, Texture, BitmapFont, BitmapText,Rectangle } from 'pixi.js';
 import { gsap } from 'gsap';
 import { railElastic,railPosition,railSnap } from './carousel';
-import { gameLayout, pageWindow, cardTrayLayout } from './rendering';
+import { gameLayout, pageWindow, cardTrayLayout,revealControlsLayout } from './rendering';
 import { money, recordedWinnings, type Card, type Pack, type Save, type Result } from './model';
 import {modalLayout,rewardLayout} from './modalLayout';
 import {MoneyReadout} from './MoneyReadout';
@@ -51,7 +51,7 @@ export class CanvasUI {
     this.state=state;
     if(!['collecting','settling'].includes(state.phase))this.collectingIndex=null;
     this.updating=true;
-    this.stage.setLayoutMode(!['browse','complete'].includes(state.phase));
+    this.stage.setLayoutMode(['revealing','revealed','collecting','settling'].includes(state.phase));
     this.stage.setScene(['revealing','revealed','collecting','settling','complete'].includes(state.phase));
     this.stage.setBlocked(!!state.panel||!!state.inspected||state.phase==='complete',state.panel==='settings');
     if(state.panel||state.inspected||state.phase==='complete')this.stage.app.stage.addChild(this.backdrop,this.root);else this.stage.app.stage.addChild(this.stage.flightLayer);
@@ -104,10 +104,11 @@ export class CanvasUI {
     g.circle(0,4,r).fill({color:0x04233e,alpha:.5}).circle(0,0,r).fill(0x0b3659).stroke({color:0xa0daed,width:2});
     g.arc(0,0,r-5,Math.PI*1.06,Math.PI*1.94).stroke({color:0xf0fdff,width:3}).arc(0,0,r-5,.10,Math.PI-.10).stroke({color:0x368aca,width:3});
     g.circle(0,0,r-10).fill(kind==='next'?0x267fca:0x204f72);
-    if(kind==='next')g.poly([-6,-12,7,0,-6,12,0,12,13,0,0,-12]).fill(0xf3fcff);
-    else g.roundRect(-10,-12,15,21,2).stroke({color:0x8fc6e0,width:1.7}).roundRect(-4,-8,15,21,2).fill(0x276b9e).stroke({color:0xf0fcff,width:1.8}).moveTo(0,2).lineTo(4,6).lineTo(9,-1).stroke({color:0xe5ffff,width:1.5});
-    const text=this.text(label,0,r+7,kind==='next'?12:10,C.white,group,'center','bold');text.style.stroke={color:0x082b4b,width:3};
-    this.hits.push({id,label,x:cx-r-4,y:cy-r-4,width:size+8,height:size+26,disabled:false,action});
+    const icon=new Graphics(),k=size/64;icon.scale.set(k);group.addChild(icon);
+    if(kind==='next')icon.poly([-7,-13,6,0,-7,13,1,13,14,0,1,-13]).fill(0xf3fcff);
+    else icon.roundRect(-10,-12,15,21,2).stroke({color:0x8fc6e0,width:1.7}).roundRect(-4,-8,15,21,2).fill(0x276b9e).stroke({color:0xf0fcff,width:1.8}).moveTo(0,2).lineTo(4,6).lineTo(9,-1).stroke({color:0xe5ffff,width:1.5});
+    const text=this.text(label,0,r+7,size>=76?14:12,C.white,group,'center','bold');text.style.stroke={color:0x082b4b,width:3};
+    this.hits.push({id,label,x:cx-r-4,y:cy-r-4,width:size+8,height:size+30,disabled:false,action});
     return group;
   }
   private openCommand(w:number,y:number,disabled:boolean,center=w/2,maxWidth=278){
@@ -257,14 +258,16 @@ export class CanvasUI {
       this.iconButton('settings','Settings',w-side-size*2-10,iconsY,size,'gear',()=>s.action('settings'));
       this.iconButton('sound',s.sound?'Mute sound':'Enable sound',w-side-size,iconsY,size,s.sound?'sound':'mute',()=>s.action('sound'));
     }
-    const captionY=l.compact?65:l.sideControls?128:119;
-    this.text(s.selected.name,side,captionY,l.compact?9:10,C.white,this.root,'left','bold');if(s.save?.active)this.revealCountLabel=this.text(`${Math.min(Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),11)} / 11`,w-side,captionY,10,C.white,this.root,'right','bold');
+    const edgeTitle=l.compact||l.short,captionY=l.compact?65:edgeTitle?125:l.sideControls?28:125;
+    const captionWidth=edgeTitle?Math.max(85,l.sideControls?(w-l.stageWidth)/2-28:w/2-156*l.scale-side-12):l.sideControls?w-510:w-112;
+    const packTitle=this.text(s.save?.active?.pack?.name??s.selected.name,edgeTitle?side:w/2,captionY,edgeTitle?14:l.sideControls?22:18,C.white,this.root,edgeTitle?'left':'center','bold');packTitle.style.stroke={color:0x08315a,width:3};if(packTitle.width>captionWidth)packTitle.scale.set(captionWidth/packTitle.width);
+    if(s.save?.active)this.revealCountLabel=this.text(`${Math.min(Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),11)} / 11`,w-side,l.compact?65:128,10,C.white,this.root,'right','bold');
   }
   private playControls(w:number,h:number){
     const s=this.state!,l=gameLayout(w,h,!['browse','complete'].includes(s.phase)),busy=['reserving','tearing','revealing','collecting','settling'].includes(s.phase);
     if(s.phase==='revealed'){
       const card=s.save!.active!.cards[s.index],space=(w-l.stageWidth)/2;
-      const captionW=l.sideControls?Math.min(238,space-32):w-128;
+      const captionW=l.sideControls?Math.min(238,space-32):w-220;
       const captionX=l.sideControls?(space-captionW)/2:(w-captionW)/2,captionY=l.sideControls?Math.max(l.compact?85:172,l.worldY-3):l.actionTop-5;
       const titleSize=l.compact?14:l.sideControls?22:16;
       const title=this.text(card.name,l.sideControls?captionX: w/2,captionY,titleSize,C.white,this.root,l.sideControls?'left':'center','bold');title.style.stroke={color:0x08294a,width:3};
@@ -273,14 +276,10 @@ export class CanvasUI {
       this.hit('inspect',`Inspect ${card.name}`,captionX,captionY-5,captionW,l.sideControls?55:44,()=>s.inspect(card));
       const reward=rewardLayout(w,h,l.dockTop,l.sideControls,l.compact);
       if(card.id!=='energy')this.money(card.value,reward.x,reward.y,reward.size,C.white,'center','reward',`${s.save!.active!.id}-${s.index}`,true,reward.width);
-      if(l.sideControls){
-        const cx=w-space/2,cy=Math.max(l.compact?117:213,l.worldY+17),size=l.compact?48:76;
-        this.command('next',s.index===10?'Collect':'Next card',cx,cy,size,'next',()=>s.action('next'));
-        if(s.index<10)this.command('reveal-all','Reveal all',cx,cy+(l.compact?76:113),l.compact?34:44,'all',()=>s.action('all'));
-      }else{
-        this.command('next',s.index===10?'Collect':'Next card',w-37,l.dockTop-48,l.short?44:48,'next',()=>s.action('next'));
-        if(s.index<10)this.command('reveal-all','Reveal all',37,l.dockTop-48,44,'all',()=>s.action('all'));
-      }
+      const controls=revealControlsLayout(w,h);
+      this.command('next',s.index===10?'Collect':'Next card',controls.next.x,controls.next.y,controls.next.size,'next',()=>s.action('next'));
+      if(s.index<10)this.command('reveal-all','Reveal all',controls.all.x,controls.all.y,controls.all.size,'all',()=>s.action('all'));
+
     }else if(busy){
       const label=s.phase==='tearing'?'Opening':s.phase==='revealing'?'Revealing':['collecting','settling'].includes(s.phase)?'Collecting':'Preparing';
       const y=l.sideControls?l.dockTop-27:l.actionTop+25;this.text(label,w/2,y,12,C.white,this.root,'center','bold');

@@ -4,15 +4,17 @@ import moveManifest from '../../public/assets/audio-v5/cues.json';
 import ensembleManifest from '../../public/assets/audio-v6/cues.json';
 import ballManifest from '../../public/assets/audio-v7/cues.json';
 import crowdManifest from '../../public/assets/audio-v8/cues.json';
+import packManifest from '../../public/assets/audio-v9/cues.json';
+import {crowdMix,type CrowdLevel} from './crowdReaction';
 import { pokemonPower, type PowerCue } from './powerProfiles';
-export type Sound = PowerCue|'throw'|'impact'|'release'|'charge'|'tear'|'flip'|'reveal'|'rare'|'complete'|'credit'|'ui'|'latch'|'stage'|'land'|'suspense'|'slam'|'ballbounce'|'ballsettle';
+export type Sound = PowerCue|'throw'|'impact'|'release'|'charge'|'tear'|'flip'|'reveal'|'rare'|'complete'|'credit'|'ui'|'latch'|'stage'|'land'|'suspense'|'slam'|'ballbounce'|'ballsettle'|'packtear'|'packrustle';
 type Voice={howl:Howl;id:number;scene:boolean;paused:boolean;key:string;gain:number;loop:boolean};
 const sounds=new Map<string,Howl>(), pending=new Map<string,Promise<void>>(), voices=new Set<OwnedVoice>();
 let enabled=false,scenePaused=false,hidden=false,lastCredit=-Infinity,lastLand=-Infinity;
 let music:Howl|null=null,musicId:number|undefined,musicPaused=false,interacted=false,musicGain=.14;
-let crowdLoop:OwnedVoice|null=null,crowdRise:OwnedVoice|null=null;
+let crowdLoop:OwnedVoice|null=null,crowdRise:OwnedVoice|null=null,crowdCurrent=-1;
 const pokemonCues=new Set([...Object.keys(ensembleManifest),'fire','water','electric','psychic','leaf','wind','ice','dark','metal','ground','fairy','dragon','swift','hyperbeam','shadowball','aeroblast','petals','hydropump','waterpulse','psystrike']);
-const cues:Record<string,{gain:number;files:{mp3?:string;ogg?:string;wav?:string}}>={...cueManifest,...moveManifest,...ensembleManifest,...ballManifest,...crowdManifest};
+const cues:Record<string,{gain:number;files:{mp3?:string;ogg?:string;wav?:string}}>={...cueManifest,...moveManifest,...ensembleManifest,...ballManifest,...crowdManifest,...packManifest};
 function mixMusic(){
  if(!music||musicId===undefined)return;
  const next=[...voices].some(v=>v.scene&&!v.paused&&!v.key.startsWith('crowd'))?.035:scenePaused?.085:.14;
@@ -42,7 +44,7 @@ function ready(key:string){
   howl.once('load',finish);howl.once('loaderror',finish);timer=setTimeout(finish,1800);
  });pending.set(key,promise);return promise;
 }
-export function preloadAudio(){for(const name of ['tear','flip','normal','rare','complete','credit','throw','impact','release','charge','ui','latch','stage','land','suspense','slam','ballbounce','ballsettle','crowdrise','crowdcheer'])void ready(name);}
+export function preloadAudio(){for(const name of ['tear','flip','normal','rare','complete','credit','throw','impact','release','charge','ui','latch','stage','land','suspense','slam','ballbounce','ballsettle','crowdrise','crowdcheer','packtear','packrustle'])void ready(name);}
 export async function preloadRevealAudio(path:string){if(!enabled)return;const p=pokemonPower(path);await Promise.all([ready(p.cue),ready('release'),ready('throw'),ready('impact'),ready('charge'),ready('latch'),ready('slam'),ready('ballbounce'),ready('ballsettle'),...(p.dexId===null?[]:[ready(`cries/${p.dexId}`)])]);}
 function forget(voice:OwnedVoice){voices.delete(voice);voice.howl.off('end',voice.done,voice.id);voice.howl.off('stop',voice.done,voice.id);if(voice.key.startsWith('cries/')&&![...voices].some(v=>v.key.startsWith('cries/')))for(const v of voices)if(v.scene&&!v.key.startsWith('cries/'))v.howl.fade(v.gain*.42,v.gain,120,v.id);mixMusic();}
 // Per-ID event ownership prevents old callbacks from retaining destroyed reveals.
@@ -58,14 +60,15 @@ function start(key:string,gain:number,scene:boolean,pan=0,loop=false){
  howl.loop(loop,id);const voice:OwnedVoice={howl,id,scene,paused:false,key,gain,loop,done:()=>forget(voice)};voices.add(voice);if(!loop)howl.once('end',voice.done,id);howl.once('stop',voice.done,id);mixMusic();return voice;
 }
 /** The crowd belongs to the displayed card and shares reveal pause/mute ownership. */
-export function playCrowdReaction(rare:boolean){
- if(rare&&crowdLoop&&voices.has(crowdLoop))return;
- stopCrowdReaction();crowdRise=start('crowdrise',crowdManifest.crowdrise.gain*(rare?1:.42),true)??null;
- if(rare){crowdLoop=start('crowdcheer',0,true,0,true)??null;if(crowdLoop){crowdLoop.gain=crowdManifest.crowdcheer.gain;crowdLoop.howl.fade(0,crowdLoop.gain,240,crowdLoop.id);}}
+export function playCrowdReaction(level:CrowdLevel){
+ if(crowdCurrent===level)return;
+ stopCrowdReaction();crowdCurrent=level;const mix=crowdMix(level);if(!mix.rise)return;
+ crowdRise=start('crowdrise',mix.rise,true)??null;
+ if(mix.loop){crowdLoop=start('crowdcheer',0,true,0,true)??null;if(crowdLoop){crowdLoop.gain=mix.loop;crowdLoop.howl.fade(0,mix.loop,240,crowdLoop.id);}}
 }
 export function stopCrowdReaction(){
  for(const voice of [crowdRise,crowdLoop])if(voice&&voices.has(voice)){voice.howl.stop(voice.id);forget(voice);}
- crowdRise=crowdLoop=null;
+ crowdRise=crowdLoop=null;crowdCurrent=-1;
 }
 export function playSound(name:Sound,options:{pan?:number;gain?:number}={}){
  if(name==='credit'){const now=performance.now();if(now-lastCredit<90)return;lastCredit=now;}
@@ -92,4 +95,4 @@ export function setSound(value:boolean){
  else {for(const voice of [...voices]){voice.howl.stop(voice.id);forget(voice as OwnedVoice);}}
  syncMusic();
 }
-export function destroyAudio(){music?.unload();music=null;musicId=undefined;musicPaused=false;interacted=false;musicGain=.14;crowdRise=crowdLoop=null;for(const howl of sounds.values())howl.unload();voices.clear();sounds.clear();pending.clear();enabled=false;scenePaused=false;hidden=false;lastCredit=-Infinity,lastLand=-Infinity;}
+export function destroyAudio(){music?.unload();music=null;musicId=undefined;musicPaused=false;interacted=false;musicGain=.14;crowdRise=crowdLoop=null;crowdCurrent=-1;for(const howl of sounds.values())howl.unload();voices.clear();sounds.clear();pending.clear();enabled=false;scenePaused=false;hidden=false;lastCredit=-Infinity,lastLand=-Infinity;}
