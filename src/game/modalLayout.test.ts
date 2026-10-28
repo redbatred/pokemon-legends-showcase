@@ -14,9 +14,9 @@ it('keeps centered panel frames and headers within phone, landscape and desktop 
 });
 it('reserves the reward between the card and tray without covering mobile controls',()=>{
  for(const [w,h] of [[320,540],[390,780],[568,320],[844,390],[1280,720],[1920,1080]]){
-  const l=gameLayout(w,h,true),r=rewardLayout(w,h,l.dockTop,l.sideControls,l.compact);
+  const l=gameLayout(w,h,true),r=rewardLayout(w,h);
   expect(r.y).toBeGreaterThan(l.worldY+217.5*l.scale);
-  expect(r.y+r.size+12).toBeLessThan(l.dockTop);
-  expect(r.x-r.width/2).toBeGreaterThanOrEqual(l.sideControls?130:78);
+  expect(r.y+r.size/2+8).toBeLessThan(l.dockTop);
+  expect(r.x).toBe(w/2);expect(r.y).toBeCloseTo(l.stageY+l.stageWidth*.5*l.stageFlatten*.317);expect(r.width).toBeLessThan(l.stageWidth*.25);
  }
 });

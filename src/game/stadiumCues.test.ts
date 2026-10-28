@@ -2,6 +2,12 @@ import {expect,it} from 'vitest';
 import {crowdArrival,crowdFrame,floodlightCue,standBounds} from './stadiumCues';
 import {performanceProfile} from './performanceProfiles';
 import {gameLayout,performanceFloor} from './rendering';
+it('keeps quiet applause moving without requiring raised-arm celebration or sound',()=>{
+ const mixes=new Set<number>();
+ for(let age=.4;age<8;age+=.13){const p=crowdFrame(age,2,false,false,1);expect(p.from).toBe(0);expect(p.to).toBe(2);expect(p.mix).toBeLessThan(.53);mixes.add(Math.round(p.mix*100));}
+ expect(mixes.size).toBeGreaterThan(10);
+ expect(crowdFrame(2,2,false,false,0)).toEqual({from:0,to:0,mix:0});
+});
 it('keeps three cheering poses moving until dismissed and holds one pose under reduced motion',()=>{
  expect(crowdFrame(.05,3).mix).toBeGreaterThan(crowdFrame(.05,2).mix);
  for(let i=0;i<8;i++){

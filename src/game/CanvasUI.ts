@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { railElastic,railPosition,railSnap } from './carousel';
 import { gameLayout, pageWindow, cardTrayLayout,revealControlsLayout } from './rendering';
 import { money, recordedWinnings, type Card, type Pack, type Save, type Result } from './model';
-import {modalLayout,rewardLayout} from './modalLayout';
+import {modalLayout,rewardLayout,creditLayout} from './modalLayout';
 import {MoneyReadout} from './MoneyReadout';
 import {moneyState,type MoneyState} from './moneyMotion';
 import { loadPackTexture } from './packTexture';
@@ -69,9 +69,9 @@ export class CanvasUI {
     const text=new Text({text:value,style:{fontFamily:'Nunito, Arial, sans-serif',fontSize:size,fontWeight:weight==='bold'?'800':'600',fill:color,align,wordWrap:!!maxWidth,wordWrapWidth:maxWidth,lineHeight:size*1.3},resolution:Math.min(2,devicePixelRatio)});
     text.anchor.set(align==='center'?.5:align==='right'?1:0,0);text.position.set(x,y);parent.addChild(text);return text;
   }
-  private money(amount:number,x:number,y:number,size:number,color:number,align:'left'|'center'|'right',key:string,identity:string,plus=false,width=240){
+  private money(amount:number,x:number,y:number,size:number,color:number,align:'left'|'center'|'right',key:string,identity:string,plus=false,width=240,centerY=false){
     const state=moneyState(this.moneyValues.get(key),identity,amount,key==='wallet'||key==='lifetime');this.moneyValues.set(key,state);
-    const label=new MoneyReadout(state,{size,color,align,width,plus,hero:key==='reward'||key==='result',reduced:this.state!.reduced,ticks:key==='result',draw:()=>this.stage.draw()});
+    const label=new MoneyReadout(state,{size,color,align,width,plus,centerY,hero:key==='reward'||key==='result',reduced:this.state!.reduced,ticks:key==='result',draw:()=>this.stage.draw()});
     label.position.set(x,y);this.root.addChild(label);return label;
   }
   private panel(x:number,y:number,w:number,h:number,fill=C.panel,line=C.line,parent=this.root,cut=9){
@@ -240,11 +240,12 @@ export class CanvasUI {
     if(s.save&&!this.moneyValues.has('lifetime'))this.moneyValues.set('lifetime',moneyState(undefined,'lifetime',recordedWinnings(s.save),true));
     const logoW=l.portrait?116:148,logoH=l.portrait?44:55;
     this.picture('/assets/pokemon-logo.png',18,10,logoW,logoH);this.text('LEGENDS',18+logoW/2,l.portrait?50:59,8,0xffffff,this.root,'center','bold');
-    const walletW=l.portrait?Math.min(181,w*.46):205,walletX=w-walletW-16,walletY=13;
-    const wallet=new Graphics().roundRect(walletX,walletY,walletW,48,22).fill({color:0x06315a,alpha:.91}).stroke({width:1.5,color:0xa7e8ff,alpha:.85});this.root.addChild(wallet);
-    this.text('Demo credits',walletX+17,walletY+5,8,C.muted);
-    this.money(s.save?.balance??10000,w-59,walletY+15,l.portrait?26:28,C.white,'right','wallet','balance',false,walletW-61);
-    this.iconButton('credits','Add 1000 free demo credits',w-49,walletY+8,32,'plus',()=>s.action('credits'));
+    const credit=creditLayout(w,h);
+    const wallet=new Graphics().roundRect(credit.x,credit.y,credit.width,credit.height,22).fill({color:0x06315a,alpha:.94}).stroke({width:1.5,color:0xa7e8ff,alpha:.85});
+    wallet.moveTo(credit.buttonX-7,credit.y+13).lineTo(credit.buttonX-7,credit.y+credit.height-13).stroke({width:1,color:0x7ccde5,alpha:.25});this.root.addChild(wallet);
+    this.text('DEMO CREDITS',credit.textX,credit.labelY,9,C.muted,this.root,'left','bold');
+    this.money(s.save?.balance??10000,credit.textX,credit.amountY,credit.amountSize,C.white,'left','wallet','balance',false,credit.textWidth,true);
+    this.iconButton('credits','Add 1000 free demo credits',credit.buttonX,credit.buttonY,credit.buttonSize,'plus',()=>s.action('credits'));
     const size=l.compact?34:l.portrait?40:44,side=l.portrait?18:25,iconsY=l.compact?18:76;
     if(l.compact){
       const left=(w-(size*4+18))/2;
@@ -267,15 +268,15 @@ export class CanvasUI {
     const s=this.state!,l=gameLayout(w,h,!['browse','complete'].includes(s.phase)),busy=['reserving','tearing','revealing','collecting','settling'].includes(s.phase);
     if(s.phase==='revealed'){
       const card=s.save!.active!.cards[s.index],space=(w-l.stageWidth)/2;
-      const captionW=l.sideControls?Math.min(238,space-32):w-220;
-      const captionX=l.sideControls?(space-captionW)/2:(w-captionW)/2,captionY=l.sideControls?Math.max(l.compact?85:172,l.worldY-3):l.actionTop-5;
-      const titleSize=l.compact?14:l.sideControls?22:16;
-      const title=this.text(card.name,l.sideControls?captionX: w/2,captionY,titleSize,C.white,this.root,l.sideControls?'left':'center','bold');title.style.stroke={color:0x08294a,width:3};
+      const captionW=l.compact?Math.min(238,space-32):l.sideControls?Math.min(420,l.stageWidth*.72):w-220;
+      const captionX=l.compact?(space-captionW)/2:(w-captionW)/2,captionY=l.compact?Math.max(85,l.worldY-3):l.stageFront+1;
+      const titleSize=l.compact?14:l.sideControls?20:16,align=l.compact?'left':'center',textX=l.compact?captionX:w/2;
+      const title=this.text(card.name,textX,captionY,titleSize,C.white,this.root,align,'bold');title.style.stroke={color:0x08294a,width:3};
       if(title.width>captionW)title.scale.set(captionW/title.width);
-      const rarity=this.text(card.rarity,l.sideControls?captionX:w/2,captionY+(l.compact?23:l.sideControls?32:22),l.sideControls?10:9,C.cyan,this.root,l.sideControls?'left':'center','bold');rarity.style.stroke={color:0x08294a,width:3};if(rarity.width>captionW)rarity.scale.set(captionW/rarity.width);
-      this.hit('inspect',`Inspect ${card.name}`,captionX,captionY-5,captionW,l.sideControls?55:44,()=>s.inspect(card));
-      const reward=rewardLayout(w,h,l.dockTop,l.sideControls,l.compact);
-      if(card.id!=='energy')this.money(card.value,reward.x,reward.y,reward.size,C.white,'center','reward',`${s.save!.active!.id}-${s.index}`,true,reward.width);
+      const rarity=this.text(card.rarity,textX,captionY+(l.compact?23:l.sideControls?25:22),l.sideControls?10:9,C.cyan,this.root,align,'bold');rarity.style.stroke={color:0x08294a,width:3};if(rarity.width>captionW)rarity.scale.set(captionW/rarity.width);
+      this.hit('inspect',`Inspect ${card.name}`,captionX,captionY-2,captionW,l.sideControls?40:36,()=>s.inspect(card));
+      const reward=rewardLayout(w,h);
+      if(card.id!=='energy')this.money(card.value,reward.x,reward.y,reward.size,C.white,'center','reward',`${s.save!.active!.id}-${s.index}`,true,reward.width,true);
       const controls=revealControlsLayout(w,h);
       this.command('next',s.index===10?'Collect':'Next card',controls.next.x,controls.next.y,controls.next.size,'next',()=>s.action('next'));
       if(s.index<10)this.command('reveal-all','Reveal all',controls.all.x,controls.all.y,controls.all.size,'all',()=>s.action('all'));

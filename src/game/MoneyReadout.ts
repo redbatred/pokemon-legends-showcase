@@ -3,7 +3,7 @@ import {gsap} from 'gsap';
 import {money} from './model';
 import {moneyState,type MoneyState} from './moneyMotion';
 
-type Options={size:number;color:number;align:'left'|'center'|'right';width:number;plus:boolean;hero:boolean;reduced:boolean;ticks:boolean;draw:()=>void};
+type Options={size:number;color:number;align:'left'|'center'|'right';width:number;plus:boolean;hero:boolean;centerY?:boolean;reduced:boolean;ticks:boolean;draw:()=>void};
 /** Exact cents with subordinate currency/decimals, fitted from glyph measurements. */
 export class MoneyReadout extends Container {
  private ink=new Container();private prefix:BitmapText;private integer:BitmapText;private decimals:BitmapText;
@@ -24,7 +24,7 @@ export class MoneyReadout extends Container {
   return this.decimals.x+this.decimals.width;
  }
  private fit(){const width=Math.max(this.layout(this.state.target),this.layout(this.state.value));this.maxScale=Math.min(1,this.options.width/Math.max(1,width));this.ink.scale.set(this.maxScale);}
- private paint(value:number){const width=this.layout(value)*this.maxScale;this.ink.x=this.options.align==='right'?-width:this.options.align==='center'?-width/2:0;this.options.draw();}
+ private paint(value:number){const width=this.layout(value)*this.maxScale;if(this.options.centerY){const b=this.ink.getLocalBounds();this.ink.pivot.y=(b.minY+b.maxY)/2;}this.ink.x=this.options.align==='right'?-width:this.options.align==='center'?-width/2:0;this.options.draw();}
  private animate(){
   this.count?.kill();const s=this.state;
   if(this.options.reduced||s.value===s.target){s.value=s.target;s.remaining=0;this.paint(s.value);return;}

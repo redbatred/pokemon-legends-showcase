@@ -11,3 +11,11 @@ export function crowdLevel(card:Pick<Card,'id'|'rarity'|'value'>,packPrice:numbe
  return 0;
 }
 export function crowdMix(level:CrowdLevel){return [{rise:0,loop:0},{rise:.048,loop:0},{rise:.10,loop:.035},{rise:.17,loop:.065},{rise:.25,loop:.105}][level];}
+
+/** Audience body language is independent of how loudly the card should sound. */
+export function crowdAnimationLevel(card:Pick<Card,'id'|'rarity'|'value'>,special=false){
+ if(card.id==='energy')return 0;
+ if(special||/illustration|ultra|hyper|secret|shiny/i.test(card.rarity))return 3;
+ if(/rare|holo/i.test(card.rarity))return 2;
+ return 1;
+}

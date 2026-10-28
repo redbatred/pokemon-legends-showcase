@@ -27,10 +27,10 @@ export class StadiumAudience {
   this.root.eventMode='none';
  }
  warp(floorShift:number){for(const s of this.sections)for(const mesh of s.planes){const b=mesh.geometry.getBuffer('aPosition');for(let i=0;i<s.base.length;i+=2){b.data[i]=s.base[i];b.data[i+1]=s.base[i+1]+floorShift*groundWarp((s.y+s.base[i+1])/this.height);}b.update();}}
- update(visibility:number,age:number,reduced:boolean,travel=0,low=false){
+ update(visibility:number,age:number,reduced:boolean,travel=0,low=false,energy=3){
   this.root.visible=visibility>.001;this.root.alpha=visibility;if(!this.root.visible)return;
   for(const [i,s] of this.sections.entries()){
-   const pose=crowdFrame(age,i,reduced,low),[from,to]=s.planes;s.root.alpha=crowdArrival(travel,i,reduced);
+   const pose=crowdFrame(age,i,reduced,low,energy),[from,to]=s.planes;s.root.alpha=crowdArrival(travel,i,reduced);
    if(from.texture!==s.frames[pose.from])from.texture=s.frames[pose.from];if(to.texture!==s.frames[pose.to])to.texture=s.frames[pose.to];from.alpha=1;to.alpha=pose.mix;to.visible=pose.mix>.001;
   }
  }

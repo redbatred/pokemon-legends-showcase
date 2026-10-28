@@ -1,6 +1,13 @@
 import {expect,it} from 'vitest';
-import {crowdLevel,crowdMix,type CrowdLevel} from './crowdReaction';
+import {crowdLevel,crowdMix,crowdAnimationLevel,type CrowdLevel} from './crowdReaction';
 const card=(rarity:string,value:number)=>({id:'card',rarity,value});
+it('keeps audience movement separate from sound and gives preview Pokémon a full celebration',()=>{
+ expect(crowdAnimationLevel(card('Common',25))).toBe(1);
+ expect(crowdAnimationLevel(card('Holo Rare V',50))).toBe(2);
+ expect(crowdAnimationLevel(card('Holo Rare V',50),true)).toBe(3);
+ expect(crowdLevel(card('Holo Rare V',50),1000)).toBe(1);
+ expect(crowdAnimationLevel({id:'energy',rarity:'Energy',value:0})).toBe(0);
+});
 it('keeps ordinary and energy cards quiet and reserves the strongest crowd for exceptional returns',()=>{
  expect(crowdLevel(card('Common',25),1000)).toBe(0);expect(crowdLevel(card('Uncommon',50),1000)).toBe(0);
  expect(crowdLevel({id:'energy',rarity:'Energy',value:0},1000)).toBe(0);

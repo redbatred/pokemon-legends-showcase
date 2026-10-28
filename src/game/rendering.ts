@@ -12,7 +12,7 @@ export function gameLayout(width:number,height:number,opening=false) {
   const sideControls=width>=900||compact;
   const top=compact?84:sideControls?90:short?148:156;
   const dock=opening?(compact?92:short?112:148):(compact?148:portrait?216:226);
-  const actions=opening?(sideControls?0:short?112:124):(compact?52:72);
+  const actions=opening?(sideControls?(compact?0:44):short?112:124):(compact?52:72);
   const dockTop=height-dock,actionTop=dockTop-actions;
   const stageWidth=Math.min(width*(compact?.52:sideControls?.60:1.02),900),stageFlatten=.82;
   // The source platform has transparent padding; its physical front ends at v=.90.

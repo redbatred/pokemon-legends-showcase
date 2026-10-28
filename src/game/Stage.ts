@@ -11,7 +11,7 @@ import { loadPackTexture } from './packTexture';
 import type { SpineReveal } from './SpineReveal';
 import {PackOpening} from './PackOpening';
 import {PACK_CLEARANCE_TIME} from './packTearGeometry';
-import {crowdLevel} from './crowdReaction';
+import {crowdLevel,crowdAnimationLevel} from './crowdReaction';
 
 type Options = { reduced: boolean; low: boolean; onTear: () => void; onNext: () => void };
 type Particle = { sprite: Graphics; x: number; y: number; speed: number; phase: number; depth: number };
@@ -273,8 +273,8 @@ export class OpeningStage {
         .to(s,{rip:.98,curl:.86,duration:.27*d,ease:'power2.in'},.74*d)
         .to(s,{rip:1.12,curl:1,tension:.35,duration:.15*d,ease:'power2.out'},1.01*d)
         .to(s,{open:1,duration:.25*d,ease:'power2.out'},1.06*d)
-        .to(opening.sealRoot,{x:-80,y:-140,rotation:-.20,duration:.22*d,ease:'power2.out'},1.16*d)
-        .to(opening.sealRoot,{x:-260,y:240,rotation:-1.4,alpha:0,duration:.65*d,ease:'power2.in'},1.38*d)
+        .to(opening.sealRoot,{x:145,y:-152,rotation:.12,duration:.24*d,ease:'power2.out'},1.16*d)
+        .to(opening.sealRoot,{x:365,y:15,rotation:1.05,alpha:0,duration:.48*d,ease:'power2.in'},1.40*d)
         .to(this.stack,{y:-90,duration:.54*d,ease:'power2.inOut'},1.22*d)
         .to(opening.bodyRoot,{y:230,duration:.54*d,ease:'power2.inOut'},1.22*d)
         .call(()=>{this.world.addChildAt(this.stack,2);this.travelling=true;this.journey=travel;this.openingLayout=true;this.resize();this.scene.arrive(this.options.reduced);playSound('flip',{gain:.38});},[],PACK_CLEARANCE_TIME*d)
@@ -303,7 +303,7 @@ export class OpeningStage {
     const loaded=await prepared.promise,texture=loaded.texture;let special=loaded.special;
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     if(this.options.reduced){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
-    this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced,crowdLevel(card,packPrice));
+    this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced,crowdLevel(card,packPrice),crowdAnimationLevel(card,!!special));
     this.mode = 'card'; this.pack.visible = false; this.packShadow.visible = false;
     this.cardLayer.visible = true;
     const d = this.options.reduced ? .01 : 1;
