@@ -11,6 +11,11 @@ const right=[
 ];
 export const floodlightBulbs=[left,right].flatMap((bank,side)=>bank.flatMap((row,r)=>row.map(([x,y],column)=>({u:x/1672,v:y/941,bank:side,row:r,column}))));
 export type LightSocket={x:number;y:number;width:number;height:number;rotation:number;bank:number;row:number;column:number};
+/** A fixed field angle expands with throw distance; the receiver sits before the soft far cutoff. */
+export function floodlightCone(source:{x:number;y:number},target:{x:number;y:number},fieldAngle=32){
+ const dx=target.x-source.x,dy=target.y-source.y,distance=Math.hypot(dx,dy),length=distance*1.18;
+ return {length,width:2*length*Math.tan(fieldAngle*Math.PI/360),rotation:-Math.atan2(dx,dy),receiver:distance/length};
+}
 export function projectFloodlights(project:(u:number,v:number)=>{x:number;y:number}):LightSocket[]{return floodlightBulbs.map(b=>{
  const p=project(b.u,b.v),x=project(b.u+3.8/1672,b.v+1.8/941*(b.bank?-1:1)),y=project(b.u-1.05/1672*(b.bank?-1:1),b.v+4.4/941);
  return {...p,bank:b.bank,row:b.row,column:b.column,width:Math.hypot(x.x-p.x,x.y-p.y)*2,height:Math.hypot(y.x-p.x,y.y-p.y)*2,rotation:Math.atan2(x.y-p.y,x.x-p.x)};

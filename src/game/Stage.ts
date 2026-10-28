@@ -347,6 +347,7 @@ export class OpeningStage {
   }
 
   async reveal(card: Card, first = false, previousIndex=0,pokemonImage:string|null=null): Promise<void> {
+    this.scene.endCelebration();
     const request = ++this.revealToken;
     this.prepareReveal(card,pokemonImage);const prepared=this.prepared!;this.prepared=null;
     const loaded=await prepared.promise,texture=loaded.texture;let special=loaded.special;
@@ -406,6 +407,7 @@ export class OpeningStage {
   }
 
   private detachCard(){
+    this.scene.endCelebration();
     this.scene.setCinematic(false,this.options.reduced);this.revealEffects.clear();const mesh=this.cardMesh;if(!mesh)return null;
     const flight=new Container();flight.position.set(this.world.x+this.cardLayer.x*this.world.scale.x,this.world.y+this.cardLayer.y*this.world.scale.y);flight.scale.set(this.world.scale.x*this.cardLayer.scale.x);flight.rotation=this.cardLayer.rotation;
     if(this.special){flight.addChild(this.special.takeCard());this.special.destroy();this.special=null;mesh.destroy();}
@@ -450,7 +452,7 @@ export class OpeningStage {
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }
   reset() {
-    this.discardPrepared();this.travelling=false;this.scene.setCinematic(false,this.options.reduced);
+    this.discardPrepared();this.travelling=false;this.scene.endCelebration();this.scene.setCinematic(false,this.options.reduced);
     this.revealEffects.clear();this.charging=false;this.scene.setCharge(null);this.timeline?.kill();this.timeline=null;stopRevealAudio();
     this.special?.destroy();this.special=null;++this.revealToken;
     this.mode = 'pack'; if(!this.blocked)this.app.start(); this.pack.visible = true; this.packMesh.visible = true; this.packShadow.visible = true;

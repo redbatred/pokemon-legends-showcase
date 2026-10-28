@@ -12,7 +12,7 @@ export class LivingBackdrop {
  private trees:Tree[]=[];private clouds:Cloud[]=[];private leaves=new Graphics();private textures:Texture[]=[];
  private previous=-1;private wasReduced=false;private floorShift=0;private width:number;private height:number;
  private audience:StadiumAudience;private baseScale=1;
- constructor(texture:Texture,treeAtlas:Texture,cloudAtlas:Texture,crowd:[Texture,Texture]){
+ constructor(texture:Texture,treeAtlas:Texture,cloudAtlas:Texture,crowd:Texture[]){
   this.width=texture.width;this.height=texture.height;
   const canvas=document.createElement('canvas');canvas.width=this.width;canvas.height=this.height;
   const context=canvas.getContext('2d',{willReadFrequently:true})!;context.drawImage(texture.source.resource as CanvasImageSource,0,0);
@@ -50,7 +50,7 @@ export class LivingBackdrop {
   return parts.map(({contentBounds:b})=>{const canvas=document.createElement('canvas');canvas.width=b.width;canvas.height=b.height;const c=canvas.getContext('2d',{willReadFrequently:true})!;c.drawImage(atlas.source.resource as CanvasImageSource,b.x,b.y,b.width,b.height,0,0,b.width,b.height);const pixels=c.getImageData(0,0,b.width,b.height);for(let i=3;i<pixels.data.length;i+=4){const alpha=pixels.data[i];pixels.data[i]=alpha*clamp((alpha-28)/48);}c.putImageData(pixels,0,0);const t=Texture.from(canvas);this.textures.push(t);return t;});
  }
  resize(w:number,h:number,floorY?:number){const scale=Math.max(w/this.width,h/this.height)*1.035;this.baseScale=scale;this.root.position.set(w/2,h/2);this.root.scale.set(scale);const ground=h/2+this.height*.18*scale;this.floorShift=floorY===undefined?0:(floorY-ground)/scale;this.audience.warp(this.floorShift);this.wasReduced=false;this.previous=-1;}
- show(visibility:number,celebrationAge:number,travel:number,reduced:boolean){this.audience.update(visibility,celebrationAge,reduced,travel);this.root.scale.set(this.baseScale*(1+(reduced?0:travel*.018)));}
+ show(visibility:number,celebrationAge:number,travel:number,reduced:boolean,low=false){this.audience.update(visibility,celebrationAge,reduced,travel,low);this.root.scale.set(this.baseScale*(1+(reduced?0:travel*.018)));}
  project(u:number,v:number){return {x:this.root.x+(u-.5)*this.width*this.root.scale.x,y:this.root.y+((v-.5)*this.height+this.floorShift*groundWarp(v))*this.root.scale.y};}
  tick(time:number,reduced:boolean,low:boolean){
   if(reduced&&this.wasReduced)return;if(!reduced&&time-this.previous<(low?1/24:1/40))return;this.previous=time;this.wasReduced=reduced;const t=reduced?0:time;

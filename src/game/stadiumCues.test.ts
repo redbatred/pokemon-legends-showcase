@@ -1,10 +1,14 @@
 import {expect,it} from 'vitest';
-import {crowdArrival,crowdPose,floodlightCue,standBounds} from './stadiumCues';
+import {crowdArrival,crowdFrame,floodlightCue,standBounds} from './stadiumCues';
 import {performanceProfile} from './performanceProfiles';
 import {gameLayout,performanceFloor} from './rendering';
-it('staggered celebration returns to the still drawing and stays still under reduced motion',()=>{
- expect(crowdPose(.05,3)).toBeGreaterThan(crowdPose(.05,2));
- for(let i=0;i<8;i++){expect(crowdPose(-1,i)).toBe(0);expect(crowdPose(.5,i)).toBe(1);expect(crowdPose(2,i)).toBe(0);expect(crowdPose(.5,i,true)).toBe(0);}
+it('keeps three cheering poses moving until dismissed and holds one pose under reduced motion',()=>{
+ expect(crowdFrame(.05,3).mix).toBeGreaterThan(crowdFrame(.05,2).mix);
+ for(let i=0;i<8;i++){
+  expect(crowdFrame(-1,i)).toEqual({from:0,to:0,mix:0});
+  const poses=new Set<number>();for(let age=2;age<30;age+=.11){const p=crowdFrame(age,i);poses.add(p.from);expect(p.from).toBeGreaterThan(0);expect(p.to).toBeGreaterThan(0);expect(p.mix).toBeGreaterThanOrEqual(0);expect(p.mix).toBeLessThanOrEqual(1);}
+  expect([...poses].sort()).toEqual([1,2,3]);expect(crowdFrame(30,i,true)).toEqual(crowdFrame(.5,i,true));expect(crowdFrame(4,i,false,true).mix).toBe(0);
+ }
 });
 it('floodlights converge on charge, respond to reveal, and turn off with the stage',()=>{
  const idle=floodlightCue(1,-1,0,0),charged=floodlightCue(1,1,0,0),hit=floodlightCue(1,-1,1,0);

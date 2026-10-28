@@ -6,7 +6,7 @@ vi.mock('howler',()=>{
   play=vi.fn((id?:number)=>{id??=this.next++;this.playing.add(id);this.paused.delete(id);return id;});
   pause=vi.fn((id:number)=>{this.playing.delete(id);this.paused.add(id);});
   stop=vi.fn((id:number)=>{this.playing.delete(id);this.paused.delete(id);for(const e of [...this.events])if(e.name==='stop'&&e.id===id)e.fn(id);});
-  unload=vi.fn();seek=vi.fn();volume=vi.fn();stereo=vi.fn();fade=vi.fn();
+  unload=vi.fn();seek=vi.fn();volume=vi.fn();stereo=vi.fn();fade=vi.fn();loop=vi.fn();
   constructor(options:{src:string[]}){this.source=options.src[0];mock.howls.push(this);}
   state(){return mock.loaded?'loaded':'loading';}
   once(name:string,fn:()=>void,id?:number){this.events.push({name,fn,id});}
@@ -14,7 +14,7 @@ vi.mock('howler',()=>{
  }
  return {Howl,Howler:{mute:vi.fn(),ctx:{resume:vi.fn(async()=>{})}}};
 });
-import { destroyAudio, playPokemonMove,pokemonSoundTiming,playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio } from './audio';
+import { destroyAudio, playPokemonMove,pokemonSoundTiming,playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio,playCrowdReaction,stopCrowdReaction } from './audio';
 import cueManifest from '../../public/assets/audio-v4/cues.json';
 const voice=(key:string)=>mock.howls.find(h=>h.source.endsWith(`/${key}.mp3`));
 beforeEach(()=>{destroyAudio();mock.howls=[];mock.loaded=true;});
@@ -110,4 +110,16 @@ it('preloads dedicated PCM bounce cues with independent floor contacts and scene
  setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');const first=mock.howls.find(h=>h.source.endsWith('/ballbounce.wav')),second=mock.howls.find(h=>h.source.endsWith('/ballsettle.wav'));expect(first).toBeDefined();expect(second).toBeDefined();
  playSound('ballbounce');expect(first.play).toHaveBeenCalledOnce();expect(first.volume).toHaveBeenLastCalledWith(.38,1);expect(second.play).not.toHaveBeenCalled();playSound('ballsettle');expect(second.play).toHaveBeenCalledOnce();
  setAudioScenePaused(true);expect(first.pause).toHaveBeenCalledWith(1);expect(second.pause).toHaveBeenCalledWith(1);stopRevealAudio();setAudioScenePaused(false);expect(first.play).toHaveBeenCalledTimes(1);expect(second.play).toHaveBeenCalledTimes(1);
+});
+
+it('keeps one rare crowd loop until next card, including loop boundaries and pause/resume',()=>{
+ setSound(true);playCrowdReaction(true);const rise=voice('crowdrise'),loop=voice('crowdcheer');
+ expect(rise.play).toHaveBeenCalledOnce();expect(loop.loop).toHaveBeenCalledWith(true,1);expect(loop.events.some((e:any)=>e.name==='end')).toBe(false);
+ playCrowdReaction(true);expect(loop.play).toHaveBeenCalledOnce();expect(rise.play).toHaveBeenCalledOnce();
+ setAudioScenePaused(true);expect(loop.pause).toHaveBeenCalledWith(1);setAudioScenePaused(false);expect(loop.play).toHaveBeenLastCalledWith(1);
+ stopCrowdReaction();expect(loop.stop).toHaveBeenCalledWith(1);expect(loop.events).toHaveLength(0);setAudioHidden(true);setAudioHidden(false);expect(loop.play).toHaveBeenCalledTimes(2);
+});
+it('uses a quieter normal reaction without a loop and does not revive muted cheers',()=>{
+ setSound(true);playCrowdReaction(false);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.3*.42,1);expect(voice('crowdcheer').play).not.toHaveBeenCalled();
+ playCrowdReaction(true);setSound(false);setSound(true);setAudioScenePaused(false);expect(voice('crowdcheer').play).toHaveBeenCalledOnce();
 });
