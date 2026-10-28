@@ -44,7 +44,7 @@ export class SpineReveal {
     for(let i=0;i<12;i++){const a=i/12*Math.PI*2;const shard=new Graphics().poly([-5,-3,3,-7,8,1,-2,10]).fill(i%3===0?0xd8e4ef:i%3===1?0x7285af:0x3d6893).moveTo(-5,-3).lineTo(3,-7).lineTo(8,1).stroke({color:0xe7eff5,width:.8});shard.position.set(Math.cos(a)*52,IMPACT.y+Math.sin(a)*43);shard.visible=false;this.front.addChild(shard);this.shards.push(shard);}
 
   }
-  play(timeline:gsap.core.Timeline,skyY:number,onImpact:()=>void,onPower?:(color:number)=>void,onCharge?:(amount:number,color:number)=>void){
+  play(timeline:gsap.core.Timeline,skyY:number,onImpact:()=>void,onPower?:(color:number)=>void,onCharge?:(amount:number,color:number)=>void,onWin?:()=>void){
     this.started=true;const profile=performanceProfile(this.power.profile.species),entryDuration=Math.max(.68,this.hero.entranceDuration),settle=profile.grounded?65:profile.settle-10;const entranceClock={time:0},attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,landing=ballLandingPlan(skyY,this.floor-50),cues=ballRevealCues(landing),open=cues.open,form=open+.12,charge=form+entryDuration+.28,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,recoverEnd=attackEnd+this.hero.recoveryDuration,soundStart=attack-Math.min(this.hero.chargeDuration,pokemonSoundTiming(this.power.profile.cue).preRoll),moveEnvelope={gain:0},spin={frame:0},departure={progress:0},decay=Math.min(.22,this.hero.attackDuration*.3);
     const project=()=>{const p=ballFlight(flight.t,skyY);this.ball.position.set(p.x,p.y);this.ball.scale.set(p.scale);this.ball.rotation=p.rotation;
       this.trail.clear();for(let i=8;i>=1;i--){const a=ballFlight(Math.max(0,flight.t-i*.014),skyY),b=ballFlight(Math.max(0,flight.t-(i-1)*.014),skyY);this.trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:(9-i)*p.scale*1.8,color:i<3?0xf0fbff:0x7ebfff,alpha:(9-i)*.035});}};project();
@@ -93,6 +93,7 @@ export class SpineReveal {
       .to(this.hero,{x:profile.side*.12,y:settle+2*profile.impact,duration:.055,ease:'power2.out'},attack)
       .to(this.hero,{x:0,y:settle,duration:.19,ease:'sine.out'},attack+.055)
       .to(this.power,{fade:0,duration:decay,ease:'power1.in'},attackEnd-decay)
+      .call(()=>onWin?.(),[],Math.max(attackEnd+.04,recoverEnd-.3))
       .call(()=>{this.hero.play('recover');},[],recoverEnd)
       .to({}, {duration:.4},recoverEnd);
     this.shards.forEach((shard,i)=>{const a=i/12*Math.PI*2;timeline.set(shard,{visible:true},hit).to(shard,{x:Math.cos(a)*(95+i*4),y:IMPACT.y+Math.sin(a)*86+60,rotation:(i-6)*.7,alpha:0,duration:.55,ease:'power2.out'},hit);});

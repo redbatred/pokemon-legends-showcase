@@ -6,6 +6,7 @@ import { money, recordedWinnings, type Card, type Pack, type Save, type Result }
 import {modalLayout,totalWinLayout,creditLayout} from './modalLayout';
 import {MoneyReadout} from './MoneyReadout';
 import {RewardTransfers} from './RewardTransfers';
+import {preloadWinCelebration} from './WinCelebration';
 import {winTier} from './winTransfer';
 import {moneyState,type MoneyState} from './moneyMotion';
 import { loadPackTexture } from './packTexture';
@@ -29,6 +30,8 @@ export class CanvasUI {
   private tray:Texture;
   private moneyAnimations:gsap.core.Tween[]=[];private moneyValues=new Map<string,MoneyState>();
   private rewards:RewardTransfers;private cardCaptions:Text[]=[];
+  private rewardPhaseKey='';
+  private awardCard=(card:Card)=>{const s=this.state;if(!s?.save?.active||s.save.active.cards[s.index]?.id!==card.id)return;this.rewards.reveal(s.index,card.value,s.reduced,winTier(card,s.save.active.pack?.price??s.selected.price,!!s.save.active.previewSpecial&&s.index===0),s.low);};
   private tickRewards=(ticker:Ticker)=>{const s=this.state;if(!s)return;const visible=!s.panel&&!s.inspected&&['revealing','revealed','collecting','settling'].includes(s.phase);this.rewards.root.visible=visible;if(visible)this.rewards.update(ticker.deltaMS/1000,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;};
   private creditReward=(total:number)=>{if(this.moneyValues.get('revealed')?.target===total)return;if(this.packValueLabel){this.packValueLabel.retarget(total);this.packValueLabel.pulse();}else this.moneyValues.set('revealed',moneyState(this.moneyValues.get('revealed'),this.openingId,total,false));};
   private updating=false;
@@ -43,11 +46,11 @@ export class CanvasUI {
   private packValueLabel:MoneyReadout|null=null;private revealCountLabel:Text|null=null;
   private thumbs=new Map<string,Texture>();private pending=new Map<string,Promise<Texture>>();private destroyed=false;
   constructor(private stage:OpeningStage,private onTargets:(hits:HitTarget[],summary:string)=>void){
-    void Assets.load('/assets/ui/win-crest-v1.png').catch(()=>{});
+    void preloadWinCelebration().catch(()=>{});
     BitmapFont.install({name:'LegendsMoney',style:{fontFamily:'Nunito',fontSize:48,fontWeight:'900',fill:0xffffff,stroke:{color:0x082e52,width:3}},chars:'0123456789$.,+- ',resolution:2,padding:3,skipKerning:true});
     const canvas=document.createElement('canvas');canvas.width=8;canvas.height=128;const ctx=canvas.getContext('2d')!;const gradient=ctx.createLinearGradient(0,0,0,128);gradient.addColorStop(0,'rgba(4,14,29,0)');gradient.addColorStop(1,'rgba(4,14,29,.65)');ctx.fillStyle=gradient;ctx.fillRect(0,0,8,128);this.tray=Texture.from(canvas);
     this.rewards=new RewardTransfers(this.creditReward,()=>stage.draw());stage.app.ticker.add(this.tickRewards);
-    stage.app.stage.addChild(this.backdrop,this.root,stage.flightLayer,this.rewards.root);stage.onCardStored=this.storeCard;stage.onLayout=()=>{if(!this.updating)this.build();};
+    stage.app.stage.addChild(this.backdrop,this.root,stage.flightLayer,this.rewards.root);stage.onCardStored=this.storeCard;stage.onSpecialWin=this.awardCard;stage.onLayout=()=>{if(!this.updating)this.build();};
     stage.onCollectFocus=this.focusTray;stage.cardDestination=this.cardDestination;
     window.addEventListener('keydown',this.keydown);
     stage.app.canvas.addEventListener('pointerdown',this.railDown);stage.app.canvas.addEventListener('pointermove',this.railMove);stage.app.canvas.addEventListener('pointerup',this.railUp);stage.app.canvas.addEventListener('pointercancel',this.railCancel);stage.app.canvas.addEventListener('wheel',this.railWheel,{passive:false});
@@ -64,9 +67,10 @@ export class CanvasUI {
     if(state.panel||state.inspected||state.phase==='complete')this.stage.app.stage.addChild(this.backdrop,this.root);else this.stage.app.stage.addChild(this.stage.flightLayer,this.rewards.root);
     this.rewards.root.visible=!state.panel&&!state.inspected&&['revealing','revealed','collecting','settling'].includes(state.phase);
     this.updating=false;
-    if(state.phase==='collecting'||state.phase==='revealing')this.rewards.rush();
+    const phaseKey=`${id}:${state.index}:${state.phase}`;
+    if(phaseKey!==this.rewardPhaseKey&&(state.phase==='collecting'||state.phase==='revealing'))this.rewards.rush();this.rewardPhaseKey=phaseKey;
     this.build();
-    if(state.phase==='revealed'&&state.save?.active){const card=state.save.active.cards[state.index];this.rewards.reveal(state.index,card.value,state.reduced,winTier(card,state.save.active.pack?.price??state.selected.price,!!state.save.active.previewSpecial&&state.index===0));}
+    if(state.phase==='revealed'&&state.save?.active)this.awardCard(state.save.active.cards[state.index]);
   }
   private keydown=(event:KeyboardEvent)=>{
     if(!this.state)return;
@@ -475,5 +479,5 @@ export class CanvasUI {
     result.cards.forEach((card,i)=>{const row=Math.floor(i/columns),col=i%columns,number=Math.min(columns,11-row*columns),rowWidth=number*(drawW+12)-12,x=(w-rowWidth)/2+col*(drawW+12),y=top+row*(ch+33);this.picture(card.image,x,y,drawW,ch);const exact=money(card.value),caption=drawW<55&&exact.length>6?'$'+new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:1}).format(card.value/100):exact;const price=this.text(card.id==='energy'?'Energy':caption,x+drawW/2,y+ch+7,10,C.cyan,this.root,'center');if(price.width>drawW+8)price.scale.set((drawW+8)/price.width);this.hit(`result-${i}`,`Inspect ${card.name}`,x,y,drawW,ch,()=>this.state!.inspect(card));});
     this.button('result-collection','View collection',Math.max(28,w/2-165),h-65,Math.min(155,(w-68)/2),44,()=>this.state!.action('collection'),{visibleLabel:'Collection'});this.button('result-continue','Continue',w/2+6,h-65,Math.min(155,(w-68)/2),44,()=>this.dismissModal('continue'),{primary:true});
   }
-  destroy(){this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.railTween?.kill();this.cancelRailDrag();const canvas=this.stage.app.canvas;canvas.removeEventListener('pointerdown',this.railDown);canvas.removeEventListener('pointermove',this.railMove);canvas.removeEventListener('pointerup',this.railUp);canvas.removeEventListener('pointercancel',this.railCancel);canvas.removeEventListener('wheel',this.railWheel);this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
+  destroy(){this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.railTween?.kill();this.cancelRailDrag();const canvas=this.stage.app.canvas;canvas.removeEventListener('pointerdown',this.railDown);canvas.removeEventListener('pointermove',this.railMove);canvas.removeEventListener('pointerup',this.railUp);canvas.removeEventListener('pointercancel',this.railCancel);canvas.removeEventListener('wheel',this.railWheel);this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
 }

@@ -1,0 +1,105 @@
+import { describe, expect, it } from 'vitest';
+import { AnimationState, AnimationStateData, AtlasAttachmentLoader, MeshAttachment, Physics, RegionAttachment, Skeleton, SkeletonJson, TextureAtlas } from '@esotericsoftware/spine-core';
+import { buildWinFxRigJson, WIN_FX_ATLAS } from './winFxRigData';
+
+function load(epic = false, special = false) {
+  const json = buildWinFxRigJson(epic, special);
+  const atlas = new TextureAtlas(WIN_FX_ATLAS);
+  const data = new SkeletonJson(new AtlasAttachmentLoader(atlas)).readSkeletonData(json);
+  const skeleton = new Skeleton(data);
+  const state = new AnimationState(new AnimationStateData(data));
+  const pose = (time: number) => {
+    skeleton.setToSetupPose();
+    state.clearTracks();
+    state.setAnimation(0, 'celebrate', false);
+    state.update(time);
+    state.apply(skeleton);
+    skeleton.updateWorldTransform(Physics.none);
+  };
+  const vertices = (name: string) => {
+    const slot = skeleton.findSlot(name)!;
+    const attachment = slot.getAttachment()!;
+    const result = new Float32Array(attachment instanceof MeshAttachment ? attachment.worldVerticesLength : 8);
+    if (attachment instanceof MeshAttachment) attachment.computeWorldVertices(slot, 0, result.length, result, 0, 2);
+    else (attachment as RegionAttachment).computeWorldVertices(slot, result, 0, 2);
+    return result;
+  };
+  return { json, data, skeleton, pose, vertices };
+}
+
+describe('native Spine win celebration', () => {
+  it.each([[false, false, 36], [true, false, 54], [false, true, 12], [true, true, 12]] as const)(
+    'parses the %s/%s tier and keeps all attachments finite and invisible after the effect', (epic, special, count) => {
+      const { data, skeleton, pose, vertices } = load(epic, special);
+      expect(data.findAnimation('celebrate')?.duration).toBe(2.5);
+      expect(skeleton.slots.filter(slot => slot.data.name.startsWith('confetti'))).toHaveLength(count);
+      for (const time of [0, .2, .5, .8, 1.5, 2, 2.5, 3]) {
+        pose(time);
+        for (const slot of skeleton.slots) {
+          expect(vertices(slot.data.name).every(Number.isFinite), `${slot.data.name} at ${time}`).toBe(true);
+          expect(slot.color.a).toBeGreaterThanOrEqual(0);
+          expect(slot.color.a).toBeLessThanOrEqual(1);
+          if (time === 0 || time >= 2.5) expect(slot.color.a, `${slot.data.name} at ${time}`).toBe(0);
+        }
+      }
+    },
+  );
+
+  it('launches confetti upward, tumbles it, then lets it fall', () => {
+    const { skeleton, pose } = load();
+    const bone = skeleton.findBone('confetti0')!;
+    pose(.2);
+    const early = { y: bone.y, rotation: bone.rotation, scaleX: bone.scaleX };
+    pose(.65);
+    const apex = bone.y;
+    expect(apex).toBeGreaterThan(early.y + 60);
+    expect(Math.abs(bone.rotation - early.rotation)).toBeGreaterThan(30);
+    expect(Math.abs(bone.scaleX - early.scaleX)).toBeGreaterThan(.1);
+    pose(1.9);
+    expect(bone.y).toBeLessThan(apex - 100);
+    expect(skeleton.findSlot('confetti0')!.color.a).toBeGreaterThan(0);
+  });
+
+  it('unfurls weighted streamers and lets the tip deform separately from the anchored end', () => {
+    const { skeleton, pose, vertices } = load();
+    for (const name of ['ribbonLeft', 'ribbonRight']) {
+      const mesh = skeleton.findSlot(name)!.getAttachment() as MeshAttachment;
+      expect(mesh).toBeInstanceOf(MeshAttachment);
+      expect(mesh.bones).not.toBeNull();
+      pose(.25);
+      const folded = vertices(name);
+      pose(.8);
+      const unfurled = vertices(name);
+      const tip = unfurled.length - 4;
+      expect(Math.hypot(unfurled[tip] - folded[tip], unfurled[tip + 1] - folded[tip + 1])).toBeGreaterThan(100);
+      for (let i = 0; i < unfurled.length; i += 2) {
+        expect(Math.abs(unfurled[i])).toBeGreaterThan(260);
+        expect(Math.abs(unfurled[i])).toBeLessThan(460);
+        expect(unfurled[i + 1]).toBeGreaterThan(35);
+        expect(unfurled[i + 1]).toBeLessThan(320);
+      }
+      skeleton.findBone(`${name}4`)!.x += 20;
+      skeleton.updateWorldTransform(Physics.none);
+      const movedTip = vertices(name);
+      expect(movedTip[0]).toBeCloseTo(unfurled[0], 4);
+      expect(Math.abs(movedTip[tip] - unfurled[tip])).toBeGreaterThan(15);
+    }
+  });
+
+  it('keeps the speed blades beyond the central card and title, then extinguishes them', () => {
+    const { skeleton, pose, vertices } = load(true);
+    const blades = skeleton.slots.filter(slot => slot.data.name.startsWith('blade'));
+    expect(blades.length).toBeGreaterThan(8);
+    for (const time of [.12, .22, .4, .55]) {
+      pose(time);
+      for (const slot of blades) {
+        const points = vertices(slot.data.name);
+        for (let i = 0; i < points.length; i += 2) {
+          const x = points[i], y = points[i + 1];
+          expect(Math.abs(x) > 275 || y < -125 || y > 490, `${slot.data.name}: ${x},${y}`).toBe(true);
+        }
+        if (time === .55) expect(slot.color.a).toBeCloseTo(0, 6);
+      }
+    }
+  });
+});

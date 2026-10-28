@@ -22,7 +22,7 @@ export class OpeningStage {
   app = new Application();
   scene = new CanvasScene();private revealEffects=new CardRevealEffects();
   onLayout: (()=>void) | null = null;
-  onCardStored: ((index:number)=>void)|null=null;flightLayer=new Container();private cardColors=new Map<string,number>();
+  onCardStored: ((index:number)=>void)|null=null;onSpecialWin:((card:Card)=>void)|null=null;flightLayer=new Container();private cardColors=new Map<string,number>();
   onCollectFocus:((index:number)=>void)|null=null;
   cardDestination:((index:number)=>{x:number;y:number;cardWidth:number})|null=null;
   blocked = false;
@@ -364,7 +364,7 @@ export class OpeningStage {
     if(this.options.reduced){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
     if(special){
       this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);special.setFloor(performanceFloor(gameLayout(this.app.screen.width,this.app.screen.height,true)));if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
-      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);});if(this.blocked||document.hidden)this.timeline.pause();});
+      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});if(this.blocked||document.hidden)this.timeline.pause();});
       if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(false,this.options.reduced);}
     }
     if(!this.destroyed&&request===this.revealToken)this.cardHoverReady=true;
