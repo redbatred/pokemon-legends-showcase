@@ -109,7 +109,7 @@ export class PokemonGame {
       Object.assign(button.style,{left:`${hit.x}px`,top:`${hit.y}px`,width:`${hit.width}px`,height:`${hit.height}px`});
       button.onclick=(event)=>{if(hit.canvasPointer&&event.detail>0)return;this.view?.setFocus(null);hit.action();};if(hit.canvasPointer){button.style.cursor='grab';button.style.zIndex='0';button.onpointerdown=event=>this.view?.railDown(event);button.onwheel=event=>this.view?.railWheel(event);}button.onfocus=()=>{if(this.keyboard)this.view?.setFocus(hit.id);};button.onblur=()=>this.view?.setFocus(null);
       if(!hit.canvasPointer)button.style.zIndex='1';
-      button.onpointerdown=hit.canvasPointer?button.onpointerdown:()=>this.view?.press(hit.id,true);button.onpointerup=()=>this.view?.press(hit.id,false);button.onpointerenter=()=>this.view?.hover(hit.id,true);button.onpointerleave=()=>this.view?.hover(hit.id,false);this.controls.append(button);
+      button.onpointerdown=hit.canvasPointer?button.onpointerdown:()=>this.view?.press(hit.id,true);button.onpointerup=()=>this.view?.press(hit.id,false);button.onpointerenter=event=>{if(event.pointerType==='mouse')this.view?.hover(hit.id,true);};button.onpointerleave=event=>{if(event.pointerType==='mouse')this.view?.hover(hit.id,false);};this.controls.append(button);
       if(this.keyboard&&old===hit.id&&!hit.disabled)button.focus({preventScroll:true});
     }
     this.announcer.textContent=summary;

@@ -51,7 +51,7 @@ export class SpineReveal {
     const land=()=>{const p=ballLanding(fall.t,skyY,landing.floor),adapt=(this.floor-50-landing.floor)*Math.min(1,fall.t/landing.contact);this.ballFloorInfluence=Math.min(1,fall.t/landing.contact);this.ball.position.set(p.x,p.y+adapt);this.ball.rotation=p.rotation;this.ball.scale.set(p.scale);};
     timeline.call(()=>playSound('throw',{pan:.35}),[],.52)
       .to(flight,{t:hit,duration:hit,ease:'none',onUpdate:project},0)
-      .call(()=>{this.face.texture=this.punctured;this.front.addChildAt(this.ball,this.front.getChildIndex(this.energy));this.trail.visible=false;onImpact();playSound('slam',{gain:.48});},[],hit)
+      .call(()=>{this.face.texture=this.punctured;this.front.addChildAt(this.ball,this.front.getChildIndex(this.actors));this.trail.visible=false;onImpact();playSound('slam',{gain:.48});},[],hit)
       .to(this.pressure,{alpha:1,duration:.04},hit).to(this.pressure.scale,{x:1.45,y:1.45,duration:.22,ease:'power3.out'},hit).to(this.pressure,{alpha:0,duration:.18},hit+.04)
       .to(this.flare,{alpha:.8,duration:.035},hit).to(this.flare.scale,{x:2.1,y:1.5,duration:.24,ease:'power2.out'},hit).to(this.flare,{alpha:0,duration:.22},hit+.05)
       .to(this.cardShell,{y:7,rotation:.014,duration:.06,ease:'power2.out'},hit).to(this.cardShell,{y:0,rotation:0,duration:.25,ease:'power2.out'},hit+.06)

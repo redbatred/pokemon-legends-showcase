@@ -36,6 +36,7 @@ export class CanvasUI {
   private creditReward=(total:number)=>{if(this.moneyValues.get('revealed')?.target===total)return;if(this.packValueLabel){this.packValueLabel.retarget(total);this.packValueLabel.pulse();}else this.moneyValues.set('revealed',moneyState(this.moneyValues.get('revealed'),this.openingId,total,false));};
   private updating=false;
   private railMotion={offset:0};private railTween:gsap.core.Tween|null=null;
+  private pointerSurface:HTMLElement;
   private rail:{content:Container;x:number;y:number;width:number;height:number;tile:number;stride:number;max:number;groups:Container[];hits:HitTarget[]}|null=null;
   private drag:{id:number;startX:number;startY:number;offset:number;lastX:number;lastTime:number;velocity:number;moved:boolean}|null=null;
   private lastPackId='';
@@ -46,6 +47,7 @@ export class CanvasUI {
   private packValueLabel:MoneyReadout|null=null;private revealCountLabel:Text|null=null;
   private thumbs=new Map<string,Texture>();private pending=new Map<string,Promise<Texture>>();private destroyed=false;
   constructor(private stage:OpeningStage,private onTargets:(hits:HitTarget[],summary:string)=>void){
+    this.pointerSurface=stage.app.canvas.parentElement??stage.app.canvas;
     void preloadWinCelebration().catch(()=>{});
     BitmapFont.install({name:'LegendsMoney',style:{fontFamily:'Nunito',fontSize:48,fontWeight:'900',fill:0xffffff,stroke:{color:0x082e52,width:3}},chars:'0123456789$.,+- ',resolution:2,padding:3,skipKerning:true});
     const canvas=document.createElement('canvas');canvas.width=8;canvas.height=128;const ctx=canvas.getContext('2d')!;const gradient=ctx.createLinearGradient(0,0,0,128);gradient.addColorStop(0,'rgba(4,14,29,0)');gradient.addColorStop(1,'rgba(4,14,29,.65)');ctx.fillStyle=gradient;ctx.fillRect(0,0,8,128);this.tray=Texture.from(canvas);
@@ -53,7 +55,14 @@ export class CanvasUI {
     stage.app.stage.addChild(this.backdrop,this.root,stage.flightLayer,this.rewards.root);stage.onCardStored=this.storeCard;stage.onSpecialWin=this.awardCard;stage.onLayout=()=>{if(!this.updating)this.build();};
     stage.onCollectFocus=this.focusTray;stage.cardDestination=this.cardDestination;
     window.addEventListener('keydown',this.keydown);
-    stage.app.canvas.addEventListener('pointerdown',this.railDown);stage.app.canvas.addEventListener('pointermove',this.railMove);stage.app.canvas.addEventListener('pointerup',this.railUp);stage.app.canvas.addEventListener('pointercancel',this.railCancel);stage.app.canvas.addEventListener('wheel',this.railWheel,{passive:false});
+    stage.app.canvas.addEventListener('pointerdown',this.railDown);
+    // Touch can remain implicitly captured by a transparent DOM control. Its
+    // events and canvas events must finish on the same stable ancestor.
+    this.pointerSurface.addEventListener('pointermove',this.railMove);
+    this.pointerSurface.addEventListener('pointerup',this.railUp);
+    this.pointerSurface.addEventListener('pointercancel',this.railCancel);
+    this.pointerSurface.addEventListener('lostpointercapture',this.railCaptureLost);
+    stage.app.canvas.addEventListener('wheel',this.railWheel,{passive:false});
   }
   update(state:UIState){
     const id=state.save?.active?.id??'';if(id!==this.openingId){this.openingId=id;this.landed.clear();this.trayOffset.value=0;this.rewards.reset(id,state.save?.active?.cards.slice(0,state.index).map(c=>c.value)??[]);this.moneyValues.delete('revealed');}
@@ -203,27 +212,31 @@ export class CanvasUI {
   }
   private point(event:MouseEvent){const b=this.stage.app.canvas.getBoundingClientRect();return {x:(event.clientX-b.left)*this.stage.app.screen.width/b.width,y:(event.clientY-b.top)*this.stage.app.screen.height/b.height};}
   railDown=(event:PointerEvent)=>{
-    const rail=this.rail;if(!rail||event.button!==0)return;const p=this.point(event);
+    const rail=this.rail;if(!rail||event.button!==0||event.isPrimary===false||this.drag)return;const p=this.point(event);
     if(p.x<rail.x||p.x>rail.x+rail.width||p.y<rail.y||p.y>rail.y+rail.height)return;
     this.railTween?.kill();this.railTween=null;this.setFocus(null);
     this.drag={id:event.pointerId,startX:p.x,startY:p.y,offset:this.railMotion.offset,lastX:p.x,lastTime:performance.now(),velocity:0,moved:false};
-    this.stage.app.canvas.setPointerCapture(event.pointerId);this.stage.app.canvas.style.cursor='grabbing';event.preventDefault();
+    try{this.pointerSurface.setPointerCapture(event.pointerId);}catch{/* Implicit touch capture still bubbles here. */}
+    this.stage.app.canvas.style.cursor='grabbing';event.preventDefault();
   };
   private railMove=(event:PointerEvent)=>{
     const d=this.drag,rail=this.rail;if(!d||!rail||d.id!==event.pointerId)return;const p=this.point(event),now=performance.now();
     d.moved ||= Math.abs(p.x-d.startX)>7||Math.abs(p.y-d.startY)>7;
+    if(!d.moved)return;
     d.velocity=d.velocity*.55+(d.lastX-p.x)/Math.max(8,now-d.lastTime)*.45;d.lastX=p.x;d.lastTime=now;
     this.railMotion.offset=railElastic(d.offset+d.startX-p.x,rail.max);this.positionRail(d.velocity);event.preventDefault();
   };
   private railUp=(event:PointerEvent)=>{
     const d=this.drag,rail=this.rail;if(!d||!rail||d.id!==event.pointerId)return;const p=this.point(event);
     this.cancelRailDrag();
-    if(!d.moved){const local=p.x-rail.x+this.railMotion.offset,index=Math.floor(local/rail.stride);const pack=this.state!.packs[index];if(pack&&local-index*rail.stride<=rail.tile){this.state!.select(pack);return;}}
+    const inside=p.x>=rail.x&&p.x<=rail.x+rail.width&&p.y>=rail.y&&p.y<=rail.y+rail.height;
+    if(!d.moved&&inside&&Math.abs(p.x-d.startX)<=7&&Math.abs(p.y-d.startY)<=7){const local=p.x-rail.x+this.railMotion.offset,index=Math.floor(local/rail.stride);const pack=this.state!.packs[index];if(pack&&local-index*rail.stride<=rail.tile){this.state!.select(pack);return;}}
     const velocity=performance.now()-d.lastTime>90?0:d.velocity;
     this.animateRail(railSnap(this.railMotion.offset,velocity,rail.stride,rail.max));
   };
-  private railCancel=()=>{this.cancelRailDrag();if(this.rail)this.animateRail(railSnap(this.railMotion.offset,0,this.rail.stride,this.rail.max));};
-  private cancelRailDrag(){if(this.drag&&this.stage.app.canvas.hasPointerCapture(this.drag.id))this.stage.app.canvas.releasePointerCapture(this.drag.id);this.drag=null;this.stage.app.canvas.style.cursor='default';}
+  private railCancel=(event:PointerEvent)=>{if(this.drag?.id!==event.pointerId)return;this.cancelRailDrag();if(this.rail)this.animateRail(railSnap(this.railMotion.offset,0,this.rail.stride,this.rail.max));};
+  private railCaptureLost=(event:PointerEvent)=>{if(event.target===this.pointerSurface)this.railCancel(event);};
+  private cancelRailDrag(){const drag=this.drag;this.drag=null;if(drag&&this.pointerSurface.hasPointerCapture(drag.id))this.pointerSurface.releasePointerCapture(drag.id);this.stage.app.canvas.style.cursor='default';}
   railWheel=(event:WheelEvent)=>{const r=this.rail;if(!r)return;const p=this.point(event);if(p.y<r.y||p.y>r.y+r.height)return;event.preventDefault();this.animateRail(railPosition(this.railMotion.offset+(event.deltaX||event.deltaY),r.max),.25);};
   private animateRail(offset:number,duration=.48){
     this.railTween?.kill();const r=this.rail;if(!r)return;
@@ -479,5 +492,5 @@ export class CanvasUI {
     result.cards.forEach((card,i)=>{const row=Math.floor(i/columns),col=i%columns,number=Math.min(columns,11-row*columns),rowWidth=number*(drawW+12)-12,x=(w-rowWidth)/2+col*(drawW+12),y=top+row*(ch+33);this.picture(card.image,x,y,drawW,ch);const exact=money(card.value),caption=drawW<55&&exact.length>6?'$'+new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:1}).format(card.value/100):exact;const price=this.text(card.id==='energy'?'Energy':caption,x+drawW/2,y+ch+7,10,C.cyan,this.root,'center');if(price.width>drawW+8)price.scale.set((drawW+8)/price.width);this.hit(`result-${i}`,`Inspect ${card.name}`,x,y,drawW,ch,()=>this.state!.inspect(card));});
     this.button('result-collection','View collection',Math.max(28,w/2-165),h-65,Math.min(155,(w-68)/2),44,()=>this.state!.action('collection'),{visibleLabel:'Collection'});this.button('result-continue','Continue',w/2+6,h-65,Math.min(155,(w-68)/2),44,()=>this.dismissModal('continue'),{primary:true});
   }
-  destroy(){this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.railTween?.kill();this.cancelRailDrag();const canvas=this.stage.app.canvas;canvas.removeEventListener('pointerdown',this.railDown);canvas.removeEventListener('pointermove',this.railMove);canvas.removeEventListener('pointerup',this.railUp);canvas.removeEventListener('pointercancel',this.railCancel);canvas.removeEventListener('wheel',this.railWheel);this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
+  destroy(){this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.railTween?.kill();this.cancelRailDrag();const canvas=this.stage.app.canvas;canvas.removeEventListener('pointerdown',this.railDown);this.pointerSurface.removeEventListener('pointermove',this.railMove);this.pointerSurface.removeEventListener('pointerup',this.railUp);this.pointerSurface.removeEventListener('pointercancel',this.railCancel);this.pointerSurface.removeEventListener('lostpointercapture',this.railCaptureLost);canvas.removeEventListener('wheel',this.railWheel);this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
 }
