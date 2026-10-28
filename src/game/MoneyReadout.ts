@@ -7,7 +7,7 @@ type Options={size:number;color:number;align:'left'|'center'|'right';width:numbe
 /** Exact cents with subordinate currency/decimals, fitted from glyph measurements. */
 export class MoneyReadout extends Container {
  private ink=new Container();private prefix:BitmapText;private integer:BitmapText;private decimals:BitmapText;
- private count:gsap.core.Tween|null=null;private entrance:gsap.core.Timeline|null=null;private maxScale=1;
+ private pulseTween:gsap.core.Tween|null=null;private count:gsap.core.Tween|null=null;private entrance:gsap.core.Timeline|null=null;private maxScale=1;
  constructor(private state:MoneyState,private options:Options){
   super();this.eventMode='none';this.addChild(this.ink);
   const label=(size:number)=>{const text=new BitmapText({text:'',style:{fontFamily:'LegendsMoney',fontSize:size}});text.tint=options.color;this.ink.addChild(text);return text;};
@@ -32,6 +32,8 @@ export class MoneyReadout extends Container {
    this.paint(s.value);
   },onComplete:()=>{s.value=s.target;s.remaining=0;this.paint(s.target);}});
  }
+ display(value:number){this.count?.kill();this.state.value=value;this.state.remaining=0;this.paint(value);}
+ pulse(){if(this.options.reduced)return;this.pulseTween?.kill();this.ink.scale.set(this.maxScale*1.18);this.pulseTween=gsap.to(this.ink.scale,{x:this.maxScale,y:this.maxScale,duration:.36,ease:'back.out(1.6)',onUpdate:this.options.draw});}
  retarget(amount:number){this.count?.kill();Object.assign(this.state,moneyState(this.state,this.state.identity,amount,false));this.fit();this.animate();}
- override destroy(){this.count?.kill();this.entrance?.kill();super.destroy({children:true});}
+ override destroy(){this.pulseTween?.kill();this.count?.kill();this.entrance?.kill();super.destroy({children:true});}
 }

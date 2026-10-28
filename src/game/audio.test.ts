@@ -135,13 +135,22 @@ it('keeps one rare crowd loop until next card, including loop boundaries and pau
  setAudioScenePaused(true);expect(loop.pause).toHaveBeenCalledWith(1);setAudioScenePaused(false);expect(loop.play).toHaveBeenLastCalledWith(1);
  stopCrowdReaction();expect(loop.stop).toHaveBeenCalledWith(1);expect(loop.events).toHaveLength(0);setAudioHidden(true);setAudioHidden(false);expect(loop.play).toHaveBeenCalledTimes(2);
 });
-it('uses distinct small applause and resumes only the active crowd bed after unmuting',()=>{
- setSound(true);playCrowdReaction(1);expect(voice('crowdsmall').volume).toHaveBeenLastCalledWith(.44,1);expect(voice('crowdapplause').fade).toHaveBeenLastCalledWith(0,.16,260,1);expect(voice('crowdrise').play).not.toHaveBeenCalled();
+it('uses one brief vocal reaction for low cards and resumes only a big-win bed after unmuting',()=>{
+ setSound(true);playCrowdReaction(1);expect(voice('crowdreact').volume).toHaveBeenLastCalledWith(.20,1);expect(voice('crowdreact').loop).toHaveBeenLastCalledWith(false,1);expect(voice('crowdcheer').play).not.toHaveBeenCalled();expect(voice('crowdrise').play).not.toHaveBeenCalled();setAudioScenePaused(false);expect(voice('crowdreact').play).toHaveBeenCalledOnce();
  playCrowdReaction(4);setSound(false);setSound(true);setAudioScenePaused(false);expect(voice('crowdcheer').play).toHaveBeenCalledTimes(2);expect(voice('crowdrise').play).toHaveBeenCalledOnce();
 });
 
 it('reserves silence for energy and scales applause into stadium cheers',()=>{
- setSound(true);playCrowdReaction(0);expect(voice('crowdsmall').play).not.toHaveBeenCalled();expect(voice('crowdcheer').play).not.toHaveBeenCalled();
- playCrowdReaction(2);expect(voice('crowdsmall').volume).toHaveBeenLastCalledWith(.54,1);expect(voice('crowdapplause').fade).toHaveBeenLastCalledWith(0,.24,260,1);
+ setSound(true);playCrowdReaction(0);expect(voice('crowdreact').play).not.toHaveBeenCalled();expect(voice('crowdcheer').play).not.toHaveBeenCalled();
+ playCrowdReaction(2);expect(voice('crowdreactrare').volume).toHaveBeenLastCalledWith(.30,1);expect(voice('crowdreactrare').loop).toHaveBeenLastCalledWith(false,1);
  stopCrowdReaction();playCrowdReaction(4);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.80,1);expect(voice('crowdcheer').fade).toHaveBeenLastCalledWith(0,.46,260,1);
+});
+
+it('does not restart a lower-win vocal reaction on unmute or late loading',()=>{
+ setSound(true);playCrowdReaction(1);setSound(false);setSound(true);setAudioScenePaused(false);expect(voice('crowdreact').play).toHaveBeenCalledOnce();expect(voice('crowdcheer').play).not.toHaveBeenCalled();
+ stopCrowdReaction();mock.loaded=false;playCrowdReaction(2);const cue=voice('crowdreactrare'),callbacks=[...cue.events].filter((e:any)=>e.name==='load');stopCrowdReaction();mock.loaded=true;for(const e of callbacks)e.fn();expect(cue.play).not.toHaveBeenCalled();
+});
+
+it('pauses the win celebration and money-arrival cues with the scene',()=>{
+ setSound(true);playSound('win');playSound('wincollect');const playing=mock.howls.filter(h=>h.play.mock.calls.length);expect(playing).toHaveLength(2);setAudioScenePaused(true);for(const cue of playing)expect(cue.pause).toHaveBeenCalledOnce();setAudioScenePaused(false);for(const cue of playing)expect(cue.play).toHaveBeenCalledTimes(2);
 });

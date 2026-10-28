@@ -11,6 +11,7 @@ import { loadPackTexture } from './packTexture';
 import type { SpineReveal } from './SpineReveal';
 import {PackOpening} from './PackOpening';
 import {PACK_CLEARANCE_TIME,PACK_TEAR_LIMIT} from './packTearGeometry';
+import {cardHover} from './cardHover';
 import {crowdLevel} from './crowdReaction';
 import {packStackPose,packStackFan,transferStackFront,PACK_EXTRACTION_START,PACK_ARRIVAL_TIME} from './packOpeningMotion';
 
@@ -58,6 +59,7 @@ export class OpeningStage {
   private openingLayout = false;private travelling=false;
   private journey:{amount:number}|null=null;
   private prepared:{key:string;cancelled:boolean;promise:Promise<{texture:Texture;special:SpineReveal|null}>}|null=null;
+  private cardHoverReady=false;
   private dragProgress = 0;
   private dragStart: number | null = null;
   private resetPointer=()=>{this.target.x=0;this.target.y=0;};
@@ -123,8 +125,8 @@ export class OpeningStage {
     this.app.stage.on('globalpointermove', e => {
       if(this.blocked)return;
       const wrapper=this.mode==='pack'||this.mode==='sealed';
-      this.target.x = wrapper?Math.max(-1,Math.min(1,(e.global.x-this.world.x)/(150*this.world.scale.x))):Math.max(-1,Math.min(1,(e.global.x-this.world.x)/(156*this.world.scale.x)));
-      this.target.y = wrapper?Math.max(-1,Math.min(1,(e.global.y-this.world.y)/(230*this.world.scale.y))):Math.max(-1,Math.min(1,(e.global.y-this.world.y)/(218*this.world.scale.y)));
+      const parent=wrapper?this.pack:this.cardLayer,p=parent.toLocal(e.global),pose=cardHover(p.x,p.y,wrapper?230:312,wrapper?421:435,e.pointerType==='mouse'&&(wrapper||this.cardHoverReady));
+      this.target.x=pose.x;this.target.y=pose.y;
       if (this.dragStart !== null && this.mode === 'sealed') {
         const progress = Math.min(1, Math.abs(e.global.x - this.dragStart) / (230 * this.world.scale.x * .72));
         this.dragProgress = progress;
@@ -134,9 +136,9 @@ export class OpeningStage {
         if (progress >= 1) { this.dragStart = null; this.options.onTear(); }
       }
     });
-    this.app.stage.on('pointerup', () => { this.dragStart = null; this.dragProgress = 0; this.tearLine.clear(); });
+    this.app.stage.on('pointerup', e => {if(e.pointerType!=='mouse')this.resetPointer(); this.dragStart = null; this.dragProgress = 0; this.tearLine.clear(); });
     this.app.stage.on('pointerupoutside', () => { this.dragStart = null; this.dragProgress = 0; this.tearLine.clear(); });
-    this.app.canvas.addEventListener('pointerleave',this.resetPointer);
+    this.app.canvas.addEventListener('pointerleave',this.resetPointer);this.app.canvas.addEventListener('pointercancel',this.resetPointer);
     this.cardLayer.eventMode = 'static'; this.cardLayer.cursor = 'pointer';
     this.cardLayer.on('pointertap', () => {if(!this.blocked)this.options.onNext();});
     for (let i = 3; i >= 1; i--) {
@@ -304,7 +306,7 @@ export class OpeningStage {
   }
 
   async reveal(card: Card, first = false, previousIndex=0,pokemonImage:string|null=null,packPrice=1000): Promise<void> {
-    this.scene.endCelebration();
+    this.cardHoverReady=false;this.resetPointer();this.scene.endCelebration();
     const request = ++this.revealToken;
     this.prepareReveal(card,pokemonImage);const prepared=this.prepared!;this.prepared=null;
     const loaded=await prepared.promise,texture=loaded.texture;let special=loaded.special;
@@ -365,6 +367,7 @@ export class OpeningStage {
       await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);});if(this.blocked||document.hidden)this.timeline.pause();});
       if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(false,this.options.reduced);}
     }
+    if(!this.destroyed&&request===this.revealToken)this.cardHoverReady=true;
   }
 
   private detachCard(){
@@ -413,7 +416,7 @@ export class OpeningStage {
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }
   reset() {
-    this.discardPrepared();this.openingCard?.destroy();this.openingCard=null;this.travelling=false;this.journey=null;this.scene.endCelebration();this.scene.setCinematic(false,this.options.reduced);
+    this.discardPrepared();this.cardHoverReady=false;this.resetPointer();this.openingCard?.destroy();this.openingCard=null;this.travelling=false;this.journey=null;this.scene.endCelebration();this.scene.setCinematic(false,this.options.reduced);
     this.revealEffects.clear();this.charging=false;this.scene.setCharge(null);this.timeline?.kill();this.timeline=null;this.clearPackOpening();stopRevealAudio();
     this.special?.destroy();this.special=null;++this.revealToken;
     this.mode = 'pack'; if(!this.blocked)this.app.start(); this.pack.visible = true; this.packMesh.visible = true; this.packShadow.visible = true;
@@ -425,7 +428,7 @@ export class OpeningStage {
     this.destroyed = true;cancelAnimationFrame(this.drawFrame); ++this.revealToken; ++this.packToken; this.timeline?.kill(); this.observer?.disconnect();
     for (const t of this.tweens) t.kill(); this.tweens.clear();
     document.removeEventListener('visibilitychange',this.visibility);
-    this.app.canvas?.removeEventListener('pointerleave',this.resetPointer);
+    this.app.canvas?.removeEventListener('pointerleave',this.resetPointer);this.app.canvas?.removeEventListener('pointercancel',this.resetPointer);
     this.scene.destroy();this.revealEffects.destroy();
     if (this.app.renderer) { gsap.killTweensOf(this.pack); this.app.destroy(true, { children: true }); this.back?.destroy(true); this.shadowTexture?.destroy(true); }
   }

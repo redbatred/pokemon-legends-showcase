@@ -32,7 +32,7 @@ export function gameLayout(width:number,height:number,opening=false) {
 export function revealControlsLayout(width:number,height:number){
  const l=gameLayout(width,height,true),space=(width-l.stageWidth)/2;
  if(l.compact&&height<430){const next=width<650?60:68,all=width<650?58:62,gap=(next+all)/2+8,x=width-space/2,y=Math.min(l.dockTop-next/2-32,Math.max(l.top+next/2+8,l.worldY+30));return {next:{x:x+gap/2,y,size:next},all:{x:x-gap/2,y,size:all}};}
- if(l.sideControls){const x=width-space/2,y=Math.max(l.compact?120:220,l.worldY+16);return {next:{x,y,size:l.compact?64:100},all:{x,y:y+(l.compact?92:142),size:l.compact?58:82}};}
+ if(l.sideControls){const x=width-space/2,y=Math.max(l.compact?120:l.short?238:220,l.worldY+16);return {next:{x,y,size:l.compact?64:l.short?84:100},all:{x,y:y+(l.compact?92:l.short?120:142),size:l.compact?58:l.short?70:82}};}
  return {next:{x:width-58,y:l.dockTop-66,size:84},all:{x:56,y:l.dockTop-66,size:76}};
 }
 

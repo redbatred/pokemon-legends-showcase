@@ -8,9 +8,9 @@ it('gives every valued reveal an audible reaction and matches its crowd animatio
  expect(crowdLevel(card('Special Illustration Rare',4500),1000)).toBe(4);
  expect(crowdLevel(card('Holo Rare V',50),1000,true)).toBe(3);
  const energy=crowdLevel({id:'energy',rarity:'Energy',value:0},1000);expect(energy).toBe(0);expect(crowdAnimationLevel(energy)).toBe(0);
- for(const level of [1,2,3,4] as const){expect(crowdMix(level).rise).toBeGreaterThan(.3);expect(crowdAnimationLevel(level)).toBeGreaterThan(0);}
+ for(const level of [1,2,3,4] as const){expect(crowdMix(level).rise).toBeGreaterThan(0);expect(crowdAnimationLevel(level)).toBeGreaterThan(0);}
 });
-it('uses small applause for regular pulls and increases power before switching to stadium cheers',()=>{
- expect(crowdMix(0).rise).toBe(0);expect(crowdMix(1).attack).toBe('crowdsmall');expect(crowdMix(2).bed).toBe('crowdapplause');expect(crowdMix(3).attack).toBe('crowdrise');expect(crowdMix(4).bed).toBe('crowdcheer');
- for(let i=1;i<=4;i++){expect(crowdMix(i as CrowdLevel).rise).toBeGreaterThan(crowdMix((i-1) as CrowdLevel).rise);expect(crowdMix(i as CrowdLevel).loop).toBeGreaterThan(crowdMix((i-1) as CrowdLevel).loop);}
+it('uses brief vocal reactions for lower cards and reserves sustained cheering for big reveals',()=>{
+ expect(crowdMix(0).rise).toBe(0);expect(crowdMix(1)).toMatchObject({attack:'crowdreact',bed:null,loop:0});expect(crowdMix(2)).toMatchObject({attack:'crowdreactrare',bed:null,loop:0});expect(crowdMix(3).attack).toBe('crowdrise');expect(crowdMix(4).bed).toBe('crowdcheer');
+ for(let i=1;i<=4;i++)expect(crowdMix(i as CrowdLevel).rise).toBeGreaterThan(crowdMix((i-1) as CrowdLevel).rise);
 });
