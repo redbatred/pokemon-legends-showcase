@@ -14,13 +14,18 @@ export function gameLayout(width:number,height:number,opening=false) {
   const dock=opening?(compact?92:short?112:148):(compact?148:portrait?216:226);
   const actions=opening?(sideControls?(compact?0:44):short?112:124):(compact?52:72);
   const dockTop=height-dock,actionTop=dockTop-actions;
-  const stageWidth=Math.min(width*(compact?.52:sideControls?.60:1.02),900),stageFlatten=.82;
-  // The source platform has transparent padding; its physical front ends at v=.90.
-  const stageFrontOffset=stageWidth*.5*stageFlatten*.40;
-  const stageY=actionTop-stageFrontOffset-(compact?8:12),stageFront=stageY+stageFrontOffset;
-  const playHeight=Math.max(76,(opening?stageY-32:compact?dockTop-9:actionTop-16)-top);
-  const scale=Math.max(.17,Math.min(width/(sideControls?720:430),playHeight/435,1.4));
-  const worldY=opening?stageY-32-217.5*scale:top+playHeight/2;
+  // One local coordinate system for the card, physical platform and floor gap.
+  // Width-only platform sizing made short/wide screens dwarf the height-fitted card.
+  const stageFlatten=.82,platformSpan=840,cardHeight=435,floorGap=32;
+  const widthLimit=width*(compact?.52:sideControls?.60:1.02),frontInset=12;
+  const frontPerScale=platformSpan*.5*stageFlatten*.40;
+  const compositionHeight=cardHeight+floorGap+frontPerScale;
+  const arenaScale=Math.min(widthLimit/platformSpan,Math.max(1,actionTop-frontInset-top)/compositionHeight,1.4);
+  const stageWidth=platformSpan*arenaScale,stageFrontOffset=frontPerScale*arenaScale;
+  const stageY=actionTop-stageFrontOffset-frontInset,stageFront=stageY+stageFrontOffset;
+  const playHeight=opening?cardHeight*arenaScale:Math.max(76,(compact?dockTop-9:actionTop-16)-top);
+  const scale=opening?arenaScale:Math.max(.17,Math.min(width/(sideControls?720:430),playHeight/cardHeight,1.4));
+  const worldY=opening?stageY-(floorGap+cardHeight/2)*scale:top+playHeight/2;
   return {width,height,portrait,compact,short,sideControls,top,dock,actions,playHeight,actionTop,dockTop,worldY,scale,stageY,stageFront,stageWidth,stageFlatten};
 }
 

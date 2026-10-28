@@ -4,13 +4,12 @@ import {packSeam,packTearPoint,foilBend,type PackTearState} from './packTearGeom
 /** The photographed foil stays registered until a local crack releases its curled edge. */
 export class PackOpening {
  root=new Container();rear=new Graphics();bodyRoot=new Container();sealRoot=new Container();
- state:PackTearState={tension:0,rip:0,curl:0,open:0,crumple:0,flight:0};
+ state:PackTearState={tension:0,rip:0,curl:0,open:0,crumple:0,pull:0};
  private body:MeshPlane;private seal:MeshPlane;private reverse=new Graphics();private rim=new Graphics();private creases=new Graphics();
  constructor(texture:Texture){
   this.seal=this.mesh(texture,'seal',17);this.body=this.mesh(texture,'body',25);
-  this.bodyRoot.addChild(this.body,this.rim,this.creases);this.sealRoot.addChild(this.seal,this.reverse);
-  this.sealRoot.pivot.set(0,-165);this.sealRoot.position.set(0,-165);
-  this.root.addChild(this.rear,this.bodyRoot,this.sealRoot);this.root.eventMode='none';this.update();
+  this.bodyRoot.addChild(this.body,this.rim,this.creases,this.sealRoot);this.sealRoot.addChild(this.seal,this.reverse);
+  this.root.addChild(this.rear,this.bodyRoot);this.root.eventMode='none';this.update();
  }
  private mesh(texture:Texture,part:'seal'|'body',rows:number){
   const mesh=new MeshPlane({texture,verticesX:49,verticesY:rows});mesh.autoResize=false;const uv=mesh.geometry.getBuffer('aUV');
