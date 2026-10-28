@@ -1,0 +1,331 @@
+{
+  "verifiedDate": "2026-10-28",
+  "sources": {
+    "applause": {
+      "title": "Small Crowd Clapping 2",
+      "creator": "snakebarney",
+      "page": "https://freesound.org/people/snakebarney/sounds/138114/",
+      "previewUrl": "https://cdn.freesound.org/previews/138/138114_1572282-hq.mp3",
+      "sha256": "4df0ccceb5204350a45f88cba4db351266f1afb492b25ef06e7ebd6d95ec5f0d",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "publishedDate": "2011-12-16",
+      "channels": 1,
+      "capture": "Creator describes a small group applauding in a room.",
+      "sourceFormat": "Provider HQ MP3 preview; 48 kHz mono; approximately 195 kb/s. Original AIFF not downloaded.",
+      "filters": "highpass=f=80:p=2,lowpass=f=11500:p=2"
+    },
+    "sports": {
+      "title": "Crowd Cheer",
+      "creator": "FoolBoyMedia",
+      "page": "https://freesound.org/people/FoolBoyMedia/sounds/397434/",
+      "previewUrl": "https://cdn.freesound.org/previews/397/397434_4019029-hq.mp3",
+      "sha256": "b621e391cb850ff79d8c215faf295119e747340803429ffbb383b5eaf4a132d2",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "publishedDate": "2017-07-12",
+      "channels": 2,
+      "capture": "Creator describes spectators celebrating a sporting win, recorded with a Tascam DR-05.",
+      "sourceFormat": "Provider HQ MP3 preview; 44.1 kHz stereo; approximately 218 kb/s. Original WAV not downloaded.",
+      "filters": "highpass=f=70:p=2,lowpass=f=8000:p=2"
+    }
+  },
+  "processing": {
+    "sampleRate": 48000,
+    "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "levels": "RMS normalized to -18.2 dBFS; exceptional transients limited only as needed at -3 dBFS before encoding. Every delivered decode checked at <= -2 dBFS 4x peak.",
+    "loopMethod": "Equal-power cos/sin crossfade rotated to the head; limiter, where needed, processes three repeats and retains the middle period. The finished loop is phase-rotated to a naturally low-amplitude codec boundary.",
+    "audition": "No human audition claimed. Primary creator/license metadata, source waveform, finite decoding, duration, RMS, EBU R128 integrated loudness, 4x peak, boundary and hash checks only.",
+    "content": "Recorded crowds at original pitch and speed. No added music, synthetic crowd, speech layer or artificial reverb. No source separation attempted."
+  },
+  "cues": {
+    "crowdsmall": {
+      "source": "applause",
+      "start": 0.95,
+      "duration": 1.6,
+      "overlap": 0,
+      "fadeIn": 0.025,
+      "fadeOut": 0.24,
+      "rmsTarget": -18.2,
+      "gain": 0.55,
+      "sourceRangeSeconds": [
+        0.95,
+        2.55
+      ],
+      "loop": false,
+      "channels": 1,
+      "rmsNormalizationGainDb": -1.21445,
+      "preLimiterPeak4xDbfs": -0.915,
+      "limiter": "aresample=192000,alimiter=limit=0.7079457844:attack=1:release=35:level=false:latency=true,aresample=48000",
+      "loopBoundaryRotationSeconds": 0.0,
+      "pcmRmsDbfs": -18.712,
+      "pcmWrapSampleDeltaDbfs": -128.941,
+      "files": {
+        "mp3": {
+          "sha256": "a4e41733eac1b7017c235ba94a890398488f888abc284616c48e31b32101dc2e",
+          "bytes": 33140,
+          "decodedDuration": 1.6,
+          "peak4xDbfs": -3.403,
+          "rmsDbfs": -19.157,
+          "integratedLufs": -17.2,
+          "wrapSampleDeltaDbfs": -74.076,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "mp3",
+                "sample_rate": "48000",
+                "channels": 1
+              }
+            ],
+            "format": {
+              "duration": "1.600000",
+              "bit_rate": "165700"
+            }
+          }
+        },
+        "ogg": {
+          "sha256": "cb4c9e998b62130dff952bba3a7eaa6fc31ea87223477de5c5ab3b607a59dd89",
+          "bytes": 22443,
+          "decodedDuration": 1.6,
+          "peak4xDbfs": -2.699,
+          "rmsDbfs": -18.687,
+          "integratedLufs": -16.7,
+          "wrapSampleDeltaDbfs": -70.768,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "opus",
+                "sample_rate": "48000",
+                "channels": 1
+              }
+            ],
+            "format": {
+              "duration": "1.606500",
+              "bit_rate": "111760"
+            }
+          }
+        }
+      }
+    },
+    "crowdapplause": {
+      "source": "applause",
+      "start": 1.6,
+      "duration": 3.0,
+      "overlap": 0.35,
+      "fadeIn": 0,
+      "fadeOut": 0,
+      "rmsTarget": -18.2,
+      "gain": 0.6,
+      "sourceRangeSeconds": [
+        1.6,
+        4.95
+      ],
+      "loop": true,
+      "channels": 1,
+      "rmsNormalizationGainDb": -1.526349,
+      "preLimiterPeak4xDbfs": -0.917,
+      "limiter": "aresample=192000,alimiter=limit=0.7079457844:attack=1:release=35:level=false:latency=true,aresample=48000",
+      "loopBoundaryRotationSeconds": 0.191625,
+      "pcmRmsDbfs": -18.495,
+      "pcmWrapSampleDeltaDbfs": -66.109,
+      "files": {
+        "mp3": {
+          "sha256": "224d23d8302b8dc0e47ba3691c1e5ef83b0281ca6226358fe8d93cb25b8b5b25",
+          "bytes": 60980,
+          "decodedDuration": 3.0,
+          "peak4xDbfs": -3.408,
+          "rmsDbfs": -18.941,
+          "integratedLufs": -17.4,
+          "wrapSampleDeltaDbfs": -49.923,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "mp3",
+                "sample_rate": "48000",
+                "channels": 1
+              }
+            ],
+            "format": {
+              "duration": "3.000000",
+              "bit_rate": "162613"
+            }
+          }
+        },
+        "ogg": {
+          "sha256": "250265377cbfda346a8be91e3f629574c8953f1fc0feabbbe353366515f67cd1",
+          "bytes": 40275,
+          "decodedDuration": 3.0,
+          "peak4xDbfs": -2.69,
+          "rmsDbfs": -18.499,
+          "integratedLufs": -16.9,
+          "wrapSampleDeltaDbfs": -48.279,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "opus",
+                "sample_rate": "48000",
+                "channels": 1
+              }
+            ],
+            "format": {
+              "duration": "3.006500",
+              "bit_rate": "107167"
+            }
+          }
+        }
+      }
+    },
+    "crowdrise": {
+      "source": "sports",
+      "start": 1.55,
+      "duration": 1.9,
+      "overlap": 0,
+      "fadeIn": 0.065,
+      "fadeOut": 0.24,
+      "rmsTarget": -18.2,
+      "gain": 0.75,
+      "sourceRangeSeconds": [
+        1.55,
+        3.45
+      ],
+      "loop": false,
+      "channels": 2,
+      "rmsNormalizationGainDb": -6.739254,
+      "preLimiterPeak4xDbfs": -5.18,
+      "limiter": null,
+      "loopBoundaryRotationSeconds": 0.0,
+      "pcmRmsDbfs": -18.2,
+      "pcmWrapSampleDeltaDbfs": -240.0,
+      "files": {
+        "mp3": {
+          "sha256": "660d3c9ac3a284a467d1f360f268d3cd272f60cfdf6383485e87e976330cd717",
+          "bytes": 47252,
+          "decodedDuration": 1.9,
+          "peak4xDbfs": -5.407,
+          "rmsDbfs": -18.457,
+          "integratedLufs": -14.3,
+          "wrapSampleDeltaDbfs": -66.998,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "mp3",
+                "sample_rate": "48000",
+                "channels": 2
+              }
+            ],
+            "format": {
+              "duration": "1.900000",
+              "bit_rate": "198955"
+            }
+          }
+        },
+        "ogg": {
+          "sha256": "32a50f74c0c7b8a3f63de300397d4d52ebd218e322f29b1385db11f15eeeb9a0",
+          "bytes": 37886,
+          "decodedDuration": 1.9,
+          "peak4xDbfs": -4.979,
+          "rmsDbfs": -18.186,
+          "integratedLufs": -14.0,
+          "wrapSampleDeltaDbfs": -55.664,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "opus",
+                "sample_rate": "48000",
+                "channels": 2
+              }
+            ],
+            "format": {
+              "duration": "1.906500",
+              "bit_rate": "158976"
+            }
+          }
+        }
+      }
+    },
+    "crowdcheer": {
+      "source": "sports",
+      "start": 8.0,
+      "duration": 6.0,
+      "overlap": 0.75,
+      "fadeIn": 0,
+      "fadeOut": 0,
+      "rmsTarget": -18.2,
+      "gain": 0.65,
+      "sourceRangeSeconds": [
+        8.0,
+        14.75
+      ],
+      "loop": true,
+      "channels": 2,
+      "rmsNormalizationGainDb": -3.922329,
+      "preLimiterPeak4xDbfs": -2.224,
+      "limiter": "aresample=192000,alimiter=limit=0.7079457844:attack=1:release=35:level=false:latency=true,aresample=48000",
+      "loopBoundaryRotationSeconds": 0.010041667,
+      "pcmRmsDbfs": -18.261,
+      "pcmWrapSampleDeltaDbfs": -44.553,
+      "files": {
+        "mp3": {
+          "sha256": "e7ee440757317a4113344755298b68eabf551fe861a2751bbcacfbb92d8c68bb",
+          "bytes": 145172,
+          "decodedDuration": 6.0,
+          "peak4xDbfs": -2.989,
+          "rmsDbfs": -18.52,
+          "integratedLufs": -14.3,
+          "wrapSampleDeltaDbfs": -43.218,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "mp3",
+                "sample_rate": "48000",
+                "channels": 2
+              }
+            ],
+            "format": {
+              "duration": "6.000000",
+              "bit_rate": "193562"
+            }
+          }
+        },
+        "ogg": {
+          "sha256": "2a98f1ec5049c982424f4aecb257ed2d6fe043d57afda36345acd7aee6fe3e09",
+          "bytes": 113254,
+          "decodedDuration": 6.0,
+          "peak4xDbfs": -2.595,
+          "rmsDbfs": -18.254,
+          "integratedLufs": -14.0,
+          "wrapSampleDeltaDbfs": -46.416,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "opus",
+                "sample_rate": "48000",
+                "channels": 2
+              }
+            ],
+            "format": {
+              "duration": "6.006500",
+              "bit_rate": "150841"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -19,6 +19,22 @@ import cueManifest from '../../public/assets/audio-v4/cues.json';
 const voice=(key:string)=>mock.howls.find(h=>h.source.endsWith(`/${key}.mp3`));
 beforeEach(()=>{destroyAudio();mock.howls=[];mock.loaded=true;});
 afterEach(()=>{destroyAudio();vi.useRealTimers();});
+it('starts the current card crowd when sound is enabled after the reveal without replaying its impact',()=>{
+ playCrowdReaction(4);setSound(true);
+ expect(voice('crowdcheer').play).toHaveBeenCalledOnce();
+ expect(voice('crowdrise').play).not.toHaveBeenCalled();
+ setSound(false);setSound(true);
+ expect(voice('crowdcheer').play).toHaveBeenCalledTimes(2);
+ stopCrowdReaction();setSound(false);setSound(true);
+ expect(voice('crowdcheer').play).toHaveBeenCalledTimes(2);
+});
+it('recovers a loading crowd loop only while its revealed card still owns the reaction',()=>{
+ vi.useFakeTimers();mock.loaded=false;setSound(true);playCrowdReaction(4);const loop=voice('crowdcheer');
+ mock.loaded=true;for(const e of [...loop.events])if(e.name==='load')e.fn();
+ expect(loop.play).toHaveBeenCalledOnce();
+ stopCrowdReaction();mock.loaded=false;playCrowdReaction(4);const callbacks=[...loop.events].filter((e:any)=>e.name==='load');stopCrowdReaction();mock.loaded=true;for(const e of callbacks)e.fn();
+ expect(loop.play).toHaveBeenCalledOnce();
+});
 it('halves Pokémon attacks and cries while preserving menu and card volume',()=>{
  setSound(true);
  for(const key of ['fire','water','electric','psychic','swift','hyperbeam','shadowball','aeroblast','petals'] as const){
@@ -119,13 +135,13 @@ it('keeps one rare crowd loop until next card, including loop boundaries and pau
  setAudioScenePaused(true);expect(loop.pause).toHaveBeenCalledWith(1);setAudioScenePaused(false);expect(loop.play).toHaveBeenLastCalledWith(1);
  stopCrowdReaction();expect(loop.stop).toHaveBeenCalledWith(1);expect(loop.events).toHaveLength(0);setAudioHidden(true);setAudioHidden(false);expect(loop.play).toHaveBeenCalledTimes(2);
 });
-it('uses a quieter normal reaction without a loop and does not revive muted cheers',()=>{
- setSound(true);playCrowdReaction(1);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.048,1);expect(voice('crowdcheer').play).not.toHaveBeenCalled();
- playCrowdReaction(4);setSound(false);setSound(true);setAudioScenePaused(false);expect(voice('crowdcheer').play).toHaveBeenCalledOnce();
+it('uses distinct small applause and resumes only the active crowd bed after unmuting',()=>{
+ setSound(true);playCrowdReaction(1);expect(voice('crowdsmall').volume).toHaveBeenLastCalledWith(.44,1);expect(voice('crowdapplause').fade).toHaveBeenLastCalledWith(0,.16,260,1);expect(voice('crowdrise').play).not.toHaveBeenCalled();
+ playCrowdReaction(4);setSound(false);setSound(true);setAudioScenePaused(false);expect(voice('crowdcheer').play).toHaveBeenCalledTimes(2);expect(voice('crowdrise').play).toHaveBeenCalledOnce();
 });
 
-it('plays no crowd for ordinary cards and reduces sustained gain for a mid-value reveal',()=>{
- setSound(true);playCrowdReaction(0);expect(voice('crowdrise').play).not.toHaveBeenCalled();expect(voice('crowdcheer').play).not.toHaveBeenCalled();
- playCrowdReaction(2);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.10,1);expect(voice('crowdcheer').fade).toHaveBeenLastCalledWith(0,.035,240,1);
- stopCrowdReaction();playCrowdReaction(4);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.25,2);expect(voice('crowdcheer').fade).toHaveBeenLastCalledWith(0,.105,240,2);
+it('reserves silence for energy and scales applause into stadium cheers',()=>{
+ setSound(true);playCrowdReaction(0);expect(voice('crowdsmall').play).not.toHaveBeenCalled();expect(voice('crowdcheer').play).not.toHaveBeenCalled();
+ playCrowdReaction(2);expect(voice('crowdsmall').volume).toHaveBeenLastCalledWith(.54,1);expect(voice('crowdapplause').fade).toHaveBeenLastCalledWith(0,.24,260,1);
+ stopCrowdReaction();playCrowdReaction(4);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.80,1);expect(voice('crowdcheer').fade).toHaveBeenLastCalledWith(0,.46,260,1);
 });

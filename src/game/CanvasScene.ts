@@ -7,7 +7,7 @@ import {AnimeAtmosphere} from './AnimeAtmosphere';
 import { StageLightRig } from './StageLightRig';
 import {StadiumFloodlights} from './StadiumFloodlights';
 import {projectFloodlights} from './floodlightGeometry';
-import type {CrowdLevel} from './crowdReaction';
+import {crowdAnimationLevel,type CrowdLevel} from './crowdReaction';
 
 /** Only emitter pixels are neutralized; stadium paint and platform shadows keep their original colors. */
 export class CanvasScene {
@@ -49,7 +49,7 @@ export class CanvasScene {
   get lightTint(){return (Math.round(this.light.r)<<16)|(Math.round(this.light.g)<<8)|Math.round(this.light.b);}
   setCardColor(color:number,reduced:boolean,duration=.55){this.colorTween?.kill();this.colorTween=gsap.to(this.light,{r:(color>>16)&255,g:(color>>8)&255,b:color&255,duration:reduced?.01:duration,ease:'power2.out',paused:this.paused});}
   setCharge(amount:number|null){this.chargeLevel=amount??-1;}
-  beginReveal(reduced:boolean,reaction:CrowdLevel=0,audience=3){this.reactionLevel=reaction;this.audienceLevel=audience;this.chargeLevel=-1;this.exposureTween?.kill();this.exposureTween=gsap.to(this.exposure,{amount:reduced?1:.45,duration:.18,ease:'power2.out',paused:this.paused});}
+  beginReveal(reduced:boolean,reaction:CrowdLevel=0){this.reactionLevel=reaction;this.audienceLevel=crowdAnimationLevel(reaction);this.chargeLevel=-1;this.exposureTween?.kill();this.exposureTween=gsap.to(this.exposure,{amount:reduced?1:.45,duration:.18,ease:'power2.out',paused:this.paused});}
   endCelebration(){this.celebrationAge=-1;stopCrowdReaction();}
   impact(rare:boolean,reduced:boolean,celebrate=rare){if(celebrate||!rare){if(this.audienceLevel>0&&this.celebrationAge<0)this.celebrationAge=0;playCrowdReaction(this.reactionLevel);}this.chargeLevel=-1;this.exposureTween?.kill();this.exposure.amount=reduced?1:1.2;this.exposureTween=gsap.to(this.exposure,{amount:1,duration:.65,paused:this.paused});this.impactTween?.kill();this.impactState.amount=reduced?0:rare?1:.45;this.impactTween=gsap.to(this.impactState,{amount:0,duration:rare?1.2:.65,ease:'power2.out',paused:this.paused});}
   tick(time:number,reduced:boolean,low:boolean){

@@ -11,7 +11,7 @@ import { loadPackTexture } from './packTexture';
 import type { SpineReveal } from './SpineReveal';
 import {PackOpening} from './PackOpening';
 import {PACK_CLEARANCE_TIME} from './packTearGeometry';
-import {crowdLevel,crowdAnimationLevel} from './crowdReaction';
+import {crowdLevel} from './crowdReaction';
 
 type Options = { reduced: boolean; low: boolean; onTear: () => void; onNext: () => void };
 type Particle = { sprite: Graphics; x: number; y: number; speed: number; phase: number; depth: number };
@@ -261,7 +261,7 @@ export class OpeningStage {
     return new Promise(resolve=>{
       this.timeline=gsap.timeline({onUpdate:()=>opening.update(),onComplete:()=>{this.pack.visible=false;this.packShadow.visible=false;this.journey=null;this.clearPackOpening();resolve();}});
       this.timeline.to(projection,{yaw:0,pitch:0,duration:.18*d,ease:'power2.out',onUpdate:align},0)
-        .to(this.pack,{rotation:0,y:0,duration:.18*d,ease:'power2.out'},0)
+        .to(this.pack,{rotation:0,x:0,y:0,duration:.18*d,ease:'power2.out'},0)
         .to(this.pack.scale,{x:1,y:1,duration:.18*d},0)
         .call(()=>{opening.root.visible=true;this.packMesh.visible=false;this.stack.visible=true;this.stack.alpha=1;this.stack.scale.set(.66);this.stack.position.set(0,9);this.stack.rotation=0;opening.root.addChildAt(this.stack,1);},[],.18*d)
         .to(s,{tension:1,duration:.19*d,ease:'power2.inOut'},.18*d)
@@ -269,10 +269,15 @@ export class OpeningStage {
         .call(()=>playSound('packtear'),[],.34*d)
         .to(s,{rip:.06,curl:.15,duration:.1*d,ease:'power3.in'},.34*d)
         .to(s,{rip:.32,curl:.48,duration:.2*d,ease:'power1.out'},.44*d)
+        .to(this.pack,{x:-3,rotation:-.014,duration:.20*d,ease:'power2.out'},.44*d)
         .to(s,{rip:.37,tension:1.15,curl:.62,duration:.1*d,ease:'sine.inOut'},.64*d)
         .to(s,{rip:.98,curl:.86,duration:.27*d,ease:'power2.in'},.74*d)
         .to(s,{rip:1.12,curl:1,tension:.35,duration:.15*d,ease:'power2.out'},1.01*d)
+        .to(this.pack,{x:2,rotation:.008,duration:.12*d,ease:'power2.out'},1.01*d)
+        .to(this.pack,{x:0,rotation:0,duration:.20*d,ease:'sine.out'},1.13*d)
         .to(s,{open:1,duration:.25*d,ease:'power2.out'},1.06*d)
+        .to(s,{flight:1,duration:.72*d,ease:'none'},1.16*d)
+        .call(()=>playSound('packrustle',{gain:.65}),[],1.18*d)
         .to(opening.sealRoot,{x:145,y:-152,rotation:.12,duration:.24*d,ease:'power2.out'},1.16*d)
         .to(opening.sealRoot,{x:365,y:15,rotation:1.05,alpha:0,duration:.48*d,ease:'power2.in'},1.40*d)
         .to(this.stack,{y:-90,duration:.54*d,ease:'power2.inOut'},1.22*d)
@@ -303,7 +308,7 @@ export class OpeningStage {
     const loaded=await prepared.promise,texture=loaded.texture;let special=loaded.special;
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     if(this.options.reduced){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
-    this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced,crowdLevel(card,packPrice),crowdAnimationLevel(card,!!special));
+    this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced,crowdLevel(card,packPrice,!!special));
     this.mode = 'card'; this.pack.visible = false; this.packShadow.visible = false;
     this.cardLayer.visible = true;
     const d = this.options.reduced ? .01 : 1;

@@ -7,3 +7,9 @@ it('separates only released foil and keeps the lower printed body rigid before c
  const s={tension:1,rip:.65,curl:.75,open:0,crumple:0};expect(packTearPoint('seal',.8,1,s).y).toBeLessThan(packTearPoint('body',.8,0,s).y-10);
  expect(packTearPoint('body',.2,1,s)).toEqual({x:.2*230-115,y:210.5});
 });
+it('keeps the attached peel near the original pack top, then flexes across its width in flight',()=>{
+ const s={tension:.35,rip:1.12,curl:1,open:1,crumple:0,flight:0};
+ for(let u=0;u<=1;u+=.02)for(let v=0;v<=1;v+=.1)expect(packTearPoint('seal',u,v,s).y).toBeGreaterThan(-221);
+ const offsets=[.2,.5,.8].map(u=>packTearPoint('seal',u,.5,{...s,flight:.4}).y-packTearPoint('seal',u,.5,s).y);
+ expect(Math.max(...offsets)-Math.min(...offsets)).toBeGreaterThan(5);
+});

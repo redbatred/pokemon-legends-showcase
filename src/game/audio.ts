@@ -3,7 +3,7 @@ import cueManifest from '../../public/assets/audio-v4/cues.json';
 import moveManifest from '../../public/assets/audio-v5/cues.json';
 import ensembleManifest from '../../public/assets/audio-v6/cues.json';
 import ballManifest from '../../public/assets/audio-v7/cues.json';
-import crowdManifest from '../../public/assets/audio-v8/cues.json';
+import crowdManifest from '../../public/assets/audio-v10/cues.json';
 import packManifest from '../../public/assets/audio-v9/cues.json';
 import {crowdMix,type CrowdLevel} from './crowdReaction';
 import { pokemonPower, type PowerCue } from './powerProfiles';
@@ -12,12 +12,13 @@ type Voice={howl:Howl;id:number;scene:boolean;paused:boolean;key:string;gain:num
 const sounds=new Map<string,Howl>(), pending=new Map<string,Promise<void>>(), voices=new Set<OwnedVoice>();
 let enabled=false,scenePaused=false,hidden=false,lastCredit=-Infinity,lastLand=-Infinity;
 let music:Howl|null=null,musicId:number|undefined,musicPaused=false,interacted=false,musicGain=.14;
-let crowdLoop:OwnedVoice|null=null,crowdRise:OwnedVoice|null=null,crowdCurrent=-1;
+let crowdLoop:OwnedVoice|null=null,crowdRise:OwnedVoice|null=null,crowdCurrent=-1,crowdGeneration=0,crowdStartedAt=0,crowdAttackPlayed=false;
+const crowdLoads=new Map<Howl,()=>void>();
 const pokemonCues=new Set([...Object.keys(ensembleManifest),'fire','water','electric','psychic','leaf','wind','ice','dark','metal','ground','fairy','dragon','swift','hyperbeam','shadowball','aeroblast','petals','hydropump','waterpulse','psystrike']);
 const cues:Record<string,{gain:number;files:{mp3?:string;ogg?:string;wav?:string}}>={...cueManifest,...moveManifest,...ensembleManifest,...ballManifest,...crowdManifest,...packManifest};
 function mixMusic(){
  if(!music||musicId===undefined)return;
- const next=[...voices].some(v=>v.scene&&!v.paused&&!v.key.startsWith('crowd'))?.035:scenePaused?.085:.14;
+ const next=[...voices].some(v=>v.scene&&!v.paused&&!v.key.startsWith('crowd'))?.035:scenePaused||[...voices].some(v=>v.key.startsWith('crowd'))?.085:.14;
  if(next!==musicGain){music.fade(musicGain,next,next<musicGain?110:650,musicId);musicGain=next;}
 }
 function syncMusic(){
@@ -29,7 +30,7 @@ function syncMusic(){
  musicPaused=false;mixMusic();
 }
 /** Browsers unlock audio only after a real pointer/key gesture. */
-export function unlockAudio(){interacted=true;if(enabled)void Howler.ctx?.resume();syncMusic();}
+export function unlockAudio(){interacted=true;if(enabled)void Howler.ctx?.resume();syncMusic();syncCrowd(false);}
 function sample(key:string){
  let howl=sounds.get(key);
  if(!howl){const cue=cues[key],src=cue?(cue.files.wav?[cue.files.wav]:[cue.files.mp3,cue.files.ogg].filter((file):file is string=>!!file)):[`/assets/audio-v2/${key}.mp3`,`/assets/audio-v2/${key}.ogg`];howl=new Howl({src,preload:true,pool:4});sounds.set(key,howl);}
@@ -44,7 +45,7 @@ function ready(key:string){
   howl.once('load',finish);howl.once('loaderror',finish);timer=setTimeout(finish,1800);
  });pending.set(key,promise);return promise;
 }
-export function preloadAudio(){for(const name of ['tear','flip','normal','rare','complete','credit','throw','impact','release','charge','ui','latch','stage','land','suspense','slam','ballbounce','ballsettle','crowdrise','crowdcheer','packtear','packrustle'])void ready(name);}
+export function preloadAudio(){for(const name of ['tear','flip','normal','rare','complete','credit','throw','impact','release','charge','ui','latch','stage','land','suspense','slam','ballbounce','ballsettle','crowdsmall','crowdapplause','crowdrise','crowdcheer','packtear','packrustle'])void ready(name);}
 export async function preloadRevealAudio(path:string){if(!enabled)return;const p=pokemonPower(path);await Promise.all([ready(p.cue),ready('release'),ready('throw'),ready('impact'),ready('charge'),ready('latch'),ready('slam'),ready('ballbounce'),ready('ballsettle'),...(p.dexId===null?[]:[ready(`cries/${p.dexId}`)])]);}
 function forget(voice:OwnedVoice){voices.delete(voice);voice.howl.off('end',voice.done,voice.id);voice.howl.off('stop',voice.done,voice.id);if(voice.key.startsWith('cries/')&&![...voices].some(v=>v.key.startsWith('cries/')))for(const v of voices)if(v.scene&&!v.key.startsWith('cries/'))v.howl.fade(v.gain*.42,v.gain,120,v.id);mixMusic();}
 // Per-ID event ownership prevents old callbacks from retaining destroyed reveals.
@@ -59,16 +60,32 @@ function start(key:string,gain:number,scene:boolean,pan=0,loop=false){
  const duck=scene&&!key.startsWith('cries/')&&[...voices].some(v=>v.key.startsWith('cries/'));const id=howl.play();howl.volume(gain*(duck?.42:1),id);howl.stereo(Math.max(-.65,Math.min(.65,pan)),id);
  howl.loop(loop,id);const voice:OwnedVoice={howl,id,scene,paused:false,key,gain,loop,done:()=>forget(voice)};voices.add(voice);if(!loop)howl.once('end',voice.done,id);howl.once('stop',voice.done,id);mixMusic();return voice;
 }
-/** The crowd belongs to the displayed card and shares reveal pause/mute ownership. */
+/** A continuing audience reaction belongs to the current card, including late audio unlock. */
+function clearCrowdLoads(){for(const [howl,callback] of crowdLoads)howl.off('load',callback);crowdLoads.clear();}
+function syncCrowd(allowAttack:boolean){
+ if(crowdCurrent<1||!enabled||hidden||scenePaused)return;
+ const mix=crowdMix(crowdCurrent as CrowdLevel),generation=crowdGeneration;
+ const loaded=(key:string)=>{
+  const howl=sample(key);if(howl.state()==='loaded')return true;
+  if(!crowdLoads.has(howl)){const callback=()=>{howl.off('load',callback);crowdLoads.delete(howl);if(generation===crowdGeneration)syncCrowd(performance.now()-crowdStartedAt<450);};crowdLoads.set(howl,callback);howl.once('load',callback);}
+  return false;
+ };
+ if(allowAttack&&!crowdAttackPlayed&&performance.now()-crowdStartedAt<450&&loaded(mix.attack)){
+  crowdRise=start(mix.attack,mix.rise,true)??null;crowdAttackPlayed=!!crowdRise;
+ }
+ if((!crowdLoop||!voices.has(crowdLoop))&&loaded(mix.bed)){
+  crowdLoop=start(mix.bed,0,true,0,true)??null;
+  if(crowdLoop){crowdLoop.gain=mix.loop;const duck=[...voices].some(v=>v.key.startsWith('cries/'))?.42:1;crowdLoop.howl.fade(0,mix.loop*duck,260,crowdLoop.id);}
+ }
+}
 export function playCrowdReaction(level:CrowdLevel){
  if(crowdCurrent===level)return;
- stopCrowdReaction();crowdCurrent=level;const mix=crowdMix(level);if(!mix.rise)return;
- crowdRise=start('crowdrise',mix.rise,true)??null;
- if(mix.loop){crowdLoop=start('crowdcheer',0,true,0,true)??null;if(crowdLoop){crowdLoop.gain=mix.loop;crowdLoop.howl.fade(0,mix.loop,240,crowdLoop.id);}}
+ stopCrowdReaction();crowdCurrent=level;crowdStartedAt=performance.now();crowdAttackPlayed=!enabled||hidden||scenePaused;syncCrowd(true);
 }
 export function stopCrowdReaction(){
+ ++crowdGeneration;clearCrowdLoads();
  for(const voice of [crowdRise,crowdLoop])if(voice&&voices.has(voice)){voice.howl.stop(voice.id);forget(voice);}
- crowdRise=crowdLoop=null;crowdCurrent=-1;
+ crowdRise=crowdLoop=null;crowdCurrent=-1;crowdAttackPlayed=false;
 }
 export function playSound(name:Sound,options:{pan?:number;gain?:number}={}){
  if(name==='credit'){const now=performance.now();if(now-lastCredit<90)return;lastCredit=now;}
@@ -86,13 +103,13 @@ export function playPokemonMove(cue:PowerCue,pan=0):PokemonMoveVoice|null{
 }
 export function playPokemonCry(dexId:number|null){if(dexId===null||!enabled||hidden||scenePaused)return;const cry=start(`cries/${dexId}`,.28,true);if(!cry)return;for(const voice of voices)if(voice.scene&&!voice.key.startsWith('cries/'))voice.howl.fade(voice.gain,voice.gain*.42,65,voice.id);}
 function syncPause(){for(const voice of voices){const shouldPause=hidden||(voice.scene&&scenePaused);if(shouldPause&&!voice.paused){voice.howl.pause(voice.id);voice.paused=true;}else if(!shouldPause&&voice.paused&&enabled){voice.howl.play(voice.id);voice.paused=false;}}}
-export function setAudioScenePaused(value:boolean){scenePaused=value;syncPause();mixMusic();}
-export function setAudioHidden(value:boolean){hidden=value;syncPause();syncMusic();}
-export function stopRevealAudio(){for(const voice of [...voices])if(voice.scene){voice.howl.stop(voice.id);forget(voice as OwnedVoice);}}
+export function setAudioScenePaused(value:boolean){scenePaused=value;syncPause();syncCrowd(false);mixMusic();}
+export function setAudioHidden(value:boolean){hidden=value;syncPause();syncMusic();syncCrowd(false);}
+export function stopRevealAudio(){stopCrowdReaction();for(const voice of [...voices])if(voice.scene){voice.howl.stop(voice.id);forget(voice as OwnedVoice);}}
 export function setSound(value:boolean){
  enabled=value;Howler.mute(!value);
- if(value){void Howler.ctx?.resume();preloadAudio();}
- else {for(const voice of [...voices]){voice.howl.stop(voice.id);forget(voice as OwnedVoice);}}
+ if(value){void Howler.ctx?.resume();preloadAudio();syncCrowd(false);}
+ else {crowdAttackPlayed=true;clearCrowdLoads();for(const voice of [...voices]){voice.howl.stop(voice.id);forget(voice as OwnedVoice);}}
  syncMusic();
 }
-export function destroyAudio(){music?.unload();music=null;musicId=undefined;musicPaused=false;interacted=false;musicGain=.14;crowdRise=crowdLoop=null;crowdCurrent=-1;for(const howl of sounds.values())howl.unload();voices.clear();sounds.clear();pending.clear();enabled=false;scenePaused=false;hidden=false;lastCredit=-Infinity,lastLand=-Infinity;}
+export function destroyAudio(){stopCrowdReaction();music?.unload();music=null;musicId=undefined;musicPaused=false;interacted=false;musicGain=.14;crowdRise=crowdLoop=null;crowdCurrent=-1;for(const howl of sounds.values())howl.unload();voices.clear();sounds.clear();pending.clear();enabled=false;scenePaused=false;hidden=false;lastCredit=-Infinity,lastLand=-Infinity;}

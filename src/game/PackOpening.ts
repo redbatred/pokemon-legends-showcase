@@ -4,7 +4,7 @@ import {packSeam,packTearPoint,foilBend,type PackTearState} from './packTearGeom
 /** The photographed foil stays registered until a local crack releases its curled edge. */
 export class PackOpening {
  root=new Container();rear=new Graphics();bodyRoot=new Container();sealRoot=new Container();
- state:PackTearState={tension:0,rip:0,curl:0,open:0,crumple:0};
+ state:PackTearState={tension:0,rip:0,curl:0,open:0,crumple:0,flight:0};
  private body:MeshPlane;private seal:MeshPlane;private reverse=new Graphics();private rim=new Graphics();private creases=new Graphics();
  constructor(texture:Texture){
   this.seal=this.mesh(texture,'seal',17);this.body=this.mesh(texture,'body',25);
