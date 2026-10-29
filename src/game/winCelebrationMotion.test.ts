@@ -9,13 +9,15 @@ it('keeps the award clear of the card tray and action buttons across game sizes'
   expect(g.y-g.height/2).toBeGreaterThanOrEqual(g.safeTop-1);
   expect(g.y+g.height/2).toBeLessThan(tray.y-5);
   if(!l.sideControls)expect(g.y+g.height/2).toBeLessThan(controls.next.y-controls.next.size/2-5);
-  for(const c of [controls.next,controls.all])expect(g.x+g.width/2<c.x-c.size/2-8||g.y+g.height/2<c.y-c.size/2-8||g.y-g.height/2>c.y+c.size/2+8).toBe(true);
+  for(const c of [controls.next,controls.all])expect(g.x-g.width/2>c.x+c.size/2+8||g.x+g.width/2<c.x-c.size/2-8||g.y+g.height/2<c.y-c.size/2-8||g.y-g.height/2>c.y+c.size/2+8).toBe(true);
   expect(g.amountY-g.titleY).toBeGreaterThan(g.titleSize);
  }
 });
 it('holds the fully counted banner indefinitely and fades only after advance',()=>{
  expect(celebrationPose(.2,0).count).toBe(0);
- for(const age of [1,3,30,600])expect(celebrationPose(age,0)).toMatchObject({alpha:1,count:1,amountAlpha:1});
+ for(const age of [2.4,3,30,600])expect(celebrationPose(age,0)).toMatchObject({alpha:1,count:1,amountAlpha:1});
  expect(celebrationPose(600,.09).alpha).toBeCloseTo(.5);
  expect(celebrationPose(600,.18)).toMatchObject({alpha:0,count:1,amountAlpha:1});
 });
+
+it('lets the big award count breathe before its final emphasis',()=>{expect(celebrationPose(.8).count).toBeLessThan(.5);expect(celebrationPose(1.6).count).toBeLessThan(1);expect(celebrationPose(2.1).count).toBe(1);});

@@ -15,7 +15,7 @@ it('places the total above desktop actions and centrally below the mobile stage 
  for(const [w,h] of [[320,480],[360,540],[390,780],[430,932],[568,320],[844,390],[900,550],[1280,600],[1280,720],[1920,1080]]){
   const l=gameLayout(w,h,true),c=revealControlsLayout(w,h),v=totalWinLayout(w,h);
   expect(v.x-v.width/2).toBeGreaterThan(0);expect(v.x+v.width/2).toBeLessThan(w);expect(v.labelY).toBeGreaterThan(l.compact?80:l.sideControls?122:l.stageFront+30);expect(v.y+v.size/2).toBeLessThan(l.dockTop-4);
-  if(l.sideControls)expect(v.y+v.size/2+8).toBeLessThan(c.next.y-c.next.size/2);else{expect(v.x).toBe(w/2);expect(v.x-v.width/2).toBeGreaterThan(c.all.x+c.all.size/2+5);expect(v.x+v.width/2).toBeLessThan(c.next.x-c.next.size/2-5);}
+  if(l.sideControls)expect(v.y+v.size/2+8).toBeLessThan(c.next.y-c.next.size/2);else{expect(v.x).toBe(w/2);expect(v.x-v.width/2).toBeGreaterThan(c.next.x+c.next.size/2+5);expect(v.x+v.width/2).toBeLessThan(c.all.x-c.all.size/2-5);}
  }
 });
 

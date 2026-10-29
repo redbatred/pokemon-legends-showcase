@@ -5,7 +5,8 @@ import { CanvasUI, type UIState, type HitTarget, type GameAction, type Panel } f
 import { openingMachine } from './machine';
 import { settleOpening, priceCard, DEFAULT_PACK, type Card, type Save, type Pack } from './model';
 import { loadSave, transactSave, resetSave } from './storage';
-import { setSound, playSound,setAudioScenePaused,destroyAudio,preloadRevealAudio,unlockAudio } from './audio';
+import {winTier} from './winTransfer';
+import { setSound, setBattleMusic,playSound,setAudioScenePaused,destroyAudio,preloadRevealAudio,unlockAudio } from './audio';
 import { specialPokemon,type PokemonArtwork } from './specialReward';
 import { createPreviewOpening } from './previewOpening';
 import {AutoSpinSession,type AutoRevealMode} from './autoSpin';
@@ -99,7 +100,7 @@ export class PokemonGame {
     }
   }
   private render(){
-    setAudioScenePaused(!!this.panel||!!this.inspected);
+    setBattleMusic(['tearing','awaiting','revealing','revealed','collecting','settling','complete'].includes(this.phase));setAudioScenePaused(!!this.panel||!!this.inspected);
     if(!this.view||this.destroyed)return;
     const cards=Array.from(new Map([...Object.values(this.catalogs).flat(),...(this.save?.history.flatMap(o=>o.cards)??[])].filter(c=>c.id!=='energy').map(c=>[c.id,c])).values());
     const state:UIState={phase:this.phase,index:this.index,save:this.save,packs:this.packs,selected:this.selected,pool:this.pool,cards,ready:this.ready,error:this.error,toast:this.toast,panel:this.panel,inspected:this.inspected,result:this.save?.history.find(o=>o.id===this.resultId),sound:this.sound,reduced:this.reduced,turbo:this.turbo,autoCount:this.autoCount,autoMode:this.autoMode,autoRun:this.autoRun?{running:this.autoRun.running,completed:this.autoRun.completed,total:this.autoRun.total}:undefined,configureAuto:this.configureAuto,low:this.low,action:this.action,select:this.select,inspect:card=>{this.inspected=card;this.render();}};
@@ -145,7 +146,8 @@ export class PokemonGame {
     const action=this.autoRun.next(this.phase);if(!action||!this.ready)return;
     if(action==='open'&&(!this.save||this.save.balance<this.selected.price)){this.autoRun.stop();this.notify('Auto Spin stopped · not enough credits');return;}
     const session=this.autoRun,phase=this.phase,index=this.index;
-    const delay=this.turbo?180:action==='next'?1400:action==='all'?600:action==='continue'?650:380;
+    const card=this.save?.active?.cards[this.index],big=card&&winTier(card,this.selected.price,!!this.save?.active?.previewSpecial&&this.index===0);
+    const delay=this.turbo?180:action==='next'?(big?2200:1400):action==='all'?600:action==='continue'?650:380;
     this.autoTimer=window.setTimeout(()=>{
       if(this.destroyed||document.hidden||this.panel||this.inspected||session!==this.autoRun||!session.running||this.phase!==phase||this.index!==index)return;
       if(action==='continue'){this.stage.reset();this.actor.send({type:'RESET'});}

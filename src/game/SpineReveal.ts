@@ -5,6 +5,7 @@ import { pokemonPower } from './powerProfiles';
 import {performanceProfile} from './performanceProfiles';
 import {EntranceEffects} from './EntranceEffects';
 import { PokemonPower } from './PokemonPower';
+import {createBallRevealFx} from './BallRevealFx';
 import { createPokeballRig } from './PokeballRig';
 import { PokemonActor,disposePokemonRenderer } from './PokemonActor';
 import {ballFlight,ballLanding,ballLandingPlan,ballRevealCues,BALL_HIT} from './ballPhysics';
@@ -14,7 +15,7 @@ const IMPACT={x:0,y:-98};
 export class SpineReveal {
   root=new Container();cardShell=new Container();
   private behind=new Container({isRenderGroup:true});private front=new Container({isRenderGroup:true});private actors=new Container();private floor=270;private ballFloorInfluence=0;
-  private ball:Spine;private hero:PokemonActor;private face:PerspectiveMesh;private punctured:Texture;
+  private ball:Spine;private flightFx:Spine;private releaseFx:Spine;private hero:PokemonActor;private face:PerspectiveMesh;private punctured:Texture;
   private trail=new Graphics();private flare=new Graphics();private shadow=new Graphics();private ballShadow=new Graphics();
   private shards:Graphics[]=[];private released=false;private started=false;
   private energy=new Graphics();private pressure=new Graphics();private latch=new Graphics();private power:PokemonPower;private white=new ColorMatrixFilter();
@@ -23,8 +24,8 @@ export class SpineReveal {
   static disposeResources(){disposePokemonRenderer();}
   static async create(card:Texture,pokemonImage:string,low=false){const [hero]=await Promise.all([PokemonActor.create(pokemonImage,low),preloadRevealAudio(pokemonImage)]);return new SpineReveal(card,hero,pokemonImage,low);}
   private constructor(card:Texture,hero:PokemonActor,pokemonImage:string,low:boolean){
-    this.hero=hero;this.power=new PokemonPower(hero,pokemonPower(pokemonImage),low);this.entrance=new EntranceEffects(performanceProfile(this.power.profile.species),this.power.profile.color,this.power.profile.light,low);this.ball=createPokeballRig();this.face=new PerspectiveMesh({texture:card,verticesX:4,verticesY:6});this.face.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);
-    this.cardShell.addChild(this.face);this.root.addChild(this.behind,this.cardShell,this.front);this.behind.addChild(this.trail,this.ball);this.actors.addChild(this.entrance.back,this.power.back,this.hero,this.power.front,this.entrance.front);this.front.addChild(this.ballShadow,this.shadow,this.actors,this.energy,this.pressure,this.latch,this.flare);this.actors.y=this.floor-219;
+    this.hero=hero;this.power=new PokemonPower(hero,pokemonPower(pokemonImage),low);this.entrance=new EntranceEffects(performanceProfile(this.power.profile.species),this.power.profile.color,this.power.profile.light,low);this.ball=createPokeballRig();this.flightFx=createBallRevealFx(low);this.releaseFx=createBallRevealFx(low);this.face=new PerspectiveMesh({texture:card,verticesX:4,verticesY:6});this.face.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);
+    this.cardShell.addChild(this.face);this.root.addChild(this.behind,this.cardShell,this.front);this.behind.addChild(this.trail,this.flightFx,this.ball);this.actors.addChild(this.entrance.back,this.power.back,this.hero,this.power.front,this.entrance.front);this.front.addChild(this.ballShadow,this.shadow,this.releaseFx,this.actors,this.energy,this.pressure,this.latch,this.flare);this.actors.y=this.floor-219;
     this.white.matrix=[0,0,0,0,.91,0,0,0,0,.99,0,0,0,0,1,0,0,0,1,0];this.hero.filters=[this.white];
     this.hero.visible=false;this.hero.position.set(70,174);this.hero.scale.set(.025);this.hero.alpha=0;
     this.shadow.ellipse(0,0,60,10).fill({color:0x041528,alpha:.15}).ellipse(0,0,42,5).fill({color:0x041528,alpha:.3});this.shadow.position.set(0,this.floor);this.shadow.alpha=0;
@@ -46,12 +47,16 @@ export class SpineReveal {
   }
   play(timeline:gsap.core.Timeline,skyY:number,onImpact:()=>void,onPower?:(color:number)=>void,onCharge?:(amount:number,color:number)=>void,onWin?:()=>void){
     this.started=true;const profile=performanceProfile(this.power.profile.species),entryDuration=Math.max(.68,this.hero.entranceDuration),settle=profile.grounded?65:profile.settle-10;const entranceClock={time:0},attackClock={time:0},flight={t:0},fall={t:0},hit=BALL_HIT,landing=ballLandingPlan(skyY,this.floor-50),cues=ballRevealCues(landing),open=cues.open,form=open+.12,charge=form+entryDuration+.28,attack=charge+this.hero.chargeDuration,attackEnd=attack+this.hero.attackDuration,recoverEnd=attackEnd+this.hero.recoveryDuration,soundStart=attack-Math.min(this.hero.chargeDuration,pokemonSoundTiming(this.power.profile.cue).preRoll),moveEnvelope={gain:0},spin={frame:0},departure={progress:0},decay=Math.min(.22,this.hero.attackDuration*.3);
-    const project=()=>{const p=ballFlight(flight.t,skyY);this.ball.position.set(p.x,p.y);this.ball.scale.set(p.scale);this.ball.rotation=p.rotation;
-      this.trail.clear();for(let i=8;i>=1;i--){const a=ballFlight(Math.max(0,flight.t-i*.014),skyY),b=ballFlight(Math.max(0,flight.t-(i-1)*.014),skyY);this.trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:(9-i)*p.scale*1.8,color:i<3?0xf0fbff:0x7ebfff,alpha:(9-i)*.035});}};project();
+    this.flightFx.visible=true;this.flightFx.state.setAnimation(0,'flight',true);this.flightFx.update(0);
+    const project=()=>{const p=ballFlight(flight.t,skyY),before=ballFlight(Math.max(0,flight.t-.015),skyY);this.ball.position.set(p.x,p.y);this.ball.scale.set(p.scale);this.ball.rotation=p.rotation;
+      this.flightFx.position.set(p.x,p.y);this.flightFx.scale.set(p.scale);this.flightFx.rotation=Math.atan2(p.y-before.y,p.x-before.x);this.flightFx.alpha=Math.min(1,flight.t/.18);
+      const g=this.trail.clear();for(let i=20;i>=1;i--){const a=ballFlight(Math.max(0,flight.t-i*.011),skyY),b=ballFlight(Math.max(0,flight.t-(i-1)*.011),skyY),fade=(21-i)/20,thickness=(2+9*fade)*p.scale;
+        g.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:thickness*2.5,color:0x65cfff,alpha:fade*.12}).moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:thickness,color:0x88e6ff,alpha:fade*.58}).moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:Math.max(.7,thickness*.25),color:0xf5ffff,alpha:fade*.8});
+      }};project();
     const land=()=>{const p=ballLanding(fall.t,skyY,landing.floor),adapt=(this.floor-50-landing.floor)*Math.min(1,fall.t/landing.contact);this.ballFloorInfluence=Math.min(1,fall.t/landing.contact);this.ball.position.set(p.x,p.y+adapt);this.ball.rotation=p.rotation;this.ball.scale.set(p.scale);};
-    timeline.call(()=>playSound('throw',{pan:.35}),[],.52)
+    timeline.call(()=>playSound('flight',{pan:.25}),[],0)
       .to(flight,{t:hit,duration:hit,ease:'none',onUpdate:project},0)
-      .call(()=>{this.face.texture=this.punctured;this.front.addChildAt(this.ball,this.front.getChildIndex(this.actors));this.trail.visible=false;onImpact();playSound('slam',{gain:.48});},[],hit)
+      .call(()=>{this.face.texture=this.punctured;this.front.addChildAt(this.ball,this.front.getChildIndex(this.actors));this.trail.visible=false;this.flightFx.visible=false;onImpact();playSound('slam',{gain:.48});},[],hit)
       .to(this.pressure,{alpha:1,duration:.04},hit).to(this.pressure.scale,{x:1.45,y:1.45,duration:.22,ease:'power3.out'},hit).to(this.pressure,{alpha:0,duration:.18},hit+.04)
       .to(this.flare,{alpha:.8,duration:.035},hit).to(this.flare.scale,{x:2.1,y:1.5,duration:.24,ease:'power2.out'},hit).to(this.flare,{alpha:0,duration:.22},hit+.05)
       .to(this.cardShell,{y:7,rotation:.014,duration:.06,ease:'power2.out'},hit).to(this.cardShell,{y:0,rotation:0,duration:.25,ease:'power2.out'},hit+.06)
@@ -63,7 +68,7 @@ export class SpineReveal {
       .call(()=>playSound('latch'),[],cues.latch)
       .to(this.latch,{alpha:1,duration:.10},open-.12).to(this.latch,{alpha:0,duration:.14},open+.03)
       .to(this.shadow,{alpha:1,duration:.38},hit)
-      .call(()=>{this.ball.state.setAnimation(0,'open',false);playSound('release',{pan:.1});},[],open)
+      .call(()=>{this.ball.state.setAnimation(0,'open',false);this.releaseFx.position.set(this.ball.x,this.ball.y-10);this.releaseFx.visible=true;this.releaseFx.state.setAnimation(0,'release',false);this.releaseFx.update(0);playSound('release',{pan:.1});},[],open)
       .to(this.release,{amount:1,radius:1,duration:.16,ease:'power2.out'},open+.04)
       .call(()=>{this.hero.position.set(this.ball.x,this.ball.y-this.actors.y);this.hero.visible=true;this.released=true;this.hero.alpha=1;this.hero.play('emerge');},[],form)
       .to(entranceClock,{time:entryDuration,duration:entryDuration,ease:'none',onUpdate:()=>this.hero.setEntranceTime(entranceClock.time)},form)
@@ -102,7 +107,7 @@ export class SpineReveal {
   finish(){
     this.moveVoice?.stop();this.moveVoice=null;stopRevealAudio();this.started=true;this.released=true;
     this.face.texture=this.punctured;this.cardShell.position.set(0,0);this.cardShell.rotation=0;
-    this.ball.alpha=0;this.ball.visible=false;this.ball.state.clearTracks();this.trail.visible=false;
+    this.ball.alpha=0;this.ball.visible=false;this.flightFx.visible=false;this.releaseFx.visible=false;this.flightFx.state.clearTracks();this.releaseFx.state.clearTracks();this.ball.state.clearTracks();this.trail.visible=false;
     for(const effect of [this.flare,this.pressure,this.latch,...this.shards])effect.visible=false;
     this.release.amount=0;this.entrance.opacity=0;this.power.charge=0;this.power.blast=0;this.power.fade=0;
     const profile=performanceProfile(this.power.profile.species);
@@ -111,15 +116,15 @@ export class SpineReveal {
   }
   update(dt:number){
     this.hero.setEnergy(this.power.profile.color,Math.min(1,this.power.charge*.7+this.power.blast*this.power.fade*.9+this.release.amount*.45));
+    if(this.flightFx.visible)this.flightFx.update(dt);if(this.releaseFx.visible)this.releaseFx.update(dt);
     this.ball.update(dt);this.latch.position.set(this.ball.x-19*this.ball.scale.x,this.ball.y);if(this.released)this.hero.update(dt);this.power.update(dt);this.entrance.update(this.hero.x,this.hero.y);if(this.released){this.shadow.x=this.hero.x;const lift=Math.max(0,65-this.hero.y);this.shadow.scale.set(Math.max(.4,1-lift*.0025));this.shadow.alpha=Math.max(.16,.85-lift*.006);}
     const height=Math.max(0,this.floor-this.ball.y-50),proximity=Math.max(0,1-height/330);this.ballShadow.position.set(this.ball.x,this.floor);this.ballShadow.scale.set(.55+proximity*.45);this.ballShadow.alpha=proximity*this.ball.alpha;
     const g=this.energy.clear(),a=this.release.amount,r=this.release.radius;
     if(a>0){
-      const x=this.ball.x,y=this.ball.y-12;
-      g.ellipse(x,y,29,12).fill({color:0xeaffff,alpha:a});
-      g.moveTo(x-18,y).bezierCurveTo(x-80,y-65,35,-70,0,-100*r).bezierCurveTo(-38,-40,x+20,y-30,x+20,y).closePath().fill({color:0x8cddff,alpha:a*.6});
-      g.moveTo(x-9,y).bezierCurveTo(x-50,y-65,15,-65,0,-90*r).bezierCurveTo(-12,-30,x+8,y-30,x+9,y).closePath().fill({color:0xf5ffff,alpha:a});
-      for(let i=0;i<9;i++){const angle=i/9*Math.PI*2;const d=32+r*52;g.moveTo(x+Math.cos(angle)*20,y+Math.sin(angle)*13).lineTo(x+Math.cos(angle)*d,y+Math.sin(angle)*d*.7).stroke({color:0xd1faff,width:2,alpha:a*.7});}
+      const x=this.ball.x,y=this.ball.y-12,tx=this.hero.x,ty=this.actors.y+this.hero.y-35,dx=tx-x,dy=ty-y;
+      // The release stream follows the actual forming body, then clears as its silhouette gains color.
+      for(const side of [-1,1]){const width=side*(5+12*a),bend=side*(28+24*r);g.moveTo(x+width,y).bezierCurveTo(x+dx*.2+bend,y+dy*.28,tx+bend,ty+24,tx,ty).bezierCurveTo(tx+bend*.45,ty+18,x+dx*.35+bend*.6,y+dy*.35,x-width*.25,y).closePath().fill({color:side<0?0x9feeff:0xe5ffff,alpha:a*.65});}
+
     }
   }
   fitPresentation(halfWidth:number){this.hero.fitPresentation(halfWidth);}

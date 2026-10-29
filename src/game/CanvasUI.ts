@@ -2,6 +2,7 @@ import { Assets, Container, Graphics, Sprite, Text, Texture, BitmapFont, BitmapT
 import { gsap } from 'gsap';
 import {packGridLayout,packTileLayout} from './packGrid';
 import {utilityLayout} from './utilityLayout';
+import {TrayPan} from './trayPan';
 import {AUTO_SPIN_COUNTS,type AutoRevealMode} from './autoSpin';
 import { gameLayout, pageWindow, cardTrayLayout,revealControlsLayout } from './rendering';
 import { money, recordedWinnings, type Card, type Pack, type Save, type Result } from './model';
@@ -41,6 +42,7 @@ export class CanvasUI {
   private generation=0;private hits:HitTarget[]=[];private paints=new Map<string,Container>();private feedbackTweens=new Map<string,gsap.core.Tween>();
   private page=0;private collected=false;private openingId='';private landed=new Set<number>();
   private trayArt:Texture|null=null;private redrawTray:(()=>void)|null=null;private trayOffset={value:0};private trayTween:gsap.core.Tween|null=null;
+  private trayPan=new TrayPan();private trayPointer:number|null=null;private trayInterrupted=false;private trayFocusKey='';private suppressTrayClickUntil=0;private trayHost:HTMLElement;
   private trayStrip:Container|null=null;private collectingIndex:number|null=null;
   private packValueLabel:MoneyReadout|null=null;private revealCountLabel:Text|null=null;
   private thumbs=new Map<string,Texture>();private pending=new Map<string,Promise<Texture>>();private destroyed=false;
@@ -52,10 +54,12 @@ export class CanvasUI {
     stage.app.stage.addChild(this.backdrop,this.root,stage.flightLayer,this.rewards.root);stage.onCardStored=this.storeCard;stage.onSpecialWin=this.awardCard;stage.onLayout=()=>{if(!this.updating)this.build();};
     stage.onCollectFocus=this.focusTray;stage.cardDestination=this.cardDestination;
     window.addEventListener('keydown',this.keydown);
+    this.trayHost=stage.app.canvas.parentElement!;this.trayHost.addEventListener('pointerdown',this.trayDown,true);this.trayHost.addEventListener('pointermove',this.trayMove,true);this.trayHost.addEventListener('pointerup',this.trayUp,true);this.trayHost.addEventListener('pointercancel',this.trayCancel,true);this.trayHost.addEventListener('click',this.trayClick,true);this.trayHost.addEventListener('wheel',this.trayWheel,{capture:true,passive:false});
 
   }
   update(state:UIState){
-    const id=state.save?.active?.id??'';if(id!==this.openingId){this.openingId=id;this.landed.clear();this.trayOffset.value=0;this.rewards.reset(id,state.save?.active?.cards.slice(0,state.index).map(c=>c.value)??[]);this.moneyValues.delete('revealed');}
+    if(this.state?.phase==='revealing'&&state.phase==='revealed')this.trayOffset.value=cardTrayLayout(this.stage.app.screen.width,this.stage.app.screen.height,state.index).offset;
+    const id=state.save?.active?.id??'';if(id!==this.openingId){this.openingId=id;this.landed.clear();this.trayOffset.value=0;this.trayFocusKey='';this.trayPan.cancel();this.rewards.reset(id,state.save?.active?.cards.slice(0,state.index).map(c=>c.value)??[]);this.moneyValues.delete('revealed');}
     if(state.phase==='revealed')for(let i=0;i<state.index;i++)this.landed.add(i);
     this.state=state;
     if(!['collecting','settling'].includes(state.phase))this.collectingIndex=null;
@@ -124,7 +128,7 @@ export class CanvasUI {
       g.arc(ix,iy,9,-Math.PI*.65,Math.PI*.95).stroke({color:0xb2d5ea,width:1.7}).poly([ix-10,iy+1,ix-12,iy-5,ix-5,iy-3]).fill(0xb2d5ea);
       this.ball(ix,iy,4,0xc8eafa,group);
     }
-    const title=kind==='turbo'?'TURBO':active?'STOP':'AUTO SPIN',status=kind==='turbo'?(active?'4× SPEED':'NORMAL SPEED'):active?`${s.autoRun!.completed} / ${s.autoRun!.total} PACKS`:'CHOOSE PACKS';
+    const title=kind==='turbo'?(active?'TURBO ×4':'TURBO'):active?'STOP':'AUTO SPIN',status=kind==='turbo'?(active?'4× SPEED':'NORMAL SPEED'):active?`${s.autoRun!.completed} / ${s.autoRun!.total} PACKS`:'CHOOSE PACKS';
     const tx=compact?w/2:48,titleY=compact?31:8,font=compact?9.5:w<160?12:14;
     const caption=this.text(compact&&kind==='auto'&&active?`${s.autoRun!.completed}/${s.autoRun!.total} STOP`:title,tx,titleY,font,active?C.white:0xd4eaf5,group,compact?'center':'left','bold');
     const available=compact?w-12:w-58;if(caption.width>available)caption.scale.set(available/caption.width);
@@ -138,12 +142,14 @@ export class CanvasUI {
   private feedback(id:string,scale:number){const paint=this.paints.get(id);if(!paint)return;this.feedbackTweens.get(id)?.kill();if(this.state?.reduced){paint.scale.set(scale);this.stage.draw();return;}this.feedbackTweens.set(id,gsap.to(paint.scale,{x:scale,y:scale,duration:.16,ease:'power2.out',onUpdate:()=>this.stage.draw()}));}
   private command(id:string,label:string,cx:number,cy:number,size:number,kind:'next'|'all',action:()=>void,disabled=false){
     const group=new Container();group.position.set(cx,cy);this.root.addChild(group);this.paints.set(id,group);const r=size/2,g=new Graphics();group.addChild(g);
-    g.circle(0,4,r).fill({color:0x04233e,alpha:.5}).circle(0,0,r).fill(0x0b3659).stroke({color:0xa0daed,width:2});
-    g.arc(0,0,r-5,Math.PI*1.06,Math.PI*1.94).stroke({color:0xf0fdff,width:3}).arc(0,0,r-5,.10,Math.PI-.10).stroke({color:0x368aca,width:3});
-    g.circle(0,0,r-10).fill(kind==='next'?0x267fca:0x204f72);
     const icon=new Graphics(),k=size/64;icon.scale.set(k);group.addChild(icon);
-    if(kind==='next')icon.poly([-7,-13,6,0,-7,13,1,13,14,0,1,-13]).fill(0xf3fcff);
-    else icon.roundRect(-10,-12,15,21,2).stroke({color:0x8fc6e0,width:1.7}).roundRect(-4,-8,15,21,2).fill(0x276b9e).stroke({color:0xf0fcff,width:1.8}).moveTo(0,2).lineTo(4,6).lineTo(9,-1).stroke({color:0xe5ffff,width:1.5});
+    if(kind==='next'){
+      for(const width of [11,5,2.5]){const alpha=width===11?.10:width===5?.32:1;icon.moveTo(-11,-20).lineTo(10,0).lineTo(-11,20).stroke({color:width===2.5?0xe6fbff:0x59cfff,width,alpha,cap:'round',join:'round'});icon.moveTo(3,-20).lineTo(24,0).lineTo(3,20).stroke({color:width===2.5?0xe6fbff:0x59cfff,width,alpha,cap:'round',join:'round'});}
+      g.arc(0,0,r-1,Math.PI*.67,Math.PI*1.33).stroke({color:0x98e7ff,width:1.2,alpha:.4});
+    }else{
+      g.circle(0,3,r).fill({color:0x062b49,alpha:.22}).circle(0,0,r).stroke({color:0xa0daed,width:1.5}).arc(0,0,r-5,Math.PI*1.08,Math.PI*1.92).stroke({color:0xe5fcff,width:2});
+      icon.roundRect(-10,-12,15,21,2).stroke({color:0x8fc6e0,width:1.7}).roundRect(-4,-8,15,21,2).fill({color:0x276b9e,alpha:.3}).stroke({color:0xf0fcff,width:1.8}).moveTo(0,2).lineTo(4,6).lineTo(9,-1).stroke({color:0xe5ffff,width:1.5});
+    }
     const text=this.text(label,0,r+7,size>=76?14:12,C.white,group,'center','bold');text.style.stroke={color:0x082b4b,width:3};
     group.alpha=disabled?.42:1;
     this.hits.push({id,label,x:cx-r-4,y:cy-r-4,width:size+8,height:size+30,disabled,action});
@@ -185,6 +191,7 @@ export class CanvasUI {
     if(this.dismissal){const action=this.dismissal;this.dismissal=null;this.modalTween?.kill();this.transitioning=false;this.state.action(action);return;}
     if(this.state.panel==='settings'&&!this.modalKind&&!this.frozenHud){const texture=this.stage.app.renderer.generateTexture({target:this.root,frame:new Rectangle(0,0,this.stage.app.screen.width,this.stage.app.screen.height),resolution:1});this.frozenHud=new Sprite(texture);this.stage.app.stage.addChildAt(this.frozenHud,this.stage.app.stage.getChildIndex(this.backdrop));}
     if(this.state.panel!=='settings'&&this.frozenHud){this.frozenHud.destroy({texture:true,textureSource:true});this.frozenHud=null;}
+    this.trayPan.cancel();this.trayPointer=null;
     ++this.generation;this.cardCaptions=[];this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.trayArt?.destroy(true);this.trayArt=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
     this.root.removeChild(this.focus);this.root.removeChildren().forEach(child=>child.destroy({children:true}));
     const s=this.state,sw=this.stage.app.screen.width,sh=this.stage.app.screen.height,modal=s.inspected?'inspect':s.panel??(s.phase==='complete'&&!s.autoRun?.running?'results':'');
@@ -267,7 +274,7 @@ export class CanvasUI {
     this.utility('auto',s.autoRun?.running?'Stop Auto Spin':'Auto Spin',utilities.auto,utilities.compact,!!s.autoRun?.running,!s.autoRun?.running&&!!s.save?.active,()=>s.action(s.autoRun?.running?'auto-stop':'auto'));
     const edgeTitle=l.compact||(l.short&&l.sideControls),captionY=l.compact?65:!l.sideControls&&l.short?166:edgeTitle?125:l.sideControls?28:182;
     const captionWidth=edgeTitle?Math.max(85,l.sideControls?(w-l.stageWidth)/2-28:w/2-156*l.scale-side-12):l.sideControls?w-510:w-112;
-    const packTitle=this.text(s.save?.active?.pack?.name??s.selected.name,edgeTitle?side:w/2,captionY,edgeTitle?14:l.sideControls?22:18,C.white,this.root,edgeTitle?'left':'center','bold');packTitle.style.stroke={color:0x08315a,width:3};if(packTitle.width>captionWidth)packTitle.scale.set(captionWidth/packTitle.width);
+    const packTitle=this.text(s.save?.active?.pack?.name??s.selected.name,edgeTitle?side:w/2,captionY,edgeTitle?14:l.sideControls?22:18,C.white,this.root,edgeTitle?'left':'center','bold');packTitle.visible=!(l.compact&&s.phase==='revealed');packTitle.style.stroke={color:0x08315a,width:3};if(packTitle.width>captionWidth)packTitle.scale.set(captionWidth/packTitle.width);
     if(s.save?.active)this.revealCountLabel=this.text(`${Math.min(Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),11)} / 11`,w-side,l.compact?65:!l.sideControls?captionY+3:128,10,C.white,this.root,'right','bold');
   }
   private playControls(w:number,h:number){
@@ -276,11 +283,11 @@ export class CanvasUI {
     if(s.phase==='revealed'){
       const card=s.save!.active!.cards[s.index],space=(w-l.stageWidth)/2;
       const captionW=l.compact?Math.min(238,space-32):l.sideControls?Math.min(420,l.stageWidth*.72):w-220;
-      const captionX=l.compact?(space-captionW)/2:(w-captionW)/2,captionY=l.compact?Math.max(85,l.worldY-3):l.stageFront+1;
+      const captionX=l.compact?(space-captionW)/2:(w-captionW)/2,captionY=l.compact?65:l.stageFront+1;
       const titleSize=l.compact?14:l.sideControls?20:16,align=l.compact?'left':'center',textX=l.compact?captionX:w/2;
       const title=this.text(card.name,textX,captionY,titleSize,C.white,this.root,align,'bold');title.style.stroke={color:0x08294a,width:3};
       if(title.width>captionW)title.scale.set(captionW/title.width);
-      const rarity=this.text(card.rarity,textX,captionY+(l.compact?23:l.sideControls?25:22),l.sideControls?10:9,C.cyan,this.root,align,'bold');rarity.style.stroke={color:0x08294a,width:3};if(rarity.width>captionW)rarity.scale.set(captionW/rarity.width);
+      const rarity=this.text(card.rarity,textX,captionY+(l.compact?16:l.sideControls?25:22),l.sideControls?10:9,C.cyan,this.root,align,'bold');rarity.style.stroke={color:0x08294a,width:3};if(rarity.width>captionW)rarity.scale.set(captionW/rarity.width);
       this.cardCaptions.push(title,rarity);
       this.hit('inspect',`Inspect ${card.name}`,captionX,captionY-2,captionW,l.sideControls?40:36,()=>s.inspect(card));
     }
@@ -297,25 +304,31 @@ export class CanvasUI {
     const s=this.state!,l=gameLayout(w,h,['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)),y=l.dockTop;
     const fade=new Sprite(this.tray);fade.position.set(0,y-25);fade.width=w;fade.height=l.dock+25;this.root.addChild(fade);
     if(s.save?.active&&['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)){
-      const revealed=Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),tray=cardTrayLayout(w,h,this.collectingIndex??s.index);
+      const tray=cardTrayLayout(w,h,this.collectingIndex??s.index);
       const viewport=new Container(),strip=new Container();this.trayStrip=strip;strip.y=tray.y;viewport.addChild(strip);this.root.addChild(viewport);const mask=new Graphics().rect(tray.viewportX,tray.y-5,tray.viewportWidth,tray.cardHeight+12).fill(0xffffff);this.root.addChild(mask);viewport.mask=mask;
-      const base=tray.start+tray.offset;strip.x=base-this.trayOffset.value;
-      if(s.phase==='revealing'&&this.trayOffset.value!==tray.offset&&!s.reduced)this.trayTween=gsap.to(this.trayOffset,{value:tray.offset,duration:.48,ease:'power3.out',onUpdate:()=>{strip.x=base-this.trayOffset.value;this.stage.draw();}});else{this.trayOffset.value=tray.offset;strip.x=tray.start;}
-      s.save.active.cards.forEach((card,i)=>{
+      const base=tray.start+tray.offset,focusKey=`${this.openingId}:${s.index}`,changed=focusKey!==this.trayFocusKey;this.trayFocusKey=focusKey;
+      this.trayPan.configure(tray.maxOffset,this.trayOffset.value);this.trayOffset.value=this.trayPan.offset;strip.x=base-this.trayOffset.value;
+      if(changed&&s.phase==='revealing'&&!s.reduced)this.scrollTrayTo(tray.offset,.38,false);
+      else if(changed){this.trayOffset.value=tray.offset;this.trayPan.configure(tray.maxOffset,tray.offset);strip.x=base-tray.offset;}
+      s.save.active.cards.forEach((_card,i)=>{
         const x=i*tray.stride,slot=new Container();slot.position.set(x,0);strip.addChild(slot);
         const active=i===s.index;const border=new Graphics().roundRect(-3,-3,tray.cardWidth+6,tray.cardHeight+6,7).fill({color:0x0b3155,alpha:.7}).stroke({width:active?2.5:1,color:active?0xc6f9ff:0x639bb7,alpha:active?1:.5});slot.addChild(border);
-        const center=tray.slot(i),left=center.x-tray.cardWidth/2,right=left+tray.cardWidth;
-        if(s.phase==='revealed'&&i<revealed&&right>tray.viewportX&&left<tray.viewportX+tray.viewportWidth)this.hit(`card-${i}`,`Inspect ${card.name}, card ${i+1}`,Math.max(tray.viewportX,left),tray.y,Math.min(right,tray.viewportX+tray.viewportWidth)-Math.max(left,tray.viewportX),tray.cardHeight,()=>s.inspect(card));
       });
       // One native canvas atlas keeps the static rack independent of animated
       // mesh buffers, with a single texture update for each landed card.
       const resolution=Math.min(2,this.stage.app.renderer.resolution),art=document.createElement('canvas'),artWidth=(s.save.active.cards.length-1)*tray.stride+tray.cardWidth;
       art.width=Math.ceil(artWidth*resolution);art.height=Math.ceil(tray.cardHeight*resolution);
       const context=art.getContext('2d')!,texture=Texture.from(art),sprite=new Sprite(texture);this.trayArt=texture;sprite.width=artWidth;sprite.height=tray.cardHeight;strip.addChild(sprite);
-      const generation=this.generation,cards=s.save.active.cards,backPath='/assets/card-back.webp';
-      const redraw=()=>{if(this.destroyed||generation!==this.generation)return;context.setTransform(resolution,0,0,resolution,0,0);context.clearRect(0,0,artWidth,tray.cardHeight);cards.forEach((card,i)=>{const face=this.landed.has(i),image=this.thumbs.get(face?card.image:backPath);if(!image)return;const scale=Math.min(tray.cardWidth/image.width,tray.cardHeight/image.height),cw=image.width*scale,ch=image.height*scale;context.globalAlpha=!face&&i===s.index?.24:1;context.drawImage(image.source.resource as CanvasImageSource,i*tray.stride+(tray.cardWidth-cw)/2,(tray.cardHeight-ch)/2,cw,ch);});context.globalAlpha=1;texture.source.update();this.stage.draw();};
+      const generation=this.generation,cards=s.save.active.cards;
+      const redraw=()=>{if(this.destroyed||generation!==this.generation)return;context.setTransform(resolution,0,0,resolution,0,0);context.clearRect(0,0,artWidth,tray.cardHeight);cards.forEach((card,i)=>{
+        const x=i*tray.stride,image=this.landed.has(i)?this.thumbs.get(card.image):null;
+        if(image){const scale=Math.min(tray.cardWidth/image.width,tray.cardHeight/image.height),cw=image.width*scale,ch=image.height*scale;context.drawImage(image.source.resource as CanvasImageSource,x+(tray.cardWidth-cw)/2,(tray.cardHeight-ch)/2,cw,ch);}
+        else{context.save();context.textAlign='center';context.textBaseline='middle';context.font=`800 ${tray.cardWidth*.52}px Nunito`;context.strokeStyle='#0b2c49';context.lineWidth=3;context.strokeText('?',x+tray.cardWidth/2,tray.cardHeight*.46);context.fillStyle=i===s.index?'#b9e9f6':'#749db8';context.fillText('?',x+tray.cardWidth/2,tray.cardHeight*.46);context.font='800 9px Nunito';context.fillStyle='#7197b0';context.fillText(String(i+1).padStart(2,'0'),x+tray.cardWidth/2,tray.cardHeight-13);context.restore();}
+      });texture.source.update();this.stage.draw();};
       this.redrawTray=redraw;redraw();
-      const paths=new Set([backPath,...cards.map(card=>card.image)]);paths.forEach(path=>{void this.thumbnail(path).then(redraw).catch(()=>{});});
+      new Set(cards.map(card=>card.image)).forEach(path=>{void this.thumbnail(path).then(redraw).catch(()=>{});});
+      this.syncTrayHits();
+      if(tray.maxOffset>0){for(const direction of [-1,1]){const cx=direction<0?11:w-11,cy=tray.y+tray.cardHeight/2,g=new Graphics();g.moveTo(cx-direction*3,cy-8).lineTo(cx+direction*3,cy).lineTo(cx-direction*3,cy+8).stroke({color:0xbcf4ff,width:2,alpha:.85});this.root.addChild(g);this.hit(direction<0?'tray-prev':'tray-next',direction<0?'Scroll cards left':'Scroll cards right',cx-10,cy-23,20,46,()=>this.scrollTrayTo(this.trayOffset.value+direction*tray.stride*2),!['awaiting','revealed'].includes(s.phase));}}
       return;
     }
     const grid=packGridLayout(w,h,s.packs.length);
@@ -338,6 +351,28 @@ export class CanvasUI {
       if(selected&&this.lastPackId!==pack.id&&!s.reduced)this.moneyAnimations.push(gsap.from(group.scale,{x:.92,y:.92,duration:.3,ease:'back.out(1.7)'}));
     });
     this.lastPackId=s.selected.id;
+  }
+
+  private trayLayout(){return cardTrayLayout(this.stage.app.screen.width,this.stage.app.screen.height,this.collectingIndex??this.state?.index??0);}
+  private trayPoint(event:PointerEvent|WheelEvent){const b=this.trayHost.getBoundingClientRect();return {x:(event.clientX-b.left)*this.stage.app.screen.width/b.width,y:(event.clientY-b.top)*this.stage.app.screen.height/b.height};}
+  private overTray(event:PointerEvent|WheelEvent){const s=this.state;if(!s||s.panel||s.inspected||!['awaiting','revealed'].includes(s.phase))return false;const t=this.trayLayout(),p=this.trayPoint(event);return t.maxOffset>0&&p.y>=t.y-6&&p.y<=t.y+t.cardHeight+8&&p.x>=0&&p.x<=this.stage.app.screen.width;}
+  private trayDown=(e:PointerEvent)=>{if(!this.overTray(e)||e.button>0)return;this.trayInterrupted=!!this.trayTween?.isActive();this.trayTween?.kill();this.trayPointer=e.pointerId;this.trayPan.configure(this.trayLayout().maxOffset,this.trayOffset.value);this.trayPan.start(this.trayPoint(e).x,e.timeStamp);};
+  private trayMove=(e:PointerEvent)=>{if(e.pointerId!==this.trayPointer)return;const was=this.trayPan.dragged;this.trayPan.move(this.trayPoint(e).x,e.timeStamp);if(!this.trayPan.dragged)return;e.preventDefault();e.stopPropagation();if(!was){this.trayHost.setPointerCapture(e.pointerId);this.syncTrayHits(false);this.emitTargets();}this.trayOffset.value=this.trayPan.offset;this.positionTray();};
+  private trayUp=(e:PointerEvent)=>{if(e.pointerId!==this.trayPointer)return;this.trayPointer=null;if(this.trayPan.dragged){e.preventDefault();e.stopPropagation();this.suppressTrayClickUntil=performance.now()+400;if(this.trayHost.hasPointerCapture(e.pointerId))this.trayHost.releasePointerCapture(e.pointerId);this.scrollTrayTo(this.trayPan.end(),.34);}else{this.trayPan.cancel();if(this.trayInterrupted){this.syncTrayHits();this.emitTargets();}}this.trayInterrupted=false;};
+  private trayCancel=()=>{this.trayPointer=null;this.trayPan.cancel();this.syncTrayHits();this.emitTargets();};
+  private trayClick=(e:MouseEvent)=>{if(performance.now()<this.suppressTrayClickUntil){e.preventDefault();e.stopImmediatePropagation();}};
+  private trayWheel=(e:WheelEvent)=>{if(!this.overTray(e))return;e.preventDefault();e.stopPropagation();const delta=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;this.scrollTrayTo(this.trayOffset.value+delta*(e.deltaMode===1?16:1),.16);};
+  private positionTray(){if(this.trayStrip){const t=this.trayLayout();this.trayStrip.x=t.start+t.offset-this.trayOffset.value;this.stage.draw();}}
+  private scrollTrayTo(value:number,duration=.3,emit=true){
+    this.trayTween?.kill();const t=this.trayLayout(),target=Math.max(0,Math.min(t.maxOffset,value));this.trayPan.configure(t.maxOffset,target);this.syncTrayHits(false);if(emit)this.emitTargets();
+    const finish=()=>{this.trayOffset.value=target;this.positionTray();this.syncTrayHits();this.emitTargets();};
+    if(this.state?.reduced){finish();return;}
+    this.trayTween=gsap.to(this.trayOffset,{value:target,duration,ease:'power3.out',onUpdate:()=>this.positionTray(),onComplete:finish});
+  }
+  private syncTrayHits(enabled=true){
+    this.hits=this.hits.filter(hit=>!hit.id.startsWith('card-'));const s=this.state;if(!enabled||s?.phase!=='revealed'||s.panel||s.inspected||!s.save?.active)return;
+    const t=this.trayLayout(),base=t.start+t.offset-this.trayOffset.value;
+    s.save.active.cards.forEach((card,i)=>{const x=base+i*t.stride,left=Math.max(x,t.viewportX),right=Math.min(x+t.cardWidth,t.viewportX+t.viewportWidth);if(this.landed.has(i)&&right>left)this.hit(`card-${i}`,`Inspect ${card.name}, card ${i+1}`,left,t.y,right-left,t.cardHeight,()=>s.inspect(card));});
   }
 
   private storeCard=(index:number)=>{
@@ -460,5 +495,5 @@ export class CanvasUI {
     result.cards.forEach((card,i)=>{const row=Math.floor(i/columns),col=i%columns,number=Math.min(columns,11-row*columns),rowWidth=number*(drawW+12)-12,x=(w-rowWidth)/2+col*(drawW+12),y=top+row*(ch+33);this.picture(card.image,x,y,drawW,ch);const exact=money(card.value),caption=drawW<55&&exact.length>6?'$'+new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:1}).format(card.value/100):exact;const price=this.text(card.id==='energy'?'Energy':caption,x+drawW/2,y+ch+7,10,C.cyan,this.root,'center');if(price.width>drawW+8)price.scale.set((drawW+8)/price.width);this.hit(`result-${i}`,`Inspect ${card.name}`,x,y,drawW,ch,()=>this.state!.inspect(card));});
     this.button('result-collection','View collection',Math.max(28,w/2-165),h-65,Math.min(155,(w-68)/2),44,()=>this.state!.action('collection'),{visibleLabel:'Collection'});this.button('result-continue','Continue',w/2+6,h-65,Math.min(155,(w-68)/2),44,()=>this.dismissModal('continue'),{primary:true});
   }
-  destroy(){this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
+  destroy(){this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
 }

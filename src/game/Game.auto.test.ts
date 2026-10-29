@@ -5,7 +5,7 @@ vi.mock('./Stage',()=>({OpeningStage:class{
 }}));
 vi.mock('./CanvasUI',()=>({CanvasUI:class{update=vi.fn();destroy=vi.fn();setFocus=vi.fn();}}));
 vi.mock('./storage',()=>({loadSave:vi.fn(),transactSave:vi.fn(),resetSave:vi.fn()}));
-vi.mock('./audio',()=>({setSound:vi.fn(),playSound:vi.fn(),setAudioScenePaused:vi.fn(),destroyAudio:vi.fn(),preloadRevealAudio:vi.fn(async()=>{}),unlockAudio:vi.fn()}));
+vi.mock('./audio',()=>({setSound:vi.fn(),setBattleMusic:vi.fn(),playSound:vi.fn(),setAudioScenePaused:vi.fn(),destroyAudio:vi.fn(),preloadRevealAudio:vi.fn(async()=>{}),unlockAudio:vi.fn()}));
 vi.mock('pixi.js',()=>({Assets:{load:vi.fn(async()=>{})}}));
 import {PokemonGame} from './Game';
 import {DEFAULT_PACK,newSave,type Save} from './model';

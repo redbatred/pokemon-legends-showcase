@@ -14,7 +14,7 @@ vi.mock('howler',()=>{
  }
  return {Howl,Howler:{mute:vi.fn(),ctx:{resume:vi.fn(async()=>{})}}};
 });
-import { destroyAudio, playPokemonMove,pokemonSoundTiming,playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio,playCrowdReaction,stopCrowdReaction } from './audio';
+import { setBattleMusic,destroyAudio, playPokemonMove,pokemonSoundTiming,playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio,playCrowdReaction,stopCrowdReaction } from './audio';
 import cueManifest from '../../public/assets/audio-v4/cues.json';
 import interfaceManifest from '../../public/assets/audio-v12/cues.json';
 const voice=(key:string)=>mock.howls.find(h=>h.source.endsWith(`/${key}.mp3`));
@@ -66,7 +66,7 @@ it('uses distinct normal/rare payoffs and keeps menu clicks audible while the sc
  for(const key of ['normal','rare','ui'])expect(mock.howls.find(h=>h.source===`/assets/audio-v12/${key}.mp3`).play).toHaveBeenCalledOnce();
 });
 it('ducks release effects underneath the Pokemon cry',async()=>{
- setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');playSound('release');playPokemonCry(6);expect(voice('release').fade).toHaveBeenCalledWith(0.44,0.44*.42,65,1);
+ setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');playSound('release');playPokemonCry(6);expect(voice('release').fade).toHaveBeenCalledWith(0.46,0.46*.42,65,1);
 });
 
 it('does not duck the release when the cry is unavailable',()=>{
@@ -135,4 +135,16 @@ it('keeps routine reactions quiet and avoids a vocal sound on every fast card',(
 it('does not play a stale crowd reaction after leaving the card',()=>{
  vi.useFakeTimers();mock.loaded=false;setSound(true);playCrowdReaction(4);const cue=voice('crowdreactrare'),callbacks=[...cue.events].filter((e:any)=>e.name==='load');
  stopCrowdReaction();mock.loaded=true;for(const e of callbacks)e.fn();expect(cue.play).not.toHaveBeenCalled();
+});
+
+it('crossfades to battle on opening and back without replaying obsolete tracks',async()=>{
+ vi.useFakeTimers();setSound(true);unlockAudio();const lobby=voice('ambience');setBattleMusic(true);const battle=voice('battle');expect(battle.play).toHaveBeenCalledOnce();expect(lobby.fade).toHaveBeenLastCalledWith(.14,0,800,1);expect(battle.fade).toHaveBeenLastCalledWith(0,.24,800,1);
+ setBattleMusic(false);await vi.advanceTimersByTimeAsync(900);expect(lobby.paused.size).toBe(0);expect(battle.paused.has(1)).toBe(true);
+ setBattleMusic(true);setAudioHidden(true);await vi.advanceTimersByTimeAsync(1000);expect(lobby.playing.size).toBe(0);expect(battle.playing.size).toBe(0);setAudioHidden(false);expect(battle.play).toHaveBeenLastCalledWith(1);
+});
+it('does not switch to an obsolete late-loading battle track',()=>{setSound(true);unlockAudio();mock.loaded=false;setBattleMusic(true);const battle=voice('battle');setBattleMusic(false);mock.loaded=true;battle.events.find((e:any)=>e.name==='load').fn();expect(battle.play).not.toHaveBeenCalled();expect(voice('ambience').paused.size).toBe(0);});
+
+it('restarts a ducked crossfade from its current audible gain',()=>{
+ setSound(true);unlockAudio();setBattleMusic(true);const battle=voice('battle');battle.volume.mockReturnValue(.055);playSound('packrustle');expect(battle.fade).toHaveBeenLastCalledWith(.055,.09,110,1);
+ const lobby=voice('ambience');lobby.volume.mockReturnValue(.06);unlockAudio();expect(lobby.fade).toHaveBeenLastCalledWith(.06,0,800,1);
 });

@@ -1,4 +1,5 @@
 import {expect,it} from 'vitest';
+import {gameLayout} from './rendering';
 import {ballFlight,ballLanding,ballLandingPlan,ballRevealCues,BALL_HIT} from './ballPhysics';
 it('projects a distant small ball into the card artwork with increasing apparent size',()=>{
  const start=ballFlight(0,-500),end=ballFlight(BALL_HIT,-500);
@@ -26,3 +27,5 @@ it('lands on the responsive stage floor, rebounds visibly once, and settles befo
 it('fires both bounce cues on exact floor contact and lets the soft rebound land before unlatching',()=>{
  for(const sky of [-350,-500,-900])for(const floor of [190,220,285]){const plan=ballLandingPlan(sky,floor),cues=ballRevealCues(plan);expect(ballLanding(cues.first-BALL_HIT,sky,floor).y).toBeCloseTo(floor);expect(ballLanding(cues.second-BALL_HIT,sky,floor).y).toBeCloseTo(floor);expect(cues.latch-cues.second).toBeCloseTo(.12);expect(cues.open).toBeGreaterThan(cues.latch);}
 });
+
+it('keeps the approaching ball and its trail inside the visible sky',()=>{for(const [w,h] of [[1280,720],[1920,1080],[390,780]]){const l=gameLayout(w,h,true),sky=-l.worldY/l.scale-100;for(let i=0;i<30;i++){const p=ballFlight(BALL_HIT*i/30,sky);expect(l.worldY+p.y*l.scale).toBeGreaterThan(10);}}});

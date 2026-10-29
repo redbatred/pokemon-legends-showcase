@@ -3,7 +3,7 @@ const clamp=(n:number)=>Math.max(0,Math.min(1,n));
 /** A parabolic world-space throw projected through depth, rather than eased screen coordinates. */
 export function ballFlight(time:number,skyY:number){
  const t=Math.max(0,Math.min(BALL_HIT,time)),u=t/BALL_HIT,focal=620,z=2750*(1-u),perspective=focal/(focal+z);
- const startY=Math.min(-760,skyY-280),gravity=1120,velocity=(-98-startY-.5*gravity*BALL_HIT*BALL_HIT)/BALL_HIT;
+ const startY=Math.min(-500,skyY-70),gravity=1120,velocity=(-98-startY-.5*gravity*BALL_HIT*BALL_HIT)/BALL_HIT;
  const worldY=startY+velocity*t+.5*gravity*t*t;
  return {x:610*(1-u)*perspective,y:-185+(worldY+185)*perspective,scale:.72*perspective,rotation:-.27+u*.39};
 }
