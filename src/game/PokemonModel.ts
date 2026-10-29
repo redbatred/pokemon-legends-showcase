@@ -1,3 +1,4 @@
+import {pokemonCameraDepth} from './pokemonPresentation';
 import {Texture as PixiTexture} from 'pixi.js';
 import {AnimationMixer,Box3,DataTexture,DirectionalLight,Group,HemisphereLight,LoopOnce,LoopRepeat,Matrix4,Mesh,NearestFilter,NoToneMapping,OrthographicCamera,PMREMGenerator,RGBAFormat,Scene,SRGBColorSpace,Vector3,WebGLRenderer,type AnimationAction,type Material,type MeshStandardMaterial,type Object3D,type Texture,type SkinnedMesh,type WebGLRenderTarget} from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -56,8 +57,8 @@ export class PokemonModel {
   this.mixer=new AnimationMixer(model);this.clips=new Map(animations.map(clip=>[clip.name,this.mixer.clipAction(clip)]));this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);
   const performance=performanceProfile(entry.species??stem),yaw=performance.cameraYaw*Math.PI/180,elevation=performance.cameraElevation*Math.PI/180,view=new Vector3(Math.sin(yaw)*Math.cos(elevation),Math.sin(elevation),Math.cos(yaw)*Math.cos(elevation));
   const bounds=new Box3().setFromObject(model,true),right=new Vector3(view.z,0,-view.x).normalize(),up=view.clone().cross(right).normalize(),vertex=new Vector3();
-  let left=Infinity,rightEdge=-Infinity,bottom=Infinity,top=-Infinity;
-  const includePose=()=>{model.traverse(o=>{if(!(o instanceof Mesh)||o.renderOrder===-1)return;const positions=o.geometry.getAttribute('position');if(!positions)return;for(let i=0;i<positions.count;i++){o.getVertexPosition(i,vertex).applyMatrix4(o.matrixWorld);const x=vertex.dot(right),y=vertex.dot(up);left=Math.min(left,x);rightEdge=Math.max(rightEdge,x);bottom=Math.min(bottom,y);top=Math.max(top,y);}});};includePose();const idleHeight=top-bottom,idleBottom=bottom;
+  let left=Infinity,rightEdge=-Infinity,bottom=Infinity,top=-Infinity,back=Infinity,front=-Infinity;
+  const includePose=()=>{model.traverse(o=>{if(!(o instanceof Mesh)||o.renderOrder===-1)return;const positions=o.geometry.getAttribute('position');if(!positions)return;for(let i=0;i<positions.count;i++){o.getVertexPosition(i,vertex).applyMatrix4(o.matrixWorld);const x=vertex.dot(right),y=vertex.dot(up),z=vertex.dot(view);back=Math.min(back,z);front=Math.max(front,z);left=Math.min(left,x);rightEdge=Math.max(rightEdge,x);bottom=Math.min(bottom,y);top=Math.max(top,y);}});};includePose();const idleHeight=top-bottom,idleBottom=bottom;
   const rig=moveRigs[this.stem],attackAction=this.clips.get(this.entry.attack??this.entry.runtime?.attack??'');
   if(attackAction){
    const original=this.current;original?.stop();attackAction.reset().setLoop(LoopOnce,1).play();attackAction.clampWhenFinished=true;
@@ -69,9 +70,10 @@ export class PokemonModel {
   const entranceAction=this.entry.enter?this.clips.get(this.entry.enter):null;
   if(entranceAction){this.current?.stop();entranceAction.reset().setLoop(LoopOnce,1).play();const start=this.entry.enterStart??0,end=this.entry.enterEnd??entranceAction.getClip().duration;for(let i=0;i<=8;i++){entranceAction.time=start+(end-start)*i/8;this.mixer.update(0);model.updateMatrixWorld(true);includePose();}entranceAction.stop();this.current=null;this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);}
   const center=bounds.getCenter(new Vector3()),size=bounds.getSize(new Vector3());
-  center.addScaledVector(right,(left+rightEdge)/2-center.dot(right)).addScaledVector(up,(bottom+top)/2-center.dot(up));
+  center.addScaledVector(right,(left+rightEdge)/2-center.dot(right)).addScaledVector(up,(bottom+top)/2-center.dot(up)).addScaledVector(view,(back+front)/2-center.dot(view));
   const span=Math.max(rightEdge-left,top-bottom,.1)*1.10;this.bodyHeight=idleHeight/span;this.frameWidth=(rightEdge-left)/span;this.camera.left=this.camera.bottom=-span/2;this.camera.right=this.camera.top=span/2;
-  this.camera.position.copy(center).addScaledVector(view,span*2);this.camera.lookAt(center);this.camera.updateProjectionMatrix();this.camera.updateMatrixWorld(true);
+  const cameraDepth=pokemonCameraDepth(span,front-back);this.camera.near=cameraDepth.near;this.camera.far=cameraDepth.far;
+  this.camera.position.copy(center).addScaledVector(view,cameraDepth.distance);this.camera.lookAt(center);this.camera.updateProjectionMatrix();this.camera.updateMatrixWorld(true);
   // A real oblique light catches the moving silhouette during the charge and attack.
   // It lights model normals instead of tinting the entire character sprite.
   this.attackLight.position.copy(center).addScaledVector(right,-span*1.6).addScaledVector(view,-span*.55).addScaledVector(up,span*.8);this.attackLight.target.position.copy(center);this.scene.add(this.attackLight,this.attackLight.target);
@@ -106,7 +108,7 @@ export class PokemonModel {
  emitters(profile:PowerProfile):ProjectedEmitter[]{
   const rig=moveRigs[this.stem];
   const project=()=>{const axis=this.forward.clone().sub(this.tip).normalize(),view=this.camera.getWorldDirection(new Vector3()),foreshortening=Math.sqrt(Math.max(0,1-axis.dot(view)**2));this.tip.project(this.camera);this.forward.project(this.camera);const dx=this.forward.x-this.tip.x,dy=this.tip.y-this.forward.y,length=Math.hypot(dx,dy)||1;return {x:this.tip.x,y:-this.tip.y,dx:dx/length,dy:dy/length,foreshortening};};
-  if(rig){const result:ProjectedEmitter[]=[];for(const e of rig.emitters){const pose=this.poses.get(e.bone);if(!pose)continue;this.tip.fromArray(e.tip).applyMatrix4(pose);this.forward.fromArray(e.forward).applyMatrix4(pose);result.push(project());}if(result.length)return result;}
+  if(rig){const result:ProjectedEmitter[]=[];for(const e of rig.emitters){const pose=this.poses.get(e.bone);if(!pose)continue;this.tip.fromArray(e.tip).applyMatrix4(pose);this.forward.fromArray(e.forward).applyMatrix4(pose);result.push({...project(),species:e.species});}if(result.length)return result;}
   const bone=profile.bone==='chest'?this.torso??this.head:this.head;const pose=bone?this.poses.get(bone.name.toLowerCase()):null;if(pose)this.tip.setFromMatrixPosition(pose);else this.tip.copy(this.fallback);
   // The source models face +Z. Use the animated nose direction whenever available.
   const nose=this.bones.find(b=>/^(center_)?nose(_\d+)?$/i.test(b.name));

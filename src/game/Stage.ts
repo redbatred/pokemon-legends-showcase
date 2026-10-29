@@ -318,7 +318,7 @@ export class OpeningStage {
     const key=card.image+'|'+pokemonImage;if(this.prepared?.key===key)return;
     this.discardPrepared();const entry={key,cancelled:false,promise:null as unknown as Promise<{texture:Texture;special:SpineReveal|null}>};this.prepared=entry;
     entry.promise=(async()=>{const texture=await Assets.load<Texture>(card.image);let special:SpineReveal|null=null;
-      if(pokemonImage&&!this.options.reduced&&!this.options.turbo&&!entry.cancelled&&!this.destroyed){try{const {SpineReveal}=await import('./SpineReveal');if(!entry.cancelled&&!this.destroyed){this.disposeSpecialResources=()=>SpineReveal.disposeResources();special=await SpineReveal.create(texture,pokemonImage,this.options.low);}}catch(error){console.warn('Special reveal artwork unavailable',error);}}
+      if(pokemonImage&&!entry.cancelled&&!this.destroyed){try{const {SpineReveal}=await import('./SpineReveal');if(!entry.cancelled&&!this.destroyed){this.disposeSpecialResources=()=>SpineReveal.disposeResources();special=await SpineReveal.create(texture,pokemonImage,this.options.low);}}catch(error){console.warn('Special reveal artwork unavailable',error);}}
       if(entry.cancelled||this.destroyed){special?.destroy();special=null;}return {texture,special};})();
     void entry.promise.catch(()=>{});
   }
@@ -329,9 +329,9 @@ export class OpeningStage {
     this.revealCompletion.begin();this.cardHoverReady=false;this.resetPointer();this.scene.endCelebration();
     const request = ++this.revealToken;
     this.prepareReveal(card,pokemonImage);const prepared=this.prepared!;this.prepared=null;
-    const loaded=await prepared.promise,texture=loaded.texture;let special=loaded.special;
+    const loaded=await prepared.promise,texture=loaded.texture,special=loaded.special;
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
-    if(this.options.reduced||this.options.turbo){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
+    if(this.options.reduced||this.options.turbo){this.scene.setCharge(null);this.scene.setCinematic(false,true);}
     this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced,crowdLevel(card,packPrice,!!special));
     this.mode = 'card'; this.pack.visible = false; this.packShadow.visible = false;
     this.cardLayer.visible = true;
@@ -388,10 +388,11 @@ export class OpeningStage {
       this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
     });
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
-    if(this.options.reduced||this.options.turbo){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
+    if(this.options.reduced||this.options.turbo){this.scene.setCharge(null);this.scene.setCinematic(false,true);}
     if(special){
       this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);special.setFloor(performanceFloor(gameLayout(this.app.screen.width,this.app.screen.height,true)));if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
-      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.revealCompletion.bind(this.timeline,()=>{special!.finish();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCinematic(false,true);this.scene.setCardColor(color!,true);},resolve);this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});
+      if(this.options.reduced||this.options.turbo){special.finish();this.onSpecialWin?.(card,true);}
+      else await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.revealCompletion.bind(this.timeline,()=>{special!.finish();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCinematic(false,true);this.scene.setCardColor(color!,true);},resolve);this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});
       if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(.5,this.options.reduced);}
     }
     if(!this.destroyed&&request===this.revealToken){this.cardHoverReady=true;if(this.revealCompletion.requested)this.onSpecialWin?.(card,true);this.revealCompletion.end();this.draw();}

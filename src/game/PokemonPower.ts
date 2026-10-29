@@ -1,6 +1,6 @@
 import {Graphics,Point} from 'pixi.js';
 import type {PokemonActor} from './PokemonActor';
-import type {PowerProfile} from './powerProfiles';
+import {pokemonPower,type PowerProfile} from './powerProfiles';
 import type {ProjectedEmitter} from './moveRig';
 import {signatureEffect} from './SignatureEffects';
 const TAU=Math.PI*2;
@@ -8,6 +8,7 @@ const TAU=Math.PI*2;
 /** Finite, pose-synchronized cel effects. Released projectiles retain their launch vector. */
 export class PokemonPower {
  readonly back=new Graphics();readonly front=new Graphics();charge=0;blast=0;fade=1;clock=0;
+ private members=new Map<string,PowerProfile>();
  private history:{time:number;points:ProjectedEmitter[]}[]=[];private time=0;private releasedAt=-1;private launch:ProjectedEmitter[]=[];private point=new Point();private target=new Point();
  constructor(private hero:PokemonActor,readonly profile:PowerProfile,private low=false){}
  begin(){this.history=[];this.time=0;this.clock=0;this.releasedAt=-1;this.launch=[];this.charge=0;this.blast=0;this.fade=1;}
@@ -16,21 +17,21 @@ export class PokemonPower {
   this.hero.parent!.toLocal(this.hero.toGlobal(new Point(p.x,p.y)),undefined,this.point);
   this.hero.parent!.toLocal(this.hero.toGlobal(new Point(p.x+p.dx*20,p.y+p.dy*20)),undefined,this.target);
   const dx=this.target.x-this.point.x,dy=this.target.y-this.point.y,d=Math.hypot(dx,dy)||1;
-  return {x:this.point.x,y:this.point.y,dx:dx/d,dy:dy/d,foreshortening:p.foreshortening};
+  return {species:p.species,x:this.point.x,y:this.point.y,dx:dx/d,dy:dy/d,foreshortening:p.foreshortening};
  });}
  update(_dt:number){
   this.back.clear();const g=this.front.clear();if(this.fade<=0||(!this.charge&&!this.blast))return;
   this.time=this.clock;let emitters=this.emitters();
   if(this.blast>0&&this.releasedAt<0){this.releasedAt=this.time;this.launch=emitters.map(p=>({...p}));}
   if(this.blast>0&&this.time>(this.history.at(-1)?.time??-1)){this.history.push({time:this.time,points:emitters});while(this.history.length>2&&this.history[1].time<this.time-.32)this.history.shift();}
-  if(['shuriken','orb','stars','pulse','crystals','gems','seeds','moon','firestar'].includes(this.profile.move)&&this.blast>0)emitters=this.launch;
-  for(let i=0;i<emitters.length;i++)this.draw(emitters[i],i,g);
+  for(let i=0;i<emitters.length;i++){const e=emitters[i],projectile=['shuriken','orb','stars','pulse','crystals','gems','seeds','moon','firestar'].includes(this.memberProfile(e).move);this.draw(projectile&&this.blast>0?this.launch[i]??e:e,i,g);}
  }
+ private memberProfile(e:ProjectedEmitter){if(!e.species)return this.profile;let profile=this.members.get(e.species);if(!profile){profile=pokemonPower('/assets/pokemon/'+e.species+'.png');this.members.set(e.species,profile);}return profile;}
  private star(g:Graphics,x:number,y:number,r:number,color:number,alpha:number,rotation=0){
   const points:number[]=[];for(let j=0;j<8;j++){const a=rotation+j*Math.PI/4,rr=j%2?r*.19:r;points.push(x+Math.cos(a)*rr,y+Math.sin(a)*rr);}g.poly(points).fill({color,alpha});
  }
  private draw(e:ProjectedEmitter,index:number,g:Graphics){
-  const p=this.profile,t=this.time,c=p.color,light=p.light,q=this.charge,alpha=this.fade;
+  const p=this.memberProfile(e),t=this.time,c=p.color,light=p.light,q=this.charge,alpha=this.fade;
   const {x,y,dx,dy}=e,nx=-dy,ny=dx;
   const at=(u:number,v:number):[number,number]=>{
    if(['stream','beam'].includes(p.move)&&this.history.length&&this.blast>0){

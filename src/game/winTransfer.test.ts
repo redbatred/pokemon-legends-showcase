@@ -28,3 +28,8 @@ it('reserves big-win wording for a genuinely larger payout and marks lower speci
 it('separates total captions from toolbar labels and compact branding',()=>{
  for(const [w,h] of [[390,780],[430,932],[568,320],[844,390]]){const l=gameLayout(w,h,true),v=totalWinLayout(w,h),u=utilityLayout(w,h,true);if(l.compact)expect(v.labelY).toBeGreaterThan(compactToolbar(w).logoWidth*.38+26.4);else expect(v.labelY).toBeGreaterThan(u.auto.y+u.auto.height+6);}
 });
+
+it.each(['Double rare','Holo Rare V','Holo Rare VSTAR','Holo Rare VMAX','Radiant Rare','Shiny rare'])('gives %s a special-pull celebration even below pack cost',(rarity)=>{
+ expect(winTier({id:'card',rarity,value:250},1000)).toBe('special');
+ expect(winTier({id:'card',rarity,value:2500},1000)).toBe('big');
+});

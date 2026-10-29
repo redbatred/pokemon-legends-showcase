@@ -3043,5 +3043,262 @@
     ],
     "projectileCount": 1,
     "projectileLifetime": 0.6
+  },
+  "moltres-zapdos-articuno": {
+    "form": "legendary-bird-storm",
+    "seek": 0.1,
+    "speed": 1.6,
+    "powerAt": 1.25,
+    "sustainEnd": 2.45,
+    "end": 2.65,
+    "recoverAt": 2.85,
+    "recoveryEnd": 5.458333492279053,
+    "emitters": [
+      {
+        "id": "moltres__flame-wing-left",
+        "bone": "moltres__left_wing_a_06",
+        "sourceBone": "moltres__left_wing_a_06",
+        "tip": [
+          0,
+          0,
+          0
+        ],
+        "forward": [
+          0.264193,
+          -0.581106,
+          0.477948
+        ],
+        "species": "moltres"
+      },
+      {
+        "id": "moltres__flame-wing-right",
+        "bone": "moltres__right_wing_a_06",
+        "sourceBone": "moltres__right_wing_a_06",
+        "tip": [
+          0,
+          0,
+          0
+        ],
+        "forward": [
+          0.086851,
+          0.50781,
+          0.608689
+        ],
+        "species": "moltres"
+      },
+      {
+        "id": "zapdos__electric-wing-left",
+        "bone": "zapdos__left_wing_a",
+        "sourceBone": "zapdos__left_wing_a",
+        "tip": [
+          0,
+          0,
+          0
+        ],
+        "forward": [
+          -0.056462,
+          0.223706,
+          0.395098
+        ],
+        "species": "zapdos"
+      },
+      {
+        "id": "zapdos__electric-wing-right",
+        "bone": "zapdos__right_wing_a",
+        "sourceBone": "zapdos__right_wing_a",
+        "tip": [
+          0,
+          0,
+          0
+        ],
+        "forward": [
+          -0.043684,
+          -0.204547,
+          0.406924
+        ],
+        "species": "zapdos"
+      },
+      {
+        "id": "articuno__beak",
+        "bone": "articuno__head",
+        "sourceBone": "articuno__head",
+        "tip": [
+          0.070953,
+          -0.000588,
+          0.207056
+        ],
+        "forward": [
+          0.224271,
+          -0.001859,
+          0.654471
+        ],
+        "species": "articuno"
+      }
+    ],
+    "attachment": "continuous",
+    "attackClip": "attack",
+    "sourceGlbSha256": "5fe8a9ccaa09dbd87759b9781720f9d0bbc29f573937c926d099920149f952f4",
+    "socketSampleTime": 0,
+    "chargeDuration": 0.7187499999999999,
+    "requiresMoveFormRouting": true,
+    "animationAuthorship": "native-retimed-ensemble",
+    "effectAuthorship": "project-authored combined elemental interpretation; no official move event track is asserted",
+    "evidence": "All three original attack tracks retain their native 5.458333-second timing. Fire-wing, electric-wing and ice-beak sockets retain their source bone-local measurements under uniquely prefixed joints. Each socket follows its own animated bird.",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup",
+    "members": {
+      "moltres": {
+        "form": "fire-spin",
+        "seek": 0.1,
+        "speed": 1.6,
+        "powerAt": 0.7,
+        "sustainEnd": 1.35,
+        "end": 1.6,
+        "recoverAt": 1.8,
+        "recoveryEnd": 5.458333492279053,
+        "emitters": [
+          {
+            "id": "moltres__flame-wing-left",
+            "bone": "moltres__left_wing_a_06",
+            "sourceBone": "moltres__left_wing_a_06",
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "forward": [
+              0.264193,
+              -0.581106,
+              0.477948
+            ],
+            "species": "moltres"
+          },
+          {
+            "id": "moltres__flame-wing-right",
+            "bone": "moltres__right_wing_a_06",
+            "sourceBone": "moltres__right_wing_a_06",
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "forward": [
+              0.086851,
+              0.50781,
+              0.608689
+            ],
+            "species": "moltres"
+          }
+        ],
+        "attachment": "continuous",
+        "evidence": "Native attack has independent wings and body lift. Jaw opens only briefly near.333s, so the1.6s effect ends after a wing-driven flame vortex rather than forcing a sustained mouth flame. Emitters use the native outer wing joints.",
+        "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/146/model.glb",
+        "attackClip": "attack",
+        "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
+        "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup",
+        "chargeDuration": 0.37499999999999994,
+        "sourceGlbSha256": "5fe8a9ccaa09dbd87759b9781720f9d0bbc29f573937c926d099920149f952f4",
+        "socketSampleTime": 0,
+        "requiresMoveFormRouting": true,
+        "animationAuthorship": "native",
+        "effectAuthorship": "project-authored elemental interpretation; no official move event track is asserted"
+      },
+      "zapdos": {
+        "form": "thunder",
+        "seek": 0.55,
+        "speed": 1.6,
+        "powerAt": 1.25,
+        "sustainEnd": 1.75,
+        "end": 1.95,
+        "recoverAt": 2.15,
+        "recoveryEnd": 5.458333492279053,
+        "emitters": [
+          {
+            "id": "zapdos__electric-wing-left",
+            "bone": "zapdos__left_wing_a",
+            "sourceBone": "zapdos__left_wing_a",
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "forward": [
+              -0.056462,
+              0.223706,
+              0.395098
+            ],
+            "species": "zapdos"
+          },
+          {
+            "id": "zapdos__electric-wing-right",
+            "bone": "zapdos__right_wing_a",
+            "sourceBone": "zapdos__right_wing_a",
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "forward": [
+              -0.043684,
+              -0.204547,
+              0.406924
+            ],
+            "species": "zapdos"
+          }
+        ],
+        "attachment": "continuous",
+        "evidence": "Native head/wing preparation peaks around1.3s; jaw opening is only brief near1.467s. Twin lightning emitters bind to actual outer wing joints, supporting a1.25\u20131.95s feather discharge.",
+        "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/145/model.glb",
+        "attackClip": "attack",
+        "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
+        "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup",
+        "chargeDuration": 0.43749999999999994,
+        "sourceGlbSha256": "5fe8a9ccaa09dbd87759b9781720f9d0bbc29f573937c926d099920149f952f4",
+        "socketSampleTime": 0,
+        "requiresMoveFormRouting": true,
+        "animationAuthorship": "native",
+        "effectAuthorship": "project-authored elemental interpretation; no official move event track is asserted"
+      },
+      "articuno": {
+        "form": "ice-shards",
+        "seek": 0.7,
+        "speed": 1.6,
+        "powerAt": 1.6,
+        "sustainEnd": 2.45,
+        "end": 2.65,
+        "recoverAt": 2.85,
+        "recoveryEnd": 5.458333492279053,
+        "emitters": [
+          {
+            "id": "articuno__beak",
+            "bone": "articuno__head",
+            "sourceBone": "articuno__head",
+            "tip": [
+              0.070953,
+              -0.000588,
+              0.207056
+            ],
+            "forward": [
+              0.224271,
+              -0.001859,
+              0.654471
+            ],
+            "species": "articuno"
+          }
+        ],
+        "attachment": "continuous",
+        "evidence": "Native jaw opening reaches35.1deg at1.633s, sustaining >=80% from1.567\u20132.7s. A finite ice-crystal volley follows the real head/beak through the flying pose. Beak tip is measured from frontmost head-skinned vertices in idle and stored in head-local coordinates.",
+        "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/144/model.glb",
+        "attackClip": "attack",
+        "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
+        "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup",
+        "chargeDuration": 0.5625,
+        "sourceGlbSha256": "5fe8a9ccaa09dbd87759b9781720f9d0bbc29f573937c926d099920149f952f4",
+        "socketSampleTime": 0,
+        "requiresMoveFormRouting": true,
+        "animationAuthorship": "native",
+        "effectAuthorship": "project-authored elemental interpretation; no official move event track is asserted"
+      }
+    }
   }
 }

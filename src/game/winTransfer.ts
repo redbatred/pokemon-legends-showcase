@@ -1,3 +1,4 @@
+import {isSpecialCard} from './specialCard';
 /** Presentation-only accounting. Demo credits are still settled by the game model. */
 export class WinLedger {
  identity='';total=0;private seen=new Set<number>();private pending=new Map<number,number>();
@@ -15,7 +16,7 @@ export function winFlightPose(age:number,from:{x:number;y:number},to:{x:number;y
 }
 
 export type WinTier='special'|'big'|'epic'|null;
-export function winTier(card:{id:string;rarity:string;value:number},price:number,preview=false):WinTier{
+export function winTier(card:{id:string;rarity:string;value:number;name?:string},price:number,preview=false):WinTier{
  if(card.id==='energy'||card.value<=0)return null;const ratio=card.value/Math.max(100,price);
- if(ratio>=8)return 'epic';if(ratio>=2)return 'big';if(preview||ratio>=1||/illustration|ultra|special|hyper|secret/i.test(card.rarity))return 'special';return null;
+ if(ratio>=8)return 'epic';if(ratio>=2)return 'big';if(preview||ratio>=1||isSpecialCard(card))return 'special';return null;
 }
