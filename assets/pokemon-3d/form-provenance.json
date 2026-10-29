@@ -1,0 +1,246 @@
+{
+  "models": [
+    {
+      "id": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/shiny/6.glb",
+      "sha256": "2cb3d0853efeb38b0bb2ae33de9f1c849b3566e10659dbbf2529e8da404912f3",
+      "bytes": 11908868,
+      "skins": [
+        128
+      ],
+      "clips": [
+        {
+          "name": "pm0006_00_00_00000_defaultwait01_loop",
+          "duration": 2.4166667461395264,
+          "movingSkinnedJoints": 66
+        },
+        {
+          "name": "pm0006_00_00_00450_rangeattack01",
+          "duration": 2.316666603088379,
+          "movingSkinnedJoints": 72
+        },
+        {
+          "name": "pm0006_00_00_00550_glad01",
+          "duration": 2.3499999046325684,
+          "movingSkinnedJoints": 95
+        }
+      ],
+      "sockets": [
+        {
+          "name": "waist_108",
+          "worldPosition": [
+            -8.832314842509299e-33,
+            0.6050000428338943,
+            0.015465592918749669
+          ]
+        },
+        {
+          "name": "head_33",
+          "worldPosition": [
+            -7.903008177968057e-08,
+            1.3290577720748789,
+            0.439538632646273
+          ]
+        },
+        {
+          "name": "jaw_7",
+          "worldPosition": [
+            -9.646117093659804e-08,
+            1.3293583493456231,
+            0.5588622526504784
+          ]
+        },
+        {
+          "name": "jaw_sub_6",
+          "worldPosition": [
+            -8.898730558233611e-08,
+            1.3288851582957326,
+            0.5597432150116778
+          ]
+        },
+        {
+          "name": "center_nose_24",
+          "worldPosition": [
+            -9.001509726024963e-08,
+            1.2885848691835302,
+            0.7916334529073652
+          ]
+        },
+        {
+          "name": "left_hand_46",
+          "worldPosition": [
+            0.4660221775060767,
+            0.6799808101485397,
+            0.11090939273701217
+          ]
+        },
+        {
+          "name": "right_hand_58",
+          "worldPosition": [
+            -0.4660225271251425,
+            0.6799810526230092,
+            0.11090925695748144
+          ]
+        }
+      ],
+      "output": "/pokemon-legends-showcase/assets/pokemon-3d/charizard-shiny.glb",
+      "outputBytes": 9464104,
+      "outputSha256": "106ae38b17057343840732d1b9cfe681293d3aafee0e11dc0507c6d1b451f5bd",
+      "geometryPreserved": true,
+      "selectedAnimationKeyframesPreserved": true,
+      "encodedTexturesPreserved": true
+    },
+    {
+      "id": 150,
+      "sourceUrl": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/shiny/150.glb",
+      "sha256": "672d6933581f88c89fadcecd60808a267053c8418ccc722999741b5c7746ba68",
+      "bytes": 7606076,
+      "skins": [
+        88
+      ],
+      "clips": [
+        {
+          "name": "pm0150_00_00_00000_defaultwait01_loop",
+          "duration": 3.0166666507720947,
+          "movingSkinnedJoints": 52
+        },
+        {
+          "name": "pm0150_00_00_00450_rangeattack01",
+          "duration": 2.0166666507720947,
+          "movingSkinnedJoints": 66
+        },
+        {
+          "name": "pm0150_00_00_00550_glad01",
+          "duration": 1.6833332777023315,
+          "movingSkinnedJoints": 66
+        }
+      ],
+      "sockets": [
+        {
+          "name": "waist_74",
+          "worldPosition": [
+            0,
+            1.0255913043369542,
+            -1.3779725658516996e-07
+          ]
+        },
+        {
+          "name": "head_19",
+          "worldPosition": [
+            -5.936482022676651e-08,
+            1.467429207495834,
+            -0.042042855306295146
+          ]
+        },
+        {
+          "name": "jaw_2",
+          "worldPosition": [
+            -7.199932574190813e-08,
+            1.5614647670625266,
+            0.032299758153028255
+          ]
+        },
+        {
+          "name": "left_hand_30",
+          "worldPosition": [
+            0.6142355269418704,
+            0.9980634982456908,
+            -0.07014358048487863
+          ]
+        },
+        {
+          "name": "right_hand_43",
+          "worldPosition": [
+            -0.6142357649734907,
+            0.9980601097250485,
+            -0.07014346553758748
+          ]
+        }
+      ],
+      "output": "/pokemon-legends-showcase/assets/pokemon-3d/mewtwo-shiny.glb",
+      "outputBytes": 6290272,
+      "outputSha256": "f187fe8c4677bb1af36b64597c4cac196b6ec01e9ffdf94fcda8be9a00ed7f89",
+      "geometryPreserved": true,
+      "selectedAnimationKeyframesPreserved": true,
+      "encodedTexturesPreserved": true
+    },
+    {
+      "id": 282,
+      "sourceUrl": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/shiny/282.glb",
+      "output": "/pokemon-legends-showcase/assets/pokemon-3d/gardevoir-shiny.glb",
+      "outputSha256": "c7dd0b39e8d26902640a2cc9d1ba4d94fb0dd15148b87a35488f49b89e539cd6",
+      "retargetMethod": "For each of 69 mapped anatomical joints: target desired world quaternion = source animated world quaternion * inverse(source rest world quaternion) * target rest world quaternion. Solve local quaternion against actual animated target parent; preserve unmatched target nodes in rest local pose. Sample source at its exact keyframe times (60 Hz); quaternion outputs are recomputed, not copied.",
+      "animationAuthorship": "Existing project-authored anatomical skeletal ensemble choreography; not native game clips.",
+      "geometryPreserved": true,
+      "encodedTexturesPreserved": true,
+      "allSampledVerticesFinite": true,
+      "facialLimitation": null
+    },
+    {
+      "id": 43,
+      "sourceUrl": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/shiny/43.glb",
+      "output": "/pokemon-legends-showcase/assets/pokemon-3d/oddish-shiny.glb",
+      "outputSha256": "959d47852381223b213ef2478eb9b5054ad63f668855ea5a489dce82441cc723",
+      "retargetMethod": "desired target world q = source animated world q * inverse(source rest world q) * target rest world q. desired target world p = target rest world p + uniform anatomical scale * (source animated world p - source rest world p). Solve each local rotation and translation through actual target parent. Target file rest transforms remain unchanged.",
+      "animationAuthorship": "Retargeted from native source game idle/attack/happy clips; source world-space rotation and translation deltas drive target anatomical joints. No new motion choreography.",
+      "geometryPreserved": true,
+      "encodedTexturesPreserved": true,
+      "allSampledVerticesFinite": true,
+      "facialLimitation": "The target has no corresponding native eyelid/jaw joints; those source facial-expression channels cannot be transferred. Its authored mouth/eyes remain unchanged; all 23 target body/leaf/leg joints are mapped."
+    },
+    {
+      "id": 44,
+      "sourceUrl": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/shiny/44.glb",
+      "output": "/pokemon-legends-showcase/assets/pokemon-3d/gloom-shiny.glb",
+      "outputSha256": "acacfb0c6ffa22676e61150cb3e5f401e48b94b1f0f4bde8a696c8bd8e0a57bf",
+      "retargetMethod": "desired target world q = source animated world q * inverse(source rest world q) * target rest world q. desired target world p = target rest world p + uniform anatomical scale * (source animated world p - source rest world p). Solve each local rotation and translation through actual target parent. Target file rest transforms remain unchanged.",
+      "animationAuthorship": "Retargeted from native source game idle/attack/happy clips; source world-space rotation and translation deltas drive target anatomical joints. No new motion choreography.",
+      "geometryPreserved": true,
+      "encodedTexturesPreserved": true,
+      "allSampledVerticesFinite": true,
+      "facialLimitation": null
+    }
+  ],
+  "artwork": [
+    {
+      "species": "charizard",
+      "dexId": 6,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/shiny/6.png",
+      "file": "/pokemon-legends-showcase/assets/pokemon/charizard-shiny.png",
+      "sha256": "797c3ec040f361bf57b7cf6ae9e2ff1367f0d512d29b8b6a869b46fe7d30ffd4",
+      "processing": "Original official shiny artwork bytes, unchanged."
+    },
+    {
+      "species": "mewtwo",
+      "dexId": 150,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/shiny/150.png",
+      "file": "/pokemon-legends-showcase/assets/pokemon/mewtwo-shiny.png",
+      "sha256": "85ad7ac6c897f5c7c7fb46faabb740da124799e77fd99ef63f9d12ef3b82775f",
+      "processing": "Original official shiny artwork bytes, unchanged."
+    },
+    {
+      "species": "gardevoir",
+      "dexId": 282,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/shiny/282.png",
+      "file": "/pokemon-legends-showcase/assets/pokemon/gardevoir-shiny.png",
+      "sha256": "2bf197a41e0471069867b574a8b22af6c74bbf52cbc1c52fd3f15ce3ac5b06ed",
+      "processing": "Original official shiny artwork bytes, unchanged."
+    },
+    {
+      "species": "oddish",
+      "dexId": 43,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/shiny/43.png",
+      "file": "/pokemon-legends-showcase/assets/pokemon/oddish-shiny.png",
+      "sha256": "bf54feedbc0f53db30850608260b1d2d437fdd22810e44cacc4a5a69fe9d05b6",
+      "processing": "Original official shiny artwork bytes, unchanged."
+    },
+    {
+      "species": "gloom",
+      "dexId": 44,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/shiny/44.png",
+      "file": "/pokemon-legends-showcase/assets/pokemon/gloom-shiny.png",
+      "sha256": "1e45adaeea85de19f722a8267bab57bd9b2c5bc661f68813369bab11717e114b",
+      "processing": "Original official shiny artwork bytes, unchanged."
+    }
+  ]
+}

@@ -198,5 +198,34 @@
   "Zapdos": {
     "dexId": 145,
     "image": "/pokemon-legends-showcase/assets/pokemon/zapdos.png"
+  },
+  "Shiny Charizard": {
+    "dexId": 6,
+    "image": "/pokemon-legends-showcase/assets/pokemon/charizard-shiny.png",
+    "species": "charizard"
+  },
+  "Shiny Mewtwo": {
+    "dexId": 150,
+    "image": "/pokemon-legends-showcase/assets/pokemon/mewtwo-shiny.png",
+    "species": "mewtwo"
+  },
+  "Clodsire": {
+    "dexId": 980,
+    "image": "/pokemon-legends-showcase/assets/pokemon/clodsire.png"
+  },
+  "Shiny Gardevoir": {
+    "dexId": 282,
+    "species": "gardevoir",
+    "image": "/pokemon-legends-showcase/assets/pokemon/gardevoir-shiny.png"
+  },
+  "Shiny Oddish": {
+    "dexId": 43,
+    "species": "oddish",
+    "image": "/pokemon-legends-showcase/assets/pokemon/oddish-shiny.png"
+  },
+  "Shiny Gloom": {
+    "dexId": 44,
+    "species": "gloom",
+    "image": "/pokemon-legends-showcase/assets/pokemon/gloom-shiny.png"
   }
 }

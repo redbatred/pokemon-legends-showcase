@@ -1,0 +1,216 @@
+{
+  "sv03-066": {
+    "species": "tyranitar",
+    "form": "tera",
+    "shiny": false,
+    "teraType": "electric"
+  },
+  "sv03-159": {
+    "species": "dragonite",
+    "form": "tera",
+    "shiny": false,
+    "teraType": "dragon"
+  },
+  "sv03-125": {
+    "species": "charizard",
+    "form": "tera",
+    "shiny": false,
+    "teraType": "dark"
+  },
+  "sv03-215": {
+    "species": "charizard",
+    "form": "tera",
+    "shiny": false,
+    "teraType": "dark"
+  },
+  "sv03-223": {
+    "species": "charizard",
+    "form": "tera",
+    "shiny": false,
+    "teraType": "dark"
+  },
+  "sv03-228": {
+    "species": "charizard",
+    "form": "tera",
+    "shiny": false,
+    "teraType": "dark"
+  },
+  "sv04.5-054": {
+    "species": "charizard",
+    "form": "tera",
+    "shiny": false,
+    "teraType": "dark"
+  },
+  "sv04.5-234": {
+    "species": "charizard",
+    "form": "tera",
+    "shiny": true,
+    "teraType": "dark"
+  },
+  "sv04.5-002": {
+    "species": "forretress",
+    "form": "tera",
+    "shiny": false,
+    "teraType": "grass"
+  },
+  "sv04.5-092": {
+    "species": "oddish",
+    "form": "regular",
+    "shiny": true
+  },
+  "sv04.5-093": {
+    "species": "gloom",
+    "form": "regular",
+    "shiny": true
+  },
+  "sv04.5-232": {
+    "species": "mew",
+    "form": "regular",
+    "shiny": true
+  },
+  "sv04.5-233": {
+    "species": "gardevoir",
+    "form": "regular",
+    "shiny": true
+  },
+  "swsh11-069": {
+    "species": "gardevoir",
+    "form": "regular",
+    "shiny": true
+  },
+  "sma-SV49": {
+    "species": "charizard",
+    "form": "regular",
+    "shiny": true
+  },
+  "swsh12.5-020": {
+    "species": "charizard",
+    "form": "regular",
+    "shiny": true
+  },
+  "sma-SV59": {
+    "species": "mewtwo",
+    "form": "regular",
+    "shiny": true
+  },
+  "sma-SV69": {
+    "species": "umbreon",
+    "form": "regular",
+    "shiny": true
+  },
+  "swsh12-059": {
+    "species": "alakazam",
+    "form": "regular",
+    "shiny": true
+  },
+  "swsh11-130": {
+    "species": "giratina",
+    "form": "origin",
+    "shiny": false
+  },
+  "swsh11-186": {
+    "species": "giratina",
+    "form": "origin",
+    "shiny": false
+  },
+  "swsh12.5gg-GG69": {
+    "species": "giratina",
+    "form": "origin",
+    "shiny": false
+  },
+  "swsh8-157": {
+    "species": "gengar",
+    "form": "gigantamax",
+    "shiny": false
+  },
+  "swsh8-271": {
+    "species": "gengar",
+    "form": "gigantamax",
+    "shiny": false
+  },
+  "swsh7-123": {
+    "species": "duraludon",
+    "form": "gigantamax",
+    "shiny": false
+  },
+  "swsh11tg-TG17": {
+    "species": "pikachu",
+    "form": "gigantamax",
+    "shiny": false
+  },
+  "swsh11tg-TG29": {
+    "species": "pikachu",
+    "form": "gigantamax",
+    "shiny": false
+  },
+  "swsh7-29": {
+    "species": "gyarados",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh7-30": {
+    "species": "vaporeon",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh7-41": {
+    "species": "glaceon",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh7-65": {
+    "species": "espeon",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh8-270": {
+    "species": "espeon",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh7-95": {
+    "species": "umbreon",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh7-215": {
+    "species": "umbreon",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh7-205": {
+    "species": "leafeon",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh7-218": {
+    "species": "rayquaza",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh12tg-TG20": {
+    "species": "rayquaza",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh8-114": {
+    "species": "mew",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "swsh8-269": {
+    "species": "mew",
+    "form": "dynamax",
+    "shiny": false
+  },
+  "sv04.5-058": {
+    "species": "wooper",
+    "form": "paldean",
+    "shiny": false
+  },
+  "sv04.5-059": {
+    "species": "clodsire",
+    "form": "regular",
+    "shiny": false
+  }
+}

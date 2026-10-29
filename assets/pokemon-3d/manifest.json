@@ -4583,5 +4583,186 @@
       ],
       "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
     }
+  },
+  "charizard-shiny": {
+    "name": "Shiny Charizard",
+    "species": "charizard",
+    "dexId": 6,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/charizard-shiny.glb",
+    "bytes": 9464104,
+    "idle": "pm0006_00_00_00000_defaultwait01_loop",
+    "attack": "pm0006_00_00_00450_rangeattack01",
+    "enter": "pm0006_00_00_00550_glad01",
+    "enterStart": 0,
+    "enterEnd": 1,
+    "enterSpeed": 1.4,
+    "attackTimeScale": 1,
+    "clips": [
+      {
+        "name": "pm0006_00_00_00000_defaultwait01_loop",
+        "duration": 2.4166667461395264,
+        "movingSkinnedJointCount": 66
+      },
+      {
+        "name": "pm0006_00_00_00450_rangeattack01",
+        "duration": 2.316666603088379,
+        "movingSkinnedJointCount": 72
+      },
+      {
+        "name": "pm0006_00_00_00550_glad01",
+        "duration": 2.3499999046325684,
+        "movingSkinnedJointCount": 95
+      }
+    ],
+    "optimization": {
+      "sha256": "106ae38b17057343840732d1b9cfe681293d3aafee0e11dc0507c6d1b451f5bd"
+    },
+    "animationAuthorship": "Native source skeletal clips; unchanged keyframes, skin, geometry and texture pixels."
+  },
+  "mewtwo-shiny": {
+    "name": "Shiny Mewtwo",
+    "species": "mewtwo",
+    "dexId": 150,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/mewtwo-shiny.glb",
+    "bytes": 6290272,
+    "idle": "pm0150_00_00_00000_defaultwait01_loop",
+    "attack": "pm0150_00_00_00450_rangeattack01",
+    "enter": "pm0150_00_00_00550_glad01",
+    "enterStart": 0,
+    "enterEnd": 1,
+    "enterSpeed": 1.4,
+    "attackTimeScale": 1,
+    "clips": [
+      {
+        "name": "pm0150_00_00_00000_defaultwait01_loop",
+        "duration": 3.0166666507720947,
+        "movingSkinnedJointCount": 52
+      },
+      {
+        "name": "pm0150_00_00_00450_rangeattack01",
+        "duration": 2.0166666507720947,
+        "movingSkinnedJointCount": 66
+      },
+      {
+        "name": "pm0150_00_00_00550_glad01",
+        "duration": 1.6833332777023315,
+        "movingSkinnedJointCount": 66
+      }
+    ],
+    "optimization": {
+      "sha256": "f187fe8c4677bb1af36b64597c4cac196b6ec01e9ffdf94fcda8be9a00ed7f89"
+    },
+    "animationAuthorship": "Native source skeletal clips; unchanged keyframes, skin, geometry and texture pixels."
+  },
+  "gardevoir-shiny": {
+    "name": "Shiny Gardevoir",
+    "species": "gardevoir",
+    "dexId": 282,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/gardevoir-shiny.glb",
+    "bytes": 677960,
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 48,
+        "varyingSkinnedJointChannels": 48,
+        "movingSkinnedJointCount": 48,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 16,
+        "varyingSkinnedJointChannels": 16,
+        "movingSkinnedJointCount": 16,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 20,
+        "varyingSkinnedJointChannels": 20,
+        "movingSkinnedJointCount": 20,
+        "authored": true
+      }
+    ],
+    "optimization": {
+      "sha256": "c7dd0b39e8d26902640a2cc9d1ba4d94fb0dd15148b87a35488f49b89e539cd6"
+    },
+    "animationAuthorship": "Project-authored Gardevoir motion retargeted through world-space bone deltas to the correct shiny skin; native source geometry, textures and rest transforms preserved."
+  },
+  "oddish-shiny": {
+    "name": "Shiny Oddish",
+    "species": "oddish",
+    "dexId": 43,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/oddish-shiny.glb",
+    "bytes": 828880,
+    "idle": "idle",
+    "attack": "attack",
+    "enter": "happy",
+    "enterStart": 0.1,
+    "enterEnd": 1.05,
+    "enterSpeed": 1.15,
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 4.625,
+        "movingSkinnedJointCount": 23
+      },
+      {
+        "name": "idle",
+        "duration": 4.625,
+        "movingSkinnedJointCount": 23
+      },
+      {
+        "name": "happy",
+        "duration": 3.7916667461395264,
+        "movingSkinnedJointCount": 23
+      }
+    ],
+    "optimization": {
+      "sha256": "959d47852381223b213ef2478eb9b5054ad63f668855ea5a489dce82441cc723"
+    },
+    "animationAuthorship": "Retargeted from native source game idle/attack/happy clips; source world-space rotation and translation deltas drive target anatomical joints. No new motion choreography."
+  },
+  "gloom-shiny": {
+    "name": "Shiny Gloom",
+    "species": "gloom",
+    "dexId": 44,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/gloom-shiny.glb",
+    "bytes": 632236,
+    "idle": "idle",
+    "attack": "attack",
+    "enter": "happy",
+    "enterStart": 0,
+    "enterEnd": 1,
+    "enterSpeed": 1.2,
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 1.850000023841858,
+        "movingSkinnedJointCount": 32
+      },
+      {
+        "name": "idle",
+        "duration": 1.5166666507720947,
+        "movingSkinnedJointCount": 31
+      },
+      {
+        "name": "happy",
+        "duration": 1.6833332777023315,
+        "movingSkinnedJointCount": 31
+      }
+    ],
+    "optimization": {
+      "sha256": "acacfb0c6ffa22676e61150cb3e5f401e48b94b1f0f4bde8a696c8bd8e0a57bf"
+    },
+    "animationAuthorship": "Retargeted from native source game idle/attack/happy clips; source world-space rotation and translation deltas drive target anatomical joints. No new motion choreography."
   }
 }
