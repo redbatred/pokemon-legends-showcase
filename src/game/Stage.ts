@@ -74,8 +74,9 @@ export class OpeningStage {
   private stack = new Container();private openingCard:PerspectiveMesh|null=null;
   private resize = () => {
     const w = this.host.clientWidth, h = this.host.clientHeight;
-    this.app.renderer.resolution = renderResolution(w,h,devicePixelRatio,this.options.low,this.blocked);
-    this.app.renderer.resize(w, h);
+    const resolution=renderResolution(w,h,devicePixelRatio,this.options.low,this.blocked);
+    // Resizing a WebGL canvas clears it. Layout-only updates must not clear a live frame.
+    if(this.app.screen.width!==w||this.app.screen.height!==h||Math.abs(this.app.renderer.resolution-resolution)>.001){this.app.renderer.resolution=resolution;this.app.renderer.resize(w,h);}
     const layout=gameLayout(w,h,this.openingLayout);
     this.world.position.set(w/2,layout.worldY);this.world.scale.set(layout.scale);this.special?.fitPresentation((w/2-12)/layout.scale);this.special?.setFloor(performanceFloor(layout));this.special?.update(0);
     this.positionJourney();
@@ -379,7 +380,7 @@ export class OpeningStage {
     if(special){
       this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);special.setFloor(performanceFloor(gameLayout(this.app.screen.width,this.app.screen.height,true)));if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
       await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.revealCompletion.bind(this.timeline,()=>{special!.finish();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCinematic(false,true);this.scene.setCardColor(color!,true);},resolve);this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});
-      if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(false,this.options.reduced);}
+      if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(.5,this.options.reduced);}
     }
     if(!this.destroyed&&request===this.revealToken){this.cardHoverReady=true;if(this.revealCompletion.requested)this.onSpecialWin?.(card,true);this.revealCompletion.end();this.draw();}
   }

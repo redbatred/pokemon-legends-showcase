@@ -31,6 +31,7 @@ export class CanvasUI {
   root=new Container({isRenderGroup:true}); private focus=new Graphics();private state:UIState|null=null;
   private backdrop=new Graphics();private modalTween:gsap.core.Timeline|null=null;private modalKind='';private transitioning=false;
   private frozenHud:Sprite|null=null;
+  private returnCover:Sprite|null=null;private returnTween:gsap.core.Tween|null=null;
   private completedResultSound='';private resultUnderlay:Sprite|null=null;private resultLaunch:{sources:{x:number;y:number;cardWidth:number}[];total:ReturnType<typeof totalWinLayout>}|null=null;
   private resultChrome:Container|null=null;private resultAmount:MoneyReadout|null=null;private resultCards:{group:Container;x:number;y:number;width:number;index:number}[]=[];
   private modalOrigin={x:0,y:0};
@@ -46,7 +47,7 @@ export class CanvasUI {
     this.stage.scene.setBoard({phase:'revealed',packName:s.save.active.pack?.name??s.selected.name,index:s.index,cardName:card.name,cardValue:card.value,special:!!tier});
     if(immediate){this.rewards.finish(s.index);this.rewards.update(0,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);this.stage.draw();}
   };
-  private tickRewards=(ticker:Ticker)=>{this.animateChrome();const s=this.state;if(!s)return;const visible=!s.panel&&!s.inspected&&['awaiting','revealing','revealed','collecting','settling'].includes(s.phase);this.rewards.root.visible=visible;if(visible)this.rewards.update(ticker.deltaMS/1000,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;};
+  private tickRewards=(ticker:Ticker)=>{this.animateChrome();const s=this.state;if(!s)return;const visible=!s.panel&&!s.inspected&&['awaiting','revealing','revealed','collecting','settling'].includes(s.phase);this.rewards.root.visible=visible;this.rewards.background.visible=visible;if(visible)this.rewards.update(ticker.deltaMS/1000,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;};
   private creditReward=(total:number)=>{if(this.moneyValues.get('revealed')?.target===total)return;if(this.packValueLabel){this.packValueLabel.retarget(total);this.packValueLabel.pulse();}else this.moneyValues.set('revealed',moneyState(this.moneyValues.get('revealed'),this.openingId,total,false));};
   private updating=false;
   private lastPackId='';private rackGroup:Container|null=null;private rackMask:Graphics|null=null;private rackGlow:Graphics|null=null;private rackKind:'packs'|'cards'='packs';private arrowPulses:{glyph:Graphics;base:number;phase:number;axis:'x'|'y'}[]=[];
@@ -61,7 +62,7 @@ export class CanvasUI {
     void preloadWinCelebration().catch(()=>{});
     BitmapFont.install({name:'LegendsMoney',style:{fontFamily:'Nunito',fontSize:64,fontWeight:'900',fill:0xffffff,stroke:{color:0x082e52,width:3}},chars:'0123456789$.,+- ',resolution:3,padding:3,skipKerning:true});
     const canvas=document.createElement('canvas');canvas.width=8;canvas.height=128;const ctx=canvas.getContext('2d')!;const gradient=ctx.createLinearGradient(0,0,0,128);gradient.addColorStop(0,'rgba(4,14,29,0)');gradient.addColorStop(1,'rgba(4,14,29,.65)');ctx.fillStyle=gradient;ctx.fillRect(0,0,8,128);this.tray=Texture.from(canvas);
-    this.rewards=new RewardTransfers(this.creditReward,()=>stage.draw());stage.app.ticker.add(this.tickRewards);
+    this.rewards=new RewardTransfers(this.creditReward,()=>stage.draw());stage.app.stage.addChildAt(this.rewards.background,stage.app.stage.getChildIndex(stage.world));stage.app.ticker.add(this.tickRewards);
     stage.app.stage.addChild(this.backdrop,this.root,stage.flightLayer,this.rewards.root);stage.onCardStored=this.storeCard;stage.onSpecialWin=this.awardCard;stage.onLayout=()=>{if(!this.updating)this.build();};
     stage.onCollectFocus=this.focusTray;stage.cardDestination=this.cardDestination;
     window.addEventListener('keydown',this.keydown);
@@ -80,7 +81,7 @@ export class CanvasUI {
     this.stage.setScene(['awaiting','revealing','revealed','collecting','settling','complete'].includes(state.phase));
     this.stage.setBlocked(!!state.panel||!!state.inspected||(state.phase==='complete'&&!state.autoRun?.running),state.panel==='settings');
     if(state.panel||state.inspected||state.phase==='complete')this.stage.app.stage.addChild(this.backdrop,this.root);else this.stage.app.stage.addChild(this.stage.flightLayer,this.rewards.root);
-    this.rewards.root.visible=!state.panel&&!state.inspected&&['awaiting','revealing','revealed','collecting','settling'].includes(state.phase);
+    this.rewards.background.visible=this.rewards.root.visible=!state.panel&&!state.inspected&&['awaiting','revealing','revealed','collecting','settling'].includes(state.phase);
     this.updating=false;
     const phaseKey=`${id}:${state.index}:${state.phase}:${state.selected.id}`;
     if(phaseKey!==this.rewardPhaseKey){const card=state.phase==='revealed'?state.save?.active?.cards[state.index]:undefined;this.stage.scene.setBoard({phase:state.phase,packName:state.save?.active?.pack?.name??state.selected.name,index:state.index,cardName:card?.name,cardValue:card?.value});}
@@ -100,10 +101,11 @@ export class CanvasUI {
   }
   private keydown=(event:KeyboardEvent)=>{
     if(!this.state)return;
+    if(this.transitioning){event.preventDefault();return;}
     if(event.key==='Escape'){event.preventDefault();this.dismissModal();return;}
     if((event.target as HTMLElement)?.tagName==='BUTTON')return;
     if(this.state.panel==='collection'&&!this.state.inspected&&['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();this.page+=event.key==='ArrowRight'?1:-1;this.build();}
-    if((event.key===' '||event.key==='Enter')&&!this.state.panel&&!this.state.inspected){event.preventDefault();const phase=this.state.phase;const action=phase==='browse'?'open':phase==='sealed'?'tear':['awaiting','revealing','revealed'].includes(phase)?'next':phase==='complete'?'continue':null;if(action)this.state.action(action);}
+    if((event.key===' '||event.key==='Enter')&&!this.state.panel&&!this.state.inspected){event.preventDefault();const phase=this.state.phase;const action=phase==='browse'?'open':phase==='sealed'?'tear':['awaiting','revealing','revealed'].includes(phase)?'next':phase==='complete'?'continue':null;if(action){if(phase==='complete')this.dismissModal('continue');else this.state.action(action);}}
   };
   private text(value:string,x:number,y:number,size=14,color=C.white,parent=this.root,align:'left'|'center'|'right'='left',weight:'normal'|'bold'='normal',maxWidth?:number){
     const text=new Text({text:value,style:{fontFamily:'Nunito, Arial, sans-serif',fontSize:size,fontWeight:weight==='bold'?'800':'600',fill:color,align,wordWrap:!!maxWidth,wordWrapWidth:maxWidth,lineHeight:size*1.3},resolution:Math.max(2,Math.min(3,devicePixelRatio))});
@@ -215,7 +217,7 @@ export class CanvasUI {
     const s=this.state,sw=this.stage.app.screen.width,sh=this.stage.app.screen.height,modal=s.inspected?'inspect':s.panel??(s.phase==='complete'&&!s.autoRun?.running?'results':'');
     const frame=modal&&modal!=='settings'?modalLayout(sw,sh,modal):{x:0,y:0,width:sw,height:sh};this.modalOrigin={x:frame.x,y:frame.y};
     const w=frame.width,h=frame.height,l=gameLayout(w,h,['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)),changed=modal!==this.modalKind;this.modalKind=modal;
-    this.modalTween?.kill();this.modalTween=null;this.transitioning=false;this.root.position.set(frame.x,frame.y);this.root.scale.set(1);this.root.alpha=1;
+    this.modalTween?.kill();this.modalTween=null;this.transitioning=!!this.returnCover;this.root.position.set(frame.x,frame.y);this.root.scale.set(1);this.root.alpha=1;
     this.backdrop.clear();this.backdrop.visible=!!modal;this.backdrop.alpha=1;if(modal)this.backdrop.rect(0,0,sw,sh).fill({color:0x03192d,alpha:modal==='results'?.28:modal==='settings'?.45:.6});
     if(s.panel==='collection'&&!s.inspected)this.collection(w,h);
     else {
@@ -232,7 +234,7 @@ export class CanvasUI {
       if(s.phase==='revealing')this.button('retry','Retry reveal',w-132,l.top+17,66,32,()=>s.action('retry'),{small:true,visibleLabel:'Retry'});
     }
     if(s.toast){this.panel(w/2-145,h-46,290,32,0x163c54,C.line);this.text(s.toast,w/2,h-40,12,C.cyan,this.root,'center');}
-    this.hits.forEach(hit=>{hit.x+=frame.x;hit.y+=frame.y;});this.root.addChild(this.focus);this.rewards.update(0,sw,sh,s.reduced);for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;this.stage.draw();
+    this.hits.forEach(hit=>{hit.x+=frame.x;hit.y+=frame.y;});this.root.addChild(this.focus);if(this.returnCover)this.stage.app.stage.addChild(this.returnCover);this.rewards.update(0,sw,sh,s.reduced);for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;this.stage.draw();
     if(modal==='results'&&this.resultLaunch&&!s.reduced)this.animateResults(w,h);else if(modal&&changed&&!s.reduced)this.animateModal(modal,w,h);
     if(modal==='results'&&!this.resultLaunch)this.finishResultAudio();this.resultLaunch=null;
     this.emitTargets();
@@ -249,6 +251,13 @@ export class CanvasUI {
   private dismissModal(action:'close'|'continue'='close'){
     if(this.transitioning)return;const s=this.state!;
     if(!this.modalKind||s.reduced){s.action(action);return;}
+    if(this.modalKind==='results'&&!s.panel&&!s.inspected){
+      // Capture before reset, build the browse scene underneath, then dissolve the
+      // complete frame. Neither an empty canvas nor the old stadium can flash.
+      const {width,height}=this.stage.app.screen,texture=this.stage.app.renderer.generateTexture({target:this.stage.app.stage,frame:new Rectangle(0,0,width,height),resolution:this.stage.app.renderer.resolution});
+      const cover=this.returnCover=new Sprite(texture);s.action(action);this.stage.app.stage.addChild(cover);this.transitioning=true;this.emitTargets();
+      this.returnTween=gsap.to(cover,{alpha:0,duration:.42,ease:'power2.inOut',onUpdate:()=>{cover.width=this.stage.app.screen.width;cover.height=this.stage.app.screen.height;this.stage.draw();},onComplete:()=>{cover.destroy({texture:true,textureSource:true});this.returnCover=null;this.returnTween=null;this.transitioning=false;this.emitTargets();}});return;
+    }
     this.transitioning=true;this.dismissal=action;this.emitTargets();this.modalTween?.kill();
     this.modalTween=gsap.timeline({onUpdate:()=>this.stage.draw(),onComplete:()=>{this.dismissal=null;this.transitioning=false;s.action(action);}})
       .to(this.root,{x:s.panel==='settings'?Math.min(440,this.stage.app.screen.width)+24:this.modalOrigin.x,y:s.panel==='settings'?0:this.modalOrigin.y+12,alpha:0,duration:.2,ease:'power2.in'},0).to(this.backdrop,{alpha:0,duration:.2},0);
@@ -262,6 +271,7 @@ export class CanvasUI {
     else if(kind==='history')icon.circle(0,0,12).stroke({color:white,width:2}).moveTo(0,-7).lineTo(0,0).lineTo(6,4).stroke({color:white,width:2.4});
     else if(kind==='plus')icon.roundRect(-10,-2,20,4,2).fill(white).roundRect(-2,-10,4,20,2).fill(white);
     else {icon.poly([-12,-4,-6,-4,1,-10,1,10,-6,4,-12,4]).fill(white);if(kind==='sound'){for(const radius of [7,12])icon.moveTo(1+Math.cos(-.7)*radius,Math.sin(-.7)*radius).arc(1,0,radius,-.7,.7).stroke({color:white,width:2});}else icon.moveTo(6,-5).lineTo(13,5).moveTo(6,5).lineTo(13,-5).stroke({color:white,width:2});}
+    if(kind==='binder'||kind==='history'){const caption=this.text(kind==='binder'?'COLLECTION':'HISTORY',cx,y+size+5,size<40?7:8.5,C.white,group,'center','bold');caption.style.stroke={color:0x072b49,width:2.8};}
     group.pivot.set(cx,cy);group.position.set(cx,cy);this.hits.push({id,label,x,y,width:size,height:size,disabled:false,action});return group;
   }
   private hud(w:number,h:number){
@@ -293,7 +303,7 @@ export class CanvasUI {
     this.utility('auto',s.autoRun?.running?'Stop Auto Spin':'Auto Spin',utilities.auto,utilities.compact,!!s.autoRun?.running,!s.autoRun?.running&&!!s.save?.active,()=>s.action(s.autoRun?.running?'auto-stop':'auto'));
     const edgeTitle=l.compact||(l.short&&l.sideControls),captionY=l.compact?65:!l.sideControls&&l.short?166:edgeTitle?125:l.sideControls?28:182;
     const captionWidth=edgeTitle?Math.max(85,l.sideControls?(w-l.stageWidth)/2-28:w/2-156*l.scale-side-12):l.sideControls?w-510:w-112;
-    const packTitle=this.text(s.save?.active?.pack?.name??s.selected.name,edgeTitle?side:w/2,captionY,edgeTitle?14:l.sideControls?22:18,C.white,this.root,edgeTitle?'left':'center','bold');packTitle.visible=!(l.compact&&['awaiting','revealing','revealed','collecting','settling'].includes(s.phase));packTitle.style.stroke={color:0x08315a,width:3};if(packTitle.width>captionWidth)packTitle.scale.set(captionWidth/packTitle.width);
+    const packTitle=this.text(s.save?.active?.pack?.name??s.selected.name,edgeTitle?side:w/2,captionY,edgeTitle?14:l.sideControls?22:18,C.white,this.root,edgeTitle?'left':'center','bold');packTitle.visible=!['awaiting','revealing','revealed','collecting','settling'].includes(s.phase);packTitle.style.stroke={color:0x08315a,width:3};if(packTitle.width>captionWidth)packTitle.scale.set(captionWidth/packTitle.width);
     if(s.save?.active)this.revealCountLabel=this.text(`${Math.min(Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),11)} / 11`,w-side,l.compact?65:!l.sideControls?captionY+3:128,10,C.white,this.root,'right','bold');
   }
   private playControls(w:number,h:number){
@@ -548,5 +558,5 @@ export class CanvasUI {
     timeline.to({}, {duration:.08*d});
   }
 
-  destroy(){this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
+  destroy(){this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.returnTween?.kill();this.returnCover?.destroy({texture:true,textureSource:true});this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
 }

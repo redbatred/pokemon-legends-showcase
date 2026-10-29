@@ -45,7 +45,7 @@ export class CanvasScene {
     if(!active){this.setCinematic(false,reduced);this.endCelebration();this.travelTween?.kill();this.cinema.travel=0;this.impactTween?.kill();this.impactState.amount=0;}if(active===this.active)return;this.active=active;this.chargeLevel=-1;this.animation?.kill();this.arena.visible=active;
     if(active){playSound('stage');this.entrance.amount=reduced?1:0;this.animation=gsap.to(this.entrance,{amount:1,duration:reduced?.01:.8,ease:'power3.out',paused:this.paused});}
   }
-  setCinematic(active:boolean,reduced:boolean){this.cinemaTween?.kill();this.cinemaTween=gsap.to(this.cinema,{amount:active?1:0,duration:reduced?.01:active?.32:.65,ease:'power2.inOut',paused:this.paused});}
+  setCinematic(active:boolean|number,reduced:boolean){this.cinemaTween?.kill();this.cinemaTween=gsap.to(this.cinema,{amount:typeof active==='number'?active:active?1:0,duration:reduced?.01:active?.32:.65,ease:'power2.inOut',paused:this.paused});}
   arrive(reduced:boolean){this.setActive(true,reduced);this.travelTween?.kill();this.cinema.travel=reduced?0:1;this.travelTween=gsap.to(this.cinema,{travel:0,duration:reduced?.01:1.05,ease:'none',paused:this.paused});}
   get illumination(){return this.active?(this.chargeLevel>=0?.02+this.chargeLevel*.14:.07+this.impactState.amount*.10):0;}
   get lightTint(){return (Math.round(this.light.r)<<16)|(Math.round(this.light.g)<<8)|Math.round(this.light.b);}

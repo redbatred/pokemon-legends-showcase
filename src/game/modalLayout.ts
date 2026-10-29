@@ -1,5 +1,5 @@
 import {packResultsFrame} from './packResultsLayout';
-import {gameLayout,revealControlsLayout} from './rendering';
+import {gameLayout} from './rendering';
 export function modalLayout(w:number,h:number,kind:string){
  if(kind==='results')return packResultsFrame(w,h);
  const inset=w<700||kind==='auto'&&h<480?0:24,max=kind==='history'?760:kind==='about'?680:kind==='auto'?560:kind==='inspect'?980:1040;
@@ -18,11 +18,12 @@ export function creditLayout(w:number,h:number){
 
 /** Fixed destination for the card reward, separate from the card tray. */
 export function totalWinLayout(w:number,h:number){
- const l=gameLayout(w,h,true),controls=revealControlsLayout(w,h);
- if(l.compact)return {x:66,y:74,size:20,width:120,labelY:50};
- if(l.sideControls&&l.short)return {x:w-94,y:176,size:30,width:150,labelY:149};
- if(l.sideControls){const y=controls.next.y-controls.next.size/2-34;return {x:controls.next.x,y,size:42,width:190,labelY:y-39};}
- const y=l.dockTop-(l.short?26:54);return {x:w/2,y,size:l.short?30:40,width:Math.max(120,w-120),labelY:y-(l.short?34:37)};
+ const l=gameLayout(w,h,true);
+ // Reserve the header for the total, outside every character's attack envelope.
+ if(l.compact)return {x:66,y:78,size:18,width:120,labelY:55};
+ if(l.sideControls)return {x:w/2,y:53,size:36,width:220,labelY:15};
+ if(l.short)return {x:w/2,y:l.dockTop-18,size:24,width:200,labelY:l.dockTop-46};
+ const y=182;return {x:w/2,y,size:32,width:Math.min(240,w-80),labelY:y-32};
 }
 
 /** Landscape has separate count and mode columns, keeping purchase controls isolated. */

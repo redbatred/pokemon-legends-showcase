@@ -8,7 +8,7 @@ import {playSound} from './audio';
 type Flight={index:number;amount:number;age:number;transferAge:number|null;speed:number;label:MoneyReadout;trail:Graphics;width:number;launched:boolean;countFinished:boolean;tier:WinTier;celebration:WinCelebration|null};
 /** One persistent award morphs into a comet; only its arrival credits the presentation total. */
 export class RewardTransfers {
- root=new Container();ledger=new WinLedger();private flights:Flight[]=[];private impacts:number[]=[];private impact=new Graphics();
+ root=new Container();background=new Container();ledger=new WinLedger();private flights:Flight[]=[];private impacts:number[]=[];private impact=new Graphics();
  constructor(private credit:(total:number)=>void,private draw:()=>void){this.root.eventMode='none';this.root.addChild(this.impact);}
  get celebrationOpacity(){return Math.max(0,...this.flights.map(f=>f.tier?celebrationPose(f.age,f.transferAge??0).alpha:0));}
  reset(identity:string,previous:number[]=[]){this.clear();this.ledger.reset(identity,previous);}
@@ -16,7 +16,7 @@ export class RewardTransfers {
   if(!this.ledger.offer(index,amount))return;
   if(amount<=0){this.ledger.settle(index);return;}
   const label=new MoneyReadout({identity:String(index),value:amount,target:amount,remaining:0},{size:32,color:tier?0xfffcde:0xf3fbff,align:'center',width:600,plus:!tier,centerY:true,hero:false,reduced:true,ticks:false,draw:this.draw}),trail=new Graphics(),celebration=tier?new WinCelebration(tier,low):null;
-  if(celebration)this.root.addChild(celebration.root);
+  if(celebration){this.root.addChild(celebration.root);this.background.addChild(celebration.background);}
   this.root.addChild(trail,label);this.flights.push({index,amount,age:reduced?WIN_COUNT_FINISH+.3:0,transferAge:null,speed:1.5,label,trail,width:label.getLocalBounds().width,launched:false,countFinished:reduced,tier,celebration});label.alpha=0;
  }
  finish(index:number){const f=this.flights.find(f=>f.index===index);if(!f||f.transferAge!==null)return;f.age=Math.max(WIN_COUNT_FINISH+.3,f.age);f.countFinished=true;f.label.display(f.amount);f.celebration?.finish();}
@@ -51,5 +51,5 @@ export class RewardTransfers {
  }
  private remove(f:Flight){this.flights=this.flights.filter(item=>item!==f);f.label.destroy();f.trail.destroy();f.celebration?.destroy();}
  private clear(){for(const f of [...this.flights])this.remove(f);this.impacts=[];this.impact.clear();}
- destroy(){this.clear();this.root.destroy({children:true});}
+ destroy(){this.clear();this.root.destroy({children:true});this.background.destroy({children:true});}
 }

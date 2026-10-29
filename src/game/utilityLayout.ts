@@ -1,5 +1,5 @@
 import {gameLayout} from './rendering';
-export function compactToolbar(w:number){const creditX=w-(w<650?181:224)-16,left=Math.min((w-254)/2,creditX-266);return {left,y:18,logoWidth:w<650?70:116};}
+export function compactToolbar(w:number){const creditX=w-(w<650?181:224)-16,left=Math.min((w-254)/2,creditX-266);return {left,y:18,logoWidth:70};}
 /** Turbo and Auto share the same circular icon row as collection/history. */
 export function utilityLayout(w:number,h:number,opening=false){
  const l=gameLayout(w,h,opening);

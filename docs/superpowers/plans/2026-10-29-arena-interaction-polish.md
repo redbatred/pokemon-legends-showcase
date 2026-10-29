@@ -44,7 +44,7 @@
 - Short-phone result plaque and total now have separate, readable bands.
 
 ## Final validation
-- 188 tests passed across 51 files; TypeScript and production Vite build succeeded.
+- 191 tests passed across 52 files; TypeScript and production Vite build succeeded.
 - Browser QA in an isolated in-memory fixture: scissors, shared pack journey at 2.1 seconds, right-side centered reveal controls, special formation and skip-to-exact-value, desktop/phone/small-phone/compact layouts, Open All, collection-flight midpoint, settled results, card inspection and return.
 - Review fixes: short results grids adapt column count; padded landscape frames use the compact layout; completion audio is deduplicated and also resolved after an interrupted resize.
 - Production browser save was not opened or reset.
@@ -56,3 +56,10 @@
 - Increased bounded canvas density, with a larger budget for paused detail panels; 1024 px Pokémon renders; higher-resolution text/money atlases and mipmapped full card textures.
 - Total Win uses larger warm-white digits, a separate caption and restrained cyan brackets. Lifetime winnings remain visible in the result summary.
 - Added curved, blurred emissive spill and a spectral sweep around the holographic wall without distorting its text.
+
+## Final celebration steering
+- Keep the celebration shade behind the world, preserving Pokémon brightness. Native Spine energy coronas surround the body, build with the entrance and pulse once as the count finishes, then settle into quiet glints. Reference: https://artforgame.artstation.com/projects/GawnQa and PearFiction Squealin' Riches win-tier presentation.
+- Move Total Win into the header, with dedicated compact and short-phone placement. Hide the duplicate pack title during reveals; the arena display retains that information. Label Collection and History.
+- Blend the entire results frame directly into browse underneath. Avoid clearing the WebGL backing store for layout-only changes. Verify midpoint and completion in the in-memory browser fixture.
+
+- Review follow-up: block repeated keyboard activation during crossfade; reserve clearance between utility captions, branding and Total Win. The special-win backdrop holds half-strength cinematic focus until advance.
