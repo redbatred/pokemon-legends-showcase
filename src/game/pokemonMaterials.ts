@@ -6,7 +6,11 @@ export function pokemonToonMaterial(material:Material,gradient:DataTexture){
 }
 export function ensurePokemonNormals(geometry:BufferGeometry){if(!geometry.hasAttribute('normal'))geometry.computeVertexNormals();}
 const facialParts:Record<string,number[]>={arceus:[23],breloom:[2,3],gardevoir:[61,64],genesect:[257,258],giratina:[218],kyogre:[35],raikou:[27],rayquaza:[35],rotom:[11],sylveon:[10,12],tyranitar:[218]};
-export function pokemonInkEligible(species:string,meshName:string,materials:Material[]){return materials.length>0&&materials.every(material=>{
+// Rotom's body already includes a reverse-wound cyan halo around the orange core.
+// Adding a BackSide ink shell renders that halo's near surface over the entire face.
+// Its bottom uses the same native hull; the outward-wound arms and tail remain inked.
+const nativeSilhouetteParts:Record<string,RegExp>={rotom:/^Rotom(?:_1|_Bottom)?$/};
+export function pokemonInkEligible(species:string,meshName:string,materials:Material[]){return !nativeSilhouetteParts[species]?.test(meshName)&&materials.length>0&&materials.every(material=>{
  const m=material as MeshStandardMaterial,number=Number(m.name.match(/(\d+)$/)?.[1]);
  return !m.transparent&&m.opacity>=.98&&m.alphaTest===0&&!m.emissiveMap&&!/(eye|mouth|tongue|teeth|fire|flame|glow|effect)/i.test(m.name+' '+meshName)&&!(facialParts[species]??[]).includes(number);
 });}

@@ -5,6 +5,7 @@ import {WinCelebration,specialWinGeometry} from './WinCelebration';
 import {celebrationPose,WIN_COUNT_FINISH} from './winCelebrationMotion';
 import {rewardLayout,totalWinLayout} from './modalLayout';
 import {playSound} from './audio';
+import type {PowerKind} from './powerProfiles';
 type Flight={index:number;amount:number;age:number;transferAge:number|null;speed:number;label:MoneyReadout;trail:Graphics;width:number;launched:boolean;countFinished:boolean;tier:WinTier;celebration:WinCelebration|null};
 /** One persistent award morphs into a comet; only its arrival credits the presentation total. */
 export class RewardTransfers {
@@ -12,10 +13,10 @@ export class RewardTransfers {
  constructor(private credit:(total:number)=>void,private draw:()=>void){this.root.eventMode='none';this.root.addChild(this.impact);}
  get celebrationOpacity(){return Math.max(0,...this.flights.map(f=>f.tier?celebrationPose(f.age,f.transferAge??0).alpha:0));}
  reset(identity:string,previous:number[]=[]){this.clear();this.ledger.reset(identity,previous);}
- reveal(index:number,amount:number,reduced:boolean,tier:WinTier=null,low=false){
+ reveal(index:number,amount:number,reduced:boolean,tier:WinTier=null,low=false,element:PowerKind='wind'){
   if(!this.ledger.offer(index,amount))return;
   if(amount<=0){this.ledger.settle(index);return;}
-  const label=new MoneyReadout({identity:String(index),value:amount,target:amount,remaining:0},{size:32,color:tier?0xfffcde:0xf3fbff,align:'center',width:600,plus:!tier,centerY:true,hero:false,reduced:true,ticks:false,draw:this.draw}),trail=new Graphics(),celebration=tier?new WinCelebration(tier,low):null;
+  const label=new MoneyReadout({identity:String(index),value:amount,target:amount,remaining:0},{size:32,color:tier?0xfffcde:0xf3fbff,align:'center',width:600,plus:!tier,centerY:true,hero:false,reduced:true,ticks:false,draw:this.draw}),trail=new Graphics(),celebration=tier?new WinCelebration(tier,low,element):null;
   if(celebration){this.root.addChild(celebration.root);this.background.addChild(celebration.background);}
   this.root.addChild(trail,label);this.flights.push({index,amount,age:reduced?WIN_COUNT_FINISH+.3:0,transferAge:null,speed:1.5,label,trail,width:label.getLocalBounds().width,launched:false,countFinished:reduced,tier,celebration});label.alpha=0;
  }

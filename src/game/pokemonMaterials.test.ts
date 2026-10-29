@@ -11,3 +11,13 @@ it('adds lighting normals to unlit source geometry without altering positions or
 it('gives opaque unnamed bodies an outline while keeping eyes, flame, palette facial parts and transparent glow clean',()=>{
  const material=(name:string)=>new MeshBasicMaterial({name});expect(pokemonInkEligible('scizor','body',[material('Wing')])).toBe(true);expect(pokemonInkEligible('tyranitar','mesh',[material('Material #217')])).toBe(true);expect(pokemonInkEligible('tyranitar','mesh',[material('Material #218')])).toBe(false);expect(pokemonInkEligible('breloom','mesh',[material('PaletteMaterial002')])).toBe(false);expect(pokemonInkEligible('charizard','flame',[material('body')])).toBe(false);expect(pokemonInkEligible('mew','body',[material('body'),material('eye')])).toBe(false);
 });
+it('preserves Rotom’s native inverted cyan silhouette without covering its orange body with an ink shell',()=>{
+ const body=new MeshStandardMaterial({name:'Material #10'}),mouth=new MeshStandardMaterial({name:'Material #11'});
+ // GLTFLoader names the two primitives of the source Rotom mesh Rotom_1 and Rotom_2.
+ expect(pokemonInkEligible('rotom','Rotom_1',[body])).toBe(false);
+ expect(pokemonInkEligible('rotom','Rotom_Bottom',[body])).toBe(false);
+ expect(pokemonInkEligible('rotom','Rotom_2',[mouth])).toBe(false);
+ expect(pokemonInkEligible('rotom','Rotom_Arms',[body])).toBe(true);
+ expect(pokemonInkEligible('rotom','Rotom_Tail',[body])).toBe(true);
+ expect(pokemonInkEligible('giratina','Giratina_1',[new MeshStandardMaterial({name:'Material #217'})])).toBe(true);
+});

@@ -1,0 +1,3 @@
+import {expect,it} from 'vitest';
+import {historyFanLayout} from './historyFan';
+it('fits the complete hand and the lifted selection inside phone and landscape frames',()=>{for(const [w,h] of [[320,568],[390,780],[980,650],[844,390],[568,320]]){const l=historyFanLayout(w,h,11);for(let i=0;i<11;i++){for(const selected of [false,true]){const p=l.pose(i,selected),halfW=l.width*p.scale/2,halfH=l.height*p.scale/2;expect(p.x-halfW).toBeGreaterThan(8);expect(p.x+halfW).toBeLessThan(w-8);expect(p.y-halfH).toBeGreaterThan(80);expect(p.y+halfH).toBeLessThan(l.detailY+5);}}expect(l.pose(5).rotation).toBe(0);expect(l.pose(0).rotation).toBe(-l.pose(10).rotation);}});

@@ -1,11 +1,11 @@
 import {Container,BlurFilter,Shader,GlProgram,MeshPlane,Texture} from 'pixi.js';
 import {groundWarp} from './backdropMotion';
 import {arenaMessages,wallScreenPoint,screenTextWindow,type ArenaBoardState} from './stadiumDisplayGeometry';
-// UV-space emission bends with the physical wall, including the scan and light rails.
+// Fine phosphor emission bends with the wall. No travelling horizontal light bands.
 const vertex=`in vec2 aPosition;in vec2 aUV;out vec2 vUV;out vec4 vColor;uniform mat3 uProjectionMatrix;uniform mat3 uWorldTransformMatrix;uniform mat3 uTransformMatrix;uniform vec4 uWorldColorAlpha;uniform vec4 uColor;
 void main(){vec3 p=uProjectionMatrix*uWorldTransformMatrix*uTransformMatrix*vec3(aPosition,1.0);gl_Position=vec4(p.xy,0.0,1.0);vUV=aUV;vColor=uWorldColorAlpha*uColor;}`;
 const fragment=`in vec2 vUV;in vec4 vColor;out vec4 finalColor;uniform sampler2D uTexture;uniform float uTime;uniform float uMotion;uniform float uGlow;
-void main(){vec2 uv=vUV;vec4 c=texture(uTexture,uv);float scan=.94+.06*sin(uv.y*402.0-uTime*3.0);float sweep=exp(-pow((uv.x-fract(uTime*.09))*21.0,2.0))*uMotion;float rail=exp(-uv.y*75.0)+exp(-(1.0-uv.y)*75.0);float glow=exp(-uv.y*14.0)+exp(-(1.0-uv.y)*14.0);float beam=exp(-pow((uv.y-fract(uTime*.14))*48.0,2.0))*uMotion;float pulse=.6+.4*sin(uv.x*18.0-uTime*1.3);vec3 spectral=mix(vec3(.10,.78,1.0),vec3(.42,.35,1.0),.5+.5*sin(uv.x*8.0-uTime*.55));vec3 light=vec3(.13,.78,.94)*(rail*.8+glow*.16+beam*.16)+spectral*sweep*.36;vec3 rgb=c.rgb*scan+light*c.a;float alpha=c.a*.91;if(uGlow>.5)rgb=max(vec3(0.0),rgb-.43)*1.35;finalColor=vec4(rgb*.91,alpha)*vColor;}`;
+void main(){vec2 uv=vUV;vec4 c=texture(uTexture,uv);float scan=.97+.03*sin(uv.y*402.0-uTime*1.2)*(.3+.7*uMotion);float rail=exp(-uv.y*75.0)+exp(-(1.0-uv.y)*75.0);float glow=exp(-uv.y*14.0)+exp(-(1.0-uv.y)*14.0);vec3 light=vec3(.13,.78,.94)*(rail*.42+glow*.08);vec3 rgb=c.rgb*scan+light*c.a;float alpha=c.a*.91;if(uGlow>.5)rgb=max(vec3(0.0),rgb-.43)*1.15;finalColor=vec4(rgb*.91,alpha)*vColor;}`;
 type Bay={meshes:MeshPlane[];canvases:[HTMLCanvasElement,HTMLCanvasElement];textures:[Texture,Texture];current:0|1;key:string;mix:number;window:{center:number;span:number};shaders:Shader[];blurs:BlurFilter[]};
 /** A pair of curved LED surfaces sharing the exact stadium warp, behind the foreground game. */
 export class StadiumDisplay {

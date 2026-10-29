@@ -10,10 +10,11 @@ import { gameLayout, renderResolution, cardTrayLayout, performanceFloor } from '
 import { loadPackTexture } from './packTexture';
 import type { SpineReveal } from './SpineReveal';
 import {PackOpening} from './PackOpening';
+import {cutHandleHit,peelProgress,manualPeelPose,PEEL_START,PEEL_DURATION} from './manualPeel';
 import {PackCutCue} from './PackCutCue';
 import {RevealCompletion} from './revealCompletion';
 import {revealSuspense} from './revealSuspense';
-import {PACK_CLEARANCE_TIME,PACK_TEAR_LIMIT} from './packTearGeometry';
+import {PACK_CLEARANCE_TIME} from './packTearGeometry';
 import {cardHover} from './cardHover';
 import {crowdLevel} from './crowdReaction';
 import {packStackPose,packStackFan,transferStackFront,PACK_EXTRACTION_START,PACK_ARRIVAL_TIME} from './packOpeningMotion';
@@ -65,7 +66,7 @@ export class OpeningStage {
   private prepared:{key:string;cancelled:boolean;promise:Promise<{texture:Texture;special:SpineReveal|null}>}|null=null;
   private previousTease=false;private cardHoverReady=false;private revealCompletion=new RevealCompletion();
   private dragProgress = 0;
-  private dragStart: number | null = null;
+  private dragStart: number | null = null;private peelPointer:{id:number;x:number;y:number;cut:boolean;moved:number}|null=null;private manualPeel=0;private peelSounded=false;private waitingPose={y:-8,rotation:0};
   private cutCue:PackCutCue|null=null;private packHovered=false;private coarsePointer=matchMedia('(pointer: coarse)').matches;
   private resetPointer=()=>{this.target.x=0;this.target.y=0;this.packHovered=false;};
   private tearLine = new Graphics();
@@ -124,23 +125,19 @@ export class OpeningStage {
     this.cutCue=new PackCutCue();this.pack.addChild(this.cutCue.back,this.packMesh,this.cutCue.front);
     this.pack.addChild(this.tearLine);
     this.pack.eventMode = 'static'; this.pack.cursor = 'pointer';
-    this.pack.hitArea = new Rectangle(-150, -235, 300, 470);
-    this.pack.on('pointerdown', e => { if (!this.blocked && this.mode === 'sealed') { this.dragStart = e.global.x; this.dragProgress = 0; this.target.x = 0; } });
+    this.pack.hitArea = new Rectangle(-150, -235, 370, 470);
+    this.app.canvas.addEventListener('pointerdown',this.peelDown);this.app.canvas.addEventListener('pointermove',this.peelMove);this.app.canvas.addEventListener('pointerup',this.peelUp);this.app.canvas.addEventListener('pointercancel',this.peelCancel);
     this.app.stage.eventMode = 'static';
     this.app.stage.hitArea = this.app.screen;
     this.app.stage.on('globalpointermove', e => {
       if(this.blocked)return;
       const wrapper=this.mode==='pack'||this.mode==='sealed';
-      const parent=wrapper?this.pack:this.cardLayer,p=parent.toLocal(e.global),pose=cardHover(p.x,p.y,wrapper?230:312,wrapper?421:435,e.pointerType==='mouse'&&(wrapper||this.cardHoverReady));
-      this.target.x=pose.x;this.target.y=pose.y;this.packHovered=wrapper&&Math.abs(p.x)<160&&Math.abs(p.y)<235;
-      if (this.dragStart !== null && this.mode === 'sealed') {
-        const progress = Math.min(1, Math.abs(e.global.x - this.dragStart) / (230 * this.world.scale.x * .72));
-        this.dragProgress = progress;
-        if (progress >= 1) { this.dragStart = null; this.options.onTear(); }
-      }
+      const parent=wrapper?this.pack:this.mode==='waiting'?this.stack:this.cardLayer,p=parent.toLocal(e.global),pose=cardHover(p.x,p.y,wrapper?230:312,wrapper?421:435,e.pointerType==='mouse'&&(wrapper||this.mode==='waiting'||this.cardHoverReady));
+      this.target.x=pose.x;this.target.y=pose.y;this.packHovered=wrapper&&(Math.abs(p.x)<160&&Math.abs(p.y)<235||cutHandleHit(p.x,p.y));
+
     });
-    this.app.stage.on('pointerup', e => {if(e.pointerType!=='mouse')this.resetPointer(); this.dragStart = null; this.dragProgress = 0; this.tearLine.clear(); });
-    this.app.stage.on('pointerupoutside', () => { this.dragStart = null; this.dragProgress = 0; this.tearLine.clear(); });
+    this.app.stage.on('pointerup', e => {if(e.pointerType!=='mouse')this.resetPointer();});
+
     this.app.canvas.addEventListener('pointerleave',this.resetPointer);this.app.canvas.addEventListener('pointercancel',this.resetPointer);
     this.cardLayer.eventMode = 'static'; this.cardLayer.cursor = 'pointer';this.cardLayer.hitArea=new Rectangle(-166,-227,332,455);
     this.stack.eventMode='static';this.stack.cursor='pointer';this.stack.hitArea=new Rectangle(-166,-227,332,455);this.stack.on('pointertap',()=>{if(!this.blocked&&this.mode==='waiting')this.options.onNext();});
@@ -172,7 +169,7 @@ export class OpeningStage {
   setLayoutMode(opening:boolean){opening=opening||this.travelling;if(opening!==this.openingLayout){this.openingLayout=opening;this.resize();}}
   private positionJourney(){if(!this.journey)return;const w=this.app.screen.width,h=this.app.screen.height,a=gameLayout(w,h,false),b=gameLayout(w,h,true),t=this.journey.amount;this.world.y=a.worldY+(b.worldY-a.worldY)*t;this.world.scale.set(a.scale+(b.scale-a.scale)*t);}
   setBlocked(value:boolean,keepScene=false){
-    const changed=value!==this.blocked;if(changed){this.sampleStart=0;this.sampleFrames=0;}
+    if(value&&this.peelPointer)this.peelCancel();const changed=value!==this.blocked;if(changed){this.sampleStart=0;this.sampleFrames=0;}
     this.blocked=value;this.world.visible=!value||keepScene;this.flightLayer.visible=!value||keepScene;this.scene.pause(value||document.hidden);
     if(value){this.timeline?.pause();for(const t of this.tweens)t.pause();this.app.stop();}
     else if(!document.hidden){if(this.mode!=='result')this.app.start();this.timeline?.resume();for(const t of this.tweens)t.resume();}
@@ -221,7 +218,7 @@ export class OpeningStage {
     const move = !this.options.reduced;
     this.tilt.x += ((move ? this.target.x : 0) - this.tilt.x) * Math.min(1, dt * 5);
     this.tilt.y += ((move ? this.target.y : 0) - this.tilt.y) * Math.min(1, dt * 5);
-    if ((this.mode === 'pack' || this.mode === 'sealed') && this.packMesh) {
+    if ((this.mode === 'pack' || this.mode === 'sealed') && this.packMesh&&!this.packOpening) {
       this.project(this.packMesh, 230, 421);
       this.cutCue?.update(dt,this.time,this.tilt.x*.32,-this.tilt.y*.19,this.mode==='sealed'&&(this.packHovered||this.coarsePointer||this.dragStart!==null),this.options.reduced,this.dragProgress);
       this.pack.y = move ? Math.sin(this.time * .8) * 7 - 8 : -8;
@@ -231,13 +228,14 @@ export class OpeningStage {
       this.packFoil.resources.foil.uniforms.uTilt = this.tilt.x;
       this.packFoil.resources.foil.uniforms.uTime = move ? this.time : 0;
     }
+    if(this.mode==='waiting'){this.stack.y=this.waitingPose.y+(move?Math.sin(this.time*.8)*5:0);this.stack.rotation=this.waitingPose.rotation+(move?Math.sin(this.time*.55)*.008:0);if(this.openingCard)this.project(this.openingCard,312,435);}
     if (this.cardMesh) {
       this.project(this.cardMesh, 312, 435, this.motion.flip, this.motion.pitch);
       this.cardLayer.x = this.motion.offsetX;
       this.cardLayer.rotation = this.motion.roll;
       const edge = Math.max(0, 1 - Math.abs(Math.cos(this.motion.flip)) * 8);
       this.cardEdge.alpha=edge;
-      this.cardLayer.y = this.motion.lift + (move && !this.special ? Math.sin(this.time*.7)*3*this.motion.hover : 0);
+      this.cardLayer.y = this.motion.lift + (move && !this.special ? Math.sin(this.time*.8)*6*this.motion.hover : 0);
       this.cardLayer.scale.set(this.motion.scale);
       const tint=this.scene.lightTint;this.foil.resources.foil.uniforms.uLightColor=[((tint>>16)&255)/255,((tint>>8)&255)/255,(tint&255)/255];this.foil.resources.foil.uniforms.uLightStrength=this.scene.illumination;
       this.foil.resources.foil.uniforms.uTime = move ? this.time : 0;
@@ -256,37 +254,48 @@ export class OpeningStage {
   }
 
   setSealed() { this.mode = 'sealed'; }
-  waitForReveal(){this.mode='waiting';this.travelling=false;this.draw();}
+  private pointerPoint(e:PointerEvent){const r=this.app.canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*this.app.screen.width/r.width,y:(e.clientY-r.top)*this.app.screen.height/r.height};}
+  private peelDown=(e:PointerEvent)=>{
+    if(this.peelPointer||this.blocked||this.mode!=='sealed'||e.button>0)return;const global=this.pointerPoint(e),p=this.pack.toLocal(global),cut=cutHandleHit(p.x,p.y);
+    if(!cut&&(Math.abs(p.x)>138||Math.abs(p.y)>225))return;
+    this.peelPointer={id:e.pointerId,x:global.x,y:global.y,cut,moved:0};this.dragStart=global.x;this.dragProgress=0;this.peelSounded=false;this.target.x=this.target.y=0;this.app.canvas.setPointerCapture(e.pointerId);e.preventDefault();
+  };
+  private peelMove=(e:PointerEvent)=>{
+    const pointer=this.peelPointer;if(!pointer||pointer.id!==e.pointerId||this.blocked||this.mode!=='sealed')return;const p=this.pointerPoint(e),dx=p.x-pointer.x,dy=p.y-pointer.y;pointer.moved=Math.max(pointer.moved,Math.hypot(dx,dy));
+    if(pointer.moved<6)return;const progress=Math.max(this.manualPeel,peelProgress(dx,dy,this.world.scale.x));if(progress<=0&&!this.packOpening)return;
+    if(!this.packOpening){this.packOpening=new PackOpening(this.packMesh.texture);this.packOpening.projection={yaw:this.tilt.x*.32,pitch:-this.tilt.y*.19};this.pack.addChild(this.packOpening.root);this.packMesh.visible=false;this.cutCue?.hide();playSound('packrustle',{gain:.5});}
+    if(progress>.15&&!this.peelSounded){this.peelSounded=true;playSound('packtear',{gain:.55});}this.manualPeel=this.dragProgress=progress;Object.assign(this.packOpening.state,manualPeelPose(progress));this.packOpening.update();this.draw();e.preventDefault();
+    if(progress>=1)this.finishPeel();
+  };
+  private finishPeel(){const pointer=this.peelPointer;if(!pointer)return;this.peelPointer=null;this.dragStart=null;this.dragProgress=0;if(this.app.canvas.hasPointerCapture(pointer.id))this.app.canvas.releasePointerCapture(pointer.id);
+    if(this.manualPeel>.02||(pointer.cut&&pointer.moved<8)){this.options.onTear();return;}this.clearPackOpening();this.manualPeel=0;this.packMesh.visible=true;
+  }
+  private peelUp=(e:PointerEvent)=>{if(this.peelPointer?.id===e.pointerId)this.finishPeel();};
+  private peelCancel=(e?:PointerEvent)=>{const pointer=this.peelPointer;if(!pointer||(e&&e.pointerId!==pointer.id))return;this.peelPointer=null;if(this.app.canvas.hasPointerCapture(pointer.id))this.app.canvas.releasePointerCapture(pointer.id);this.dragStart=null;this.dragProgress=this.manualPeel=0;this.clearPackOpening();this.packMesh.visible=true;};
+  waitForReveal(){this.mode='waiting';this.waitingPose={y:this.stack.y,rotation:this.stack.rotation};this.motion.hover=1;this.travelling=false;this.draw();}
   private clearPackOpening(){
     if(!this.packOpening)return;
     if(this.stack.parent!==this.world)this.world.addChildAt(this.stack,2);
     this.packOpening.destroy();this.packOpening=null;
   }
   async tear(): Promise<void> {
-    this.openingUiTime=0;this.cutCue?.hide();this.clearPackOpening();this.openingCard?.destroy();this.openingCard=new PerspectiveMesh({texture:this.back,verticesX:4,verticesY:6});this.openingCard.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);this.stack.addChild(this.openingCard);this.mode='tearing';this.dragStart=null;this.dragProgress=0;this.tearLine.clear();
-    const opening=new PackOpening(this.packMesh.texture);this.packOpening=opening;opening.root.visible=false;this.pack.addChild(opening.root);
+    if(this.peelPointer){const id=this.peelPointer.id;this.peelPointer=null;if(this.app.canvas.hasPointerCapture(id))this.app.canvas.releasePointerCapture(id);}
+    const scrub=this.manualPeel,held={x:this.pack.x,y:this.pack.y,rotation:this.pack.rotation,sx:this.pack.scale.x,sy:this.pack.scale.y};this.manualPeel=0;this.openingUiTime=0;this.cutCue?.hide();if(!scrub)this.clearPackOpening();this.openingCard?.destroy();this.openingCard=new PerspectiveMesh({texture:this.back,verticesX:4,verticesY:6});this.openingCard.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);this.stack.addChild(this.openingCard);this.mode='tearing';this.dragStart=null;this.dragProgress=0;this.tearLine.clear();
+    const opening=this.packOpening??new PackOpening(this.packMesh.texture);this.packOpening=opening;opening.root.visible=!!scrub;this.pack.addChild(opening.root);
     const projection={yaw:this.tilt.x*.32,pitch:-this.tilt.y*.19};this.target.x=this.target.y=0;
     const align=()=>{const a:number[]=[];for(const [x,y] of [[-115,-210.5],[115,-210.5],[115,210.5],[-115,210.5]]){const depth=700/(700-x*Math.sin(projection.yaw)+y*Math.sin(projection.pitch));a.push(x*Math.cos(projection.yaw)*depth,y*Math.cos(projection.pitch)*depth);}this.packMesh.setCorners(a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]);};
-    const s=opening.state,d=this.options.reduced?.008:1,travel={amount:0},transport={time:PACK_EXTRACTION_START};
+    const s=opening.state,d=this.options.reduced?.008:1,travel={amount:0},transport={time:PACK_EXTRACTION_START},peel={p:0};Object.assign(s,manualPeelPose(0));
+    const expose=()=>{opening.root.visible=true;this.packMesh.visible=false;this.stack.visible=true;this.stack.alpha=1;this.stack.scale.set(.66);this.stack.position.set(0,9);this.stack.rotation=0;this.fanStack(0);opening.root.addChildAt(this.stack,1);};
+    const deform=()=>Object.assign(s,manualPeelPose(peel.p));
     return new Promise(resolve=>{
       this.timeline=gsap.timeline({onUpdate:()=>{opening.update();this.openingUiTime=(this.timeline?.time()??0)/d;},onComplete:()=>{this.pack.visible=false;this.packShadow.visible=false;this.journey=null;this.clearPackOpening();resolve();}});
       this.timeline.to(projection,{yaw:0,pitch:0,duration:.18*d,ease:'power2.out',onUpdate:align},0)
         .to(this.pack,{rotation:0,x:0,y:0,duration:.18*d,ease:'power2.out'},0)
         .to(this.pack.scale,{x:1,y:1,duration:.18*d},0)
-        .call(()=>{opening.root.visible=true;this.packMesh.visible=false;this.stack.visible=true;this.stack.alpha=1;this.stack.scale.set(.66);this.stack.position.set(0,9);this.stack.rotation=0;this.fanStack(0);opening.root.addChildAt(this.stack,1);},[],.18*d)
-        .to(s,{tension:1,duration:.19*d,ease:'power2.inOut'},.18*d)
+        .call(expose,[],.18*d)
+        .to(peel,{p:1,duration:PEEL_DURATION*d,ease:'none',onUpdate:deform},PEEL_START*d)
         .call(()=>playSound('packrustle'),[],.18*d)
         .call(()=>playSound('packtear'),[],.34*d)
-        .to(s,{rip:.06,curl:.15,duration:.1*d,ease:'power3.in'},.34*d)
-        .to(s,{rip:.32,curl:.48,pull:.06,duration:.2*d,ease:'power1.out'},.44*d)
-        .to(this.pack,{x:-3,rotation:-.014,duration:.20*d,ease:'power2.out'},.44*d)
-        .to(s,{rip:.37,tension:1.15,curl:.62,pull:.1,duration:.1*d,ease:'sine.inOut'},.64*d)
-        .to(s,{rip:.79,curl:.86,pull:.58,duration:.27*d,ease:'power2.in'},.74*d)
-        .to(s,{rip:PACK_TEAR_LIMIT,curl:1,tension:.35,pull:.86,duration:.15*d,ease:'power2.out'},1.01*d)
-        .to(this.pack,{x:2,rotation:.008,duration:.12*d,ease:'power2.out'},1.01*d)
-        .to(this.pack,{x:0,rotation:0,duration:.20*d,ease:'sine.out'},1.13*d)
-        .to(s,{open:1,duration:.25*d,ease:'power2.out'},1.06*d)
-        .to(s,{pull:1,duration:.19*d,ease:'power2.out'},1.16*d)
         .call(()=>playSound('packrustle',{gain:.65}),[],1.18*d)
         .to(opening.bodyRoot,{y:230,duration:.54*d,ease:'power2.inOut'},1.22*d)
         .call(()=>{this.world.addChildAt(this.stack,2);this.travelling=true;this.openingUiTime=PACK_CLEARANCE_TIME;this.journey=travel;this.openingLayout=true;this.resize();this.scene.arrive(this.options.reduced);playSound('flip',{gain:.38});},[],PACK_CLEARANCE_TIME*d)
@@ -294,6 +303,7 @@ export class OpeningStage {
         .to(opening.bodyRoot,{x:35,y:570,rotation:.24,alpha:0,duration:.49*d,ease:'power2.in'},PACK_CLEARANCE_TIME*d)
         .to(this.packShadow,{alpha:0,duration:.38*d},PACK_CLEARANCE_TIME*d)
         .to(transport,{time:PACK_ARRIVAL_TIME,duration:(PACK_ARRIVAL_TIME-PACK_EXTRACTION_START)*d,ease:'none',onUpdate:()=>{const pose=packStackPose(transport.time);travel.amount=pose.camera;this.positionJourney();this.stack.position.set(pose.x,pose.y);this.stack.scale.set(pose.scale);this.stack.rotation=pose.rotation;this.fanStack(transport.time);}},PACK_EXTRACTION_START*d);
+      if(scrub){const straighten=gsap.to(opening.projection,{yaw:0,pitch:0,duration:.18,ease:'power2.out',onComplete:()=>this.tweens.delete(straighten)});this.tweens.add(straighten);expose();this.timeline.time((PEEL_START+PEEL_DURATION*scrub)*d,true);deform();opening.update();this.pack.position.set(held.x,held.y);this.pack.rotation=held.rotation;this.pack.scale.set(held.sx,held.sy);const settle=gsap.to(this.pack,{x:0,y:0,rotation:0,duration:.18,ease:'power2.out',onComplete:()=>this.tweens.delete(settle)});this.tweens.add(settle);playSound('packrustle',{gain:.45});}
       this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
     });
   }
@@ -431,7 +441,7 @@ export class OpeningStage {
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }
   reset() {
-    this.openingUiTime=null;this.cutCue?.hide();this.revealCompletion.end();this.previousTease=false;
+    this.peelPointer=null;this.manualPeel=0;this.openingUiTime=null;this.cutCue?.hide();this.revealCompletion.end();this.previousTease=false;
     this.discardPrepared();this.cardHoverReady=false;this.resetPointer();this.openingCard?.destroy();this.openingCard=null;this.travelling=false;this.journey=null;this.scene.endCelebration();this.scene.setCinematic(false,this.options.reduced);
     this.revealEffects.clear();this.charging=false;this.scene.setCharge(null);this.timeline?.kill();this.timeline=null;this.clearPackOpening();stopRevealAudio();
     this.special?.destroy();this.special=null;++this.revealToken;
@@ -445,6 +455,7 @@ export class OpeningStage {
     this.destroyed = true;cancelAnimationFrame(this.drawFrame); ++this.revealToken; ++this.packToken; this.timeline?.kill(); this.observer?.disconnect();
     for (const t of this.tweens) t.kill(); this.tweens.clear();
     document.removeEventListener('visibilitychange',this.visibility);
+    this.app.canvas?.removeEventListener('pointerdown',this.peelDown);this.app.canvas?.removeEventListener('pointermove',this.peelMove);this.app.canvas?.removeEventListener('pointerup',this.peelUp);this.app.canvas?.removeEventListener('pointercancel',this.peelCancel);
     this.app.canvas?.removeEventListener('pointerleave',this.resetPointer);this.app.canvas?.removeEventListener('pointercancel',this.resetPointer);
     this.scene.destroy();this.revealEffects.destroy();
     if (this.app.renderer) { gsap.killTweensOf(this.pack); this.app.destroy(true, { children: true }); this.back?.destroy(true); this.shadowTexture?.destroy(true); }

@@ -1,6 +1,10 @@
 import { Assets, Container, Graphics, Sprite, Text, Texture, BitmapFont, BitmapText,Rectangle,type Ticker } from 'pixi.js';
 import { gsap } from 'gsap';
 import {packGridLayout,packTileLayout} from './packGrid';
+import {binderLayout,historyLayout} from './libraryLayout';
+import {cardPowerKind} from './powerProfiles';
+import {historyFanLayout} from './historyFan';
+import {settingsLayout} from './settingsLayout';
 import {packResultsLayout,collectionFlight} from './packResultsLayout';
 import {playSound} from './audio';
 import {openingUiPose} from './openingUiMotion';
@@ -43,7 +47,7 @@ export class CanvasUI {
   private awardCard=(card:Card,immediate=false)=>{
     const s=this.state;if(!s?.save?.active||s.save.active.cards[s.index]?.id!==card.id)return;
     const tier=winTier(card,s.save.active.pack?.price??s.selected.price,!!s.save.active.previewSpecial&&s.index===0);
-    this.rewards.reveal(s.index,card.value,s.reduced,tier,s.low);
+    this.rewards.reveal(s.index,card.value,s.reduced,tier,s.low,cardPowerKind(card.name));
     this.stage.scene.setBoard({phase:'revealed',packName:s.save.active.pack?.name??s.selected.name,index:s.index,cardName:card.name,cardValue:card.value,special:!!tier});
     if(immediate){this.rewards.finish(s.index);this.rewards.update(0,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);this.stage.draw();}
   };
@@ -52,6 +56,7 @@ export class CanvasUI {
   private updating=false;
   private lastPackId='';private rackGroup:Container|null=null;private rackMask:Graphics|null=null;private rackGlow:Graphics|null=null;private rackKind:'packs'|'cards'='packs';private arrowPulses:{glyph:Graphics;base:number;phase:number;axis:'x'|'y'}[]=[];
   private generation=0;private hits:HitTarget[]=[];private paints=new Map<string,Container>();private feedbackTweens=new Map<string,gsap.core.Tween>();
+  private historyOpening:Result|null=null;private historySelection=0;private historyFanCards:{group:Container;x:number;y:number;rotation:number;scale:number;ready:boolean}[]=[];private historyFanTime=0;private tickHistoryFan=(_time:number,delta:number)=>{if(document.hidden)return;this.historyFanTime+=delta/1000;this.animateHistoryFan(Math.min(.05,delta/1000));this.stage.draw();};private historyFanTitle:Text|null=null;private historyFanRarity:Text|null=null;private historyFanValue:MoneyReadout|null=null;
   private page=0;private collected=false;private openingId='';private landed=new Set<number>();
   private trayArt:Texture|null=null;private redrawTray:(()=>void)|null=null;private trayOffset={value:0};private trayTween:gsap.core.Tween|null=null;
   private trayPan=new TrayPan();private trayPointer:number|null=null;private trayInterrupted=false;private trayFocusKey='';private suppressTrayClickUntil=0;private trayHost:HTMLElement;
@@ -74,7 +79,7 @@ export class CanvasUI {
     if(this.state?.phase==='revealing'&&state.phase==='revealed')this.trayOffset.value=cardTrayLayout(this.stage.app.screen.width,this.stage.app.screen.height,state.index).offset;
     const id=state.save?.active?.id??'';if(id!==this.openingId){this.openingId=id;this.landed.clear();this.trayOffset.value=0;this.trayFocusKey='';this.trayPan.cancel();this.rewards.reset(id,state.save?.active?.cards.slice(0,state.index).map(c=>c.value)??[]);this.moneyValues.delete('revealed');}
     if(state.phase==='revealed')for(let i=0;i<state.index;i++)this.landed.add(i);
-    this.state=state;
+    this.state=state;if(state.panel!=='history')this.historyOpening=null;
     if(!['collecting','settling'].includes(state.phase))this.collectingIndex=null;
     this.updating=true;
     this.stage.setLayoutMode(['awaiting','revealing','revealed','collecting','settling','complete'].includes(state.phase));
@@ -127,7 +132,7 @@ export class CanvasUI {
   private button(id:string,label:string,x:number,y:number,w:number,h:number,action:()=>void,options:{primary?:boolean;active?:boolean;disabled?:boolean;small?:boolean;large?:boolean;visibleLabel?:string}={}){
     const group=new Container();this.root.addChild(group);this.paints.set(id,group);
     const chosen=options.active||options.primary;
-    this.panel(x,y,w,h,chosen?C.blue:C.panel,chosen?C.cyan:C.line,group,7);
+    const cut=Math.min(10,h/4),shape=(dy:number)=>[x+cut,y+dy,x+w-cut,y+dy,x+w,y+cut+dy,x+w,y+h-cut+dy,x+w-cut,y+h+dy,x+cut,y+h+dy,x,y+h-cut+dy,x,y+cut+dy];const plate=new Graphics().poly(shape(3)).fill({color:0x020f20,alpha:.6}).poly(shape(0)).fill(chosen?0x226e9d:0x12344f).stroke({color:chosen?0xc4ecdf:0x4b7891,width:1.5}).moveTo(x+cut+3,y+4).lineTo(x+w-cut-3,y+4).stroke({color:chosen?0xf3eac2:0x80b2ca,width:1,alpha:chosen?.8:.3});group.addChild(plate);
     if(chosen){const light=new Graphics().roundRect(x+3,y+3,w-6,h*.4,5).fill({color:0xd7f7ff,alpha:.12});group.addChild(light);}
     if(options.primary)this.ball(x+24,y+h/2,7,C.white,group);
     const fontSize=options.large?23:options.small?12:14;
@@ -152,8 +157,8 @@ export class CanvasUI {
   }
 
   private hit(id:string,label:string,x:number,y:number,w:number,h:number,action:()=>void,disabled=false){this.hits.push({id,label,x,y,width:w,height:h,disabled,action});}
-  hover(id:string,value:boolean){this.feedback(id,value?1.045:1);}
-  press(id:string,value:boolean){this.feedback(id,value?.94:1.045);}
+  hover(id:string,value:boolean){if(id.startsWith('history-fan-')){if(value)this.focusHistoryCard(Number(id.slice(12)));return;}this.feedback(id,value?1.045:1);}
+  press(id:string,value:boolean){if(id.startsWith('history-fan-'))return;this.feedback(id,value?.94:1.045);}
   private feedback(id:string,scale:number){const paint=this.paints.get(id);if(!paint)return;this.feedbackTweens.get(id)?.kill();if(this.state?.reduced){paint.scale.set(scale);this.stage.draw();return;}this.feedbackTweens.set(id,gsap.to(paint.scale,{x:scale,y:scale,duration:.16,ease:'power2.out',onUpdate:()=>this.stage.draw()}));}
   private command(id:string,label:string,cx:number,cy:number,size:number,kind:'next'|'all',action:()=>void,disabled=false){
     const group=new Container();group.position.set(cx,cy);this.root.addChild(group);this.paints.set(id,group);const r=size/2,g=new Graphics();group.addChild(g);
@@ -183,7 +188,7 @@ export class CanvasUI {
     g.poly([x+width-45,y+21,x+width-37,y+28,x+width-45,y+35]).stroke({color:0xdfffff,width:2.5});
     group.alpha=disabled?.4:1;this.hits.push({id:'primary',label,x,y,width,height,disabled,action:()=>s.action(s.phase==='sealed'?'tear':'open')});
   }
-  setFocus(id:string|null){this.focus.clear();const hit=this.hits.find(h=>h.id===id);if(hit)this.focus.roundRect(hit.x-this.modalOrigin.x-3,hit.y-this.modalOrigin.y-3,hit.width+6,hit.height+6,8).stroke({color:0xe3fcff,width:2});this.stage.draw();}
+  setFocus(id:string|null){if(id?.startsWith('history-fan-'))this.focusHistoryCard(Number(id.slice(12)));this.focus.clear();const hit=this.hits.find(h=>h.id===id);if(hit)this.focus.roundRect(hit.x-this.modalOrigin.x-3,hit.y-this.modalOrigin.y-3,hit.width+6,hit.height+6,8).stroke({color:0xe3fcff,width:2});this.stage.draw();}
   private async thumbnail(path:string){
     const cached=this.thumbs.get(path);if(cached){this.thumbs.delete(path);this.thumbs.set(path,cached);return cached;}
     if(this.pending.has(path))return this.pending.get(path)!;
@@ -212,10 +217,10 @@ export class CanvasUI {
     this.resultUnderlay?.destroy({texture:true,textureSource:true});this.resultUnderlay=null;
     if(this.resultLaunch&&!this.state.reduced){const texture=this.stage.app.renderer.generateTexture({target:this.root,frame:new Rectangle(0,0,this.stage.app.screen.width,this.stage.app.screen.height),resolution:1});this.resultUnderlay=new Sprite(texture);this.stage.app.stage.addChildAt(this.resultUnderlay,this.stage.app.stage.getChildIndex(this.backdrop));}
     this.resultChrome=null;this.resultAmount=null;this.resultCards=[];this.trayPan.cancel();this.trayPointer=null;
-    ++this.generation;this.arrowPulses=[];this.rackGroup=null;this.rackMask=null;this.rackGlow=null;this.cardCaptions=[];this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.trayArt?.destroy(true);this.trayArt=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
+    ++this.generation;gsap.ticker.remove(this.tickHistoryFan);this.historyFanCards=[];this.historyFanTitle=this.historyFanRarity=null;this.historyFanValue=null;this.arrowPulses=[];this.rackGroup=null;this.rackMask=null;this.rackGlow=null;this.cardCaptions=[];this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.trayArt?.destroy(true);this.trayArt=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
     this.root.removeChild(this.focus);this.root.removeChildren().forEach(child=>child.destroy({children:true}));
-    const s=this.state,sw=this.stage.app.screen.width,sh=this.stage.app.screen.height,modal=s.inspected?'inspect':s.panel??(s.phase==='complete'&&!s.autoRun?.running?'results':'');
-    const frame=modal&&modal!=='settings'?modalLayout(sw,sh,modal):{x:0,y:0,width:sw,height:sh};this.modalOrigin={x:frame.x,y:frame.y};
+    const s=this.state,sw=this.stage.app.screen.width,sh=this.stage.app.screen.height,modal=s.inspected?'inspect':s.panel==='history'&&this.historyOpening?'history-pack':s.panel??(s.phase==='complete'&&!s.autoRun?.running?'results':'');
+    const frame=modal&&modal!=='settings'?modalLayout(sw,sh,modal,s.save?.history.length):{x:0,y:0,width:sw,height:sh};this.modalOrigin={x:frame.x,y:frame.y};
     const w=frame.width,h=frame.height,l=gameLayout(w,h,['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)),changed=modal!==this.modalKind;this.modalKind=modal;
     this.modalTween?.kill();this.modalTween=null;this.transitioning=!!this.returnCover;this.root.position.set(frame.x,frame.y);this.root.scale.set(1);this.root.alpha=1;
     this.backdrop.clear();this.backdrop.visible=!!modal;this.backdrop.alpha=1;if(modal)this.backdrop.rect(0,0,sw,sh).fill({color:0x03192d,alpha:modal==='results'?.28:modal==='settings'?.45:.6});
@@ -250,6 +255,8 @@ export class CanvasUI {
   }
   private dismissModal(action:'close'|'continue'='close'){
     if(this.transitioning)return;const s=this.state!;
+    if(this.historyOpening&&s.inspected){s.action('close');return;}
+    if(this.historyOpening&&!s.inspected){this.historyOpening=null;this.build();return;}
     if(!this.modalKind||s.reduced){s.action(action);return;}
     if(this.modalKind==='results'&&!s.panel&&!s.inspected){
       // Capture before reset, build the browse scene underneath, then dissolve the
@@ -430,68 +437,113 @@ export class CanvasUI {
     if(this.state!.reduced){this.trayOffset.value=tray.offset;strip.x=tray.start;}
     else this.trayTween=gsap.to(this.trayOffset,{value:tray.offset,duration:.06,ease:'power2.out',onUpdate:()=>{strip.x=base-this.trayOffset.value;this.stage.draw();}});
   };
-  private screen(title:string,w:number,h:number,subtitle?:string){
-    const shape=(x:number,y:number,width:number,height:number,cut:number)=>[x+cut,y,x+width-cut,y,x+width,y+cut,x+width,y+height-cut,x+width-cut,y+height,x+cut,y+height,x,y+height-cut,x,y+cut];
-    const body=new Graphics().poly(shape(8,8,w-16,h-16,20)).fill(0x06182e).stroke({color:0x03101d,width:4}).poly(shape(12,12,w-24,h-24,18)).fill(0x0d2c4a).stroke({color:0x8abed7,width:2});
-    body.poly(shape(17,17,w-34,66,13)).fill(0x195f93).moveTo(34,21).lineTo(w-34,21).stroke({color:0xb3edff,width:2,alpha:.55});
-    body.moveTo(30,h-77).lineTo(w-30,h-77).stroke({color:0x6da5bc,width:1,alpha:.22});
-    body.circle(48,48,22).fill(0x06182e).stroke({color:0xb4d4df,width:3}).circle(48,48,16).fill(0x318ed1).circle(43,42,6).fill({color:0xd4f9ff,alpha:.8});
-    for(let i=0;i<3;i++)body.roundRect(31+i*11,77,7,3,1).fill(i===0?0xe15c73:i===1?0x7fdef3:0x3c8caf);
-    this.root.addChild(body);
-    const heading=this.text(title,84,26,w<700?21:25,C.white,this.root,'left','bold');if(heading.width>w-164)heading.scale.set((w-164)/heading.width);
-    if(subtitle){const sub=this.text(subtitle,85,58,10,0xc2e3f4);if(sub.width>w-166)sub.scale.set((w-166)/sub.width);}
-    this.button('close',this.state!.inspected?'Close card viewer':'Return to game',w-68,26,44,44,()=>this.dismissModal(),{visibleLabel:'×',large:true});
+  private libraryShell(title:string,subtitle:string,w:number,h:number,kind:'binder'|'history',footer=true){
+    const shape=(inset:number)=>[24+inset,8+inset,w-30-inset,8+inset,w-8-inset,30+inset,w-8-inset,h-28-inset,w-28-inset,h-8-inset,28+inset,h-8-inset,8+inset,h-28-inset,8+inset,24+inset];
+    const g=new Graphics().poly(shape(0)).fill({color:0x071b30,alpha:.96}).stroke({color:0x07111e,width:5}).poly(shape(4)).stroke({color:0x87bed2,width:1.8});this.root.addChild(g);
+    g.poly([14,30,30,14,110,14,96,20,30,20,20,30,20,76,14,82]).fill(0xcd3b56);
+    g.roundRect(24,23,w-48,56,12).fill(0x123752).moveTo(88,78).lineTo(w-34,78).stroke({color:0x82efff,width:1.2,alpha:.5});
+    this.ball(52,49,19,0xc2f6ff);if(kind==='binder'){g.moveTo(43,39).lineTo(61,39).lineTo(61,60).lineTo(43,60).closePath().fill(0x164b69).stroke({color:0xc2f6ff,width:1.5});}else{g.moveTo(52,38).lineTo(52,49).lineTo(59,54).stroke({color:0xeaffff,width:2.5,cap:'round'});}
+    const nested=!!this.state!.inspected||!!this.historyOpening,buttonW=nested?84:38,titleW=w-126-buttonW;
+    const titleText=this.text(title,84,28,w<500?20:25,C.white,this.root,'left','bold');if(titleText.width>titleW)titleText.scale.set(titleW/titleText.width);
+    const sub=this.text(subtitle,85,58,10,C.cyan);if(sub.width>titleW)sub.scale.set(titleW/sub.width);
+    this.button('close',this.state!.inspected?'Back to cards':this.historyOpening?'Back to history':'Return to game',w-29-buttonW,28,buttonW,38,()=>this.dismissModal(),{visibleLabel:nested?'‹ BACK':'×',small:nested,large:!nested});
+    if(footer)g.moveTo(28,h-73).lineTo(w-28,h-73).stroke({color:0x77d6e5,width:1,alpha:.3});
+    for(const x of [20,w-20])for(const y of [h-22,90])g.circle(x,y,2).fill(0x82bdd0);
+  }
+  private libraryTab(id:string,label:string,x:number,y:number,width:number,active:boolean,action:()=>void){
+    const g=new Graphics().poly([x+9,y,x+width-9,y,x+width,y+9,x+width,y+27,x+width-9,y+36,x+9,y+36,x,y+27,x,y+9]).fill(active?0x1d6086:0x0d2a43).stroke({color:active?0x9ef6ff:0x315571,width:active?1.5:1});this.root.addChild(g);
+    if(active)g.moveTo(x+14,y+34).lineTo(x+width-14,y+34).stroke({color:0xb7fbff,width:2});
+    const caption=this.text(label,x+width/2,y+10,11,active?C.white:C.muted,this.root,'center','bold');if(caption.width>width-18)caption.scale.set((width-18)/caption.width);
+    this.hit(id,label,x,y,width,36,action);
+  }
+  private libraryPager(w:number,h:number,page:number,pages:number,kind:'collection'|'history'){
+    this.button('page-prev',`Previous ${kind} page`,28,h-59,58,38,()=>{this.page--;this.build();},{disabled:page===0,visibleLabel:'‹',large:true});
+    const text=this.text(`${String(page+1).padStart(2,'0')}  /  ${String(pages).padStart(2,'0')}`,w/2,h-47,13,C.white,this.root,'center','bold');text.style.letterSpacing=1;
+    this.button('page-next',`Next ${kind} page`,w-86,h-59,58,38,()=>{this.page++;this.build();},{disabled:page+1===pages,visibleLabel:'›',large:true});
   }
   private collection(w:number,h:number){
-    const s=this.state!,portrait=w<700,compact=h<550&&w>=560;
-    const source=this.collected?s.cards.filter(c=>s.save?.collection[c.id]):s.pool;
-    const rows=compact?1:2,columns=portrait?2:Math.max(4,Math.min(6,Math.floor((w-70)/150))),size=columns*rows;
-    const page=pageWindow(source.length,size,this.page);this.page=page.page;
-    this.screen('Card binder',w,h,`${Object.keys(s.save?.collection??{}).length} cards discovered`);
-    const filterW=portrait?(w-74)/2:190;
-    this.button('set-filter',s.selected.name,32,96,filterW,44,()=>{this.collected=false;this.page=0;this.build();},{active:!this.collected,small:true});
-    this.button('collected-filter','Collected cards',32+filterW+10,96,portrait?filterW:165,44,()=>{this.collected=true;this.page=0;this.build();},{active:this.collected,small:true,visibleLabel:'Collected'});
-    if(!portrait)this.button('export','Export collection',w-187,96,155,44,()=>s.action('export'),{small:true});
-    if(!source.length){this.ball(w/2,h/2-30,36,C.line);this.text('Your binder is waiting.',w/2,h/2+22,20,C.white,this.root,'center','bold');this.text('Open a pack to collect your first cards.',w/2,h/2+54,12,C.muted,this.root,'center');}
-    const top=156,bottom=h-93,slotW=(w-64-(columns-1)*14)/columns,slotH=(bottom-top-16*(rows-1))/rows;
-    source.slice(page.start,page.end).forEach((card,i)=>{
-      const x=32+(i%columns)*(slotW+14),y=top+Math.floor(i/columns)*(slotH+16),count=s.save?.collection[card.id]??0;
-      this.panel(x,y,slotW,slotH,0x102b44,count?0x416d89:0x223f5b,this.root,6);
-      const imgH=Math.max(24,slotH-(compact?12:49)),imgW=Math.min(slotW-12,imgH/1.397);this.picture(card.image,compact?x+7:x+(slotW-imgW)/2,y+5,imgW,imgH);
-      const textX=compact?x+imgW+18:x+9,textW=compact?slotW-imgW-27:slotW-18;
-      const name=this.text(card.name,textX,compact?y+12:y+slotH-37,portrait?11:12,C.white,this.root,'left','bold');if(name.width>textW)name.scale.set(textW/name.width);
-      this.text(count?`×${count}`:`#${card.number}`,compact?textX:x+7,compact?y+33:y+slotH-15,9,count?C.cyan:C.muted);
-      this.text(money(card.value),x+slotW-7,y+slotH-15,9,C.muted,this.root,'right');
-      this.hit(`binder-${card.id}`,`${card.name}, ${count} collected`,x,y,slotW,slotH,()=>s.inspect(card));
+    const s=this.state!,layout=binderLayout(w,h),source=this.collected?s.cards.filter(c=>s.save?.collection[c.id]):s.pool,pg=pageWindow(source.length,layout.size,this.page);this.page=pg.page;
+    const owned=Object.values(s.save?.collection??{}).reduce((sum,n)=>sum+n,0),discovered=Object.keys(s.save?.collection??{}).length;
+    this.libraryShell('COLLECTION',`${owned} cards · ${discovered} discovered`,w,h,'binder');
+    const tabW=Math.min(220,(w-layout.pad*2-10)/2),tabY=h<500?90:102;
+    this.libraryTab('set-filter',s.selected.name,layout.pad,tabY,tabW,!this.collected,()=>{this.collected=false;this.page=0;this.build();});
+    this.libraryTab('collected-filter','My cards',layout.pad+tabW+10,tabY,tabW,this.collected,()=>{this.collected=true;this.page=0;this.build();});
+    if(w>780)this.button('export','Export collection',w-178,tabY,142,36,()=>s.action('export'),{visibleLabel:'Export',small:true});
+    if(!source.length){this.ball(w/2,h/2-24,30,0x46768f);this.text('No cards collected yet',w/2,h/2+24,17,C.white,this.root,'center','bold');}
+    source.slice(pg.start,pg.end).forEach((card,i)=>{
+      const r=layout.slot(i),count=s.save?.collection[card.id]??0,group=new Container();group.pivot.set(r.width/2,r.height/2);group.position.set(r.x+r.width/2,r.y+r.height/2);this.root.addChild(group);this.paints.set(`binder-${card.id}`,group);
+      const g=new Graphics().roundRect(0,0,r.width,r.height,7).fill({color:0x153b53,alpha:count?.55:.22}).stroke({color:count?0x5996ad:0x234657,width:1,alpha:.65});group.addChild(g);
+      const imageH=Math.max(28,r.height-43),imageW=Math.min(r.width-12,imageH/1.397),ix=(r.width-imageW)/2,iy=2;
+      const art=new Container();art.alpha=count?1:.86;group.addChild(art);this.picture(card.image,ix,iy,imageW,imageH,art,true);
+      for(const side of [0,1]){const x=side?r.width-4:4;g.moveTo(x+(side?-9:9),6).lineTo(x,6).lineTo(x,18).stroke({color:count?0xbbf4fc:0x39556a,width:1.4});}
+      const name=this.text(card.name,r.width/2,r.height-37,r.width<100?10:12,count?C.white:C.muted,group,'center','bold');if(name.width>r.width-8)name.scale.set((r.width-8)/name.width);
+      this.text(`#${card.number}`,6,r.height-17,8,0x79a8bf,group);const value=this.text(money(card.value),r.width-6,r.height-17,9,count?0xacecf4:0x7596a8,group,'right','bold');if(value.width>r.width*.64)value.scale.set(r.width*.64/value.width);
+      if(count){const badgeW=26;g.roundRect(r.width-badgeW-3,5,badgeW,19,5).fill(0x092d47).stroke({color:0x9eeeff,width:1});this.text(`×${count}`,r.width-badgeW/2-3,7,10,C.white,group,'center','bold');}
+      this.hit(`binder-${card.id}`,`${card.name}, ${count} collected`,r.x,r.y,r.width,r.height,()=>s.inspect(card));
+      if(!s.reduced)this.moneyAnimations.push(gsap.from(group,{alpha:0,y:group.y+12,duration:.25,delay:i*.024,ease:'power3.out',onUpdate:()=>this.stage.draw()}));
     });
-    this.button('page-prev','Previous collection page',32,h-65,76,44,()=>{this.page--;this.build();},{disabled:page.page===0,visibleLabel:'‹ Back',small:true});
-    this.text(`${page.page+1} / ${page.pages}`,w/2,h-50,12,C.cyan,this.root,'center','bold');
-    this.button('page-next','Next collection page',w-108,h-65,76,44,()=>{this.page++;this.build();},{disabled:page.page+1===page.pages,visibleLabel:'Next ›',small:true});
+    this.libraryPager(w,h,pg.page,pg.pages,'collection');
+  }
+  private history(w:number,h:number){
+    const s=this.state!,history=s.save?.history??[],l=historyLayout(w,h),pg=pageWindow(history.length,l.rows,this.page);this.page=pg.page;
+    this.libraryShell('PACK HISTORY',`${history.length} ${history.length===1?'pack':'packs'} collected`,w,h,'history');
+    const top=h<500?90:99,statsH=h<500?46:58,stats=new Graphics().roundRect(l.pad,top,l.width,statsH,8).fill(0x0f344d);this.root.addChild(stats);
+    this.text('TOTAL WON',l.pad+14,top+7,9,C.cyan,this.root,'left','bold');this.money(s.save?recordedWinnings(s.save):0,l.pad+14,top+(h<500?31:39),h<500?22:31,0xfff2bb,'left','lifetime','lifetime',false,l.width*.58,true);
+    const best=Math.max(0,...history.map(r=>r.total));this.text('BEST PACK',w-l.pad-14,top+7,9,C.muted,this.root,'right','bold');this.money(best,w-l.pad-14,top+(h<500?32:40),h<500?18:23,C.white,'right','history-best','best',false,l.width*.34,true);
+    if(!history.length){this.ball(w/2,h/2-20,28,0x46768f);this.text('No packs opened yet',w/2,h/2+24,17,C.white,this.root,'center','bold');}
+    history.slice(pg.start,pg.end).forEach((result,i)=>{
+      const x=l.pad,y=l.top+i*(l.rowHeight+l.gap),wRow=l.width,hRow=l.rowHeight,group=new Container();group.position.set(x,y);this.root.addChild(group);
+      this.hit(`history-pack-${result.id}`,`View all cards from ${result.pack?.name??'Obsidian Flames'}`,x,y,wRow,hRow,()=>this.openHistoryHand(result));
+      const g=new Graphics().poly([12,0,wRow-12,0,wRow,12,wRow,hRow-12,wRow-12,hRow,12,hRow,0,hRow-12,0,12]).fill(0x12354e).stroke({color:0x466f87,width:1});g.moveTo(2,18).lineTo(2,hRow-18).stroke({color:i===0?0xadebfc:0x3f7d9b,width:3});group.addChild(g);
+      const packW=hRow<90?35:42;this.picture(result.pack?.packImage??s.packs[0].packImage,14,8,packW,hRow-16,group);
+      const textX=packW+29,title=this.text(result.pack?.name??'Obsidian Flames',textX,12,w<500?13:16,C.white,group,'left','bold'),titleW=w<500?wRow-textX-12:wRow-textX-210;if(title.width>titleW)title.scale.set(titleW/title.width);
+      const date=new Date(result.at);this.text(date.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' · '+date.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}),textX,hRow<90?34:38,9,C.muted,group);
+      this.text(`${result.cards.length} CARDS`,textX,hRow-22,9,0x85bdce,group,'left','bold');
+      const amount=this.money(result.total,x+wRow-14,y+hRow-30,w<500?24:29,0xe4ffff,'right',`history-${result.id}`,result.id,false,w<500?wRow*.52:180,true);group.addChild(amount);amount.position.set(wRow-14,hRow-23);
+      if(w>=600){const bestCards=[...result.cards].sort((a,b)=>b.value-a.value).slice(0,3);bestCards.forEach((card,j)=>{const cx=wRow-300+j*29;const thumbH=Math.min(63,hRow-24);this.picture(card.image,cx,12,thumbH/1.4,thumbH,group,true);this.hit(`history-card-${result.id}-${j}`,`View pack with ${card.name}`,x+cx,y+12,29,thumbH,()=>this.openHistoryHand(result,result.cards.indexOf(card)));});}
+      if(!s.reduced)this.moneyAnimations.push(gsap.from(group,{alpha:0,x:x+18,duration:.28,delay:i*.045,ease:'power3.out',onUpdate:()=>this.stage.draw()}));
+    });
+    this.libraryPager(w,h,pg.page,pg.pages,'history');
+  }
+  private openHistoryHand(result:Result,index?:number){this.historyOpening=result;this.historySelection=index??result.cards.reduce((best,c,i)=>c.value>result.cards[best].value?i:best,0);this.build();playSound('flip',{gain:.35});}
+  private focusHistoryCard(index:number){if(!this.historyOpening||index===this.historySelection)return;this.historySelection=index;const {width,height}=modalLayout(this.stage.app.screen.width,this.stage.app.screen.height,'history-pack'),l=historyFanLayout(width,height,this.historyOpening.cards.length);this.historyFanCards.forEach((c,i)=>{const p=l.pose(i,i===index);Object.assign(c,p);c.group.zIndex=i===index?100:i;});this.updateHistoryDetails();if(this.state?.reduced){this.animateHistoryFan(0);this.stage.draw();}}
+  private updateHistoryDetails(){const c=this.historyOpening?.cards[this.historySelection];if(!c)return;const width=modalLayout(this.stage.app.screen.width,this.stage.app.screen.height,'history-pack').width,max=Math.min(470,width-86-(width<600?112:190));if(this.historyFanTitle){this.historyFanTitle.text=c.name;this.historyFanTitle.scale.set(1);if(this.historyFanTitle.width>max)this.historyFanTitle.scale.set(max/this.historyFanTitle.width);}if(this.historyFanRarity){this.historyFanRarity.text=`${c.rarity} · #${c.number||'Energy'}`;this.historyFanRarity.scale.set(1);if(this.historyFanRarity.width>max)this.historyFanRarity.scale.set(max/this.historyFanRarity.width);}this.historyFanValue?.retarget(c.value);this.historyFanValue?.display(c.value);}
+  private animateHistoryFan(dt:number){if(!this.historyOpening||this.state?.inspected||this.transitioning)return;const blend=this.state?.reduced?1:Math.min(1,dt*13);this.historyFanCards.forEach((c,i)=>{if(!c.ready)return;const bob=this.state?.reduced?0:Math.sin(this.historyFanTime*.9+i*.37)*2;const g=c.group;g.x+=(c.x-g.x)*blend;g.y+=(c.y+bob-g.y)*blend;g.rotation+=(c.rotation-g.rotation)*blend;g.scale.set(g.scale.x+(c.scale-g.scale.x)*blend);});}
+  private historyHand(w:number,h:number,result:Result){
+    this.libraryShell('PACK REPLAY',result.pack?.name??'Obsidian Flames',w,h,'binder',false);const l=historyFanLayout(w,h,result.cards.length),compact=h<420;
+    this.text('PACK WIN',34,compact?88:102,9,C.cyan,this.root,'left','bold');this.money(result.total,w-34,compact?95:119,compact?20:28,0xfff2b8,'right','history-pack-total',result.id,false,180,true);
+    if(!compact)this.text(w<600?'Tap to lift · Tap again to inspect':'Hover to fan · Select a card to inspect',34,123,10,C.muted);
+    const hand=new Container();hand.sortableChildren=true;this.root.addChild(hand);
+    result.cards.forEach((card,i)=>{const p=l.pose(i,i===this.historySelection),group=new Container();group.position.set(p.x,p.y);group.rotation=p.rotation;group.scale.set(p.scale);group.zIndex=i===this.historySelection?100:i;hand.addChild(group);
+      const shadow=new Graphics().roundRect(-l.width/2-2,-l.height/2+4,l.width+4,l.height,7).fill({color:0x000b18,alpha:.7}).roundRect(-l.width/2-1,-l.height/2-1,l.width+2,l.height+2,6).stroke({color:0xa9dfed,width:1.5,alpha:.7});group.addChild(shadow);this.picture(card.image,-l.width/2,-l.height/2,l.width,l.height,group,true);const entry={group,...p,ready:!!this.state!.reduced};this.historyFanCards.push(entry);
+      const hitW=i===0||i===result.cards.length-1?l.step/2+l.width/2:l.step;const hitX=i===0?p.x-l.width/2:p.x-l.step/2;
+      this.hit(`history-fan-${i}`,`Inspect ${card.name} from pack`,hitX,Math.max(104,p.y-l.height/2-l.lift),hitW,l.height+l.lift+16,()=>{if(this.historySelection!==i){this.focusHistoryCard(i);this.stage.draw();}else this.state!.inspect(card);});
+      if(!this.state!.reduced)this.moneyAnimations.push(gsap.from(group,{x:w/2,y:h+40,rotation:0,alpha:0,duration:.48,delay:i*.026,ease:'power3.out',onUpdate:()=>this.stage.draw(),onComplete:()=>{entry.ready=true;}}));
+    });
+    this.historyFanTitle=this.text('',34,l.detailY,compact?14:20,C.white,this.root,'left','bold');this.historyFanRarity=this.text('',34,l.detailY+(compact?19:29),compact?8:10,C.muted);this.historyFanValue=this.money(result.cards[this.historySelection].value,w-34,l.detailY+(compact?11:20),compact?22:31,0xffedb0,'right','history-card-value',result.id,false,w<600?112:190,true);this.updateHistoryDetails();if(!this.state!.reduced)gsap.ticker.add(this.tickHistoryFan);
   }
   private settingsDrawer(w:number,h:number){
-    const s=this.state!,wide=h<500&&w>=560,width=Math.min(wide?660:400,w-28),x=w-width-14,contentX=x+22,contentW=width-44;
-    const shell=new Graphics().roundRect(x,14,width,h-28,22).fill(0x06182e).stroke({color:0x03101d,width:4}).roundRect(x+4,18,width-8,h-36,18).fill(0x0d2c4a).stroke({color:0x8abed7,width:2});
-    shell.roundRect(x+9,23,width-18,58,12).fill(0x195f93).circle(x+34,51,14).fill(0x318ed1).stroke({color:0xc7edff,width:3}).circle(x+30,47,4).fill(0xe2ffff);this.root.addChild(shell);
-    this.text('Settings',x+60,34,23,C.white,this.root,'left','bold');
-    this.button('close','Return to game',x+width-66,30,44,44,()=>this.dismissModal(),{visibleLabel:'×',large:true});
-    const top=wide?90:96,rowH=wide?50:h<620?48:60,gap=10,mainW=wide?(contentW-20)/2:contentW;
-    [['Sound',s.sound,'sound'],['Turbo Mode',s.turbo,'turbo'],['Low graphics',s.low,'low']].forEach(([label,value,action],i)=>{
-      const yy=top+i*(rowH+gap);this.panel(contentX,yy,mainW,rowH,0x123c5c,0x2b617c);const name=this.text(String(label),contentX+12,yy+(rowH-19)/2,14,C.white,this.root,'left','bold');if(name.width>mainW-94)name.scale.set((mainW-94)/name.width);
-      const sx=contentX+mainW-72,cy=yy+rowH/2,on=!!value;
-      const toggle=new Graphics().roundRect(sx,cy-15,58,30,15).fill(on?0x278dc0:0x061e34).stroke({color:on?0x8de8ff:0x47728d,width:1.5}).circle(sx+(on?43:15),cy,11).fill(on?0xe5faff:0x8caabd);this.root.addChild(toggle);this.ball(sx+(on?43:15),cy,5,on?0x27688d:0x34566a);
-      this.hit(String(action),`${label}: ${value?'on':'off'}`,contentX,yy,mainW,rowH,()=>s.action(action as GameAction));
+    const s=this.state!,l=settingsLayout(w,h),{x,y,width,height}=l,cx=x+l.pad;
+    const shell=new Graphics(),shape=(n:number)=>[x+24+n,y+n,x+width-18-n,y+n,x+width-n,y+18+n,x+width-n,y+height-22-n,x+width-22-n,y+height-n,x+20+n,y+height-n,x+n,y+height-20-n,x+n,y+24+n];
+    shell.poly(shape(0)).fill(0x071b30).stroke({color:0x77b8d2,width:2}).poly(shape(5)).stroke({color:0x315571,width:1}).poly([x+7,y+28,x+28,y+7,x+115,y+7,x+103,y+14,x+29,y+14,x+14,y+29,x+14,y+76,x+7,y+83]).fill(0xd44a63);this.root.addChild(shell);
+    this.ball(x+42,y+43,16,0xf0edc5);this.text('POKÉGEAR',x+69,y+24,21,C.white,this.root,'left','bold');this.text('SETTINGS',x+70,y+52,9,C.cyan,this.root,'left','bold');this.button('close','Return to game',x+width-59,y+25,34,34,()=>this.dismissModal(),{visibleLabel:'×',large:true});
+    shell.moveTo(cx,y+80).lineTo(x+width-l.pad,y+80).stroke({color:0x5290ac,width:1,alpha:.6});
+    const options=[['Sound','Music & effects',s.sound,'sound'],['Turbo','Faster animations',s.turbo,'turbo'],['Low graphics','Lightweight mode',s.low,'low']] as const;
+    options.forEach(([label,description,on,action],i)=>{const yy=l.bodyY+i*(l.rowHeight+l.gap),rw=l.column,cy=yy+l.rowHeight/2;
+      shell.roundRect(cx,yy,rw,l.rowHeight,8).fill(0x10354e).stroke({color:0x315e76,width:1});shell.roundRect(cx+10,cy-16,30,32,6).fill(0x08263d);
+      const icon=new Graphics();icon.position.set(cx+25,cy);this.root.addChild(icon);if(action==='sound'){icon.poly([-8,-4,-3,-4,3,-10,3,10,-3,4,-8,4]).fill(0xaee8ed).moveTo(2+Math.cos(-.65)*10,Math.sin(-.65)*10).arc(2,0,10,-.65,.65).stroke({color:0xaee8ed,width:1.6});}else if(action==='turbo')icon.poly([2,-12,-7,1,-1,1,-4,12,8,-3,2,-3]).fill(0xf5e8ad);else{for(let k=0;k<3;k++)icon.roundRect(-9+k*7,7-k*6,4,5+k*6,1).fill(0xaee8ed);}
+      this.text(label,cx+50,yy+(l.compact?7:11),l.compact?12:15,C.white,this.root,'left','bold');this.text(description,cx+50,yy+(l.compact?24:34),l.compact?7:9,C.muted);
+      const sx=cx+rw-58; shell.roundRect(sx,cy-13,44,26,13).fill(on?0x267f8f:0x051e31).stroke({color:on?0xb5f7e7:0x4b6b83,width:1.2}).circle(sx+(on?31:13),cy,9).fill(on?0xe7fff3:0x799caf);this.hit(action,`${label}: ${on?'on':'off'}`,cx,yy,rw,l.rowHeight,()=>s.action(action));
     });
-    const ax=wide?contentX+mainW+20:contentX,aw=wide?mainW:contentW,start=wide?top:top+3*(rowH+gap)+8,half=(aw-10)/2;
-    this.button('credits-menu','Add 1000 demo credits',ax,start,wide?aw:half,44,()=>s.action('credits'),{primary:true,small:true,visibleLabel:'+1,000 credits'});
-    this.button('fullscreen','Full screen',wide?ax:ax+half+10,wide?start+54:start,wide?aw:half,44,()=>s.action('fullscreen'),{small:true});
-    const navY=start+(wide?108:54),third=(aw-20)/3;
-    [['History','history'],['Help','about'],['Export','export']].forEach(([label,action],i)=>this.button(`drawer-${action}`,label,ax+i*(third+10),navY,third,44,()=>s.action(action as GameAction),{small:true}));
-    this.button('reset-menu','Reset demo and collection',ax,navY+54,aw,44,()=>s.action('reset'),{disabled:!!s.save?.active,small:true,visibleLabel:'Reset demo'});
-    if(!wide&&h>550)this.text('Demo credits only',x+width/2,h-39,10,C.muted,this.root,'center');
+    const ax=l.actionsX,aw=l.actionsWidth,ay=l.actionsY,half=(aw-8)/2;
+    this.button('credits-menu','Add 1000 demo credits',ax,ay,aw,42,()=>s.action('credits'),{primary:true,small:true,visibleLabel:'+1,000 DEMO CREDITS'});
+    this.button('fullscreen','Full screen',ax,ay+50,half,40,()=>s.action('fullscreen'),{small:true});this.button('drawer-export','Export collection',ax+half+8,ay+50,half,40,()=>s.action('export'),{small:true,visibleLabel:'Export cards'});
+    this.button('drawer-about','How to play',ax,ay+98,half,38,()=>s.action('about'),{small:true});this.button('reset-menu','Reset demo and collection',ax+half+8,ay+98,half,38,()=>s.action('reset'),{disabled:!!s.save?.active,small:true,visibleLabel:'Reset demo'});
+    if(l.compact)this.text('DEMO CREDITS · NO CASH VALUE',ax+aw/2,ay+151,7,C.muted,this.root,'center');else this.text('DEMO CREDITS · NO CASH VALUE',x+width/2,y+height-25,8,C.muted,this.root,'center');
   }
   private autoMenu(w:number,h:number){
     const s=this.state!,count=s.autoCount??5,mode=s.autoMode??'individual',l=autoSpinLayout(w,h);
-    this.screen('Auto Spin',w,h,s.selected.name);
+    this.libraryShell('AUTO SPIN',s.selected.name,w,h,'binder');
     this.text('NUMBER OF PACKS',l.x,l.countLabelY,10,C.cyan,this.root,'left','bold');
     AUTO_SPIN_COUNTS.forEach((n,i)=>{const r=l.count(i);this.button(`auto-count-${n}`,`${n} packs`,r.x,r.y,r.width,r.height,()=>s.configureAuto?.(n,mode),{active:n===count,visibleLabel:String(n),large:true});});
     this.text('CARD REVEAL',l.modeLabelX,l.modeLabelY,10,C.cyan,this.root,'left','bold');
@@ -501,25 +553,19 @@ export class CanvasUI {
     const r=l.start;this.button('auto-start',`Start Auto Spin: ${count} packs`,r.x,r.y,r.width,r.height,()=>s.action('auto-start'),{primary:true,disabled:!s.ready||!s.save||s.save.balance<s.selected.price,visibleLabel:`START · ${count} PACKS`});
   }
   private menu(w:number,h:number){
-    const s=this.state!;if(s.panel==='auto'){this.autoMenu(w,h);return;}if(s.panel==='settings'){this.settingsDrawer(w,h);return;}
-    this.screen(s.panel==='history'?'Opening history':'How to play',w,h);
-    const x=Math.max(28,(w-520)/2),width=Math.min(520,w-56);const y=s.panel==='history'?171:107;
-    if(s.panel==='history'){
-      this.text('TOTAL WON',x,108,10,C.muted,this.root,'left','bold');
-      this.money(s.save?recordedWinnings(s.save):0,x+width,99,34,C.cyan,'right','lifetime','lifetime',false,width-100);
-      const rows=Math.max(1,Math.floor((h-239)/66)),history=s.save?.history??[],pg=pageWindow(history.length,rows,this.page);this.page=pg.page;
-      if(!history.length)this.text('No completed openings yet.',w/2,h/2,16,C.muted,this.root,'center');
-      history.slice(pg.start,pg.end).forEach((result,i)=>{const yy=y+i*66;this.panel(x,yy,width,55,0x112b42,0x25465f);this.picture(result.pack?.packImage??s.packs[0].packImage,x+10,yy+4,28,48);const title=this.text(result.pack?.name??'Obsidian Flames',x+53,yy+9,13,C.white,this.root,'left','bold');if(title.width>width-70)title.scale.set((width-70)/title.width);this.text(new Date(result.at).toLocaleDateString(),x+53,yy+33,9,C.muted);this.money(result.total,x+width-13,yy+29,18,C.cyan,'right',`history-${result.id}`,result.id,false,Math.min(150,width*.42));});
-      this.button('history-back','Previous history page',x,h-65,76,44,()=>{this.page--;this.build();},{disabled:pg.page===0,visibleLabel:'‹',small:true});this.text(`${pg.page+1} / ${pg.pages}`,w/2,h-50,12,C.muted,this.root,'center');this.button('history-next','Next history page',x+width-76,h-65,76,44,()=>{this.page++;this.build();},{disabled:pg.page+1===pg.pages,visibleLabel:'›',small:true});
-    }else{
-      const lines=['Choose a pack, buy it, then open the wrapper.','Reveal cards one by one, or choose Open All. Turbo speeds up play.','The revealed value is credited when you collect the pack. Energy has no value.','Auto Spin opens a chosen number of packs. Stop it anytime. Your cards are saved in this browser.','This is a frontend demo. Credits have no cash value; card values and odds are illustrative.'];
-      lines.forEach((line,i)=>this.text(line,x,y+i*Math.min(72,(h-135)/5),h<550?12:14,i===4?C.muted:C.white,this.root,'left','normal',width));
-    }
+    const s=this.state!;if(s.panel==='auto'){this.autoMenu(w,h);return;}if(s.panel==='settings'){this.settingsDrawer(w,h);return;}if(s.panel==='history'){if(this.historyOpening)this.historyHand(w,h,this.historyOpening);else this.history(w,h);return;}
+    this.libraryShell('TRAINER GUIDE','Pack opening',w,h,'binder');
+    const compact=h<440,pad=28,gap=12,columns=compact?2:1,rowH=compact?66:Math.min(92,(h-179)/4),cell=(w-pad*2-(columns-1)*gap)/columns;
+    const steps=[['CHOOSE','Pick a pack. Buy it, then pull the foil or press Open.'],['REVEAL','Reveal one card at a time, or use Open All.'],['COLLECT','Collect the pack to add its value and cards.'],['PLAY YOUR WAY','Turbo speeds up animations. Auto Spin opens a chosen pack count.']];
+    steps.forEach(([title,body],i)=>{const x=pad+i%columns*(cell+gap),y=100+Math.floor(i/columns)*(rowH+8);this.panel(x,y,cell,rowH,0x11364e,0x3d657d);this.text(String(i+1).padStart(2,'0'),x+12,y+10,compact?16:22,0xe9dfaa,this.root,'left','bold');this.text(title,x+48,y+10,compact?10:12,C.white,this.root,'left','bold');this.text(body,x+48,y+29,compact?9:12,C.muted,this.root,'left','normal',cell-62);});
+    this.text('Demo credits have no cash value. Card values and odds are illustrative.',w/2,h-47,w<500?9:10,C.muted,this.root,'center','normal',w-64);
   }
   private inspector(w:number,h:number,card:Card){
-    this.screen(card.name,w,h,`${card.rarity} · #${card.number||'Energy'}`);
-    const area={x:24,y:91,w:w-48,h:h-115};
+    this.libraryShell('CARD DETAILS',card.name,w,h,'binder');const wide=w>=700&&h>=500;
+    const area=wide?{x:34,y:99,w:w*.51,h:h-126}:{x:26,y:95,w:w-52,h:h-173};
     this.picture(card.image,area.x,area.y,area.w,area.h,this.root,true,foilStrength(card.rarity,card.value));
+    if(wide){const x=w*.61;this.text(card.name,x,145,27,C.white,this.root,'left','bold',w-x-34);this.text(card.rarity.toUpperCase(),x,231,11,C.cyan,this.root,'left','bold');this.text(`#${card.number||'Energy'}`,x,258,12,C.muted);this.text('CARD VALUE',x,330,9,C.muted,this.root,'left','bold');this.money(card.value,x,379,42,0xffefb6,'left','inspect-card',card.id,false,w-x-28,true);this.text('Move over the card to catch the foil.',x,h-96,11,C.muted,this.root,'left','normal',w-x-34);}
+    else{this.text(card.rarity,28,h-58,11,C.cyan,this.root,'left','bold');this.text(`#${card.number||'Energy'}`,28,h-36,9,C.muted);this.money(card.value,w-28,h-42,27,0xffefb6,'right','inspect-card',card.id,false,w*.45,true);}
   }
   private results(w:number,h:number,result:Result){
     const l=packResultsLayout(w,h),chrome=this.resultChrome=new Container();this.root.addChild(chrome);
@@ -558,5 +604,5 @@ export class CanvasUI {
     timeline.to({}, {duration:.08*d});
   }
 
-  destroy(){this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.returnTween?.kill();this.returnCover?.destroy({texture:true,textureSource:true});this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
+  destroy(){gsap.ticker.remove(this.tickHistoryFan);this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.returnTween?.kill();this.returnCover?.destroy({texture:true,textureSource:true});this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
 }

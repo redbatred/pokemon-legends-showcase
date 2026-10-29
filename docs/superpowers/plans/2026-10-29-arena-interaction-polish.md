@@ -63,3 +63,31 @@
 - Blend the entire results frame directly into browse underneath. Avoid clearing the WebGL backing store for layout-only changes. Verify midpoint and completion in the in-memory browser fixture.
 
 - Review follow-up: block repeated keyboard activation during crossfade; reserve clearance between utility captions, branding and Total Win. The special-win backdrop holds half-strength cinematic focus until advance.
+
+
+## Manual foil, library, and elemental follow-up
+
+Latest user steering supersedes the former blue corona and sprite-plume direction.
+
+- [x] Fill the left stadium-display corner; remove the two travelling horizontal blue light bands. Keep the curved wall geometry and fine phosphor texture.
+- [x] Make the scissors clickable and drag the actual foil mesh. Preserve current perspective on gesture start and continue the same pose on release. Enforce one captured pointer and cancellation ownership.
+- [x] Idle float for the waiting deck and revealed cards, with pointer-driven foil shine.
+- [x] Redesign Collection as a high-resolution binder and History as sized records. History opens the complete pack as an arched hand; hover raises its draw order, touch selects before inspection, and amount fitting stays inside its reserved column.
+- [x] Redesign Settings as a Pokégear drawer; align Auto Spin, Trainer Guide, and Card Details with the same hardware frame and faceted controls. Check 320×480 and 720×320 as well as normal phone/desktop.
+- [x] Add distant, bounded bird flocks with independent held wing poses, glides, random intervals/directions, terrain occlusion, and reduced-motion handling.
+- [x] Replace the rejected image-like elemental plumes with continuous stage-anchored Spine mesh flows. Rear flow belongs behind card/Pokémon; low front spill belongs in front. Keep the elemental scene alive until Next, including after skip-to-result.
+- [x] Final integrated browser review, full tests and production build. Production save and audience preserved.
+- Publication follows source preparation through the Sites workflow, then GitHub synchronization. Report hosting status from the native tool result.
+
+Validation so far: actual mouse scissors click and partial drag both reach the waiting deck; native Spine parsing, pointer pose continuity, binder/history geometry, settings boundaries, bird lifecycle, and history fan checks pass. Browser checks cover binder filtering/paging, desktop and phone history hands, card inspection/back navigation, and desktop/small-phone/landscape Settings. New effects require a fresh visual check after the final stage-flow redesign.
+
+
+## Final elemental and showcase validation
+
+- Elemental bodies are neutral-material native Spine deform meshes. Fire uses short buoyant tongues, waist pinches and hot pockets; water uses translucent ballistic crests and droplets; electricity uses staggered forked strikes. Other types have material-specific fragments. The back layer is behind the card and actor; shallow front spill wraps the stage rim. Rise is capped away from the HUD, and the scene persists until Next, including after skip.
+- Removed travelling blue bands from the curved stadium displays. Retained the fine phosphor texture and fitted wall geometry.
+- Nested History/Card Details now have an explicit labelled Back control. Card Details returns to the same hand, then the hand returns to History. Reduced-motion hands no longer schedule continuous renders.
+- Rotom's native reverse-wound cyan body halo was receiving an extra BackSide ink shell, covering the orange body and face. Excluded that existing hull from extra ink; arms/tail and other species retain outlines. Browser A/B verified the cause and corrected output. Audit covered 50 model files, 266 primitives, 170 materials and 245 embedded images, with no missing image references.
+- The existing temporary first-card showcase override rotates a set-specific cast, prioritizing complete skeletal performances and keeping each card within its actual set. Rotation follows the previous showcased species so the 30-record history cap cannot stall it. Normal draw logic, charges, card values, and prior saved results stay intact.
+- Final verification: 240 tests in 60 files passed, production build succeeded, and git diff --check passed. Browser QA covered phone history inspection/back, corrected Rotom, Rayquaza/Giratina/Lugia model rendering, phone special reveal skip to the exact $45 amount, resize during held effects, and Next cleanup/transfer to Total Win. No new browser errors during this final pass.
+- Current proofs: output/elemental-fire-win-final.png, output/elemental-stage-phone-final.png, output/history-back-phone-final.png, output/rotom-material-fixed.png, output/pokegear-settings-final.png.

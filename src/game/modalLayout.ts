@@ -1,9 +1,9 @@
 import {packResultsFrame} from './packResultsLayout';
 import {gameLayout} from './rendering';
-export function modalLayout(w:number,h:number,kind:string){
+export function modalLayout(w:number,h:number,kind:string,items?:number){
  if(kind==='results')return packResultsFrame(w,h);
- const inset=w<700||kind==='auto'&&h<480?0:24,max=kind==='history'?760:kind==='about'?680:kind==='auto'?560:kind==='inspect'?980:1040;
- const width=Math.min(w-inset*2,max),height=Math.min(h-inset*2,kind==='auto'?570:800);
+ const inset=w<700||h<400||kind==='auto'&&h<480?0:24,max=kind==='history'?760:kind==='about'?680:kind==='auto'?560:kind==='inspect'||kind==='history-pack'?980:1040;
+ const width=Math.min(w-inset*2,max),height=Math.min(h-inset*2,kind==='auto'?490:kind==='history-pack'?660:kind==='history'?Math.max(370,258+Math.min(4,items??4)*120):800);
  return {x:(w-width)/2,y:(h-height)/2,width,height};
 }
 export function rewardLayout(w:number,h:number){

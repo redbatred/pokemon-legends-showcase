@@ -4,7 +4,7 @@ it('fits the two curved blue wall bays and leaves the entrance and pale masonry 
  for(const side of [0,1] as const)for(let i=0;i<=30;i++){
   const t=i/30,top=wallScreenPoint(side,t,0),bottom=wallScreenPoint(side,t,1);
   expect(bottom.v).toBeGreaterThan(top.v+.025);expect(top.v).toBeGreaterThan(.55);expect(bottom.v).toBeLessThan(.659);
-  for(const p of [top,bottom]){expect(p.u).toBeGreaterThan(.137);expect(p.u).toBeLessThan(.866);expect(side===0?p.u<.466:p.u>.534).toBe(true);}
+  for(const p of [top,bottom]){expect(p.u).toBeGreaterThan(.134);expect(p.u).toBeLessThan(.866);expect(side===0?p.u<.466:p.u>.534).toBe(true);}
  }
  expect(wallScreenPoint(0,0,0).v).toBeLessThan(wallScreenPoint(0,1,0).v-.04);
 });

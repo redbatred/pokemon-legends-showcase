@@ -29,3 +29,6 @@ export function pokemonPower(path:string):PowerProfile{
  return {species:name,move:special?.move??(name==='greninja'?'shuriken':kind==='electric'?'discharge':['fire','water','dragon','ice'].includes(kind)?'stream':['leaf','metal','wind'].includes(kind)?'blade':'aura'),dexId:entry?.dexId??null,kind,cue:((soundRoutes as Record<string,PowerCue>)[name]??kind),color,light,
   bone:name==='blastoise'?'chest':['psychic','fairy','dark','metal','ground'].includes(kind)?'chest':'head',origin:origins[name]??null,direction:name==='blastoise'?-.3:kind==='fire'||kind==='dragon'?-2.45:-2.2};
 }
+
+/** Use the same species routing for the fullscreen win as the actor's own attack. */
+export function cardPowerKind(cardName:string):PowerKind {const name=cardName.replace(/^Radiant /,'').replace(/ (?:ex|EX|GX|V|VMAX|VSTAR)$/,'');const entry=(artwork as Record<string,{image:string}>)[name];return pokemonPower(entry?.image??name.toLowerCase()+'.png').kind;}

@@ -25,3 +25,5 @@ it('gives every eligible species an explicit recorded move and a deliberate entr
  expect(pokemonPower('/assets/pokemon/ninetales.png').move).toBe('firestar');
  expect(pokemonPower('/assets/pokemon/tyranitar.png').move).toBe('quake');
 });
+
+it('routes named prize cards to the matching elemental win',async()=>{const {cardPowerKind}=await import('./powerProfiles');expect(cardPowerKind('Charizard ex')).toBe('fire');expect(cardPowerKind('Blastoise VMAX')).toBe('water');expect(cardPowerKind('Pikachu V')).toBe('electric');expect(cardPowerKind('Radiant Alakazam')).toBe('psychic');});

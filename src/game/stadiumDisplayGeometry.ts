@@ -8,7 +8,7 @@ export function wallScreenPoint(side:0|1,t:number,v:number){
  const x=xt+(xb-xt)*level,y=sample(upperLeft,xt)+(sample(lowerLeft,xb)-sample(upperLeft,xt))*level;
  // Right bay's outer top corner extends 4 px farther than the left bay's mirror.
  const correction=side?(1-at)*(4*(1-level)+1*level):0;
- return {u:(side?1672-x+correction:x)/1672,v:y/941};
+ const edgeBleed=side?0:4*(1-at)**5;return {u:(side?1672-x+correction:x-edgeBleed)/1672,v:(y-(side?0:2*(1-at)**5*(1-level)))/941};
 }
 export function arenaMessages(s:ArenaBoardState,cycle:number):[string,string,string,string]{
  const pack=s.packName.toUpperCase(),count=`CARD ${Math.min(11,s.index+1)} / 11`;

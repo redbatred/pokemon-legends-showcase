@@ -5,6 +5,7 @@ import {StadiumDisplay} from './StadiumDisplay';
 import type {ArenaBoardState} from './stadiumDisplayGeometry';
 import {StadiumAudience} from './StadiumAudience';
 import {clearLightTowers,drawLightTowers} from './lightTowerGeometry';
+import {BirdFlocks} from './BirdFlocks';
 
 type Tree={mesh:MeshPlane;base:Float32Array;x:number;y:number;width:number;height:number;seed:number};
 type Cloud={sprite:Sprite;start:number;y:number;speed:number;width:number};
@@ -14,7 +15,7 @@ export class LivingBackdrop {
  root=new Container();private terrain:MeshPlane;private stadium:MeshPlane;private base:Float32Array;private foliage:Float32Array;
  private trees:Tree[]=[];private clouds:Cloud[]=[];private leaves=new Graphics();private textures:Texture[]=[];
  private previous=-1;private wasReduced=false;private floorShift=0;private width:number;private height:number;
- private display:StadiumDisplay;private audience:StadiumAudience;private baseScale=1;
+ private display:StadiumDisplay;private audience:StadiumAudience;private birds:BirdFlocks;private baseScale=1;
  constructor(texture:Texture,treeAtlas:Texture,cloudAtlas:Texture,crowd:Texture[]){
   this.width=texture.width;this.height=texture.height;
   const canvas=document.createElement('canvas');canvas.width=this.width;canvas.height=this.height;
@@ -29,6 +30,8 @@ export class LivingBackdrop {
   // Two depths travel in the same wind direction. Copies wrap after completely leaving the frame.
   const cloudSlots=[[0,-.18,-.10,.53,4.2],[2,.81,-.07,.50,3.4],[3,.37,.22,.27,1.6],[0,.13,.18,.28,1.7],[1,.60,.19,.32,1.45],[2,1.15,.20,.25,1.65],[1,.36,.065,.25,2.5]];
   for(const [id,x,y,size,speed] of cloudSlots){const sprite=new Sprite(cloudTextures[id]);const width=this.width*size;sprite.width=width;sprite.height=width*cloudTextures[id].height/cloudTextures[id].width;sprite.alpha=id===1&&y<.1?.72:y>.1?.94:1;this.root.addChild(sprite);this.clouds.push({sprite,start:x*this.width,y:y*this.height,speed,width});}
+  // Passing silhouettes belong to the sky; all foliage and masonry naturally occlude them.
+  this.birds=new BirdFlocks(this.width,this.height);this.root.addChild(this.birds.root);
   this.terrain=new MeshPlane({texture:terrainTexture,verticesX:97,verticesY:55});this.terrain.geometry.batchMode='no-batch';this.root.addChild(this.terrain);
   this.base=new Float32Array(this.terrain.geometry.getBuffer('aPosition').data);this.foliage=new Float32Array(this.base.length/2);
   for(let i=0;i<this.foliage.length;i++){const x=Math.min(this.width-1,Math.round(this.base[i*2])),y=Math.min(this.height-1,Math.round(this.base[i*2+1])),k=(y*this.width+x)*4,r=pixels.data[k],g=pixels.data[k+1],b=pixels.data[k+2],v=y/this.height;this.foliage[i]=v>.12&&v<stadiumRim(x/this.width)-.02?clamp((g-r*1.1)/30)*clamp((g-b*.9)/30):0;}
@@ -56,8 +59,10 @@ export class LivingBackdrop {
  show(visibility:number,celebrationAge:number,travel:number,reduced:boolean,low=false,energy=3){this.audience.update(visibility,celebrationAge,reduced,travel,low,energy);this.root.scale.set(this.baseScale*(1+(reduced?0:travel*.018)));}
  project(u:number,v:number){return {x:this.root.x+(u-.5)*this.width*this.root.scale.x,y:this.root.y+((v-.5)*this.height+this.floorShift*groundWarp(v))*this.root.scale.y};}
  setBoard(state:ArenaBoardState){this.display.setState(state);}
+ showBirds(){return this.birds.showBirds();}
  tick(time:number,reduced:boolean,low:boolean){
   this.display.tick(time,reduced,low);
+  this.birds.tick(time,reduced,low);
   if(reduced&&this.wasReduced)return;if(!reduced&&time-this.previous<(low?1/24:1/40))return;this.previous=time;this.wasReduced=reduced;const t=reduced?0:time;
   const terrain=this.terrain.geometry.getBuffer('aPosition'),architecture=this.stadium.geometry.getBuffer('aPosition');
   for(let i=0;i<this.foliage.length;i++){const x=this.base[i*2],y=this.base[i*2+1],wind=reduced?0:branchWind(t,x/this.width,.3,x*.003,80).x*this.foliage[i],yy=y+this.floorShift*groundWarp(y/this.height);terrain.data[i*2]=x+wind;terrain.data[i*2+1]=yy+wind*.12;architecture.data[i*2]=x;architecture.data[i*2+1]=yy;}
@@ -68,5 +73,5 @@ export class LivingBackdrop {
   for(let i=0;i<(low?8:18);i++){const cycle=11+i%5,u=((t+i*1.91)%cycle)/cycle,origin=(i*.173)%1,x=this.width*(origin-.035+u*.14),v=stadiumRim(clamp(origin))-.065+u*.045,y=this.height*v+this.floorShift*groundWarp(v)+Math.sin(u*9+i)*7,alpha=Math.sin(Math.PI*u)*.65,r=2.2+i%3,angle=t*(.8+i%3*.15)+i,s=Math.sin(angle),c=Math.cos(angle),flip=Math.cos(angle*1.3)*.65;
    g.moveTo(x-c*r,y-s*r).quadraticCurveTo(x-s*r*flip,y+c*r*flip,x+c*r,y+s*r).quadraticCurveTo(x+s*r*flip,y-c*r*flip,x-c*r,y-s*r).fill({color:[0xa4ce4d,0x69a348,0xc3db66][i%3],alpha});}
  }
- destroy(){this.display.destroy();this.audience.destroy();this.root.destroy({children:true});for(const texture of this.textures)texture.destroy(true);}
+ destroy(){this.display.destroy();this.audience.destroy();this.birds.destroy();this.root.destroy({children:true});for(const texture of this.textures)texture.destroy(true);}
 }

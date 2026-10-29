@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pokémon model materials QA</title><style>body{margin:0;background:#dce7ec;color:#12263b;font:14px system-ui}nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px}button,select,label{padding:8px}canvas{display:block;margin:0 auto;max-width:100%;height:auto}output{align-self:center}</style></head><body><nav><select id="species" aria-label="Species"></select><label><input id="outlines" type="checkbox" checked>Outlines</label><button id="idle">Idle</button><button id="attack">Attack</button><button id="freeze">Freeze</button><button id="phone">Phone</button><button id="desktop">Desktop</button><output id="state">Loading…</output></nav><script type="module">
+import {Application,Sprite} from 'pixi.js';
+import {createPokemonModel} from '/src/game/PokemonModel.ts';
+const manifest=await (await fetch('/assets/pokemon-3d/manifest.json')).json(),select=document.querySelector('#species'),state=document.querySelector('#state');
+for(const [slug,entry] of Object.entries(manifest)){const option=document.createElement('option');option.value=slug;option.textContent=entry.name;select.append(option);}select.value=new URLSearchParams(location.search).get('species')||'rotom';
+const app=new Application();await app.init({width:960,height:650,resolution:devicePixelRatio,autoDensity:true,background:0xdce7ec});document.body.append(app.canvas);
+let model=null,sprite=null,clock=0,attacking=false,frozen=false,loadId=0;
+function layout(){if(!sprite)return;const span=Math.min(app.screen.width*.88,app.screen.height*.9);sprite.width=sprite.height=span;sprite.position.set(app.screen.width/2,app.screen.height/2);}
+function outlines(){if(!model)return;model.model.traverse(o=>{if(o.renderOrder===-1)o.visible=document.querySelector('#outlines').checked;});model.capturePose();}
+async function load(){const id=++loadId;state.textContent='Loading '+select.value+'…';sprite?.destroy();sprite=null;model?.dispose();model=null;const next=await createPokemonModel('/assets/pokemon/'+select.value+'.png',false);if(id!==loadId){next?.dispose();return;}model=next;if(!model){state.textContent='Missing model';return;}sprite=new Sprite(model.texture);sprite.anchor.set(.5);app.stage.addChild(sprite);clock=0;attacking=false;frozen=false;layout();outlines();state.textContent=select.value+' · idle';}
+select.onchange=load;document.querySelector('#outlines').onchange=outlines;
+document.querySelector('#idle').onclick=()=>{attacking=false;clock=0;frozen=false;model?.play('idle');};
+document.querySelector('#attack').onclick=()=>{model?.play('idle');model?.play('charge');attacking=true;clock=0;frozen=false;};
+document.querySelector('#freeze').onclick=()=>frozen=!frozen;
+document.querySelector('#phone').onclick=()=>{app.renderer.resize(390,650);layout();};document.querySelector('#desktop').onclick=()=>{app.renderer.resize(960,650);layout();};
+app.ticker.add(t=>{if(!model||frozen)return;const dt=t.deltaMS/1000;clock+=dt;if(attacking){model.setAttackTime(clock);if(clock>model.chargeDuration+model.attackDuration+model.recoveryDuration){model.play('recover');attacking=false;clock=0;}}model.update(dt);state.textContent=select.value+' · '+(attacking?'attack':'idle')+' · '+clock.toFixed(2)+'s';});
+await load();
+</script></body></html>

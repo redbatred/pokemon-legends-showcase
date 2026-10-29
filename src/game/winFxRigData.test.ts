@@ -66,46 +66,5 @@ describe('native Spine win celebration', () => {
     expect(skeleton.findSlot('confetti0')!.color.a).toBeGreaterThan(0);
   });
 
-  it('unfurls weighted streamers and lets the tip deform separately from the anchored end', () => {
-    const { skeleton, pose, vertices } = load();
-    for (const name of ['ribbonLeft', 'ribbonRight']) {
-      const mesh = skeleton.findSlot(name)!.getAttachment() as MeshAttachment;
-      expect(mesh).toBeInstanceOf(MeshAttachment);
-      expect(mesh.bones).not.toBeNull();
-      pose(.25);
-      const folded = vertices(name);
-      pose(.8);
-      const unfurled = vertices(name);
-      const tip = unfurled.length - 4;
-      expect(Math.hypot(unfurled[tip] - folded[tip], unfurled[tip + 1] - folded[tip + 1])).toBeGreaterThan(100);
-      for (let i = 0; i < unfurled.length; i += 2) {
-        expect(Math.abs(unfurled[i])).toBeGreaterThan(260);
-        expect(Math.abs(unfurled[i])).toBeLessThan(460);
-        expect(unfurled[i + 1]).toBeGreaterThan(35);
-        expect(unfurled[i + 1]).toBeLessThan(320);
-      }
-      skeleton.findBone(`${name}4`)!.x += 20;
-      skeleton.updateWorldTransform(Physics.none);
-      const movedTip = vertices(name);
-      expect(movedTip[0]).toBeCloseTo(unfurled[0], 4);
-      expect(Math.abs(movedTip[tip] - unfurled[tip])).toBeGreaterThan(15);
-    }
-  });
-
-  it('keeps the speed blades beyond the central card and title, then extinguishes them', () => {
-    const { skeleton, pose, vertices } = load(true);
-    const blades = skeleton.slots.filter(slot => slot.data.name.startsWith('blade'));
-    expect(blades.length).toBeGreaterThan(8);
-    for (const time of [.12, .22, .4, .55]) {
-      pose(time);
-      for (const slot of blades) {
-        const points = vertices(slot.data.name);
-        for (let i = 0; i < points.length; i += 2) {
-          const x = points[i], y = points[i + 1];
-          expect(Math.abs(x) > 275 || y < -125 || y > 490, `${slot.data.name}: ${x},${y}`).toBe(true);
-        }
-        if (time === .55) expect(slot.color.a).toBeCloseTo(0, 6);
-      }
-    }
-  });
+  it('uses celebration pieces without surrounding ribbons or speed-line blades',()=>{const {skeleton}=load(true);expect(skeleton.slots.some(s=>/ribbon|blade/.test(s.data.name))).toBe(false);});
 });

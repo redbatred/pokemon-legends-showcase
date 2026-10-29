@@ -30,3 +30,5 @@ it('keeps Auto Spin count, mode and start hit areas separate in landscape and po
   expect(l.infoY+16).toBeLessThan(l.start.y);
  }
 });
+
+it('keeps the short landscape guide clear of its footer',()=>{const f=modalLayout(720,320,'about');expect(f.height).toBe(320);expect(240).toBeLessThan(f.height-73);});

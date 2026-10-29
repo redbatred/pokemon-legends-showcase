@@ -1,0 +1,2 @@
+import {expect,it} from 'vitest';import {settingsLayout} from './settingsLayout';
+it('keeps drawer controls clear of each other and inside every supported viewport',()=>{for(const [w,h] of [[320,480],[390,500],[320,568],[390,780],[568,320],[844,390],[1280,780]]){const l=settingsLayout(w,h);expect(l.x).toBeGreaterThan(0);expect(l.y).toBeGreaterThan(0);expect(l.rowHeight).toBeGreaterThanOrEqual(44);expect(l.bodyY+3*(l.rowHeight+l.gap)-l.gap).toBeLessThan(l.y+l.height-18);expect(l.actionsY+(l.compact?178:142)).toBeLessThan(l.y+l.height-6);}});
