@@ -31,10 +31,10 @@ export function gameLayout(width:number,height:number,opening=false) {
 }
 
 export function revealControlsLayout(width:number,height:number){
- const l=gameLayout(width,height,true),space=(width-l.stageWidth)/2;
- if(l.compact){const y=l.dockTop-54;return {next:{x:space/2,y,size:56},all:{x:width-space/2,y,size:54}};}
- if(l.sideControls){const y=Math.max(304,l.worldY+24);return {next:{x:space/2,y,size:78},all:{x:width-space/2,y,size:70}};}
- return {next:{x:56,y:l.dockTop-66,size:76},all:{x:width-56,y:l.dockTop-66,size:70}};
+ const l=gameLayout(width,height,true),y=l.worldY-8*l.scale,size=l.compact||width<360?80:l.sideControls?132:96,allSize=l.compact||width<360?72:l.sideControls?106:84;
+ const nextX=l.compact?width-66:Math.min(width-size/2-10,width/2+156*l.scale+size/2+14);
+ const allX=l.compact?66:Math.max(allSize/2+10,width/2-156*l.scale-allSize/2-20);
+ return {next:{x:nextX,y,size},all:{x:allX,y,size:allSize}};
 }
 
 /** Card-local floor, including its settled -8px lift; a little forward of the centre emblem. */

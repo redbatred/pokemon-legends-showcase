@@ -90,7 +90,7 @@ export class PokemonGame {
       }else if(phase==='settling'){
         const id=this.save?.active?.id;if(!id)throw new Error('Opening changed. Reload to sync your game.');
         this.save=await this.persistence.transactSave(s=>settleOpening(s,id));if(!valid())return;
-        this.resultId=id;this.autoRun?.record(id);this.stage.showResult();this.actor.send({type:'SETTLED'});playSound('complete');
+        this.resultId=id;this.autoRun?.record(id);this.stage.showResult();this.actor.send({type:'SETTLED'});if(this.autoRun?.running||this.reduced)playSound('complete');
       }
     }catch(e){
       if(!valid())return;

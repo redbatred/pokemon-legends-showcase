@@ -11,11 +11,11 @@ it('holds on the stone, flies continuously and lands exactly on the total',()=>{
  expect(winFlightPose(start,a,b)).toMatchObject({...a,progress:0});expect(winFlightPose(end,a,b)).toMatchObject({...b,done:true});
  for(const at of [start,end]){const before=winFlightPose(at-.00001,a,b),after=winFlightPose(at+.00001,a,b);expect(Math.hypot(after.x-before.x,after.y-before.y)).toBeLessThan(.001);}
 });
-it('places the total above desktop actions and centrally below the mobile stage without collisions',()=>{
+it('keeps the total readable and clear of the centered reveal controls',()=>{
  for(const [w,h] of [[320,480],[360,540],[390,780],[430,932],[568,320],[844,390],[900,550],[1280,600],[1280,720],[1920,1080]]){
   const l=gameLayout(w,h,true),c=revealControlsLayout(w,h),v=totalWinLayout(w,h);
-  expect(v.x-v.width/2).toBeGreaterThan(0);expect(v.x+v.width/2).toBeLessThan(w);expect(v.labelY).toBeGreaterThan(l.compact?80:l.sideControls?122:l.stageFront+30);expect(v.y+v.size/2).toBeLessThan(l.dockTop-4);
-  if(l.sideControls)expect(v.y+v.size/2+8).toBeLessThan(c.next.y-c.next.size/2);else{expect(v.x).toBe(w/2);expect(v.x-v.width/2).toBeGreaterThan(c.next.x+c.next.size/2+5);expect(v.x+v.width/2).toBeLessThan(c.all.x-c.all.size/2-5);}
+  expect(v.x-v.width/2).toBeGreaterThan(0);expect(v.x+v.width/2).toBeLessThan(w);expect(v.labelY).toBeGreaterThan(54);expect(v.y+v.size/2).toBeLessThan(l.dockTop-4);
+  for(const button of [c.next,c.all])expect(v.y+v.size/2+4<button.y-button.size/2||v.labelY>button.y+button.size/2+26||v.x+v.width/2<button.x-button.size/2-4||v.x-v.width/2>button.x+button.size/2+4,`${w}x${h}`).toBe(true);
  }
 });
 

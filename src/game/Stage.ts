@@ -10,6 +10,7 @@ import { gameLayout, renderResolution, cardTrayLayout, performanceFloor } from '
 import { loadPackTexture } from './packTexture';
 import type { SpineReveal } from './SpineReveal';
 import {PackOpening} from './PackOpening';
+import {PackCutCue} from './PackCutCue';
 import {RevealCompletion} from './revealCompletion';
 import {revealSuspense} from './revealSuspense';
 import {PACK_CLEARANCE_TIME,PACK_TEAR_LIMIT} from './packTearGeometry';
@@ -46,7 +47,8 @@ export class OpeningStage {
   private special:SpineReveal|null=null;private charging=false;private disposeSpecialResources:(()=>void)|null=null;
   particles: Particle[] = [];
   mode: 'pack' | 'sealed' | 'tearing' | 'waiting' | 'card' | 'result' = 'pack';
-  time = 0;
+  time = 0;openingUiTime:number|null=null;
+  get isOpeningJourney(){return this.travelling;}
   destroyed = false;
   private observer!: ResizeObserver;
   private timeline: gsap.core.Timeline | null = null;
@@ -64,7 +66,8 @@ export class OpeningStage {
   private previousTease=false;private cardHoverReady=false;private revealCompletion=new RevealCompletion();
   private dragProgress = 0;
   private dragStart: number | null = null;
-  private resetPointer=()=>{this.target.x=0;this.target.y=0;};
+  private cutCue:PackCutCue|null=null;private packHovered=false;private coarsePointer=matchMedia('(pointer: coarse)').matches;
+  private resetPointer=()=>{this.target.x=0;this.target.y=0;this.packHovered=false;};
   private tearLine = new Graphics();
   private shadows = new Sprite();
   private packShadow = new Container();
@@ -117,7 +120,7 @@ export class OpeningStage {
     this.packMesh = new PerspectiveMesh({ texture: packTexture, verticesX: 4, verticesY: 6 });
     // Wrapper highlights are baked into the source; avoid a full filter pass every frame.
     this.packMesh.filters = [];
-    this.pack.addChild(this.packMesh);
+    this.cutCue=new PackCutCue();this.pack.addChild(this.cutCue.back,this.packMesh,this.cutCue.front);
     this.pack.addChild(this.tearLine);
     this.pack.eventMode = 'static'; this.pack.cursor = 'pointer';
     this.pack.hitArea = new Rectangle(-150, -235, 300, 470);
@@ -128,13 +131,10 @@ export class OpeningStage {
       if(this.blocked)return;
       const wrapper=this.mode==='pack'||this.mode==='sealed';
       const parent=wrapper?this.pack:this.cardLayer,p=parent.toLocal(e.global),pose=cardHover(p.x,p.y,wrapper?230:312,wrapper?421:435,e.pointerType==='mouse'&&(wrapper||this.cardHoverReady));
-      this.target.x=pose.x;this.target.y=pose.y;
+      this.target.x=pose.x;this.target.y=pose.y;this.packHovered=wrapper&&Math.abs(p.x)<160&&Math.abs(p.y)<235;
       if (this.dragStart !== null && this.mode === 'sealed') {
         const progress = Math.min(1, Math.abs(e.global.x - this.dragStart) / (230 * this.world.scale.x * .72));
         this.dragProgress = progress;
-        this.tearLine.clear().moveTo(-115, -168);
-        for (let i = 0; i <= Math.floor(progress * 46); i++) this.tearLine.lineTo(-115+i*5, -168+(i%2?1.8:-1.8));
-        this.tearLine.stroke({ width: 1.3, color: 0xe7e2d9, alpha: .9 });
         if (progress >= 1) { this.dragStart = null; this.options.onTear(); }
       }
     });
@@ -214,7 +214,7 @@ export class OpeningStage {
       if(!this.sampleStart)this.sampleStart=now;
       else if(++this.sampleFrames>=120){this.app.canvas.dataset.renderFps=(1000*this.sampleFrames/(now-this.sampleStart)).toFixed(1);this.app.canvas.dataset.lightTint='#'+this.scene.lightTint.toString(16).padStart(6,'0');this.sampleStart=now;this.sampleFrames=0;}
     }
-    this.time += dt;
+    this.time += dt;if(this.openingUiTime!==null&&this.mode!=='tearing')this.openingUiTime=Math.min(PACK_ARRIVAL_TIME+.25,this.openingUiTime+dt*(this.options.turbo?4:1));
     if(!this.options.reduced)this.special?.update(dt*(this.options.turbo?4:1));
     this.scene.tick(this.time,this.options.reduced,this.options.low);
     const move = !this.options.reduced;
@@ -222,6 +222,7 @@ export class OpeningStage {
     this.tilt.y += ((move ? this.target.y : 0) - this.tilt.y) * Math.min(1, dt * 5);
     if ((this.mode === 'pack' || this.mode === 'sealed') && this.packMesh) {
       this.project(this.packMesh, 230, 421);
+      this.cutCue?.update(dt,this.time,this.tilt.x*.32,-this.tilt.y*.19,this.mode==='sealed'&&(this.packHovered||this.coarsePointer||this.dragStart!==null),this.options.reduced,this.dragProgress);
       this.pack.y = move ? Math.sin(this.time * .8) * 7 - 8 : -8;
       this.pack.rotation = -.055 + this.tilt.x * .045 + this.dragProgress * .045;
       this.pack.scale.set(1 + this.dragProgress*.025, 1-this.dragProgress*.016);
@@ -261,13 +262,13 @@ export class OpeningStage {
     this.packOpening.destroy();this.packOpening=null;
   }
   async tear(): Promise<void> {
-    this.clearPackOpening();this.openingCard?.destroy();this.openingCard=new PerspectiveMesh({texture:this.back,verticesX:4,verticesY:6});this.openingCard.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);this.stack.addChild(this.openingCard);this.mode='tearing';this.dragStart=null;this.dragProgress=0;this.tearLine.clear();
+    this.openingUiTime=0;this.cutCue?.hide();this.clearPackOpening();this.openingCard?.destroy();this.openingCard=new PerspectiveMesh({texture:this.back,verticesX:4,verticesY:6});this.openingCard.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);this.stack.addChild(this.openingCard);this.mode='tearing';this.dragStart=null;this.dragProgress=0;this.tearLine.clear();
     const opening=new PackOpening(this.packMesh.texture);this.packOpening=opening;opening.root.visible=false;this.pack.addChild(opening.root);
     const projection={yaw:this.tilt.x*.32,pitch:-this.tilt.y*.19};this.target.x=this.target.y=0;
     const align=()=>{const a:number[]=[];for(const [x,y] of [[-115,-210.5],[115,-210.5],[115,210.5],[-115,210.5]]){const depth=700/(700-x*Math.sin(projection.yaw)+y*Math.sin(projection.pitch));a.push(x*Math.cos(projection.yaw)*depth,y*Math.cos(projection.pitch)*depth);}this.packMesh.setCorners(a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]);};
     const s=opening.state,d=this.options.reduced?.008:1,travel={amount:0},transport={time:PACK_EXTRACTION_START};
     return new Promise(resolve=>{
-      this.timeline=gsap.timeline({onUpdate:()=>opening.update(),onComplete:()=>{this.pack.visible=false;this.packShadow.visible=false;this.journey=null;this.clearPackOpening();resolve();}});
+      this.timeline=gsap.timeline({onUpdate:()=>{opening.update();this.openingUiTime=(this.timeline?.time()??0)/d;},onComplete:()=>{this.pack.visible=false;this.packShadow.visible=false;this.journey=null;this.clearPackOpening();resolve();}});
       this.timeline.to(projection,{yaw:0,pitch:0,duration:.18*d,ease:'power2.out',onUpdate:align},0)
         .to(this.pack,{rotation:0,x:0,y:0,duration:.18*d,ease:'power2.out'},0)
         .to(this.pack.scale,{x:1,y:1,duration:.18*d},0)
@@ -287,7 +288,7 @@ export class OpeningStage {
         .to(s,{pull:1,duration:.19*d,ease:'power2.out'},1.16*d)
         .call(()=>playSound('packrustle',{gain:.65}),[],1.18*d)
         .to(opening.bodyRoot,{y:230,duration:.54*d,ease:'power2.inOut'},1.22*d)
-        .call(()=>{this.world.addChildAt(this.stack,2);this.travelling=true;this.journey=travel;this.openingLayout=true;this.resize();this.scene.arrive(this.options.reduced);playSound('flip',{gain:.38});},[],PACK_CLEARANCE_TIME*d)
+        .call(()=>{this.world.addChildAt(this.stack,2);this.travelling=true;this.openingUiTime=PACK_CLEARANCE_TIME;this.journey=travel;this.openingLayout=true;this.resize();this.scene.arrive(this.options.reduced);playSound('flip',{gain:.38});},[],PACK_CLEARANCE_TIME*d)
         .to(s,{crumple:1,tension:0,duration:.4*d,ease:'power2.out'},PACK_CLEARANCE_TIME*d)
         .to(opening.bodyRoot,{x:35,y:570,rotation:.24,alpha:0,duration:.49*d,ease:'power2.in'},PACK_CLEARANCE_TIME*d)
         .to(this.packShadow,{alpha:0,duration:.38*d},PACK_CLEARANCE_TIME*d)
@@ -362,6 +363,7 @@ export class OpeningStage {
         .to(this.motion,{flip:Math.PI/2,offsetX:15,roll:.035,duration:.24*d,ease:'power2.in'},turn*d)
         .call(()=>{next.texture=texture;next.filters=this.options.low?[]:[this.foil];this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=foilStrength(card.rarity,card.value)*(this.options.low?.55:1);const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(dramatic?'slam':rare?'rare':'reveal');this.charging=false;this.revealEffects.fire(color!,rare,this.options.reduced,this.options.low);this.scene.setCardColor(color!,this.options.reduced);this.scene.impact(rare,this.options.reduced);},[],(turn+.24)*d)
         .to(this.motion,{flip:0,offsetX:0,lift:-8,roll:0,pitch:0,scale:1,duration:.43*d,ease:'back.out(1.08)'},(turn+.24)*d)
+        .call(()=>{if(!dramatic&&!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);},[],(turn+.42)*d)
         .to(this.foil.resources.foil.uniforms,{uSweep:.8,duration:.46*d,ease:'sine.inOut'},(turn+.28)*d)
         .to(this.foil.resources.foil.uniforms,{uSweep:0,duration:.24*d,ease:'sine.out'},(turn+.74)*d);
       this.revealCompletion.bind(this.timeline,()=>{
@@ -428,7 +430,7 @@ export class OpeningStage {
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }
   reset() {
-    this.revealCompletion.end();this.previousTease=false;
+    this.openingUiTime=null;this.cutCue?.hide();this.revealCompletion.end();this.previousTease=false;
     this.discardPrepared();this.cardHoverReady=false;this.resetPointer();this.openingCard?.destroy();this.openingCard=null;this.travelling=false;this.journey=null;this.scene.endCelebration();this.scene.setCinematic(false,this.options.reduced);
     this.revealEffects.clear();this.charging=false;this.scene.setCharge(null);this.timeline?.kill();this.timeline=null;this.clearPackOpening();stopRevealAudio();
     this.special?.destroy();this.special=null;++this.revealToken;

@@ -1,5 +1,7 @@
+import {packResultsFrame} from './packResultsLayout';
 import {gameLayout,revealControlsLayout} from './rendering';
 export function modalLayout(w:number,h:number,kind:string){
+ if(kind==='results')return packResultsFrame(w,h);
  const inset=w<700||kind==='auto'&&h<480?0:24,max=kind==='history'?760:kind==='about'?680:kind==='auto'?560:kind==='inspect'?980:1040;
  const width=Math.min(w-inset*2,max),height=Math.min(h-inset*2,kind==='auto'?570:800);
  return {x:(w-width)/2,y:(h-height)/2,width,height};
@@ -16,10 +18,11 @@ export function creditLayout(w:number,h:number){
 
 /** Fixed destination for the card reward, separate from the card tray. */
 export function totalWinLayout(w:number,h:number){
- const l=gameLayout(w,h,true),controls=revealControlsLayout(w,h),space=(w-l.stageWidth)/2;
- if(l.compact){const x=controls.all.x,y=Math.max(111,controls.all.y-controls.all.size/2-28);return {x,y,size:22,width:Math.min(150,space-24),labelY:y-27};}
- if(l.sideControls){const y=controls.next.y-controls.next.size/2-34,size=l.short?28:34;return {x:controls.next.x,y,size,width:Math.min(210,space-26),labelY:y-size*.5-17};}
- const y=l.dockTop-54;return {x:w/2,y,size:30,width:Math.max(60,w-228),labelY:y-30};
+ const l=gameLayout(w,h,true),controls=revealControlsLayout(w,h);
+ if(l.compact)return {x:66,y:74,size:18,width:120,labelY:55};
+ if(l.sideControls&&l.short)return {x:w-94,y:176,size:26,width:150,labelY:149};
+ if(l.sideControls){const y=controls.next.y-controls.next.size/2-34;return {x:controls.next.x,y,size:32,width:190,labelY:y-31};}
+ const y=l.dockTop-(l.short?26:54);return {x:w/2,y,size:l.short?26:30,width:Math.max(60,w-160),labelY:y-(l.short?27:30)};
 }
 
 /** Landscape has separate count and mode columns, keeping purchase controls isolated. */

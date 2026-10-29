@@ -1,3 +1,4 @@
+import {pokemonFrameSpan} from './pokemonPresentation';
 import {Assets,Container,Sprite,Texture} from 'pixi.js';
 import type {PowerProfile} from './powerProfiles';
 import type {ProjectedEmitter} from './moveRig';
@@ -10,8 +11,8 @@ export class PokemonActor extends Container {
   let model:PokemonModel|null=null;try{model=await createPokemonModel(path,low);}catch(error){console.warn('Animated model unavailable',error);}
   const texture=model?.texture??await Assets.load<Texture>(path);return new PokemonActor(texture,model,path);
  }
- private constructor(texture:Texture,model:PokemonModel|null,path:string){super();this.model=model;this.portrait=new Sprite(texture);this.portrait.anchor.set(.5);const span=model?(path.endsWith('/mewtwo.png')?560:470):310;this.preferredSpan=span;const ratio=texture.width/texture.height;this.portrait.width=ratio>=1?span:span*ratio;this.portrait.height=ratio>=1?span/ratio:span;if(model){this.portrait.y=154-model.groundY*this.portrait.height/2;this.portrait.x=-model.horizontalAnchor*this.portrait.width/2;}this.addChild(this.portrait);}
- fitPresentation(halfWidth:number){if(!this.model)return;const span=Math.min(this.preferredSpan,Math.max(160,halfWidth-30)/(.5+Math.abs(this.model.horizontalAnchor)*.5));this.portrait.width=this.portrait.height=span;this.portrait.x=-this.model.horizontalAnchor*span/2;this.portrait.y=154-this.model.groundY*span/2;}
+ private constructor(texture:Texture,model:PokemonModel|null,_path:string){super();this.model=model;this.portrait=new Sprite(texture);this.portrait.anchor.set(.5);const span=model?pokemonFrameSpan(model.bodyHeight,model.frameWidth,model.horizontalAnchor,900):435;this.preferredSpan=span;const ratio=texture.width/texture.height;this.portrait.width=ratio>=1?span:span*ratio;this.portrait.height=ratio>=1?span/ratio:span;if(model){this.portrait.y=154-model.groundY*this.portrait.height/2;this.portrait.x=-model.horizontalAnchor*this.portrait.width/2;}this.addChild(this.portrait);}
+ fitPresentation(halfWidth:number){if(!this.model)return;const span=Math.min(this.preferredSpan,pokemonFrameSpan(this.model.bodyHeight,this.model.frameWidth,this.model.horizontalAnchor,halfWidth));this.portrait.width=this.portrait.height=span;this.portrait.x=-this.model.horizontalAnchor*span/2;this.portrait.y=154-this.model.groundY*span/2;}
  get entranceDuration(){return this.model?.entranceDuration??.68;}
  get attackDuration(){return this.model?.attackDuration??.9;}
  get recoveryDuration(){return this.model?.recoveryDuration??.35;}

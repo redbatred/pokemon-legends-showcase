@@ -7,6 +7,7 @@ import {AnimeAtmosphere} from './AnimeAtmosphere';
 import { StageLightRig } from './StageLightRig';
 import {StadiumFloodlights} from './StadiumFloodlights';
 import {projectFloodlights} from './floodlightGeometry';
+import type {ArenaBoardState} from './stadiumDisplayGeometry';
 import {crowdAnimationLevel,type CrowdLevel} from './crowdReaction';
 
 /** Only emitter pixels are neutralized; stadium paint and platform shadows keep their original colors. */
@@ -39,6 +40,7 @@ export class CanvasScene {
     this.platform.width=width;this.platform.height=width/2*flatten;this.platform.position.set(w/2,y);this.lights?.resize(w/2,y,width,flatten);if(this.contact){this.contact.position.set(w/2,y+width*.13);this.contact.width=width*.93;this.contact.height=width*.13;}
     this.tick(this.lastTime,this.lastReduced,this.lastLow);
   }
+  setBoard(state:ArenaBoardState){this.background?.setBoard(state);}
   setActive(active:boolean,reduced:boolean){
     if(!active){this.setCinematic(false,reduced);this.endCelebration();this.travelTween?.kill();this.cinema.travel=0;this.impactTween?.kill();this.impactState.amount=0;}if(active===this.active)return;this.active=active;this.chargeLevel=-1;this.animation?.kill();this.arena.visible=active;
     if(active){playSound('stage');this.entrance.amount=reduced?1:0;this.animation=gsap.to(this.entrance,{amount:1,duration:reduced?.01:.8,ease:'power3.out',paused:this.paused});}

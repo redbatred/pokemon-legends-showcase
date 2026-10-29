@@ -34,7 +34,7 @@ export async function createPokemonModel(path:string,low:boolean){
  }finally{inflight--;if(!inflight&&releaseDecoder)disposeDecoder();}
 }
 export class PokemonModel {
- readonly texture:PixiTexture;readonly groundY:number;readonly horizontalAnchor:number;private canvas=document.createElement('canvas');private context:CanvasRenderingContext2D;
+ readonly texture:PixiTexture;readonly groundY:number;readonly horizontalAnchor:number;readonly bodyHeight:number;readonly frameWidth:number;private canvas=document.createElement('canvas');private context:CanvasRenderingContext2D;
  private scene=new Scene();private camera=new OrthographicCamera(-1,1,1,-1,.01,100);private mixer:AnimationMixer;private attackLight=new DirectionalLight(0x8fdcff,0);
  private current:AnimationAction|null=null;private clips:Map<string,AnimationAction>;private elapsed=0;private size:number;private stopped=false;private charging=false;private emerging=false;private entranceClock=0;private attackClock=0;private sourceClock=0;private low=false;private renderCost=0;
  private poses=new Map<string,Matrix4>();private bones:Object3D[]=[];private bodySpan=1;private tip=new Vector3();private forward=new Vector3();private fallback=new Vector3();private head:Object3D|undefined;private torso:Object3D|undefined;private gradient:DataTexture;private originalMaterials=new Set<Material>();private toonMaterials=new Set<Material>();private textures=new Set<Texture>();
@@ -52,7 +52,7 @@ export class PokemonModel {
   const performance=performanceProfile(stem),yaw=performance.cameraYaw*Math.PI/180,elevation=performance.cameraElevation*Math.PI/180,view=new Vector3(Math.sin(yaw)*Math.cos(elevation),Math.sin(elevation),Math.cos(yaw)*Math.cos(elevation));
   const bounds=new Box3().setFromObject(model,true),idleBounds=bounds.clone(),right=new Vector3(view.z,0,-view.x).normalize(),up=view.clone().cross(right).normalize(),vertex=new Vector3();
   let left=Infinity,rightEdge=-Infinity,bottom=Infinity,top=-Infinity;
-  const includePose=()=>{model.traverse(o=>{if(!(o instanceof Mesh)||o.renderOrder===-1)return;const positions=o.geometry.getAttribute('position');if(!positions)return;for(let i=0;i<positions.count;i++){o.getVertexPosition(i,vertex).applyMatrix4(o.matrixWorld);const x=vertex.dot(right),y=vertex.dot(up);left=Math.min(left,x);rightEdge=Math.max(rightEdge,x);bottom=Math.min(bottom,y);top=Math.max(top,y);}});};includePose();
+  const includePose=()=>{model.traverse(o=>{if(!(o instanceof Mesh)||o.renderOrder===-1)return;const positions=o.geometry.getAttribute('position');if(!positions)return;for(let i=0;i<positions.count;i++){o.getVertexPosition(i,vertex).applyMatrix4(o.matrixWorld);const x=vertex.dot(right),y=vertex.dot(up);left=Math.min(left,x);rightEdge=Math.max(rightEdge,x);bottom=Math.min(bottom,y);top=Math.max(top,y);}});};includePose();const idleHeight=top-bottom;
   const rig=moveRigs[this.stem],attackAction=this.clips.get(this.entry.attack??this.entry.runtime?.attack??'');
   if(attackAction){
    const original=this.current;original?.stop();attackAction.reset().setLoop(LoopOnce,1).play();attackAction.clampWhenFinished=true;
@@ -65,7 +65,7 @@ export class PokemonModel {
   if(entranceAction){this.current?.stop();entranceAction.reset().setLoop(LoopOnce,1).play();const start=this.entry.enterStart??0,end=this.entry.enterEnd??entranceAction.getClip().duration;for(let i=0;i<=8;i++){entranceAction.time=start+(end-start)*i/8;this.mixer.update(0);model.updateMatrixWorld(true);includePose();}entranceAction.stop();this.current=null;this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);}
   const center=bounds.getCenter(new Vector3()),size=bounds.getSize(new Vector3());
   center.addScaledVector(right,(left+rightEdge)/2-center.dot(right)).addScaledVector(up,(bottom+top)/2-center.dot(up));
-  const span=Math.max(rightEdge-left,top-bottom,.1)*1.10;this.camera.left=this.camera.bottom=-span/2;this.camera.right=this.camera.top=span/2;
+  const span=Math.max(rightEdge-left,top-bottom,.1)*1.10;this.bodyHeight=idleHeight/span;this.frameWidth=(rightEdge-left)/span;this.camera.left=this.camera.bottom=-span/2;this.camera.right=this.camera.top=span/2;
   this.camera.position.copy(center).addScaledVector(view,span*2);this.camera.lookAt(center);this.camera.updateProjectionMatrix();this.camera.updateMatrixWorld(true);
   // A real oblique light catches the moving silhouette during the charge and attack.
   // It lights model normals instead of tinting the entire character sprite.

@@ -38,5 +38,21 @@ export function buildBallFxRigJson(low=false){
   releaseBones[n]={translate:[{x:side*8,y:10},{time:delay,x:side*8,y:10},{time:delay+.4,x:side*(50+i*8),y:70+i*17},{time:1.2,x:side*(65+i*8),y:95+i*17}],scale:[{x:0,y:0},{time:delay,x:0,y:0},{time:delay+.1,x:1,y:1},{time:delay+.55,x:0,y:0}],rotate:[{value:0},{time:1.2,value:150}]};releaseSlots[n]={alpha:[{value:0},{time:delay,value:0},{time:delay+.1,value:.8},{time:delay+.55,value:0},{time:1.2,value:0}]};
  }
  add('openingCore','core',118,118,0,4,0,'efffff');releaseBones.openingCore={scale:[{x:.1,y:.1},{time:.08,x:1.4,y:.8},{time:.4,x:.5,y:.3},{time:.65,x:0,y:0}]};releaseSlots.openingCore={alpha:[{value:0},{time:.035,value:.85},{time:.3,value:.25},{time:.65,value:0},{time:1.2,value:0}]};
- return {skeleton:{spine:'4.2.22'},bones,slots,skins:[{name:'default',attachments}],animations:{flight:{bones:flightBones,slots:flightSlots},release:{bones:releaseBones,slots:releaseSlots}}};
+ const formBones:Record<string,Motion>={},formSlots:Record<string,{alpha:Key[]}>={},conduitBones:Record<string,Motion>={},conduitSlots:Record<string,{alpha:Key[]}>= {};
+ for(let i=0;i<(low?3:5);i++){
+  const n='halo'+i,side=i%2?1:-1;add(n,'arc',280+i%3*55,360+i%2*65,0,8-i*14,i*58,'c3f6ff');
+  formBones[n]={rotate:[{value:-side*35},{time:.65,value:side*95},{time:1.4,value:side*175}],scale:[{x:.2,y:.35},{time:.22,x:.85,y:.8},{time:.62,x:1.12,y:1.08},{time:1.4,x:1.4,y:1.35}],translate:[{x:side*7,y:-42},{time:.65,x:side*18,y:32},{time:1.4,x:side*38,y:94}]};
+  formSlots[n]={alpha:[{value:0},{time:.10,value:.85},{time:.5,value:.65},{time:1.15,value:0},{time:1.4,value:0}]};
+ }
+ for(let i=0;i<(low?6:12);i++){
+  const n='formSpark'+i,a=i*Math.PI*2/(low?6:12);add(n,i%3?'beam':'star',i%3?90:20,i%3?6:36,Math.cos(a)*90,Math.sin(a)*120,a*180/Math.PI,'e3fdff');
+  formBones[n]={translate:[{x:0,y:0},{time:.6,x:Math.cos(a)*100,y:Math.sin(a)*130},{time:1.4,x:Math.cos(a)*155,y:Math.sin(a)*170}],scale:[{x:0,y:0},{time:.16+i*.02,x:1,y:1},{time:.8+i*.02,x:.3,y:.1},{time:1.4,x:0,y:0}]};
+  formSlots[n]={alpha:[{value:0},{time:.12+i*.02,value:.9},{time:.65+i*.02,value:.3},{time:1.4,value:0}]};
+ }
+ for(let i=0;i<5;i++){
+  const n='conduit'+i,side=i-2;add(n,'beam',240,6+Math.abs(side)*2,120,side*3,side*1.6,i%2?'92e5ff':'ecffff');
+  conduitBones[n]={scale:[{x:.3,y:.1},{time:.14,x:1,y:1.6},{time:.55,x:1,y:1},{time:1.2,x:1,y:0}],translate:[{x:0,y:side*2},{time:.3,x:0,y:-side*4},{time:.6,x:0,y:side*3},{time:1.2,x:0,y:0}]};
+  conduitSlots[n]={alpha:[{value:0},{time:.08,value:.8},{time:.65,value:.65},{time:1.2,value:0}]};
+ }
+ return {skeleton:{spine:'4.2.22'},bones,slots,skins:[{name:'default',attachments}],animations:{flight:{bones:flightBones,slots:flightSlots},release:{bones:releaseBones,slots:releaseSlots},form:{bones:formBones,slots:formSlots},conduit:{bones:conduitBones,slots:conduitSlots}}};
 }
