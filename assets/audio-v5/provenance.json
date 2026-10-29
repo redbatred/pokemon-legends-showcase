@@ -1,0 +1,250 @@
+{
+  "description": "Three exact Pok\u00e9mon GO move recordings with their natural envelopes retained. No duplicate generic charge files added.",
+  "repository": {
+    "url": "https://github.com/PokeMiners/pogo_assets",
+    "commit": "c2a686eb08ace6e890d8fe3d2134c76988db87b5",
+    "readme": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/README.md",
+    "claim": "PokeMiners identifies these as mined Pok\u00e9mon GO files, unmodified by the repository, and attributes their copyright to The Pok\u00e9mon Company and Niantic.",
+    "verification": "Each source SHA-256 and Git blob SHA-1 is pinned in the script and checked before encoding. Blob identifiers were compared with the source repository tree."
+  },
+  "rights": "Used under the user's stated Pok\u00e9mon license. The source is a public datamining repository, not a rights-holder delivery service. No open-license assertion, login, DRM bypass or region bypass.",
+  "reproduce": "python3 scripts/fetch-move-audio-v5.py; requires Python 3, curl, ffmpeg and ffprobe. Optional ASSET_FFMPEG and ASSET_FFPROBE. Downloads only three pinned WAVs and writes only audio-v5.",
+  "mixing": "Manifest gain is BEFORE the existing 0.5 Pok\u00e9mon-effects multiplier. Effective gains are 0.16 Hydro Pump, 0.14 Water Pulse, 0.14 Psystrike. Preserve that multiplier; do not compensate for the longer envelope by increasing volume. Spatialize the mono voice in runtime. One voice per move; no repeated ring/particle triggers. Fade a scene-owned voice for 180 ms if a shorter visual ends early.",
+  "selection": "Hydro Pump replaces Water Gun for Blastoise and Gyarados; Water Pulse replaces Water Gun for Vaporeon; Psystrike is specific to Mewtwo. No separate named electric/fire/psychic preparation clips were found. Charge Beam and Flame Charge exist as different moves, but were deliberately not repurposed as universal species charges. Use a matching move's own onset; reserve Solar Beam for an actual Solar Beam sequence.",
+  "limitations": "All three original recordings are mono 11.025 kHz. Resampling does not add source detail. Source filenames identify moves; source-to-species routing is a creative integration choice. No human audition or retail gameplay comparison is claimed. Timing landmarks come from waveform energy, not from official engine event metadata. The second Psystrike phrase may be sought independently for a compact release, without exporting a duplicate asset.",
+  "validation": "Each output decodes using ffmpeg -xerror, has finite samples, duration within 3 ms of expected, four-times-oversampled peak within 0.4 dB of -6 dBFS and final sample below -65 dBFS. Output and original hashes recorded. Full audio-v5 folder must remain below 500000 bytes.",
+  "effects": {
+    "hydropump": {
+      "sourceSound": "Hydro Pump",
+      "species": [
+        "blastoise",
+        "gyarados"
+      ],
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v5/hydropump.mp3",
+          "duration": 4.135805,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 1,
+          "decodedDuration": 4.135813,
+          "peakDbfs": -6.058,
+          "oversampledPeakDbfs": -5.996,
+          "rmsDbfs": -19.078,
+          "lastSampleDbfs": -180.0,
+          "bytes": 84159,
+          "sha256": "39477f94ebae232b6aaf79badcec80560ce8362a78b48e9b7f45fb05de1f7f37"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v5/hydropump.ogg",
+          "duration": 4.142292,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 1,
+          "decodedDuration": 4.135792,
+          "peakDbfs": -5.782,
+          "oversampledPeakDbfs": -5.762,
+          "rmsDbfs": -19.065,
+          "lastSampleDbfs": -131.977,
+          "bytes": 47453,
+          "sha256": "48966540a057e9ad861a1a0c551402065509b08d12100bc26e90465adc736a78"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/056-0_hydro_pump.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/056-0_hydro_pump.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/056-0_hydro_pump.wav",
+        "duration": 4.115737,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "bytes": 90796,
+        "sha256": "08b0acac603cfa655bfcea3ae1670ed1a80de2d09cac66aa7f6a0241da5ded29",
+        "gitBlobSha1": "f238952575d801aee6673bd63376951583694928"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "sourceDurationKept": 4.11575,
+        "duration": 4.13575,
+        "attackFade": 0.002,
+        "decay": 0.06,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "Whole original source retained at original speed and pitch. 35 Hz DC removal, 2 ms edge fade, last 60 ms of the already quiet natural tail faded, and 20 ms silent codec guard. Original mono channel count retained; no layers, synthesized tones, added reverb, sustain deletion or time stretching. Resampling is for codec compatibility only."
+      },
+      "recommendedPlaybackGain": 0.32,
+      "runtimePokemonMultiplier": 0.5,
+      "effectivePlaybackGain": 0.16,
+      "timing": {
+        "startOffset": 0,
+        "preRoll": 0.24,
+        "releaseAt": 0.24,
+        "activeEnd": 2.7,
+        "naturalTailStart": 2.8,
+        "strongest20msWindowAt": 0.96,
+        "notes": "The original water onset grows over its first ~350 ms. Begin at anticipation, release the jet 240 ms later, sustain through ~2.7 s, then let the existing decaying tail finish.",
+        "playbackDuration": 4.13575,
+        "earlyStopFade": 0.18,
+        "basis": "20 ms and 100 ms RMS envelope analysis; release alignment is an editorial recommendation, not an official animation event timestamp or a human audition."
+      }
+    },
+    "waterpulse": {
+      "sourceSound": "Water Pulse",
+      "species": [
+        "vaporeon"
+      ],
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v5/waterpulse.mp3",
+          "duration": 3.700431,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 1,
+          "decodedDuration": 3.700438,
+          "peakDbfs": -6.082,
+          "oversampledPeakDbfs": -6.01,
+          "rmsDbfs": -21.587,
+          "lastSampleDbfs": -163.556,
+          "bytes": 75277,
+          "sha256": "1f5088992375a579f9905629f9dbed42bc0fb22fc6f06cf1dd9f8846bf2a0855"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v5/waterpulse.ogg",
+          "duration": 3.706917,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 1,
+          "decodedDuration": 3.700417,
+          "peakDbfs": -5.906,
+          "oversampledPeakDbfs": -5.872,
+          "rmsDbfs": -21.579,
+          "lastSampleDbfs": -125.165,
+          "bytes": 40861,
+          "sha256": "4f035222b6931252cdc460f3da05e1b53e46a6a11d9b0e253ef8e5bca62320a8"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/352-0_water_pulse.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/352-0_water_pulse.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/352-0_water_pulse.wav",
+        "duration": 3.680363,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "bytes": 81196,
+        "sha256": "798fbe0dc86431cac900077590e49a6c36883e9329d80bfe91b20e5640202566",
+        "gitBlobSha1": "5fde159e73597728812c1426be7a361ed965f75d"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "sourceDurationKept": 3.680375,
+        "duration": 3.700375,
+        "attackFade": 0.002,
+        "decay": 0.06,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "Whole original source retained at original speed and pitch. 35 Hz DC removal, 2 ms edge fade, last 60 ms of the already quiet natural tail faded, and 20 ms silent codec guard. Original mono channel count retained; no layers, synthesized tones, added reverb, sustain deletion or time stretching. Resampling is for codec compatibility only."
+      },
+      "recommendedPlaybackGain": 0.28,
+      "runtimePokemonMultiplier": 0.5,
+      "effectivePlaybackGain": 0.14,
+      "timing": {
+        "startOffset": 0,
+        "preRoll": 0.08,
+        "releaseAt": 0.08,
+        "secondaryPulseAt": 1.3,
+        "activeEnd": 2.1,
+        "naturalTailStart": 2.25,
+        "strongest20msWindowAt": 1.56,
+        "notes": "Keep the initial pulse and the stronger second pulse around 1.3\u20131.6 s. Suitable for an expanding wave with a second ring; do not restart the recording per ring.",
+        "playbackDuration": 3.700375,
+        "earlyStopFade": 0.18,
+        "basis": "20 ms and 100 ms RMS envelope analysis; release alignment is an editorial recommendation, not an official animation event timestamp or a human audition."
+      }
+    },
+    "psystrike": {
+      "sourceSound": "Psystrike",
+      "species": [
+        "mewtwo"
+      ],
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v5/psystrike.mp3",
+          "duration": 4.426054,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 1,
+          "decodedDuration": 4.426062,
+          "peakDbfs": -6.001,
+          "oversampledPeakDbfs": -5.996,
+          "rmsDbfs": -23.757,
+          "lastSampleDbfs": -180.0,
+          "bytes": 89906,
+          "sha256": "a55c45d50a23e046b419df6b04d08e848f8d0d0acef42d59057ea5e2c07c4521"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v5/psystrike.ogg",
+          "duration": 4.432542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 1,
+          "decodedDuration": 4.426042,
+          "peakDbfs": -6.312,
+          "oversampledPeakDbfs": -6.312,
+          "rmsDbfs": -23.764,
+          "lastSampleDbfs": -145.047,
+          "bytes": 54192,
+          "sha256": "831e64d6c0240804d53a9f8a12130672815ef9f0cbdb740afd27ddf7f05fa750"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/540-0_psystrike.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/540-0_psystrike.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/540-0_psystrike.wav",
+        "duration": 4.405986,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "bytes": 97196,
+        "sha256": "af5b81120674e2f316ad04673c19053c44b078cbdb5d9ac082585cf644706978",
+        "gitBlobSha1": "550f45e2c7eb3f731ffc17ce9e5faabcf5dfe479"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "sourceDurationKept": 4.406,
+        "duration": 4.426,
+        "attackFade": 0.002,
+        "decay": 0.06,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "Whole original source retained at original speed and pitch. 35 Hz DC removal, 2 ms edge fade, last 60 ms of the already quiet natural tail faded, and 20 ms silent codec guard. Original mono channel count retained; no layers, synthesized tones, added reverb, sustain deletion or time stretching. Resampling is for codec compatibility only."
+      },
+      "recommendedPlaybackGain": 0.28,
+      "runtimePokemonMultiplier": 0.5,
+      "effectivePlaybackGain": 0.14,
+      "timing": {
+        "startOffset": 2.78,
+        "preRoll": 0.04,
+        "releaseAt": 2.82,
+        "activeEnd": 3.8,
+        "naturalTailStart": 3.85,
+        "strongest20msWindowAt": 3.6,
+        "fullSequenceAlternative": {
+          "startOffset": 0,
+          "preRoll": 2.82,
+          "releaseAt": 2.82
+        },
+        "notes": "The source has two distinct phrases, with a low-energy gap immediately before the second onset at 2.80 s. Default playback seeks to 2.78 s and reveals 40 ms later. Alternatively play the entire recording with 2.82 s anticipation. The phase interpretation is editorial, not verified game-engine event metadata. Use only for Mewtwo; do not map to every psychic species.",
+        "playbackDuration": 1.646,
+        "earlyStopFade": 0.18,
+        "basis": "20 ms and 100 ms RMS envelope analysis; release alignment is an editorial recommendation, not an official animation event timestamp or a human audition."
+      }
+    }
+  }
+}

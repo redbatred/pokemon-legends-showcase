@@ -1,0 +1,157 @@
+{
+  "coordinateSystem": "Pixel bounds use x, y, width, height. Cells use x0,y0,x1,y1 with exclusive right/bottom edges.",
+  "alphaNotes": "Native RGBA outputs retain faint colored haze at low alpha. Bounds were measured read-only at alpha >=32; no pixel edits were made. Apply a smooth low-alpha cleanup when extracting; keep antialiased foliage/cloud edges.",
+  "trees": {
+    "file": "trees-atlas.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2563538,
+    "source": "/Users/redjonmezani/.codex/generated_images/01a17d94-ea43-7850-8cb9-3439947e7242/exec-4e3f964f-33d0-45d6-a8ad-d7bb1ae9680d.png",
+    "regions": [
+      {
+        "name": "rounded-left",
+        "cell": [
+          0,
+          0,
+          504,
+          520
+        ],
+        "contentBounds": {
+          "x": 24,
+          "y": 129,
+          "width": 472,
+          "height": 369
+        }
+      },
+      {
+        "name": "tall-center",
+        "cell": [
+          504,
+          0,
+          934,
+          520
+        ],
+        "contentBounds": {
+          "x": 512,
+          "y": 50,
+          "width": 417,
+          "height": 451
+        }
+      },
+      {
+        "name": "wide-right",
+        "cell": [
+          934,
+          0,
+          1536,
+          520
+        ],
+        "contentBounds": {
+          "x": 938,
+          "y": 139,
+          "width": 573,
+          "height": 362
+        }
+      },
+      {
+        "name": "rising-grove",
+        "cell": [
+          0,
+          520,
+          804,
+          1024
+        ],
+        "contentBounds": {
+          "x": 25,
+          "y": 550,
+          "width": 778,
+          "height": 431
+        }
+      },
+      {
+        "name": "spreading-grove",
+        "cell": [
+          804,
+          520,
+          1536,
+          1024
+        ],
+        "contentBounds": {
+          "x": 805,
+          "y": 585,
+          "width": 704,
+          "height": 389
+        }
+      }
+    ]
+  },
+  "clouds": {
+    "file": "clouds-atlas.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 1696274,
+    "source": "/Users/redjonmezani/.codex/generated_images/01a17d94-ea43-7850-8cb9-3439947e7242/exec-e925df51-0cab-442c-8cfe-28de61f4b334.png",
+    "regions": [
+      {
+        "name": "tall-billowing",
+        "cell": [
+          0,
+          0,
+          780,
+          535
+        ],
+        "contentBounds": {
+          "x": 28,
+          "y": 124,
+          "width": 746,
+          "height": 367
+        }
+      },
+      {
+        "name": "low-scattered",
+        "cell": [
+          780,
+          0,
+          1536,
+          535
+        ],
+        "contentBounds": {
+          "x": 798,
+          "y": 286,
+          "width": 717,
+          "height": 202
+        }
+      },
+      {
+        "name": "left-peak",
+        "cell": [
+          0,
+          535,
+          780,
+          1024
+        ],
+        "contentBounds": {
+          "x": 23,
+          "y": 631,
+          "width": 737,
+          "height": 307
+        }
+      },
+      {
+        "name": "right-peak",
+        "cell": [
+          780,
+          535,
+          1536,
+          1024
+        ],
+        "contentBounds": {
+          "x": 792,
+          "y": 606,
+          "width": 726,
+          "height": 337
+        }
+      }
+    ]
+  }
+}

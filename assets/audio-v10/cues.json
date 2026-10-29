@@ -1,0 +1,30 @@
+{
+  "crowdsmall": {
+    "gain": 0.55,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v10/crowdsmall.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v10/crowdsmall.ogg"
+    }
+  },
+  "crowdapplause": {
+    "gain": 0.6,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v10/crowdapplause.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v10/crowdapplause.ogg"
+    }
+  },
+  "crowdrise": {
+    "gain": 0.75,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v10/crowdrise.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v10/crowdrise.ogg"
+    }
+  },
+  "crowdcheer": {
+    "gain": 0.65,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v10/crowdcheer.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v10/crowdcheer.ogg"
+    }
+  }
+}

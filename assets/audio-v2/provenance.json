@@ -1,0 +1,2599 @@
+{
+  "description": "Sampled reveal one-shots and authentic Pok\u00e9mon game cries; no anime voice impersonation, dialogue, songs, or generated oscillator loops.",
+  "criesSource": {
+    "repository": "https://github.com/PokeAPI/cries",
+    "kind": "Latest game cries, not anime voices",
+    "upstream": "PokeAPI README identifies Pok\u00e9mon Showdown, Veekun and The Sounds Resource as upstream sources.",
+    "rights": "Pok\u00e9mon/game audio included under user's stated license; PokeAPI is a community mirror, not the rights holder.",
+    "processing": "Complete cry retained; peak normalization, 3ms attack/80ms tail fade, stereo 48kHz OGG Opus and 44.1kHz MP3 encoding."
+  },
+  "releaseProvenance": {
+    "status": "Community-uploaded Pok\u00e9 Ball opening sample; original episode, sound-library source, and uploader chain of custody not independently verified.",
+    "reference": "https://soundeffects.fandom.com/wiki/Anime_Big_Pop_Sound",
+    "selection": "First 1.8 seconds after the initial 0.54-second silence lead-in from MyInstants uploader nauth. This is an excerpt of the source recording, not a newly synthesized substitute.",
+    "validation": "Audio format, duration, decoding, source attribution and output peak checks verified. Automated tooling here does not provide human listening review."
+  },
+  "recommendedPlayback": "MP3 provides broad Safari compatibility; OGG alternate supplied. Start cries/release at gain 0.55, power layers at 0.3 and UI at 0.35; avoid playing several full-gain effects together.",
+  "aliases": {
+    "pokeball-open": "release",
+    "rare": "charge"
+  },
+  "effects": {
+    "throw": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/throw.ogg",
+          "duration": 0.5565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.29,
+          "sha256": "1fd9c94116a65c8510ac5dce0e73448282dc6a5736c80dd8e0bd46975547795c"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/throw.mp3",
+          "duration": 0.55,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.52,
+          "sha256": "c1a8ea6b82e70e438a693834f528592a95a00e22b67a981fd7e57f748dddde02"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/knifeSlice.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/cloth2.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 0.55,
+        "layers": [
+          {
+            "file": "rpg/Audio/knifeSlice.ogg",
+            "gain": 0.8,
+            "rate": 0.82,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "rpg/Audio/cloth2.ogg",
+            "gain": 0.2,
+            "rate": 1.2,
+            "delay": 30,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "impact": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/impact.ogg",
+          "duration": 0.6565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.35,
+          "sha256": "6da44830e1582267289c199863ab519a35218c4a607f863e2ca3b40ce978e5bd"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/impact.mp3",
+          "duration": 0.65,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.27,
+          "sha256": "028536adc8de91cf00611a46b2d190047b6fdaa3fa5b671f29ae99024e92bda8"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/impactPunch_heavy_000.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/impactMetal_light_001.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 0.65,
+        "layers": [
+          {
+            "file": "impact/Audio/impactPunch_heavy_000.ogg",
+            "gain": 0.8,
+            "rate": 0.75,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "impact/Audio/impactMetal_light_001.ogg",
+            "gain": 0.22,
+            "rate": 0.7,
+            "delay": 12,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "release": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/release.ogg",
+          "duration": 1.8065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -3.98,
+          "sha256": "b9658e582c60d48e36306382004d5beedaed3a1be316cae9edd3afa2c1b426ad"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/release.mp3",
+          "duration": 1.8,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.3,
+          "sha256": "4e9ea96a33ca7851a9a58136e0e1a66d0f351ba3ab18e5dbe22dd393e06091fa"
+        }
+      },
+      "sources": [
+        {
+          "file": "pokeball-open.mp3",
+          "page": "https://www.myinstants.com/en/instant/pokeball-open/",
+          "url": "https://www.myinstants.com/media/sounds/pokeball_sound_effects_mp3cut_1.mp3",
+          "creator": "Community uploader nauth; original producer/episode unverified",
+          "license": "Pok\u00e9mon-associated effect, included under user's stated license; uploader provenance unverified"
+        }
+      ],
+      "processing": {
+        "duration": 1.8,
+        "layers": [
+          {
+            "file": "pokeball-open.mp3",
+            "gain": 1,
+            "rate": 1,
+            "delay": 0,
+            "start": 0.54,
+            "length": 1.8,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "charge": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/charge.ogg",
+          "duration": 1.3065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.04,
+          "sha256": "c33aabc7db45bb6f77ec3df375e79c16dc09c7edb9c1012abaab6fb1472e7849"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/charge.mp3",
+          "duration": 1.3,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.26,
+          "sha256": "787f1be10d3398e7451fabc0e778264d928ef5e5be45012cc45fa945bfb2786a"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/lowFrequency_explosion_000.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/forceField_000.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.3,
+        "layers": [
+          {
+            "file": "scifi/Audio/lowFrequency_explosion_000.ogg",
+            "gain": 0.4,
+            "rate": 0.9,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": "areverse,highpass=f=75"
+          },
+          {
+            "file": "scifi/Audio/forceField_000.ogg",
+            "gain": 0.55,
+            "rate": 0.85,
+            "delay": 160,
+            "start": 0,
+            "length": 2,
+            "filters": "areverse"
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "fire": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/fire.ogg",
+          "duration": 1.4565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.19,
+          "sha256": "54e6a3dab94ca945261ed8761d9eadde598d8f1a0163e2a2c0aa974f9929405d"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/fire.mp3",
+          "duration": 1.45,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.29,
+          "sha256": "b5d40d4c364b05e4bca098dc26b262e30857f6ee1ee7d1d391acf4afc038d3c6"
+        }
+      },
+      "sources": [
+        {
+          "file": "flame.ogg",
+          "page": "https://opengameart.org/content/catching-fire",
+          "url": "https://opengameart.org/sites/default/files/flame_0.ogg",
+          "creator": "themightyglider, derived from qubodup's recording",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/thrusterFire_002.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/explosionCrunch_001.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.45,
+        "layers": [
+          {
+            "file": "flame.ogg",
+            "gain": 0.9,
+            "rate": 0.8,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "scifi/Audio/thrusterFire_002.ogg",
+            "gain": 0.45,
+            "rate": 0.85,
+            "delay": 60,
+            "start": 0,
+            "length": 1.2,
+            "filters": "lowpass=f=6500"
+          },
+          {
+            "file": "scifi/Audio/explosionCrunch_001.ogg",
+            "gain": 0.25,
+            "rate": 0.85,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "electric": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/electric.ogg",
+          "duration": 1.1065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.09,
+          "sha256": "1ef0ebae54fb4ce9c9d4577cd135fb60667a78bfe4479cb7b407eeff9ca6fc99"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/electric.mp3",
+          "duration": 1.1,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.26,
+          "sha256": "08d46543bbec616deca72a826b858c7bb96fd313a97ab7ab08b4bc2e3822ea25"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/forceField_003.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/laserLarge_002.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/impactGlass_light_002.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.1,
+        "layers": [
+          {
+            "file": "scifi/Audio/forceField_003.ogg",
+            "gain": 0.6,
+            "rate": 1.12,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "scifi/Audio/laserLarge_002.ogg",
+            "gain": 0.4,
+            "rate": 0.85,
+            "delay": 45,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "impact/Audio/impactGlass_light_002.ogg",
+            "gain": 0.3,
+            "rate": 1.3,
+            "delay": 80,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "water": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/water.ogg",
+          "duration": 1.3065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -3.93,
+          "sha256": "9d81c28f45c06d633e1aa86a91f246ca63da3d005c4eeb0fb35a50904885d8c9"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/water.mp3",
+          "duration": 1.3,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.25,
+          "sha256": "1ad0aeae894f0c70b3ab90698f43111e890f765ee4b0233f4f12d9c36c93958c"
+        }
+      },
+      "sources": [
+        {
+          "file": "splash_04.ogg",
+          "page": "https://opengameart.org/content/40-cc0-water-splash-slime-sfx",
+          "archive": "https://opengameart.org/sites/default/files/water-splash-slime-sfx.zip",
+          "creator": "rubberduck",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "splash_11.ogg",
+          "page": "https://opengameart.org/content/40-cc0-water-splash-slime-sfx",
+          "archive": "https://opengameart.org/sites/default/files/water-splash-slime-sfx.zip",
+          "creator": "rubberduck",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "bubble_02.ogg",
+          "page": "https://opengameart.org/content/40-cc0-water-splash-slime-sfx",
+          "archive": "https://opengameart.org/sites/default/files/water-splash-slime-sfx.zip",
+          "creator": "rubberduck",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.3,
+        "layers": [
+          {
+            "file": "water/splash_04.ogg",
+            "gain": 0.8,
+            "rate": 0.9,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "water/splash_11.ogg",
+            "gain": 0.45,
+            "rate": 1.1,
+            "delay": 110,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "water/bubble_02.ogg",
+            "gain": 0.2,
+            "rate": 0.8,
+            "delay": 320,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "psychic": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/psychic.ogg",
+          "duration": 1.6565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -3.85,
+          "sha256": "59cc17bde313e66af2c5fd8dc24193d9bb7abc03cc8cad6dcae492bc45b7736f"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/psychic.mp3",
+          "duration": 1.65,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.27,
+          "sha256": "4a9f460b40aeb7da47fb0afb3fbdbd9ae424e6909ad2c213b494de618d2d338b"
+        }
+      },
+      "sources": [
+        {
+          "file": "magical-4.ogg",
+          "page": "https://opengameart.org/content/magic-spell-sfx",
+          "url": "https://opengameart.org/sites/default/files/magical_4.ogg",
+          "creator": "JaggedStone",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/forceField_001.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.65,
+        "layers": [
+          {
+            "file": "magical-4.ogg",
+            "gain": 0.7,
+            "rate": 0.92,
+            "delay": 0,
+            "start": 0,
+            "length": 1.5,
+            "filters": ""
+          },
+          {
+            "file": "scifi/Audio/forceField_001.ogg",
+            "gain": 0.22,
+            "rate": 0.65,
+            "delay": 80,
+            "start": 0,
+            "length": 2,
+            "filters": "aecho=.6:.5:110:.25"
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "leaf": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/leaf.ogg",
+          "duration": 1.0065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -7.56,
+          "sha256": "8914ecfe25bc2f2d4dc313c78a57c91a4fa76ebfe1608f83e28b1ae44213afc4"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/leaf.mp3",
+          "duration": 1.0,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -8.05,
+          "sha256": "5aafdea5135b7397975c8d2acf6fa1504bc9118ed73ce12711639dc5b05933f5"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/footstep_grass_001.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/footstep_grass_003.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/knifeSlice2.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.0,
+        "layers": [
+          {
+            "file": "impact/Audio/footstep_grass_001.ogg",
+            "gain": 0.7,
+            "rate": 0.85,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "impact/Audio/footstep_grass_003.ogg",
+            "gain": 0.4,
+            "rate": 1.15,
+            "delay": 130,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "rpg/Audio/knifeSlice2.ogg",
+            "gain": 0.2,
+            "rate": 1.1,
+            "delay": 40,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "wind": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/wind.ogg",
+          "duration": 1.2565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -3.88,
+          "sha256": "8d1435f7626b2b3bb365addf03b010c5fb6d26dcf5df8071289118ce71626464"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/wind.mp3",
+          "duration": 1.25,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.48,
+          "sha256": "5ea2821090dc71e0bd584e3d19c0450a2b81278b63673be832289db387f759a3"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/thrusterFire_000.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/knifeSlice.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.25,
+        "layers": [
+          {
+            "file": "scifi/Audio/thrusterFire_000.ogg",
+            "gain": 0.55,
+            "rate": 0.78,
+            "delay": 0,
+            "start": 0,
+            "length": 1.15,
+            "filters": "highpass=f=400,lowpass=f=4800"
+          },
+          {
+            "file": "rpg/Audio/knifeSlice.ogg",
+            "gain": 0.35,
+            "rate": 0.65,
+            "delay": 130,
+            "start": 0,
+            "length": 2,
+            "filters": "aecho=.5:.4:95:.2"
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "ice": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/ice.ogg",
+          "duration": 1.2565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.06,
+          "sha256": "d8a89cf0e5fab9e2f8a594f8fd99aa9ad3fa2dd78ca6a37f1f9809b3a7dc0010"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/ice.mp3",
+          "duration": 1.25,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.27,
+          "sha256": "b722dbe407bc92333af8da97d51e2a10fb64b98d50bfee8c6edb46b0764c57c7"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/impactGlass_heavy_002.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/footstep_snow_001.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/glass_004.ogg",
+          "page": "https://kenney.nl/assets/interface-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.25,
+        "layers": [
+          {
+            "file": "impact/Audio/impactGlass_heavy_002.ogg",
+            "gain": 0.6,
+            "rate": 1.05,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "impact/Audio/footstep_snow_001.ogg",
+            "gain": 0.55,
+            "rate": 0.7,
+            "delay": 30,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "interface/Audio/glass_004.ogg",
+            "gain": 0.23,
+            "rate": 1.25,
+            "delay": 140,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "dark": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/dark.ogg",
+          "duration": 1.6065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.07,
+          "sha256": "9627857d85adaed04e9c2aeb7a83dfc18e0bbf72c0b1681f58efa10ab4d4a046"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/dark.mp3",
+          "duration": 1.6,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.26,
+          "sha256": "285a75a393350b38ecc93d73f6d39d27578726a6214bc97633ced5feceb64342"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/spaceEngineLow_003.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/explosionCrunch_004.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.6,
+        "layers": [
+          {
+            "file": "scifi/Audio/spaceEngineLow_003.ogg",
+            "gain": 0.65,
+            "rate": 0.72,
+            "delay": 0,
+            "start": 0,
+            "length": 1.4,
+            "filters": "lowpass=f=1800"
+          },
+          {
+            "file": "scifi/Audio/explosionCrunch_004.ogg",
+            "gain": 0.3,
+            "rate": 0.65,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": "areverse,lowpass=f=2800"
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "metal": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/metal.ogg",
+          "duration": 1.1565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.42,
+          "sha256": "989235e66b4ace24620b9133a539a9b1de2f76a00f1f9524ce6c558420ba4089"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/metal.mp3",
+          "duration": 1.1505,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.92,
+          "sha256": "88d0f9af3c5f43e614c2b61907b936b4c9ab3a1d922a3c53670c4ef73c3fa0cc"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/impactMetal_heavy_001.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/drawKnife2.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/impactBell_heavy_003.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.15,
+        "layers": [
+          {
+            "file": "impact/Audio/impactMetal_heavy_001.ogg",
+            "gain": 0.8,
+            "rate": 0.85,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "rpg/Audio/drawKnife2.ogg",
+            "gain": 0.3,
+            "rate": 0.8,
+            "delay": 20,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "impact/Audio/impactBell_heavy_003.ogg",
+            "gain": 0.18,
+            "rate": 1.2,
+            "delay": 80,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "ground": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/ground.ogg",
+          "duration": 1.2065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.2,
+          "sha256": "4613d6ed528cf23c092c9174985819398675a935b21b2f31fb11be67b24cc76e"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/ground.mp3",
+          "duration": 1.2,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.26,
+          "sha256": "a0c43081de9cb20826409a2c5b4e2247ae24027903ec912efedc93e2c6874459"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/impactMining_002.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/impactWood_heavy_000.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/lowFrequency_explosion_001.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.2,
+        "layers": [
+          {
+            "file": "impact/Audio/impactMining_002.ogg",
+            "gain": 0.7,
+            "rate": 0.72,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "impact/Audio/impactWood_heavy_000.ogg",
+            "gain": 0.4,
+            "rate": 0.65,
+            "delay": 40,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "scifi/Audio/lowFrequency_explosion_001.ogg",
+            "gain": 0.4,
+            "rate": 0.8,
+            "delay": 0,
+            "start": 0,
+            "length": 1.05,
+            "filters": "lowpass=f=1000"
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "flip": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/flip.ogg",
+          "duration": 0.3565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.25,
+          "sha256": "d5adb74cbe6bb3cc4c24d4f28ea7fb939d9404f626aa0d8c83d466ca851ec9f3"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/flip.mp3",
+          "duration": 0.35,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.36,
+          "sha256": "2e38fd4c5ad530c9e0368604a14d378b7df0bb43067a01ac141b171380b13fea"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/card-slide-4.ogg",
+          "page": "https://kenney.nl/assets/casino-audio",
+          "archive": "https://kenney.nl/media/pages/assets/casino-audio/2472606a04-1721639069/kenney_casino-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/card-place-2.ogg",
+          "page": "https://kenney.nl/assets/casino-audio",
+          "archive": "https://kenney.nl/media/pages/assets/casino-audio/2472606a04-1721639069/kenney_casino-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 0.35,
+        "layers": [
+          {
+            "file": "casino/Audio/card-slide-4.ogg",
+            "gain": 0.85,
+            "rate": 1.1,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "casino/Audio/card-place-2.ogg",
+            "gain": 0.2,
+            "rate": 1,
+            "delay": 70,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "reveal": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/reveal.ogg",
+          "duration": 0.8065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -3.93,
+          "sha256": "23ff524c8ab7ff171fdf810640bd6a38715aae2e518176ca0c4df68704125b3d"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/reveal.mp3",
+          "duration": 0.8,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.34,
+          "sha256": "57975ea343e9bcdae4e0db41f03cd7c5e99234e8659c23b6e5e63b83e4c5448d"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/card-fan-1.ogg",
+          "page": "https://kenney.nl/assets/casino-audio",
+          "archive": "https://kenney.nl/media/pages/assets/casino-audio/2472606a04-1721639069/kenney_casino-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/glass_001.ogg",
+          "page": "https://kenney.nl/assets/interface-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 0.8,
+        "layers": [
+          {
+            "file": "casino/Audio/card-fan-1.ogg",
+            "gain": 0.7,
+            "rate": 1,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "interface/Audio/glass_001.ogg",
+            "gain": 0.4,
+            "rate": 1.1,
+            "delay": 45,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "tear": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/tear.ogg",
+          "duration": 1.0565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.24,
+          "sha256": "6598902ad7002ddd6452c4b2147ac5827dcf0e5a0f6ca4870b73fc8ca8de466a"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/tear.mp3",
+          "duration": 1.05,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.1,
+          "sha256": "29c45686bf38f6b2ba802a741722e21b77ba2b71991aa8a6575873401b4bb116"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/cards-pack-open-1.ogg",
+          "page": "https://kenney.nl/assets/casino-audio",
+          "archive": "https://kenney.nl/media/pages/assets/casino-audio/2472606a04-1721639069/kenney_casino-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/cloth3.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.05,
+        "layers": [
+          {
+            "file": "casino/Audio/cards-pack-open-1.ogg",
+            "gain": 0.9,
+            "rate": 1,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "rpg/Audio/cloth3.ogg",
+            "gain": 0.2,
+            "rate": 0.8,
+            "delay": 90,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "complete": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/complete.ogg",
+          "duration": 1.8065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -3.93,
+          "sha256": "534492fd273f5409b7577f84c4ec496342105ae9b01d96bfb6521eeec67ecdff"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/complete.mp3",
+          "duration": 1.8,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -4.27,
+          "sha256": "f9ef33b942a3e2d32b6721a1b8dbf01abe61c6501de7e5f6a565bde2a0c6fe90"
+        }
+      },
+      "sources": [
+        {
+          "file": "magical-1.ogg",
+          "page": "https://opengameart.org/content/magic-spell-sfx",
+          "url": "https://opengameart.org/sites/default/files/magical_1_0.ogg",
+          "creator": "JaggedStone",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/impactBell_heavy_000.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 1.8,
+        "layers": [
+          {
+            "file": "magical-1.ogg",
+            "gain": 0.8,
+            "rate": 1,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "impact/Audio/impactBell_heavy_000.ogg",
+            "gain": 0.18,
+            "rate": 1.35,
+            "delay": 100,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    },
+    "credit": {
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/credit.ogg",
+          "duration": 0.7065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -4.14,
+          "sha256": "2d6b803c503abbc15378b3c9d6c1ec951fb43f060cd728422a3700c72da90d7d"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/credit.mp3",
+          "duration": 0.7,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -3.93,
+          "sha256": "e326b3e67cdd5be3e571530c0a507e2b6733d2e2b24fdd6559f83b40e8d6a31a"
+        }
+      },
+      "sources": [
+        {
+          "file": "Audio/handleCoins.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        },
+        {
+          "file": "Audio/confirmation_001.ogg",
+          "page": "https://kenney.nl/assets/interface-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0"
+        }
+      ],
+      "processing": {
+        "duration": 0.7,
+        "layers": [
+          {
+            "file": "rpg/Audio/handleCoins.ogg",
+            "gain": 0.7,
+            "rate": 1.1,
+            "delay": 0,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          },
+          {
+            "file": "interface/Audio/confirmation_001.ogg",
+            "gain": 0.25,
+            "rate": 0.9,
+            "delay": 80,
+            "start": 0,
+            "length": 2,
+            "filters": ""
+          }
+        ],
+        "mastering": "Stereo; sample peak normalized to -4 dBFS; edge fades; protective limiter; 48kHz OGG Opus at 128kbps and 44.1kHz MP3 at 192kbps"
+      }
+    }
+  },
+  "cries": {
+    "142": {
+      "name": "Aerodactyl",
+      "dexId": 142,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/142.ogg",
+          "duration": 1.4145,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.67,
+          "sha256": "df0f6d753fe536ec05815f78157fbc51f11f47783862335457962dd6c8fea6b8"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/142.mp3",
+          "duration": 1.408,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.29,
+          "sha256": "12fc4d73a48a900d9e77ba214f4b9cd54e30f68c6703f63e9630587bd59e35f6"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/142.ogg",
+      "sourceSha256": "a87eee32cca948329f278047157d446e9602ba81c650ea225d653d3213b92af3"
+    },
+    "65": {
+      "name": "Alakazam",
+      "dexId": 65,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/65.ogg",
+          "duration": 1.6022,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.77,
+          "sha256": "2579e79f2eb842e2ecc162e78b910314b4173f9b4f496d7a711533bfcce128b1"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/65.mp3",
+          "duration": 1.5957,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.23,
+          "sha256": "a5bcb06134bf7f4d6b1389686651509e25b4c418164f591333d04860ddcea3aa"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/65.ogg",
+      "sourceSha256": "f3c2b3c76d1b2958acb0ea0a2cc8486eb64a83e96d4db7e5c719446489408f4a"
+    },
+    "493": {
+      "name": "Arceus",
+      "dexId": 493,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/493.ogg",
+          "duration": 1.6961,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -7.02,
+          "sha256": "c783a97d592955147b85fa273eb3e8e9f857662cf235947c4ba3deadbdffa9fa"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/493.mp3",
+          "duration": 1.6896,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.28,
+          "sha256": "5043103653345d23625d76e3f967e4f05d41e987711fa280b352ceb925dda6d6"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/493.ogg",
+      "sourceSha256": "49e80674c285910b77824ab52dc479a2bf3e67ccb7dee653336ca1ed3afd2bec"
+    },
+    "144": {
+      "name": "Articuno",
+      "dexId": 144,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/144.ogg",
+          "duration": 1.3519,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.63,
+          "sha256": "88642f9d5a5309ccc2c3c58e5ad4a3d72f9cecaf1b8657f4e32f806c22f942e1"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/144.mp3",
+          "duration": 1.3454,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.32,
+          "sha256": "38218e1c6da1bdea4e7a763b60a59e4280cac971b05c5c8ebc0f2e4129f226d8"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/144.ogg",
+      "sourceSha256": "374612dfbb0a5c7e7721b9698553fc15909c0ab2b49be9eeb3385e7558d9730b"
+    },
+    "9": {
+      "name": "Blastoise",
+      "dexId": 9,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/9.ogg",
+          "duration": 1.1016,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.7,
+          "sha256": "5339dba3007f81a9104ae2ad64a927544305b157b07574cc720244063c97047c"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/9.mp3",
+          "duration": 1.0951,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.32,
+          "sha256": "413abdd1d0ee4a161070c1744e240f23d2ddf2b3ea305c98e1ae46462e4f8a22"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/9.ogg",
+      "sourceSha256": "66e47fa494ae7217676fceff69bdf59f6399d87143cbde29cc7958e2565325ec"
+    },
+    "286": {
+      "name": "Breloom",
+      "dexId": 286,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/286.ogg",
+          "duration": 0.7261,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.39,
+          "sha256": "ef1f437dc0f94d2d64b5a34cd924ffa5c21e0abd5dee8c587d1ebde75b49c608"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/286.mp3",
+          "duration": 0.7196,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.18,
+          "sha256": "7c578f474bab645706b71cdaebb4987826272586c643cbf830db439cde780e6e"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/286.ogg",
+      "sourceSha256": "212cc125e4be1cdc096b1816849f10ce2230dfb8b7f444f510365487e44bce8c"
+    },
+    "6": {
+      "name": "Charizard",
+      "dexId": 6,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/6.ogg",
+          "duration": 1.0077,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.29,
+          "sha256": "8387bd86c77b533e7a8562b506f1f22a14acbcbc3daf6ba4c7729fb8779fa727"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/6.mp3",
+          "duration": 1.0012,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.26,
+          "sha256": "67d7330fd8034214a3a2bc1a570bcd2dd27b10e69d1849b4d41d271e6079a4be"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/6.ogg",
+      "sourceSha256": "110f91526342399a6a8d5e5c7d12b76ad85e925bce509d7fd4d2459930df09cf"
+    },
+    "815": {
+      "name": "Cinderace",
+      "dexId": 815,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/815.ogg",
+          "duration": 1.9919,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.51,
+          "sha256": "3132dda978a73e7272e9b1f79fd411d7c5c49432ee275ed48e29a7893290436f"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/815.mp3",
+          "duration": 1.9864,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.24,
+          "sha256": "f2f216b5f92b79758f9b5ba50a5cc6c3d4fb4116e908be83ee0c186f39eb07d3"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/815.ogg",
+      "sourceSha256": "7f3745dfda36fc94252e699925daad924119e6957b7b33b352fbeaf5bd8ee324"
+    },
+    "173": {
+      "name": "Cleffa",
+      "dexId": 173,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/173.ogg",
+          "duration": 0.4133,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.93,
+          "sha256": "e1136d7784cb03e515c1b4d8f419b1998c90208bb83fafe8d9a939c0d1a82201"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/173.mp3",
+          "duration": 0.4029,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.22,
+          "sha256": "7841bfb9e0ba5e49ead194fb3da2606d48efcc25c76acf44d6cc5e1bc85bf10c"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/173.ogg",
+      "sourceSha256": "c3a7abd70381ad1caee29969ed172b3879d9fb54388cc8c86728116e380bfbcd"
+    },
+    "880": {
+      "name": "Dracozolt",
+      "dexId": 880,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/880.ogg",
+          "duration": 1.2013,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.67,
+          "sha256": "c8b7da48130bda878f981a6f2bec96109cdbc35aee5409f5f803c95912c07e83"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/880.mp3",
+          "duration": 1.1948,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.28,
+          "sha256": "db32bd3bb9d206e8f6085d01bddb248d140b67673bb8261b0eb38ec4f46c757c"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/880.ogg",
+      "sourceSha256": "ed3e996dc86d09fc5256b1f1caa7cc24ef3915f12fe21adb4ee4e61b4c1baaec"
+    },
+    "149": {
+      "name": "Dragonite",
+      "dexId": 149,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/149.ogg",
+          "duration": 1.0703,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.86,
+          "sha256": "edde6f13a6744e44825be1deddb95e5ce6d04aadc3f811d35963a42bf807ff7d"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/149.mp3",
+          "duration": 1.0638,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.3,
+          "sha256": "c613dd05bb97060fa151f0d1c6101e57c7349b9048cec1df1fffa40eff92a04b"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/149.ogg",
+      "sourceSha256": "ec18d152596b92ea1ecdfed88b64a095f5ee5a5242dfa9472079ef8fb11d5e99"
+    },
+    "884": {
+      "name": "Duraludon",
+      "dexId": 884,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/884.ogg",
+          "duration": 1.6092,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -7.07,
+          "sha256": "a3d98d92a458a9c2c3bfd0b667e763d91dc5d7cc961a85d0d5c41dad28ff9c72"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/884.mp3",
+          "duration": 1.6027,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.3,
+          "sha256": "34e732c054215e51d4a3f51261527e2705d5f2e5e8fbcdc7a60337d3a6d27543"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/884.ogg",
+      "sourceSha256": "5f485926866f599b8dd5a0843e81acbdcdad1561f7b048bfa3fe8f58d1abf91d"
+    },
+    "133": {
+      "name": "Eevee",
+      "dexId": 133,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/133.ogg",
+          "duration": 0.7887,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.92,
+          "sha256": "1f3506b931ab0f90904d04dfb3c4838be38dde0d5755e6df687cf2bfaf7ccd6d"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/133.mp3",
+          "duration": 0.7822,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.28,
+          "sha256": "765510cc0fd1e91b9b519ef55cfe40ab919b98bf85fb9edfd1b7fc0c94f840b2"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/133.ogg",
+      "sourceSha256": "b9dd1a040ed6bd4e9025df476180c7cc82c3187ff21f235b26798ba84992489c"
+    },
+    "196": {
+      "name": "Espeon",
+      "dexId": 196,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/196.ogg",
+          "duration": 1.1016,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -5.79,
+          "sha256": "77fb23b9d7887f8d6441c707b7dd2b0073cde4ce66b046a644c0db84bdb420ed"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/196.mp3",
+          "duration": 1.0951,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.31,
+          "sha256": "dfe3712e9ea33c9349d96f0d184a09e6b2bc97336c0ef64f3604af169db92263"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/196.ogg",
+      "sourceSha256": "9798d47efbd80eadc6601b3183040ec7fb611aa9f0b690b0716633fbd4d78848"
+    },
+    "205": {
+      "name": "Forretress",
+      "dexId": 205,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/205.ogg",
+          "duration": 1.0077,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.49,
+          "sha256": "0ad4291cb5a02b67c4c46c8d81821cad282fa64a51301d01850f8a09bb20cb98"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/205.mp3",
+          "duration": 1.0012,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.27,
+          "sha256": "8062d66bff3615da5bf6eaf2e3b55765627530ae90e1dfb2fcd25d74406d494c"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/205.ogg",
+      "sourceSha256": "8d8fe1795bd4c42ee88702328c76d59f483ddb675481c13149682b4c3a157689"
+    },
+    "282": {
+      "name": "Gardevoir",
+      "dexId": 282,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/282.ogg",
+          "duration": 1.3206,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -7.21,
+          "sha256": "13e4d828a33898cb52773021fd5f5bd3659599394d5550b962bcf7b8ca991dd0"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/282.mp3",
+          "duration": 1.3141,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.31,
+          "sha256": "c481b0b690b3360a7fe8f79365d406dceaa2ea2cd1bedb2a70f15fdda1b29ec3"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/282.ogg",
+      "sourceSha256": "93bd2d69970abad8c2be0244b2dad575066d17bc4152951df986b66835f2f914"
+    },
+    "649": {
+      "name": "Genesect",
+      "dexId": 649,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/649.ogg",
+          "duration": 1.1329,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.47,
+          "sha256": "70120c807a29941230afebcb64cd5e645dadfcc1471f663ff0f589d48173d566"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/649.mp3",
+          "duration": 1.1264,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -6.99,
+          "sha256": "5d257e711a66fa8e2707815d82a67cfbfddb11cffcc6031303c4d799c374f6e6"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/649.ogg",
+      "sourceSha256": "b2a132fb5d2a486be449fdc1693be88213f559c833b9b32042a8ce22a46f6c79"
+    },
+    "94": {
+      "name": "Gengar",
+      "dexId": 94,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/94.ogg",
+          "duration": 0.8513,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.3,
+          "sha256": "20e72966b0e1771283ff209f2ee01caa15c2d7351181e41b0c7746a90f571f04"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/94.mp3",
+          "duration": 0.8448,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.21,
+          "sha256": "01f026f304f712c03e5a6ab256fa7f33d17744f149362d73444bd69fca0c57ef"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/94.ogg",
+      "sourceSha256": "d44d4a6c9e6e276a20ba7a3be3256f5da0e1caf1ff01b51183dedad3dd8bead8"
+    },
+    "487": {
+      "name": "Giratina",
+      "dexId": 487,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/487.ogg",
+          "duration": 1.6022,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.71,
+          "sha256": "3194f79c39986423d90dbb025651b05ddd5bb17eb8e8753d7e985a9b79879495"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/487.mp3",
+          "duration": 1.5957,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.17,
+          "sha256": "ef11330e845c398ab23a0828c96a407250ce46bcb39d22a533fbf1bc13556959"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/487.ogg",
+      "sourceSha256": "840b6ed39c793bfd05a752b32f7d7f40dabfc12a1b033d5825f9a349e26c5d7e"
+    },
+    "471": {
+      "name": "Glaceon",
+      "dexId": 471,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/471.ogg",
+          "duration": 1.9151,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.74,
+          "sha256": "5e1a0971f1e8f475f643d446fe8d2d5b2a7b0f4d848901fa63ade2ddcebeac82"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/471.mp3",
+          "duration": 1.9086,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.32,
+          "sha256": "c6962f4624d3a9e2ee49a4a3df814a0f3ccebe953bb5774f87383b9e8b0b804a"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/471.ogg",
+      "sourceSha256": "5922978a1e65c26c55018ffcfc86eeb88a91133f27c27cd78465245ad7d3044b"
+    },
+    "44": {
+      "name": "Gloom",
+      "dexId": 44,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/44.ogg",
+          "duration": 0.6948,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.87,
+          "sha256": "396d96a57483dc8cd495119d06dda4f38dcba05422aba9a1cb6e4e38c5496851"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/44.mp3",
+          "duration": 0.6883,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.29,
+          "sha256": "90fcbf8385da09941d5f67ad08061d935dcdb40797c4337356df5de88370b872"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/44.ogg",
+      "sourceSha256": "2c43ed582ddea25b896ae8effe9b154df62ca3e378fa25bbeed5342d247d820b"
+    },
+    "658": {
+      "name": "Greninja",
+      "dexId": 658,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/658.ogg",
+          "duration": 1.1955,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.47,
+          "sha256": "ffb3dc5ff0112ce9ba8933414954bd6068e87a0d843d1360572fb7c8cc835502"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/658.mp3",
+          "duration": 1.189,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.3,
+          "sha256": "dccf16f725d89004836cf5b84b1f245ba2a787d2f18e1548530d1eb275def513"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/658.ogg",
+      "sourceSha256": "0deed934553d5163127269fb79a1610f8f8ffde1d906eef6e9af9375674d2df6"
+    },
+    "130": {
+      "name": "Gyarados",
+      "dexId": 130,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/130.ogg",
+          "duration": 1.1016,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.75,
+          "sha256": "47910aca8d2f2a6e0a0808d06a263df1013c779f5f112c1a51ea16373cecfdb0"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/130.mp3",
+          "duration": 1.0951,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.26,
+          "sha256": "13552534f46dfc829500691eb8b4c50341ddbe574b0ebada77637784ffda88f0"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/130.ogg",
+      "sourceSha256": "60fc6b4a60078029293efd90dcf2db2e38dd3f0afd0b0e13406ea3f51642b404"
+    },
+    "382": {
+      "name": "Kyogre",
+      "dexId": 382,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/382.ogg",
+          "duration": 1.6335,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.92,
+          "sha256": "aa66a3581a0446c27488c6a086205b5119b4bd784c6dbe68c447e9b64143b192"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/382.mp3",
+          "duration": 1.627,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.3,
+          "sha256": "fa8f270402749b59a69b956dee50e0e699a79027f7e0f0fff203a893be152277"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/382.ogg",
+      "sourceSha256": "1e28e242e23dcb91c3faa0e9c8533856eeb88261aafbc85b788036677327e0f3"
+    },
+    "470": {
+      "name": "Leafeon",
+      "dexId": 470,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/470.ogg",
+          "duration": 1.1642,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.78,
+          "sha256": "a0ca9d00f927275bf254817aa5b878fda91b6daf571605812941f65e5ceb83ce"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/470.mp3",
+          "duration": 1.1577,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.31,
+          "sha256": "c87a9771a857a7c9ace5871f6f02dd5e73754a71f0b020ebc6bb8d208cfd07d9"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/470.ogg",
+      "sourceSha256": "dbd85ca2e62d5feff170e1646620d24239548c252263333289825f6a1bf1a019"
+    },
+    "249": {
+      "name": "Lugia",
+      "dexId": 249,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/249.ogg",
+          "duration": 1.8212,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.33,
+          "sha256": "3ee96c56af071733bed767d7b10ade5e9a7276c16974747d106a8fc20f9588c0"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/249.mp3",
+          "duration": 1.8147,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.28,
+          "sha256": "eaee45342d3cff4c22c978c0ca3dd816c3ce39123a6234c5d87c563f0821c469"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/249.ogg",
+      "sourceSha256": "6179326d4047841448967329d56fb618329a6b5d17112ae6cfdb542f2af2bf52"
+    },
+    "151": {
+      "name": "Mew",
+      "dexId": 151,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/151.ogg",
+          "duration": 1.5083,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.54,
+          "sha256": "074e9d08645dda19334731e36e74050c7b8f3193a6cb9ae93c00a7409b9ccdd7"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/151.mp3",
+          "duration": 1.5018,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.71,
+          "sha256": "5be607c255ad431cdfc45fd3c3ad9fcaba242affb43b5103eaad013c57e2adad"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/151.ogg",
+      "sourceSha256": "67135848fe7529c10dd09c140a0113b49902502260e1999751e4ae8287864835"
+    },
+    "150": {
+      "name": "Mewtwo",
+      "dexId": 150,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/150.ogg",
+          "duration": 1.6022,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.49,
+          "sha256": "5ad4f0dcc3d6f42ab9d8448a1e79f7ada5821d4bd1cc3e8343822d6af5e9ee48"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/150.mp3",
+          "duration": 1.5957,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.21,
+          "sha256": "9f192f058b902efbb95fe5decb913493faa25aada8e93e9ab37acc6c887270cb"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/150.ogg",
+      "sourceSha256": "84b90df6aff3484ba3eab06a57a5108c84f636b59e8f1a284a5e410ac01f2bbe"
+    },
+    "146": {
+      "name": "Moltres",
+      "dexId": 146,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/146.ogg",
+          "duration": 1.3519,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.91,
+          "sha256": "11f1e44dfc7dd7580f5b1fe92e725419ea38ea98bc1610025d88cff50f3e3941"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/146.mp3",
+          "duration": 1.3454,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.35,
+          "sha256": "c269f51b0e0858f9038e5f72b9689910a69ec394caec9ef1604874521fcb89e9"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/146.ogg",
+      "sourceSha256": "6a7b2df55ae4fcce64b1d50f8f0b1d7a62ba9424e9be36b36116817b8a423da9"
+    },
+    "38": {
+      "name": "Ninetales",
+      "dexId": 38,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/38.ogg",
+          "duration": 1.2893,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.74,
+          "sha256": "0a20b3566988418e6c0b21b2a15d5a7a5f6ecd55ce9696dd3e558a7c3cf91d0a"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/38.mp3",
+          "duration": 1.2828,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.26,
+          "sha256": "1d26a284acae0b63c03bf794a5b50a27b14da7f1ff7fa29fe82b710e4d262ada"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/38.ogg",
+      "sourceSha256": "04fe646545cba8f326f4091502db48f1b8b177ff0b765dfb3ae97200d1cf1f99"
+    },
+    "43": {
+      "name": "Oddish",
+      "dexId": 43,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/43.ogg",
+          "duration": 0.8826,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.78,
+          "sha256": "425f6d267b27dfd9e434cad5bdbe059217c4c51b2a91b048662ece849ada84e2"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/43.mp3",
+          "duration": 0.8761,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.27,
+          "sha256": "836175247414c38cd27d3c79ce791b0a219e03671ece7b06ba22a2ced0dd5765"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/43.ogg",
+      "sourceSha256": "f74f25d48fde5e46b6d746a94d641380e00e5d3f65a870da5db5c4def245b4ce"
+    },
+    "980": {
+      "name": "Paldean Clodsire",
+      "dexId": 980,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/980.ogg",
+          "duration": 1.1956,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -7.17,
+          "sha256": "c88a9192605a56a8fac7b3b819eaf91438fe8c908c09c246362fdbc34099184a"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/980.mp3",
+          "duration": 1.1891,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.26,
+          "sha256": "1ca0648ea3891b38041f242bfdeed78d244e2cbf5f640257973fdf39a07b91e6"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/980.ogg",
+      "sourceSha256": "9a144c652b8bb2b4478e2f4d583345e7c4744ca05a3174a95d50665404eaa093"
+    },
+    "18": {
+      "name": "Pidgeot",
+      "dexId": 18,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/18.ogg",
+          "duration": 1.0077,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.88,
+          "sha256": "ef0cb790f6b04b1458e43394b6fce5ee4f575720c0c15a3013ca01d3d9c8329f"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/18.mp3",
+          "duration": 1.0012,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.14,
+          "sha256": "72cc33ba035b1ffedb14c19a7a83ec54d9aaa1f4e1dad3c60e5da61655b57602"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/18.ogg",
+      "sourceSha256": "c5b426b8fcc183d5bdb44ca3db066670b4ac1a60619680943f323c70744fbdfb"
+    },
+    "16": {
+      "name": "Pidgey",
+      "dexId": 16,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/16.ogg",
+          "duration": 0.382,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.79,
+          "sha256": "bd34ef5c58f829b10eb1666ee71ee17d9ff73a3d519cb09cebb9ab14730beb7f"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/16.mp3",
+          "duration": 0.3716,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.24,
+          "sha256": "1d3fec3d0b593f290bdaf8a7e5d1c781b32db1d4cdcfc9f7dc0d6a1642daf2a6"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/16.ogg",
+      "sourceSha256": "84e599c9bdfc9315e55f78cfaf3262ad0958bdb671239c877a2d9e647d659842"
+    },
+    "25": {
+      "name": "Pikachu",
+      "dexId": 25,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/25.ogg",
+          "duration": 0.9325,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -7.24,
+          "sha256": "a68443e2e65b7bfe8cb5136193191b12b852a42faaef4b9ae3ad781faf6b26e0"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/25.mp3",
+          "duration": 0.926,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.48,
+          "sha256": "d4e1c65b71ad457d0c3cc4587c52c8fe99e9304e871181658d7a33f780d8bf78"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/25.ogg",
+      "sourceSha256": "1ec10c893184b155a110d746ff0560f291978f32ce90c283b9871e61d6df12a1"
+    },
+    "127": {
+      "name": "Pinsir",
+      "dexId": 127,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/127.ogg",
+          "duration": 0.7261,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.83,
+          "sha256": "4aa8058945607b3211f613ea0fc137bf35dd54768658cd9a5d76c2e01d7feb9b"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/127.mp3",
+          "duration": 0.7196,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.33,
+          "sha256": "e6c5b65dcf02f40ed361bb59544688907f48a41e13d9208226835157f1939e0d"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/127.ogg",
+      "sourceSha256": "8e85ee92b973e06b72561831fe2eeec6d4b02466cb3c6cdabab326a5b7cae5db"
+    },
+    "26": {
+      "name": "Raichu",
+      "dexId": 26,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/26.ogg",
+          "duration": 1.1329,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.98,
+          "sha256": "219c4129ac796ff5c34d1416939df3f75b5d9e173ecaceb8a6e6c17b441d163e"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/26.mp3",
+          "duration": 1.1264,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -6.99,
+          "sha256": "a4e720ee1976f452fcdad4b634ef5685beeffd8d8f6e01aacdfafbd0c7f31773"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/26.ogg",
+      "sourceSha256": "53d2fc13471e005befab71dd5a92fbdd96ee64e3c8152d448e6094dbb9375e08"
+    },
+    "243": {
+      "name": "Raikou",
+      "dexId": 243,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/243.ogg",
+          "duration": 1.2267,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.51,
+          "sha256": "bed53e30f06a41d8dc0900a78617c6706c91475b85d5f1d555418751748b6721"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/243.mp3",
+          "duration": 1.2202,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.19,
+          "sha256": "f407eeda393450199e7c340c1836a5fdfeb157164bee6ed78fdd43496a1b4737"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/243.ogg",
+      "sourceSha256": "15b8818bfafe009b3f786e8d3d7476d0c34e61ff8c0208b518fba9b63a5b0084"
+    },
+    "384": {
+      "name": "Rayquaza",
+      "dexId": 384,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/384.ogg",
+          "duration": 1.5083,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.83,
+          "sha256": "b6523e51dc26af3749d90db1f5235f033ada3a3eb06cffa8f3d1c0ef8e1a27e3"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/384.mp3",
+          "duration": 1.5018,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.28,
+          "sha256": "a778e42d19a951d7217c8642a1eaf1bc780de492618fa3dfe885b009cbc5b7be"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/384.ogg",
+      "sourceSha256": "cd85f81a2e4e5c2d716a22b743396d8e8cb8cd5d9cdf7d474a5572ed3cfce7ac"
+    },
+    "479": {
+      "name": "Rotom",
+      "dexId": 479,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/479.ogg",
+          "duration": 1.5083,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.33,
+          "sha256": "2078e84ecd478d7907361f949fac3c07b4ddba279ca6f50468436f19d90f2729"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/479.mp3",
+          "duration": 1.5018,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.28,
+          "sha256": "51394e8fae55c244d1e509d820cb78a2cf08342ca7bb8f3a352b6fc18de54c80"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/479.ogg",
+      "sourceSha256": "17eb77a8ec17708dc914c7006b48161aae90d2ccf64c3eacef3e8830a73eae6e"
+    },
+    "212": {
+      "name": "Scizor",
+      "dexId": 212,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/212.ogg",
+          "duration": 1.1642,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.53,
+          "sha256": "c2ea21acc07b1a095c5bcfb857c44b91423077323162563316eeb9a3539a6641"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/212.mp3",
+          "duration": 1.1577,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.08,
+          "sha256": "3c34c0bf8e29ae6342a3423583e27394c1ee0e7fe7b5e46d005d2c669b3020fe"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/212.ogg",
+      "sourceSha256": "72ee17ca69d594f247b1100d8fb894bf5f80295f209bba235c65248812fa717e"
+    },
+    "121": {
+      "name": "Starmie",
+      "dexId": 121,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/121.ogg",
+          "duration": 1.1642,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -5.71,
+          "sha256": "e5c8d79682199e1554372143d906b59f46de291771b671692b7f75cfc1813ee3"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/121.mp3",
+          "duration": 1.1577,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.22,
+          "sha256": "56e4d0905bbbede00d4f05766aa2e206391ba18b65177e0c8180d6d13ce86742"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/121.ogg",
+      "sourceSha256": "c67d959c78a9bc2abed74ed14ae564196788bc5924042e811c031ffa59d72604"
+    },
+    "245": {
+      "name": "Suicune",
+      "dexId": 245,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/245.ogg",
+          "duration": 1.039,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.58,
+          "sha256": "003423337fff5befa5f2d859595985c7c66004ef8c4c0b77d404703a481a418d"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/245.mp3",
+          "duration": 1.0325,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.31,
+          "sha256": "6f43ac45a688601552a3b332ca193a17ed40cba447719cd4b335ae5d6ed22767"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/245.ogg",
+      "sourceSha256": "b75fb31254db301187baab67dfdc8e4b3efab7b789ed2969ff50336ba590e96c"
+    },
+    "700": {
+      "name": "Sylveon",
+      "dexId": 700,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/700.ogg",
+          "duration": 1.6022,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.88,
+          "sha256": "aaef72714e8126a0e2f7ee64d2e2a678af0b6ef1430464122b84769a22352f5b"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/700.mp3",
+          "duration": 1.5957,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.17,
+          "sha256": "7528ab5232043ae58f5ec5cc44e17629083fea94be0b7102c850462cfc93298e"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/700.ogg",
+      "sourceSha256": "d545f5319aee9b67fa2e11174c8458bd272171b2c05b9d8ddcdaa790a684a8c3"
+    },
+    "709": {
+      "name": "Trevenant",
+      "dexId": 709,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/709.ogg",
+          "duration": 1.7899,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.69,
+          "sha256": "e6718c74f109acb1d052d942d50e559f5eb2329c308ebfb42dcffd57dcad17f9"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/709.mp3",
+          "duration": 1.7834,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.26,
+          "sha256": "47d0178b8a5eb60d8bb7fb34b6fb13fd3989413da0ad248b49d32f1dde8e1040"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/709.ogg",
+      "sourceSha256": "8e58c28924724ba9e191cc277b8aeb8953fa82edade8059d393f7aab3fcb4ebf"
+    },
+    "248": {
+      "name": "Tyranitar",
+      "dexId": 248,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/248.ogg",
+          "duration": 1.3206,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.79,
+          "sha256": "4925f69b61b0eb631999ba58c429ef95242505c25c7793db5caa466458b1ec11"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/248.mp3",
+          "duration": 1.3141,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.33,
+          "sha256": "da99e19ca201e509eaff909575447beab4570ec6f2c42dc1d6d21f38a4010ac4"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/248.ogg",
+      "sourceSha256": "7a8d83b6687ce561237ee96ab17ea952265b683fb944b606e9905050dfb4ddca"
+    },
+    "197": {
+      "name": "Umbreon",
+      "dexId": 197,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/197.ogg",
+          "duration": 0.8513,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.81,
+          "sha256": "2cadb93832add5600617b2cdcbdfd8b59dfde7e619fd6daa220cf822400494fe"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/197.mp3",
+          "duration": 0.8448,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.36,
+          "sha256": "789cd480bba9714f267e6ece7f7ef09e8a7f430006c2b4ba6e7a7896580f0fc3"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/197.ogg",
+      "sourceSha256": "27f1903b20a71d3a4b9e03c03dd9f35cee3547873e929f68ee124152925b1554"
+    },
+    "134": {
+      "name": "Vaporeon",
+      "dexId": 134,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/134.ogg",
+          "duration": 1.6335,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -5.99,
+          "sha256": "ab68e6c71edfd37ebec9ef8eeffd42959f3d916b4b486f6089ea8b377d13980f"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/134.mp3",
+          "duration": 1.627,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.01,
+          "sha256": "4bc04ae5ba8f2e95a0467a9c4c6830499f2f3fe37b490838710669a4737a7d01"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/134.ogg",
+      "sourceSha256": "8954f4acc8658d84620b7eb93d99a21221518d6d5388e667de989ff35dec4c28"
+    },
+    "3": {
+      "name": "Venusaur",
+      "dexId": 3,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/3.ogg",
+          "duration": 1.0703,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -7.05,
+          "sha256": "04e18383516470b71a7ab6acd53a7b571646ce11ddf9940b964447131bb36799"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/3.mp3",
+          "duration": 1.0638,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.31,
+          "sha256": "0fcacdbdf19f6b39fc218505e821bf8d77a4f6130f8333210c7093b8d268de80"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/3.ogg",
+      "sourceSha256": "a1abf616f8f1391c174d4d2c92ecc6e241ec3bbdc8b9020942678d6eec67e8f4"
+    },
+    "145": {
+      "name": "Zapdos",
+      "dexId": 145,
+      "files": {
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/145.ogg",
+          "duration": 0.9139,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "peakDbfs": -6.12,
+          "sha256": "83673bb6d0283ffd580a28db754832bfae564734bfd8498937575f7cd86dbd16"
+        },
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v2/cries/145.mp3",
+          "duration": 0.9074,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "peakDbfs": -7.04,
+          "sha256": "e3f6baf654c3ac59e3214dc166461982670490a95d9886dc8dbc50056b03fa0a"
+        }
+      },
+      "source": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/145.ogg",
+      "sourceSha256": "14170397636113ab7ad532bf7adff189344fbfcfd296d6f02f9a64cc915344ff"
+    }
+  }
+}

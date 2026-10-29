@@ -1,0 +1,177 @@
+[
+  {
+    "id": "sv03-001",
+    "number": "001",
+    "name": "Oddish",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/cards/001.webp"
+  },
+  {
+    "id": "sv03-004",
+    "number": "004",
+    "name": "Scyther",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/cards/004.webp"
+  },
+  {
+    "id": "sv03-013",
+    "number": "013",
+    "name": "Rowlet",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/cards/013.webp"
+  },
+  {
+    "id": "sv03-026",
+    "number": "026",
+    "name": "Charmander",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/cards/026.webp"
+  },
+  {
+    "id": "sv03-027",
+    "number": "027",
+    "name": "Charmeleon",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/cards/027.webp"
+  },
+  {
+    "id": "sv03-028",
+    "number": "028",
+    "name": "Vulpix",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/cards/028.webp"
+  },
+  {
+    "id": "sv03-030",
+    "number": "030",
+    "name": "Entei",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/cards/030.webp"
+  },
+  {
+    "id": "sv03-045",
+    "number": "045",
+    "name": "Lapras",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/cards/045.webp"
+  },
+  {
+    "id": "sv03-066",
+    "number": "066",
+    "name": "Tyranitar ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/cards/066.webp"
+  },
+  {
+    "id": "sv03-080",
+    "number": "080",
+    "name": "Cleffa",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/cards/080.webp"
+  },
+  {
+    "id": "sv03-086",
+    "number": "086",
+    "name": "Espeon",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/cards/086.webp"
+  },
+  {
+    "id": "sv03-125",
+    "number": "125",
+    "name": "Charizard ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/cards/125.webp"
+  },
+  {
+    "id": "sv03-130",
+    "number": "130",
+    "name": "Umbreon",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/cards/130.webp"
+  },
+  {
+    "id": "sv03-159",
+    "number": "159",
+    "name": "Dragonite ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/cards/159.webp"
+  },
+  {
+    "id": "sv03-162",
+    "number": "162",
+    "name": "Pidgey",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/cards/162.webp"
+  },
+  {
+    "id": "sv03-166",
+    "number": "166",
+    "name": "Eevee",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/cards/166.webp"
+  },
+  {
+    "id": "sv03-198",
+    "number": "198",
+    "name": "Gloom",
+    "rarity": "Illustration rare",
+    "image": "/pokemon-legends-showcase/assets/cards/198.webp"
+  },
+  {
+    "id": "sv03-199",
+    "number": "199",
+    "name": "Ninetales",
+    "rarity": "Illustration rare",
+    "image": "/pokemon-legends-showcase/assets/cards/199.webp"
+  },
+  {
+    "id": "sv03-202",
+    "number": "202",
+    "name": "Cleffa",
+    "rarity": "Illustration rare",
+    "image": "/pokemon-legends-showcase/assets/cards/202.webp"
+  },
+  {
+    "id": "sv03-205",
+    "number": "205",
+    "name": "Scizor",
+    "rarity": "Illustration rare",
+    "image": "/pokemon-legends-showcase/assets/cards/205.webp"
+  },
+  {
+    "id": "sv03-207",
+    "number": "207",
+    "name": "Pidgey",
+    "rarity": "Illustration rare",
+    "image": "/pokemon-legends-showcase/assets/cards/207.webp"
+  },
+  {
+    "id": "sv03-215",
+    "number": "215",
+    "name": "Charizard ex",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/cards/215.webp"
+  },
+  {
+    "id": "sv03-223",
+    "number": "223",
+    "name": "Charizard ex",
+    "rarity": "Special illustration rare",
+    "image": "/pokemon-legends-showcase/assets/cards/223.webp"
+  },
+  {
+    "id": "sv03-225",
+    "number": "225",
+    "name": "Pidgeot ex",
+    "rarity": "Special illustration rare",
+    "image": "/pokemon-legends-showcase/assets/cards/225.webp"
+  },
+  {
+    "id": "sv03-228",
+    "number": "228",
+    "name": "Charizard ex",
+    "rarity": "Hyper rare",
+    "image": "/pokemon-legends-showcase/assets/cards/228.webp"
+  }
+]

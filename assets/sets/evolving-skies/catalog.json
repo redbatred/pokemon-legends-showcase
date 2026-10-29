@@ -1,0 +1,177 @@
+[
+  {
+    "id": "swsh7-1",
+    "number": "1",
+    "name": "Pinsir",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/1.webp"
+  },
+  {
+    "id": "swsh7-4",
+    "number": "4",
+    "name": "Jumpluff",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/4.webp"
+  },
+  {
+    "id": "swsh7-5",
+    "number": "5",
+    "name": "Seedot",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/5.webp"
+  },
+  {
+    "id": "swsh7-6",
+    "number": "6",
+    "name": "Tropius",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/6.webp"
+  },
+  {
+    "id": "swsh7-7",
+    "number": "7",
+    "name": "Leafeon V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/7.webp"
+  },
+  {
+    "id": "swsh7-13",
+    "number": "13",
+    "name": "Trevenant V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/13.webp"
+  },
+  {
+    "id": "swsh7-15",
+    "number": "15",
+    "name": "Gossifleur",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/15.webp"
+  },
+  {
+    "id": "swsh7-20",
+    "number": "20",
+    "name": "Victini",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/20.webp"
+  },
+  {
+    "id": "swsh7-29",
+    "number": "29",
+    "name": "Gyarados VMAX",
+    "rarity": "Holo Rare VMAX",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/29.webp"
+  },
+  {
+    "id": "swsh7-30",
+    "number": "30",
+    "name": "Vaporeon VMAX",
+    "rarity": "Holo Rare VMAX",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/30.webp"
+  },
+  {
+    "id": "swsh7-41",
+    "number": "41",
+    "name": "Glaceon VMAX",
+    "rarity": "Holo Rare VMAX",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/41.webp"
+  },
+  {
+    "id": "swsh7-42",
+    "number": "42",
+    "name": "Tympole",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/42.webp"
+  },
+  {
+    "id": "swsh7-49",
+    "number": "49",
+    "name": "Pikachu",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/49.webp"
+  },
+  {
+    "id": "swsh7-54",
+    "number": "54",
+    "name": "Mareep",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/54.webp"
+  },
+  {
+    "id": "swsh7-58",
+    "number": "58",
+    "name": "Dracozolt V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/58.webp"
+  },
+  {
+    "id": "swsh7-65",
+    "number": "65",
+    "name": "Espeon VMAX",
+    "rarity": "Holo Rare VMAX",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/65.webp"
+  },
+  {
+    "id": "swsh7-74",
+    "number": "74",
+    "name": "Sylveon V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/74.webp"
+  },
+  {
+    "id": "swsh7-95",
+    "number": "95",
+    "name": "Umbreon VMAX",
+    "rarity": "Holo Rare VMAX",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/95.webp"
+  },
+  {
+    "id": "swsh7-109",
+    "number": "109",
+    "name": "Salamence",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/109.webp"
+  },
+  {
+    "id": "swsh7-110",
+    "number": "110",
+    "name": "Rayquaza V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/110.webp"
+  },
+  {
+    "id": "swsh7-123",
+    "number": "123",
+    "name": "Duraludon VMAX",
+    "rarity": "Holo Rare VMAX",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/123.webp"
+  },
+  {
+    "id": "swsh7-124",
+    "number": "124",
+    "name": "Regidrago",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/124.webp"
+  },
+  {
+    "id": "swsh7-205",
+    "number": "205",
+    "name": "Leafeon VMAX",
+    "rarity": "Secret Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/205.webp"
+  },
+  {
+    "id": "swsh7-215",
+    "number": "215",
+    "name": "Umbreon VMAX",
+    "rarity": "Secret Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/215.webp"
+  },
+  {
+    "id": "swsh7-218",
+    "number": "218",
+    "name": "Rayquaza VMAX",
+    "rarity": "Secret Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/218.webp"
+  }
+]

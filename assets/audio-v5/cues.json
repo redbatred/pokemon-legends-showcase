@@ -1,0 +1,90 @@
+{
+  "hydropump": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v5/hydropump.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v5/hydropump.ogg"
+    },
+    "duration": 4.13575,
+    "decay": 0.06,
+    "peakDbfs": -6,
+    "gain": 0.32,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Hydro Pump",
+    "species": [
+      "blastoise",
+      "gyarados"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.24,
+      "releaseAt": 0.24,
+      "activeEnd": 2.7,
+      "naturalTailStart": 2.8,
+      "strongest20msWindowAt": 0.96,
+      "notes": "The original water onset grows over its first ~350 ms. Begin at anticipation, release the jet 240 ms later, sustain through ~2.7 s, then let the existing decaying tail finish.",
+      "playbackDuration": 4.13575,
+      "earlyStopFade": 0.18,
+      "basis": "20 ms and 100 ms RMS envelope analysis; release alignment is an editorial recommendation, not an official animation event timestamp or a human audition."
+    }
+  },
+  "waterpulse": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v5/waterpulse.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v5/waterpulse.ogg"
+    },
+    "duration": 3.700375,
+    "decay": 0.06,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Water Pulse",
+    "species": [
+      "vaporeon"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.08,
+      "releaseAt": 0.08,
+      "secondaryPulseAt": 1.3,
+      "activeEnd": 2.1,
+      "naturalTailStart": 2.25,
+      "strongest20msWindowAt": 1.56,
+      "notes": "Keep the initial pulse and the stronger second pulse around 1.3\u20131.6 s. Suitable for an expanding wave with a second ring; do not restart the recording per ring.",
+      "playbackDuration": 3.700375,
+      "earlyStopFade": 0.18,
+      "basis": "20 ms and 100 ms RMS envelope analysis; release alignment is an editorial recommendation, not an official animation event timestamp or a human audition."
+    }
+  },
+  "psystrike": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v5/psystrike.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v5/psystrike.ogg"
+    },
+    "duration": 4.426,
+    "decay": 0.06,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Psystrike",
+    "species": [
+      "mewtwo"
+    ],
+    "timing": {
+      "startOffset": 2.78,
+      "preRoll": 0.04,
+      "releaseAt": 2.82,
+      "activeEnd": 3.8,
+      "naturalTailStart": 3.85,
+      "strongest20msWindowAt": 3.6,
+      "fullSequenceAlternative": {
+        "startOffset": 0,
+        "preRoll": 2.82,
+        "releaseAt": 2.82
+      },
+      "notes": "The source has two distinct phrases, with a low-energy gap immediately before the second onset at 2.80 s. Default playback seeks to 2.78 s and reveals 40 ms later. Alternatively play the entire recording with 2.82 s anticipation. The phase interpretation is editorial, not verified game-engine event metadata. Use only for Mewtwo; do not map to every psychic species.",
+      "playbackDuration": 1.646,
+      "earlyStopFade": 0.18,
+      "basis": "20 ms and 100 ms RMS envelope analysis; release alignment is an editorial recommendation, not an official animation event timestamp or a human audition."
+    }
+  }
+}

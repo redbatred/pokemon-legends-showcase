@@ -1,0 +1,156 @@
+{
+  "verifiedDate": "2026-10-28",
+  "source": {
+    "title": "Crowd Oooh.wav",
+    "creator": "deleted_user_2104797",
+    "page": "https://freesound.org/people/deleted_user_2104797/sounds/324890/",
+    "previewUrl": "https://cdn.freesound.org/previews/324/324890_2104797-hq.mp3",
+    "sha256": "2cb0c4c6801f45bf4beddbfd9ba97fcc616d981e0ebdcd76ac22e776694ed833",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "publishedDate": "2015-10-14",
+    "description": "A crowd of people going \"Oooh\" three times.",
+    "sourceFormat": "Provider HQ MP3 preview; 48 kHz mono, approximately 170 kb/s. Original WAV not downloaded."
+  },
+  "processing": {
+    "sampleRate": 48000,
+    "filters": "highpass=f=100:p=2,lowpass=f=7000:p=2",
+    "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "levels": "Static gain targets -21 dBFS RMS; pre-encoding 4x peak ceiling -4 dBFS. Delivered files must remain at or below -3 dBFS 4x peak.",
+    "envelope": "120 ms sine attack, 500 ms sine release; one-shot excerpts with no loop.",
+    "content": "Two separate vocal reactions from the provider-described crowd Oooh recording. No applause source, generated voice, added music, reverb, source separation, pitch or speed change.",
+    "audition": "No human audition claimed. Content selection is based on the primary creator description and waveform envelope, with numerical decode, duration, level, headroom, endpoint and hash checks."
+  },
+  "cues": {
+    "crowdreact": {
+      "start": 12.4,
+      "duration": 1.65,
+      "fadeIn": 0.12,
+      "fadeOut": 0.5,
+      "rmsTarget": -21.0,
+      "gain": 0.2,
+      "loop": false,
+      "channels": 1,
+      "sourceRangeSeconds": [
+        12.4,
+        14.05
+      ],
+      "staticGainDb": -0.988244,
+      "peakCapReducedGain": false,
+      "pcmRmsDbfs": -21.0,
+      "files": {
+        "mp3": {
+          "sha256": "ccb5811a5225f91540a5b3f5a7560806040ac9f674962851a4427209fbbcfbeb",
+          "bytes": 34100,
+          "decodedDuration": 1.65,
+          "peak4xDbfs": -6.571,
+          "rmsDbfs": -21.445,
+          "endpoint1msPeakDbfs": -56.626,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "mp3",
+                "sample_rate": "48000",
+                "channels": 1
+              }
+            ],
+            "format": {
+              "duration": "1.650000",
+              "bit_rate": "165333"
+            }
+          }
+        },
+        "ogg": {
+          "sha256": "3c755f2d7491b0d08cdeba16e0a37e4725b0e28e61a237eea0c0399a849f3420",
+          "bytes": 19374,
+          "decodedDuration": 1.65,
+          "peak4xDbfs": -6.242,
+          "rmsDbfs": -21.0,
+          "endpoint1msPeakDbfs": -57.127,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "opus",
+                "sample_rate": "48000",
+                "channels": 1
+              }
+            ],
+            "format": {
+              "duration": "1.656500",
+              "bit_rate": "93565"
+            }
+          }
+        }
+      }
+    },
+    "crowdreactrare": {
+      "start": 6.45,
+      "duration": 1.9,
+      "fadeIn": 0.12,
+      "fadeOut": 0.5,
+      "rmsTarget": -21.0,
+      "gain": 0.3,
+      "loop": false,
+      "channels": 1,
+      "sourceRangeSeconds": [
+        6.45,
+        8.35
+      ],
+      "staticGainDb": -5.640806,
+      "peakCapReducedGain": false,
+      "pcmRmsDbfs": -21.0,
+      "files": {
+        "mp3": {
+          "sha256": "2f34429019ace15c9d73c6bd518fd09b2f3f7075da4e9202b6d2e81af81e6af8",
+          "bytes": 39380,
+          "decodedDuration": 1.9,
+          "peak4xDbfs": -7.587,
+          "rmsDbfs": -21.445,
+          "endpoint1msPeakDbfs": -56.604,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "mp3",
+                "sample_rate": "48000",
+                "channels": 1
+              }
+            ],
+            "format": {
+              "duration": "1.900000",
+              "bit_rate": "165810"
+            }
+          }
+        },
+        "ogg": {
+          "sha256": "709fe23ccc50ad30471774ae4c5ff4b6afd63462f7a92b2f1e43092cf9b20a70",
+          "bytes": 23753,
+          "decodedDuration": 1.9,
+          "peak4xDbfs": -7.171,
+          "rmsDbfs": -20.988,
+          "endpoint1msPeakDbfs": -56.202,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "opus",
+                "sample_rate": "48000",
+                "channels": 1
+              }
+            ],
+            "format": {
+              "duration": "1.906500",
+              "bit_rate": "99671"
+            }
+          }
+        }
+      }
+    }
+  }
+}

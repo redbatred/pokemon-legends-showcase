@@ -1,0 +1,1906 @@
+{
+  "description": "Compact authentic Pok\u00e9mon GO-derived ball, move, UI and reward cues. Replaces generic sampled effects with actual game recordings; no Kenney samples or arbitrary synthesizer tones are used.",
+  "repository": {
+    "url": "https://github.com/PokeMiners/pogo_assets",
+    "commit": "c2a686eb08ace6e890d8fe3d2134c76988db87b5",
+    "readme": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/README.md",
+    "claim": "The PokeMiners repository states these are mined Pok\u00e9mon GO audio assets and that it did not create or modify the sound files. It attributes copyright to The Pok\u00e9mon Company and Niantic.",
+    "verification": "Source downloads are pinned to an immutable commit. SHA-256 and Git blob SHA-1 recorded per file; selected downloads matched the repository's Git tree blob identifiers during preparation."
+  },
+  "rights": "Copyrighted game audio reused under the user's stated Pok\u00e9mon license. PokeMiners is the datamining source, not a rights-holder delivery service; no open-license claim is made. No private ROM, login, DRM bypass or region-block bypass was used.",
+  "reproduce": "python3 scripts/fetch-genuine-audio.py. To build selected cues and preserve the others, append --only swift hyperbeam shadowball aeroblast petals. Requires Python 3, curl, ffmpeg and ffprobe; optional ASSET_FFMPEG and ASSET_FFPROBE. Only selected small WAVs download, and each pinned source hash is checked before encoding.",
+  "validation": "Each MP3 and OGG decodes with ffmpeg -xerror; PCM is finite, duration is within 3 ms of its cue, four-times-oversampled peaks are within 0.4 dB of target, and final samples are below -65 dBFS. Output hashes and metrics recorded per file.",
+  "limitations": "Source clips are chiefly mono 11.025 kHz game audio, with some 22.05 kHz clips. Resampling does not create additional detail. Names and repository provenance identify the assets; no human listening review or direct comparison against a retail game capture is claimed. Card/pack roles are explicitly labeled artistic reuse of game UI or Master Ball sounds.",
+  "originalFlamethrower": {
+    "path": "/pokemon-legends-showcase/assets/audio-v4/originals/flamethrower.wav",
+    "duration": 3.227574,
+    "codec_name": "pcm_s16le",
+    "sample_rate": "11025",
+    "channels": 1,
+    "sha256": "790ad2c9f81735d3acf5a61b9df67e9c7e17758a7cbfac933ab441f4a26e99a1",
+    "bytes": 71212
+  },
+  "effects": {
+    "fire": {
+      "sourceSound": "Flamethrower",
+      "role": "Charizard/fire attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/fire.mp3",
+          "duration": 1.100068,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.100083,
+          "peakDbfs": -6.269,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -19.786,
+          "lastSampleDbfs": -156.247,
+          "bytes": 28256,
+          "sha256": "e01ad927b0b91cda67d70bd8303a465018776ada847f036bb9e453e8af13ef82"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/fire.ogg",
+          "duration": 1.106563,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.100062,
+          "peakDbfs": -6.074,
+          "oversampledPeakDbfs": -6.074,
+          "rmsDbfs": -19.891,
+          "lastSampleDbfs": -111.077,
+          "bytes": 14079,
+          "sha256": "17ebd1cfe4b91378d39d61b08d0a230d445e02a457a05e4667085da036ab3e77"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/053-0_flamethrower.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/053-0_flamethrower.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/053-0_flamethrower.wav",
+        "duration": 3.227574,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "790ad2c9f81735d3acf5a61b9df67e9c7e17758a7cbfac933ab441f4a26e99a1",
+        "gitBlobSha1": "b0921fe12062228861b3ac5c846eff4979d44a6e"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.1,
+        "attackFade": 0.002,
+        "decay": 0.25,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.4
+    },
+    "water": {
+      "sourceSound": "Water Gun",
+      "role": "Water attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/water.mp3",
+          "duration": 1.0,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.279,
+          "oversampledPeakDbfs": -6.265,
+          "rmsDbfs": -19.056,
+          "lastSampleDbfs": -180.0,
+          "bytes": 25748,
+          "sha256": "c50b3cc1968043762a66b2acb6e12a96f1657815c9d1d73628dbe34c217099e8"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/water.ogg",
+          "duration": 1.0065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.038,
+          "oversampledPeakDbfs": -6.029,
+          "rmsDbfs": -18.77,
+          "lastSampleDbfs": -113.551,
+          "bytes": 12356,
+          "sha256": "3c935e55b30e77407aa29d119803021d9ffcab3ef03a2b2e89cd4c5a2e209392"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/055-0_water_gun.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/055-0_water_gun.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/055-0_water_gun.wav",
+        "duration": 1.991111,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "bc65d91b12c30d766e53232bc5241d1879895c3e8a0ceae76d17edf78e16b07d",
+        "gitBlobSha1": "9aa1985bdc46444e4069e6197e286ac6c0a55f3a"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.0,
+        "attackFade": 0.002,
+        "decay": 0.22,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.36
+    },
+    "electric": {
+      "sourceSound": "Thunderbolt",
+      "role": "Electric attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/electric.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.293,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -18.397,
+          "lastSampleDbfs": -180.0,
+          "bytes": 24494,
+          "sha256": "82a0020ec102f07cc8be02bd795f303f646ae7a7a06e8f56100e3c7c92c53616"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/electric.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -5.912,
+          "oversampledPeakDbfs": -5.888,
+          "rmsDbfs": -18.155,
+          "lastSampleDbfs": -118.236,
+          "bytes": 12227,
+          "sha256": "f6c04393df52f40b6056b89e449ad392e40bd4ba388ed17cc3ef12a8a46aa179"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/085-0_thunderbolt.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/085-0_thunderbolt.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/085-0_thunderbolt.wav",
+        "duration": 2.902494,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "9528c66e63d730c683ca6b8dafe3f39112c3213f0b06be8bad38059cfcce7543",
+        "gitBlobSha1": "7e27b5215e18128250548cae0863a4e036a89bf3"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.2,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "psychic": {
+      "sourceSound": "Psychic",
+      "role": "Psychic attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/psychic.mp3",
+          "duration": 1.100068,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.100083,
+          "peakDbfs": -6.309,
+          "oversampledPeakDbfs": -6.267,
+          "rmsDbfs": -19.199,
+          "lastSampleDbfs": -153.395,
+          "bytes": 28256,
+          "sha256": "0de2b5f5025e7861d14b595464cce84d4429d3f2b739038c177fb663347b6b46"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/psychic.ogg",
+          "duration": 1.106563,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.100062,
+          "peakDbfs": -6.105,
+          "oversampledPeakDbfs": -6.042,
+          "rmsDbfs": -19.311,
+          "lastSampleDbfs": -112.346,
+          "bytes": 14579,
+          "sha256": "a0d1129675939c2a876663d07b978e3849141b210a65b77c8870e8e7a54f1e2e"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/094-0_psychic.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/094-0_psychic.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/094-0_psychic.wav",
+        "duration": 3.233379,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "c9e97ecf098c2066e4a52a3e355cdc5fa609b5e3b06297f90692a593cc113445",
+        "gitBlobSha1": "ebdd48da5adf9d55d91edef0f7184f59e0206a9c"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.1,
+        "attackFade": 0.002,
+        "decay": 0.23,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "leaf": {
+      "sourceSound": "Razor Leaf",
+      "role": "Grass attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/leaf.mp3",
+          "duration": 0.8,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.8,
+          "peakDbfs": -6.264,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -20.232,
+          "lastSampleDbfs": -151.613,
+          "bytes": 20733,
+          "sha256": "00e34ed80c07717b93961d1cfe33c5863c2e68e6d99d9a62811c8d9fadfdf17d"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/leaf.ogg",
+          "duration": 0.8065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.8,
+          "peakDbfs": -6.218,
+          "oversampledPeakDbfs": -6.218,
+          "rmsDbfs": -19.946,
+          "lastSampleDbfs": -116.1,
+          "bytes": 10499,
+          "sha256": "f267c67e431326b18800196b66fc6680ea32d8d51f62c386ac600a9290045e26"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/075-0_razor_leaf.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/075-0_razor_leaf.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/075-0_razor_leaf.wav",
+        "duration": 1.555737,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "ee0b3febca8c5991da6e5f7b77882b6cb28eb41dcee8c0b8ff837a648d740eae",
+        "gitBlobSha1": "6ec77605acf3f31f117e8230d0d793c3bc857b2e"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.8,
+        "attackFade": 0.002,
+        "decay": 0.18,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "wind": {
+      "sourceSound": "Gust",
+      "role": "Wind attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/wind.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.266,
+          "oversampledPeakDbfs": -6.263,
+          "rmsDbfs": -19.884,
+          "lastSampleDbfs": -179.365,
+          "bytes": 24494,
+          "sha256": "c24669d0b10713e86229e7cff869a19d7f00a158f07a32ee45b42b22c0c52e50"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/wind.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -6.044,
+          "oversampledPeakDbfs": -6.044,
+          "rmsDbfs": -19.609,
+          "lastSampleDbfs": -112.37,
+          "bytes": 12449,
+          "sha256": "5718e5040a78fd7fb00994bff00ef831790349439ae9436d5f33e56e2158f055"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/016-0_gust_fast.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/016-0_gust_fast.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/016-0_gust_fast.wav",
+        "duration": 2.165261,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "e151643ca2fad69f09876728159d402cbc29fca3e56698ed90251df763ccdf5d",
+        "gitBlobSha1": "261302fe5d9a24c6d6f5317f863e506214a6a876"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.22,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.33
+    },
+    "ice": {
+      "sourceSound": "Ice Beam",
+      "role": "Ice attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/ice.mp3",
+          "duration": 1.100068,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.100083,
+          "peakDbfs": -6.295,
+          "oversampledPeakDbfs": -6.263,
+          "rmsDbfs": -22.514,
+          "lastSampleDbfs": -159.249,
+          "bytes": 28256,
+          "sha256": "c0a476357c99dc5512dcd7b848229bea8bd0fc1dadc737e802f5ba180a10be72"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/ice.ogg",
+          "duration": 1.106563,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.100062,
+          "peakDbfs": -5.769,
+          "oversampledPeakDbfs": -5.764,
+          "rmsDbfs": -22.241,
+          "lastSampleDbfs": -108.478,
+          "bytes": 14853,
+          "sha256": "40360210c1de95522205dfdbb30fe4b882876df3a349801b869382d840eb0a31"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/058-0_ice_beam.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/058-0_ice_beam.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/058-0_ice_beam.wav",
+        "duration": 3.900952,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "8831573e0eaaf1b37562feb315757314256418486051c7fea7b993742190ff9d",
+        "gitBlobSha1": "d8dd245f1fe325ba416b76b1f72b7ddd0793ddb5"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.1,
+        "attackFade": 0.002,
+        "decay": 0.25,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "dark": {
+      "sourceSound": "Dark Pulse",
+      "role": "Dark attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/dark.mp3",
+          "duration": 1.0,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.266,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -21.733,
+          "lastSampleDbfs": -174.412,
+          "bytes": 25748,
+          "sha256": "c4c0aa1239b4889dbaa73e88d5cf346d6ed594c2391693f8ac9bb77196f1c1df"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/dark.ogg",
+          "duration": 1.0065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.081,
+          "oversampledPeakDbfs": -6.079,
+          "rmsDbfs": -21.511,
+          "lastSampleDbfs": -110.916,
+          "bytes": 15476,
+          "sha256": "fa3246c8b2d59f4cebbeb3540b846bfeb789e35aecea1ea784ee6b4f74bd957d"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/399-0_dark_pulse.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/399-0_dark_pulse.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/399-0_dark_pulse.wav",
+        "duration": 2.426485,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "ed027edbdb3d532ce329bd3e6b67a5309ff1e5587aabd88f534e68c54e0fe35a",
+        "gitBlobSha1": "dd7d94d08e9a7dab8da910e04398bd0df4fa73cb"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.0,
+        "attackFade": 0.002,
+        "decay": 0.22,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "metal": {
+      "sourceSound": "Metal Claw",
+      "role": "Metal attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/metal.mp3",
+          "duration": 0.750045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.750062,
+          "peakDbfs": -6.262,
+          "oversampledPeakDbfs": -6.262,
+          "rmsDbfs": -19.874,
+          "lastSampleDbfs": -173.634,
+          "bytes": 19479,
+          "sha256": "86ddc40e7c17e2f901daeb596387d4ffbc916b9cce1cfa6954d64ad2bea5680e"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/metal.ogg",
+          "duration": 0.756542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.750042,
+          "peakDbfs": -6.087,
+          "oversampledPeakDbfs": -6.027,
+          "rmsDbfs": -19.548,
+          "lastSampleDbfs": -119.19,
+          "bytes": 10056,
+          "sha256": "3572c1cec490bd511a9da6ec80384f2b5daa1bd05029a92cf374086dcb4739da"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/232-0_metal_claw.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/232-0_metal_claw.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/232-0_metal_claw.wav",
+        "duration": 1.811156,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "874826dd6682323b474b1187ffc6442eee70af4b40f4a844936cba544e237034",
+        "gitBlobSha1": "5642c0d51871165170f2e53720d8c49b807dffdc"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.75,
+        "attackFade": 0.002,
+        "decay": 0.2,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "ground": {
+      "sourceSound": "Earthquake",
+      "role": "Ground attack",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/ground.mp3",
+          "duration": 1.100068,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.100083,
+          "peakDbfs": -6.264,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -18.641,
+          "lastSampleDbfs": -168.302,
+          "bytes": 28256,
+          "sha256": "545d4da1a4bccb8acd0566f7f583395db356222a50555861f305173fd2420bc4"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/ground.ogg",
+          "duration": 1.106563,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.100062,
+          "peakDbfs": -5.758,
+          "oversampledPeakDbfs": -5.751,
+          "rmsDbfs": -18.368,
+          "lastSampleDbfs": -122.196,
+          "bytes": 15505,
+          "sha256": "c97ea60c1b897792d5d3d0bb818854e70d019310945cd0c94092d55f95bf90f0"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/089-0_earthquake.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/089-0_earthquake.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/089-0_earthquake.wav",
+        "duration": 4.516281,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "fd096b8bb6485d4583cbb4fe5506977250f373cebe1938c6ec31461df5b125a5",
+        "gitBlobSha1": "fa37e84120df5d21f9810f1d6036bdbc3f225fbd"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.1,
+        "attackFade": 0.002,
+        "decay": 0.25,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.32
+    },
+    "dragon": {
+      "sourceSound": "Dragon Pulse",
+      "role": "Dragon attack; excerpt of the strongest beam passage",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/dragon.mp3",
+          "duration": 1.150454,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.150458,
+          "peakDbfs": -6.313,
+          "oversampledPeakDbfs": -6.266,
+          "rmsDbfs": -19.432,
+          "lastSampleDbfs": -159.616,
+          "bytes": 29510,
+          "sha256": "e9acf753887afe95797645a128a4250038a869c10726b6376a5a28eeceb5d490"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/dragon.ogg",
+          "duration": 1.156542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.150042,
+          "peakDbfs": -5.772,
+          "oversampledPeakDbfs": -5.713,
+          "rmsDbfs": -19.122,
+          "lastSampleDbfs": -118.711,
+          "bytes": 13866,
+          "sha256": "813ced05865dfab4bc2a0b5cfdc7139d3a2217fc5ef9c0ed6b95f8fc8b21e3a3"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/406-0_dragon_pulse.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/406-0_dragon_pulse.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/406-0_dragon_pulse.wav",
+        "duration": 4.179592,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "3e6c23898abb0c142c977b5e9ef869431985b9fc0f47c0b064642b1417e2a6e8",
+        "gitBlobSha1": "490bd6baa1b303dfaa32db596287e144ffc91165"
+      },
+      "processing": {
+        "sourceStart": 0.85,
+        "duration": 1.15,
+        "attackFade": 0.002,
+        "decay": 0.25,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.35
+    },
+    "fairy": {
+      "sourceSound": "Dazzling Gleam",
+      "role": "Fairy attack; excerpt of the bright payoff passage",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/fairy.mp3",
+          "duration": 1.100068,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.100083,
+          "peakDbfs": -6.263,
+          "oversampledPeakDbfs": -6.262,
+          "rmsDbfs": -21.424,
+          "lastSampleDbfs": -164.186,
+          "bytes": 28256,
+          "sha256": "17b5f7c145b08775e4d2a6616b50295ddb4f381ad410380522c971114bdea8b3"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/fairy.ogg",
+          "duration": 1.106563,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.100062,
+          "peakDbfs": -6.083,
+          "oversampledPeakDbfs": -6.049,
+          "rmsDbfs": -21.148,
+          "lastSampleDbfs": -125.0,
+          "bytes": 14028,
+          "sha256": "c32d0d62f324134c2a44b469e130f873922aeec51138992f436038c27887376c"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/605-0_dazzling_gleam.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/605-0_dazzling_gleam.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/605-0_dazzling_gleam.wav",
+        "duration": 3.268209,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "d1330422ec0182040d3ae5018ac41c66848ae559d71f09e7ddde55cfdf338148",
+        "gitBlobSha1": "4c0d1e1b78e792cd145122852e36cf6b4f358b17"
+      },
+      "processing": {
+        "sourceStart": 1.25,
+        "duration": 1.1,
+        "attackFade": 0.002,
+        "decay": 0.23,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "throw": {
+      "sourceSound": "Pok\u00e9 Ball throw",
+      "role": "Ball throw",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/throw.mp3",
+          "duration": 0.540068,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.540083,
+          "peakDbfs": -6.267,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -20.778,
+          "lastSampleDbfs": -164.773,
+          "bytes": 14463,
+          "sha256": "00ea4125babbd0ac229976476808418fc7e1e7e96b00c2da7a09130c6afa523b"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/throw.ogg",
+          "duration": 0.546563,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.540063,
+          "peakDbfs": -6.114,
+          "oversampledPeakDbfs": -6.114,
+          "rmsDbfs": -20.535,
+          "lastSampleDbfs": -121.825,
+          "bytes": 6824,
+          "sha256": "55a5e388519905ea6a8c9c958a8f0d98ae350d7563b5fe33dfaec3d8cf12c431"
+        }
+      },
+      "source": {
+        "path": "Sounds/Encounter/se_go_ball_throw.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_throw.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_throw.wav",
+        "duration": 0.539864,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "a6b1f4f8d9b9c0295ea40d5fc5611d77c6f269040b9c48871b9430cf461f85f7",
+        "gitBlobSha1": "4dc69a1ebea68e9edab98541aaeba2e26babb5a4"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.54,
+        "attackFade": 0.002,
+        "decay": 0.045,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "impact": {
+      "sourceSound": "Pok\u00e9 Ball ground contact",
+      "role": "Ball impact; first ground contact retained",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/impact.mp3",
+          "duration": 0.52,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.52,
+          "peakDbfs": -6.266,
+          "oversampledPeakDbfs": -6.263,
+          "rmsDbfs": -24.342,
+          "lastSampleDbfs": -180.0,
+          "bytes": 13836,
+          "sha256": "2389562e4cedd7ee4e3f25e1c715fa2f97b903b4ba4425cadb75088f0dbb3fcc"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/impact.ogg",
+          "duration": 0.5265,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.52,
+          "peakDbfs": -5.99,
+          "oversampledPeakDbfs": -5.988,
+          "rmsDbfs": -24.091,
+          "lastSampleDbfs": -142.301,
+          "bytes": 9066,
+          "sha256": "6e901824ae7db0457b3723196993e1c9d2eeb36f02e01fd7e615818e08bcd112"
+        }
+      },
+      "source": {
+        "path": "Sounds/Encounter/se_go_ball_ground.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_ground.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_ground.wav",
+        "duration": 0.870748,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "42ee9eb7e175c16ea628760b1d45cf981c04beb737c57a267c7cf667a143781e",
+        "gitBlobSha1": "71e38d704c8c7b45a7d124b300a914e5c7785381"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.52,
+        "attackFade": 0.002,
+        "decay": 0.12,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.28
+    },
+    "release": {
+      "sourceSound": "Pok\u00e9 Ball bowa/poof",
+      "role": "The actual game's short ball-opening burst, followed by the species cry",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/release.mp3",
+          "duration": 0.36678,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.366792,
+          "peakDbfs": -6.28,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -14.418,
+          "lastSampleDbfs": -157.051,
+          "bytes": 10702,
+          "sha256": "29e147cb3baaafa28549806c1e41f53422d3cd8c98e897c2c58c2faeaefc0604"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/release.ogg",
+          "duration": 0.3725,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.366,
+          "peakDbfs": -5.834,
+          "oversampledPeakDbfs": -5.83,
+          "rmsDbfs": -14.164,
+          "lastSampleDbfs": -106.957,
+          "bytes": 8116,
+          "sha256": "9d3256cea8cc5c553fecbe72c170a8bb6311845eb985b5321ab126be9bfe85f1"
+        }
+      },
+      "source": {
+        "path": "Sounds/Encounter/se_go_ball_bowa1.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_bowa1.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_bowa1.wav",
+        "duration": 0.365714,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "c9153453db3fe0778d1f4df03f171e408de2a1524365fd06ad19d4260d25b454",
+        "gitBlobSha1": "aea92a70f11d4649695ac30fe6d6e073a031b0a8"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.366,
+        "attackFade": 0.002,
+        "decay": 0.035,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.44
+    },
+    "latch": {
+      "sourceSound": "Master Ball unlatch",
+      "role": "Ball button/unlatch",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/latch.mp3",
+          "duration": 0.314535,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.314542,
+          "peakDbfs": -6.803,
+          "oversampledPeakDbfs": -6.201,
+          "rmsDbfs": -28.198,
+          "lastSampleDbfs": -170.267,
+          "bytes": 9448,
+          "sha256": "2497f606dd14fab59c8c1197b0d88b5d4e41d11d19f6b6c903be8d974c427765"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/latch.ogg",
+          "duration": 0.320521,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.314021,
+          "peakDbfs": -6.478,
+          "oversampledPeakDbfs": -5.933,
+          "rmsDbfs": -27.892,
+          "lastSampleDbfs": -128.963,
+          "bytes": 6394,
+          "sha256": "76e7e21adfcb1df130ce04b6137e3085193fe5583a23973e254e4c629f227782"
+        }
+      },
+      "source": {
+        "path": "Sounds/Master Ball/mb_unlatchSFX.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Master%20Ball/mb_unlatchSFX.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Master%20Ball/mb_unlatchSFX.wav",
+        "duration": 0.313469,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "22050",
+        "channels": 1,
+        "sha256": "67e588f4937c411a82fab0b2d11935d2c2a9a95641e35ca969b302101f631a60",
+        "gitBlobSha1": "bcb91ec1827a2e39d80d84ebe5911dca1916d888"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.314,
+        "attackFade": 0.002,
+        "decay": 0.025,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "tear": {
+      "sourceSound": "Master Ball steam unseal",
+      "role": "Pack unseal; repurposed Pok\u00e9mon game unsealing cue, not a claim of card-paper Foley",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/tear.mp3",
+          "duration": 1.2,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.2,
+          "peakDbfs": -6.977,
+          "oversampledPeakDbfs": -6.266,
+          "rmsDbfs": -22.965,
+          "lastSampleDbfs": -180.0,
+          "bytes": 30137,
+          "sha256": "64f8df3ff1a43cc7c0b82e17671e1cca216c01b46027a315f9b5c331a0b3506f"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/tear.ogg",
+          "duration": 1.2065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.2,
+          "peakDbfs": -5.962,
+          "oversampledPeakDbfs": -5.825,
+          "rmsDbfs": -22.703,
+          "lastSampleDbfs": -130.171,
+          "bytes": 14503,
+          "sha256": "72961a1f0b11df451def4fe2e45cedce087c8638ba870bb0b9516b952116a907"
+        }
+      },
+      "source": {
+        "path": "Sounds/Master Ball/mb_steamUnsealSFX.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Master%20Ball/mb_steamUnsealSFX.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Master%20Ball/mb_steamUnsealSFX.wav",
+        "duration": 1.593469,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "22050",
+        "channels": 1,
+        "sha256": "611207d44f2b5eb4993aaf98d699d578125192db94b7b91d87f0bc07337bf9a6",
+        "gitBlobSha1": "5695b79330ee883c41a4b7289935057da6e9bd18"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.2,
+        "attackFade": 0.002,
+        "decay": 0.2,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.27
+    },
+    "flip": {
+      "sourceSound": "Game menu open",
+      "role": "Card turn; repurposed game UI sound",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/flip.mp3",
+          "duration": 0.569002,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.569021,
+          "peakDbfs": -6.3,
+          "oversampledPeakDbfs": -6.263,
+          "rmsDbfs": -22.592,
+          "lastSampleDbfs": -180.0,
+          "bytes": 15090,
+          "sha256": "c7d20a1ff932164217426115209ecb3de27dc484d62e851da039f516b186fb15"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/flip.ogg",
+          "duration": 0.5755,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.569,
+          "peakDbfs": -5.815,
+          "oversampledPeakDbfs": -5.799,
+          "rmsDbfs": -22.326,
+          "lastSampleDbfs": -127.215,
+          "bytes": 8212,
+          "sha256": "22315137d936f334fa47232f307cc1fdcdf08622c27e8e099f7859cd7642c3b5"
+        }
+      },
+      "source": {
+        "path": "Sounds/Menu Sounds/SEQ_SE_OPEN2.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/SEQ_SE_OPEN2.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/SEQ_SE_OPEN2.wav",
+        "duration": 0.568889,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "8bd30432394e30f0d5ab6f906dfa95c65cd5de3bb7e4176c392398e036445abf",
+        "gitBlobSha1": "feff1708d1216b13320d37fa3fd8df5a40798772"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.569,
+        "attackFade": 0.002,
+        "decay": 0.04,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.2
+    },
+    "normal": {
+      "sourceSound": "Game completion confirmation",
+      "role": "Normal card reveal",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/normal.mp3",
+          "duration": 0.784739,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.78475,
+          "peakDbfs": -6.265,
+          "oversampledPeakDbfs": -6.265,
+          "rmsDbfs": -20.718,
+          "lastSampleDbfs": -159.128,
+          "bytes": 20733,
+          "sha256": "20bdaa8ff344d68a1fead78cba49c6f3a1e2262a9628896e7d5beb66ac2139e1"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/normal.ogg",
+          "duration": 0.790542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.784042,
+          "peakDbfs": -5.898,
+          "oversampledPeakDbfs": -5.897,
+          "rmsDbfs": -20.417,
+          "lastSampleDbfs": -136.788,
+          "bytes": 13662,
+          "sha256": "3dfbdd0e56f5ad687f57cc258709cf4c902252b91409f5a0d05dd556c97e405b"
+        }
+      },
+      "source": {
+        "path": "Sounds/Menu Sounds/SEQ_SE_COMPLETE1.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/SEQ_SE_COMPLETE1.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/SEQ_SE_COMPLETE1.wav",
+        "duration": 0.783673,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "f8e17ea60ed7dfb97d4f647c3ce91b006003ac247bc26236d05bf766053fd237",
+        "gitBlobSha1": "df05de01528c39c57fedf41086b92909cf52a141"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.784,
+        "attackFade": 0.002,
+        "decay": 0.055,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.28
+    },
+    "rare": {
+      "sourceSound": "Master Ball sparkle motion",
+      "role": "Rare card sparkle",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/rare.mp3",
+          "duration": 1.26,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.26,
+          "peakDbfs": -6.435,
+          "oversampledPeakDbfs": -6.24,
+          "rmsDbfs": -22.29,
+          "lastSampleDbfs": -160.752,
+          "bytes": 32017,
+          "sha256": "d2c6350542883b461e9e43b1d85457bbf4680f7565ce995ffb909121daf5ffec"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/rare.ogg",
+          "duration": 1.2665,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.26,
+          "peakDbfs": -5.987,
+          "oversampledPeakDbfs": -5.945,
+          "rmsDbfs": -22.006,
+          "lastSampleDbfs": -141.564,
+          "bytes": 15576,
+          "sha256": "9ba66bb0041344c9dcfd596903e67c63a9a61574e38c3074a26ae08f13f26827"
+        }
+      },
+      "source": {
+        "path": "Sounds/Master Ball/mb_sparkleMotionSFX.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Master%20Ball/mb_sparkleMotionSFX.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Master%20Ball/mb_sparkleMotionSFX.wav",
+        "duration": 1.259683,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "22050",
+        "channels": 1,
+        "sha256": "7fe441009c6a672b4563cb09496a31d8c896954aa5ee9d0427b5aff431dbf828",
+        "gitBlobSha1": "7236eee192f1ccf24d2060f31f01d18cb46a8fc9"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.26,
+        "attackFade": 0.002,
+        "decay": 0.08,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "complete": {
+      "sourceSound": "Quest reward collected",
+      "role": "One completed pack/payout reward cue; do not loop",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/complete.mp3",
+          "duration": 2.175034,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 2.175042,
+          "peakDbfs": -6.345,
+          "oversampledPeakDbfs": -6.269,
+          "rmsDbfs": -23.055,
+          "lastSampleDbfs": -180.0,
+          "bytes": 53960,
+          "sha256": "2da3152c6fb1f7ff94b90bce3496e925c87f42f35809fbe4a8d1118176d40a25"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/complete.ogg",
+          "duration": 2.181521,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 2.175021,
+          "peakDbfs": -6.12,
+          "oversampledPeakDbfs": -6.05,
+          "rmsDbfs": -22.819,
+          "lastSampleDbfs": -180.0,
+          "bytes": 31876,
+          "sha256": "bcddd9ee425ff3296a4b4b28e16958d095669e8012f2e9b2713865c36381c99c"
+        }
+      },
+      "source": {
+        "path": "Sounds/Menu Sounds/se_go_quests_get_rewards.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/se_go_quests_get_rewards.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/se_go_quests_get_rewards.wav",
+        "duration": 2.175011,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "22050",
+        "channels": 1,
+        "sha256": "ec414f22eba6ab97a0dae7cc2d54be57b1c7f53649acf5ee09af28201e4ec4a9",
+        "gitBlobSha1": "5dc3387dd053c1169d09ffd8f456765549700aed"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 2.175,
+        "attackFade": 0.002,
+        "decay": 0.1,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.3
+    },
+    "credit": {
+      "sourceSound": "XP awarded",
+      "role": "One completed credit award; never repeat per counter tick",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/credit.mp3",
+          "duration": 0.72,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.72,
+          "peakDbfs": -9.309,
+          "oversampledPeakDbfs": -9.265,
+          "rmsDbfs": -22.99,
+          "lastSampleDbfs": -161.475,
+          "bytes": 18852,
+          "sha256": "5cd13f5d8fc92b8e3ea3323e9be8487c2b2f880b51e5c69ff47dde3447cc3b17"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/credit.ogg",
+          "duration": 0.7265,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.72,
+          "peakDbfs": -9.16,
+          "oversampledPeakDbfs": -9.115,
+          "rmsDbfs": -22.725,
+          "lastSampleDbfs": -138.454,
+          "bytes": 12743,
+          "sha256": "2f78394ad16047470c10f2648e2bf35c966ce7fbc1db862c3ccd7890f94f4567"
+        }
+      },
+      "source": {
+        "path": "Sounds/Menu Sounds/se_go_main_xp.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/se_go_main_xp.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/se_go_main_xp.wav",
+        "duration": 0.719819,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "e737b4b39ddd6525fb04f2697c3cbe694f57ad6a765e5ec138b6b1d7bfc09fa7",
+        "gitBlobSha1": "b4c7cc5e308102e7080540d5b9f476e434f65933"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.72,
+        "attackFade": 0.002,
+        "decay": 0.065,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -9,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.18
+    },
+    "ui": {
+      "sourceSound": "Game real-button click",
+      "role": "Selection",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/ui.mp3",
+          "duration": 0.411995,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.412,
+          "peakDbfs": -9.306,
+          "oversampledPeakDbfs": -9.266,
+          "rmsDbfs": -22.49,
+          "lastSampleDbfs": -180.0,
+          "bytes": 11329,
+          "sha256": "04ea8bcdf614650270640bd7840e58d876d9d59a05ad0244660c3c7041d22e29"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/ui.ogg",
+          "duration": 0.418479,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.411979,
+          "peakDbfs": -9.089,
+          "oversampledPeakDbfs": -9.089,
+          "rmsDbfs": -22.234,
+          "lastSampleDbfs": -124.01,
+          "bytes": 6482,
+          "sha256": "d23b5c265ec1fb4877b9e8d9966e87dc03e1d8cf6775f877fc5a1c08049c249a"
+        }
+      },
+      "source": {
+        "path": "Sounds/Menu Sounds/se_go_real_button.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/se_go_real_button.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Menu%20Sounds/se_go_real_button.wav",
+        "duration": 0.412154,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "a54fcb1b46b983ff984c617002ba7e6514d12c6e0930b5f66a4dd88e96e0ba58",
+        "gitBlobSha1": "0a654ccc9bc325a94515ac2b077853650c65f1fc"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.412,
+        "attackFade": 0.002,
+        "decay": 0.035,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -9,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.2
+    },
+    "stage": {
+      "sourceSound": "Pok\u00e9mon appearance",
+      "role": "Stage activation",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/stage.mp3",
+          "duration": 0.8,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.8,
+          "peakDbfs": -6.387,
+          "oversampledPeakDbfs": -6.265,
+          "rmsDbfs": -22.025,
+          "lastSampleDbfs": -165.633,
+          "bytes": 20733,
+          "sha256": "af5041e2c73618f19e40cd63599297e1ad7dc522d8b70247044d78816804fc3d"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/stage.ogg",
+          "duration": 0.8065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.8,
+          "peakDbfs": -6.184,
+          "oversampledPeakDbfs": -6.069,
+          "rmsDbfs": -21.731,
+          "lastSampleDbfs": -135.471,
+          "bytes": 9041,
+          "sha256": "18ee0d9860322376574e836969a05890a9fcb3a126eba97e1dd38233795ea8cb"
+        }
+      },
+      "source": {
+        "path": "Sounds/Encounter/se_go_pokemon_appear.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_pokemon_appear.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_pokemon_appear.wav",
+        "duration": 1.097143,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "5c904f488b49ea616d796e99dd1456dc73623fad7aa3d499c2385239ccc1b645",
+        "gitBlobSha1": "543bec5361c977b76704efea4149f65cd2fd379e"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.8,
+        "attackFade": 0.002,
+        "decay": 0.14,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.18
+    },
+    "land": {
+      "sourceSound": "Pok\u00e9 Ball ground contact",
+      "role": "Card settling; repurposed first contact from the game",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/land.mp3",
+          "duration": 0.260068,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.260083,
+          "peakDbfs": -9.269,
+          "oversampledPeakDbfs": -9.267,
+          "rmsDbfs": -25.232,
+          "lastSampleDbfs": -169.635,
+          "bytes": 7567,
+          "sha256": "5dba21651ddc6da0fde3a93397194fd013f79df1802531ec35ba1a7d1bdd7323"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/land.ogg",
+          "duration": 0.266563,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.260062,
+          "peakDbfs": -9.028,
+          "oversampledPeakDbfs": -9.024,
+          "rmsDbfs": -24.97,
+          "lastSampleDbfs": -132.144,
+          "bytes": 5070,
+          "sha256": "d149db71d376134e3b46bcbec2cac7d3fa919545461952962f939becbcbefea1"
+        }
+      },
+      "source": {
+        "path": "Sounds/Encounter/se_go_ball_ground.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_ground.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_ground.wav",
+        "duration": 0.870748,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "42ee9eb7e175c16ea628760b1d45cf981c04beb737c57a267c7cf667a143781e",
+        "gitBlobSha1": "71e38d704c8c7b45a7d124b300a914e5c7785381"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.26,
+        "attackFade": 0.002,
+        "decay": 0.09,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -9,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.15
+    },
+    "charge": {
+      "sourceSound": "Solar Beam stage 0",
+      "role": "Short game-derived charge",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/charge.mp3",
+          "duration": 1.300068,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.300083,
+          "peakDbfs": -6.281,
+          "oversampledPeakDbfs": -6.266,
+          "rmsDbfs": -19.251,
+          "lastSampleDbfs": -180.0,
+          "bytes": 32644,
+          "sha256": "2353ef64cafd68460e9712106b7fdc618e78061e4025400d9b84673a7b3c7786"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/charge.ogg",
+          "duration": 1.306563,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.300062,
+          "peakDbfs": -6.231,
+          "oversampledPeakDbfs": -6.231,
+          "rmsDbfs": -18.998,
+          "lastSampleDbfs": -124.092,
+          "bytes": 16683,
+          "sha256": "96fa4f5b437818dc8aebf564d9335047739c61ab211e9150446469f6eca17744"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/076-0_solar_beam.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/076-0_solar_beam.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/076-0_solar_beam.wav",
+        "duration": 2.954739,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "52738dc753130f0a50135dc8b82c4fe459ca6124df065f2e19444d9a0e0d867b",
+        "gitBlobSha1": "67a92d950ef36432aa99a3e9238a5ea0273c1f51"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.3,
+        "attackFade": 0.002,
+        "decay": 0.16,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.23
+    },
+    "suspense": {
+      "sourceSound": "Solar Beam stage 0",
+      "role": "Special-card charge; retain original pitch and onset",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/suspense.mp3",
+          "duration": 1.300068,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.300083,
+          "peakDbfs": -6.281,
+          "oversampledPeakDbfs": -6.266,
+          "rmsDbfs": -19.187,
+          "lastSampleDbfs": -154.02,
+          "bytes": 32644,
+          "sha256": "eb0f542a40703b3a65b55a67cde0830751c6a2a8d3888f2219c125f59f0c2c02"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/suspense.ogg",
+          "duration": 1.306563,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.300062,
+          "peakDbfs": -6.231,
+          "oversampledPeakDbfs": -6.231,
+          "rmsDbfs": -18.936,
+          "lastSampleDbfs": -131.618,
+          "bytes": 16697,
+          "sha256": "b79d9fd05af1ef1cd8b2a13a99f6a4cbe2ffe7a1ebb6ad3b743d3f803cb74115"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/076-0_solar_beam.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/076-0_solar_beam.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/076-0_solar_beam.wav",
+        "duration": 2.954739,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "52738dc753130f0a50135dc8b82c4fe459ca6124df065f2e19444d9a0e0d867b",
+        "gitBlobSha1": "67a92d950ef36432aa99a3e9238a5ea0273c1f51"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 1.3,
+        "attackFade": 0.002,
+        "decay": 0.1,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.3
+    },
+    "slam": {
+      "sourceSound": "Tackle",
+      "role": "Immediate special-card reveal impact",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/slam.mp3",
+          "duration": 0.424059,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.424063,
+          "peakDbfs": -6.288,
+          "oversampledPeakDbfs": -6.266,
+          "rmsDbfs": -21.4,
+          "lastSampleDbfs": -180.0,
+          "bytes": 11955,
+          "sha256": "751e7e2b177c610a56dc23ce3e13f855c7e2cc07ddcc6e9552bc1a15c89e1579"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/slam.ogg",
+          "duration": 0.430542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.424042,
+          "peakDbfs": -6.234,
+          "oversampledPeakDbfs": -6.203,
+          "rmsDbfs": -21.688,
+          "lastSampleDbfs": -127.046,
+          "bytes": 5948,
+          "sha256": "2e71956da6e6a0bec5ec30783f01e8644364eb6091cbb018329eb9da3251d9c0"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/033-0_tackle.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/033-0_tackle.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/033-0_tackle.wav",
+        "duration": 0.423764,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "150459b9b6afde6d3e5877c2bbaf7840b2f463ef9239bdf512a04b9e7860738c",
+        "gitBlobSha1": "2127c3dcab9d362bf05af215fd6366f5707417a1"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.424,
+        "attackFade": 0.002,
+        "decay": 0.045,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.42
+    },
+    "swift": {
+      "sourceSound": "Swift",
+      "role": "Eevee's Swift; excerpt of the star-burst passage",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/swift.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.264,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -20.36,
+          "lastSampleDbfs": -180.0,
+          "bytes": 24494,
+          "sha256": "5b15874bc60c0bd7bcc57f14f29e74bf7747f4967b492382bedb9ecc47a25674"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/swift.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -6.145,
+          "oversampledPeakDbfs": -6.145,
+          "rmsDbfs": -20.095,
+          "lastSampleDbfs": -141.822,
+          "bytes": 12677,
+          "sha256": "a666d0c8a999f47eeacb0be0a5d33e90c0778a53105af6c5888aea727df7c222"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/129-0_swift.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/129-0_swift.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/129-0_swift.wav",
+        "duration": 2.919909,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "26dd7273e57432ea725bd2846fedc6033bc8697ea3564d3ed4728fa1ccbf7f4a",
+        "gitBlobSha1": "a86c705b7ed1116b2d6dd26f8991d7b96dc171ad"
+      },
+      "processing": {
+        "sourceStart": 0.85,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.2,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.26
+    },
+    "hyperbeam": {
+      "sourceSound": "Hyper Beam",
+      "role": "Dragonite's Hyper Beam; excerpt of the beam body",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/hyperbeam.mp3",
+          "duration": 1.0,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.283,
+          "oversampledPeakDbfs": -6.265,
+          "rmsDbfs": -17.71,
+          "lastSampleDbfs": -159.601,
+          "bytes": 25748,
+          "sha256": "985bc8f7aeb6f9d67d922c3882f4efbc63971fbca06cc075a70a19b2f4fd7c1f"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/hyperbeam.ogg",
+          "duration": 1.0065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.015,
+          "oversampledPeakDbfs": -6.001,
+          "rmsDbfs": -17.41,
+          "lastSampleDbfs": -108.284,
+          "bytes": 12646,
+          "sha256": "ded6389ea21317f1b42c7ee7f4719a2b8f2778ecbb799c379e05cd8dc0e30139"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/063-0_hyper_beam.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/063-0_hyper_beam.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/063-0_hyper_beam.wav",
+        "duration": 5.816599,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "3bb7b3590a2e3d230ec1ddf228adcfac8735048146e11c7ee272e843d7b73154",
+        "gitBlobSha1": "1224e9c7d8c58beb4a549f056813e15c1462085a"
+      },
+      "processing": {
+        "sourceStart": 1.85,
+        "duration": 1.0,
+        "attackFade": 0.002,
+        "decay": 0.24,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.3
+    },
+    "shadowball": {
+      "sourceSound": "Shadow Ball",
+      "role": "Gengar's Shadow Ball",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/shadowball.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.268,
+          "oversampledPeakDbfs": -6.262,
+          "rmsDbfs": -19.552,
+          "lastSampleDbfs": -180.0,
+          "bytes": 24494,
+          "sha256": "d027bcb89a103827639195be4e57704dd2148da4b1ceef1abbe18786cc53fbeb"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/shadowball.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -6.101,
+          "oversampledPeakDbfs": -6.087,
+          "rmsDbfs": -19.315,
+          "lastSampleDbfs": -109.272,
+          "bytes": 17782,
+          "sha256": "0444b4ad1c0d0fd263dc10a8886081805b81c3629f747cd195273ffac3d4ba1f"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/247-0_shadow_ball.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/247-0_shadow_ball.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/247-0_shadow_ball.wav",
+        "duration": 3.424943,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "34272b0016462f5eb83d0c35d99b6197faba133720453fe392414d2beb802f5e",
+        "gitBlobSha1": "757e707764cb24f8373b1d38c25e1ef0d59dd12c"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.22,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.28
+    },
+    "aeroblast": {
+      "sourceSound": "Aeroblast",
+      "role": "Lugia's Aeroblast",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/aeroblast.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.267,
+          "oversampledPeakDbfs": -6.263,
+          "rmsDbfs": -21.864,
+          "lastSampleDbfs": -180.0,
+          "bytes": 24494,
+          "sha256": "0599ebdf59fe2ef49dbfe07933e000e1982349e62f4d2947a5539d83b416da00"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/aeroblast.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -5.954,
+          "oversampledPeakDbfs": -5.954,
+          "rmsDbfs": -21.531,
+          "lastSampleDbfs": -120.504,
+          "bytes": 14134,
+          "sha256": "16f7357c967be112d0c6284658cc75be147a463c666fd9c1a8466c703e90a02d"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/170-0_aeroblast.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/170-0_aeroblast.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/170-0_aeroblast.wav",
+        "duration": 1.973696,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "d2dee988eb2e76da8cf5498790fd3c0686d67ae6e864f674914dc49025add066",
+        "gitBlobSha1": "70bbfac5e053784c0b410c3830f68d9f4e2b7d23"
+      },
+      "processing": {
+        "sourceStart": 0,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.22,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.28
+    },
+    "petals": {
+      "sourceSound": "Petal Blizzard",
+      "role": "Venusaur's Petal Blizzard",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/petals.mp3",
+          "duration": 0.950045,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.950063,
+          "peakDbfs": -6.264,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -19.952,
+          "lastSampleDbfs": -180.0,
+          "bytes": 24494,
+          "sha256": "665b2682d5caddcc779aa549ab713556e4bb813451efe9124e5ba234278db585"
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v4/petals.ogg",
+          "duration": 0.956542,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.950042,
+          "peakDbfs": -5.952,
+          "oversampledPeakDbfs": -5.952,
+          "rmsDbfs": -19.686,
+          "lastSampleDbfs": -121.192,
+          "bytes": 11576,
+          "sha256": "e67a7753529d2a4dd90ca97823befc9099114264a53b6bd0a5f1b8276658738f"
+        }
+      },
+      "source": {
+        "path": "Sounds/Pokemon Moves/572-0_petal_blizzard.wav",
+        "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/572-0_petal_blizzard.wav",
+        "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Pokemon%20Moves/572-0_petal_blizzard.wav",
+        "duration": 3.564263,
+        "codec_name": "pcm_s16le",
+        "sample_rate": "11025",
+        "channels": 1,
+        "sha256": "c9e89097ce6b28e6c112f2731e0c65e09c328d7e09e17d825bc8d707a16bcf35",
+        "gitBlobSha1": "aeb2a4a2e1558a1da05a09d7a2b07a24a1487f34"
+      },
+      "processing": {
+        "sourceStart": 0.25,
+        "duration": 0.95,
+        "attackFade": 0.002,
+        "decay": 0.22,
+        "silentTail": 0.02,
+        "dcRemovalHz": 35,
+        "targetPeakDbfs": -6,
+        "pitchChange": 0,
+        "method": "One original game sample excerpt, 35 Hz DC removal, 2 ms edge attack, endpoint fade, and a final 20 ms silent codec guard. Original pitch and speed preserved; no layers, synthesis or added reverb. Resampling is solely format compatibility."
+      },
+      "recommendedPlaybackGain": 0.26
+    }
+  }
+}

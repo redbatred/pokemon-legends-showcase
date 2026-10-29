@@ -1,0 +1,177 @@
+[
+  {
+    "id": "swsh11-001",
+    "number": "001",
+    "name": "Oddish",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/001.webp"
+  },
+  {
+    "id": "swsh11-003",
+    "number": "003",
+    "name": "Vileplume",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/003.webp"
+  },
+  {
+    "id": "swsh11-006",
+    "number": "006",
+    "name": "Wurmple",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/006.webp"
+  },
+  {
+    "id": "swsh11-007",
+    "number": "007",
+    "name": "Silcoon",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/007.webp"
+  },
+  {
+    "id": "swsh11-011",
+    "number": "011",
+    "name": "Seedot",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/011.webp"
+  },
+  {
+    "id": "swsh11-013",
+    "number": "013",
+    "name": "Shiftry",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/013.webp"
+  },
+  {
+    "id": "swsh11-022",
+    "number": "022",
+    "name": "Magcargo",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/022.webp"
+  },
+  {
+    "id": "swsh11-023",
+    "number": "023",
+    "name": "Torkoal",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/023.webp"
+  },
+  {
+    "id": "swsh11-024",
+    "number": "024",
+    "name": "Litwick",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/024.webp"
+  },
+  {
+    "id": "swsh11-025",
+    "number": "025",
+    "name": "Lampent",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/025.webp"
+  },
+  {
+    "id": "swsh11-026",
+    "number": "026",
+    "name": "Chandelure",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/026.webp"
+  },
+  {
+    "id": "swsh11-050",
+    "number": "050",
+    "name": "Cramorant",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/050.webp"
+  },
+  {
+    "id": "swsh11-052",
+    "number": "052",
+    "name": "Pikachu",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/052.webp"
+  },
+  {
+    "id": "swsh11-058",
+    "number": "058",
+    "name": "Rotom V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/058.webp"
+  },
+  {
+    "id": "swsh11-068",
+    "number": "068",
+    "name": "Jynx",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/068.webp"
+  },
+  {
+    "id": "swsh11-069",
+    "number": "069",
+    "name": "Radiant Gardevoir",
+    "rarity": "Radiant Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/069.webp"
+  },
+  {
+    "id": "swsh11-070",
+    "number": "070",
+    "name": "Sableye",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/070.webp"
+  },
+  {
+    "id": "swsh11-079",
+    "number": "079",
+    "name": "Comfey",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/079.webp"
+  },
+  {
+    "id": "swsh11-080",
+    "number": "080",
+    "name": "Mimikyu",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/080.webp"
+  },
+  {
+    "id": "swsh11-093",
+    "number": "093",
+    "name": "Aerodactyl VSTAR",
+    "rarity": "Holo Rare VSTAR",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/093.webp"
+  },
+  {
+    "id": "swsh11-130",
+    "number": "130",
+    "name": "Giratina V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/130.webp"
+  },
+  {
+    "id": "swsh11-180",
+    "number": "180",
+    "name": "Aerodactyl V",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/180.webp"
+  },
+  {
+    "id": "swsh11-186",
+    "number": "186",
+    "name": "Giratina V",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/186.webp"
+  },
+  {
+    "id": "swsh11tg-TG17",
+    "number": "TG17",
+    "name": "Pikachu VMAX",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/TG17.webp"
+  },
+  {
+    "id": "swsh11tg-TG29",
+    "number": "TG29",
+    "name": "Pikachu VMAX",
+    "rarity": "Secret Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/TG29.webp"
+  }
+]

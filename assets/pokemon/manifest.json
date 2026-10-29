@@ -1,0 +1,202 @@
+{
+  "Aerodactyl": {
+    "dexId": 142,
+    "image": "/pokemon-legends-showcase/assets/pokemon/aerodactyl.png"
+  },
+  "Alakazam": {
+    "dexId": 65,
+    "image": "/pokemon-legends-showcase/assets/pokemon/alakazam.png"
+  },
+  "Arceus": {
+    "dexId": 493,
+    "image": "/pokemon-legends-showcase/assets/pokemon/arceus.png"
+  },
+  "Articuno": {
+    "dexId": 144,
+    "image": "/pokemon-legends-showcase/assets/pokemon/articuno.png"
+  },
+  "Blastoise": {
+    "dexId": 9,
+    "image": "/pokemon-legends-showcase/assets/pokemon/blastoise.png"
+  },
+  "Breloom": {
+    "dexId": 286,
+    "image": "/pokemon-legends-showcase/assets/pokemon/breloom.png"
+  },
+  "Charizard": {
+    "dexId": 6,
+    "image": "/pokemon-legends-showcase/assets/pokemon/charizard.png"
+  },
+  "Cinderace": {
+    "dexId": 815,
+    "image": "/pokemon-legends-showcase/assets/pokemon/cinderace.png"
+  },
+  "Cleffa": {
+    "dexId": 173,
+    "image": "/pokemon-legends-showcase/assets/pokemon/cleffa.png"
+  },
+  "Dracozolt": {
+    "dexId": 880,
+    "image": "/pokemon-legends-showcase/assets/pokemon/dracozolt.png"
+  },
+  "Dragonite": {
+    "dexId": 149,
+    "image": "/pokemon-legends-showcase/assets/pokemon/dragonite.png"
+  },
+  "Duraludon": {
+    "dexId": 884,
+    "image": "/pokemon-legends-showcase/assets/pokemon/duraludon.png"
+  },
+  "Eevee": {
+    "dexId": 133,
+    "image": "/pokemon-legends-showcase/assets/pokemon/eevee.png"
+  },
+  "Espeon": {
+    "dexId": 196,
+    "image": "/pokemon-legends-showcase/assets/pokemon/espeon.png"
+  },
+  "Forretress": {
+    "dexId": 205,
+    "image": "/pokemon-legends-showcase/assets/pokemon/forretress.png"
+  },
+  "Gardevoir": {
+    "dexId": 282,
+    "image": "/pokemon-legends-showcase/assets/pokemon/gardevoir.png"
+  },
+  "Genesect": {
+    "dexId": 649,
+    "image": "/pokemon-legends-showcase/assets/pokemon/genesect.png"
+  },
+  "Gengar": {
+    "dexId": 94,
+    "image": "/pokemon-legends-showcase/assets/pokemon/gengar.png"
+  },
+  "Giratina": {
+    "dexId": 487,
+    "image": "/pokemon-legends-showcase/assets/pokemon/giratina.png"
+  },
+  "Glaceon": {
+    "dexId": 471,
+    "image": "/pokemon-legends-showcase/assets/pokemon/glaceon.png"
+  },
+  "Gloom": {
+    "dexId": 44,
+    "image": "/pokemon-legends-showcase/assets/pokemon/gloom.png"
+  },
+  "Greninja": {
+    "dexId": 658,
+    "image": "/pokemon-legends-showcase/assets/pokemon/greninja.png"
+  },
+  "Gyarados": {
+    "dexId": 130,
+    "image": "/pokemon-legends-showcase/assets/pokemon/gyarados.png"
+  },
+  "Kyogre": {
+    "dexId": 382,
+    "image": "/pokemon-legends-showcase/assets/pokemon/kyogre.png"
+  },
+  "Leafeon": {
+    "dexId": 470,
+    "image": "/pokemon-legends-showcase/assets/pokemon/leafeon.png"
+  },
+  "Lugia": {
+    "dexId": 249,
+    "image": "/pokemon-legends-showcase/assets/pokemon/lugia.png"
+  },
+  "Mew": {
+    "dexId": 151,
+    "image": "/pokemon-legends-showcase/assets/pokemon/mew.png"
+  },
+  "Mewtwo": {
+    "dexId": 150,
+    "image": "/pokemon-legends-showcase/assets/pokemon/mewtwo.png"
+  },
+  "Moltres": {
+    "dexId": 146,
+    "image": "/pokemon-legends-showcase/assets/pokemon/moltres.png"
+  },
+  "Ninetales": {
+    "dexId": 38,
+    "image": "/pokemon-legends-showcase/assets/pokemon/ninetales.png"
+  },
+  "Oddish": {
+    "dexId": 43,
+    "image": "/pokemon-legends-showcase/assets/pokemon/oddish.png"
+  },
+  "Paldean Clodsire": {
+    "dexId": 980,
+    "image": "/pokemon-legends-showcase/assets/pokemon/clodsire.png"
+  },
+  "Pidgeot": {
+    "dexId": 18,
+    "image": "/pokemon-legends-showcase/assets/pokemon/pidgeot.png"
+  },
+  "Pidgey": {
+    "dexId": 16,
+    "image": "/pokemon-legends-showcase/assets/pokemon/pidgey.png"
+  },
+  "Pikachu": {
+    "dexId": 25,
+    "image": "/pokemon-legends-showcase/assets/pokemon/pikachu.png"
+  },
+  "Pinsir": {
+    "dexId": 127,
+    "image": "/pokemon-legends-showcase/assets/pokemon/pinsir.png"
+  },
+  "Raichu": {
+    "dexId": 26,
+    "image": "/pokemon-legends-showcase/assets/pokemon/raichu.png"
+  },
+  "Raikou": {
+    "dexId": 243,
+    "image": "/pokemon-legends-showcase/assets/pokemon/raikou.png"
+  },
+  "Rayquaza": {
+    "dexId": 384,
+    "image": "/pokemon-legends-showcase/assets/pokemon/rayquaza.png"
+  },
+  "Rotom": {
+    "dexId": 479,
+    "image": "/pokemon-legends-showcase/assets/pokemon/rotom.png"
+  },
+  "Scizor": {
+    "dexId": 212,
+    "image": "/pokemon-legends-showcase/assets/pokemon/scizor.png"
+  },
+  "Starmie": {
+    "dexId": 121,
+    "image": "/pokemon-legends-showcase/assets/pokemon/starmie.png"
+  },
+  "Suicune": {
+    "dexId": 245,
+    "image": "/pokemon-legends-showcase/assets/pokemon/suicune.png"
+  },
+  "Sylveon": {
+    "dexId": 700,
+    "image": "/pokemon-legends-showcase/assets/pokemon/sylveon.png"
+  },
+  "Trevenant": {
+    "dexId": 709,
+    "image": "/pokemon-legends-showcase/assets/pokemon/trevenant.png"
+  },
+  "Tyranitar": {
+    "dexId": 248,
+    "image": "/pokemon-legends-showcase/assets/pokemon/tyranitar.png"
+  },
+  "Umbreon": {
+    "dexId": 197,
+    "image": "/pokemon-legends-showcase/assets/pokemon/umbreon.png"
+  },
+  "Vaporeon": {
+    "dexId": 134,
+    "image": "/pokemon-legends-showcase/assets/pokemon/vaporeon.png"
+  },
+  "Venusaur": {
+    "dexId": 3,
+    "image": "/pokemon-legends-showcase/assets/pokemon/venusaur.png"
+  },
+  "Zapdos": {
+    "dexId": 145,
+    "image": "/pokemon-legends-showcase/assets/pokemon/zapdos.png"
+  }
+}

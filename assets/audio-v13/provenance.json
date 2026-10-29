@@ -1,0 +1,359 @@
+{
+  "description": "Actual original-series Pok\u00e9mon anime battle music plus staged Pok\u00e9 Ball flight and opening/creature-emergence cues.",
+  "reproduce": "python3 scripts/prepare-battle-audio-v13.py. Requires only Python 3, curl, ffmpeg and ffprobe. Optional ASSET_FFMPEG, ASSET_FFPROBE and REVEAL_AUDIO_SOURCE_CACHE. All sources are SHA-256 pinned; output is limited to public/assets/audio-v13.",
+  "encoder": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "formats": "Stereo MP3 192 kbps / 44.1 kHz and OGG Opus 128 kbps / 48 kHz. Decoded duration, not container duration including codec delay, defines the browser AudioBuffer timeline.",
+  "validation": "All six files decode with ffmpeg -xerror to finite PCM; decoded durations within 3 ms; 4x oversampled peaks within 0.3 dB of target. Effects begin below -55 dBFS and end below -65 dBFS. Music wrap waveform step is compared with nearby normal sample steps. Per-file timings, levels and SHA-256 hashes are recorded.",
+  "limitations": "Automated technical validation only; no listening review is claimed. Source game effects can be low-rate original assets; output resampling does not create detail. Swish Foley is Kenney CC0; Pok\u00e9mon music/game recordings follow the user's stated license, with mirror provenance recorded separately.",
+  "effects": {
+    "flight": {
+      "intent": "A distant, soft approach grows into a close airy throw as the Pok\u00e9 Ball reaches the card. Start once at flight launch, not at contact.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v13/flight.mp3",
+          "containerDuration": 1.12,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.12,
+          "peakDbfs": -6.264,
+          "oversampledPeakDbfs": -6.236,
+          "rmsDbfs": -24.46,
+          "firstSampleDbfs": -143.933,
+          "lastSampleDbfs": -180.0,
+          "peakTimeSeconds": 0.959958,
+          "onset40DbBelowPeakSeconds": 0.255229,
+          "rms100msDbfs": [
+            -82.405,
+            -66.007,
+            -54.217,
+            -42.077,
+            -36.009,
+            -30.959,
+            -33.019,
+            -31.313,
+            -19.017,
+            -16.334,
+            -27.091,
+            -124.994
+          ],
+          "sha256": "f4581386524f6097db83a7f7ce391556ea8d104d3322ec2f6529dd9311d1f8c4",
+          "bytes": 28256
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v13/flight.ogg",
+          "containerDuration": 1.1265,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.12,
+          "peakDbfs": -6.039,
+          "oversampledPeakDbfs": -6.039,
+          "rmsDbfs": -24.253,
+          "firstSampleDbfs": -180.0,
+          "lastSampleDbfs": -109.893,
+          "peakTimeSeconds": 0.959958,
+          "onset40DbBelowPeakSeconds": 0.255229,
+          "rms100msDbfs": [
+            -82.279,
+            -65.86,
+            -54.027,
+            -41.838,
+            -35.718,
+            -30.706,
+            -32.767,
+            -31.15,
+            -18.754,
+            -16.175,
+            -26.721,
+            -111.358
+          ],
+          "sha256": "5989e8083565f26f950fa61ba5b3abe17a4417f081ef980abd7f3048f4aab980",
+          "bytes": 16605
+        }
+      },
+      "sources": [
+        {
+          "file": "Sounds/Encounter/se_go_ball_throw.wav",
+          "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_throw.wav",
+          "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_throw.wav",
+          "repositoryCommit": "c2a686eb08ace6e890d8fe3d2134c76988db87b5",
+          "sha256": "a6b1f4f8d9b9c0295ea40d5fc5611d77c6f269040b9c48871b9430cf461f85f7",
+          "gitBlobSha1": "4dc69a1ebea68e9edab98541aaeba2e26babb5a4",
+          "containerDuration": 0.539864,
+          "codec_name": "pcm_s16le",
+          "sample_rate": "11025",
+          "channels": 1,
+          "rights": "Copyrighted Pok\u00e9mon GO sound, reused under the user's stated Pok\u00e9mon license. PokeMiners is a community asset archive; no open-license claim is made."
+        },
+        {
+          "file": "rpg/Audio/knifeSlice.ogg",
+          "archiveMember": "Audio/knifeSlice.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "4cd96dc630bed9840c15f1dd2306da2cc56a4da26a5d3f1a03c5a7265ac5e54f"
+        }
+      ],
+      "processing": {
+        "duration": 1.12,
+        "layers": [
+          {
+            "source": "throw",
+            "start": 0,
+            "length": 0.53,
+            "gain": 0.19,
+            "delay": 0,
+            "filters": "areverse,atempo=0.66,highpass=f=170,lowpass=f=2300,afade=t=in:d=0.20,afade=t=out:st=0.62:d=0.18",
+            "purpose": "Authentic game throw reversed and stretched without repitching for a soft distant approach",
+            "appliedLinearGain": 0.062405443
+          },
+          {
+            "source": "foley",
+            "start": 0.015,
+            "length": 0.47,
+            "gain": 0.34,
+            "delay": 0.57,
+            "filters": "atempo=0.90,highpass=f=380,lowpass=f=9000,afade=t=in:d=0.09,afade=t=out:st=0.34:d=0.18",
+            "purpose": "Quiet recorded swish supplies airy detail as the ball gets close",
+            "appliedLinearGain": 0.119510762
+          },
+          {
+            "source": "throw",
+            "start": 0,
+            "length": 0.34,
+            "gain": 1,
+            "delay": 0.78,
+            "filters": "highpass=f=130,lowpass=f=8200,afade=t=in:d=0.025,afade=t=out:st=0.23:d=0.10",
+            "purpose": "Original-pitch game throw crests at about 0.935 seconds and decays into contact",
+            "appliedLinearGain": 0.319859692
+          }
+        ],
+        "silentTailSeconds": 0.02,
+        "targetPeakDbfs": -6,
+        "method": "48 kHz stereo float mixing of source excerpts; normalized ingredient peaks before relative balance; source-specific EQ and fades; final DC removal and 20 ms silent codec guard. No oscillator tones, generated noise, artificial reverb or master limiting. Original pitch retained in every layer; only the distant flight layers are reversed/time-stretched as documented."
+      },
+      "recommendedPlaybackGain": 0.43
+    },
+    "release": {
+      "intent": "Immediate authentic Pok\u00e9 Ball opening burst, followed by a low airy expansion and a restrained sparkle under the creature entrance. Start at shell opening; keep the species cry separately scheduled.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v13/release.mp3",
+          "containerDuration": 1.0,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.026,
+          "oversampledPeakDbfs": -6.01,
+          "rmsDbfs": -21.835,
+          "firstSampleDbfs": -84.603,
+          "lastSampleDbfs": -180.0,
+          "peakTimeSeconds": 0.002479,
+          "onset40DbBelowPeakSeconds": 0.0005,
+          "rms100msDbfs": [
+            -13.009,
+            -19.845,
+            -24.335,
+            -30.682,
+            -35.944,
+            -36.995,
+            -39.034,
+            -44.949,
+            -57.695,
+            -141.992
+          ],
+          "sha256": "1cb756d6a9ef6c58c0e2bf0696c9936ea9161035647a47c90f25d592e08bae90",
+          "bytes": 25748
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v13/release.ogg",
+          "containerDuration": 1.0065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -5.998,
+          "oversampledPeakDbfs": -5.989,
+          "rmsDbfs": -21.845,
+          "firstSampleDbfs": -71.272,
+          "lastSampleDbfs": -180.0,
+          "peakTimeSeconds": 0.002479,
+          "onset40DbBelowPeakSeconds": 0.0005,
+          "rms100msDbfs": [
+            -13.005,
+            -19.9,
+            -24.389,
+            -30.768,
+            -35.926,
+            -37.069,
+            -38.91,
+            -44.945,
+            -57.587,
+            -163.294
+          ],
+          "sha256": "c8f1a36714a17e8159123fc6f1dbcdbda210894e943d6d76b44cceac9815f5d3",
+          "bytes": 11915
+        }
+      },
+      "sources": [
+        {
+          "file": "Sounds/Encounter/se_go_ball_bowa1.wav",
+          "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_bowa1.wav",
+          "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_bowa1.wav",
+          "repositoryCommit": "c2a686eb08ace6e890d8fe3d2134c76988db87b5",
+          "sha256": "c9153453db3fe0778d1f4df03f171e408de2a1524365fd06ad19d4260d25b454",
+          "gitBlobSha1": "aea92a70f11d4649695ac30fe6d6e073a031b0a8",
+          "containerDuration": 0.365714,
+          "codec_name": "pcm_s16le",
+          "sample_rate": "11025",
+          "channels": 1,
+          "rights": "Copyrighted Pok\u00e9mon GO sound, reused under the user's stated Pok\u00e9mon license. PokeMiners is a community asset archive; no open-license claim is made."
+        },
+        {
+          "file": "Sounds/Encounter/se_go_ball_out.wav",
+          "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_out.wav",
+          "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_out.wav",
+          "repositoryCommit": "c2a686eb08ace6e890d8fe3d2134c76988db87b5",
+          "sha256": "ba8476ada4c3fae2683c109c15b1c18446e8311c04c30aa467c94c81b30685d3",
+          "gitBlobSha1": "21d21cad8d237704783d44cdc683191ecd9b721b",
+          "containerDuration": 0.847528,
+          "codec_name": "pcm_s16le",
+          "sample_rate": "11025",
+          "channels": 1,
+          "rights": "Copyrighted Pok\u00e9mon GO sound, reused under the user's stated Pok\u00e9mon license. PokeMiners is a community asset archive; no open-license claim is made."
+        },
+        {
+          "file": "Sounds/Master Ball/mb_sparkleMotionSFX.wav",
+          "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Master%20Ball/mb_sparkleMotionSFX.wav",
+          "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Master%20Ball/mb_sparkleMotionSFX.wav",
+          "repositoryCommit": "c2a686eb08ace6e890d8fe3d2134c76988db87b5",
+          "sha256": "7fe441009c6a672b4563cb09496a31d8c896954aa5ee9d0427b5aff431dbf828",
+          "gitBlobSha1": "7236eee192f1ccf24d2060f31f01d18cb46a8fc9",
+          "containerDuration": 1.259683,
+          "codec_name": "pcm_s16le",
+          "sample_rate": "22050",
+          "channels": 1,
+          "rights": "Copyrighted Pok\u00e9mon GO sound, reused under the user's stated Pok\u00e9mon license. PokeMiners is a community asset archive; no open-license claim is made."
+        }
+      ],
+      "processing": {
+        "duration": 1.0,
+        "layers": [
+          {
+            "source": "release",
+            "start": 0,
+            "length": 0.3657,
+            "gain": 1,
+            "delay": 0,
+            "filters": "highpass=f=80,lowpass=f=7200,afade=t=in:d=0.001,afade=t=out:st=0.28:d=0.075",
+            "purpose": "The original game ball-opening transient anchors the visible shell split",
+            "appliedLinearGain": 0.251188643
+          },
+          {
+            "source": "air",
+            "start": 0.02,
+            "length": 0.78,
+            "gain": 0.28,
+            "delay": 0.035,
+            "filters": "highpass=f=250,lowpass=f=6400,afade=t=in:d=0.04,afade=t=out:st=0.48:d=0.29",
+            "purpose": "Authentic ball-out air adds the creature-emergence body without another impact",
+            "appliedLinearGain": 0.118406589
+          },
+          {
+            "source": "sparkle",
+            "start": 0.22,
+            "length": 0.77,
+            "gain": 0.12,
+            "delay": 0.13,
+            "filters": "highpass=f=1600,lowpass=f=7000,afade=t=in:d=0.09,afade=t=out:st=0.46:d=0.30",
+            "purpose": "A quiet excerpt of original Master Ball sparkle provides a brief high tail",
+            "appliedLinearGain": 0.240027688
+          }
+        ],
+        "silentTailSeconds": 0.02,
+        "targetPeakDbfs": -6,
+        "method": "48 kHz stereo float mixing of source excerpts; normalized ingredient peaks before relative balance; source-specific EQ and fades; final DC removal and 20 ms silent codec guard. No oscillator tones, generated noise, artificial reverb or master limiting. Original pitch retained in every layer; only the distant flight layers are reversed/time-stretched as documented."
+      },
+      "recommendedPlaybackGain": 0.46
+    }
+  },
+  "backgroundMusic": {
+    "title": "Battle (VS Trainer) \u2014 1997\u20131998 M56",
+    "files": {
+      "mp3": {
+        "path": "/pokemon-legends-showcase/assets/audio-v13/battle.mp3",
+        "containerDuration": 69.549002,
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2,
+        "decodedDuration": 69.549021,
+        "peakDbfs": -12.007,
+        "oversampledPeakDbfs": -11.75,
+        "rmsDbfs": -24.464,
+        "firstSampleDbfs": -20.852,
+        "lastSampleDbfs": -19.703,
+        "wrapSampleStepDbfs": -37.842,
+        "nearbyMaximumSampleStepDbfs": -21.014,
+        "sha256": "7c458e53e6f46a3859a5e56e63af85bd168de8ee53bcb5923afc49b763be7a8a",
+        "bytes": 1670835
+      },
+      "ogg": {
+        "path": "/pokemon-legends-showcase/assets/audio-v13/battle.ogg",
+        "containerDuration": 69.5555,
+        "codec_name": "opus",
+        "sample_rate": "48000",
+        "channels": 2,
+        "decodedDuration": 69.549,
+        "peakDbfs": -11.995,
+        "oversampledPeakDbfs": -11.995,
+        "rmsDbfs": -24.742,
+        "firstSampleDbfs": -20.214,
+        "lastSampleDbfs": -19.555,
+        "wrapSampleStepDbfs": -36.337,
+        "nearbyMaximumSampleStepDbfs": -22.378,
+        "sha256": "4116a469e19563e668be5c9ec6ad4e50fb0781a00bb00eda79ddefc690469b3e",
+        "bytes": 1136377
+      }
+    },
+    "source": {
+      "url": "https://archive.org/download/16-battle-vs-trainer1997-1998m56b/Pocket%20Monsters%20TV%20Anime%20Orchestral%20Arrangements/15%20Battle%20%28VS%20Trainer%29%EF%BC%88%EF%BC%91%EF%BC%99%EF%BC%99%EF%BC%97%EF%BC%8D%EF%BC%91%EF%BC%99%EF%BC%99%EF%BC%98%EF%BD%9C%EF%BC%AD%EF%BC%95%EF%BC%96%EF%BC%89.mp3",
+      "page": "https://archive.org/details/16-battle-vs-trainer1997-1998m56b",
+      "archiveMember": "Pocket Monsters TV Anime Orchestral Arrangements/15 Battle (VS Trainer)\uff08\uff11\uff19\uff19\uff17\uff0d\uff11\uff19\uff19\uff18\uff5c\uff2d\uff15\uff16\uff09.mp3",
+      "sha256": "bd1b3868accc446faba62267627e8c11fd1d372459eb36309e6fc7f449dd53f1",
+      "archiveMd5": "2f517777a4fe8621bfbe0f2589085073",
+      "archiveSha1": "2c4e05f083eaa8932ccd3b48f4c0031aebb57d20",
+      "sourceDurationSeconds": 103.4897,
+      "track": "Disc 1, track 15",
+      "cueId": "1997-1998-M56",
+      "album": "TV Anime Pocket Monsters Original Soundtrack Best 1997-2010",
+      "catalog": "ZMCP-5452",
+      "releaseDate": "2010-09-08",
+      "arranger": "Shinji Miyazaki",
+      "label": "Pikachu Records / Media Factory",
+      "verification": "Archive file, embedded title/artist/track/album/publisher/date, 103.49-second duration and published disc 1 track 15 listing agree. Published listings identify M56 as the TV anime orchestral Battle (VS Trainer) cue. This is a soundtrack recording, not a generated arrangement or game-synth cover.",
+      "metadataReferences": [
+        "https://www.pocketmonsters.net/cd/view/203",
+        "https://www.cdjapan.co.jp/product/ZMCP-5452"
+      ],
+      "rights": "Copyrighted Pok\u00e9mon anime music reused under the user's stated Pok\u00e9mon license. Internet Archive is a community mirror, not rights-holder delivery; no open-license claim or independent uploader-authority verification is made."
+    },
+    "processing": {
+      "sourceStartSeconds": 14.296,
+      "sourceEndSeconds": 83.845,
+      "loopDurationSeconds": 69.549,
+      "crossfadeSeconds": 0.24,
+      "targetPeakDbfs": -12,
+      "pitchChange": 0,
+      "tempoChange": 0,
+      "selectionEvidence": "A repeated musical passage near 14.296 / 83.836 seconds was identified by three-second chroma similarity of 0.885 at a 69.54-second lag. Fine waveform correlation refined the lag to 69.549 seconds. This is numerical phrase matching, not an audition claim.",
+      "method": "Original stereo recording with gentle 35 Hz high-pass / 14 kHz low-pass. A 240 ms complementary sine-squared circular crossfade joins matching musical passages. No silence, tempo/pitch change, extra instruments, vocals or generated music added. Each codec is independently normalized using decoded four-times-oversampled peak measurements."
+    },
+    "recommendedPlaybackGain": 0.34,
+    "recommendedDuckedGain": 0.16,
+    "playback": "Decode to an AudioBuffer, loop the full 69.549-second decoded buffer, fade its bus in over 0.45 seconds and out over 0.65 seconds. Start only when a pack opens. Duck to about .16 during ball effects and creature cries, returning smoothly to .34 afterward. Avoid an HTML media-element loop when exact gapless timing is required.",
+    "limitations": "The source is a community MP3 rather than a verified lossless master. Track identity, phrase similarity, duration, waveform continuity and headroom were checked; no human listening or musical-seam audition is claimed."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "packtear": {
+    "gain": 0.3,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v9/packtear.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v9/packtear.ogg"
+    }
+  },
+  "packrustle": {
+    "gain": 0.18,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v9/packrustle.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v9/packrustle.ogg"
+    }
+  }
+}

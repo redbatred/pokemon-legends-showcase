@@ -1,0 +1,2713 @@
+{
+  "downloadedAt": "2026-10-27T13:16:59.676Z",
+  "sources": [
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/001.webp",
+      "url": "https://images.pokemontcg.io/sv3/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/001.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/004.webp",
+      "url": "https://images.pokemontcg.io/sv3/4_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/004.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/013.webp",
+      "url": "https://images.pokemontcg.io/sv3/13_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/013.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/026.webp",
+      "url": "https://images.pokemontcg.io/sv3/26_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/026.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/027.webp",
+      "url": "https://images.pokemontcg.io/sv3/27_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/027.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/028.webp",
+      "url": "https://images.pokemontcg.io/sv3/28_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/028.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/030.webp",
+      "url": "https://images.pokemontcg.io/sv3/30_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/030.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/045.webp",
+      "url": "https://images.pokemontcg.io/sv3/45_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/045.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/066.webp",
+      "url": "https://images.pokemontcg.io/sv3/66_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/066.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/080.webp",
+      "url": "https://images.pokemontcg.io/sv3/80_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/080.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/086.webp",
+      "url": "https://images.pokemontcg.io/sv3/86_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/086.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/125.webp",
+      "url": "https://images.pokemontcg.io/sv3/125_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/125.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/130.webp",
+      "url": "https://images.pokemontcg.io/sv3/130_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/130.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/159.webp",
+      "url": "https://images.pokemontcg.io/sv3/159_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/159.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/162.webp",
+      "url": "https://images.pokemontcg.io/sv3/162_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/162.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/166.webp",
+      "url": "https://images.pokemontcg.io/sv3/166_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/166.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/198.webp",
+      "url": "https://images.pokemontcg.io/sv3/198_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/198.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/199.webp",
+      "url": "https://images.pokemontcg.io/sv3/199_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/199.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/202.webp",
+      "url": "https://images.pokemontcg.io/sv3/202_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/202.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/205.webp",
+      "url": "https://images.pokemontcg.io/sv3/205_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/205.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/207.webp",
+      "url": "https://images.pokemontcg.io/sv3/207_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/207.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/215.webp",
+      "url": "https://images.pokemontcg.io/sv3/215_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/215.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/223.webp",
+      "url": "https://images.pokemontcg.io/sv3/223_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/223.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/225.webp",
+      "url": "https://images.pokemontcg.io/sv3/225_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/225.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/228.webp",
+      "url": "https://images.pokemontcg.io/sv3/228_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/obsidian-flames/228.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/001.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/001.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/002.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/2_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/002.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/003.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/3_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/003.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/004.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/4_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/004.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/005.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/5_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/005.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/006.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/6_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/006.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/007.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/7_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/007.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/008.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/8_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/008.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/009.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/9_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/009.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/025.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/25_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/025.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/026.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/26_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/026.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/039.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/39_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/039.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/052.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/52_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/052.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/054.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/54_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/054.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/063.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/63_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/063.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/065.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/65_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/065.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/092.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/92_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/092.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/093.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/93_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/093.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/094.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/94_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/094.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/133.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/133_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/133.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/143.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/143_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/143.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/151.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/151_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/151.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/198.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/198_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/198.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/199.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/199_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/199.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/200.webp",
+      "url": "https://images.pokemontcg.io/sv3pt5/200_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/pokemon-151/200.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/001.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/001.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/004.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/4_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/004.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/006.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/6_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/006.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/011.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/11_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/011.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/018.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/18_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/018.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/019.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/19_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/019.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/020.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/20_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/020.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/036.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/36_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/036.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/037.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/37_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/037.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/047.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/47_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/047.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/059.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/59_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/059.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/060.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/60_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/060.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/071.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/71_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/071.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/108.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/108_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/108.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/109.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5/109_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/109.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG05.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG05_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG05.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG10.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG10_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG10.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG20.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG20_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG20.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG30.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG30_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG30.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG35.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG35_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG35.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG38.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG38_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG38.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG41.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG41_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG41.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG44.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG44_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG44.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG69.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG69_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG69.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG70.webp",
+      "url": "https://images.pokemontcg.io/swsh12pt5gg/GG70_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/crown-zenith/GG70.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/001.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/001.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/002.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/2_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/002.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/007.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/7_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/007.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/008.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/8_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/008.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/018.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/18_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/018.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/019.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/19_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/019.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/023.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/23_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/023.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/028.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/28_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/028.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/029.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/29_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/029.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/031.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/31_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/031.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/037.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/37_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/037.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/038.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/38_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/038.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/039.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/39_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/039.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/040.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/40_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/040.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/054.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/54_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/054.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/055.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/55_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/055.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/056.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/56_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/056.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/057.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/57_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/057.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/058.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/58_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/058.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/059.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/59_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/059.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/092.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/92_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/092.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/093.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/93_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/093.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/232.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/232_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/232.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/233.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/233_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/233.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/234.webp",
+      "url": "https://images.pokemontcg.io/sv4pt5/234_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        733,
+        1024
+      ],
+      "original": "source-assets/originals/sets/paldean-fates/234.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/001.webp",
+      "url": "https://images.pokemontcg.io/swsh11/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/001.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/003.webp",
+      "url": "https://images.pokemontcg.io/swsh11/3_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/003.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/006.webp",
+      "url": "https://images.pokemontcg.io/swsh11/6_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/006.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/007.webp",
+      "url": "https://images.pokemontcg.io/swsh11/7_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/007.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/011.webp",
+      "url": "https://images.pokemontcg.io/swsh11/11_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/011.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/013.webp",
+      "url": "https://images.pokemontcg.io/swsh11/13_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/013.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/022.webp",
+      "url": "https://images.pokemontcg.io/swsh11/22_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/022.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/023.webp",
+      "url": "https://images.pokemontcg.io/swsh11/23_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/023.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/024.webp",
+      "url": "https://images.pokemontcg.io/swsh11/24_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/024.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/025.webp",
+      "url": "https://images.pokemontcg.io/swsh11/25_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/025.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/026.webp",
+      "url": "https://images.pokemontcg.io/swsh11/26_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/026.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/050.webp",
+      "url": "https://images.pokemontcg.io/swsh11/50_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/050.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/052.webp",
+      "url": "https://images.pokemontcg.io/swsh11/52_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/052.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/058.webp",
+      "url": "https://images.pokemontcg.io/swsh11/58_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/058.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/068.webp",
+      "url": "https://images.pokemontcg.io/swsh11/68_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/068.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/069.webp",
+      "url": "https://images.pokemontcg.io/swsh11/69_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/069.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/070.webp",
+      "url": "https://images.pokemontcg.io/swsh11/70_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/070.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/079.webp",
+      "url": "https://images.pokemontcg.io/swsh11/79_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/079.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/080.webp",
+      "url": "https://images.pokemontcg.io/swsh11/80_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/080.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/093.webp",
+      "url": "https://images.pokemontcg.io/swsh11/93_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/093.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/130.webp",
+      "url": "https://images.pokemontcg.io/swsh11/130_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/130.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/180.webp",
+      "url": "https://images.pokemontcg.io/swsh11/180_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/180.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/186.webp",
+      "url": "https://images.pokemontcg.io/swsh11/186_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/186.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/TG17.webp",
+      "url": "https://images.pokemontcg.io/swsh11tg/TG17_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/TG17.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/cards/TG29.webp",
+      "url": "https://images.pokemontcg.io/swsh11tg/TG29_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/lost-origin/TG29.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/1.webp",
+      "url": "https://images.pokemontcg.io/swsh8/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/1.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/3.webp",
+      "url": "https://images.pokemontcg.io/swsh8/3_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/3.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/6.webp",
+      "url": "https://images.pokemontcg.io/swsh8/6_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/6.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/16.webp",
+      "url": "https://images.pokemontcg.io/swsh8/16_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/16.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/28.webp",
+      "url": "https://images.pokemontcg.io/swsh8/28_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/28.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/30.webp",
+      "url": "https://images.pokemontcg.io/swsh8/30_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/30.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/32.webp",
+      "url": "https://images.pokemontcg.io/swsh8/32_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/32.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/33.webp",
+      "url": "https://images.pokemontcg.io/swsh8/33_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/33.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/43.webp",
+      "url": "https://images.pokemontcg.io/swsh8/43_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/43.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/56.webp",
+      "url": "https://images.pokemontcg.io/swsh8/56_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/56.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/73.webp",
+      "url": "https://images.pokemontcg.io/swsh8/73_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/73.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/86.webp",
+      "url": "https://images.pokemontcg.io/swsh8/86_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/86.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/91.webp",
+      "url": "https://images.pokemontcg.io/swsh8/91_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/91.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/93.webp",
+      "url": "https://images.pokemontcg.io/swsh8/93_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/93.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/102.webp",
+      "url": "https://images.pokemontcg.io/swsh8/102_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/102.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/113.webp",
+      "url": "https://images.pokemontcg.io/swsh8/113_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/113.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/114.webp",
+      "url": "https://images.pokemontcg.io/swsh8/114_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/114.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/120.webp",
+      "url": "https://images.pokemontcg.io/swsh8/120_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/120.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/130.webp",
+      "url": "https://images.pokemontcg.io/swsh8/130_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/130.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/156.webp",
+      "url": "https://images.pokemontcg.io/swsh8/156_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/156.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/157.webp",
+      "url": "https://images.pokemontcg.io/swsh8/157_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/157.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/185.webp",
+      "url": "https://images.pokemontcg.io/swsh8/185_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/185.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/269.webp",
+      "url": "https://images.pokemontcg.io/swsh8/269_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/269.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/270.webp",
+      "url": "https://images.pokemontcg.io/swsh8/270_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/270.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/271.webp",
+      "url": "https://images.pokemontcg.io/swsh8/271_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/fusion-strike/271.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/001.webp",
+      "url": "https://images.pokemontcg.io/swsh12/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/001.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/002.webp",
+      "url": "https://images.pokemontcg.io/swsh12/2_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/002.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/003.webp",
+      "url": "https://images.pokemontcg.io/swsh12/3_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/003.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/005.webp",
+      "url": "https://images.pokemontcg.io/swsh12/5_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/005.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/011.webp",
+      "url": "https://images.pokemontcg.io/swsh12/11_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/011.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/017.webp",
+      "url": "https://images.pokemontcg.io/swsh12/17_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/017.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/018.webp",
+      "url": "https://images.pokemontcg.io/swsh12/18_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/018.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/020.webp",
+      "url": "https://images.pokemontcg.io/swsh12/20_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/020.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/025.webp",
+      "url": "https://images.pokemontcg.io/swsh12/25_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/025.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/026.webp",
+      "url": "https://images.pokemontcg.io/swsh12/26_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/026.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/027.webp",
+      "url": "https://images.pokemontcg.io/swsh12/27_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/027.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/036.webp",
+      "url": "https://images.pokemontcg.io/swsh12/36_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/036.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/037.webp",
+      "url": "https://images.pokemontcg.io/swsh12/37_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/037.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/038.webp",
+      "url": "https://images.pokemontcg.io/swsh12/38_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/038.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/046.webp",
+      "url": "https://images.pokemontcg.io/swsh12/46_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/046.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/049.webp",
+      "url": "https://images.pokemontcg.io/swsh12/49_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/049.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/051.webp",
+      "url": "https://images.pokemontcg.io/swsh12/51_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/051.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/059.webp",
+      "url": "https://images.pokemontcg.io/swsh12/59_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/059.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/060.webp",
+      "url": "https://images.pokemontcg.io/swsh12/60_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/060.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/063.webp",
+      "url": "https://images.pokemontcg.io/swsh12/63_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/063.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/069.webp",
+      "url": "https://images.pokemontcg.io/swsh12/69_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/069.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/138.webp",
+      "url": "https://images.pokemontcg.io/swsh12/138_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/138.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/186.webp",
+      "url": "https://images.pokemontcg.io/swsh12/186_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/186.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/193.webp",
+      "url": "https://images.pokemontcg.io/swsh12/193_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/193.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/TG20.webp",
+      "url": "https://images.pokemontcg.io/swsh12tg/TG20_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/silver-tempest/TG20.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/1.webp",
+      "url": "https://images.pokemontcg.io/swsh7/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/1.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/4.webp",
+      "url": "https://images.pokemontcg.io/swsh7/4_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/4.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/5.webp",
+      "url": "https://images.pokemontcg.io/swsh7/5_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/5.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/6.webp",
+      "url": "https://images.pokemontcg.io/swsh7/6_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/6.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/7.webp",
+      "url": "https://images.pokemontcg.io/swsh7/7_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/7.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/13.webp",
+      "url": "https://images.pokemontcg.io/swsh7/13_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/13.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/15.webp",
+      "url": "https://images.pokemontcg.io/swsh7/15_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/15.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/20.webp",
+      "url": "https://images.pokemontcg.io/swsh7/20_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/20.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/29.webp",
+      "url": "https://images.pokemontcg.io/swsh7/29_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/29.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/30.webp",
+      "url": "https://images.pokemontcg.io/swsh7/30_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/30.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/41.webp",
+      "url": "https://images.pokemontcg.io/swsh7/41_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/41.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/42.webp",
+      "url": "https://images.pokemontcg.io/swsh7/42_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/42.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/49.webp",
+      "url": "https://images.pokemontcg.io/swsh7/49_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/49.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/54.webp",
+      "url": "https://images.pokemontcg.io/swsh7/54_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/54.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/58.webp",
+      "url": "https://images.pokemontcg.io/swsh7/58_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/58.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/65.webp",
+      "url": "https://images.pokemontcg.io/swsh7/65_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/65.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/74.webp",
+      "url": "https://images.pokemontcg.io/swsh7/74_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/74.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/95.webp",
+      "url": "https://images.pokemontcg.io/swsh7/95_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/95.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/109.webp",
+      "url": "https://images.pokemontcg.io/swsh7/109_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/109.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/110.webp",
+      "url": "https://images.pokemontcg.io/swsh7/110_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/110.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/123.webp",
+      "url": "https://images.pokemontcg.io/swsh7/123_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/123.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/124.webp",
+      "url": "https://images.pokemontcg.io/swsh7/124_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/124.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/205.webp",
+      "url": "https://images.pokemontcg.io/swsh7/205_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/205.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/215.webp",
+      "url": "https://images.pokemontcg.io/swsh7/215_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/215.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/cards/218.webp",
+      "url": "https://images.pokemontcg.io/swsh7/218_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/evolving-skies/218.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/1.webp",
+      "url": "https://images.pokemontcg.io/sm115/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/1.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/3.webp",
+      "url": "https://images.pokemontcg.io/sm115/3_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/3.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/4.webp",
+      "url": "https://images.pokemontcg.io/sm115/4_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/4.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/5.webp",
+      "url": "https://images.pokemontcg.io/sm115/5_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/5.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/6.webp",
+      "url": "https://images.pokemontcg.io/sm115/6_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/6.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/8.webp",
+      "url": "https://images.pokemontcg.io/sm115/8_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/8.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/9.webp",
+      "url": "https://images.pokemontcg.io/sm115/9_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/9.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/10.webp",
+      "url": "https://images.pokemontcg.io/sm115/10_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/10.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/11.webp",
+      "url": "https://images.pokemontcg.io/sm115/11_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/11.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/14.webp",
+      "url": "https://images.pokemontcg.io/sm115/14_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/14.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/15.webp",
+      "url": "https://images.pokemontcg.io/sm115/15_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/15.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/16.webp",
+      "url": "https://images.pokemontcg.io/sm115/16_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/16.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/17.webp",
+      "url": "https://images.pokemontcg.io/sm115/17_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/17.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/18.webp",
+      "url": "https://images.pokemontcg.io/sm115/18_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/18.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/19.webp",
+      "url": "https://images.pokemontcg.io/sm115/19_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/19.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/20.webp",
+      "url": "https://images.pokemontcg.io/sm115/20_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/20.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/21.webp",
+      "url": "https://images.pokemontcg.io/sm115/21_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/21.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/24.webp",
+      "url": "https://images.pokemontcg.io/sm115/24_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/24.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/31.webp",
+      "url": "https://images.pokemontcg.io/sm115/31_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/31.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/39.webp",
+      "url": "https://images.pokemontcg.io/sm115/39_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/39.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/40.webp",
+      "url": "https://images.pokemontcg.io/sm115/40_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/40.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/44.webp",
+      "url": "https://images.pokemontcg.io/sm115/44_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/44.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/SV49.webp",
+      "url": "https://images.pokemontcg.io/sma/SV49_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/SV49.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/SV59.webp",
+      "url": "https://images.pokemontcg.io/sma/SV59_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/SV59.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/SV69.webp",
+      "url": "https://images.pokemontcg.io/sma/SV69_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        734,
+        1024
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/SV69.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/1.webp",
+      "url": "https://images.pokemontcg.io/base1/1_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/1.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/2.webp",
+      "url": "https://images.pokemontcg.io/base1/2_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/2.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/3.webp",
+      "url": "https://images.pokemontcg.io/base1/3_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/3.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/4.webp",
+      "url": "https://images.pokemontcg.io/base1/4_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/4.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/5.webp",
+      "url": "https://images.pokemontcg.io/base1/5_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/5.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/6.webp",
+      "url": "https://images.pokemontcg.io/base1/6_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/6.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/7.webp",
+      "url": "https://images.pokemontcg.io/base1/7_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/7.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/8.webp",
+      "url": "https://images.pokemontcg.io/base1/8_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/8.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/9.webp",
+      "url": "https://images.pokemontcg.io/base1/9_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/9.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/10.webp",
+      "url": "https://images.pokemontcg.io/base1/10_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/10.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/11.webp",
+      "url": "https://images.pokemontcg.io/base1/11_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/11.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/12.webp",
+      "url": "https://images.pokemontcg.io/base1/12_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/12.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/13.webp",
+      "url": "https://images.pokemontcg.io/base1/13_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/13.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/14.webp",
+      "url": "https://images.pokemontcg.io/base1/14_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/14.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/15.webp",
+      "url": "https://images.pokemontcg.io/base1/15_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/15.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/16.webp",
+      "url": "https://images.pokemontcg.io/base1/16_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/16.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/22.webp",
+      "url": "https://images.pokemontcg.io/base1/22_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/22.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/24.webp",
+      "url": "https://images.pokemontcg.io/base1/24_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/24.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/28.webp",
+      "url": "https://images.pokemontcg.io/base1/28_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/28.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/35.webp",
+      "url": "https://images.pokemontcg.io/base1/35_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/35.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/44.webp",
+      "url": "https://images.pokemontcg.io/base1/44_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/44.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/46.webp",
+      "url": "https://images.pokemontcg.io/base1/46_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/46.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/58.webp",
+      "url": "https://images.pokemontcg.io/base1/58_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/58.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/63.webp",
+      "url": "https://images.pokemontcg.io/base1/63_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/63.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/cards/65.webp",
+      "url": "https://images.pokemontcg.io/base1/65_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "nativeDimensions": [
+        600,
+        825
+      ],
+      "original": "source-assets/originals/sets/base-set/65.png"
+    },
+    {
+      "id": "pokemon-151",
+      "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/pack.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/2/24/151_Booster.png",
+      "provider": "Bulbagarden Archives",
+      "nativeDimensions": [
+        780,
+        1429
+      ],
+      "servedDimensions": [
+        780,
+        1429
+      ],
+      "crop": null,
+      "original": "source-assets/originals/sets/pokemon-151/151_Booster.png"
+    },
+    {
+      "id": "crown-zenith",
+      "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/pack.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/d/dd/Crown_Zenith_Booster.jpg",
+      "provider": "Bulbagarden Archives",
+      "nativeDimensions": [
+        782,
+        1431
+      ],
+      "servedDimensions": [
+        782,
+        1431
+      ],
+      "crop": null,
+      "original": "source-assets/originals/sets/crown-zenith/Crown_Zenith_Booster.jpg"
+    },
+    {
+      "id": "paldean-fates",
+      "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/pack.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/0/08/Paldean_Fates_Booster_Ceruledge.png",
+      "provider": "Bulbagarden Archives",
+      "nativeDimensions": [
+        780,
+        1429
+      ],
+      "servedDimensions": [
+        780,
+        1429
+      ],
+      "crop": null,
+      "original": "source-assets/originals/sets/paldean-fates/Paldean_Fates_Booster_Ceruledge.png"
+    },
+    {
+      "id": "lost-origin",
+      "file": "/pokemon-legends-showcase/assets/sets/lost-origin/pack.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/7/78/SWSH11_Booster_Enamorus.jpg",
+      "provider": "Bulbagarden Archives",
+      "nativeDimensions": [
+        780,
+        1429
+      ],
+      "servedDimensions": [
+        780,
+        1429
+      ],
+      "crop": null,
+      "original": "source-assets/originals/sets/lost-origin/SWSH11_Booster_Enamorus.jpg"
+    },
+    {
+      "id": "fusion-strike",
+      "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/pack.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/d/d5/SWSH8_Booster_Mew.jpg",
+      "provider": "Bulbagarden Archives",
+      "nativeDimensions": [
+        780,
+        1429
+      ],
+      "servedDimensions": [
+        780,
+        1429
+      ],
+      "crop": null,
+      "original": "source-assets/originals/sets/fusion-strike/SWSH8_Booster_Mew.jpg"
+    },
+    {
+      "id": "silver-tempest",
+      "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/pack.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/2/2b/SWSH12_Booster_Lugia.jpg",
+      "provider": "Bulbagarden Archives",
+      "nativeDimensions": [
+        780,
+        1429
+      ],
+      "servedDimensions": [
+        780,
+        1429
+      ],
+      "crop": null,
+      "original": "source-assets/originals/sets/silver-tempest/SWSH12_Booster_Lugia.jpg"
+    },
+    {
+      "id": "evolving-skies",
+      "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/pack.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/a/a5/SWSH7_Booster_Rayquaza.jpg",
+      "provider": "Bulbagarden Archives",
+      "nativeDimensions": [
+        780,
+        1429
+      ],
+      "servedDimensions": [
+        780,
+        1429
+      ],
+      "crop": null,
+      "original": "source-assets/originals/sets/evolving-skies/SWSH7_Booster_Rayquaza.jpg"
+    },
+    {
+      "id": "hidden-fates",
+      "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/pack.webp",
+      "url": "https://amazingtoys.cstatic.io/media/36/79/13/1678199968/pok-mon-hidden-fates-booster-1.jpg",
+      "provider": "Amazingtoys",
+      "nativeDimensions": [
+        560,
+        1000
+      ],
+      "servedDimensions": [
+        532,
+        952
+      ],
+      "crop": [
+        20,
+        26,
+        552,
+        978
+      ],
+      "original": "source-assets/originals/sets/hidden-fates/hidden-fates-charizard-original.jpg"
+    },
+    {
+      "id": "base-set",
+      "file": "/pokemon-legends-showcase/assets/sets/base-set/pack.webp",
+      "url": "https://tcgtower.com/cdn/shop/files/base-set-long-crimp-bp.png?v=1714522971&width=2048",
+      "provider": "TCG Tower",
+      "nativeDimensions": [
+        2048,
+        2048
+      ],
+      "servedDimensions": [
+        882,
+        1779
+      ],
+      "crop": [
+        583,
+        135,
+        1465,
+        1914
+      ],
+      "original": "source-assets/originals/sets/base-set/base-set-long-crimp-bp.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/pack.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/5/52/SV3_Booster_Charizard.png",
+      "provider": "Bulbagarden Archives, official Pok\u00e9mon booster packaging",
+      "original": "source-assets/originals/pack.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/set-logo.webp",
+      "url": "https://assets.tcgdex.net/en/sv/sv03/logo.png",
+      "provider": "TCGdex, official Pok\u00e9mon expansion logo",
+      "original": "source-assets/originals/set-logo.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/cards/energy.webp",
+      "url": "https://images.pokemontcg.io/sve/2_hires.png",
+      "provider": "Pok\u00e9mon TCG API",
+      "original": "source-assets/originals/energy.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/pokemon-logo.png",
+      "url": "https://press.pokemon.com/Content/Themes/Pokemon/img/pokemon-masthead.png",
+      "provider": "The Pok\u00e9mon Company International official press site",
+      "original": "source-assets/originals/pokemon-masthead.png"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/card-back.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/1/17/Cardback.jpg",
+      "provider": "Bulbagarden Archives",
+      "original": "source-assets/originals/card-back.jpg"
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/pokemon/charizard.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/3/38/0006Charizard.png",
+      "provider": "Bulbagarden Archives; official Ken Sugimori FireRed and LeafGreen character artwork",
+      "sourcePage": "https://archives.bulbagarden.net/wiki/File:0006Charizard.png",
+      "nativeDimensions": [
+        2356,
+        2356
+      ],
+      "original": "source-assets/originals/pokemon/0006Charizard.png",
+      "processing": "Lossless WebP encoding only; no resize, crop, or artwork modification."
+    },
+    {
+      "file": "/pokemon-legends-showcase/assets/pokemon/charmander.webp",
+      "url": "https://archives.bulbagarden.net/media/upload/2/27/0004Charmander.png",
+      "provider": "Bulbagarden Archives; official Ken Sugimori FireRed and LeafGreen character artwork",
+      "sourcePage": "https://archives.bulbagarden.net/wiki/File:0004Charmander.png",
+      "nativeDimensions": [
+        932,
+        932
+      ],
+      "original": "source-assets/originals/pokemon/0004Charmander.png",
+      "processing": "Lossless WebP encoding only; no resize, crop, or artwork modification."
+    }
+  ]
+}

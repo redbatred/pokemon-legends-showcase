@@ -1,0 +1,365 @@
+{
+  "fire": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/fire.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/fire.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.25,
+    "peakDbfs": -6,
+    "gain": 0.4,
+    "sourceSound": "Flamethrower"
+  },
+  "water": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/water.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/water.ogg"
+    },
+    "duration": 1.0,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.36,
+    "sourceSound": "Water Gun"
+  },
+  "electric": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/electric.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/electric.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.2,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Thunderbolt"
+  },
+  "psychic": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/psychic.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/psychic.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.23,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Psychic"
+  },
+  "leaf": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/leaf.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/leaf.ogg"
+    },
+    "duration": 0.8,
+    "decay": 0.18,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Razor Leaf"
+  },
+  "wind": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/wind.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/wind.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.33,
+    "sourceSound": "Gust"
+  },
+  "ice": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/ice.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/ice.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.25,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Ice Beam"
+  },
+  "dark": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/dark.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/dark.ogg"
+    },
+    "duration": 1.0,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Dark Pulse"
+  },
+  "metal": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/metal.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/metal.ogg"
+    },
+    "duration": 0.75,
+    "decay": 0.2,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Metal Claw"
+  },
+  "ground": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/ground.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/ground.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.25,
+    "peakDbfs": -6,
+    "gain": 0.32,
+    "sourceSound": "Earthquake"
+  },
+  "dragon": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/dragon.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/dragon.ogg"
+    },
+    "duration": 1.15,
+    "decay": 0.25,
+    "peakDbfs": -6,
+    "gain": 0.35,
+    "sourceSound": "Dragon Pulse"
+  },
+  "fairy": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/fairy.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/fairy.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.23,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Dazzling Gleam"
+  },
+  "throw": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/throw.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/throw.ogg"
+    },
+    "duration": 0.54,
+    "decay": 0.045,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Pok\u00e9 Ball throw"
+  },
+  "impact": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/impact.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/impact.ogg"
+    },
+    "duration": 0.52,
+    "decay": 0.12,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "sourceSound": "Pok\u00e9 Ball ground contact"
+  },
+  "release": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/release.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/release.ogg"
+    },
+    "duration": 0.366,
+    "decay": 0.035,
+    "peakDbfs": -6,
+    "gain": 0.44,
+    "sourceSound": "Pok\u00e9 Ball bowa/poof"
+  },
+  "latch": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/latch.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/latch.ogg"
+    },
+    "duration": 0.314,
+    "decay": 0.025,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Master Ball unlatch"
+  },
+  "tear": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/tear.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/tear.ogg"
+    },
+    "duration": 1.2,
+    "decay": 0.2,
+    "peakDbfs": -6,
+    "gain": 0.27,
+    "sourceSound": "Master Ball steam unseal"
+  },
+  "flip": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/flip.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/flip.ogg"
+    },
+    "duration": 0.569,
+    "decay": 0.04,
+    "peakDbfs": -6,
+    "gain": 0.2,
+    "sourceSound": "Game menu open"
+  },
+  "normal": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/normal.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/normal.ogg"
+    },
+    "duration": 0.784,
+    "decay": 0.055,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "sourceSound": "Game completion confirmation"
+  },
+  "rare": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/rare.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/rare.ogg"
+    },
+    "duration": 1.26,
+    "decay": 0.08,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Master Ball sparkle motion"
+  },
+  "complete": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/complete.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/complete.ogg"
+    },
+    "duration": 2.175,
+    "decay": 0.1,
+    "peakDbfs": -6,
+    "gain": 0.3,
+    "sourceSound": "Quest reward collected"
+  },
+  "credit": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/credit.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/credit.ogg"
+    },
+    "duration": 0.72,
+    "decay": 0.065,
+    "peakDbfs": -9,
+    "gain": 0.18,
+    "sourceSound": "XP awarded"
+  },
+  "ui": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/ui.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/ui.ogg"
+    },
+    "duration": 0.412,
+    "decay": 0.035,
+    "peakDbfs": -9,
+    "gain": 0.2,
+    "sourceSound": "Game real-button click"
+  },
+  "stage": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/stage.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/stage.ogg"
+    },
+    "duration": 0.8,
+    "decay": 0.14,
+    "peakDbfs": -6,
+    "gain": 0.18,
+    "sourceSound": "Pok\u00e9mon appearance"
+  },
+  "land": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/land.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/land.ogg"
+    },
+    "duration": 0.26,
+    "decay": 0.09,
+    "peakDbfs": -9,
+    "gain": 0.15,
+    "sourceSound": "Pok\u00e9 Ball ground contact"
+  },
+  "charge": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/charge.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/charge.ogg"
+    },
+    "duration": 1.3,
+    "decay": 0.16,
+    "peakDbfs": -6,
+    "gain": 0.23,
+    "sourceSound": "Solar Beam stage 0"
+  },
+  "suspense": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/suspense.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/suspense.ogg"
+    },
+    "duration": 1.3,
+    "decay": 0.1,
+    "peakDbfs": -6,
+    "gain": 0.3,
+    "sourceSound": "Solar Beam stage 0"
+  },
+  "slam": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/slam.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/slam.ogg"
+    },
+    "duration": 0.424,
+    "decay": 0.045,
+    "peakDbfs": -6,
+    "gain": 0.42,
+    "sourceSound": "Tackle"
+  },
+  "swift": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/swift.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/swift.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.2,
+    "peakDbfs": -6,
+    "gain": 0.26,
+    "sourceSound": "Swift"
+  },
+  "hyperbeam": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/hyperbeam.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/hyperbeam.ogg"
+    },
+    "duration": 1.0,
+    "decay": 0.24,
+    "peakDbfs": -6,
+    "gain": 0.3,
+    "sourceSound": "Hyper Beam"
+  },
+  "shadowball": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/shadowball.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/shadowball.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "sourceSound": "Shadow Ball"
+  },
+  "aeroblast": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/aeroblast.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/aeroblast.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "sourceSound": "Aeroblast"
+  },
+  "petals": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/petals.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/petals.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.26,
+    "sourceSound": "Petal Blizzard"
+  }
+}

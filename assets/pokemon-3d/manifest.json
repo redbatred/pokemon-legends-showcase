@@ -1,0 +1,4587 @@
+{
+  "aerodactyl": {
+    "name": "Aerodactyl",
+    "dexId": 142,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/aerodactyl.glb",
+    "bytes": 659464,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.640000104904175,
+        "channels": 192,
+        "varyingSkinnedJointChannels": 64,
+        "movingSkinnedJointCount": 43
+      },
+      {
+        "name": "idle",
+        "duration": 1.6399999856948853,
+        "channels": 192,
+        "varyingSkinnedJointChannels": 46,
+        "movingSkinnedJointCount": 41
+      },
+      {
+        "name": "happy",
+        "duration": 2.0399999618530273,
+        "channels": 192,
+        "varyingSkinnedJointChannels": 43,
+        "movingSkinnedJointCount": 39
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -3.005399940838627,
+        -0.02637906856869296,
+        -2.3139968647937894
+      ],
+      "max": [
+        3.0042686590938885,
+        1.6750863167007124,
+        1.436243848494416
+      ],
+      "size": [
+        6.009668599932516,
+        1.7014653852694053,
+        3.750240713288205
+      ],
+      "center": [
+        -0.0005656408723693218,
+        0.8243536240660098,
+        -0.4388765081496867
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 965400,
+      "sha256": "bf077caa8b7db73a5cb8f0d0dc7c65d340da865ce2e1e37a5246471a6723ef11",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.6508119305445064e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0142_00_kw32_happyB01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0,
+    "enterEnd": 0.95,
+    "enterSpeed": 1.2,
+    "entranceDuration": 0.7916666666666666,
+    "entranceAuthorship": "native",
+    "entranceLabel": "wingbeat salute",
+    "entranceBounds": {
+      "min": [
+        -2.988013892510229,
+        -0.032018116159062096,
+        -2.313997228806542
+      ],
+      "max": [
+        3.1350765137373213,
+        2.5049738154835075,
+        1.4738710837569817
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "alakazam": {
+    "name": "Alakazam",
+    "dexId": 65,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/alakazam.glb",
+    "bytes": 925320,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.440000057220459,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 64,
+        "movingSkinnedJointCount": 56
+      },
+      {
+        "name": "idle",
+        "duration": 3.0399999618530273,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 48,
+        "movingSkinnedJointCount": 46
+      },
+      {
+        "name": "happy",
+        "duration": 2.0399999618530273,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 50,
+        "movingSkinnedJointCount": 46
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.6923836459486988,
+        -3.068347026282735e-05,
+        -0.24502034326614602
+      ],
+      "max": [
+        0.6947736934016298,
+        1.4641527128388825,
+        0.6388153166211546
+      ],
+      "size": [
+        1.3871573393503285,
+        1.4641833963091453,
+        0.8838356598873007
+      ],
+      "center": [
+        0.0011950237264654606,
+        0.7320610146843098,
+        0.1968974866775043
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 1569892,
+      "sha256": "c6812a530130ef1e4e938a88cf7473ff4ad4dbbc0cab0c1c58a14c44b3c306b6",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.781447254214143e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0065_00_kw32_happyB01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.2,
+    "enterEnd": 1.2,
+    "enterSpeed": 1.2,
+    "entranceDuration": 0.8333333333333334,
+    "entranceAuthorship": "native",
+    "entranceLabel": "raised-spoon salute",
+    "entranceBounds": {
+      "min": [
+        -0.7127033267036819,
+        -0.00444340674334196,
+        -0.2660235158460592
+      ],
+      "max": [
+        0.6977250948692849,
+        1.5046574133686081,
+        0.7704849843972157
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "arceus": {
+    "name": "Arceus",
+    "dexId": 493,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/arceus.glb",
+    "bytes": 466264,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 22,
+        "varyingSkinnedJointChannels": 22,
+        "movingSkinnedJointCount": 22,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 18,
+        "varyingSkinnedJointChannels": 18,
+        "movingSkinnedJointCount": 18,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 18,
+        "varyingSkinnedJointChannels": 18,
+        "movingSkinnedJointCount": 18,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Foreleg brace, raised neck, head-directed Judgment pulse and tail settle."
+    ],
+    "optimization": {
+      "sourceBytes": 66868,
+      "sha256": "d6a59abb56116161674ef6aa1ce7751bc99e3ac9656e20569baf0d6bd56cf107",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -2.4425127606288255,
+        -0.12939717790159944,
+        -5.117715098260931
+      ],
+      "max": [
+        2.442559396106418,
+        8.192032562741732,
+        3.2276474803276947
+      ],
+      "size": [
+        4.8850721567352435,
+        8.321429740643332,
+        8.345362578588626
+      ],
+      "center": [
+        2.3317738796269083e-05,
+        4.031317692420066,
+        -0.9450338089666184
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "articuno": {
+    "name": "Articuno",
+    "dexId": 144,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/articuno.glb",
+    "bytes": 3918032,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 273,
+        "varyingSkinnedJointChannels": 84,
+        "movingSkinnedJointCount": 75
+      },
+      {
+        "name": "idle",
+        "duration": 5.041666507720947,
+        "channels": 273,
+        "varyingSkinnedJointChannels": 46,
+        "movingSkinnedJointCount": 45
+      },
+      {
+        "name": "happy",
+        "duration": 5.041666507720947,
+        "channels": 273,
+        "varyingSkinnedJointChannels": 60,
+        "movingSkinnedJointCount": 58
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -1.90601052798791,
+        -0.013206352643774816,
+        -1.9353474243138373
+      ],
+      "max": [
+        1.9062208122958426,
+        1.5633168548353837,
+        0.4125484892437694
+      ],
+      "size": [
+        3.812231340283753,
+        1.5765232074791586,
+        2.3478959135576067
+      ],
+      "center": [
+        0.00010514215396628668,
+        0.7750552510958044,
+        -0.761399467535034
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 7081264,
+      "sha256": "3ff58a6f521c4ce01b584bbfe0c4123be4f935383a91ff40890143d056026292",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.875796882879534e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0144_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.55,
+    "enterEnd": 2.1,
+    "enterSpeed": 1.8,
+    "entranceDuration": 0.8611111111111112,
+    "entranceAuthorship": "native",
+    "entranceLabel": "bow into wing fan",
+    "entranceBounds": {
+      "min": [
+        -1.6489495399595173,
+        -0.013737755002385055,
+        -1.9190136106971007
+      ],
+      "max": [
+        1.6528119884394663,
+        2.2046717433495386,
+        1.833434578505058
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "blastoise": {
+    "name": "Blastoise",
+    "dexId": 9,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/blastoise.glb",
+    "bytes": 4561588,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 345,
+        "varyingSkinnedJointChannels": 71,
+        "movingSkinnedJointCount": 60
+      },
+      {
+        "name": "idle",
+        "duration": 6.708333492279053,
+        "channels": 345,
+        "varyingSkinnedJointChannels": 35,
+        "movingSkinnedJointCount": 32
+      },
+      {
+        "name": "happy",
+        "duration": 4.208333492279053,
+        "channels": 345,
+        "varyingSkinnedJointChannels": 73,
+        "movingSkinnedJointCount": 56
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.6562217681375112,
+        -0.0530650456507068,
+        -0.8987552811734487
+      ],
+      "max": [
+        0.6926020116872094,
+        1.3414357878685954,
+        0.7235296532984719
+      ],
+      "size": [
+        1.3488237798247207,
+        1.3945008335193023,
+        1.6222849344719206
+      ],
+      "center": [
+        0.018190121774849077,
+        0.6441853711089442,
+        -0.08761281393748843
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 7597532,
+      "sha256": "fb10b5db1408c0c5116fd8537cffc557321ae2121b2d3f4e364ffd4fefd13665",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.503587348325677e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0009_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.65,
+    "enterEnd": 2.2,
+    "enterSpeed": 1.8,
+    "entranceDuration": 0.8611111111111113,
+    "entranceAuthorship": "native",
+    "entranceLabel": "planted arm salute",
+    "entranceBounds": {
+      "min": [
+        -0.6972755917555408,
+        -0.034291249649298326,
+        -0.9688901577001223
+      ],
+      "max": [
+        0.69276637797106,
+        1.389788450757587,
+        0.8137957951428572
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "breloom": {
+    "name": "Breloom",
+    "dexId": 286,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/breloom.glb",
+    "bytes": 538784,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 24,
+        "varyingSkinnedJointChannels": 24,
+        "movingSkinnedJointCount": 24,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 16,
+        "varyingSkinnedJointChannels": 16,
+        "movingSkinnedJointCount": 16,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 17,
+        "varyingSkinnedJointChannels": 17,
+        "movingSkinnedJointCount": 17,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Rooted rear legs, shoulder windup, right arm seed-punch thrust, head follow-through and tail counterbalance."
+    ],
+    "optimization": {
+      "sourceBytes": 38740,
+      "sha256": "5cde2532ece8e87592ecc435d6fc8d291cb72fc2c5eec7e4570e24e1ca75174e",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -0.4719526624330189,
+        -0.5805876318421461,
+        -1.486988928129402
+      ],
+      "max": [
+        0.4718893411182505,
+        0.819412348971477,
+        0.63850429060514
+      ],
+      "size": [
+        0.9438420035512693,
+        1.399999980813623,
+        2.125493218734542
+      ],
+      "center": [
+        -3.1660657384219304e-05,
+        0.11941235856466542,
+        -0.424242318762131
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "charizard": {
+    "name": "Charizard",
+    "dexId": 6,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/charizard.glb",
+    "bytes": 3978892,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 381,
+        "varyingSkinnedJointChannels": 96,
+        "movingSkinnedJointCount": 84
+      },
+      {
+        "name": "idle",
+        "duration": 6.041666507720947,
+        "channels": 381,
+        "varyingSkinnedJointChannels": 69,
+        "movingSkinnedJointCount": 65
+      },
+      {
+        "name": "happy",
+        "duration": 5.875,
+        "channels": 381,
+        "varyingSkinnedJointChannels": 113,
+        "movingSkinnedJointCount": 90
+      }
+    ],
+    "idle": "idle",
+    "attack": "happy",
+    "attackTimeScale": 1.3,
+    "bounds": {
+      "min": [
+        -1.0757478866535444,
+        -0.06543983738561494,
+        -2.104205950916734
+      ],
+      "max": [
+        1.2401784140837746,
+        1.680649694569843,
+        0.8961444184439703
+      ],
+      "size": [
+        2.3159263007373188,
+        1.746089531955458,
+        3.0003503693607043
+      ],
+      "center": [
+        0.08221526371511512,
+        0.8076049285921141,
+        -0.604030766236382
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "powerAt": 2.6,
+    "powerPeakAt": 3.5,
+    "powerWindow": [
+      2.216666666666667,
+      4.383333333333334
+    ],
+    "powerTimingUnits": "source clip seconds; divide by attackTimeScale for wall time",
+    "powerTimingEvidence": "Native happy holds an approximately 31.0406 degree open-jaw plateau; 60 Hz samples are >=80% open from 2.2167 to 4.3833 source seconds. powerPeakAt=3.5 is a representative upright plateau pose, not a unique jaw-opening maximum. Authored flame window is 2.60-3.85; complete native recovery ends at 5.875.",
+    "bones": {
+      "head": "head",
+      "jaw": "jaw",
+      "neck": [
+        "neck_01",
+        "neck_02",
+        "neck_03"
+      ],
+      "wingLeft": "left_wing_a_01",
+      "wingRight": "right_wing_a_01",
+      "tail": "tail_01"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized.",
+      "Native happy (pm0006_00_00_00550_glad01.gfbanm) is selected for the upright big-win celebration. Flame timing is an authored overlay, not official Flamethrower event metadata. Original attack remains available."
+    ],
+    "optimization": {
+      "sourceBytes": 7238092,
+      "sha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.2935502464480635e-07,
+      "restoredNativeClip": "happy",
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0006_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0,
+    "enterEnd": 0.9,
+    "enterSpeed": 1.2,
+    "entranceDuration": 0.75,
+    "entranceAuthorship": "native",
+    "entranceLabel": "wing anticipation",
+    "entranceBounds": {
+      "min": [
+        -1.304321032101343,
+        -0.06590558645983191,
+        -2.2548810530004078
+      ],
+      "max": [
+        1.2501068760880139,
+        1.6806501702031453,
+        1.0358594503883063
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "cinderace": {
+    "name": "Cinderace",
+    "dexId": 815,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/cinderace.glb",
+    "bytes": 900332,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 65,
+        "varyingSkinnedJointChannels": 65,
+        "movingSkinnedJointCount": 65,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 43,
+        "varyingSkinnedJointChannels": 43,
+        "movingSkinnedJointCount": 43,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 44,
+        "varyingSkinnedJointChannels": 44,
+        "movingSkinnedJointCount": 44,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Arms balance a right thigh lift, knee fold, foot strike and controlled leg recovery."
+    ],
+    "optimization": {
+      "sourceBytes": 104208,
+      "sha256": "bec170b7c4415a1f81a968f31c8c021f9c61bd5da1c3539551d5c80f173dfd4e",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -31.595779743953127,
+        -1.6363600913091192,
+        -32.25653521074835
+      ],
+      "max": [
+        31.596047741669334,
+        181.41246213923415,
+        25.576239753683783
+      ],
+      "size": [
+        63.19182748562246,
+        183.04882223054327,
+        57.83277496443213
+      ],
+      "center": [
+        0.00013399885810372325,
+        89.88805102396252,
+        -3.340147728532285
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "cleffa": {
+    "name": "Cleffa",
+    "dexId": 173,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/cleffa.glb",
+    "bytes": 145272,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 6,
+        "varyingSkinnedJointChannels": 6,
+        "movingSkinnedJointCount": 6,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 10,
+        "varyingSkinnedJointChannels": 10,
+        "movingSkinnedJointCount": 10,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 10,
+        "varyingSkinnedJointChannels": 10,
+        "movingSkinnedJointCount": 10,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Small-foot brace, raised arms and ears, forward head pulse and soft settle."
+    ],
+    "optimization": {
+      "sourceBytes": 18244,
+      "sha256": "d924df3489e44ec47c3b67eec4a5a4a0f51fa5e2bb6fada42e77ec4fa29fab99",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -0.16700703681786683,
+        4.2379812201397435e-05,
+        -0.18962100704979729
+      ],
+      "max": [
+        0.16700697642433876,
+        0.3006407653366689,
+        0.12055958946831782
+      ],
+      "size": [
+        0.3340140132422056,
+        0.3005983855244675,
+        0.31018059651811514
+      ],
+      "center": [
+        -3.0196764033707524e-08,
+        0.15034157257443514,
+        -0.03453070879073973
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "clodsire": {
+    "name": "Paldean Clodsire",
+    "dexId": 980,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/clodsire.glb",
+    "bytes": 443704,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 12,
+        "varyingSkinnedJointChannels": 12,
+        "movingSkinnedJointCount": 12,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 19,
+        "varyingSkinnedJointChannels": 19,
+        "movingSkinnedJointCount": 19,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 21,
+        "varyingSkinnedJointChannels": 21,
+        "movingSkinnedJointCount": 21,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Four short limbs brace, back horns rise with the spine, head and lower jaw deliver a sludge pulse."
+    ],
+    "optimization": {
+      "sourceBytes": 98400,
+      "sha256": "2c328962e299612aa8f9883863827b62157a26376da3fc28734bb03f0c18fa76",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -1.2678546570892057,
+        -0.035509781252503626,
+        -1.907739121255465
+      ],
+      "max": [
+        1.2677530907686025,
+        1.9719007401231963,
+        1.7730041581637623
+      ],
+      "size": [
+        2.5356077478578083,
+        2.0074105213757,
+        3.6807432794192274
+      ],
+      "center": [
+        -5.0783160301604013e-05,
+        0.9681954794353463,
+        -0.06736748154585137
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "dracozolt": {
+    "name": "Dracozolt",
+    "dexId": 880,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/dracozolt.glb",
+    "bytes": 596988,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|Armature|pm0880_00_00_ba10_waitA01|Base Layer",
+        "duration": 2.0,
+        "channels": 73,
+        "varyingSkinnedJointChannels": 65,
+        "movingSkinnedJointCount": 64
+      },
+      {
+        "name": "Armature|Armature|pm0880_00_00_ba21_tokusyu01|Base Layer",
+        "duration": 2.3499999046325684,
+        "channels": 199,
+        "varyingSkinnedJointChannels": 66,
+        "movingSkinnedJointCount": 65
+      },
+      {
+        "name": "Armature|Armature|pm0880_00_00_ba02_roar01|Base Layer",
+        "duration": 2.5166666507720947,
+        "channels": 80,
+        "varyingSkinnedJointChannels": 65,
+        "movingSkinnedJointCount": 64
+      }
+    ],
+    "idle": "Armature|Armature|pm0880_00_00_ba10_waitA01|Base Layer",
+    "attack": "Armature|Armature|pm0880_00_00_ba21_tokusyu01|Base Layer",
+    "attackTimeScale": 1,
+    "accessorBounds": {
+      "min": [
+        -0.6971361637115479,
+        -0.10200023651123047,
+        -2.3279480934143066
+      ],
+      "max": [
+        0.6971361637115479,
+        1.8541537523269653,
+        1.2443217039108276
+      ],
+      "size": [
+        1.3942723274230957,
+        1.9561539888381958,
+        3.5722697973251343
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "waitA01 / special-attack tokusyu01 / roar01 mapped by original game action names. Exact power timing and orientation require rendered validation."
+    ],
+    "optimization": {
+      "sourceBytes": 358388,
+      "sha256": "ef10cd7f306f9668fe5f3c0a794f5801c82f1db938494e6ca02b2d81885557ea",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0,
+      "restoredNativeClips": [
+        "Armature|Armature|pm0880_00_00_ba02_roar01|Base Layer"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "Armature|Armature|pm0880_00_00_ba02_roar01|Base Layer",
+    "enter": "Armature|Armature|pm0880_00_00_ba02_roar01|Base Layer",
+    "enterStart": 0.25,
+    "enterEnd": 1.3,
+    "enterSpeed": 1.3,
+    "entranceDuration": 0.8076923076923077,
+    "entranceAuthorship": "native",
+    "entranceLabel": "upright roar",
+    "entranceBounds": {
+      "min": [
+        -0.923516464159153,
+        -0.013123851902294547,
+        -1.619718363174852
+      ],
+      "max": [
+        0.8332142917214015,
+        1.5286380681967862,
+        1.2513741531318436
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "dragonite": {
+    "name": "Dragonite",
+    "dexId": 149,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/dragonite.glb",
+    "bytes": 3310340,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 237,
+        "varyingSkinnedJointChannels": 55,
+        "movingSkinnedJointCount": 55
+      },
+      {
+        "name": "idle",
+        "duration": 6.291666507720947,
+        "channels": 237,
+        "varyingSkinnedJointChannels": 44,
+        "movingSkinnedJointCount": 44
+      },
+      {
+        "name": "happy",
+        "duration": 4.208333492279053,
+        "channels": 237,
+        "varyingSkinnedJointChannels": 62,
+        "movingSkinnedJointCount": 62
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.9544094440609475,
+        -0.001393623820495057,
+        -2.033035520650111
+      ],
+      "max": [
+        0.9274826142409774,
+        2.276655481310748,
+        0.49763449831386686
+      ],
+      "size": [
+        1.881892058301925,
+        2.278049105131243,
+        2.5306700189639777
+      ],
+      "center": [
+        -0.013463414909985039,
+        1.1376309287451265,
+        -0.7677005111681221
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 6089268,
+      "sha256": "c7b0605fe01544b52baaecfa98f608d0d32b87e3fd3600234de3a1e2c65381a0",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.458309001559302e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0149_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.65,
+    "enterEnd": 2.05,
+    "enterSpeed": 1.6,
+    "entranceDuration": 0.8749999999999999,
+    "entranceAuthorship": "native",
+    "entranceLabel": "open-arm greeting",
+    "entranceBounds": {
+      "min": [
+        -1.0272856169982836,
+        -0.0022004799246969917,
+        -2.2331851137487293
+      ],
+      "max": [
+        0.9521936825555637,
+        2.3032525694597155,
+        0.5656136320505258
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "duraludon": {
+    "name": "Duraludon",
+    "dexId": 884,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/duraludon.glb",
+    "bytes": 448920,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|Armature|pm0884_00_00_ba10_waitA01|Base Layer",
+        "duration": 2.0,
+        "channels": 40,
+        "varyingSkinnedJointChannels": 17,
+        "movingSkinnedJointCount": 16
+      },
+      {
+        "name": "Armature|Armature|pm0884_00_00_ba21_tokusyu01|Base Layer",
+        "duration": 2.5166666507720947,
+        "channels": 56,
+        "varyingSkinnedJointChannels": 33,
+        "movingSkinnedJointCount": 32
+      },
+      {
+        "name": "Armature|Armature|pm0884_00_00_ba02_roar01|Base Layer",
+        "duration": 3.0166666507720947,
+        "channels": 51,
+        "varyingSkinnedJointChannels": 25,
+        "movingSkinnedJointCount": 24
+      }
+    ],
+    "idle": "Armature|Armature|pm0884_00_00_ba10_waitA01|Base Layer",
+    "attack": "Armature|Armature|pm0884_00_00_ba21_tokusyu01|Base Layer",
+    "attackTimeScale": 1,
+    "accessorBounds": {
+      "min": [
+        -1.153963327407837,
+        0.14875872433185577,
+        -1.058868646621704
+      ],
+      "max": [
+        1.1368544101715088,
+        2.032949686050415,
+        0.5113421678543091
+      ],
+      "size": [
+        2.2908177375793457,
+        1.8841909617185593,
+        1.5702108144760132
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "waitA01 / special-attack tokusyu01 / roar01 mapped by original game action names. Exact power timing and orientation require rendered validation."
+    ],
+    "optimization": {
+      "sourceBytes": 234608,
+      "sha256": "a40dc1877028c39ea3509c2b6452c44ed5a735b4ea02b029ce9785b016e7770a",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0,
+      "restoredNativeClips": [
+        "Armature|Armature|pm0884_00_00_ba02_roar01|Base Layer"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "Armature|Armature|pm0884_00_00_ba02_roar01|Base Layer",
+    "enter": "Armature|Armature|pm0884_00_00_ba02_roar01|Base Layer",
+    "enterStart": 0.35,
+    "enterEnd": 1.35,
+    "enterSpeed": 1.25,
+    "entranceDuration": 0.8,
+    "entranceAuthorship": "native",
+    "entranceLabel": "steel chest roar",
+    "entranceBounds": {
+      "min": [
+        -0.5588544107548603,
+        -0.023313094769794346,
+        -0.42720777044942215
+      ],
+      "max": [
+        0.559428901119165,
+        1.011471969080162,
+        0.5829759922130379
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "eevee": {
+    "name": "Eevee",
+    "dexId": 133,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/eevee.glb",
+    "bytes": 2083384,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 3.7916667461395264,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 36,
+        "movingSkinnedJointCount": 35
+      },
+      {
+        "name": "idle",
+        "duration": 2.5416667461395264,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 36,
+        "movingSkinnedJointCount": 35
+      },
+      {
+        "name": "happy",
+        "duration": 5.041666507720947,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 58,
+        "movingSkinnedJointCount": 57
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.20969925181974944,
+        -0.0032946938469831377,
+        -0.29060558374543294
+      ],
+      "max": [
+        0.2171252141208072,
+        0.3655873278862729,
+        0.1891457265211229
+      ],
+      "size": [
+        0.4268244659405567,
+        0.368882021733256,
+        0.4797513102665558
+      ],
+      "center": [
+        0.003712981150528885,
+        0.1811463170196449,
+        -0.050729928612155015
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 3344216,
+      "sha256": "3273193aed370c045b78f03db5de2da0636fbe28b8d3f88d55fd47a847c0db29",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.7578086697909185e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0133_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.1,
+    "enterEnd": 1.4,
+    "enterSpeed": 1.5,
+    "entranceDuration": 0.8666666666666666,
+    "entranceAuthorship": "native",
+    "entranceLabel": "springing greeting",
+    "entranceBounds": {
+      "min": [
+        -0.19849230332207207,
+        -0.0029121419514939666,
+        -0.31414703985598313
+      ],
+      "max": [
+        0.25638214400472104,
+        0.46984814233230826,
+        0.22353719448144374
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "espeon": {
+    "name": "Espeon",
+    "dexId": 196,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/espeon.glb",
+    "bytes": 943140,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|ArmatureAction",
+        "duration": 7.0,
+        "channels": 97,
+        "varyingSkinnedJointChannels": 45,
+        "movingSkinnedJointCount": 44
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 1.9,
+        "channels": 219,
+        "varyingSkinnedJointChannels": 33,
+        "movingSkinnedJointCount": 33
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.84,
+        "channels": 219,
+        "varyingSkinnedJointChannels": 33,
+        "movingSkinnedJointCount": 33
+      }
+    ],
+    "idle": "Armature|ArmatureAction",
+    "accessorBounds": {
+      "min": [
+        -0.291729211807251,
+        -0.00029098812956362963,
+        -0.7421370148658752
+      ],
+      "max": [
+        0.3650667667388916,
+        0.7374989986419678,
+        0.3725539743900299
+      ],
+      "size": [
+        0.6567959785461426,
+        0.7377899867715314,
+        1.1146909892559052
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Original unlabeled display loop preserved. ensemble_enter and ensemble_attack are project-authored 3D skeletal choreography with independent anatomical joints and exact idle-pose recovery."
+    ],
+    "optimization": {
+      "sourceBytes": 208556,
+      "sha256": "d6ccfe8b85e1478a26a0a775f7035930b4fdb90f27ffccf9fb428f7e48a875e8",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0,
+      "authoredClips": [
+        "ensemble_enter",
+        "ensemble_attack"
+      ]
+    },
+    "attack": "ensemble_attack",
+    "attackTimeScale": 1,
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.84,
+    "enterSpeed": 1,
+    "entranceDuration": 0.84,
+    "entranceAuthorship": "project-authored",
+    "entranceLabel": "psychic ear-and-tail salute",
+    "entranceBounds": {
+      "min": [
+        -0.2623693724085231,
+        -0.00824029129874381,
+        -0.6145936410288397
+      ],
+      "max": [
+        0.44508599449345987,
+        0.8106834363487034,
+        0.37526758808757815
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "forretress": {
+    "name": "Forretress",
+    "dexId": 205,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/forretress.glb",
+    "bytes": 284300,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 22,
+        "varyingSkinnedJointChannels": 22,
+        "movingSkinnedJointCount": 22,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 28,
+        "varyingSkinnedJointChannels": 28,
+        "movingSkinnedJointCount": 28,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 28,
+        "varyingSkinnedJointChannels": 28,
+        "movingSkinnedJointCount": 28,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Upper and lower shell joints open in opposition while the four cannon limbs brace and recoil."
+    ],
+    "optimization": {
+      "sourceBytes": 20960,
+      "sha256": "8c717aaa5f9238c550a1542dcd1ef8888422c6072f85d652f494d536fb89f370",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -0.7210594606057109,
+        -0.02586913122482365,
+        -0.5900201522394443
+      ],
+      "max": [
+        0.7210594512498423,
+        1.1446920270360799,
+        0.5900473020181
+      ],
+      "size": [
+        1.442118911855553,
+        1.1705611582609035,
+        1.1800674542575442
+      ],
+      "center": [
+        -4.67793431768726e-09,
+        0.5594114479056281,
+        1.3574889327849782e-05
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "gardevoir": {
+    "name": "Gardevoir",
+    "dexId": 282,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/gardevoir.glb",
+    "bytes": 454232,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 48,
+        "varyingSkinnedJointChannels": 48,
+        "movingSkinnedJointCount": 48,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 16,
+        "varyingSkinnedJointChannels": 16,
+        "movingSkinnedJointCount": 16,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 20,
+        "varyingSkinnedJointChannels": 20,
+        "movingSkinnedJointCount": 20,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Paired shoulder and elbow lift from lowered arms, palm projection, neck counterbalance and skirt follow-through."
+    ],
+    "optimization": {
+      "sourceBytes": 81540,
+      "sha256": "468966451a26a68f539d3cc2f544e37d61bc84a55367b72876841e5bd02e5aa6",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -1.050129708482586,
+        -0.8401772683903608,
+        -2.3894870184843855
+      ],
+      "max": [
+        1.050133604249044,
+        4.028367623131809,
+        0.5352857396015953
+      ],
+      "size": [
+        2.10026331273163,
+        4.86854489152217,
+        2.9247727580859806
+      ],
+      "center": [
+        1.9478832289365755e-06,
+        1.594095177370724,
+        -0.9271006394413951
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "genesect": {
+    "name": "Genesect",
+    "dexId": 649,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/genesect.glb",
+    "bytes": 432784,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 16,
+        "varyingSkinnedJointChannels": 16,
+        "movingSkinnedJointCount": 16,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 13,
+        "varyingSkinnedJointChannels": 13,
+        "movingSkinnedJointCount": 13,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 13,
+        "varyingSkinnedJointChannels": 13,
+        "movingSkinnedJointCount": 13,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Leg brace and torso dip position the dorsal cannon, which pitches and recoils independently of the head."
+    ],
+    "optimization": {
+      "sourceBytes": 93284,
+      "sha256": "6ef882037fada043a0228f369ad2c9b887f45ce1ed8f0dd80ad23023ff510877",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -1.33230187110631,
+        -0.17292694203799575,
+        -1.9578918020209894
+      ],
+      "max": [
+        1.3323001716106841,
+        3.80747864081499,
+        1.6106512442691523
+      ],
+      "size": [
+        2.664602042716994,
+        3.9804055828529856,
+        3.5685430462901415
+      ],
+      "center": [
+        -8.497478128921543e-07,
+        1.8172758493884973,
+        -0.17362027887591858
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "gengar": {
+    "name": "Gengar",
+    "dexId": 94,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/gengar.glb",
+    "bytes": 1422068,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 3.7916667461395264,
+        "channels": 201,
+        "varyingSkinnedJointChannels": 36,
+        "movingSkinnedJointCount": 35
+      },
+      {
+        "name": "idle",
+        "duration": 2.5416667461395264,
+        "channels": 201,
+        "varyingSkinnedJointChannels": 27,
+        "movingSkinnedJointCount": 26
+      },
+      {
+        "name": "happy",
+        "duration": 5.875,
+        "channels": 201,
+        "varyingSkinnedJointChannels": 26,
+        "movingSkinnedJointCount": 25
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.8857302759025029,
+        -0.00081958222381427,
+        -0.7356570489184917
+      ],
+      "max": [
+        0.866370336691018,
+        1.543309709369098,
+        0.5804874880486183
+      ],
+      "size": [
+        1.7521006125935208,
+        1.5441292915929121,
+        1.3161445369671099
+      ],
+      "center": [
+        -0.009679969605742411,
+        0.7712450635726419,
+        -0.07758478043493672
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 2562652,
+      "sha256": "fec092f15cd8e67a4593fc991f2d3380d2ef93fbc71d0fae082439dd0f21a4d3",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 2.586750851019115e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0094_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.4,
+    "enterEnd": 1.6,
+    "enterSpeed": 1.4,
+    "entranceDuration": 0.8571428571428573,
+    "entranceAuthorship": "native",
+    "entranceLabel": "mischievous shoulder shrug",
+    "entranceBounds": {
+      "min": [
+        -0.733084456561421,
+        -0.010333407653444947,
+        -0.7258273791712306
+      ],
+      "max": [
+        0.7966176223397516,
+        1.5945286525872975,
+        0.5877792059429213
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "giratina": {
+    "name": "Giratina",
+    "dexId": 487,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/giratina.glb",
+    "bytes": 857988,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 68,
+        "varyingSkinnedJointChannels": 68,
+        "movingSkinnedJointCount": 68,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 80,
+        "varyingSkinnedJointChannels": 80,
+        "movingSkinnedJointCount": 80,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 81,
+        "varyingSkinnedJointChannels": 81,
+        "movingSkinnedJointCount": 81,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Six legs brace, upper neck lowers toward the target, jaw opens and wing tendrils sweep."
+    ],
+    "optimization": {
+      "sourceBytes": 116556,
+      "sha256": "c8f0f2a1d4a2fd358f7b7bd2ae5b6773773e3f43e7700223e0a91eeda387d7ec",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -3.8791635359740435,
+        -0.12966532666343103,
+        -8.266457489268554
+      ],
+      "max": [
+        3.878898289060162,
+        11.684788514883243,
+        5.039819055022901
+      ],
+      "size": [
+        7.758061825034206,
+        11.814453841546674,
+        13.306276544291455
+      ],
+      "center": [
+        -0.00013262345694076139,
+        5.777561594109906,
+        -1.613319217122826
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "glaceon": {
+    "name": "Glaceon",
+    "dexId": 471,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/glaceon.glb",
+    "bytes": 895972,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|ArmatureAction",
+        "duration": 5.666666507720947,
+        "channels": 42,
+        "varyingSkinnedJointChannels": 41,
+        "movingSkinnedJointCount": 40
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 1.9,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 29,
+        "movingSkinnedJointCount": 29
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.84,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 29,
+        "movingSkinnedJointCount": 29
+      }
+    ],
+    "idle": "Armature|ArmatureAction",
+    "accessorBounds": {
+      "min": [
+        -0.3124399781227112,
+        -0.0007670123595744371,
+        -0.8633460402488708
+      ],
+      "max": [
+        0.3124399781227112,
+        0.8075479865074158,
+        0.382485955953598
+      ],
+      "size": [
+        0.6248799562454224,
+        0.8083149988669902,
+        1.2458319962024689
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Original unlabeled display loop preserved. ensemble_enter and ensemble_attack are project-authored 3D skeletal choreography with independent anatomical joints and exact idle-pose recovery."
+    ],
+    "optimization": {
+      "sourceBytes": 183012,
+      "sha256": "f63a95671e4444b62649b91dadb2bc9f69635a7668a6f974e5f502bdf84fc520",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0,
+      "authoredClips": [
+        "ensemble_enter",
+        "ensemble_attack"
+      ]
+    },
+    "attack": "ensemble_attack",
+    "attackTimeScale": 1,
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.84,
+    "enterSpeed": 1,
+    "entranceDuration": 0.84,
+    "entranceAuthorship": "project-authored",
+    "entranceLabel": "frost head-and-ear salute",
+    "entranceBounds": {
+      "min": [
+        -0.3825919985719862,
+        -0.0064407490037243255,
+        -0.43377166397007016
+      ],
+      "max": [
+        0.23235038431737182,
+        0.9777048916429383,
+        0.36996264363172393
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "gloom": {
+    "name": "Gloom",
+    "dexId": 44,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/gloom.glb",
+    "bytes": 1577384,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 1.850000023841858,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 40,
+        "movingSkinnedJointCount": 34
+      },
+      {
+        "name": "idle",
+        "duration": 1.5166666507720947,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 40,
+        "movingSkinnedJointCount": 34
+      },
+      {
+        "name": "happy",
+        "duration": 1.6833332777023315,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 42,
+        "movingSkinnedJointCount": 36
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.4998497202124091,
+        -0.02364131077916604,
+        -0.4845166106238383
+      ],
+      "max": [
+        0.45179628356046436,
+        0.796381243527776,
+        0.2674648843500794
+      ],
+      "size": [
+        0.9516460037728735,
+        0.820022554306942,
+        0.7519814949739176
+      ],
+      "center": [
+        -0.024026718325972363,
+        0.38636996637430493,
+        -0.10852586313687942
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 2808932,
+      "sha256": "960b04448e2aa68bf237ef11b081a93acdbc6c06f1a48fce4adb6d91c571bec8",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.5560249971152684e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0044_00_00_00550_glad01",
+    "enter": "happy",
+    "enterStart": 0,
+    "enterEnd": 1.0,
+    "enterSpeed": 1.2,
+    "entranceDuration": 0.8333333333333334,
+    "entranceAuthorship": "native",
+    "entranceLabel": "flower sway",
+    "entranceBounds": {
+      "min": [
+        -0.5039910292312347,
+        -0.026323371647324467,
+        -0.5067264563752105
+      ],
+      "max": [
+        0.46557146439835034,
+        0.8443935774598904,
+        0.28760747769239414
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "greninja": {
+    "name": "Greninja",
+    "dexId": 658,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/greninja.glb",
+    "bytes": 642268,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "pm0725_11_00_00000_defaultwait01_loop",
+        "duration": 2.0166666507720947,
+        "channels": 203,
+        "varyingSkinnedJointChannels": 47,
+        "movingSkinnedJointCount": 46
+      },
+      {
+        "name": "pm0725_11_00_00450_rangeattack01",
+        "duration": 2.0166666507720947,
+        "channels": 211,
+        "varyingSkinnedJointChannels": 72,
+        "movingSkinnedJointCount": 59
+      },
+      {
+        "name": "pm0725_11_00_00155_land02",
+        "duration": 0.6833333373069763,
+        "channels": 209,
+        "varyingSkinnedJointChannels": 63,
+        "movingSkinnedJointCount": 59
+      }
+    ],
+    "idle": "pm0725_11_00_00000_defaultwait01_loop",
+    "attack": "pm0725_11_00_00450_rangeattack01",
+    "attackTimeScale": 1,
+    "accessorBounds": {
+      "min": [
+        -0.9268615245819092,
+        0.025487283244729042,
+        -0.9103299379348755
+      ],
+      "max": [
+        0.9268615245819092,
+        1.6362801790237427,
+        0.8251477479934692
+      ],
+      "size": [
+        1.8537230491638184,
+        1.6107928957790136,
+        1.7354776859283447
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Provider model is identified as Greninja (Official), with uploader attribution embedded in the GLB. Internal pm0725 model numbering is retained unchanged; it is not a National Dex identifier."
+    ],
+    "optimization": {
+      "sourceBytes": 7047624,
+      "sha256": "9571db1da56cd172b6bb19f0beee8d48c0b19d4f433a6c499ca91ffa7c3aafe9",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0,
+      "restoredNativeClips": [
+        "pm0725_11_00_00155_land02"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0725_11_00_00155_land02",
+    "enter": "pm0725_11_00_00155_land02",
+    "enterStart": 0,
+    "enterEnd": 0.6833333373069763,
+    "enterSpeed": 1,
+    "entranceDuration": 0.6833333373069763,
+    "entranceAuthorship": "native",
+    "entranceLabel": "native landing crouch",
+    "entranceBounds": {
+      "min": [
+        -1.5765265504339971,
+        -0.011920258367464652,
+        -1.07756352536713
+      ],
+      "max": [
+        1.5163706776713006,
+        4.01795706260036,
+        0.9708300849605265
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "gyarados": {
+    "name": "Gyarados",
+    "dexId": 130,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/gyarados.glb",
+    "bytes": 3123208,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.183333396911621,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 48,
+        "movingSkinnedJointCount": 48
+      },
+      {
+        "name": "idle",
+        "duration": 3.0166666507720947,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 38,
+        "movingSkinnedJointCount": 38
+      },
+      {
+        "name": "happy",
+        "duration": 1.6833332777023315,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 46,
+        "movingSkinnedJointCount": 46
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.7302853851042135,
+        0.39090924614830225,
+        -3.572956115300585
+      ],
+      "max": [
+        0.7984153233913363,
+        3.085303507058262,
+        2.1247758039747007
+      ],
+      "size": [
+        1.5287007084955497,
+        2.69439426090996,
+        5.697731919275286
+      ],
+      "center": [
+        0.034064969143561386,
+        1.7381063766032823,
+        -0.7240901556629422
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 5668360,
+      "sha256": "2b3b9bc67a3a8db342d71e3e9f0bc1de910629d2febf1754c73a68579bd3ab8d",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.793891731462441e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0130_00_00_10550_glad01",
+    "enter": "happy",
+    "enterStart": 0,
+    "enterEnd": 1.05,
+    "enterSpeed": 1.3,
+    "entranceDuration": 0.8076923076923077,
+    "entranceAuthorship": "native",
+    "entranceLabel": "serpentine crest raise",
+    "entranceBounds": {
+      "min": [
+        -1.2200736440133158,
+        0.3748823175335513,
+        -3.566618459529922
+      ],
+      "max": [
+        1.0435937991388753,
+        3.1949710224828554,
+        2.2610709293576927
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "kyogre": {
+    "name": "Kyogre",
+    "dexId": 382,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/kyogre.glb",
+    "bytes": 546396,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 31,
+        "varyingSkinnedJointChannels": 31,
+        "movingSkinnedJointCount": 31,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 11,
+        "varyingSkinnedJointChannels": 11,
+        "movingSkinnedJointCount": 11,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 12,
+        "varyingSkinnedJointChannels": 12,
+        "movingSkinnedJointCount": 12,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Pectoral fins flare, head braces and jaw opens for a forward water jet; tail chain counterbalances."
+    ],
+    "optimization": {
+      "sourceBytes": 139096,
+      "sha256": "f110d77f7071252066fe84ab16c54ba4d2fecb9dc75eb07110be7476eed108e0",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -8.103569316266594,
+        -1.497078704891854,
+        -7.633950069426422
+      ],
+      "max": [
+        8.103570087365778,
+        2.0550185915289543,
+        5.3087020230192365
+      ],
+      "size": [
+        16.20713940363237,
+        3.552097296420808,
+        12.942652092445659
+      ],
+      "center": [
+        3.855495922522323e-07,
+        0.2789699433185502,
+        -1.162624023203593
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "leafeon": {
+    "name": "Leafeon",
+    "dexId": 470,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/leafeon.glb",
+    "bytes": 1223960,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|ArmatureAction",
+        "duration": 4.833333492279053,
+        "channels": 159,
+        "varyingSkinnedJointChannels": 52,
+        "movingSkinnedJointCount": 51
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 1.9,
+        "channels": 288,
+        "varyingSkinnedJointChannels": 41,
+        "movingSkinnedJointCount": 41
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.84,
+        "channels": 288,
+        "varyingSkinnedJointChannels": 41,
+        "movingSkinnedJointCount": 41
+      }
+    ],
+    "idle": "Armature|ArmatureAction",
+    "accessorBounds": {
+      "min": [
+        -0.24574600160121918,
+        -0.0022209854796528816,
+        -1.1602710485458374
+      ],
+      "max": [
+        0.24574600160121918,
+        0.9203649759292603,
+        0.4075259566307068
+      ],
+      "size": [
+        0.49149200320243835,
+        0.9225859614089131,
+        1.5677970051765442
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Original unlabeled display loop preserved. ensemble_enter and ensemble_attack are project-authored 3D skeletal choreography with independent anatomical joints and exact idle-pose recovery."
+    ],
+    "optimization": {
+      "sourceBytes": 247756,
+      "sha256": "60f4585c1661ad4b1762315d660c220a98dd64d6b4de943cd1a1b9ab03281e36",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0,
+      "authoredClips": [
+        "ensemble_enter",
+        "ensemble_attack"
+      ]
+    },
+    "attack": "ensemble_attack",
+    "attackTimeScale": 1,
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.84,
+    "enterSpeed": 1,
+    "entranceDuration": 0.84,
+    "entranceAuthorship": "project-authored",
+    "entranceLabel": "leaf forepaw flourish",
+    "entranceBounds": {
+      "min": [
+        -0.7175446119226582,
+        -0.012321893407685431,
+        -1.472842717865776
+      ],
+      "max": [
+        0.703114483640915,
+        2.1912744431826257,
+        0.8619605691786667
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "lugia": {
+    "name": "Lugia",
+    "dexId": 249,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/lugia.glb",
+    "bytes": 1158304,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "pm0249_00_00_20000_defaultwait01_loop",
+        "duration": 1.850000023841858,
+        "channels": 293,
+        "varyingSkinnedJointChannels": 97,
+        "movingSkinnedJointCount": 85
+      },
+      {
+        "name": "pm0249_00_00_20450_rangeattack01",
+        "duration": 2.316666603088379,
+        "channels": 298,
+        "varyingSkinnedJointChannels": 114,
+        "movingSkinnedJointCount": 92
+      },
+      {
+        "name": "pm0249_00_00_20300_roar01",
+        "duration": 2.3499999046325684,
+        "channels": 295,
+        "varyingSkinnedJointChannels": 114,
+        "movingSkinnedJointCount": 92
+      }
+    ],
+    "idle": "pm0249_00_00_20000_defaultwait01_loop",
+    "attack": "pm0249_00_00_20450_rangeattack01",
+    "attackTimeScale": 1,
+    "accessorBounds": {
+      "min": [
+        -4.515246868133545,
+        -0.6702763438224792,
+        -4.5005035400390625
+      ],
+      "max": [
+        4.515246868133545,
+        4.168520927429199,
+        1.7268483638763428
+      ],
+      "size": [
+        9.03049373626709,
+        4.8387972712516785,
+        6.227351903915405
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Matching 20000-series idle/roar/ranged-attack pose family selected. Other grounded/movement pose families remain in the GLB."
+    ],
+    "optimization": {
+      "sourceBytes": 15049208,
+      "sha256": "c7a68dfbfd1802ffb27ab7880fdf29f6b937df1c6ca693216c3e1165c173a440",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0,
+      "restoredNativeClips": [
+        "pm0249_00_00_20300_roar01"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0249_00_00_20300_roar01",
+    "enter": "pm0249_00_00_20300_roar01",
+    "enterStart": 0.3,
+    "enterEnd": 1.25,
+    "enterSpeed": 1.2,
+    "entranceDuration": 0.7916666666666666,
+    "entranceAuthorship": "native",
+    "entranceLabel": "flying wing flare",
+    "entranceBounds": {
+      "min": [
+        -1.496302707788402,
+        -0.239990015836834,
+        -1.365061262707937
+      ],
+      "max": [
+        1.445054965748696,
+        1.7988304375875508,
+        1.008778124156516
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "mew": {
+    "name": "Mew",
+    "dexId": 151,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/mew.glb",
+    "bytes": 1254576,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 3.7916667461395264,
+        "channels": 162,
+        "varyingSkinnedJointChannels": 32,
+        "movingSkinnedJointCount": 26
+      },
+      {
+        "name": "idle",
+        "duration": 4.208333492279053,
+        "channels": 162,
+        "varyingSkinnedJointChannels": 25,
+        "movingSkinnedJointCount": 25
+      },
+      {
+        "name": "happy",
+        "duration": 4.208333492279053,
+        "channels": 162,
+        "varyingSkinnedJointChannels": 33,
+        "movingSkinnedJointCount": 29
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.22850760956010097,
+        0.0005996830975611711,
+        -0.3568783522286364
+      ],
+      "max": [
+        0.09492160017901513,
+        0.4669524675757372,
+        0.19130641976696888
+      ],
+      "size": [
+        0.3234292097391161,
+        0.4663527844781761,
+        0.5481847719956052
+      ],
+      "center": [
+        -0.06679300469054292,
+        0.23377607533664918,
+        -0.08278596623083376
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 2336332,
+      "sha256": "240a1c0e076bab5db5ac0c85ae331a5dc19ee3cb90e1a00dadd37346fa029f51",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.091340477935246e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0151_00_00_20550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0,
+    "enterEnd": 1.2,
+    "enterSpeed": 1.5,
+    "entranceDuration": 0.7999999999999999,
+    "entranceAuthorship": "native",
+    "entranceLabel": "floating arm lift",
+    "entranceBounds": {
+      "min": [
+        -0.2787139592232472,
+        -0.03274281485170216,
+        -0.44354405969284005
+      ],
+      "max": [
+        0.1012010312603546,
+        0.6658297432753425,
+        0.19130649242204067
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "mewtwo": {
+    "name": "Mewtwo",
+    "dexId": 150,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/mewtwo.glb",
+    "bytes": 2248576,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 261,
+        "varyingSkinnedJointChannels": 76,
+        "movingSkinnedJointCount": 66
+      },
+      {
+        "name": "idle",
+        "duration": 7.541666507720947,
+        "channels": 261,
+        "varyingSkinnedJointChannels": 60,
+        "movingSkinnedJointCount": 51
+      },
+      {
+        "name": "happy",
+        "duration": 4.208333492279053,
+        "channels": 261,
+        "varyingSkinnedJointChannels": 74,
+        "movingSkinnedJointCount": 65
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.5849693275754149,
+        -0.010289746073157819,
+        -2.589096834990814
+      ],
+      "max": [
+        1.26427972107522,
+        2.0745698443364016,
+        0.20949425303195324
+      ],
+      "size": [
+        1.8492490486506348,
+        2.0848595904095593,
+        2.798591088022767
+      ],
+      "center": [
+        0.3396551967499025,
+        1.032140049131622,
+        -1.1898012909794304
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 3707764,
+      "sha256": "8b8d8206dc81955109cdbec5894bcaed25bbbbdb695aeb5bb8194c9155048ec9",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.062109488778276e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0150_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.7,
+    "enterEnd": 2.1,
+    "enterSpeed": 1.6,
+    "entranceDuration": 0.875,
+    "entranceAuthorship": "native",
+    "entranceLabel": "controlled tail salute",
+    "entranceBounds": {
+      "min": [
+        -1.487439640922839,
+        -0.010270634162908122,
+        -3.0454456944036385
+      ],
+      "max": [
+        0.796778633102682,
+        2.0853615112894563,
+        0.24880489726086413
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "moltres": {
+    "name": "Moltres",
+    "dexId": 146,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/moltres.glb",
+    "bytes": 4272936,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 330,
+        "varyingSkinnedJointChannels": 90,
+        "movingSkinnedJointCount": 88
+      },
+      {
+        "name": "idle",
+        "duration": 6.041666507720947,
+        "channels": 330,
+        "varyingSkinnedJointChannels": 82,
+        "movingSkinnedJointCount": 81
+      },
+      {
+        "name": "happy",
+        "duration": 5.041666507720947,
+        "channels": 330,
+        "varyingSkinnedJointChannels": 89,
+        "movingSkinnedJointCount": 88
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -2.379675803506571,
+        -0.005325058018313697,
+        -1.9637500627296565
+      ],
+      "max": [
+        2.471777423203261,
+        2.6528189316116504,
+        1.0403997104032772
+      ],
+      "size": [
+        4.8514532267098325,
+        2.658143989629964,
+        3.0041497731329336
+      ],
+      "center": [
+        0.0460508098483452,
+        1.3237469367966683,
+        -0.46167517616318965
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 7254332,
+      "sha256": "2dd55b42a2fa49e07b9dc2b1b23f305eb3a7f04e0a7eebac914fadc46c6941c5",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.5157159947462056e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0146_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.7,
+    "enterEnd": 2.3,
+    "enterSpeed": 1.8,
+    "entranceDuration": 0.8888888888888888,
+    "entranceAuthorship": "native",
+    "entranceLabel": "flame-wing lift",
+    "entranceBounds": {
+      "min": [
+        -2.3088491727170224,
+        -0.004616301050570393,
+        -1.9613997663333929
+      ],
+      "max": [
+        2.2261206595205145,
+        3.2737986614058645,
+        1.0759775882256817
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "ninetales": {
+    "name": "Ninetales",
+    "dexId": 38,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/ninetales.glb",
+    "bytes": 3851108,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 480,
+        "varyingSkinnedJointChannels": 117,
+        "movingSkinnedJointCount": 115
+      },
+      {
+        "name": "idle",
+        "duration": 5.041666507720947,
+        "channels": 480,
+        "varyingSkinnedJointChannels": 111,
+        "movingSkinnedJointCount": 109
+      },
+      {
+        "name": "happy",
+        "duration": 4.208333492279053,
+        "channels": 480,
+        "varyingSkinnedJointChannels": 110,
+        "movingSkinnedJointCount": 108
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.7352796773891743,
+        -0.0007837883393864574,
+        -1.0546855914566708
+      ],
+      "max": [
+        0.702843794960829,
+        1.2297787938371187,
+        0.6599583232355868
+      ],
+      "size": [
+        1.4381234723500034,
+        1.2305625821765052,
+        1.7146439146922576
+      ],
+      "center": [
+        -0.016217941214172638,
+        0.6144975027488662,
+        -0.19736363411054203
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 6202404,
+      "sha256": "8526a66ee35420c98a98a0a94fb267261761b1df47afd423985c3528860264a3",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.949470316899628e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0038_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.8,
+    "enterEnd": 2.8,
+    "enterSpeed": 2.2,
+    "entranceDuration": 0.909090909090909,
+    "entranceAuthorship": "native",
+    "entranceLabel": "nine-tail fan",
+    "entranceBounds": {
+      "min": [
+        -0.847465417711436,
+        -0.009689647433269943,
+        -1.3854358732687917
+      ],
+      "max": [
+        0.8127433224374173,
+        1.3598786510027123,
+        0.6845071847390325
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "oddish": {
+    "name": "Oddish",
+    "dexId": 43,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/oddish.glb",
+    "bytes": 1222496,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 4.625,
+        "channels": 150,
+        "varyingSkinnedJointChannels": 32,
+        "movingSkinnedJointCount": 27
+      },
+      {
+        "name": "idle",
+        "duration": 4.625,
+        "channels": 150,
+        "varyingSkinnedJointChannels": 28,
+        "movingSkinnedJointCount": 23
+      },
+      {
+        "name": "happy",
+        "duration": 3.7916667461395264,
+        "channels": 150,
+        "varyingSkinnedJointChannels": 41,
+        "movingSkinnedJointCount": 33
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.2885078658948288,
+        -0.0009761080818416843,
+        -0.16864262855386927
+      ],
+      "max": [
+        0.28288301760941764,
+        0.5013516685772212,
+        0.11350650010474439
+      ],
+      "size": [
+        0.5713908835042465,
+        0.5023277766590629,
+        0.28214912865861363
+      ],
+      "center": [
+        -0.0028124241427055774,
+        0.2501877802476898,
+        -0.02756806422456244
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 2138116,
+      "sha256": "ca5ef8c92cf587d92ddf38e6027f83c612fcaf3f49c9983718374f8761837d8a",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 3.263088889371435e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0043_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.1,
+    "enterEnd": 1.05,
+    "enterSpeed": 1.15,
+    "entranceDuration": 0.8260869565217392,
+    "entranceAuthorship": "native",
+    "entranceLabel": "leafy hop",
+    "entranceBounds": {
+      "min": [
+        -0.3050300258178902,
+        -0.0042455447841864185,
+        -0.18786871959858517
+      ],
+      "max": [
+        0.3035042706323897,
+        0.8263105949934516,
+        0.27600050356226863
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "pidgeot": {
+    "name": "Pidgeot",
+    "dexId": 18,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/pidgeot.glb",
+    "bytes": 891244,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.5199999809265137,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 71,
+        "movingSkinnedJointCount": 66
+      },
+      {
+        "name": "idle",
+        "duration": 1.2400000095367432,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 61,
+        "movingSkinnedJointCount": 61
+      },
+      {
+        "name": "happy",
+        "duration": 2.319999933242798,
+        "channels": 264,
+        "varyingSkinnedJointChannels": 64,
+        "movingSkinnedJointCount": 64
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.4153545547658884,
+        -0.0014948002267148545,
+        -0.9409445991684903
+      ],
+      "max": [
+        0.5331218712796563,
+        1.314311829490286,
+        0.6907967808807924
+      ],
+      "size": [
+        0.9484764260455447,
+        1.3158066297170008,
+        1.6317413800492826
+      ],
+      "center": [
+        0.058883658256883936,
+        0.6564085146317856,
+        -0.12507390914384892
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 1268292,
+      "sha256": "9f53f051cde337931b174796944e51f039c4113fe0a4d1688f05f6efc02ac279",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.499360050091994e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0018_00_kw32_happyB01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.25,
+    "enterEnd": 1.25,
+    "enterSpeed": 1.25,
+    "entranceDuration": 0.8,
+    "entranceAuthorship": "native",
+    "entranceLabel": "crest-and-beak salute",
+    "entranceBounds": {
+      "min": [
+        -0.4369405790047943,
+        -0.01404537305257148,
+        -0.9918730077728822
+      ],
+      "max": [
+        0.5504990295533899,
+        1.3621328582265742,
+        0.8159398687274717
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "pidgey": {
+    "name": "Pidgey",
+    "dexId": 16,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/pidgey.glb",
+    "bytes": 569308,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.0399999618530273,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 32,
+        "movingSkinnedJointCount": 32
+      },
+      {
+        "name": "idle",
+        "duration": 1.4800000190734863,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 30,
+        "movingSkinnedJointCount": 30
+      },
+      {
+        "name": "happy",
+        "duration": 2.640000104904175,
+        "channels": 174,
+        "varyingSkinnedJointChannels": 29,
+        "movingSkinnedJointCount": 29
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.07444283307493398,
+        -0.005521205408665239,
+        -0.1725339805095263
+      ],
+      "max": [
+        0.0744239813780728,
+        0.3002835471152672,
+        0.1524637087409971
+      ],
+      "size": [
+        0.14886681445300676,
+        0.30580475252393247,
+        0.3249976892505234
+      ],
+      "center": [
+        -9.425848430590078e-06,
+        0.147381170853301,
+        -0.010035135884264607
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 788816,
+      "sha256": "a0cfb3e22d1261bde7d1cec131a9fabbaa178863ea6a5ca6352fef06bf759bb2",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.252697250930801e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0016_00_kw32_happyB01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.1,
+    "enterEnd": 1.1,
+    "enterSpeed": 1.2,
+    "entranceDuration": 0.8333333333333334,
+    "entranceAuthorship": "native",
+    "entranceLabel": "alert beak lift",
+    "entranceBounds": {
+      "min": [
+        -0.07777630172511044,
+        -0.024566371938070958,
+        -0.18229471044124812
+      ],
+      "max": [
+        0.11627328883245722,
+        0.29582582157384985,
+        0.15043810142933653
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "pikachu": {
+    "name": "Pikachu",
+    "dexId": 25,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/pikachu.glb",
+    "bytes": 4601792,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 1.850000023841858,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 85,
+        "movingSkinnedJointCount": 53
+      },
+      {
+        "name": "idle",
+        "duration": 1.149999976158142,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 40,
+        "movingSkinnedJointCount": 29
+      },
+      {
+        "name": "happy",
+        "duration": 1.6833332777023315,
+        "channels": 243,
+        "varyingSkinnedJointChannels": 79,
+        "movingSkinnedJointCount": 51
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.14159276133148674,
+        -0.0001834087675050602,
+        -0.27408166777341325
+      ],
+      "max": [
+        0.261426659823941,
+        0.4627639100961957,
+        0.15655010744171238
+      ],
+      "size": [
+        0.4030194211554277,
+        0.4629473188637008,
+        0.43063177521512563
+      ],
+      "center": [
+        0.05991694924622712,
+        0.23129025066434533,
+        -0.058765780165850434
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 7344736,
+      "sha256": "531d70fe004312dbdc0595a08c8efc740191679128927c8c2b916a7399a64846",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.4941829712400434e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0025_00_00_00550_glad01",
+    "enter": "happy",
+    "enterStart": 0.15,
+    "enterEnd": 1.2,
+    "enterSpeed": 1.25,
+    "entranceDuration": 0.8400000000000001,
+    "entranceAuthorship": "native",
+    "entranceLabel": "ear dip into happy salute",
+    "entranceBounds": {
+      "min": [
+        -0.19611283998188264,
+        -0.00022794082281268524,
+        -0.2850694016236035
+      ],
+      "max": [
+        0.3055894869697271,
+        0.47615898959852726,
+        0.3037478011331541
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "pinsir": {
+    "name": "Pinsir",
+    "dexId": 127,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/pinsir.glb",
+    "bytes": 668740,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.440000057220459,
+        "channels": 195,
+        "varyingSkinnedJointChannels": 45,
+        "movingSkinnedJointCount": 44
+      },
+      {
+        "name": "idle",
+        "duration": 1.6399999856948853,
+        "channels": 195,
+        "varyingSkinnedJointChannels": 44,
+        "movingSkinnedJointCount": 44
+      },
+      {
+        "name": "happy",
+        "duration": 2.119999885559082,
+        "channels": 195,
+        "varyingSkinnedJointChannels": 42,
+        "movingSkinnedJointCount": 42
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.6922766090576217,
+        0.0002055183658218599,
+        -0.28457090089650955
+      ],
+      "max": [
+        0.645800349403566,
+        1.4119805416322362,
+        0.31015942926564566
+      ],
+      "size": [
+        1.3380769584611878,
+        1.4117750232664144,
+        0.5947303301621552
+      ],
+      "center": [
+        -0.02323812982702783,
+        0.706093029999029,
+        0.012794264184568055
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 895864,
+      "sha256": "8d788eb437501104a955776f10d3b04ea7f43b449f1d08ef1ad492669b01aa12",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.967597279550759e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0127_00_kw32_happyB01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.2,
+    "enterEnd": 1.2,
+    "enterSpeed": 1.25,
+    "entranceDuration": 0.8,
+    "entranceAuthorship": "native",
+    "entranceLabel": "horn-and-arm flourish",
+    "entranceBounds": {
+      "min": [
+        -0.9027502486879542,
+        -0.00038526666308369667,
+        -0.2588619980624202
+      ],
+      "max": [
+        0.9640639684754492,
+        1.4094595465016593,
+        0.4760231591114702
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "raichu": {
+    "name": "Raichu",
+    "dexId": 26,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/raichu.glb",
+    "bytes": 3409352,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 1.5166666507720947,
+        "channels": 183,
+        "varyingSkinnedJointChannels": 34,
+        "movingSkinnedJointCount": 34
+      },
+      {
+        "name": "idle",
+        "duration": 1.0166666507720947,
+        "channels": 183,
+        "varyingSkinnedJointChannels": 33,
+        "movingSkinnedJointCount": 33
+      },
+      {
+        "name": "happy",
+        "duration": 1.9500000476837158,
+        "channels": 183,
+        "varyingSkinnedJointChannels": 41,
+        "movingSkinnedJointCount": 40
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.7027692942476662,
+        -0.004854671861669281,
+        -0.6478429742224738
+      ],
+      "max": [
+        0.3192013000875504,
+        0.8201263425087376,
+        0.31985159325491347
+      ],
+      "size": [
+        1.0219705943352166,
+        0.8249810143704069,
+        0.9676945674773874
+      ],
+      "center": [
+        -0.19178399708005792,
+        0.40763583532353415,
+        -0.16399569048378018
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 5769908,
+      "sha256": "d547337b946985beab2c54d7ce027a20bc5d06fad0383dbe52c132ccdcd0062d",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 6.508221350731702e-08,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0026_00_00_00550_glad01",
+    "enter": "happy",
+    "enterStart": 0.2,
+    "enterEnd": 1.6,
+    "enterSpeed": 1.6,
+    "entranceDuration": 0.875,
+    "entranceAuthorship": "native",
+    "entranceLabel": "bow into arm salute",
+    "entranceBounds": {
+      "min": [
+        -1.4851916456559588,
+        -0.004630222246805425,
+        -1.765681489174455
+      ],
+      "max": [
+        1.5151829702489965,
+        0.9847137280632645,
+        0.40158843618102735
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "raikou": {
+    "name": "Raikou",
+    "dexId": 243,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/raikou.glb",
+    "bytes": 553488,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 31,
+        "varyingSkinnedJointChannels": 31,
+        "movingSkinnedJointCount": 31,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 35,
+        "varyingSkinnedJointChannels": 35,
+        "movingSkinnedJointCount": 35,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 36,
+        "varyingSkinnedJointChannels": 36,
+        "movingSkinnedJointCount": 36,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Four-paw brace, neck thrust, open jaw, mane ripple and tail recoil."
+    ],
+    "optimization": {
+      "sourceBytes": 102536,
+      "sha256": "21806903d0cc6af6432b0476d0a2fa7b31f8e5b927adad370066f247a01bf50a",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -1.5227222526352995,
+        -0.010163365867340029,
+        -3.29211666912566
+      ],
+      "max": [
+        1.5228230784509007,
+        5.034203435512219,
+        3.75871767635813
+      ],
+      "size": [
+        3.0455453310862,
+        5.044366801379559,
+        7.050834345483789
+      ],
+      "center": [
+        5.041290780061214e-05,
+        2.5120200348224393,
+        0.233300503616235
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "rayquaza": {
+    "name": "Rayquaza",
+    "dexId": 384,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/rayquaza.glb",
+    "bytes": 447344,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 24,
+        "varyingSkinnedJointChannels": 24,
+        "movingSkinnedJointCount": 24,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 24,
+        "varyingSkinnedJointChannels": 24,
+        "movingSkinnedJointCount": 24,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 25,
+        "varyingSkinnedJointChannels": 25,
+        "movingSkinnedJointCount": 25,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Curved tail wave supports a raised head, forearm spread, neck thrust and jaw release."
+    ],
+    "optimization": {
+      "sourceBytes": 77660,
+      "sha256": "86a502c3e26f7135e0d576e7fe0bbc66533ce09c84e18edba324b4ac5b1e86eb",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -14.406467458296056,
+        -1.6873166335894327,
+        1.3177421164694543
+      ],
+      "max": [
+        3.415980293856106,
+        2.866034928580955,
+        19.369833529379697
+      ],
+      "size": [
+        17.82244775215216,
+        4.553351562170388,
+        18.052091412910244
+      ],
+      "center": [
+        -5.495243582219976,
+        0.5893591474957612,
+        10.343787822924575
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "rotom": {
+    "name": "Rotom",
+    "dexId": 479,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/rotom.glb",
+    "bytes": 211028,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 11,
+        "varyingSkinnedJointChannels": 11,
+        "movingSkinnedJointCount": 11,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 13,
+        "varyingSkinnedJointChannels": 13,
+        "movingSkinnedJointCount": 13,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 13,
+        "varyingSkinnedJointChannels": 13,
+        "movingSkinnedJointCount": 13,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Both electrical arms sweep inward to charge, then fan outward while the tail ripples."
+    ],
+    "optimization": {
+      "sourceBytes": 55084,
+      "sha256": "dc14928ab82258ff34b29517a6f273141e25b912c8ac6f089ce7fa4c3a464d44",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -0.5359958585301473,
+        -0.14530301650063104,
+        -1.6949959869101658
+      ],
+      "max": [
+        0.5359958481087841,
+        0.7241158550243445,
+        0.16075995728685125
+      ],
+      "size": [
+        1.0719917066389315,
+        0.8694188715249755,
+        1.855755944197017
+      ],
+      "center": [
+        -5.210681608414092e-09,
+        0.28940641926185673,
+        -0.7671180148116573
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "scizor": {
+    "name": "Scizor",
+    "dexId": 212,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/scizor.glb",
+    "bytes": 758008,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ArmatureAction.002",
+        "duration": 5.833333492279053,
+        "channels": 106,
+        "varyingSkinnedJointChannels": 43,
+        "movingSkinnedJointCount": 35
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 1.9,
+        "channels": 144,
+        "varyingSkinnedJointChannels": 13,
+        "movingSkinnedJointCount": 13
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.84,
+        "channels": 144,
+        "varyingSkinnedJointChannels": 13,
+        "movingSkinnedJointCount": 13
+      }
+    ],
+    "idle": "ArmatureAction.002",
+    "accessorBounds": {
+      "min": [
+        -1.7453796863555908,
+        -0.0003627410624176264,
+        -2.1797986030578613
+      ],
+      "max": [
+        1.7453796863555908,
+        6.028799057006836,
+        2.911137580871582
+      ],
+      "size": [
+        3.4907593727111816,
+        6.029161798069254,
+        5.090936183929443
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Original unlabeled display loop preserved. ensemble_enter and ensemble_attack are project-authored 3D skeletal choreography with independent anatomical joints and exact idle-pose recovery."
+    ],
+    "optimization": {
+      "sourceBytes": 142388,
+      "sha256": "93d6e730acfeb3c00e418a69dda87bf0a10155f208f1cca8adf15ecb44ca481e",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0,
+      "authoredClips": [
+        "ensemble_enter",
+        "ensemble_attack"
+      ]
+    },
+    "attack": "ensemble_attack",
+    "attackTimeScale": 1,
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.84,
+    "enterSpeed": 1,
+    "entranceDuration": 0.84,
+    "entranceAuthorship": "project-authored",
+    "entranceLabel": "pincer guard salute",
+    "entranceBounds": {
+      "min": [
+        -2.2521732356922253,
+        -0.00702326815094253,
+        -1.8098234306584375
+      ],
+      "max": [
+        1.972610415205556,
+        6.0397207625476765,
+        2.294456487102973
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "starmie": {
+    "name": "Starmie",
+    "dexId": 121,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/starmie.glb",
+    "bytes": 498312,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.119999885559082,
+        "channels": 129,
+        "varyingSkinnedJointChannels": 26,
+        "movingSkinnedJointCount": 22
+      },
+      {
+        "name": "idle",
+        "duration": 2.319999933242798,
+        "channels": 129,
+        "varyingSkinnedJointChannels": 22,
+        "movingSkinnedJointCount": 18
+      },
+      {
+        "name": "happy",
+        "duration": 1.840000033378601,
+        "channels": 129,
+        "varyingSkinnedJointChannels": 23,
+        "movingSkinnedJointCount": 17
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.5704651735864509,
+        7.72739501002373e-06,
+        -0.29999649810296236
+      ],
+      "max": [
+        0.5688634321302164,
+        1.0780789043926389,
+        0.25535781262023394
+      ],
+      "size": [
+        1.1393286057166674,
+        1.0780711769976288,
+        0.5553543107231963
+      ],
+      "center": [
+        -0.0008008707281172422,
+        0.5390433158938245,
+        -0.022319342741364212
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 660408,
+      "sha256": "3958d3aca0bd1056d2edd241ea99a38709bf9f7c6141fca373d103817e210557",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.66881564234167e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0121_00_kw32_happyB01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0,
+    "enterEnd": 0.95,
+    "enterSpeed": 1.2,
+    "entranceDuration": 0.7916666666666666,
+    "entranceAuthorship": "native",
+    "entranceLabel": "star-arm flex",
+    "entranceBounds": {
+      "min": [
+        -0.6022455482832633,
+        7.765535267871548e-06,
+        -0.29999649810296236
+      ],
+      "max": [
+        0.5740326009241182,
+        1.1860804845703734,
+        0.2866000868004028
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "suicune": {
+    "name": "Suicune",
+    "dexId": 245,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/suicune.glb",
+    "bytes": 962580,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 66,
+        "varyingSkinnedJointChannels": 66,
+        "movingSkinnedJointCount": 66,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 70,
+        "varyingSkinnedJointChannels": 70,
+        "movingSkinnedJointCount": 70,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 71,
+        "varyingSkinnedJointChannels": 71,
+        "movingSkinnedJointCount": 71,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Four-paw brace, raised neck and jaw release with mane and ribbon tail follow-through."
+    ],
+    "optimization": {
+      "sourceBytes": 91580,
+      "sha256": "47edb2596c129577524b3002f680ad1c1f303d43b7da42161bf05b72b39e833d",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -124.22036096762093,
+        -0.43852018022100736,
+        -509.7520309300349
+      ],
+      "max": [
+        124.21691573816165,
+        219.62902652156134,
+        127.80405548207158
+      ],
+      "size": [
+        248.43727670578258,
+        220.06754670178236,
+        637.5560864121064
+      ],
+      "center": [
+        -0.0017226147296440786,
+        109.59525317067016,
+        -190.97398772398165
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "sylveon": {
+    "name": "Sylveon",
+    "dexId": 700,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/sylveon.glb",
+    "bytes": 612324,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 52,
+        "varyingSkinnedJointChannels": 52,
+        "movingSkinnedJointCount": 52,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 56,
+        "varyingSkinnedJointChannels": 56,
+        "movingSkinnedJointCount": 56,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 56,
+        "varyingSkinnedJointChannels": 56,
+        "movingSkinnedJointCount": 56,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Forepaws brace, head tilts, ears lift and four ribbon chains swing softly through the pulse."
+    ],
+    "optimization": {
+      "sourceBytes": 70172,
+      "sha256": "0afbbd76024b08a61d7e278e84ea29451b1dadb153223d606ffc57d9c9f22613",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -1.9032970052964837,
+        -0.00196483757124454,
+        -1.0926212303387948
+      ],
+      "max": [
+        1.9032951326545366,
+        2.355894611375839,
+        1.8278025542285306
+      ],
+      "size": [
+        3.8065921379510206,
+        2.3578594489470834,
+        2.9204237845673253
+      ],
+      "center": [
+        -9.363209735324673e-07,
+        1.1769648869022973,
+        0.3675906619448679
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "trevenant": {
+    "name": "Trevenant",
+    "dexId": 709,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/trevenant.glb",
+    "bytes": 624376,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 19,
+        "varyingSkinnedJointChannels": 19,
+        "movingSkinnedJointCount": 19,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 20,
+        "varyingSkinnedJointChannels": 20,
+        "movingSkinnedJointCount": 20,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 20,
+        "varyingSkinnedJointChannels": 20,
+        "movingSkinnedJointCount": 20,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Six root legs brace, branch arms draw back and sweep toward the target with wrist/finger follow-through."
+    ],
+    "optimization": {
+      "sourceBytes": 90648,
+      "sha256": "461dca193d0b54c2b02500c308e5a816e24310ddef8735813e7961255d87d656",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -2.4240503468520176,
+        -0.0006261941252150998,
+        -1.2487338114982938
+      ],
+      "max": [
+        2.424048519356326,
+        3.846404568568768,
+        1.2487502285085528
+      ],
+      "size": [
+        4.8480988662083435,
+        3.847030762693983,
+        2.4974840400068468
+      ],
+      "center": [
+        -9.137478458320913e-07,
+        1.9228891872217764,
+        8.20850512950333e-06
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "tyranitar": {
+    "name": "Tyranitar",
+    "dexId": 248,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/tyranitar.glb",
+    "bytes": 450112,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 13,
+        "varyingSkinnedJointChannels": 13,
+        "movingSkinnedJointCount": 13,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 17,
+        "varyingSkinnedJointChannels": 17,
+        "movingSkinnedJointCount": 17,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 18,
+        "varyingSkinnedJointChannels": 18,
+        "movingSkinnedJointCount": 18,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Thigh brace, torso windup, neck thrust and open jaw; the heavy tail offsets the forward release."
+    ],
+    "optimization": {
+      "sourceBytes": 83188,
+      "sha256": "20e6e61c5fdfc80779ab418002472bcd59f50ac15b44e2428fd51932818cd5f6",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -1.960910061551931,
+        -0.13763172009027363,
+        -4.055667196621567
+      ],
+      "max": [
+        1.9608987795906185,
+        5.247547914506388,
+        1.253925999397222
+      ],
+      "size": [
+        3.92180884114255,
+        5.385179634596661,
+        5.309593196018788
+      ],
+      "center": [
+        -5.640980656251848e-06,
+        2.554958097208057,
+        -1.4008705986121723
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack"
+  },
+  "umbreon": {
+    "name": "Umbreon",
+    "dexId": 197,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/umbreon.glb",
+    "bytes": 921720,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "Armature|ArmatureAction",
+        "duration": 5.416666507720947,
+        "channels": 92,
+        "varyingSkinnedJointChannels": 33,
+        "movingSkinnedJointCount": 32
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 1.9,
+        "channels": 183,
+        "varyingSkinnedJointChannels": 19,
+        "movingSkinnedJointCount": 19
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.84,
+        "channels": 183,
+        "varyingSkinnedJointChannels": 19,
+        "movingSkinnedJointCount": 19
+      }
+    ],
+    "idle": "Armature|ArmatureAction",
+    "accessorBounds": {
+      "min": [
+        -0.24147899448871613,
+        -0.0012850103667005897,
+        -0.6725620627403259
+      ],
+      "max": [
+        0.24147899448871613,
+        0.8420839905738831,
+        0.4219529628753662
+      ],
+      "size": [
+        0.48295798897743225,
+        0.8433690009405836,
+        1.0945150256156921
+      ],
+      "method": "Untransformed accessor-space bounds; use decoded animated world bounds for runtime framing."
+    },
+    "notes": [
+      "Original unlabeled display loop preserved. ensemble_enter and ensemble_attack are project-authored 3D skeletal choreography with independent anatomical joints and exact idle-pose recovery."
+    ],
+    "optimization": {
+      "sourceBytes": 172224,
+      "sha256": "6de526923be6940df431c1967f4cec75f8754bfda4cbe854d7e1aeb6f27d694a",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 0,
+      "authoredClips": [
+        "ensemble_enter",
+        "ensemble_attack"
+      ]
+    },
+    "attack": "ensemble_attack",
+    "attackTimeScale": 1,
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.84,
+    "enterSpeed": 1,
+    "entranceDuration": 0.84,
+    "entranceAuthorship": "project-authored",
+    "entranceLabel": "moonlit head-and-tail salute",
+    "entranceBounds": {
+      "min": [
+        -0.3028164777152338,
+        -0.01358664755937014,
+        -0.6289991107145319
+      ],
+      "max": [
+        0.28421727823389786,
+        0.8570055923728013,
+        0.4179003066773652
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "vaporeon": {
+    "name": "Vaporeon",
+    "dexId": 134,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/vaporeon.glb",
+    "bytes": 2877796,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 4.625,
+        "channels": 204,
+        "varyingSkinnedJointChannels": 51,
+        "movingSkinnedJointCount": 51
+      },
+      {
+        "name": "idle",
+        "duration": 5.375,
+        "channels": 204,
+        "varyingSkinnedJointChannels": 35,
+        "movingSkinnedJointCount": 35
+      },
+      {
+        "name": "happy",
+        "duration": 4.041666507720947,
+        "channels": 204,
+        "varyingSkinnedJointChannels": 41,
+        "movingSkinnedJointCount": 41
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.37460900492061144,
+        -0.006361648348078466,
+        -1.1553889382978466
+      ],
+      "max": [
+        0.39715881083003357,
+        0.8890573203670964,
+        0.5267325663145612
+      ],
+      "size": [
+        0.771767815750645,
+        0.8954189687151749,
+        1.6821215046124078
+      ],
+      "center": [
+        0.011274902954711064,
+        0.44134783600950894,
+        -0.3143281859916427
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 4825716,
+      "sha256": "5cd317069c1a8e53b9b49d116ee0f1abbf6f98657f2520b0af677d264109b8f3",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.662375612807246e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0134_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.45,
+    "enterEnd": 1.85,
+    "enterSpeed": 1.6,
+    "entranceDuration": 0.875,
+    "entranceAuthorship": "native",
+    "entranceLabel": "fin-and-tail greeting",
+    "entranceBounds": {
+      "min": [
+        -0.40956865381922836,
+        -0.0005617320650752743,
+        -1.291847350568825
+      ],
+      "max": [
+        0.5959960594495226,
+        1.0681609620544337,
+        0.5017509564013876
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "venusaur": {
+    "name": "Venusaur",
+    "dexId": 3,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/venusaur.glb",
+    "bytes": 4670252,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 2.183333396911621,
+        "channels": 423,
+        "varyingSkinnedJointChannels": 56,
+        "movingSkinnedJointCount": 56
+      },
+      {
+        "name": "idle",
+        "duration": 2.0166666507720947,
+        "channels": 423,
+        "varyingSkinnedJointChannels": 51,
+        "movingSkinnedJointCount": 51
+      },
+      {
+        "name": "run",
+        "duration": 0.6166666746139526,
+        "channels": 423,
+        "varyingSkinnedJointChannels": 51,
+        "movingSkinnedJointCount": 51
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -1.229342705799397,
+        -0.010235379715174561,
+        -1.2054403537049714
+      ],
+      "max": [
+        1.2130109113311431,
+        1.7365706423633795,
+        1.3132677100561594
+      ],
+      "size": [
+        2.44235361713054,
+        1.7468060220785542,
+        2.5187080637611308
+      ],
+      "center": [
+        -0.008165897234126973,
+        0.8631676313241025,
+        0.053913678175594004
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 8046340,
+      "sha256": "597ae283043596e481f718d5c0f800c63c6fe9fda45921a86da6baa50f217253",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 1.6111116193949016e-07,
+      "restoredNativeClips": [
+        "run"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0003_00_00_00100_run01_loop",
+    "enter": "run",
+    "enterStart": 0,
+    "enterEnd": 0.6166666746139526,
+    "enterSpeed": 0.85,
+    "entranceDuration": 0.7254902054281795,
+    "entranceAuthorship": "native",
+    "entranceLabel": "heavy native footfall",
+    "entranceBounds": {
+      "min": [
+        -1.3257983371031958,
+        -0.03631092339399739,
+        -1.3640086633068036
+      ],
+      "max": [
+        1.3110890316896657,
+        2.0387169451677143,
+        1.7739798807523581
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  },
+  "zapdos": {
+    "name": "Zapdos",
+    "dexId": 145,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/zapdos.glb",
+    "bytes": 3473636,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 225,
+        "varyingSkinnedJointChannels": 64,
+        "movingSkinnedJointCount": 61
+      },
+      {
+        "name": "idle",
+        "duration": 3.7916667461395264,
+        "channels": 225,
+        "varyingSkinnedJointChannels": 44,
+        "movingSkinnedJointCount": 44
+      },
+      {
+        "name": "happy",
+        "duration": 4.208333492279053,
+        "channels": 225,
+        "varyingSkinnedJointChannels": 47,
+        "movingSkinnedJointCount": 47
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -1.5240790216173676,
+        -0.0026991868906571237,
+        -1.1079392788238254
+      ],
+      "max": [
+        1.5058182272769436,
+        1.5224049404610167,
+        1.0625436103271333
+      ],
+      "size": [
+        3.0298972488943114,
+        1.5251041273516739,
+        2.170482889150959
+      ],
+      "center": [
+        -0.009130397170212023,
+        0.7598528767851798,
+        -0.022697834248346038
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 5613104,
+      "sha256": "a0c0b7e95ed4cb67e356d3cb7697862d7bee0b1135ce127010b7cf9441407f5e",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.089017771741199e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0145_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.1,
+    "enterEnd": 1.2,
+    "enterSpeed": 1.3,
+    "entranceDuration": 0.846153846153846,
+    "entranceAuthorship": "native",
+    "entranceLabel": "feathered wing salute",
+    "entranceBounds": {
+      "min": [
+        -1.5210025538273186,
+        -0.0038885784518392086,
+        -1.1762218954220798
+      ],
+      "max": [
+        1.5403282976256836,
+        1.611690584357636,
+        1.0977552288813577
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    }
+  }
+}

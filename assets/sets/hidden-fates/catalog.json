@@ -1,0 +1,177 @@
+[
+  {
+    "id": "sm115-1",
+    "number": "1",
+    "name": "Caterpie",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/1.webp"
+  },
+  {
+    "id": "sm115-3",
+    "number": "3",
+    "name": "Butterfree",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/3.webp"
+  },
+  {
+    "id": "sm115-4",
+    "number": "4",
+    "name": "Paras",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/4.webp"
+  },
+  {
+    "id": "sm115-5",
+    "number": "5",
+    "name": "Scyther",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/5.webp"
+  },
+  {
+    "id": "sm115-6",
+    "number": "6",
+    "name": "Pinsir GX",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/6.webp"
+  },
+  {
+    "id": "sm115-8",
+    "number": "8",
+    "name": "Charmeleon",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/8.webp"
+  },
+  {
+    "id": "sm115-9",
+    "number": "9",
+    "name": "Charizard GX",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/9.webp"
+  },
+  {
+    "id": "sm115-10",
+    "number": "10",
+    "name": "Magmar",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/10.webp"
+  },
+  {
+    "id": "sm115-11",
+    "number": "11",
+    "name": "Psyduck",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/11.webp"
+  },
+  {
+    "id": "sm115-14",
+    "number": "14",
+    "name": "Starmie GX",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/14.webp"
+  },
+  {
+    "id": "sm115-15",
+    "number": "15",
+    "name": "Magikarp",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/15.webp"
+  },
+  {
+    "id": "sm115-16",
+    "number": "16",
+    "name": "Gyarados GX",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/16.webp"
+  },
+  {
+    "id": "sm115-17",
+    "number": "17",
+    "name": "Lapras",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/17.webp"
+  },
+  {
+    "id": "sm115-18",
+    "number": "18",
+    "name": "Vaporeon",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/18.webp"
+  },
+  {
+    "id": "sm115-19",
+    "number": "19",
+    "name": "Pikachu",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/19.webp"
+  },
+  {
+    "id": "sm115-20",
+    "number": "20",
+    "name": "Raichu GX",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/20.webp"
+  },
+  {
+    "id": "sm115-21",
+    "number": "21",
+    "name": "Voltorb",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/21.webp"
+  },
+  {
+    "id": "sm115-24",
+    "number": "24",
+    "name": "Zapdos",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/24.webp"
+  },
+  {
+    "id": "sm115-31",
+    "number": "31",
+    "name": "Mewtwo GX",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/31.webp"
+  },
+  {
+    "id": "sm115-39",
+    "number": "39",
+    "name": "Clefairy",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/39.webp"
+  },
+  {
+    "id": "sm115-40",
+    "number": "40",
+    "name": "Clefable",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/40.webp"
+  },
+  {
+    "id": "sm115-44",
+    "number": "44",
+    "name": "Moltres & Zapdos & Articuno GX",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/44.webp"
+  },
+  {
+    "id": "sma-SV49",
+    "number": "SV49",
+    "name": "Charizard-GX",
+    "rarity": "Shiny rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/SV49.webp"
+  },
+  {
+    "id": "sma-SV59",
+    "number": "SV59",
+    "name": "Mewtwo-GX",
+    "rarity": "Shiny rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/SV59.webp"
+  },
+  {
+    "id": "sma-SV69",
+    "number": "SV69",
+    "name": "Umbreon-GX",
+    "rarity": "Shiny rare",
+    "image": "/pokemon-legends-showcase/assets/sets/hidden-fates/cards/SV69.webp"
+  }
+]

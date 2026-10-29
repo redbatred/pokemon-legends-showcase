@@ -1,0 +1,156 @@
+[
+  {
+    "id": "pokemon-151",
+    "file": "/pokemon-legends-showcase/assets/sets/pokemon-151/pack.webp",
+    "url": "https://archives.bulbagarden.net/media/upload/2/24/151_Booster.png",
+    "provider": "Bulbagarden Archives",
+    "nativeDimensions": [
+      780,
+      1429
+    ],
+    "servedDimensions": [
+      780,
+      1429
+    ],
+    "crop": null,
+    "original": "source-assets/originals/sets/pokemon-151/151_Booster.png"
+  },
+  {
+    "id": "crown-zenith",
+    "file": "/pokemon-legends-showcase/assets/sets/crown-zenith/pack.webp",
+    "url": "https://archives.bulbagarden.net/media/upload/d/dd/Crown_Zenith_Booster.jpg",
+    "provider": "Bulbagarden Archives",
+    "nativeDimensions": [
+      782,
+      1431
+    ],
+    "servedDimensions": [
+      782,
+      1431
+    ],
+    "crop": null,
+    "original": "source-assets/originals/sets/crown-zenith/Crown_Zenith_Booster.jpg"
+  },
+  {
+    "id": "paldean-fates",
+    "file": "/pokemon-legends-showcase/assets/sets/paldean-fates/pack.webp",
+    "url": "https://archives.bulbagarden.net/media/upload/0/08/Paldean_Fates_Booster_Ceruledge.png",
+    "provider": "Bulbagarden Archives",
+    "nativeDimensions": [
+      780,
+      1429
+    ],
+    "servedDimensions": [
+      780,
+      1429
+    ],
+    "crop": null,
+    "original": "source-assets/originals/sets/paldean-fates/Paldean_Fates_Booster_Ceruledge.png"
+  },
+  {
+    "id": "lost-origin",
+    "file": "/pokemon-legends-showcase/assets/sets/lost-origin/pack.webp",
+    "url": "https://archives.bulbagarden.net/media/upload/7/78/SWSH11_Booster_Enamorus.jpg",
+    "provider": "Bulbagarden Archives",
+    "nativeDimensions": [
+      780,
+      1429
+    ],
+    "servedDimensions": [
+      780,
+      1429
+    ],
+    "crop": null,
+    "original": "source-assets/originals/sets/lost-origin/SWSH11_Booster_Enamorus.jpg"
+  },
+  {
+    "id": "fusion-strike",
+    "file": "/pokemon-legends-showcase/assets/sets/fusion-strike/pack.webp",
+    "url": "https://archives.bulbagarden.net/media/upload/d/d5/SWSH8_Booster_Mew.jpg",
+    "provider": "Bulbagarden Archives",
+    "nativeDimensions": [
+      780,
+      1429
+    ],
+    "servedDimensions": [
+      780,
+      1429
+    ],
+    "crop": null,
+    "original": "source-assets/originals/sets/fusion-strike/SWSH8_Booster_Mew.jpg"
+  },
+  {
+    "id": "silver-tempest",
+    "file": "/pokemon-legends-showcase/assets/sets/silver-tempest/pack.webp",
+    "url": "https://archives.bulbagarden.net/media/upload/2/2b/SWSH12_Booster_Lugia.jpg",
+    "provider": "Bulbagarden Archives",
+    "nativeDimensions": [
+      780,
+      1429
+    ],
+    "servedDimensions": [
+      780,
+      1429
+    ],
+    "crop": null,
+    "original": "source-assets/originals/sets/silver-tempest/SWSH12_Booster_Lugia.jpg"
+  },
+  {
+    "id": "evolving-skies",
+    "file": "/pokemon-legends-showcase/assets/sets/evolving-skies/pack.webp",
+    "url": "https://archives.bulbagarden.net/media/upload/a/a5/SWSH7_Booster_Rayquaza.jpg",
+    "provider": "Bulbagarden Archives",
+    "nativeDimensions": [
+      780,
+      1429
+    ],
+    "servedDimensions": [
+      780,
+      1429
+    ],
+    "crop": null,
+    "original": "source-assets/originals/sets/evolving-skies/SWSH7_Booster_Rayquaza.jpg"
+  },
+  {
+    "id": "hidden-fates",
+    "file": "/pokemon-legends-showcase/assets/sets/hidden-fates/pack.webp",
+    "url": "https://amazingtoys.cstatic.io/media/36/79/13/1678199968/pok-mon-hidden-fates-booster-1.jpg",
+    "provider": "Amazingtoys",
+    "nativeDimensions": [
+      560,
+      1000
+    ],
+    "servedDimensions": [
+      532,
+      952
+    ],
+    "crop": [
+      20,
+      26,
+      552,
+      978
+    ],
+    "original": "source-assets/originals/sets/hidden-fates/hidden-fates-charizard-original.jpg"
+  },
+  {
+    "id": "base-set",
+    "file": "/pokemon-legends-showcase/assets/sets/base-set/pack.webp",
+    "url": "https://tcgtower.com/cdn/shop/files/base-set-long-crimp-bp.png?v=1714522971&width=2048",
+    "provider": "TCG Tower",
+    "nativeDimensions": [
+      2048,
+      2048
+    ],
+    "servedDimensions": [
+      882,
+      1779
+    ],
+    "crop": [
+      583,
+      135,
+      1465,
+      1914
+    ],
+    "original": "source-assets/originals/sets/base-set/base-set-long-crimp-bp.png"
+  }
+]

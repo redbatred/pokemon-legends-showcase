@@ -1,0 +1,98 @@
+{
+  "description": "Two independently schedulable Poké Ball floor-contact cues, both derived from the same authentic first-contact excerpt. The second is 6 dB quieter; no separately recorded second bounce is claimed.",
+  "source": {
+    "repository": "https://github.com/PokeMiners/pogo_assets",
+    "commit": "c2a686eb08ace6e890d8fe3d2134c76988db87b5",
+    "path": "Sounds/Encounter/se_go_ball_ground.wav",
+    "url": "https://raw.githubusercontent.com/PokeMiners/pogo_assets/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_ground.wav",
+    "page": "https://github.com/PokeMiners/pogo_assets/blob/c2a686eb08ace6e890d8fe3d2134c76988db87b5/Sounds/Encounter/se_go_ball_ground.wav",
+    "sha256": "42ee9eb7e175c16ea628760b1d45cf981c04beb737c57a267c7cf667a143781e",
+    "gitBlobSha1": "71e38d704c8c7b45a7d124b300a914e5c7785381",
+    "sampleRate": 11025,
+    "channels": 1,
+    "sampleWidthBits": 16,
+    "frames": 9600,
+    "duration": 0.8707482993197279
+  },
+  "rights": "Copyrighted Pokémon GO game audio reused under the user's stated Pokémon license. PokeMiners is the archive source; this is not an open-license claim.",
+  "processing": {
+    "sourceStart": 0,
+    "sourceEnd": 0.155,
+    "attackFade": 0.0005,
+    "tailFadeStart": 0.138,
+    "tailFadeEnd": 0.155,
+    "tailFadeCurve": "half cosine",
+    "silentTail": 0.005,
+    "sampleRate": 48000,
+    "codec": "16-bit PCM WAV, dual mono",
+    "pitchChange": 0,
+    "speedChange": 0,
+    "method": "Original first transient and decay; 0.5 ms edge fade, 17 ms fade in the natural trough before later recorded swells, 5 ms silent endpoint guard, peak normalization. No EQ, compression, layering, synthesis, added reverb or source pitch/time change. Resampling supplies browser-compatible PCM; it cannot add source detail."
+  },
+  "timing": {
+    "startOffset": 0,
+    "preRoll": 0,
+    "instruction": "Schedule ballbounce at BALL_HIT + landing.contact and ballsettle at BALL_HIT + landing.settled. Both files have audible onset within 2 ms and peak at about 9 ms; no negative pre-roll or seek offset is needed. Dedicated scheduling avoids coupling these to the card land cue."
+  },
+  "validation": "Both delivered WAVs decode with ffmpeg -xerror; samples are finite; four-times oversampled peak is within 0.03 dB of target; the -20 dB relative transient threshold occurs within 5 ms; duration is exactly 160 ms; at least 5 ms of digital silence terminates each file. PCM avoids compressed-audio priming and pre-echo. Actual output-device latency still depends on the browser/audio system.",
+  "reproduce": "python3 scripts/prepare-ball-bounce-v7.py; optional ASSET_FFMPEG=/absolute/path/to/ffmpeg. Requires Python 3, curl and ffmpeg. Source SHA-256 and Git blob SHA-1 are both checked before processing. Writes only public/assets/audio-v7.",
+  "toolVersion": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "effects": {
+    "ballbounce": {
+      "sourceSound": "Poké Ball ground contact",
+      "role": "First visible Poké Ball floor contact",
+      "files": {
+        "wav": {
+          "path": "/pokemon-legends-showcase/assets/audio-v7/ballbounce.wav",
+          "codec": "pcm_s16le",
+          "duration": 0.16,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbfs": -4.51499,
+          "truePeak4xDbfs": -4.500228,
+          "peakTime": 0.0089375,
+          "truePeakTime4x": 0.008942708,
+          "onsetMinus60Dbfs": 0.000958333,
+          "onset40DbBelowPeak": 0.001270833,
+          "onset20DbBelowPeak": 0.001604167,
+          "rmsDbfs": -18.516656,
+          "lastSampleDbfs": -200.0,
+          "silentTailFrames": 259,
+          "bytes": 30764,
+          "sha256": "a27042b5c84f3e518674971f26cb6825e05e398275f6ee0988f82b25d38a4bb9"
+        }
+      },
+      "recommendedPlaybackGain": 0.38,
+      "targetTruePeakDbfs": -4.5,
+      "normalizationGain": 0.5945505251964835
+    },
+    "ballsettle": {
+      "sourceSound": "Poké Ball ground contact",
+      "role": "Second visible Poké Ball floor contact; quieter reuse of the same first-contact excerpt",
+      "files": {
+        "wav": {
+          "path": "/pokemon-legends-showcase/assets/audio-v7/ballsettle.wav",
+          "codec": "pcm_s16le",
+          "duration": 0.16,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbfs": -10.514664,
+          "truePeak4xDbfs": -10.499976,
+          "peakTime": 0.0089375,
+          "truePeakTime4x": 0.008942708,
+          "onsetMinus60Dbfs": 0.001104167,
+          "onset40DbBelowPeak": 0.001270833,
+          "onset20DbBelowPeak": 0.001604167,
+          "rmsDbfs": -24.516666,
+          "lastSampleDbfs": -200.0,
+          "silentTailFrames": 268,
+          "bytes": 30764,
+          "sha256": "984f8c2a419294c8dec5b5cd17e3d1c41424dd6f6b99ad81ac6b0c2deaa4eaa1"
+        }
+      },
+      "recommendedPlaybackGain": 0.38,
+      "targetTruePeakDbfs": -10.5,
+      "normalizationGain": 0.29798113297486745
+    }
+  }
+}

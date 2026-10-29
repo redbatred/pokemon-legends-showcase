@@ -1,0 +1,187 @@
+{
+  "date": "2026-10-29",
+  "license": "CC0 1.0",
+  "creator": "Kenney",
+  "sourcePages": [
+    "https://kenney.nl/assets/interface-sounds",
+    "https://kenney.nl/assets/casino-audio"
+  ],
+  "cachedSourceSHA256": {
+    "interface/Audio/click_003.ogg": "2fa929138bc3a0f432696588f66eac94b8f6d463905ec8808c6461ce4b054292",
+    "casino/Audio/card-slide-6.ogg": "be85da181ac879c20cb667d0f9f156dbdc236d3751737ad27359a15e946430a0",
+    "casino/Audio/card-place-4.ogg": "18e3ba713b7259605fd27cdc048085ed56cf86b32403f070b6cb125019f77183",
+    "interface/Audio/glass_001.ogg": "183eebee20eb0a532b0b85104d139cbf2673eb66d95c3cc733ac9ea98362e7e8",
+    "interface/Audio/glass_004.ogg": "2379b58f953e3d86982aa8cddcae763022c6258e9820171bf905ce58b4e97766",
+    "casino/Audio/chip-lay-2.ogg": "8ca8b2d450741c04ed7b4ba51ed3f73c2400c8b3dbe83b974be4fe4774a76712",
+    "casino/Audio/card-place-2.ogg": "903d5050718595e87864dd755643b476ab1a5533080dcc2dddc72570d33ba9f8"
+  },
+  "processing": "Trim, high/low pass, short fades, sample mix; -8 dBFS pre-encode peak. Existing source cache from polish-audio.py. No human audition claimed.",
+  "cues": {
+    "ui": {
+      "seconds": 0.12,
+      "layers": [
+        [
+          "interface/Audio/click_003.ogg",
+          0,
+          0.12,
+          0.9,
+          1,
+          0
+        ]
+      ],
+      "peakDbfs": -8
+    },
+    "flip": {
+      "seconds": 0.26,
+      "layers": [
+        [
+          "casino/Audio/card-slide-6.ogg",
+          0.02,
+          0.27,
+          1.15,
+          1,
+          0
+        ]
+      ],
+      "peakDbfs": -8
+    },
+    "normal": {
+      "seconds": 0.32,
+      "layers": [
+        [
+          "casino/Audio/card-place-4.ogg",
+          0.01,
+          0.25,
+          1.1,
+          1,
+          0
+        ],
+        [
+          "interface/Audio/glass_001.ogg",
+          0,
+          0.2,
+          1.1,
+          0.16,
+          0.07
+        ]
+      ],
+      "peakDbfs": -8
+    },
+    "rare": {
+      "seconds": 0.65,
+      "layers": [
+        [
+          "interface/Audio/glass_004.ogg",
+          0,
+          0.5,
+          1.08,
+          0.7,
+          0
+        ],
+        [
+          "interface/Audio/glass_001.ogg",
+          0,
+          0.35,
+          1.4,
+          0.3,
+          0.1
+        ]
+      ],
+      "peakDbfs": -8
+    },
+    "credit": {
+      "seconds": 0.1,
+      "layers": [
+        [
+          "casino/Audio/chip-lay-2.ogg",
+          0.025,
+          0.09,
+          1.1,
+          1,
+          0
+        ]
+      ],
+      "peakDbfs": -8
+    },
+    "land": {
+      "seconds": 0.16,
+      "layers": [
+        [
+          "casino/Audio/card-place-2.ogg",
+          0.18,
+          0.18,
+          1.06,
+          1,
+          0
+        ]
+      ],
+      "peakDbfs": -8
+    },
+    "complete": {
+      "seconds": 0.72,
+      "layers": [
+        [
+          "interface/Audio/glass_004.ogg",
+          0,
+          0.55,
+          0.94,
+          0.75,
+          0
+        ],
+        [
+          "interface/Audio/glass_001.ogg",
+          0,
+          0.32,
+          1.25,
+          0.32,
+          0.12
+        ]
+      ],
+      "peakDbfs": -8
+    },
+    "win": {
+      "seconds": 0.82,
+      "layers": [
+        [
+          "interface/Audio/glass_004.ogg",
+          0,
+          0.6,
+          0.87,
+          0.8,
+          0
+        ],
+        [
+          "interface/Audio/glass_001.ogg",
+          0,
+          0.35,
+          1.35,
+          0.42,
+          0.12
+        ]
+      ],
+      "peakDbfs": -8
+    },
+    "wincollect": {
+      "seconds": 0.24,
+      "layers": [
+        [
+          "casino/Audio/chip-lay-2.ogg",
+          0.025,
+          0.15,
+          1.0,
+          0.9,
+          0
+        ],
+        [
+          "interface/Audio/glass_001.ogg",
+          0,
+          0.2,
+          1.2,
+          0.17,
+          0.03
+        ]
+      ],
+      "peakDbfs": -8
+    }
+  }
+}

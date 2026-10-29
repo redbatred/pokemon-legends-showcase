@@ -1,0 +1,65 @@
+{
+  "ui": {
+    "gain": 0.25,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v12/ui.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v12/ui.ogg"
+    }
+  },
+  "flip": {
+    "gain": 0.25,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v12/flip.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v12/flip.ogg"
+    }
+  },
+  "normal": {
+    "gain": 0.26,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v12/normal.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v12/normal.ogg"
+    }
+  },
+  "rare": {
+    "gain": 0.3,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v12/rare.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v12/rare.ogg"
+    }
+  },
+  "credit": {
+    "gain": 0.13,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v12/credit.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v12/credit.ogg"
+    }
+  },
+  "land": {
+    "gain": 0.17,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v12/land.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v12/land.ogg"
+    }
+  },
+  "complete": {
+    "gain": 0.24,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v12/complete.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v12/complete.ogg"
+    }
+  },
+  "win": {
+    "gain": 0.32,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v12/win.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v12/win.ogg"
+    }
+  },
+  "wincollect": {
+    "gain": 0.23,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v12/wincollect.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v12/wincollect.ogg"
+    }
+  }
+}

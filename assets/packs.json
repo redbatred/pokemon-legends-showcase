@@ -1,0 +1,92 @@
+[
+  {
+    "id": "obsidian-flames",
+    "name": "Obsidian Flames",
+    "price": 1000,
+    "packImage": "/pokemon-legends-showcase/assets/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/catalog.json",
+    "accent": "#f17935",
+    "rewardCount": 10
+  },
+  {
+    "id": "pokemon-151",
+    "name": "Pok\u00e9mon 151",
+    "price": 2500,
+    "packImage": "/pokemon-legends-showcase/assets/sets/pokemon-151/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/sets/pokemon-151/catalog.json",
+    "accent": "#cb84c7",
+    "rewardCount": 10
+  },
+  {
+    "id": "crown-zenith",
+    "name": "Crown Zenith",
+    "price": 5000,
+    "packImage": "/pokemon-legends-showcase/assets/sets/crown-zenith/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/sets/crown-zenith/catalog.json",
+    "accent": "#6cc5dc",
+    "rewardCount": 10
+  },
+  {
+    "id": "paldean-fates",
+    "name": "Paldean Fates",
+    "price": 10000,
+    "packImage": "/pokemon-legends-showcase/assets/sets/paldean-fates/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/sets/paldean-fates/catalog.json",
+    "accent": "#a98cf1",
+    "rewardCount": 10
+  },
+  {
+    "id": "lost-origin",
+    "name": "Lost Origin",
+    "price": 15000,
+    "packImage": "/pokemon-legends-showcase/assets/sets/lost-origin/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/sets/lost-origin/catalog.json",
+    "accent": "#bfa0e8",
+    "rewardCount": 10
+  },
+  {
+    "id": "fusion-strike",
+    "name": "Fusion Strike",
+    "price": 25000,
+    "packImage": "/pokemon-legends-showcase/assets/sets/fusion-strike/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/sets/fusion-strike/catalog.json",
+    "accent": "#e27fbd",
+    "rewardCount": 10
+  },
+  {
+    "id": "silver-tempest",
+    "name": "Silver Tempest",
+    "price": 35000,
+    "packImage": "/pokemon-legends-showcase/assets/sets/silver-tempest/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/sets/silver-tempest/catalog.json",
+    "accent": "#78bded",
+    "rewardCount": 10
+  },
+  {
+    "id": "evolving-skies",
+    "name": "Evolving Skies",
+    "price": 50000,
+    "packImage": "/pokemon-legends-showcase/assets/sets/evolving-skies/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/sets/evolving-skies/catalog.json",
+    "accent": "#8ccf6d",
+    "rewardCount": 10
+  },
+  {
+    "id": "hidden-fates",
+    "name": "Hidden Fates",
+    "price": 75000,
+    "packImage": "/pokemon-legends-showcase/assets/sets/hidden-fates/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/sets/hidden-fates/catalog.json",
+    "accent": "#70c8b7",
+    "rewardCount": 10
+  },
+  {
+    "id": "base-set",
+    "name": "Base Set 1999",
+    "price": 100000,
+    "packImage": "/pokemon-legends-showcase/assets/sets/base-set/pack.webp",
+    "catalogUrl": "/pokemon-legends-showcase/assets/sets/base-set/catalog.json",
+    "accent": "#dfba65",
+    "rewardCount": 9
+  }
+]

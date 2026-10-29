@@ -1,0 +1,856 @@
+{
+  "description": "Ten compact interaction/reveal cues plus a quiet instrumental Pok\u00e9mon anime BGM loop. Existing seven polished cues remain; suspense, slam and a tighter ball release support the special-card charge-and-impact sequence.",
+  "sourcePolicy": "Original seven cues plus suspense/slam use Kenney CC0 source samples. Ball release and the actual anime soundtrack use community-hosted Pok\u00e9mon audio under the user's stated license, with source uncertainty recorded individually. No oscillator beeps or generic replacement music.",
+  "reproduce": "Run python3 scripts/polish-audio.py then python3 scripts/extend-cinematic-audio.py. Requires Python 3, curl, ffmpeg and ffprobe; optional REVEAL_AUDIO_SOURCE_CACHE, ASSET_FFMPEG, ASSET_FFPROBE. Missing files download from recorded public URLs; music source SHA-256 is pinned.",
+  "encoder": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "formats": "Stereo MP3 at 192 kbps / 44.1 kHz, and OGG Opus at 128 kbps / 48 kHz. Container durations may include codec delay; decodedDuration is the audible buffer length.",
+  "verification": "All 22 MP3/OGG files decode with ffmpeg -xerror, finite PCM and decoded durations within 3 ms. Ten effect pairs have oversampled peaks near -6 dBFS and clean tails. Music pair peaks near -12 dBFS and preserves a continuous loop boundary; all output SHA-256 hashes recorded.",
+  "limitations": "Automated decode/timing/headroom checks are complete; no human listening review is claimed. Source and musical-seam limitations for the community Pok\u00e9mon music/effect are recorded in their entries. Lossy bytes may vary between encoder versions.",
+  "effects": {
+    "ui": {
+      "intent": "Soft, dry physical selection tick with the chip's initial silence removed.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/ui.mp3",
+          "containerDuration": 0.18,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.18,
+          "peakDbfs": -6.185,
+          "oversampledPeakDbfs": -6.139,
+          "rmsDbfs": -29.002,
+          "firstSampleDbfs": -90.604,
+          "lastSampleDbfs": -178.759,
+          "sha256": "e5fc749f4a915a325307a70d6407d048bd295bfb4c2ff717fa05d12e24023f25",
+          "bytes": 5686,
+          "masteringGain": 2.030164287
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/ui.ogg",
+          "containerDuration": 0.1865,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.18,
+          "peakDbfs": -6.02,
+          "oversampledPeakDbfs": -5.969,
+          "rmsDbfs": -28.786,
+          "firstSampleDbfs": -89.967,
+          "lastSampleDbfs": -125.368,
+          "sha256": "0bd06cf4a1d5078f848a1bfa8ad04be4ffd38973ec64d2e82e9ab74672818275",
+          "bytes": 4860,
+          "masteringGain": 1.988296664
+        }
+      },
+      "sources": [
+        {
+          "file": "casino/Audio/chip-lay-1.ogg",
+          "archiveMember": "Audio/chip-lay-1.ogg",
+          "page": "https://kenney.nl/assets/casino-audio",
+          "archive": "https://kenney.nl/media/pages/assets/casino-audio/2472606a04-1721639069/kenney_casino-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "4b2111252ccb64eed67f171e061053849cfbb29873536c03948646f244a3905c"
+        }
+      ],
+      "processing": {
+        "duration": 0.18,
+        "layers": [
+          {
+            "file": "casino/Audio/chip-lay-1.ogg",
+            "start": 0.039,
+            "length": 0.126,
+            "rate": 0.86,
+            "gain": 1,
+            "delay": 0,
+            "filters": "highpass=f=170,lowpass=f=5800,afade=t=in:d=0.002,afade=t=out:st=0.075:d=0.071",
+            "purpose": "One softened chip contact; no pitched confirmation tone",
+            "processedPeakDbfs": -3.342,
+            "appliedLinearGain": 0.36904628
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -11.97,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.18
+    },
+    "latch": {
+      "intent": "Compact mechanical button release, retaining the natural metallic spring decay.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/latch.mp3",
+          "containerDuration": 0.25,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.25,
+          "peakDbfs": -6.137,
+          "oversampledPeakDbfs": -6.137,
+          "rmsDbfs": -30.037,
+          "firstSampleDbfs": -75.398,
+          "lastSampleDbfs": -170.77,
+          "sha256": "4991d1039f077d5bfde88672964744732e54e8602b19b5596ef782e7525ee959",
+          "bytes": 7567,
+          "masteringGain": 1.983397042
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/latch.ogg",
+          "containerDuration": 0.2565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.25,
+          "peakDbfs": -6.161,
+          "oversampledPeakDbfs": -6.108,
+          "rmsDbfs": -29.76,
+          "firstSampleDbfs": -87.46,
+          "lastSampleDbfs": -139.754,
+          "sha256": "fbaf0727a357e0807983fc0dd6894f25a02cbfdc36113d95100a602f29fe1fc1",
+          "bytes": 5429,
+          "masteringGain": 1.983397042
+        }
+      },
+      "sources": [
+        {
+          "file": "rpg/Audio/metalLatch.ogg",
+          "archiveMember": "Audio/metalLatch.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "ba9ba60b172b3ebc131a940f25793cd2e207aca7af73dc80d637277f060f1708"
+        }
+      ],
+      "processing": {
+        "duration": 0.25,
+        "layers": [
+          {
+            "file": "rpg/Audio/metalLatch.ogg",
+            "start": 0.022,
+            "length": 0.239,
+            "rate": 1.02,
+            "gain": 1,
+            "delay": 0,
+            "filters": "highpass=f=135,lowpass=f=7300,afade=t=in:d=0.002,afade=t=out:st=0.14:d=0.094",
+            "purpose": "Actual latch transient, trimmed to respond immediately",
+            "processedPeakDbfs": 0.986,
+            "appliedLinearGain": 0.224239724
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -11.948,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "normal": {
+      "intent": "A crisp paper flick resolves into a small polished glint instead of a long reveal wash.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/normal.mp3",
+          "containerDuration": 0.5,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.5,
+          "peakDbfs": -6.781,
+          "oversampledPeakDbfs": -6.176,
+          "rmsDbfs": -33.023,
+          "firstSampleDbfs": -66.463,
+          "lastSampleDbfs": -180.0,
+          "sha256": "1890ad9cf64ca51c4f3901ccab11e70ac126130b96b0519594bccc095009cf79",
+          "bytes": 13836,
+          "masteringGain": 1.893622436
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/normal.ogg",
+          "containerDuration": 0.5065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.5,
+          "peakDbfs": -6.775,
+          "oversampledPeakDbfs": -6.133,
+          "rmsDbfs": -33.076,
+          "firstSampleDbfs": -75.877,
+          "lastSampleDbfs": -180.0,
+          "sha256": "cf83749df019997cf270c30bee967301036ea7b414437efafb05c9d919e27b99",
+          "bytes": 8001,
+          "masteringGain": 1.838414304
+        }
+      },
+      "sources": [
+        {
+          "file": "casino/Audio/card-slide-4.ogg",
+          "archiveMember": "Audio/card-slide-4.ogg",
+          "page": "https://kenney.nl/assets/casino-audio",
+          "archive": "https://kenney.nl/media/pages/assets/casino-audio/2472606a04-1721639069/kenney_casino-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "b9c82bcdbe6b7d00a06e2546bd2683a9ab082ca5fd090a42882f33eddd925b7f"
+        },
+        {
+          "file": "interface/Audio/glass_001.ogg",
+          "archiveMember": "Audio/glass_001.ogg",
+          "page": "https://kenney.nl/assets/interface-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "183eebee20eb0a532b0b85104d139cbf2673eb66d95c3cc733ac9ea98362e7e8"
+        }
+      ],
+      "processing": {
+        "duration": 0.5,
+        "layers": [
+          {
+            "file": "casino/Audio/card-slide-4.ogg",
+            "start": 0.025,
+            "length": 0.255,
+            "rate": 1.05,
+            "gain": 1,
+            "delay": 0,
+            "filters": "highpass=f=180,lowpass=f=8500,afade=t=in:d=0.003,afade=t=out:st=0.16:d=0.082",
+            "purpose": "Tactile paper movement with its friction and flick preserved",
+            "processedPeakDbfs": -3.532,
+            "appliedLinearGain": 0.377233719
+          },
+          {
+            "file": "interface/Audio/glass_001.ogg",
+            "start": 0,
+            "length": 0.276,
+            "rate": 0.92,
+            "gain": 0.16,
+            "delay": 172,
+            "filters": "highpass=f=900,lowpass=f=8200,afade=t=in:d=0.004,afade=t=out:st=0.19:d=0.11",
+            "purpose": "Quiet bright payoff, deliberately below the paper transient",
+            "processedPeakDbfs": -9.482,
+            "appliedLinearGain": 0.119729513
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -11.289,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.34
+    },
+    "rare": {
+      "intent": "A brief rising glint opens into a bell-like sparkle with a soft, finite stereo tail.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/rare.mp3",
+          "containerDuration": 1.0,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.091,
+          "oversampledPeakDbfs": -6.002,
+          "rmsDbfs": -28.267,
+          "firstSampleDbfs": -135.279,
+          "lastSampleDbfs": -180.0,
+          "sha256": "893d0813047ec40c03a9fee36bf9fc495f1b0f9440199e2bd060a96e6a98da2c",
+          "bytes": 25748,
+          "masteringGain": 1.882538518
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/rare.ogg",
+          "containerDuration": 1.0065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.0,
+          "peakDbfs": -6.243,
+          "oversampledPeakDbfs": -6.146,
+          "rmsDbfs": -28.263,
+          "firstSampleDbfs": -97.307,
+          "lastSampleDbfs": -180.0,
+          "sha256": "c7240d6396fbbd9e326acde1199549396b4e6ab9077abcefd44f1d790082406f",
+          "bytes": 17314,
+          "masteringGain": 1.82534042
+        }
+      },
+      "sources": [
+        {
+          "file": "interface/Audio/glass_004.ogg",
+          "archiveMember": "Audio/glass_004.ogg",
+          "page": "https://kenney.nl/assets/interface-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "2379b58f953e3d86982aa8cddcae763022c6258e9820171bf905ce58b4e97766"
+        },
+        {
+          "file": "impact/Audio/impactBell_heavy_003.ogg",
+          "archiveMember": "Audio/impactBell_heavy_003.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "5572ccdeb3b62373b86fa955355b3a222c36e815f0636ba16165189a21cf2514"
+        }
+      ],
+      "processing": {
+        "duration": 1.0,
+        "layers": [
+          {
+            "file": "interface/Audio/glass_004.ogg",
+            "start": 0.015,
+            "length": 0.285,
+            "rate": 1.25,
+            "gain": 0.25,
+            "delay": 0,
+            "filters": "areverse,highpass=f=850,lowpass=f=7500,afade=t=in:d=0.065,afade=t=out:st=0.19:d=0.038",
+            "purpose": "Reversed glass pre-swell gives the rare reveal a short anticipation",
+            "processedPeakDbfs": -19.219,
+            "appliedLinearGain": 0.573940291
+          },
+          {
+            "file": "impact/Audio/impactBell_heavy_003.ogg",
+            "start": 0,
+            "length": 0.654,
+            "rate": 1.15,
+            "gain": 1,
+            "delay": 185,
+            "filters": "highpass=f=420,lowpass=f=9500,afade=t=in:d=0.002,afade=t=out:st=0.40:d=0.169",
+            "purpose": "One resonant metallic strike anchors the reveal",
+            "processedPeakDbfs": -7.131,
+            "appliedLinearGain": 0.570910545
+          },
+          {
+            "file": "interface/Audio/glass_004.ogg",
+            "start": 0,
+            "length": 0.692,
+            "rate": 1.42,
+            "gain": 0.2,
+            "delay": 245,
+            "filters": "highpass=f=1300,lowpass=f=9800,aecho=0.8:0.8:43|79:0.13|0.07,afade=t=in:d=0.006,afade=t=out:st=0.38:d=0.187",
+            "purpose": "Higher glass reflection and two very low reflections add sparkle without a chord stack",
+            "processedPeakDbfs": -13.661,
+            "appliedLinearGain": 0.242161346
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -11.227,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.4
+    },
+    "stage": {
+      "intent": "Restrained low activation sweep with a smooth crest and no explosive impact.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/stage.mp3",
+          "containerDuration": 0.7,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.7,
+          "peakDbfs": -5.999,
+          "oversampledPeakDbfs": -5.999,
+          "rmsDbfs": -17.151,
+          "firstSampleDbfs": -128.551,
+          "lastSampleDbfs": -180.0,
+          "sha256": "dc343cacd48dc99b5a192a5c321f9460e64e875115ab0bd086b25cb1fc6693c8",
+          "bytes": 18225,
+          "masteringGain": 2.07895874
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/stage.ogg",
+          "containerDuration": 0.7065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.7,
+          "peakDbfs": -5.882,
+          "oversampledPeakDbfs": -5.882,
+          "rmsDbfs": -17.095,
+          "firstSampleDbfs": -123.402,
+          "lastSampleDbfs": -180.0,
+          "sha256": "279c5b0800615c85ce82c355d13fb3f848f7563a0332bb10adb3dae2d3fec8f0",
+          "bytes": 11533,
+          "masteringGain": 2.01648906
+        }
+      },
+      "sources": [
+        {
+          "file": "scifi/Audio/forceField_000.ogg",
+          "archiveMember": "Audio/forceField_000.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "c2916f2a062c8ddd1aca2826d134fe90847037db31342726ffb0f9097afe339c"
+        }
+      ],
+      "processing": {
+        "duration": 0.7,
+        "layers": [
+          {
+            "file": "scifi/Audio/forceField_000.ogg",
+            "start": 0.04,
+            "length": 0.52,
+            "rate": 0.84,
+            "gain": 1,
+            "delay": 0,
+            "filters": "areverse,highpass=f=105,lowpass=f=1650,afade=t=in:d=0.13,afade=t=out:st=0.35:d=0.269",
+            "purpose": "One filtered, reversed source sweep with the original noisy highs removed",
+            "processedPeakDbfs": -6.181,
+            "appliedLinearGain": 0.511732721
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -12.092,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.16
+    },
+    "land": {
+      "intent": "Dry, short card contact that settles without another reveal accent.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/land.mp3",
+          "containerDuration": 0.2,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.2,
+          "peakDbfs": -6.443,
+          "oversampledPeakDbfs": -6.09,
+          "rmsDbfs": -30.151,
+          "firstSampleDbfs": -75.654,
+          "lastSampleDbfs": -139.381,
+          "sha256": "9fadf62dc6cbeae1bf63d9e397b59ae5b0caac4de369d589e13cc85cfc5aab5f",
+          "bytes": 6313,
+          "masteringGain": 2.069715736
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/land.ogg",
+          "containerDuration": 0.2065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.2,
+          "peakDbfs": -6.343,
+          "oversampledPeakDbfs": -6.024,
+          "rmsDbfs": -30.102,
+          "firstSampleDbfs": -72.966,
+          "lastSampleDbfs": -130.042,
+          "sha256": "ffc688b8f3cf4db3bbe81e89cede763854a931e62f75b53d9e68d53e0c378fe8",
+          "bytes": 4253,
+          "masteringGain": 2.001523537
+        }
+      },
+      "sources": [
+        {
+          "file": "casino/Audio/card-place-2.ogg",
+          "archiveMember": "Audio/card-place-2.ogg",
+          "page": "https://kenney.nl/assets/casino-audio",
+          "archive": "https://kenney.nl/media/pages/assets/casino-audio/2472606a04-1721639069/kenney_casino-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "903d5050718595e87864dd755643b476ab1a5533080dcc2dddc72570d33ba9f8"
+        }
+      ],
+      "processing": {
+        "duration": 0.2,
+        "layers": [
+          {
+            "file": "casino/Audio/card-place-2.ogg",
+            "start": 0.18,
+            "length": 0.2,
+            "rate": 1.04,
+            "gain": 1,
+            "delay": 0,
+            "filters": "highpass=f=130,lowpass=f=6300,afade=t=in:d=0.002,afade=t=out:st=0.08:d=0.112",
+            "purpose": "Isolated final card contact; earlier handling sounds removed",
+            "processedPeakDbfs": -6.561,
+            "appliedLinearGain": 0.534651538
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -12.027,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.22
+    },
+    "credit": {
+      "intent": "A quiet single coin tick suitable for repeated balance updates.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/credit.mp3",
+          "containerDuration": 0.16,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.16,
+          "peakDbfs": -6.649,
+          "oversampledPeakDbfs": -5.991,
+          "rmsDbfs": -29.629,
+          "firstSampleDbfs": -39.28,
+          "lastSampleDbfs": -180.0,
+          "sha256": "b4bc2eeea8b639e89d4dee6af30d8416ffe04b65272fe240e12b7f9ce1773989",
+          "bytes": 5686,
+          "masteringGain": 1.909669577
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/credit.ogg",
+          "containerDuration": 0.1665,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.16,
+          "peakDbfs": -6.633,
+          "oversampledPeakDbfs": -5.97,
+          "rmsDbfs": -29.701,
+          "firstSampleDbfs": -63.218,
+          "lastSampleDbfs": -124.101,
+          "sha256": "e8366418507218db135492c8553d3ce758bcf332551a5990b2a50dd9eafe8281",
+          "bytes": 4793,
+          "masteringGain": 1.834882377
+        }
+      },
+      "sources": [
+        {
+          "file": "rpg/Audio/handleCoins.ogg",
+          "archiveMember": "Audio/handleCoins.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "8a91f969e932df709df80ee124d86a51389eed9b67f22e5e716bc2bbf60d8dab"
+        }
+      ],
+      "processing": {
+        "duration": 0.16,
+        "layers": [
+          {
+            "file": "rpg/Audio/handleCoins.ogg",
+            "start": 0.145,
+            "length": 0.092,
+            "rate": 1.08,
+            "gain": 1,
+            "delay": 0,
+            "filters": "highpass=f=850,lowpass=f=7100,afade=t=in:d=0.002,afade=t=out:st=0.033:d=0.052",
+            "purpose": "Only the principal coin contact is retained; the long rattle and confirmation beep are removed",
+            "processedPeakDbfs": -3.487,
+            "appliedLinearGain": 0.375279896
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -11.272,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.12
+    },
+    "suspense": {
+      "intent": "A rising, increasingly bright rumble accompanies the special card's shake and cuts into the reveal impact.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/suspense.mp3",
+          "containerDuration": 1.3,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.3,
+          "peakDbfs": -6.264,
+          "oversampledPeakDbfs": -6.264,
+          "rmsDbfs": -23.65,
+          "firstSampleDbfs": -178.585,
+          "lastSampleDbfs": -163.473,
+          "sha256": "3c76bb2c7870d79130d50fa527e3a35272e00ad140e3e05547be581702b2816c",
+          "bytes": 32644,
+          "masteringGain": 1.792771047
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/suspense.ogg",
+          "containerDuration": 1.3065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.3,
+          "peakDbfs": -6.156,
+          "oversampledPeakDbfs": -6.156,
+          "rmsDbfs": -23.402,
+          "firstSampleDbfs": -161.786,
+          "lastSampleDbfs": -118.585,
+          "sha256": "a3b1bb5d6874e8cde9e8a4b6f3fb76016d7c085138aec43f45267796cd844961",
+          "bytes": 24866,
+          "masteringGain": 1.792771047
+        }
+      },
+      "sources": [
+        {
+          "file": "scifi/Audio/lowFrequency_explosion_000.ogg",
+          "archiveMember": "Audio/lowFrequency_explosion_000.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "3cb48d86dab63140cfb9aaeea4d4a6846abaca5831d157d8adbec0490da26343"
+        },
+        {
+          "file": "scifi/Audio/forceField_003.ogg",
+          "archiveMember": "Audio/forceField_003.ogg",
+          "page": "https://kenney.nl/assets/sci-fi-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "15e3fe971ffd3415e5ab641d3a4d043fb31f6712b0956315b524ba29c3889cda"
+        }
+      ],
+      "processing": {
+        "duration": 1.3,
+        "layers": [
+          {
+            "file": "scifi/Audio/lowFrequency_explosion_000.ogg",
+            "start": 0.07,
+            "length": 1.43,
+            "rate": 1.14,
+            "gain": 1,
+            "delay": 0,
+            "filters": "areverse,highpass=f=70,lowpass=f=2200,afade=t=in:d=0.30,afade=t=out:st=1.17:d=0.084",
+            "purpose": "Reversed recorded energy tail provides a sustained low rise, with no synthesized tone",
+            "processedPeakDbfs": -1.849,
+            "appliedLinearGain": 0.310791415
+          },
+          {
+            "file": "scifi/Audio/forceField_003.ogg",
+            "start": 0.04,
+            "length": 0.72,
+            "rate": 1.1,
+            "gain": 0.35,
+            "delay": 570,
+            "filters": "areverse,highpass=f=650,lowpass=f=6500,afade=t=in:d=0.28,afade=t=out:st=0.60:d=0.055",
+            "purpose": "A late bright rise increases tension as the card shake accelerates",
+            "processedPeakDbfs": -18.826,
+            "appliedLinearGain": 0.768010697
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -11.07,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.32
+    },
+    "slam": {
+      "intent": "An immediate compact impact with a bright metallic sparkle, timed to the special card's face reveal.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/slam.mp3",
+          "containerDuration": 0.35,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 0.35,
+          "peakDbfs": -6.259,
+          "oversampledPeakDbfs": -6.259,
+          "rmsDbfs": -24.338,
+          "firstSampleDbfs": -92.547,
+          "lastSampleDbfs": -180.0,
+          "sha256": "5f85a3b28015763073efe19a2ce1d7a0093ceacde6671c360de76d71e794463c",
+          "bytes": 10075,
+          "masteringGain": 1.87210325
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/slam.ogg",
+          "containerDuration": 0.3565,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 0.35,
+          "peakDbfs": -6.223,
+          "oversampledPeakDbfs": -6.223,
+          "rmsDbfs": -24.182,
+          "firstSampleDbfs": -102.406,
+          "lastSampleDbfs": -141.31,
+          "sha256": "e306f2c22d2248b8bbbe696a72e7edef99c45abba041704dc29c95514622c950",
+          "bytes": 5051,
+          "masteringGain": 1.87210325
+        }
+      },
+      "sources": [
+        {
+          "file": "impact/Audio/impactPunch_heavy_003.ogg",
+          "archiveMember": "Audio/impactPunch_heavy_003.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "4ab53b26f4ea575120dcc1348526c9e0db2afc6af7a442aa0489bdead2ca80b6"
+        },
+        {
+          "file": "impact/Audio/impactGlass_light_002.ogg",
+          "archiveMember": "Audio/impactGlass_light_002.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+          "creator": "Kenney",
+          "license": "CC0-1.0",
+          "sha256": "710db7451bb7857b9140dfe6afe4621ea2188ad65eda3919c569d1bb285b933d"
+        }
+      ],
+      "processing": {
+        "duration": 0.35,
+        "layers": [
+          {
+            "file": "impact/Audio/impactPunch_heavy_003.ogg",
+            "start": 0.008,
+            "length": 0.31,
+            "rate": 0.97,
+            "gain": 1,
+            "delay": 0,
+            "filters": "highpass=f=55,lowpass=f=6500,afade=t=in:d=0.001,afade=t=out:st=0.17:d=0.15",
+            "purpose": "Short physical punch, with the onset aligned to the BAM frame",
+            "processedPeakDbfs": 1.175,
+            "appliedLinearGain": 0.219417292
+          },
+          {
+            "file": "impact/Audio/impactGlass_light_002.ogg",
+            "start": 0,
+            "length": 0.207,
+            "rate": 1.1,
+            "gain": 0.4,
+            "delay": 8,
+            "filters": "highpass=f=1600,lowpass=f=10000,afade=t=in:d=0.001,afade=t=out:st=0.11:d=0.079",
+            "purpose": "One high glass tick adds sparkle without a long musical sting",
+            "processedPeakDbfs": -3.825,
+            "appliedLinearGain": 0.156059607
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -11.447,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.48
+    },
+    "release": {
+      "intent": "The existing Pok\u00e9mon-associated ball-opening sample with a tighter, cleaner tail.",
+      "files": {
+        "mp3": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/release.mp3",
+          "containerDuration": 1.1,
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2,
+          "decodedDuration": 1.1,
+          "peakDbfs": -6.313,
+          "oversampledPeakDbfs": -6.272,
+          "rmsDbfs": -21.238,
+          "firstSampleDbfs": -118.031,
+          "lastSampleDbfs": -95.022,
+          "sha256": "64d7a4425323c4470d3e1e19714288bdb90f34afe6bb6d56c1caadfca8ab1707",
+          "bytes": 28256,
+          "masteringGain": 1.929129459
+        },
+        "ogg": {
+          "path": "/pokemon-legends-showcase/assets/audio-v3/release.ogg",
+          "containerDuration": 1.1065,
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 2,
+          "decodedDuration": 1.1,
+          "peakDbfs": -6.156,
+          "oversampledPeakDbfs": -6.094,
+          "rmsDbfs": -20.97,
+          "firstSampleDbfs": -118.506,
+          "lastSampleDbfs": -102.823,
+          "sha256": "fb6839088897d0de50c9427ab8fb20238727549ff112c74fd620cb68572475c2",
+          "bytes": 18351,
+          "masteringGain": 1.929129459
+        }
+      },
+      "sources": [
+        {
+          "file": "pokeball-open.mp3",
+          "url": "https://www.myinstants.com/media/sounds/pokeball_sound_effects_mp3cut_1.mp3",
+          "page": "https://www.myinstants.com/en/instant/pokeball-open/",
+          "creator": "Community uploader nauth; original producer/episode unverified",
+          "sha256": "b8a24b4590c9d88338c1af8cbc07e7ebe4351438e7d0a111b3fd230e6564070e",
+          "license": "Pok\u00e9mon-associated effect reused under user's stated license; community provenance unverified",
+          "derivation": "Same original source used by audio-v2/release; edited from the cached source, not transcoded from audio-v2."
+        }
+      ],
+      "processing": {
+        "duration": 1.1,
+        "layers": [
+          {
+            "file": "pokeball-open.mp3",
+            "start": 0.54,
+            "length": 1.1,
+            "rate": 1,
+            "gain": 1,
+            "delay": 0,
+            "filters": "highpass=f=80,lowpass=f=8000,afade=t=in:d=0.004,afade=t=out:st=0.67:d=0.43",
+            "purpose": "Original opening transient retained; long hiss tail shortened with a smooth decay",
+            "processedPeakDbfs": 2.607,
+            "appliedLinearGain": 0.18606487
+          }
+        ],
+        "mixPeakBeforeMasteringDbfs": -11.707,
+        "mastering": "48 kHz float mixing; ingredient peaks aligned before relative balancing; sample-specific trim, EQ, pitch/speed and fades; final 2 ms attack/35 ms tail; four-times-oversampled decoded peak aligned to -6 dBFS independently per codec. No limiting or clipping."
+      },
+      "recommendedPlaybackGain": 0.38
+    }
+  },
+  "backgroundMusic": {
+    "title": "Pok\u00e9mon Center (1997\u20131998 M77A)",
+    "files": {
+      "mp3": {
+        "path": "/pokemon-legends-showcase/assets/audio-v3/ambience.mp3",
+        "containerDuration": 55.65,
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2,
+        "decodedDuration": 55.65,
+        "peakDbfs": -11.936,
+        "oversampledPeakDbfs": -11.936,
+        "rmsDbfs": -28.156,
+        "firstSampleDbfs": -37.478,
+        "lastSampleDbfs": -38.762,
+        "wrapSampleStepDbfs": -54.717,
+        "sha256": "bc31438ab043a6e295cae2a120c7e1b0179bf1c2d71d9fea2e5d0f77e8d177b5",
+        "bytes": 1337304
+      },
+      "ogg": {
+        "path": "/pokemon-legends-showcase/assets/audio-v3/ambience.ogg",
+        "containerDuration": 55.6565,
+        "codec_name": "opus",
+        "sample_rate": "48000",
+        "channels": 2,
+        "decodedDuration": 55.65,
+        "peakDbfs": -12.047,
+        "oversampledPeakDbfs": -12.004,
+        "rmsDbfs": -28.398,
+        "firstSampleDbfs": -37.649,
+        "lastSampleDbfs": -38.263,
+        "wrapSampleStepDbfs": -60.97,
+        "sha256": "c26528ef6d5f83a571cf6edb473cd41a53b264715821a4aea159b2c3baa444b9",
+        "bytes": 996822
+      }
+    },
+    "source": {
+      "file": "pokemon-center-m77a.mp3",
+      "url": "https://archive.org/download/16-battle-vs-trainer1997-1998m56b/Pocket%20Monsters%20TV%20Anime%20Orchestral%20Arrangements/09%20Pok%C3%A9mon%20Center%EF%BC%88%EF%BC%91%EF%BC%99%EF%BC%99%EF%BC%97%EF%BC%8D%EF%BC%91%EF%BC%99%EF%BC%99%EF%BC%98%EF%BD%9C%EF%BC%AD%EF%BC%97%EF%BC%97%EF%BC%A1%EF%BC%89.mp3",
+      "page": "https://archive.org/details/16-battle-vs-trainer1997-1998m56b",
+      "sha256": "0613e3c012b7c851c1d3b0876a984540973d02d7cb20f92a073a49c788dcba19",
+      "track": "Disc 1, track 9",
+      "album": "TV Anime Pocket Monsters Original Soundtrack Best 1997-2010",
+      "catalog": "ZMCP-5452",
+      "releaseDate": "2010-09-08",
+      "label": "Pikachu Records / Media Factory",
+      "arranger": "Shinji Miyazaki",
+      "originalThemeComposer": "Junichi Masuda",
+      "verification": "Archive filename, embedded ID3 title/artist/album/publisher/year/track, and 62.5-second duration agree with the published disc 1 track 9 listing. The album identifies this as the orchestral anime BGM arrangement. This is not the older Sound Anime Collection track with appended scene dialogue.",
+      "metadataReferences": [
+        "https://www.pocketmonsters.net/cd/view/203",
+        "https://www.pocketmonsters.net/content/CD_Comparison",
+        "https://www.cdjapan.co.jp/product/ZMCP-5452",
+        "https://musicbrainz.org/release/2013bd12-5f76-4f06-877d-859f1dbccf9b"
+      ],
+      "rights": "Copyrighted Pok\u00e9mon anime soundtrack, reused under the user's stated Pok\u00e9mon license. Internet Archive is a community mirror, not the rights holder. Uploader authority and chain of custody have not been independently verified; no CC0/open-license claim is made for this track."
+    },
+    "processing": {
+      "sourceStart": 0.5,
+      "phrasePeriod": 27.825,
+      "crossfadeSeconds": 0.24,
+      "duration": 55.65,
+      "loopsWithinBuffer": 2,
+      "method": "First instrumental phrase with a 240 ms complementary sine-squared circular crossfade from the next phrase into its head; duplicated twice; gentle 45 Hz high-pass / 12 kHz low-pass; original pitch and tempo retained; decoded oversampled peak normalized to -12 dBFS. No vocals, generated music, or extra instrumentation were added."
+    },
+    "recommendedPlaybackGain": 0.16,
+    "playback": "Loop the decoded buffer; fade the music bus in/out over 0.7 seconds and duck during ball/card reveals. At gain .16, music peak is around -28 dBFS before the master bus.",
+    "limitations": "Album/track identity and technical audio are verified from metadata; no human listening or vocal-detection review is claimed. The crossfade is technically continuous but its musical seam has not been auditioned. The source is a community MP3 rather than an authenticated lossless master."
+  }
+}

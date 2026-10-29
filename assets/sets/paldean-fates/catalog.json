@@ -1,0 +1,177 @@
+[
+  {
+    "id": "sv04.5-001",
+    "number": "001",
+    "name": "Pineco",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/001.webp"
+  },
+  {
+    "id": "sv04.5-002",
+    "number": "002",
+    "name": "Forretress ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/002.webp"
+  },
+  {
+    "id": "sv04.5-007",
+    "number": "007",
+    "name": "Charmander",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/007.webp"
+  },
+  {
+    "id": "sv04.5-008",
+    "number": "008",
+    "name": "Charmeleon",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/008.webp"
+  },
+  {
+    "id": "sv04.5-018",
+    "number": "018",
+    "name": "Pikachu",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/018.webp"
+  },
+  {
+    "id": "sv04.5-019",
+    "number": "019",
+    "name": "Raichu",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/019.webp"
+  },
+  {
+    "id": "sv04.5-023",
+    "number": "023",
+    "name": "Exeggcute",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/023.webp"
+  },
+  {
+    "id": "sv04.5-028",
+    "number": "028",
+    "name": "Kirlia",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/028.webp"
+  },
+  {
+    "id": "sv04.5-029",
+    "number": "029",
+    "name": "Gardevoir ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/029.webp"
+  },
+  {
+    "id": "sv04.5-031",
+    "number": "031",
+    "name": "Mime Jr.",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/031.webp"
+  },
+  {
+    "id": "sv04.5-037",
+    "number": "037",
+    "name": "Mimikyu",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/037.webp"
+  },
+  {
+    "id": "sv04.5-038",
+    "number": "038",
+    "name": "Fidough",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/038.webp"
+  },
+  {
+    "id": "sv04.5-039",
+    "number": "039",
+    "name": "Dachsbun",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/039.webp"
+  },
+  {
+    "id": "sv04.5-040",
+    "number": "040",
+    "name": "Ceruledge",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/040.webp"
+  },
+  {
+    "id": "sv04.5-054",
+    "number": "054",
+    "name": "Charizard ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/054.webp"
+  },
+  {
+    "id": "sv04.5-055",
+    "number": "055",
+    "name": "Gastly",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/055.webp"
+  },
+  {
+    "id": "sv04.5-056",
+    "number": "056",
+    "name": "Haunter",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/056.webp"
+  },
+  {
+    "id": "sv04.5-057",
+    "number": "057",
+    "name": "Gengar",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/057.webp"
+  },
+  {
+    "id": "sv04.5-058",
+    "number": "058",
+    "name": "Paldean Wooper",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/058.webp"
+  },
+  {
+    "id": "sv04.5-059",
+    "number": "059",
+    "name": "Paldean Clodsire ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/059.webp"
+  },
+  {
+    "id": "sv04.5-092",
+    "number": "092",
+    "name": "Oddish",
+    "rarity": "Shiny rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/092.webp"
+  },
+  {
+    "id": "sv04.5-093",
+    "number": "093",
+    "name": "Gloom",
+    "rarity": "Shiny rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/093.webp"
+  },
+  {
+    "id": "sv04.5-232",
+    "number": "232",
+    "name": "Mew ex",
+    "rarity": "Special illustration rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/232.webp"
+  },
+  {
+    "id": "sv04.5-233",
+    "number": "233",
+    "name": "Gardevoir ex",
+    "rarity": "Special illustration rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/233.webp"
+  },
+  {
+    "id": "sv04.5-234",
+    "number": "234",
+    "name": "Charizard ex",
+    "rarity": "Special illustration rare",
+    "image": "/pokemon-legends-showcase/assets/sets/paldean-fates/cards/234.webp"
+  }
+]

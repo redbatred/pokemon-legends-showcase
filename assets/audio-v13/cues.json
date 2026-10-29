@@ -1,0 +1,20 @@
+{
+  "flight": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v13/flight.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v13/flight.ogg"
+    },
+    "duration": 1.12,
+    "gain": 0.43,
+    "peakDbfs": -6
+  },
+  "release": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v13/release.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v13/release.ogg"
+    },
+    "duration": 1.0,
+    "gain": 0.46,
+    "peakDbfs": -6
+  }
+}

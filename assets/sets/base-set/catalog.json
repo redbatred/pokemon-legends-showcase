@@ -1,0 +1,177 @@
+[
+  {
+    "id": "base1-1",
+    "number": "1",
+    "name": "Alakazam",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/1.webp"
+  },
+  {
+    "id": "base1-2",
+    "number": "2",
+    "name": "Blastoise",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/2.webp"
+  },
+  {
+    "id": "base1-3",
+    "number": "3",
+    "name": "Chansey",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/3.webp"
+  },
+  {
+    "id": "base1-4",
+    "number": "4",
+    "name": "Charizard",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/4.webp"
+  },
+  {
+    "id": "base1-5",
+    "number": "5",
+    "name": "Clefairy",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/5.webp"
+  },
+  {
+    "id": "base1-6",
+    "number": "6",
+    "name": "Gyarados",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/6.webp"
+  },
+  {
+    "id": "base1-7",
+    "number": "7",
+    "name": "Hitmonchan",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/7.webp"
+  },
+  {
+    "id": "base1-8",
+    "number": "8",
+    "name": "Machamp",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/8.webp"
+  },
+  {
+    "id": "base1-9",
+    "number": "9",
+    "name": "Magneton",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/9.webp"
+  },
+  {
+    "id": "base1-10",
+    "number": "10",
+    "name": "Mewtwo",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/10.webp"
+  },
+  {
+    "id": "base1-11",
+    "number": "11",
+    "name": "Nidoking",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/11.webp"
+  },
+  {
+    "id": "base1-12",
+    "number": "12",
+    "name": "Ninetales",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/12.webp"
+  },
+  {
+    "id": "base1-13",
+    "number": "13",
+    "name": "Poliwrath",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/13.webp"
+  },
+  {
+    "id": "base1-14",
+    "number": "14",
+    "name": "Raichu",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/14.webp"
+  },
+  {
+    "id": "base1-15",
+    "number": "15",
+    "name": "Venusaur",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/15.webp"
+  },
+  {
+    "id": "base1-16",
+    "number": "16",
+    "name": "Zapdos",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/16.webp"
+  },
+  {
+    "id": "base1-22",
+    "number": "22",
+    "name": "Pidgeotto",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/22.webp"
+  },
+  {
+    "id": "base1-24",
+    "number": "24",
+    "name": "Charmeleon",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/24.webp"
+  },
+  {
+    "id": "base1-28",
+    "number": "28",
+    "name": "Growlithe",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/28.webp"
+  },
+  {
+    "id": "base1-35",
+    "number": "35",
+    "name": "Magikarp",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/35.webp"
+  },
+  {
+    "id": "base1-44",
+    "number": "44",
+    "name": "Bulbasaur",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/44.webp"
+  },
+  {
+    "id": "base1-46",
+    "number": "46",
+    "name": "Charmander",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/46.webp"
+  },
+  {
+    "id": "base1-58",
+    "number": "58",
+    "name": "Pikachu",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/58.webp"
+  },
+  {
+    "id": "base1-63",
+    "number": "63",
+    "name": "Squirtle",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/63.webp"
+  },
+  {
+    "id": "base1-65",
+    "number": "65",
+    "name": "Staryu",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/base-set/cards/65.webp"
+  }
+]

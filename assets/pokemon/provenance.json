@@ -1,0 +1,710 @@
+{
+  "provider": "PokeAPI/sprites",
+  "repository": "https://github.com/PokeAPI/sprites",
+  "revision": "d8c2fb78563e28ad7b3abe938cf6e79998d04e90",
+  "selection": "Double, Illustration, Ultra, Special, Hyper, Secret, Shiny, Radiant, and Holo Rare V/VMAX/VSTAR catalog cards; Trainers and Energy excluded.",
+  "processing": "Original regular official-artwork PNG bytes, unchanged. No fan recolors, shiny-directory art, synthetic art, resizing, or upscaling. Base species art does not reproduce card-specific forms or costumes.",
+  "groups": {
+    "Moltres & Zapdos & Articuno": [
+      "Moltres",
+      "Zapdos",
+      "Articuno"
+    ]
+  },
+  "excludedTrainerCards": [
+    "swsh12-193"
+  ],
+  "sources": {
+    "Aerodactyl": {
+      "dexId": 142,
+      "file": "/pokemon-legends-showcase/assets/pokemon/aerodactyl.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/142.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "5427b0a9ac5dbf1fee7fcd19f44de1dfb97d577c82262bb961538865a08bc79a",
+      "cards": [
+        "swsh11-093",
+        "swsh11-180"
+      ]
+    },
+    "Alakazam": {
+      "dexId": 65,
+      "file": "/pokemon-legends-showcase/assets/pokemon/alakazam.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/65.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "8f1dfebe7855bf0838dc4110629b01a8862370373cabe527adf3f979bc4fa1e0",
+      "cards": [
+        "sv03.5-065",
+        "swsh12-059"
+      ]
+    },
+    "Arceus": {
+      "dexId": 493,
+      "file": "/pokemon-legends-showcase/assets/pokemon/arceus.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/493.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "2c33a80a60316f3bb3aa611246543857e053a2728c94c0f67efa44b965d8bc31",
+      "cards": [
+        "swsh12.5gg-GG70"
+      ]
+    },
+    "Articuno": {
+      "dexId": 144,
+      "file": "/pokemon-legends-showcase/assets/pokemon/articuno.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/144.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "d85d2a2dd08e8f0d797298f9db4bab91a6b0ee6e03999333be55fc5cf09b3043",
+      "cards": [
+        "sm115-44"
+      ]
+    },
+    "Blastoise": {
+      "dexId": 9,
+      "file": "/pokemon-legends-showcase/assets/pokemon/blastoise.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/9.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "ba0a6b633e7a5d5a8c52498b0556518005fd4c63ef4564a8b06b79a73905a635",
+      "cards": [
+        "sv03.5-009",
+        "sv03.5-200"
+      ]
+    },
+    "Breloom": {
+      "dexId": 286,
+      "file": "/pokemon-legends-showcase/assets/pokemon/breloom.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/286.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "5659f40bc559caa407b3cd31a7ff248ef90070e00cd2a808aa483819514b6bba",
+      "cards": [
+        "swsh8-6"
+      ]
+    },
+    "Charizard": {
+      "dexId": 6,
+      "file": "/pokemon-legends-showcase/assets/pokemon/charizard.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/6.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "b6d5b8ee9fb05dc6f53294b2cae660dec770b92762cdb19d16bcbd679e1ba43a",
+      "cards": [
+        "sm115-9",
+        "sma-SV49",
+        "sv03-125",
+        "sv03-215",
+        "sv03-223",
+        "sv03-228",
+        "sv03.5-006",
+        "sv03.5-199",
+        "sv04.5-054",
+        "sv04.5-234",
+        "swsh12.5-018",
+        "swsh12.5-019",
+        "swsh12.5-020"
+      ]
+    },
+    "Cinderace": {
+      "dexId": 815,
+      "file": "/pokemon-legends-showcase/assets/pokemon/cinderace.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/815.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "835185034b1931d5fc801a5ce78f21cf1f1555ef767bc4e92a052c59561f1186",
+      "cards": [
+        "swsh8-43"
+      ]
+    },
+    "Cleffa": {
+      "dexId": 173,
+      "file": "/pokemon-legends-showcase/assets/pokemon/cleffa.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/173.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "2bd707f9624339437f61ea8b21e9c2ae54633cecd87959a3391096e95a0ec412",
+      "cards": [
+        "sv03-202"
+      ]
+    },
+    "Dracozolt": {
+      "dexId": 880,
+      "file": "/pokemon-legends-showcase/assets/pokemon/dracozolt.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/880.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "7e1bb1ae05698b893001eb5b9847d877fa6ed69a867b7cab282ed36fee7b7f51",
+      "cards": [
+        "swsh7-58"
+      ]
+    },
+    "Dragonite": {
+      "dexId": 149,
+      "file": "/pokemon-legends-showcase/assets/pokemon/dragonite.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/149.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "4bd7549caa15eac43a8197ba53e843a95f2b56c71b1121829ea76764fbf26f9c",
+      "cards": [
+        "sv03-159"
+      ]
+    },
+    "Duraludon": {
+      "dexId": 884,
+      "file": "/pokemon-legends-showcase/assets/pokemon/duraludon.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/884.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "440c1f106588df8a8aa615b123291c835237759cd690638077508e73225f099a",
+      "cards": [
+        "swsh7-123"
+      ]
+    },
+    "Eevee": {
+      "dexId": 133,
+      "file": "/pokemon-legends-showcase/assets/pokemon/eevee.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/133.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "33ea993d3478ee920062b0bf27792a045b3a2f75d941bdb8cb3912ef50b1fb44",
+      "cards": [
+        "swsh12.5-108"
+      ]
+    },
+    "Espeon": {
+      "dexId": 196,
+      "file": "/pokemon-legends-showcase/assets/pokemon/espeon.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/196.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "d0e74b02adc3df07f9bf026303b1068c58183f8703ae2ca42b8d7b58e9a0696f",
+      "cards": [
+        "swsh7-65",
+        "swsh8-270"
+      ]
+    },
+    "Forretress": {
+      "dexId": 205,
+      "file": "/pokemon-legends-showcase/assets/pokemon/forretress.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/205.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "1ae19ac7d15ccb9b82848c85e4e63a10c4759aa84434d3ddb757ff182f69271f",
+      "cards": [
+        "sv04.5-002"
+      ]
+    },
+    "Gardevoir": {
+      "dexId": 282,
+      "file": "/pokemon-legends-showcase/assets/pokemon/gardevoir.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/282.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "ac40b3e87de95706cae9631802b975882f9830c1528253d367cfa7fd3f2957bd",
+      "cards": [
+        "sv04.5-029",
+        "sv04.5-233",
+        "swsh11-069"
+      ]
+    },
+    "Genesect": {
+      "dexId": 649,
+      "file": "/pokemon-legends-showcase/assets/pokemon/genesect.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/649.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "7ea39dd909fa03ca5faf87174feaac651d3cec8c0d73f78a634eff708314b0f7",
+      "cards": [
+        "swsh8-185"
+      ]
+    },
+    "Gengar": {
+      "dexId": 94,
+      "file": "/pokemon-legends-showcase/assets/pokemon/gengar.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/94.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "b6549b80537676fcf4a589c8853b38cce42f42b5f707bbe2e63797666175cf06",
+      "cards": [
+        "swsh8-156",
+        "swsh8-157",
+        "swsh8-271"
+      ]
+    },
+    "Giratina": {
+      "dexId": 487,
+      "file": "/pokemon-legends-showcase/assets/pokemon/giratina.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/487.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "a43e1563cf09e86f391a75b1de445b2eaef4773a956c39b8d9377048b02f82e2",
+      "cards": [
+        "swsh11-130",
+        "swsh11-186",
+        "swsh12.5gg-GG69"
+      ]
+    },
+    "Glaceon": {
+      "dexId": 471,
+      "file": "/pokemon-legends-showcase/assets/pokemon/glaceon.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/471.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "bc7c93a32e133f9e560b38722d0bc4992b7bb8d1cd902de984ccbd872a19f71b",
+      "cards": [
+        "swsh7-41"
+      ]
+    },
+    "Gloom": {
+      "dexId": 44,
+      "file": "/pokemon-legends-showcase/assets/pokemon/gloom.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/44.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "bc4fdbeac96c93a0c71db866853492e251e81daedf328ed5f4f9aa1d175abb3a",
+      "cards": [
+        "sv03-198",
+        "sv04.5-093"
+      ]
+    },
+    "Greninja": {
+      "dexId": 658,
+      "file": "/pokemon-legends-showcase/assets/pokemon/greninja.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/658.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "e88f4590ff53a8f8965c9e1be19a0f069c51c4dc7ca64ecb25ac96c64c8504d3",
+      "cards": [
+        "swsh8-73"
+      ]
+    },
+    "Gyarados": {
+      "dexId": 130,
+      "file": "/pokemon-legends-showcase/assets/pokemon/gyarados.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/130.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "41d17760b81321cc7a3fb2cb1568d3c33010e892b687eeacb3738ba307071f8b",
+      "cards": [
+        "sm115-16",
+        "swsh7-29"
+      ]
+    },
+    "Kyogre": {
+      "dexId": 382,
+      "file": "/pokemon-legends-showcase/assets/pokemon/kyogre.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/382.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "a24962e9bd96fb84e69872ed7e6f1982c08b4241df60c5f64a1c0cfa7a651878",
+      "cards": [
+        "swsh12.5-037"
+      ]
+    },
+    "Leafeon": {
+      "dexId": 470,
+      "file": "/pokemon-legends-showcase/assets/pokemon/leafeon.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/470.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "3cb145cfafe87da63f75d80d2540e2f7f61c3c97275ff4231a462d949f4bd339",
+      "cards": [
+        "swsh12.5gg-GG35",
+        "swsh7-205",
+        "swsh7-7"
+      ]
+    },
+    "Lugia": {
+      "dexId": 249,
+      "file": "/pokemon-legends-showcase/assets/pokemon/lugia.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/249.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "6977890cdd83d4b542961be5bbe965c8ca92ccff843094be4840939c4f0674d6",
+      "cards": [
+        "swsh12-138",
+        "swsh12-186"
+      ]
+    },
+    "Mew": {
+      "dexId": 151,
+      "file": "/pokemon-legends-showcase/assets/pokemon/mew.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/151.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "9991aee5181178b604b99aec636533b0c5a52a321ce246dd3b9c33243a342a64",
+      "cards": [
+        "sv03.5-151",
+        "sv04.5-232",
+        "swsh12.5-060",
+        "swsh8-113",
+        "swsh8-114",
+        "swsh8-269"
+      ]
+    },
+    "Mewtwo": {
+      "dexId": 150,
+      "file": "/pokemon-legends-showcase/assets/pokemon/mewtwo.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/150.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "d99adeb9b4523073ca218a6f472ea5b602b047ccd8af8dea6fa7ae051f80366a",
+      "cards": [
+        "sm115-31",
+        "sma-SV59",
+        "swsh12.5gg-GG44"
+      ]
+    },
+    "Moltres": {
+      "dexId": 146,
+      "file": "/pokemon-legends-showcase/assets/pokemon/moltres.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/146.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "f4d46f40e4fc984ebc5eccdaf11540dd1fdd0a756a629b7bb1da72777d5ff85a",
+      "cards": [
+        "sm115-44"
+      ]
+    },
+    "Ninetales": {
+      "dexId": 38,
+      "file": "/pokemon-legends-showcase/assets/pokemon/ninetales.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/38.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "e60b06bf0aa8b23a593958cc32806534a3553707797be10767550a6f4ddb9068",
+      "cards": [
+        "sv03-199"
+      ]
+    },
+    "Oddish": {
+      "dexId": 43,
+      "file": "/pokemon-legends-showcase/assets/pokemon/oddish.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/43.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "035edf8e0e79148c86ac89fada5b4b6ccd01f6dcbaf7a73b4f086e83d4502b7b",
+      "cards": [
+        "sv04.5-092"
+      ]
+    },
+    "Paldean Clodsire": {
+      "dexId": 980,
+      "file": "/pokemon-legends-showcase/assets/pokemon/clodsire.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/980.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "e9538746be344db111cb6bc355fd44a9b5becb7033f3a1db5da7446a176b3bed",
+      "cards": [
+        "sv04.5-059"
+      ]
+    },
+    "Pidgeot": {
+      "dexId": 18,
+      "file": "/pokemon-legends-showcase/assets/pokemon/pidgeot.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/18.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "0f2cf5f30ee821f867cdced8d64fa87a11ae01643bb48c10296ee1ffdc18ca14",
+      "cards": [
+        "sv03-225"
+      ]
+    },
+    "Pidgey": {
+      "dexId": 16,
+      "file": "/pokemon-legends-showcase/assets/pokemon/pidgey.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/16.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "cabe3212d06ce9c59184b84cbf2bcb17396f441d7c857243253502247e637758",
+      "cards": [
+        "sv03-207"
+      ]
+    },
+    "Pikachu": {
+      "dexId": 25,
+      "file": "/pokemon-legends-showcase/assets/pokemon/pikachu.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/25.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "759ceafdb4b8d637dfcfe673cf672bc3c472354a3b2e7e0835d9cdcacd8d195d",
+      "cards": [
+        "swsh11tg-TG17",
+        "swsh11tg-TG29",
+        "swsh8-86"
+      ]
+    },
+    "Pinsir": {
+      "dexId": 127,
+      "file": "/pokemon-legends-showcase/assets/pokemon/pinsir.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/127.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "badba34a0d5e77e7fa0b553b7e148c157b4bf15ee3c3d44a6ad1de1067c7c447",
+      "cards": [
+        "sm115-6"
+      ]
+    },
+    "Raichu": {
+      "dexId": 26,
+      "file": "/pokemon-legends-showcase/assets/pokemon/raichu.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/26.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "e5671c5f00695fa6f6a3fc08a70d0b53a34e14f5dafcccc66316bdee90d076ac",
+      "cards": [
+        "sm115-20"
+      ]
+    },
+    "Raikou": {
+      "dexId": 243,
+      "file": "/pokemon-legends-showcase/assets/pokemon/raikou.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/243.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "3d7d4b163d74c2dcfba86d94e49ff0a6adc115b5ef90a830008081b50a9912bd",
+      "cards": [
+        "swsh12.5gg-GG41"
+      ]
+    },
+    "Rayquaza": {
+      "dexId": 384,
+      "file": "/pokemon-legends-showcase/assets/pokemon/rayquaza.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/384.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "52fdacd461e20343dc7fd127b062c23429dc63dfe558c94b9aea0dc7a27be939",
+      "cards": [
+        "swsh12tg-TG20",
+        "swsh7-110",
+        "swsh7-218"
+      ]
+    },
+    "Rotom": {
+      "dexId": 479,
+      "file": "/pokemon-legends-showcase/assets/pokemon/rotom.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/479.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "aac3908d8eff725ce710df92af856a8eda2689296b93496e6b099594983df4eb",
+      "cards": [
+        "swsh11-058"
+      ]
+    },
+    "Scizor": {
+      "dexId": 212,
+      "file": "/pokemon-legends-showcase/assets/pokemon/scizor.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/212.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "67765e304fa030422abc88e4b1f5eae21cb558e9b6dc0f1a43656f0f1daf6434",
+      "cards": [
+        "sv03-205"
+      ]
+    },
+    "Starmie": {
+      "dexId": 121,
+      "file": "/pokemon-legends-showcase/assets/pokemon/starmie.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/121.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "4e9cebb6042fd5489471341c5d5778a900662be93e343234468edc2dfe94436f",
+      "cards": [
+        "sm115-14"
+      ]
+    },
+    "Suicune": {
+      "dexId": 245,
+      "file": "/pokemon-legends-showcase/assets/pokemon/suicune.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/245.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "e72657f300c9b1db690f61a08b0cafc3ccbbd31548a081b931adf0679bd9f8a6",
+      "cards": [
+        "swsh12.5gg-GG38"
+      ]
+    },
+    "Sylveon": {
+      "dexId": 700,
+      "file": "/pokemon-legends-showcase/assets/pokemon/sylveon.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/700.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "193777db6d89cdace234fe3198dca4e955a7a5a18011cd0105178b436f6199a7",
+      "cards": [
+        "swsh7-74"
+      ]
+    },
+    "Trevenant": {
+      "dexId": 709,
+      "file": "/pokemon-legends-showcase/assets/pokemon/trevenant.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/709.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "df23987bef7045c46d8f9a6a83cd23c3b23e006a424669051b0c6e4fbfa9c85f",
+      "cards": [
+        "swsh7-13"
+      ]
+    },
+    "Tyranitar": {
+      "dexId": 248,
+      "file": "/pokemon-legends-showcase/assets/pokemon/tyranitar.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/248.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "080b69438af4483ecd73f7ba154b5d5c845726028ac3071bde455de8978bb509",
+      "cards": [
+        "sv03-066"
+      ]
+    },
+    "Umbreon": {
+      "dexId": 197,
+      "file": "/pokemon-legends-showcase/assets/pokemon/umbreon.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/197.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "8d7f18f7b323269dff84480f1ee8873a5d47a3eb3fd4b2ac1d2bbf0cf45a6ddd",
+      "cards": [
+        "sma-SV69",
+        "swsh7-215",
+        "swsh7-95"
+      ]
+    },
+    "Vaporeon": {
+      "dexId": 134,
+      "file": "/pokemon-legends-showcase/assets/pokemon/vaporeon.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/134.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "3f4a86ef2ec064c98dd8fb207046c7202c1669e5fb7fac05fc1acea364d2770f",
+      "cards": [
+        "swsh7-30"
+      ]
+    },
+    "Venusaur": {
+      "dexId": 3,
+      "file": "/pokemon-legends-showcase/assets/pokemon/venusaur.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/3.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "106d0040aa775f95871706c30ddd4abaef2c962215f5e8bd4141e0caef0ef8e4",
+      "cards": [
+        "sv03.5-003",
+        "sv03.5-198"
+      ]
+    },
+    "Zapdos": {
+      "dexId": 145,
+      "file": "/pokemon-legends-showcase/assets/pokemon/zapdos.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/d8c2fb78563e28ad7b3abe938cf6e79998d04e90/sprites/pokemon/other/official-artwork/145.png",
+      "dimensions": [
+        475,
+        475
+      ],
+      "sha256": "6435d62ab354ac4bfc94eaf8dda48a4ea3cb24f5e64d48cab9dafd5194f458cc",
+      "cards": [
+        "sm115-44"
+      ]
+    }
+  }
+}

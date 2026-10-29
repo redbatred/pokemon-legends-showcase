@@ -1,0 +1,16 @@
+{
+  "crowdreact": {
+    "gain": 0.2,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v11/crowdreact.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v11/crowdreact.ogg"
+    }
+  },
+  "crowdreactrare": {
+    "gain": 0.3,
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v11/crowdreactrare.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v11/crowdreactrare.ogg"
+    }
+  }
+}

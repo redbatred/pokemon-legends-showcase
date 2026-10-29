@@ -1,0 +1,177 @@
+[
+  {
+    "id": "swsh8-1",
+    "number": "1",
+    "name": "Caterpie",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/1.webp"
+  },
+  {
+    "id": "swsh8-3",
+    "number": "3",
+    "name": "Butterfree",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/3.webp"
+  },
+  {
+    "id": "swsh8-6",
+    "number": "6",
+    "name": "Breloom V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/6.webp"
+  },
+  {
+    "id": "swsh8-16",
+    "number": "16",
+    "name": "Phantump",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/16.webp"
+  },
+  {
+    "id": "swsh8-28",
+    "number": "28",
+    "name": "Vulpix",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/28.webp"
+  },
+  {
+    "id": "swsh8-30",
+    "number": "30",
+    "name": "Ninetales",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/30.webp"
+  },
+  {
+    "id": "swsh8-32",
+    "number": "32",
+    "name": "Growlithe",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/32.webp"
+  },
+  {
+    "id": "swsh8-33",
+    "number": "33",
+    "name": "Arcanine",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/33.webp"
+  },
+  {
+    "id": "swsh8-43",
+    "number": "43",
+    "name": "Cinderace V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/43.webp"
+  },
+  {
+    "id": "swsh8-56",
+    "number": "56",
+    "name": "Croconaw",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/56.webp"
+  },
+  {
+    "id": "swsh8-73",
+    "number": "73",
+    "name": "Greninja V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/73.webp"
+  },
+  {
+    "id": "swsh8-86",
+    "number": "86",
+    "name": "Pikachu V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/86.webp"
+  },
+  {
+    "id": "swsh8-91",
+    "number": "91",
+    "name": "Shinx",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/91.webp"
+  },
+  {
+    "id": "swsh8-93",
+    "number": "93",
+    "name": "Luxray",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/93.webp"
+  },
+  {
+    "id": "swsh8-102",
+    "number": "102",
+    "name": "Zeraora",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/102.webp"
+  },
+  {
+    "id": "swsh8-113",
+    "number": "113",
+    "name": "Mew V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/113.webp"
+  },
+  {
+    "id": "swsh8-114",
+    "number": "114",
+    "name": "Mew VMAX",
+    "rarity": "Holo Rare VMAX",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/114.webp"
+  },
+  {
+    "id": "swsh8-120",
+    "number": "120",
+    "name": "Deoxys",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/120.webp"
+  },
+  {
+    "id": "swsh8-130",
+    "number": "130",
+    "name": "Dragapult",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/130.webp"
+  },
+  {
+    "id": "swsh8-156",
+    "number": "156",
+    "name": "Gengar V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/156.webp"
+  },
+  {
+    "id": "swsh8-157",
+    "number": "157",
+    "name": "Gengar VMAX",
+    "rarity": "Holo Rare VMAX",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/157.webp"
+  },
+  {
+    "id": "swsh8-185",
+    "number": "185",
+    "name": "Genesect V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/185.webp"
+  },
+  {
+    "id": "swsh8-269",
+    "number": "269",
+    "name": "Mew VMAX",
+    "rarity": "Secret Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/269.webp"
+  },
+  {
+    "id": "swsh8-270",
+    "number": "270",
+    "name": "Espeon VMAX",
+    "rarity": "Secret Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/270.webp"
+  },
+  {
+    "id": "swsh8-271",
+    "number": "271",
+    "name": "Gengar VMAX",
+    "rarity": "Secret Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/fusion-strike/cards/271.webp"
+  }
+]

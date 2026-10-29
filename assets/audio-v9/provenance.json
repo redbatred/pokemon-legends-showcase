@@ -1,0 +1,103 @@
+{
+  "verifiedDate": "2026-10-28",
+  "source": {
+    "title": "SFX_STICKERRIPPER_candyWrapper_20.wav",
+    "creator": "MrFossy",
+    "page": "https://freesound.org/people/MrFossy/sounds/590195/",
+    "previewUrl": "https://cdn.freesound.org/previews/590/590195_129727-hq.mp3",
+    "sha256": "7166e92f3f01bcc191be61c7703c52fbd1922271d96ec57a03a9947e8737c7bd",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "recording": "Real plastic candy wrapper peeled off adhesive contact film; Rode NT1 into Universal Audio Arrow.",
+    "sourceFormat": "Provider HQ MP3 preview; original is 44.1 kHz, 24-bit mono WAV.",
+    "publishedDate": "2021-10-04"
+  },
+  "processing": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "audition": "No human audition claimed. Verified primary recording/license description, inspected spectra/envelopes, checked decoding, duration, finite samples, true-peak estimate and hashes. No added speech, music, synthesized noise, reverb or tonal layer."
+  },
+  "cues": {
+    "packtear": {
+      "range": [
+        0.025,
+        0.905
+      ],
+      "tempo": 0.88,
+      "duration": 1.0,
+      "fadeIn": 0.006,
+      "fadeOut": 0.1,
+      "peak": -5.5,
+      "gain": 0.3,
+      "filters": "atrim=start=0.025:end=0.905,asetpts=PTS-STARTPTS,atempo=0.88,highpass=f=180:p=2,lowpass=f=12500:p=2,acompressor=threshold=0.03:ratio=3:attack=0.5:release=35:knee=2,volume=24,alimiter=limit=0.125:attack=0.5:release=20:level=false:latency=true,apad,atrim=duration=1.0,afade=t=in:d=0.006,afade=t=out:st=0.9:d=0.1",
+      "normalizationGainDb": 10.289,
+      "files": {
+        "mp3": {
+          "sha256": "974e72e59769bf8ae93245bacbd5aa71c15b68ed3973b604441c7a30c7cf8b27",
+          "bytes": 21140,
+          "decodedDuration": 1.0,
+          "stream": {
+            "codec_name": "mp3",
+            "sample_rate": "48000",
+            "channels": 1
+          },
+          "peak4xDbfs": -5.851,
+          "rmsDbfs": -25.324
+        },
+        "ogg": {
+          "sha256": "a840c3c44e78e92b8eb64a9fbec421d1f0710fbd3761188eb12819e074a86608",
+          "bytes": 16665,
+          "decodedDuration": 1.0,
+          "stream": {
+            "codec_name": "opus",
+            "sample_rate": "48000",
+            "channels": 1
+          },
+          "peak4xDbfs": -5.434,
+          "rmsDbfs": -24.925
+        }
+      }
+    },
+    "packrustle": {
+      "range": [
+        0.38,
+        0.63
+      ],
+      "tempo": 1,
+      "duration": 0.25,
+      "fadeIn": 0.015,
+      "fadeOut": 0.06,
+      "peak": -10,
+      "gain": 0.18,
+      "filters": "atrim=start=0.38:end=0.63,asetpts=PTS-STARTPTS,atempo=1,highpass=f=180:p=2,lowpass=f=12500:p=2,acompressor=threshold=0.03:ratio=3:attack=0.5:release=35:knee=2,volume=24,alimiter=limit=0.125:attack=0.5:release=20:level=false:latency=true,apad,atrim=duration=0.25,afade=t=in:d=0.015,afade=t=out:st=0.19:d=0.06",
+      "normalizationGainDb": 5.962,
+      "files": {
+        "mp3": {
+          "sha256": "f00501532c21455225508423b7a5eb503708bd11d971d79529d8c84fa621ebe6",
+          "bytes": 6260,
+          "decodedDuration": 0.25,
+          "stream": {
+            "codec_name": "mp3",
+            "sample_rate": "48000",
+            "channels": 1
+          },
+          "peak4xDbfs": -10.395,
+          "rmsDbfs": -30.769
+        },
+        "ogg": {
+          "sha256": "50badd704ac25d225193304726b359c911412130e6e8995987c946b04cee4112",
+          "bytes": 4859,
+          "decodedDuration": 0.25,
+          "stream": {
+            "codec_name": "opus",
+            "sample_rate": "48000",
+            "channels": 1
+          },
+          "peak4xDbfs": -9.927,
+          "rmsDbfs": -30.276
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "ballbounce": {
+    "files": {
+      "wav": "/pokemon-legends-showcase/assets/audio-v7/ballbounce.wav"
+    },
+    "duration": 0.16,
+    "gain": 0.38,
+    "peakDbfs": -4.5,
+    "sourceSound": "Poké Ball ground contact",
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "onset": 0.001604167,
+      "peak": 0.0089375
+    }
+  },
+  "ballsettle": {
+    "files": {
+      "wav": "/pokemon-legends-showcase/assets/audio-v7/ballsettle.wav"
+    },
+    "duration": 0.16,
+    "gain": 0.38,
+    "peakDbfs": -10.5,
+    "sourceSound": "Poké Ball ground contact",
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "onset": 0.001604167,
+      "peak": 0.0089375
+    }
+  }
+}

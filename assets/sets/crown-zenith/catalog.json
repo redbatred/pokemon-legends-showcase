@@ -1,0 +1,177 @@
+[
+  {
+    "id": "swsh12.5-001",
+    "number": "001",
+    "name": "Oddish",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/001.webp"
+  },
+  {
+    "id": "swsh12.5-004",
+    "number": "004",
+    "name": "Tangela",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/004.webp"
+  },
+  {
+    "id": "swsh12.5-006",
+    "number": "006",
+    "name": "Scyther",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/006.webp"
+  },
+  {
+    "id": "swsh12.5-011",
+    "number": "011",
+    "name": "Cherubi",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/011.webp"
+  },
+  {
+    "id": "swsh12.5-018",
+    "number": "018",
+    "name": "Charizard V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/018.webp"
+  },
+  {
+    "id": "swsh12.5-019",
+    "number": "019",
+    "name": "Charizard VSTAR",
+    "rarity": "Holo Rare VSTAR",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/019.webp"
+  },
+  {
+    "id": "swsh12.5-020",
+    "number": "020",
+    "name": "Radiant Charizard",
+    "rarity": "Radiant Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/020.webp"
+  },
+  {
+    "id": "swsh12.5-036",
+    "number": "036",
+    "name": "Kyogre",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/036.webp"
+  },
+  {
+    "id": "swsh12.5-037",
+    "number": "037",
+    "name": "Kyogre V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/037.webp"
+  },
+  {
+    "id": "swsh12.5-047",
+    "number": "047",
+    "name": "Emolga",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/047.webp"
+  },
+  {
+    "id": "swsh12.5-059",
+    "number": "059",
+    "name": "Mewtwo",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/059.webp"
+  },
+  {
+    "id": "swsh12.5-060",
+    "number": "060",
+    "name": "Mew V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/060.webp"
+  },
+  {
+    "id": "swsh12.5-071",
+    "number": "071",
+    "name": "Riolu",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/071.webp"
+  },
+  {
+    "id": "swsh12.5-108",
+    "number": "108",
+    "name": "Eevee V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/108.webp"
+  },
+  {
+    "id": "swsh12.5-109",
+    "number": "109",
+    "name": "Snorlax",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/109.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG05",
+    "number": "GG05",
+    "name": "Lapras",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG05.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG10",
+    "number": "GG10",
+    "name": "Mew",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG10.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG20",
+    "number": "GG20",
+    "name": "Latias",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG20.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG30",
+    "number": "GG30",
+    "name": "Pikachu",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG30.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG35",
+    "number": "GG35",
+    "name": "Leafeon VSTAR",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG35.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG38",
+    "number": "GG38",
+    "name": "Suicune V",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG38.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG41",
+    "number": "GG41",
+    "name": "Raikou V",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG41.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG44",
+    "number": "GG44",
+    "name": "Mewtwo VSTAR",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG44.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG69",
+    "number": "GG69",
+    "name": "Giratina VSTAR",
+    "rarity": "Secret Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG69.webp"
+  },
+  {
+    "id": "swsh12.5gg-GG70",
+    "number": "GG70",
+    "name": "Arceus VSTAR",
+    "rarity": "Secret Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/crown-zenith/cards/GG70.webp"
+  }
+]

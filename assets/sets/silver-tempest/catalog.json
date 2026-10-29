@@ -1,0 +1,177 @@
+[
+  {
+    "id": "swsh12-001",
+    "number": "001",
+    "name": "Venonat",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/001.webp"
+  },
+  {
+    "id": "swsh12-002",
+    "number": "002",
+    "name": "Venomoth",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/002.webp"
+  },
+  {
+    "id": "swsh12-003",
+    "number": "003",
+    "name": "Spinarak",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/003.webp"
+  },
+  {
+    "id": "swsh12-005",
+    "number": "005",
+    "name": "Sunkern",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/005.webp"
+  },
+  {
+    "id": "swsh12-011",
+    "number": "011",
+    "name": "Foongus",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/011.webp"
+  },
+  {
+    "id": "swsh12-017",
+    "number": "017",
+    "name": "Vulpix",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/017.webp"
+  },
+  {
+    "id": "swsh12-018",
+    "number": "018",
+    "name": "Ninetales",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/018.webp"
+  },
+  {
+    "id": "swsh12-020",
+    "number": "020",
+    "name": "Arcanine",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/020.webp"
+  },
+  {
+    "id": "swsh12-025",
+    "number": "025",
+    "name": "Fennekin",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/025.webp"
+  },
+  {
+    "id": "swsh12-026",
+    "number": "026",
+    "name": "Braixen",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/026.webp"
+  },
+  {
+    "id": "swsh12-027",
+    "number": "027",
+    "name": "Delphox",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/027.webp"
+  },
+  {
+    "id": "swsh12-036",
+    "number": "036",
+    "name": "Articuno",
+    "rarity": "Holo Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/036.webp"
+  },
+  {
+    "id": "swsh12-037",
+    "number": "037",
+    "name": "Wailmer",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/037.webp"
+  },
+  {
+    "id": "swsh12-038",
+    "number": "038",
+    "name": "Wailord",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/038.webp"
+  },
+  {
+    "id": "swsh12-046",
+    "number": "046",
+    "name": "Keldeo",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/046.webp"
+  },
+  {
+    "id": "swsh12-049",
+    "number": "049",
+    "name": "Pikachu",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/049.webp"
+  },
+  {
+    "id": "swsh12-051",
+    "number": "051",
+    "name": "Chinchou",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/051.webp"
+  },
+  {
+    "id": "swsh12-059",
+    "number": "059",
+    "name": "Radiant Alakazam",
+    "rarity": "Radiant Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/059.webp"
+  },
+  {
+    "id": "swsh12-060",
+    "number": "060",
+    "name": "Drowzee",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/060.webp"
+  },
+  {
+    "id": "swsh12-063",
+    "number": "063",
+    "name": "Misdreavus",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/063.webp"
+  },
+  {
+    "id": "swsh12-069",
+    "number": "069",
+    "name": "Gardevoir",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/069.webp"
+  },
+  {
+    "id": "swsh12-138",
+    "number": "138",
+    "name": "Lugia V",
+    "rarity": "Holo Rare V",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/138.webp"
+  },
+  {
+    "id": "swsh12-186",
+    "number": "186",
+    "name": "Lugia V",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/186.webp"
+  },
+  {
+    "id": "swsh12-193",
+    "number": "193",
+    "name": "Serena",
+    "rarity": "Ultra Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/193.webp"
+  },
+  {
+    "id": "swsh12tg-TG20",
+    "number": "TG20",
+    "name": "Rayquaza VMAX",
+    "rarity": "Holo Rare VMAX",
+    "image": "/pokemon-legends-showcase/assets/sets/silver-tempest/cards/TG20.webp"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "title": "Battle (VS Trainer) \u2014 1997\u20131998 M56",
+  "files": {
+    "mp3": "/pokemon-legends-showcase/assets/audio-v13/battle.mp3",
+    "ogg": "/pokemon-legends-showcase/assets/audio-v13/battle.ogg"
+  },
+  "duration": 69.549,
+  "loop": true,
+  "gain": 0.34,
+  "duckedGain": 0.16
+}

@@ -1,0 +1,177 @@
+[
+  {
+    "id": "sv03.5-001",
+    "number": "001",
+    "name": "Bulbasaur",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/001.webp"
+  },
+  {
+    "id": "sv03.5-002",
+    "number": "002",
+    "name": "Ivysaur",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/002.webp"
+  },
+  {
+    "id": "sv03.5-003",
+    "number": "003",
+    "name": "Venusaur ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/003.webp"
+  },
+  {
+    "id": "sv03.5-004",
+    "number": "004",
+    "name": "Charmander",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/004.webp"
+  },
+  {
+    "id": "sv03.5-005",
+    "number": "005",
+    "name": "Charmeleon",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/005.webp"
+  },
+  {
+    "id": "sv03.5-006",
+    "number": "006",
+    "name": "Charizard ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/006.webp"
+  },
+  {
+    "id": "sv03.5-007",
+    "number": "007",
+    "name": "Squirtle",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/007.webp"
+  },
+  {
+    "id": "sv03.5-008",
+    "number": "008",
+    "name": "Wartortle",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/008.webp"
+  },
+  {
+    "id": "sv03.5-009",
+    "number": "009",
+    "name": "Blastoise ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/009.webp"
+  },
+  {
+    "id": "sv03.5-025",
+    "number": "025",
+    "name": "Pikachu",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/025.webp"
+  },
+  {
+    "id": "sv03.5-026",
+    "number": "026",
+    "name": "Raichu",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/026.webp"
+  },
+  {
+    "id": "sv03.5-039",
+    "number": "039",
+    "name": "Jigglypuff",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/039.webp"
+  },
+  {
+    "id": "sv03.5-052",
+    "number": "052",
+    "name": "Meowth",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/052.webp"
+  },
+  {
+    "id": "sv03.5-054",
+    "number": "054",
+    "name": "Psyduck",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/054.webp"
+  },
+  {
+    "id": "sv03.5-063",
+    "number": "063",
+    "name": "Abra",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/063.webp"
+  },
+  {
+    "id": "sv03.5-065",
+    "number": "065",
+    "name": "Alakazam ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/065.webp"
+  },
+  {
+    "id": "sv03.5-092",
+    "number": "092",
+    "name": "Gastly",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/092.webp"
+  },
+  {
+    "id": "sv03.5-093",
+    "number": "093",
+    "name": "Haunter",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/093.webp"
+  },
+  {
+    "id": "sv03.5-094",
+    "number": "094",
+    "name": "Gengar",
+    "rarity": "Rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/094.webp"
+  },
+  {
+    "id": "sv03.5-133",
+    "number": "133",
+    "name": "Eevee",
+    "rarity": "Common",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/133.webp"
+  },
+  {
+    "id": "sv03.5-143",
+    "number": "143",
+    "name": "Snorlax",
+    "rarity": "Uncommon",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/143.webp"
+  },
+  {
+    "id": "sv03.5-151",
+    "number": "151",
+    "name": "Mew ex",
+    "rarity": "Double rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/151.webp"
+  },
+  {
+    "id": "sv03.5-198",
+    "number": "198",
+    "name": "Venusaur ex",
+    "rarity": "Special illustration rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/198.webp"
+  },
+  {
+    "id": "sv03.5-199",
+    "number": "199",
+    "name": "Charizard ex",
+    "rarity": "Special illustration rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/199.webp"
+  },
+  {
+    "id": "sv03.5-200",
+    "number": "200",
+    "name": "Blastoise ex",
+    "rarity": "Special illustration rare",
+    "image": "/pokemon-legends-showcase/assets/sets/pokemon-151/cards/200.webp"
+  }
+]

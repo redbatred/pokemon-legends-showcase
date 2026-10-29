@@ -1,0 +1,1043 @@
+{
+  "aeroblast": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/aeroblast.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/aeroblast.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "sourceSound": "Aeroblast",
+    "species": [
+      "lugia"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.73,
+      "playbackDuration": 0.95,
+      "earlyStopFade": 0.18
+    }
+  },
+  "aurorabeam": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/aurorabeam.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/aurorabeam.ogg"
+    },
+    "duration": 2.620646,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Aurora Beam",
+    "species": [
+      "suicune"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.12,
+      "releaseAt": 0.12,
+      "activeEnd": 2.601,
+      "strongest20msWindowAt": 0.82,
+      "playbackDuration": 2.620646,
+      "earlyStopFade": 0.18
+    }
+  },
+  "blazekick": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/blazekick.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/blazekick.ogg"
+    },
+    "duration": 2.202688,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Blaze Kick",
+    "species": [
+      "cinderace"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.45,
+      "releaseAt": 0.45,
+      "activeEnd": 1.84,
+      "strongest20msWindowAt": 0.88,
+      "playbackDuration": 2.202688,
+      "earlyStopFade": 0.18
+    }
+  },
+  "bulletpunch": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/bulletpunch.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/bulletpunch.ogg"
+    },
+    "duration": 1.662813,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Bullet Punch",
+    "species": [
+      "scizor"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.08,
+      "releaseAt": 0.08,
+      "activeEnd": 1.54,
+      "strongest20msWindowAt": 0.48,
+      "playbackDuration": 1.662813,
+      "earlyStopFade": 0.18
+    }
+  },
+  "dark": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/dark.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/dark.ogg"
+    },
+    "duration": 1.0,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Dark Pulse",
+    "species": [
+      "umbreon"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.78,
+      "playbackDuration": 1.0,
+      "earlyStopFade": 0.18
+    }
+  },
+  "disarmingvoice": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/disarmingvoice.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/disarmingvoice.ogg"
+    },
+    "duration": 2.806396,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.26,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Disarming Voice",
+    "species": [
+      "cleffa"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.04,
+      "releaseAt": 0.04,
+      "activeEnd": 2.58,
+      "strongest20msWindowAt": 1.96,
+      "playbackDuration": 2.806396,
+      "earlyStopFade": 0.18
+    }
+  },
+  "discharge": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/discharge.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/discharge.ogg"
+    },
+    "duration": 2.9225,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Discharge",
+    "species": [
+      "dracozolt",
+      "rotom"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.2,
+      "releaseAt": 0.2,
+      "activeEnd": 2.56,
+      "strongest20msWindowAt": 0.66,
+      "playbackDuration": 2.9225,
+      "earlyStopFade": 0.18
+    }
+  },
+  "dragonascent": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/dragonascent.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/dragonascent.ogg"
+    },
+    "duration": 6.051396,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Dragon Ascent",
+    "species": [
+      "rayquaza"
+    ],
+    "timing": {
+      "startOffset": 3.3,
+      "preRoll": 0.62,
+      "releaseAt": 3.92,
+      "activeEnd": 5.96,
+      "strongest20msWindowAt": 4.0,
+      "playbackDuration": 2.751396,
+      "earlyStopFade": 0.18
+    }
+  },
+  "electric": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/electric.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/electric.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.2,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Thunderbolt",
+    "species": [
+      "pikachu"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.75,
+      "playbackDuration": 0.95,
+      "earlyStopFade": 0.18
+    }
+  },
+  "fairy": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/fairy.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/fairy.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.23,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Dazzling Gleam",
+    "species": [
+      "gardevoir"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.87,
+      "playbackDuration": 1.1,
+      "earlyStopFade": 0.18
+    }
+  },
+  "fire": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/fire.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/fire.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.25,
+    "peakDbfs": -6,
+    "gain": 0.4,
+    "sourceSound": "Flamethrower",
+    "species": [
+      "charizard"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.85,
+      "playbackDuration": 1.1,
+      "earlyStopFade": 0.18
+    }
+  },
+  "fireblast": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/fireblast.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/fireblast.ogg"
+    },
+    "duration": 4.931021,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Fire Blast",
+    "species": [
+      "ninetales"
+    ],
+    "timing": {
+      "startOffset": 0.84,
+      "preRoll": 0.08,
+      "releaseAt": 0.92,
+      "activeEnd": 4.74,
+      "strongest20msWindowAt": 1.42,
+      "playbackDuration": 4.091021,
+      "earlyStopFade": 0.18
+    }
+  },
+  "firespin": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/firespin.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/firespin.ogg"
+    },
+    "duration": 1.610583,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Fire Spin",
+    "species": [
+      "moltres"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.02,
+      "releaseAt": 0.02,
+      "activeEnd": 1.591,
+      "strongest20msWindowAt": 0.04,
+      "playbackDuration": 1.610583,
+      "earlyStopFade": 0.18
+    }
+  },
+  "flashcannon": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/flashcannon.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/flashcannon.ogg"
+    },
+    "duration": 3.410125,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Flash Cannon",
+    "species": [
+      "duraludon"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.5,
+      "releaseAt": 0.5,
+      "activeEnd": 3.02,
+      "strongest20msWindowAt": 0.54,
+      "playbackDuration": 3.410125,
+      "earlyStopFade": 0.18
+    }
+  },
+  "ground": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/ground.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/ground.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.25,
+    "peakDbfs": -6,
+    "gain": 0.32,
+    "sourceSound": "Earthquake",
+    "species": [
+      "clodsire",
+      "tyranitar"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.85,
+      "playbackDuration": 1.1,
+      "earlyStopFade": 0.18
+    }
+  },
+  "gyroball": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/gyroball.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/gyroball.ogg"
+    },
+    "duration": 3.31725,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.26,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Gyro Ball",
+    "species": [
+      "forretress"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.96,
+      "releaseAt": 0.96,
+      "activeEnd": 3.24,
+      "strongest20msWindowAt": 1.52,
+      "playbackDuration": 3.31725,
+      "earlyStopFade": 0.18
+    }
+  },
+  "hurricane": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/hurricane.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/hurricane.ogg"
+    },
+    "duration": 3.711979,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.26,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Hurricane",
+    "species": [
+      "pidgeot"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.16,
+      "releaseAt": 0.16,
+      "activeEnd": 3.42,
+      "strongest20msWindowAt": 1.26,
+      "playbackDuration": 3.711979,
+      "earlyStopFade": 0.18
+    }
+  },
+  "hydropump": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v5/hydropump.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v5/hydropump.ogg"
+    },
+    "duration": 4.13575,
+    "decay": 0.06,
+    "peakDbfs": -6,
+    "gain": 0.32,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Hydro Pump",
+    "species": [
+      "blastoise",
+      "gyarados"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.24,
+      "releaseAt": 0.24,
+      "activeEnd": 2.7,
+      "naturalTailStart": 2.8,
+      "strongest20msWindowAt": 0.96,
+      "notes": "The original water onset grows over its first ~350 ms. Begin at anticipation, release the jet 240 ms later, sustain through ~2.7 s, then let the existing decaying tail finish.",
+      "playbackDuration": 4.13575,
+      "earlyStopFade": 0.18,
+      "basis": "20 ms and 100 ms RMS envelope analysis; release alignment is an editorial recommendation, not an official animation event timestamp or a human audition."
+    }
+  },
+  "hyperbeam": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/hyperbeam.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/hyperbeam.ogg"
+    },
+    "duration": 1.0,
+    "decay": 0.24,
+    "peakDbfs": -6,
+    "gain": 0.3,
+    "sourceSound": "Hyper Beam",
+    "species": [
+      "arceus",
+      "dragonite"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.76,
+      "playbackDuration": 1.0,
+      "earlyStopFade": 0.18
+    }
+  },
+  "ice": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/ice.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/ice.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.25,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Ice Beam",
+    "species": [
+      "articuno"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.85,
+      "playbackDuration": 1.1,
+      "earlyStopFade": 0.18
+    }
+  },
+  "icywind": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/icywind.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/icywind.ogg"
+    },
+    "duration": 4.667854,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.26,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Icy Wind",
+    "species": [
+      "glaceon"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.1,
+      "releaseAt": 0.1,
+      "activeEnd": 3.42,
+      "strongest20msWindowAt": 0.42,
+      "playbackDuration": 4.667854,
+      "earlyStopFade": 0.18
+    }
+  },
+  "leafblade": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/leafblade.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/leafblade.ogg"
+    },
+    "duration": 2.4465,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Leaf Blade",
+    "species": [
+      "leafeon"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.08,
+      "releaseAt": 0.08,
+      "activeEnd": 1.96,
+      "strongest20msWindowAt": 0.46,
+      "playbackDuration": 2.4465,
+      "earlyStopFade": 0.18
+    }
+  },
+  "megadrain": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/megadrain.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/megadrain.ogg"
+    },
+    "duration": 2.730938,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.26,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Mega Drain",
+    "species": [
+      "oddish"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.06,
+      "releaseAt": 0.06,
+      "activeEnd": 2.48,
+      "strongest20msWindowAt": 1.26,
+      "playbackDuration": 2.730938,
+      "earlyStopFade": 0.18
+    }
+  },
+  "moonblast": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/moonblast.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/moonblast.ogg"
+    },
+    "duration": 4.286667,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.26,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Moonblast",
+    "species": [
+      "sylveon"
+    ],
+    "timing": {
+      "startOffset": 1.02,
+      "preRoll": 0.14,
+      "releaseAt": 1.16,
+      "activeEnd": 3.48,
+      "strongest20msWindowAt": 2.44,
+      "playbackDuration": 3.266667,
+      "earlyStopFade": 0.18
+    }
+  },
+  "originpulse": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/originpulse.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/originpulse.ogg"
+    },
+    "duration": 5.900458,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Origin Pulse",
+    "species": [
+      "kyogre"
+    ],
+    "timing": {
+      "startOffset": 3.48,
+      "preRoll": 0.12,
+      "releaseAt": 3.6,
+      "activeEnd": 5.84,
+      "strongest20msWindowAt": 4.32,
+      "playbackDuration": 2.420458,
+      "earlyStopFade": 0.18
+    }
+  },
+  "petals": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/petals.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/petals.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.26,
+    "sourceSound": "Petal Blizzard",
+    "species": [
+      "gloom",
+      "venusaur"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.73,
+      "playbackDuration": 0.95,
+      "earlyStopFade": 0.18
+    }
+  },
+  "powergem": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/powergem.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/powergem.ogg"
+    },
+    "duration": 4.164771,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.26,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Power Gem",
+    "species": [
+      "starmie"
+    ],
+    "timing": {
+      "startOffset": 0.94,
+      "preRoll": 0.08,
+      "releaseAt": 1.02,
+      "activeEnd": 2.68,
+      "strongest20msWindowAt": 1.54,
+      "playbackDuration": 3.224771,
+      "earlyStopFade": 0.18
+    }
+  },
+  "psybeam": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/psybeam.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/psybeam.ogg"
+    },
+    "duration": 3.468167,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Psybeam",
+    "species": [
+      "espeon"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.4,
+      "releaseAt": 0.4,
+      "activeEnd": 2.74,
+      "strongest20msWindowAt": 1.88,
+      "playbackDuration": 3.468167,
+      "earlyStopFade": 0.18
+    }
+  },
+  "psychic": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/psychic.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/psychic.ogg"
+    },
+    "duration": 1.1,
+    "decay": 0.23,
+    "peakDbfs": -6,
+    "gain": 0.34,
+    "sourceSound": "Psychic",
+    "species": [
+      "alakazam",
+      "mew"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.87,
+      "playbackDuration": 1.1,
+      "earlyStopFade": 0.18
+    }
+  },
+  "psystrike": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v5/psystrike.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v5/psystrike.ogg"
+    },
+    "duration": 4.426,
+    "decay": 0.06,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Psystrike",
+    "species": [
+      "mewtwo"
+    ],
+    "timing": {
+      "startOffset": 2.78,
+      "preRoll": 0.04,
+      "releaseAt": 2.82,
+      "activeEnd": 3.8,
+      "naturalTailStart": 3.85,
+      "strongest20msWindowAt": 3.6,
+      "fullSequenceAlternative": {
+        "startOffset": 0,
+        "preRoll": 2.82,
+        "releaseAt": 2.82
+      },
+      "notes": "The source has two distinct phrases, with a low-energy gap immediately before the second onset at 2.80 s. Default playback seeks to 2.78 s and reveals 40 ms later. Alternatively play the entire recording with 2.82 s anticipation. The phase interpretation is editorial, not verified game-engine event metadata. Use only for Mewtwo; do not map to every psychic species.",
+      "playbackDuration": 1.646,
+      "earlyStopFade": 0.18,
+      "basis": "20 ms and 100 ms RMS envelope analysis; release alignment is an editorial recommendation, not an official animation event timestamp or a human audition."
+    }
+  },
+  "rockslide": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/rockslide.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/rockslide.ogg"
+    },
+    "duration": 3.711979,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.26,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Rock Slide",
+    "species": [
+      "aerodactyl"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.08,
+      "releaseAt": 0.08,
+      "activeEnd": 3.18,
+      "strongest20msWindowAt": 1.54,
+      "playbackDuration": 3.711979,
+      "earlyStopFade": 0.18
+    }
+  },
+  "seedbomb": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/seedbomb.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/seedbomb.ogg"
+    },
+    "duration": 2.121417,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.26,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Seed Bomb",
+    "species": [
+      "breloom",
+      "trevenant"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.02,
+      "releaseAt": 0.02,
+      "activeEnd": 1.8,
+      "strongest20msWindowAt": 0.56,
+      "playbackDuration": 2.121417,
+      "earlyStopFade": 0.18
+    }
+  },
+  "shadowball": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/shadowball.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/shadowball.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "sourceSound": "Shadow Ball",
+    "species": [
+      "gengar"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.73,
+      "playbackDuration": 0.95,
+      "earlyStopFade": 0.18
+    }
+  },
+  "shadowforce": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/shadowforce.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/shadowforce.ogg"
+    },
+    "duration": 2.992792,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Shadow Force",
+    "species": [
+      "giratina"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.1,
+      "releaseAt": 0.1,
+      "activeEnd": 2.82,
+      "strongest20msWindowAt": 0.38,
+      "playbackDuration": 2.992792,
+      "earlyStopFade": 0.18
+    }
+  },
+  "swift": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/swift.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/swift.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.2,
+    "peakDbfs": -6,
+    "gain": 0.26,
+    "sourceSound": "Swift",
+    "species": [
+      "eevee"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.75,
+      "playbackDuration": 0.95,
+      "earlyStopFade": 0.18
+    }
+  },
+  "technoblast": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/technoblast.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/technoblast.ogg"
+    },
+    "duration": 4.431792,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Techno Blast",
+    "species": [
+      "genesect"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.12,
+      "releaseAt": 0.12,
+      "activeEnd": 4.32,
+      "strongest20msWindowAt": 2.34,
+      "playbackDuration": 4.431792,
+      "earlyStopFade": 0.18
+    }
+  },
+  "thunder": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/thunder.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/thunder.ogg"
+    },
+    "duration": 4.530479,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Thunder",
+    "species": [
+      "zapdos"
+    ],
+    "timing": {
+      "startOffset": 2.04,
+      "preRoll": 0.12,
+      "releaseAt": 2.16,
+      "activeEnd": 4.32,
+      "strongest20msWindowAt": 2.9,
+      "playbackDuration": 2.490479,
+      "earlyStopFade": 0.18
+    }
+  },
+  "thunderpunch": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/thunderpunch.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/thunderpunch.ogg"
+    },
+    "duration": 2.353625,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Thunder Punch",
+    "species": [
+      "raichu"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.12,
+      "releaseAt": 0.12,
+      "activeEnd": 1.98,
+      "strongest20msWindowAt": 0.88,
+      "playbackDuration": 2.353625,
+      "earlyStopFade": 0.18
+    }
+  },
+  "waterpulse": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v5/waterpulse.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v5/waterpulse.ogg"
+    },
+    "duration": 3.700375,
+    "decay": 0.06,
+    "peakDbfs": -6,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Water Pulse",
+    "species": [
+      "vaporeon"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.08,
+      "releaseAt": 0.08,
+      "secondaryPulseAt": 1.3,
+      "activeEnd": 2.1,
+      "naturalTailStart": 2.25,
+      "strongest20msWindowAt": 1.56,
+      "notes": "Keep the initial pulse and the stronger second pulse around 1.3\u20131.6 s. Suitable for an expanding wave with a second ring; do not restart the recording per ring.",
+      "playbackDuration": 3.700375,
+      "earlyStopFade": 0.18,
+      "basis": "20 ms and 100 ms RMS envelope analysis; release alignment is an editorial recommendation, not an official animation event timestamp or a human audition."
+    }
+  },
+  "watershuriken": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/watershuriken.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/watershuriken.ogg"
+    },
+    "duration": 1.436438,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Water Shuriken",
+    "species": [
+      "greninja"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.02,
+      "releaseAt": 0.02,
+      "activeEnd": 1.34,
+      "strongest20msWindowAt": 0.66,
+      "playbackDuration": 1.436438,
+      "earlyStopFade": 0.18
+    }
+  },
+  "wildcharge": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/wildcharge.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/wildcharge.ogg"
+    },
+    "duration": 2.806396,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "Wild Charge",
+    "species": [
+      "raikou"
+    ],
+    "timing": {
+      "startOffset": 0.26,
+      "preRoll": 0.04,
+      "releaseAt": 0.3,
+      "activeEnd": 2.786,
+      "strongest20msWindowAt": 0.6,
+      "playbackDuration": 2.546396,
+      "earlyStopFade": 0.18
+    }
+  },
+  "wind": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v4/wind.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v4/wind.ogg"
+    },
+    "duration": 0.95,
+    "decay": 0.22,
+    "peakDbfs": -6,
+    "gain": 0.33,
+    "sourceSound": "Gust",
+    "species": [
+      "pidgey"
+    ],
+    "pokemonMultiplier": 0.5,
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0,
+      "releaseAt": 0,
+      "activeEnd": 0.73,
+      "playbackDuration": 0.95,
+      "earlyStopFade": 0.18
+    }
+  },
+  "xscissor": {
+    "files": {
+      "mp3": "/pokemon-legends-showcase/assets/audio-v6/xscissor.mp3",
+      "ogg": "/pokemon-legends-showcase/assets/audio-v6/xscissor.ogg"
+    },
+    "duration": 1.819562,
+    "decay": 0.08,
+    "peakDbfs": -6.2,
+    "gain": 0.28,
+    "pokemonMultiplier": 0.5,
+    "sourceSound": "X-Scissor",
+    "species": [
+      "pinsir"
+    ],
+    "timing": {
+      "startOffset": 0,
+      "preRoll": 0.08,
+      "releaseAt": 0.08,
+      "activeEnd": 1.1,
+      "strongest20msWindowAt": 0.52,
+      "playbackDuration": 1.819562,
+      "earlyStopFade": 0.18
+    }
+  }
+}

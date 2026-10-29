@@ -1,0 +1,145 @@
+{
+  "verifiedDate": "2026-10-28",
+  "source": {
+    "title": "Crowd Cheer",
+    "creator": "FoolBoyMedia",
+    "page": "https://freesound.org/people/FoolBoyMedia/sounds/397434/",
+    "previewUrl": "https://cdn.freesound.org/previews/397/397434_4019029-hq.mp3",
+    "sha256": "b621e391cb850ff79d8c215faf295119e747340803429ffbb383b5eaf4a132d2",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sourceFormat": "Provider HQ MP3 preview; 44.1 kHz stereo; approx. 218 kb/s",
+    "capture": "Creator describes a sports win crowd captured on Tascam DR-05.",
+    "publishedDate": "2017-07-12"
+  },
+  "processing": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "filters": "highpass=f=70:p=2,lowpass=f=8000:p=2",
+    "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "loopMethod": "Last .75 s crossfades into first .75 s with cos/sin equal-power curves; then original middle; period 6 s.",
+    "audition": "No human audition claimed. Primary provider metadata, spectrogram, finite decoding, duration, headroom, seam and hash checks only."
+  },
+  "cues": {
+    "crowdrise": {
+      "sourceRangeSeconds": [
+        1.55,
+        3.45
+      ],
+      "loop": false,
+      "crossfadeSeconds": 0,
+      "normalizationGainDb": -9.059725,
+      "targetPeak4xDbfs": -7.5,
+      "pcmDuration": 1.9,
+      "pcmWrapSampleDeltaDbfs": -240.0,
+      "files": {
+        "mp3": {
+          "sha256": "968b421c7166b18a9b1be69179184ca061f80cf943eef35abbfb97a12a80373b",
+          "bytes": 47252,
+          "decodedDuration": 1.9,
+          "peak4xDbfs": -7.656,
+          "rmsDbfs": -20.767,
+          "wrapSampleDeltaDbfs": -69.45,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "mp3",
+                "sample_rate": "48000",
+                "channels": 2
+              }
+            ],
+            "format": {
+              "duration": "1.900000",
+              "bit_rate": "198955"
+            }
+          }
+        },
+        "ogg": {
+          "sha256": "8c00c9777bcfe8bea84f5509c9a5edbcc5e9372c232ee11f0961f1205640bf26",
+          "bytes": 37861,
+          "decodedDuration": 1.9,
+          "peak4xDbfs": -7.316,
+          "rmsDbfs": -20.517,
+          "wrapSampleDeltaDbfs": -57.965,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "opus",
+                "sample_rate": "48000",
+                "channels": 2
+              }
+            ],
+            "format": {
+              "duration": "1.906500",
+              "bit_rate": "158871"
+            }
+          }
+        }
+      }
+    },
+    "crowdcheer": {
+      "sourceRangeSeconds": [
+        8.0,
+        14.75
+      ],
+      "loop": true,
+      "crossfadeSeconds": 0.75,
+      "normalizationGainDb": -10.698446,
+      "targetPeak4xDbfs": -9.0,
+      "pcmDuration": 6.0,
+      "pcmWrapSampleDeltaDbfs": -44.793,
+      "files": {
+        "mp3": {
+          "sha256": "7fa8fe6072334ad2e7959eb6e0ee57a5a3fa7d56fa219ed826219d757aef2f9a",
+          "bytes": 145172,
+          "decodedDuration": 6.0,
+          "peak4xDbfs": -9.094,
+          "rmsDbfs": -25.23,
+          "wrapSampleDeltaDbfs": -46.433,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "mp3",
+                "sample_rate": "48000",
+                "channels": 2
+              }
+            ],
+            "format": {
+              "duration": "6.000000",
+              "bit_rate": "193562"
+            }
+          }
+        },
+        "ogg": {
+          "sha256": "d9e76b65c76ced207d30a7ac6df0d19c9ea68eebb1235ca8ba6458e3aa44f20a",
+          "bytes": 112404,
+          "decodedDuration": 6.0,
+          "peak4xDbfs": -8.834,
+          "rmsDbfs": -24.967,
+          "wrapSampleDeltaDbfs": -50.573,
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_name": "opus",
+                "sample_rate": "48000",
+                "channels": 2
+              }
+            ],
+            "format": {
+              "duration": "6.006500",
+              "bit_rate": "149709"
+            }
+          }
+        }
+      }
+    }
+  }
+}
