@@ -5850,5 +5850,150 @@
     "optimization": {
       "sha256": "001e1d3cf1a80cce07977654ddfc3be9cb1e4cf699728cc2740de33e69e11f10"
     }
+  },
+  "moltres-zapdos-articuno": {
+    "name": "Moltres & Zapdos & Articuno GX",
+    "species": "moltres-zapdos-articuno",
+    "dexId": 146,
+    "cryId": 146,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/moltres-zapdos-articuno.glb",
+    "bytes": 9657232,
+    "extensionsRequired": [
+      "EXT_texture_webp",
+      "KHR_draco_mesh_compression"
+    ],
+    "clips": [
+      {
+        "name": "idle",
+        "duration": 6.041666507720947,
+        "channels": 828,
+        "varyingSkinnedJointChannels": 172,
+        "movingSkinnedJointCount": 170,
+        "members": {
+          "moltres": {
+            "channels": 330,
+            "movingJointCount": 81
+          },
+          "zapdos": {
+            "channels": 225,
+            "movingJointCount": 44
+          },
+          "articuno": {
+            "channels": 273,
+            "movingJointCount": 45
+          }
+        }
+      },
+      {
+        "name": "enter",
+        "duration": 0.8999999761581421,
+        "channels": 828,
+        "varyingSkinnedJointChannels": 189,
+        "movingSkinnedJointCount": 187,
+        "members": {
+          "moltres": {
+            "channels": 330,
+            "movingJointCount": 82
+          },
+          "zapdos": {
+            "channels": 225,
+            "movingJointCount": 47
+          },
+          "articuno": {
+            "channels": 273,
+            "movingJointCount": 58
+          }
+        }
+      },
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 828,
+        "varyingSkinnedJointChannels": 238,
+        "movingSkinnedJointCount": 224,
+        "members": {
+          "moltres": {
+            "channels": 330,
+            "movingJointCount": 88
+          },
+          "zapdos": {
+            "channels": 225,
+            "movingJointCount": 61
+          },
+          "articuno": {
+            "channels": 273,
+            "movingJointCount": 75
+          }
+        }
+      }
+    ],
+    "idle": "idle",
+    "enter": "enter",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "enterStart": 0,
+    "enterEnd": 0.9,
+    "enterSpeed": 1,
+    "entranceDuration": 0.9,
+    "entranceAuthorship": "native-retimed-ensemble",
+    "entranceLabel": "Three legendary birds spread their wings",
+    "bounds": {
+      "min": [
+        -2.6906514125712664,
+        -0.008584123893614487,
+        -1.8228124899059281
+      ],
+      "max": [
+        2.9390435738357126,
+        3.2896141321287855,
+        1.0406533362903592
+      ],
+      "size": [
+        5.629694986406979,
+        3.2981982560224,
+        2.863465826196287
+      ],
+      "center": [
+        0.1241960806322231,
+        1.6405150041175856,
+        -0.3910795768077845
+      ],
+      "method": "CPU-skinned world-space vertices at synchronized idle t=0; three formation wrappers retained"
+    },
+    "entranceBounds": {
+      "min": [
+        -2.688651650146456,
+        -0.009339340078087094,
+        -1.829726017110486
+      ],
+      "max": [
+        2.774327832260156,
+        3.7553489963204787,
+        1.541732480943851
+      ],
+      "size": [
+        5.462979482406611,
+        3.764688336398566,
+        3.371458498054337
+      ],
+      "center": [
+        0.04283809105684999,
+        1.8730048281211957,
+        -0.14399676808331752
+      ],
+      "method": "CPU-skinned world-space vertices at 17 samples of synchronized entrance"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "optimization": {
+      "sourceBytes": 11664604,
+      "sha256": "5fe8a9ccaa09dbd87759b9781720f9d0bbc29f573937c926d099920149f952f4"
+    },
+    "notes": [
+      "Exact tag-team ensemble of the existing Moltres, Zapdos and Articuno assets. All source triangle attributes, inverse-bind matrices and toon-used encoded texture buffers retained. Sequential Draco compresses geometry with quantization disabled; duplicate identical vertices may be merged. Unused metallic-roughness and occlusion maps removed without changing any displayed texture pixels.",
+      "Original native clips are combined with time mapping only: idle cycles share a duration, selected native happy entrances run together, and attacks retain source times. Formation wrappers are static."
+    ]
   }
 }

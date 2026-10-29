@@ -293,5 +293,10 @@
     "dexId": 194,
     "image": "/pokemon-legends-showcase/assets/pokemon/wooper-paldean.png",
     "cryId": 10253
+  },
+  "Moltres & Zapdos & Articuno": {
+    "species": "moltres-zapdos-articuno",
+    "dexId": 146,
+    "image": "/pokemon-legends-showcase/assets/pokemon/moltres-zapdos-articuno.png"
   }
 }
