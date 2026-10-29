@@ -62,3 +62,11 @@ it('rotates the curated showcase cast without changing the card pool, price, or 
   const afterLimit=createPreviewOpening(save,pool,DEFAULT_PACK,illustrated,()=>0);
   expect(afterLimit.active?.cards[0].name).not.toBe(save.history[0].cards[0].name);
 });
+
+it('chooses the showcase art edition when two cards have the same demo value',()=>{
+  const holo={...rare,id:'mewtwo-holo',name:'Mewtwo',rarity:'Holo Rare',number:'059',value:250};
+  const fullArt={...holo,id:'mewtwo-vstar',name:'Mewtwo VSTAR',rarity:'Ultra Rare',number:'GG44'};
+  const pack={...DEFAULT_PACK,id:'crown-zenith'};
+  const opened=createPreviewOpening(newSave(),[holo,fullArt],pack,{Mewtwo:{dexId:150,image:'/assets/pokemon/mewtwo.png'}},()=>0);
+  expect(opened.active?.cards[0]).toEqual(fullArt);
+});

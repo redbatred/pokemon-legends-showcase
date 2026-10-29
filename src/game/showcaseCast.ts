@@ -13,3 +13,7 @@ export const SHOWCASE_CAST:Record<string,readonly string[]>={
   'base-set':['Charizard','Blastoise','Mewtwo','Venusaur','Zapdos'],
 };
 export const showcaseSpecies=(name:string)=>name.replace(/^Radiant /,'').replace(/ (?:ex|EX|GX|V|VMAX|VSTAR)$/,'');
+export function showcaseEdition(card:{name:string;rarity:string}){
+  const rarity=/Special|Secret|Hyper/i.test(card.rarity)?4:/Illustration|Ultra/i.test(card.rarity)?3:/Holo/i.test(card.rarity)?2:/Rare/i.test(card.rarity)?1:0;
+  return rarity*10+(/ (VMAX|VSTAR)$/.test(card.name)?3:/ (ex|EX|GX)$/.test(card.name)?2:/ V$/.test(card.name)?1:0);
+}
