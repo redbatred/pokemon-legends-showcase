@@ -1,0 +1,925 @@
+{
+  "models": {
+    "gengar-gigantamax": {
+      "validation": {
+        "sha256": "1fbc7a7bbd19c238b25c51708703a795a9f051762272e6a7693f1663949350a9",
+        "bytes": 1268084,
+        "skins": 6,
+        "verticesPerFrame": 9152,
+        "images": 4,
+        "allAccessorValuesFinite": true,
+        "allImagesDecode": true,
+        "allSampledSkinnedVerticesFinite": true,
+        "bindBounds": [
+          [
+            -1.0341367123907426,
+            -0.42953971019766973,
+            -1.2451198140481567
+          ],
+          [
+            1.0341373082279104,
+            1.5337148949043429,
+            1.4926241501307989
+          ]
+        ],
+        "clips": [
+          {
+            "name": "pm0094_81_00_ba10_waitA01",
+            "duration": 2.0,
+            "frames60Hz": 121,
+            "maxVertexRmsMovementNormalized": 0.028729987631425452,
+            "maxBoundsSpanRatio": 0.8243015722860251,
+            "bounds": [
+              {
+                "time": 0.0,
+                "min": [
+                  -1.0331367125036148,
+                  -0.45376110299729666,
+                  -0.9418423832672538
+                ],
+                "max": [
+                  1.223578317876571,
+                  1.513054443812673,
+                  0.9298504511127758
+                ]
+              },
+              {
+                "time": 1.0,
+                "min": [
+                  -1.0332982073305128,
+                  -0.46144266535399603,
+                  -0.9417944449015099
+                ],
+                "max": [
+                  1.2234167476130233,
+                  1.4837982616561223,
+                  0.9320611363261349
+                ]
+              },
+              {
+                "time": 2.0,
+                "min": [
+                  -1.0331367125036146,
+                  -0.45376110299729666,
+                  -0.9418423832672538
+                ],
+                "max": [
+                  1.223578317876571,
+                  1.5130544438126718,
+                  0.9298504511127758
+                ]
+              }
+            ]
+          },
+          {
+            "name": "pm0094_81_00_ba02_roar01",
+            "duration": 3.0,
+            "frames60Hz": 181,
+            "maxVertexRmsMovementNormalized": 0.19097010219632737,
+            "maxBoundsSpanRatio": 0.8826185466872886,
+            "bounds": [
+              {
+                "time": 0.0,
+                "min": [
+                  -1.0331367125036148,
+                  -0.45376110299729666,
+                  -0.9418423832672538
+                ],
+                "max": [
+                  1.223578317876571,
+                  1.513054443812673,
+                  0.9298504511127758
+                ]
+              },
+              {
+                "time": 1.5,
+                "min": [
+                  -1.1572038984931188,
+                  -0.44947618895217817,
+                  -0.9739605082579448
+                ],
+                "max": [
+                  1.2413292721648372,
+                  1.8519875630805456,
+                  1.0720799364052789
+                ]
+              },
+              {
+                "time": 3.0,
+                "min": [
+                  -1.0331367125036146,
+                  -0.45376110299729666,
+                  -0.9418423832672538
+                ],
+                "max": [
+                  1.223578317876571,
+                  1.5130544438126718,
+                  0.9298504511127758
+                ]
+              }
+            ]
+          },
+          {
+            "name": "pm0094_81_00_ba21_tokusyu01",
+            "duration": 2.6666667461395264,
+            "frames60Hz": 161,
+            "maxVertexRmsMovementNormalized": 0.2154395764202924,
+            "maxBoundsSpanRatio": 1.0521475305488315,
+            "bounds": [
+              {
+                "time": 0.0,
+                "min": [
+                  -1.0331367125036148,
+                  -0.45376110299729666,
+                  -0.9418423832672538
+                ],
+                "max": [
+                  1.223578317876571,
+                  1.513054443812673,
+                  0.9298504511127758
+                ]
+              },
+              {
+                "time": 1.3333333730697632,
+                "min": [
+                  -0.979248643445312,
+                  -0.481752319638019,
+                  -0.9226734670961455
+                ],
+                "max": [
+                  1.2674900998206227,
+                  1.5215269125026984,
+                  1.9375313061676787
+                ]
+              },
+              {
+                "time": 2.6666667461395264,
+                "min": [
+                  -1.0331367125036146,
+                  -0.45376110299729666,
+                  -0.9418423832672538
+                ],
+                "max": [
+                  1.223578317876571,
+                  1.5130544438126718,
+                  0.9298504511127758
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conversion": {
+        "coordinate_conversion": {
+          "translation": [
+            -1,
+            1,
+            1
+          ],
+          "quaternion": [
+            1,
+            -1,
+            -1,
+            1
+          ],
+          "unity_euler_order": "ZXY (qY*qX*qZ)"
+        },
+        "clips": [
+          {
+            "name": "pm0094_81_00_ba10_waitA01",
+            "duration": 2,
+            "channels": 195,
+            "animatedChannels": 51,
+            "skipped": [],
+            "maxScale": 1.0236058937528432
+          },
+          {
+            "name": "pm0094_81_00_ba02_roar01",
+            "duration": 3,
+            "channels": 195,
+            "animatedChannels": 91,
+            "skipped": [],
+            "maxScale": 1.074352065057143
+          },
+          {
+            "name": "pm0094_81_00_ba21_tokusyu01",
+            "duration": 2.6666667,
+            "channels": 195,
+            "animatedChannels": 116,
+            "skipped": [],
+            "maxScale": 1.25852270936349
+          }
+        ]
+      },
+      "sourceModel": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20%28Generation%201%29/pm0094_81_00.glb",
+      "sourceAnimation": "https://github.com/Lilothestitch16/Pokemon-HOME-Unity-Project/blob/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0094_81_00_ba21_tokusyu01.anim",
+      "bodyAuthorship": "native exact form",
+      "animationAuthorship": "native exact form",
+      "nativeClips": [
+        {
+          "filename": "pm0094_81_00_ba10_waitA01.anim",
+          "url": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0094_81_00_ba10_waitA01.anim",
+          "sha256": "1334609f977b152edcfe2780ed0ff54cd80dadabfac7c8904108057542816beb",
+          "events": [
+            {
+              "time": 0,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            }
+          ]
+        },
+        {
+          "filename": "pm0094_81_00_ba02_roar01.anim",
+          "url": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0094_81_00_ba02_roar01.anim",
+          "sha256": "9a1668cf7215b0b622f709db7ff5ce864d589f36c0d17905f192773e3d133e3c",
+          "events": [
+            {
+              "time": 0,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            }
+          ]
+        },
+        {
+          "filename": "pm0094_81_00_ba21_tokusyu01.anim",
+          "url": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0094_81_00_ba21_tokusyu01.anim",
+          "sha256": "586eaf20e1e412d05fb4d3948f20b5941cfd1fc60de3bed370c1f29e20f99642",
+          "events": [
+            {
+              "time": 0,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            },
+            {
+              "time": 0.6333333,
+              "functionName": "AK_EffectStart01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            }
+          ]
+        }
+      ]
+    },
+    "pikachu-gigantamax": {
+      "validation": {
+        "sha256": "3478b7aedbf6acc50288c7c364fdafaaa7a401e83c68190bfb4b41151b9986c8",
+        "bytes": 888352,
+        "skins": 2,
+        "verticesPerFrame": 15152,
+        "images": 4,
+        "allAccessorValuesFinite": true,
+        "allImagesDecode": true,
+        "allSampledSkinnedVerticesFinite": true,
+        "bindBounds": [
+          [
+            -0.7578218473014403,
+            0.0018209161119653384,
+            -3.553683014602625
+          ],
+          [
+            0.7578217621486835,
+            2.1163826277293047,
+            0.5930994139931408
+          ]
+        ],
+        "clips": [
+          {
+            "name": "pm0025_81_00_ba10_waitA01",
+            "duration": 1.6666666269302368,
+            "frames60Hz": 101,
+            "maxVertexRmsMovementNormalized": 0.01520322817666,
+            "maxBoundsSpanRatio": 0.6222283726734414,
+            "bounds": [
+              {
+                "time": 0.0,
+                "min": [
+                  -0.9148092613213035,
+                  -0.00019487819752600076,
+                  -0.9505213175100311
+                ],
+                "max": [
+                  0.8032272494904293,
+                  2.5767219060393343,
+                  0.667269417425626
+                ]
+              },
+              {
+                "time": 0.8333333134651184,
+                "min": [
+                  -0.9104038780212966,
+                  -0.00012424955615341466,
+                  -0.9349244573906632
+                ],
+                "max": [
+                  0.7877672579089326,
+                  2.5692110834150457,
+                  0.6939538090498341
+                ]
+              },
+              {
+                "time": 1.6666666269302368,
+                "min": [
+                  -0.9148091851353212,
+                  -0.00019487819752585776,
+                  -0.9505212441481725
+                ],
+                "max": [
+                  0.8032272494904293,
+                  2.5767216436722538,
+                  0.667269417425626
+                ]
+              }
+            ]
+          },
+          {
+            "name": "pm0025_81_00_ba02_roar01",
+            "duration": 3.0,
+            "frames60Hz": 181,
+            "maxVertexRmsMovementNormalized": 0.0985912662658883,
+            "maxBoundsSpanRatio": 0.8398642015488195,
+            "bounds": [
+              {
+                "time": 0.0,
+                "min": [
+                  -0.9148092613213035,
+                  -0.00019487819752600076,
+                  -0.9505213175100311
+                ],
+                "max": [
+                  0.8032272494904293,
+                  2.5767219060393343,
+                  0.667269417425626
+                ]
+              },
+              {
+                "time": 1.5,
+                "min": [
+                  -0.7037562123358736,
+                  -0.031895993246522356,
+                  -1.2446868001461322
+                ],
+                "max": [
+                  0.7881371575154859,
+                  3.379752692322733,
+                  0.5127338898288201
+                ]
+              },
+              {
+                "time": 3.0,
+                "min": [
+                  -0.9148092613213035,
+                  -0.00019487819752585776,
+                  -0.9505213175100309
+                ],
+                "max": [
+                  0.8032272494904293,
+                  2.5767219060393325,
+                  0.667269417425626
+                ]
+              }
+            ]
+          },
+          {
+            "name": "pm0025_81_00_ba21_tokusyu01",
+            "duration": 2.6666667461395264,
+            "frames60Hz": 161,
+            "maxVertexRmsMovementNormalized": 0.2442382986357363,
+            "maxBoundsSpanRatio": 1.0553763869464976,
+            "bounds": [
+              {
+                "time": 0.0,
+                "min": [
+                  -0.9148092613213035,
+                  -0.00019487819752594528,
+                  -0.9505213175100311
+                ],
+                "max": [
+                  0.8032272494904293,
+                  2.5767219060393343,
+                  0.667269417425626
+                ]
+              },
+              {
+                "time": 1.3333333730697632,
+                "min": [
+                  -0.5406395971654055,
+                  -0.06608476008675976,
+                  -0.30994211169129365
+                ],
+                "max": [
+                  0.9881390499466579,
+                  4.287784284529881,
+                  1.6346341917126361
+                ]
+              },
+              {
+                "time": 2.6666667461395264,
+                "min": [
+                  -0.9148092613213035,
+                  -0.00019487819752580222,
+                  -0.9505213175100309
+                ],
+                "max": [
+                  0.8032272494904293,
+                  2.5767219060393325,
+                  0.667269417425626
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conversion": {
+        "coordinate_conversion": {
+          "translation": [
+            -1,
+            1,
+            1
+          ],
+          "quaternion": [
+            1,
+            -1,
+            -1,
+            1
+          ],
+          "unity_euler_order": "ZXY (qY*qX*qZ)"
+        },
+        "clips": [
+          {
+            "name": "pm0025_81_00_ba10_waitA01",
+            "duration": 1.6666666,
+            "channels": 153,
+            "animatedChannels": 45,
+            "skipped": [],
+            "maxScale": 1.0000000000000027
+          },
+          {
+            "name": "pm0025_81_00_ba02_roar01",
+            "duration": 3,
+            "channels": 153,
+            "animatedChannels": 52,
+            "skipped": [],
+            "maxScale": 1.0049173952797057
+          },
+          {
+            "name": "pm0025_81_00_ba21_tokusyu01",
+            "duration": 2.6666667,
+            "channels": 153,
+            "animatedChannels": 57,
+            "skipped": [],
+            "maxScale": 1.0048444608136775
+          }
+        ]
+      },
+      "sourceModel": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20%28Generation%201%29/pm0025_81_00.glb",
+      "sourceAnimation": "https://github.com/Lilothestitch16/Pokemon-HOME-Unity-Project/blob/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0025_81_00_ba21_tokusyu01.anim",
+      "bodyAuthorship": "native exact form",
+      "animationAuthorship": "native exact form",
+      "nativeClips": [
+        {
+          "filename": "pm0025_81_00_ba10_waitA01.anim",
+          "url": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0025_81_00_ba10_waitA01.anim",
+          "sha256": "09bbad4130a577c6bb3cb9f3c93c52579917061e2ac17ff6bf63842167e59d5e",
+          "events": [
+            {
+              "time": 0,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            }
+          ]
+        },
+        {
+          "filename": "pm0025_81_00_ba02_roar01.anim",
+          "url": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0025_81_00_ba02_roar01.anim",
+          "sha256": "fd1b6631230da60e658ba07c9d8c67619411ec08b6ef975fed99e3f2cab54764",
+          "events": [
+            {
+              "time": 0,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            },
+            {
+              "time": 0.75,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 0,
+              "messageOptions": 0
+            },
+            {
+              "time": 2.1,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            }
+          ]
+        },
+        {
+          "filename": "pm0025_81_00_ba21_tokusyu01.anim",
+          "url": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0025_81_00_ba21_tokusyu01.anim",
+          "sha256": "14a4090016935ba333dad47e3fc544b85c9f4e58dd97e340c6e1e3b169e18041",
+          "events": [
+            {
+              "time": 0,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            },
+            {
+              "time": 0.73333335,
+              "functionName": "AK_EffectStart01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            },
+            {
+              "time": 0.76666665,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 0,
+              "messageOptions": 0
+            },
+            {
+              "time": 1.9333333,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            }
+          ]
+        }
+      ],
+      "runtimeMaterial": "BodyA01 native fully lit tail emission mask is restored from original diffuse texture without recoloring body."
+    },
+    "duraludon-gigantamax": {
+      "validation": {
+        "sha256": "dfa45ee287de72a800b2fec76c6f0de2100e8fe5768e1fa3cf716505503714d4",
+        "bytes": 851592,
+        "skins": 5,
+        "verticesPerFrame": 41228,
+        "images": 3,
+        "allAccessorValuesFinite": true,
+        "allImagesDecode": true,
+        "allSampledSkinnedVerticesFinite": true,
+        "bindBounds": [
+          [
+            -1.2806975090591826,
+            -0.016019427293022668,
+            -1.216799640226104
+          ],
+          [
+            1.2806990463776686,
+            3.031806278399253,
+            0.7589427128485775
+          ]
+        ],
+        "clips": [
+          {
+            "name": "pm0884_81_00_ba10_waitA01",
+            "duration": 2.0,
+            "frames60Hz": 121,
+            "maxVertexRmsMovementNormalized": 0.004966300825513711,
+            "maxBoundsSpanRatio": 0.9954297270034722,
+            "bounds": [
+              {
+                "time": 0.0,
+                "min": [
+                  -1.0254540327932513,
+                  -0.002090027427960417,
+                  -1.2167995754018166
+                ],
+                "max": [
+                  1.0254551158834257,
+                  3.031806282743467,
+                  0.8025386922258884
+                ]
+              },
+              {
+                "time": 1.0,
+                "min": [
+                  -1.0254535776145262,
+                  -0.0020830849273084898,
+                  -1.2167995754018166
+                ],
+                "max": [
+                  1.0254537430374986,
+                  3.0240231082286964,
+                  0.7945562920533589
+                ]
+              },
+              {
+                "time": 2.0,
+                "min": [
+                  -1.025454032793251,
+                  -0.002090027427960748,
+                  -1.2167995754018166
+                ],
+                "max": [
+                  1.0254551158834242,
+                  3.031806282743466,
+                  0.8025386922258884
+                ]
+              }
+            ]
+          },
+          {
+            "name": "pm0884_81_00_ba02_roar01",
+            "duration": 2.8333332538604736,
+            "frames60Hz": 171,
+            "maxVertexRmsMovementNormalized": 0.12277797095478421,
+            "maxBoundsSpanRatio": 0.9954297270034722,
+            "bounds": [
+              {
+                "time": 0.0,
+                "min": [
+                  -1.0254540327932513,
+                  -0.002090027427960417,
+                  -1.2167995754018166
+                ],
+                "max": [
+                  1.0254551158834257,
+                  3.031806282743467,
+                  0.8025386922258884
+                ]
+              },
+              {
+                "time": 1.4166666269302368,
+                "min": [
+                  -1.2589287941170646,
+                  -0.0018378584386798782,
+                  -1.1089864771090465
+                ],
+                "max": [
+                  1.2465031399163742,
+                  2.912399923001884,
+                  0.8486117844743442
+                ]
+              },
+              {
+                "time": 2.8333332538604736,
+                "min": [
+                  -1.025454032793251,
+                  -0.002090027427960748,
+                  -1.2167995754018166
+                ],
+                "max": [
+                  1.0254551158834242,
+                  3.031806282743466,
+                  0.8025386922258884
+                ]
+              }
+            ]
+          },
+          {
+            "name": "pm0884_81_00_ba21_tokusyu01",
+            "duration": 2.0,
+            "frames60Hz": 121,
+            "maxVertexRmsMovementNormalized": 0.21588688315952193,
+            "maxBoundsSpanRatio": 0.9954297270034722,
+            "bounds": [
+              {
+                "time": 0.0,
+                "min": [
+                  -1.0254540327932513,
+                  -0.002090027427960417,
+                  -1.2167995754018166
+                ],
+                "max": [
+                  1.0254551158834257,
+                  3.031806282743467,
+                  0.8025386922258884
+                ]
+              },
+              {
+                "time": 1.0,
+                "min": [
+                  -1.025405990684442,
+                  -0.0305111952399785,
+                  -1.2366758577791703
+                ],
+                "max": [
+                  1.0254077119981093,
+                  2.525271308441983,
+                  1.5638509512818912
+                ]
+              },
+              {
+                "time": 2.0,
+                "min": [
+                  -1.025454032793251,
+                  -0.002090027427960748,
+                  -1.2167995754018166
+                ],
+                "max": [
+                  1.0254551158834242,
+                  3.031806282743466,
+                  0.8025386922258884
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conversion": {
+        "coordinate_conversion": {
+          "translation": [
+            -1,
+            1,
+            1
+          ],
+          "quaternion": [
+            1,
+            -1,
+            -1,
+            1
+          ],
+          "unity_euler_order": "ZXY (qY*qX*qZ)"
+        },
+        "clips": [
+          {
+            "name": "pm0884_81_00_ba10_waitA01",
+            "duration": 2,
+            "channels": 126,
+            "animatedChannels": 11,
+            "skipped": [],
+            "maxScale": 1.0
+          },
+          {
+            "name": "pm0884_81_00_ba02_roar01",
+            "duration": 2.8333333,
+            "channels": 126,
+            "animatedChannels": 18,
+            "skipped": [],
+            "maxScale": 1.0
+          },
+          {
+            "name": "pm0884_81_00_ba21_tokusyu01",
+            "duration": 2,
+            "channels": 126,
+            "animatedChannels": 18,
+            "skipped": [],
+            "maxScale": 1.0
+          }
+        ]
+      },
+      "sourceModel": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20%28Generation%208%29/pm0884_81_00.glb",
+      "sourceAnimation": "https://github.com/Lilothestitch16/Pokemon-HOME-Unity-Project/blob/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0884_81_00_ba21_tokusyu01.anim",
+      "bodyAuthorship": "native exact form",
+      "animationAuthorship": "native exact form",
+      "materialCorrection": "Clamp source smoke factor 1.0000067 to legal glTF maximum 1.0; geometry and keyframes unchanged.",
+      "nativeClips": [
+        {
+          "filename": "pm0884_81_00_ba10_waitA01.anim",
+          "url": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0884_81_00_ba10_waitA01.anim",
+          "sha256": "fe0484bfdb07561fd39c1e420e61824b498827708226527fbb713d50209975d5",
+          "events": [
+            {
+              "time": 0,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            }
+          ]
+        },
+        {
+          "filename": "pm0884_81_00_ba02_roar01.anim",
+          "url": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0884_81_00_ba02_roar01.anim",
+          "sha256": "a32464db3a74d58f28003f96976fe93aff412b0ff7bcf26fdad2da1df94c1e9e",
+          "events": [
+            {
+              "time": 0,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            }
+          ]
+        },
+        {
+          "filename": "pm0884_81_00_ba21_tokusyu01.anim",
+          "url": "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0884_81_00_ba21_tokusyu01.anim",
+          "sha256": "2deace3fef257d2237a905889cb4e4e4ac24dcc60bbcdbfa1f819e388b6e4179",
+          "events": [
+            {
+              "time": 0,
+              "functionName": "AK_PartsSkel01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            },
+            {
+              "time": 0.6333333,
+              "functionName": "AK_EffectStart01",
+              "data": null,
+              "objectReferenceParameter": {
+                "fileID": 0
+              },
+              "floatParameter": 0,
+              "intParameter": 1,
+              "messageOptions": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "artwork": [
+    {
+      "slug": "gengar-gigantamax",
+      "id": "10202",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/10202.png",
+      "output": "/pokemon-legends-showcase/assets/pokemon/gengar-gigantamax.png",
+      "sha256": "3de423c05811b73fed0a87f054970c3bcf835c1558786634dc52f6e04bcde427",
+      "processing": "Original HOME artwork PNG bytes unchanged"
+    },
+    {
+      "slug": "pikachu-gigantamax",
+      "id": "10199",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/10199.png",
+      "output": "/pokemon-legends-showcase/assets/pokemon/pikachu-gigantamax.png",
+      "sha256": "185eb3b6be1084d77c0d8a722c48ed62d9705b5a0f7565f5b8881f73d3b2ae2c",
+      "processing": "Original HOME artwork PNG bytes unchanged"
+    },
+    {
+      "slug": "duraludon-gigantamax",
+      "id": "10225",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/10225.png",
+      "output": "/pokemon-legends-showcase/assets/pokemon/duraludon-gigantamax.png",
+      "sha256": "aff7b545e3774a947c6307d1025680b0ffbfbf306b34ccbda7ac0edfadfa901a",
+      "processing": "Original HOME artwork PNG bytes unchanged"
+    }
+  ]
+}

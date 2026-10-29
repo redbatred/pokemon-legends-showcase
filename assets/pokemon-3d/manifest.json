@@ -4764,5 +4764,1091 @@
       "sha256": "acacfb0c6ffa22676e61150cb3e5f401e48b94b1f0f4bde8a696c8bd8e0a57bf"
     },
     "animationAuthorship": "Retargeted from native source game idle/attack/happy clips; source world-space rotation and translation deltas drive target anatomical joints. No new motion choreography."
+  },
+  "charizard-tera-dark": {
+    "name": "Tera dark Charizard",
+    "dexId": 6,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/charizard.glb",
+    "bytes": 3978892,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 381,
+        "varyingSkinnedJointChannels": 96,
+        "movingSkinnedJointCount": 84
+      },
+      {
+        "name": "idle",
+        "duration": 6.041666507720947,
+        "channels": 381,
+        "varyingSkinnedJointChannels": 69,
+        "movingSkinnedJointCount": 65
+      },
+      {
+        "name": "happy",
+        "duration": 5.875,
+        "channels": 381,
+        "varyingSkinnedJointChannels": 113,
+        "movingSkinnedJointCount": 90
+      }
+    ],
+    "idle": "idle",
+    "attack": "happy",
+    "attackTimeScale": 1.3,
+    "bounds": {
+      "min": [
+        -1.0757478866535444,
+        -0.06543983738561494,
+        -2.104205950916734
+      ],
+      "max": [
+        1.2401784140837746,
+        1.680649694569843,
+        0.8961444184439703
+      ],
+      "size": [
+        2.3159263007373188,
+        1.746089531955458,
+        3.0003503693607043
+      ],
+      "center": [
+        0.08221526371511512,
+        0.8076049285921141,
+        -0.604030766236382
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "powerAt": 2.6,
+    "powerPeakAt": 3.5,
+    "powerWindow": [
+      2.216666666666667,
+      4.383333333333334
+    ],
+    "powerTimingUnits": "source clip seconds; divide by attackTimeScale for wall time",
+    "powerTimingEvidence": "Native happy holds an approximately 31.0406 degree open-jaw plateau; 60 Hz samples are >=80% open from 2.2167 to 4.3833 source seconds. powerPeakAt=3.5 is a representative upright plateau pose, not a unique jaw-opening maximum. Authored flame window is 2.60-3.85; complete native recovery ends at 5.875.",
+    "bones": {
+      "head": "head",
+      "jaw": "jaw",
+      "neck": [
+        "neck_01",
+        "neck_02",
+        "neck_03"
+      ],
+      "wingLeft": "left_wing_a_01",
+      "wingRight": "right_wing_a_01",
+      "tail": "tail_01"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized.",
+      "Native happy (pm0006_00_00_00550_glad01.gfbanm) is selected for the upright big-win celebration. Flame timing is an authored overlay, not official Flamethrower event metadata. Original attack remains available."
+    ],
+    "optimization": {
+      "sourceBytes": 7238092,
+      "sha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.2935502464480635e-07,
+      "restoredNativeClip": "happy",
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0006_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0,
+    "enterEnd": 0.9,
+    "enterSpeed": 1.2,
+    "entranceDuration": 0.75,
+    "entranceAuthorship": "native",
+    "entranceLabel": "wing anticipation",
+    "entranceBounds": {
+      "min": [
+        -1.304321032101343,
+        -0.06590558645983191,
+        -2.2548810530004078
+      ],
+      "max": [
+        1.2501068760880139,
+        1.6806501702031453,
+        1.0358594503883063
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    },
+    "species": "charizard",
+    "tera": {
+      "type": "dark",
+      "path": "/pokemon-legends-showcase/assets/pokemon-3d/tera-crown-dark.glb",
+      "sha256": "48c0fe27c6b086f5b3d541eb08e5c5b5c0aa3a74d40bf48566bf0bd3aea74f2c",
+      "attachment": {
+        "bone": "head",
+        "width": 0.52,
+        "lift": 0.1
+      }
+    }
+  },
+  "charizard-shiny-tera-dark": {
+    "name": "Shiny Tera dark Charizard",
+    "species": "charizard",
+    "dexId": 6,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/charizard-shiny.glb",
+    "bytes": 9464104,
+    "idle": "pm0006_00_00_00000_defaultwait01_loop",
+    "attack": "pm0006_00_00_00450_rangeattack01",
+    "enter": "pm0006_00_00_00550_glad01",
+    "enterStart": 0,
+    "enterEnd": 1,
+    "enterSpeed": 1.4,
+    "attackTimeScale": 1,
+    "clips": [
+      {
+        "name": "pm0006_00_00_00000_defaultwait01_loop",
+        "duration": 2.4166667461395264,
+        "movingSkinnedJointCount": 66
+      },
+      {
+        "name": "pm0006_00_00_00450_rangeattack01",
+        "duration": 2.316666603088379,
+        "movingSkinnedJointCount": 72
+      },
+      {
+        "name": "pm0006_00_00_00550_glad01",
+        "duration": 2.3499999046325684,
+        "movingSkinnedJointCount": 95
+      }
+    ],
+    "optimization": {
+      "sha256": "106ae38b17057343840732d1b9cfe681293d3aafee0e11dc0507c6d1b451f5bd"
+    },
+    "animationAuthorship": "Native source skeletal clips; unchanged keyframes, skin, geometry and texture pixels.",
+    "tera": {
+      "type": "dark",
+      "path": "/pokemon-legends-showcase/assets/pokemon-3d/tera-crown-dark.glb",
+      "sha256": "48c0fe27c6b086f5b3d541eb08e5c5b5c0aa3a74d40bf48566bf0bd3aea74f2c",
+      "attachment": {
+        "bone": "head",
+        "width": 0.52,
+        "lift": 0.1
+      }
+    }
+  },
+  "dragonite-tera-dragon": {
+    "name": "Tera dragon Dragonite",
+    "dexId": 149,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/dragonite.glb",
+    "bytes": 3310340,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "attack",
+        "duration": 5.458333492279053,
+        "channels": 237,
+        "varyingSkinnedJointChannels": 55,
+        "movingSkinnedJointCount": 55
+      },
+      {
+        "name": "idle",
+        "duration": 6.291666507720947,
+        "channels": 237,
+        "varyingSkinnedJointChannels": 44,
+        "movingSkinnedJointCount": 44
+      },
+      {
+        "name": "happy",
+        "duration": 4.208333492279053,
+        "channels": 237,
+        "varyingSkinnedJointChannels": 62,
+        "movingSkinnedJointCount": 62
+      }
+    ],
+    "idle": "idle",
+    "attack": "attack",
+    "attackTimeScale": 1,
+    "bounds": {
+      "min": [
+        -0.9544094440609475,
+        -0.001393623820495057,
+        -2.033035520650111
+      ],
+      "max": [
+        0.9274826142409774,
+        2.276655481310748,
+        0.49763449831386686
+      ],
+      "size": [
+        1.881892058301925,
+        2.278049105131243,
+        2.5306700189639777
+      ],
+      "center": [
+        -0.013463414909985039,
+        1.1376309287451265,
+        -0.7677005111681221
+      ],
+      "method": "CPU-skinned world-space vertices at idle t=0; glTF root transforms retained"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "Original game action names are supplied by the source animatedModels.json; GLB skeleton/animation values were verified. No body motion was synthesized."
+    ],
+    "optimization": {
+      "sourceBytes": 6089268,
+      "sha256": "c7b0605fe01544b52baaecfa98f608d0d32b87e3fd3600234de3a1e2c65381a0",
+      "resampleTolerance": 1e-07,
+      "maxSampledAnimationComponentError": 4.458309001559302e-07,
+      "restoredNativeClips": [
+        "happy"
+      ],
+      "restoredNativeClipKeyframesExact": true
+    },
+    "entranceSourceAction": "pm0149_00_00_00550_glad01.gfbanm",
+    "enter": "happy",
+    "enterStart": 0.65,
+    "enterEnd": 2.05,
+    "enterSpeed": 1.6,
+    "entranceDuration": 0.8749999999999999,
+    "entranceAuthorship": "native",
+    "entranceLabel": "open-arm greeting",
+    "entranceBounds": {
+      "min": [
+        -1.0272856169982836,
+        -0.0022004799246969917,
+        -2.2331851137487293
+      ],
+      "max": [
+        0.9521936825555637,
+        2.3032525694597155,
+        0.5656136320505258
+      ],
+      "method": "CPU-skinned world-space vertices at five equally spaced samples of selected entrance; runtime should additionally fit its complete active interval"
+    },
+    "species": "dragonite",
+    "tera": {
+      "type": "dragon",
+      "path": "/pokemon-legends-showcase/assets/pokemon-3d/tera-crown-dragon.glb",
+      "sha256": "5a2175d689815190f4815a4df5285bff100b71c01b66b07b432a571a454bc411",
+      "attachment": {
+        "bone": "head",
+        "width": 0.6,
+        "lift": 0.1
+      }
+    }
+  },
+  "forretress-tera-grass": {
+    "name": "Tera grass Forretress",
+    "dexId": 205,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/forretress.glb",
+    "bytes": 284300,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 22,
+        "varyingSkinnedJointChannels": 22,
+        "movingSkinnedJointCount": 22,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 28,
+        "varyingSkinnedJointChannels": 28,
+        "movingSkinnedJointCount": 28,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 28,
+        "varyingSkinnedJointChannels": 28,
+        "movingSkinnedJointCount": 28,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Upper and lower shell joints open in opposition while the four cannon limbs brace and recoil."
+    ],
+    "optimization": {
+      "sourceBytes": 20960,
+      "sha256": "8c717aaa5f9238c550a1542dcd1ef8888422c6072f85d652f494d536fb89f370",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -0.7210594606057109,
+        -0.02586913122482365,
+        -0.5900201522394443
+      ],
+      "max": [
+        0.7210594512498423,
+        1.1446920270360799,
+        0.5900473020181
+      ],
+      "size": [
+        1.442118911855553,
+        1.1705611582609035,
+        1.1800674542575442
+      ],
+      "center": [
+        -4.67793431768726e-09,
+        0.5594114479056281,
+        1.3574889327849782e-05
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack",
+    "species": "forretress",
+    "tera": {
+      "type": "grass",
+      "path": "/pokemon-legends-showcase/assets/pokemon-3d/tera-crown-grass.glb",
+      "sha256": "3048a073cdf8bf37d68612643a7b54657e95dc71ca3afb1be74ab7483c539636",
+      "attachment": {
+        "bone": "waist",
+        "width": 0.88,
+        "lift": 0.48
+      }
+    }
+  },
+  "tyranitar-tera-electric": {
+    "name": "Tera electric Tyranitar",
+    "dexId": 248,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/tyranitar.glb",
+    "bytes": 450112,
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "clips": [
+      {
+        "name": "ensemble_idle",
+        "duration": 2.4,
+        "channels": 13,
+        "varyingSkinnedJointChannels": 13,
+        "movingSkinnedJointCount": 13,
+        "authored": true
+      },
+      {
+        "name": "ensemble_enter",
+        "duration": 0.72,
+        "channels": 17,
+        "varyingSkinnedJointChannels": 17,
+        "movingSkinnedJointCount": 17,
+        "authored": true
+      },
+      {
+        "name": "ensemble_attack",
+        "duration": 2,
+        "channels": 18,
+        "varyingSkinnedJointChannels": 18,
+        "movingSkinnedJointCount": 18,
+        "authored": true
+      }
+    ],
+    "idle": "ensemble_idle",
+    "attack": "ensemble_attack",
+    "enter": "ensemble_enter",
+    "enterStart": 0,
+    "enterEnd": 0.72,
+    "enterSpeed": 1,
+    "attackTimeScale": 1,
+    "powerAt": 0.76,
+    "powerPeakAt": 1,
+    "powerWindow": [
+      0.76,
+      1.5
+    ],
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "notes": [
+      "ensemble_idle, ensemble_enter and ensemble_attack are authored anatomical skeletal clips, not source/native game animation.",
+      "Thigh brace, torso windup, neck thrust and open jaw; the heavy tail offsets the forward release."
+    ],
+    "optimization": {
+      "sourceBytes": 83188,
+      "sha256": "20e6e61c5fdfc80779ab418002472bcd59f50ac15b44e2428fd51932818cd5f6",
+      "authoredAnimation": true
+    },
+    "bounds": {
+      "min": [
+        -1.960910061551931,
+        -0.13763172009027363,
+        -4.055667196621567
+      ],
+      "max": [
+        1.9608987795906185,
+        5.247547914506388,
+        1.253925999397222
+      ],
+      "size": [
+        3.92180884114255,
+        5.385179634596661,
+        5.309593196018788
+      ],
+      "center": [
+        -5.640980656251848e-06,
+        2.554958097208057,
+        -1.4008705986121723
+      ],
+      "method": "CPU-skinned world-space vertices at ensemble_idle t=0"
+    },
+    "entranceDuration": 0.72,
+    "entranceAuthorship": "project-authored",
+    "attackAuthorship": "project-authored anatomical skeletal choreography; not an official game attack",
+    "species": "tyranitar",
+    "tera": {
+      "type": "electric",
+      "path": "/pokemon-legends-showcase/assets/pokemon-3d/tera-crown-electric.glb",
+      "sha256": "0ca43b00d12809424b307455d6d28b84d727d936e295566a63ba0a627d4ef1b7",
+      "attachment": {
+        "bone": "head",
+        "width": 0.48,
+        "lift": 0.1
+      }
+    }
+  },
+  "gengar-gigantamax": {
+    "name": "Gigantamax Gengar",
+    "species": "gengar",
+    "dexId": 94,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/gengar-gigantamax.glb",
+    "bytes": 1268084,
+    "idle": "pm0094_81_00_ba10_waitA01",
+    "attack": "pm0094_81_00_ba21_tokusyu01",
+    "enter": "pm0094_81_00_ba02_roar01",
+    "enterStart": 0.15,
+    "enterEnd": 1.5,
+    "enterSpeed": 1.15,
+    "entranceAuthorship": "native exact-form HOME skeletal animation",
+    "clips": [
+      {
+        "name": "pm0094_81_00_ba10_waitA01",
+        "duration": 2,
+        "channels": 195,
+        "animatedChannels": 51,
+        "skipped": [],
+        "maxScale": 1.0236058937528432
+      },
+      {
+        "name": "pm0094_81_00_ba02_roar01",
+        "duration": 3,
+        "channels": 195,
+        "animatedChannels": 91,
+        "skipped": [],
+        "maxScale": 1.074352065057143
+      },
+      {
+        "name": "pm0094_81_00_ba21_tokusyu01",
+        "duration": 2.6666667,
+        "channels": 195,
+        "animatedChannels": 116,
+        "skipped": [],
+        "maxScale": 1.25852270936349
+      }
+    ],
+    "optimization": {
+      "sha256": "1fbc7a7bbd19c238b25c51708703a795a9f051762272e6a7693f1663949350a9"
+    },
+    "notes": [
+      "Exact Gigantamax body, native idle/roar/special skeletal animation; original mirrored texture sampling restored.",
+      "Attack onset follows the native AK_EffectStart01 event."
+    ]
+  },
+  "pikachu-gigantamax": {
+    "name": "Gigantamax Pikachu",
+    "species": "pikachu",
+    "dexId": 25,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/pikachu-gigantamax.glb",
+    "bytes": 888352,
+    "idle": "pm0025_81_00_ba10_waitA01",
+    "attack": "pm0025_81_00_ba21_tokusyu01",
+    "enter": "pm0025_81_00_ba02_roar01",
+    "enterStart": 0.15,
+    "enterEnd": 1.5,
+    "enterSpeed": 1.15,
+    "entranceAuthorship": "native exact-form HOME skeletal animation",
+    "clips": [
+      {
+        "name": "pm0025_81_00_ba10_waitA01",
+        "duration": 1.6666666,
+        "channels": 153,
+        "animatedChannels": 45,
+        "skipped": [],
+        "maxScale": 1.0000000000000027
+      },
+      {
+        "name": "pm0025_81_00_ba02_roar01",
+        "duration": 3,
+        "channels": 153,
+        "animatedChannels": 52,
+        "skipped": [],
+        "maxScale": 1.0049173952797057
+      },
+      {
+        "name": "pm0025_81_00_ba21_tokusyu01",
+        "duration": 2.6666667,
+        "channels": 153,
+        "animatedChannels": 57,
+        "skipped": [],
+        "maxScale": 1.0048444608136775
+      }
+    ],
+    "optimization": {
+      "sha256": "3478b7aedbf6acc50288c7c364fdafaaa7a401e83c68190bfb4b41151b9986c8"
+    },
+    "notes": [
+      "Exact Gigantamax body, native idle/roar/special skeletal animation; original mirrored texture sampling restored.",
+      "Attack onset follows the native AK_EffectStart01 event."
+    ]
+  },
+  "duraludon-gigantamax": {
+    "name": "Gigantamax Duraludon",
+    "species": "duraludon",
+    "dexId": 884,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/duraludon-gigantamax.glb",
+    "bytes": 851592,
+    "idle": "pm0884_81_00_ba10_waitA01",
+    "attack": "pm0884_81_00_ba21_tokusyu01",
+    "enter": "pm0884_81_00_ba02_roar01",
+    "enterStart": 0.15,
+    "enterEnd": 1.5,
+    "enterSpeed": 1.15,
+    "entranceAuthorship": "native exact-form HOME skeletal animation",
+    "clips": [
+      {
+        "name": "pm0884_81_00_ba10_waitA01",
+        "duration": 2,
+        "channels": 126,
+        "animatedChannels": 11,
+        "skipped": [],
+        "maxScale": 1.0
+      },
+      {
+        "name": "pm0884_81_00_ba02_roar01",
+        "duration": 2.8333333,
+        "channels": 126,
+        "animatedChannels": 18,
+        "skipped": [],
+        "maxScale": 1.0
+      },
+      {
+        "name": "pm0884_81_00_ba21_tokusyu01",
+        "duration": 2,
+        "channels": 126,
+        "animatedChannels": 18,
+        "skipped": [],
+        "maxScale": 1.0
+      }
+    ],
+    "optimization": {
+      "sha256": "dfa45ee287de72a800b2fec76c6f0de2100e8fe5768e1fa3cf716505503714d4"
+    },
+    "notes": [
+      "Exact Gigantamax body, native idle/roar/special skeletal animation; original mirrored texture sampling restored.",
+      "Attack onset follows the native AK_EffectStart01 event."
+    ]
+  },
+  "mew-shiny": {
+    "name": "Shiny Mew",
+    "species": "mew",
+    "dexId": 151,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/mew-shiny.glb",
+    "bytes": 701340,
+    "sha256": "b225426d53b5af4c7d1ee836016912da1f28e02394504b99a5d2df0cabb374e9",
+    "skins": [
+      28
+    ],
+    "textures": 5,
+    "extensionsRequired": [],
+    "clips": [
+      {
+        "name": "pm0151_00_00_ba10_waitA01",
+        "duration": 1.6666666269302368,
+        "channels": 90,
+        "varyingSkinnedJointChannels": 25,
+        "movingSkinnedJointCount": 25
+      },
+      {
+        "name": "pm0151_00_00_ba20_buturi01",
+        "duration": 2.6666667461395264,
+        "channels": 90,
+        "varyingSkinnedJointChannels": 26,
+        "movingSkinnedJointCount": 26
+      },
+      {
+        "name": "pm0151_00_00_ba21_tokusyu01",
+        "duration": 2.6666667461395264,
+        "channels": 90,
+        "varyingSkinnedJointChannels": 24,
+        "movingSkinnedJointCount": 24
+      },
+      {
+        "name": "pm0151_00_00_ba02_roar01",
+        "duration": 2.6666667461395264,
+        "channels": 90,
+        "varyingSkinnedJointChannels": 24,
+        "movingSkinnedJointCount": 24
+      }
+    ],
+    "idle": "pm0151_00_00_ba10_waitA01",
+    "attack": "pm0151_00_00_ba21_tokusyu01",
+    "attackTimeScale": 1,
+    "attackAuthorship": "native HOME skeletal animation; 60 Hz Hermite curve conversion",
+    "enter": "pm0151_00_00_ba02_roar01",
+    "enterStart": 0,
+    "enterEnd": 2.6666667461395264,
+    "enterSpeed": 2,
+    "entranceDuration": 1.3333333730697632,
+    "entranceAuthorship": "native action reused as entrance at 2x playback; not a source game entrance event",
+    "entranceLabel": "roar greeting",
+    "bounds": {
+      "min": [
+        -0.31374620790352115,
+        0.05830988610777771,
+        -0.3442758926986283
+      ],
+      "max": [
+        0.09726248868745822,
+        0.524145151510667,
+        0.19130096200553434
+      ],
+      "center": [
+        -0.10824185960803145,
+        0.2912275188092224,
+        -0.07648746534654698
+      ],
+      "size": [
+        0.4110086965909794,
+        0.4658352654028893,
+        0.5355768547041626
+      ],
+      "method": "CPU-skinned indexed world vertices at native idle t=0"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%201)/pm0151_00_00_rare.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0151_00_00_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0151_00_00_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0151_00_00_ba21_tokusyu01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0151_00_00_ba02_roar01.anim"
+    ],
+    "notes": [
+      "Exact form HOME geometry, native skin weights, inverse binds and rest transforms preserved.",
+      "Native textures resolved by material GUID and baked using source integer tiling, offsets, mirrored-U/repeated-V wrap and neutral eye layers. No recoloring.",
+      "All skeletal channel paths resolve exactly to source skeleton; Unity translation X reflection and quaternion Y/Z reflection independently verified against native prefab.",
+      "Shader-driven animated eye/mouth expression UVs and emission pulsation are not reproduced; neutral face atlases are fixed."
+    ],
+    "optimization": {
+      "sha256": "b225426d53b5af4c7d1ee836016912da1f28e02394504b99a5d2df0cabb374e9"
+    }
+  },
+  "umbreon-shiny": {
+    "name": "Shiny Umbreon",
+    "species": "umbreon",
+    "dexId": 197,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/umbreon-shiny.glb",
+    "bytes": 678512,
+    "sha256": "18b38c9c6b30b3f2422b7ff94d607ac3134db90ff332ee0dc354d54b7be548c4",
+    "skins": [
+      29
+    ],
+    "textures": 4,
+    "extensionsRequired": [],
+    "clips": [
+      {
+        "name": "pm0197_00_00_ba10_waitA01",
+        "duration": 1.5,
+        "channels": 93,
+        "varyingSkinnedJointChannels": 26,
+        "movingSkinnedJointCount": 26
+      },
+      {
+        "name": "pm0197_00_00_ba20_buturi01",
+        "duration": 1.6666666269302368,
+        "channels": 93,
+        "varyingSkinnedJointChannels": 36,
+        "movingSkinnedJointCount": 29
+      },
+      {
+        "name": "pm0197_00_00_ba21_tokusyu01",
+        "duration": 1.5,
+        "channels": 93,
+        "varyingSkinnedJointChannels": 31,
+        "movingSkinnedJointCount": 28
+      },
+      {
+        "name": "pm0197_00_00_ba02_roar01",
+        "duration": 2.2333333492279053,
+        "channels": 93,
+        "varyingSkinnedJointChannels": 31,
+        "movingSkinnedJointCount": 28
+      }
+    ],
+    "idle": "pm0197_00_00_ba10_waitA01",
+    "attack": "pm0197_00_00_ba21_tokusyu01",
+    "attackTimeScale": 1,
+    "attackAuthorship": "native HOME skeletal animation; 60 Hz Hermite curve conversion",
+    "enter": "pm0197_00_00_ba02_roar01",
+    "enterStart": 0,
+    "enterEnd": 2.2333333492279053,
+    "enterSpeed": 2,
+    "entranceDuration": 1.1166666746139526,
+    "entranceAuthorship": "native action reused as entrance at 2x playback; not a source game entrance event",
+    "entranceLabel": "roar greeting",
+    "bounds": {
+      "min": [
+        -0.24503502064589286,
+        -2.4601874234703152e-08,
+        -0.5771322064446333
+      ],
+      "max": [
+        0.24503490930855557,
+        0.8098220606252681,
+        0.43030668438192443
+      ],
+      "center": [
+        -5.5668668647035346e-08,
+        0.40491101801169693,
+        -0.07341276103135441
+      ],
+      "size": [
+        0.4900699299544484,
+        0.8098220852271423,
+        1.0074388908265577
+      ],
+      "method": "CPU-skinned indexed world vertices at native idle t=0"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%202)/pm0197_00_00_rare.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0197_00_00_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0197_00_00_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0197_00_00_ba21_tokusyu01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0197_00_00_ba02_roar01.anim"
+    ],
+    "notes": [
+      "Exact form HOME geometry, native skin weights, inverse binds and rest transforms preserved.",
+      "Native textures resolved by material GUID and baked using source integer tiling, offsets, mirrored-U/repeated-V wrap and neutral eye layers. No recoloring.",
+      "All skeletal channel paths resolve exactly to source skeleton; Unity translation X reflection and quaternion Y/Z reflection independently verified against native prefab.",
+      "Shader-driven animated eye/mouth expression UVs and emission pulsation are not reproduced; neutral face atlases are fixed."
+    ],
+    "optimization": {
+      "sha256": "18b38c9c6b30b3f2422b7ff94d607ac3134db90ff332ee0dc354d54b7be548c4"
+    }
+  },
+  "alakazam-shiny": {
+    "name": "Radiant Alakazam (Shiny)",
+    "species": "alakazam",
+    "dexId": 65,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/alakazam-shiny.glb",
+    "bytes": 1262924,
+    "sha256": "62be021aeaaa106de0bf6b7dc8182854343b532c1a59a2925fb8f8687f63d3a7",
+    "skins": [
+      47,
+      15
+    ],
+    "textures": 6,
+    "extensionsRequired": [],
+    "clips": [
+      {
+        "name": "pm0065_00_00_ba10_waitA01",
+        "duration": 2.5,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 48,
+        "movingSkinnedJointCount": 46
+      },
+      {
+        "name": "pm0065_00_00_ba20_buturi01",
+        "duration": 2,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 58,
+        "movingSkinnedJointCount": 56
+      },
+      {
+        "name": "pm0065_00_00_ba21_tokusyu01",
+        "duration": 2.3333332538604736,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 55,
+        "movingSkinnedJointCount": 53
+      },
+      {
+        "name": "pm0065_00_00_ba02_roar01",
+        "duration": 2.6666667461395264,
+        "channels": 207,
+        "varyingSkinnedJointChannels": 45,
+        "movingSkinnedJointCount": 43
+      }
+    ],
+    "idle": "pm0065_00_00_ba10_waitA01",
+    "attack": "pm0065_00_00_ba21_tokusyu01",
+    "attackTimeScale": 1,
+    "attackAuthorship": "native HOME skeletal animation; 60 Hz Hermite curve conversion",
+    "enter": "pm0065_00_00_ba02_roar01",
+    "enterStart": 0,
+    "enterEnd": 2.6666667461395264,
+    "enterSpeed": 2,
+    "entranceDuration": 1.3333333730697632,
+    "entranceAuthorship": "native action reused as entrance at 2x playback; not a source game entrance event",
+    "entranceLabel": "roar greeting",
+    "bounds": {
+      "min": [
+        -0.692349437222989,
+        -4.4159583205427515e-08,
+        -0.24510004206882788
+      ],
+      "max": [
+        0.6948021480351171,
+        1.4642583822538573,
+        0.6388321260699742
+      ],
+      "center": [
+        0.001226355406064028,
+        0.7321291690471371,
+        0.19686604200057317
+      ],
+      "size": [
+        1.3871515852581062,
+        1.4642584264134404,
+        0.883932168138802
+      ],
+      "method": "CPU-skinned indexed world vertices at native idle t=0"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%201)/pm0065_00_00_rare.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0065_00_00_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0065_00_00_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0065_00_00_ba21_tokusyu01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0065_00_00_ba02_roar01.anim"
+    ],
+    "notes": [
+      "Exact form HOME geometry, native skin weights, inverse binds and rest transforms preserved.",
+      "Native textures resolved by material GUID and baked using source integer tiling, offsets, mirrored-U/repeated-V wrap and neutral eye layers. No recoloring.",
+      "All skeletal channel paths resolve exactly to source skeleton; Unity translation X reflection and quaternion Y/Z reflection independently verified against native prefab.",
+      "Shader-driven animated eye/mouth expression UVs and emission pulsation are not reproduced; neutral face atlases are fixed."
+    ],
+    "optimization": {
+      "sha256": "62be021aeaaa106de0bf6b7dc8182854343b532c1a59a2925fb8f8687f63d3a7"
+    }
+  },
+  "giratina-origin": {
+    "name": "Origin Forme Giratina",
+    "species": "giratina",
+    "dexId": 487,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/giratina-origin.glb",
+    "bytes": 1637836,
+    "sha256": "eb90899c79c2de1e2a8916fb5d0d86ef52fb577b0a7926b487011038f80c71e5",
+    "skins": [
+      100
+    ],
+    "textures": 9,
+    "extensionsRequired": [],
+    "clips": [
+      {
+        "name": "pm0487_12_00_ba10_waitA01",
+        "duration": 2.3333332538604736,
+        "channels": 315,
+        "varyingSkinnedJointChannels": 91,
+        "movingSkinnedJointCount": 91
+      },
+      {
+        "name": "pm0487_12_00_ba20_buturi01",
+        "duration": 2.6666667461395264,
+        "channels": 315,
+        "varyingSkinnedJointChannels": 91,
+        "movingSkinnedJointCount": 91
+      },
+      {
+        "name": "pm0487_12_00_ba21_tokusyu01",
+        "duration": 2.3333332538604736,
+        "channels": 315,
+        "varyingSkinnedJointChannels": 94,
+        "movingSkinnedJointCount": 94
+      }
+    ],
+    "idle": "pm0487_12_00_ba10_waitA01",
+    "attack": "pm0487_12_00_ba21_tokusyu01",
+    "attackTimeScale": 1,
+    "attackAuthorship": "native HOME skeletal animation; 60 Hz Hermite curve conversion",
+    "enter": "pm0487_12_00_ba20_buturi01",
+    "enterStart": 0,
+    "enterEnd": 2.6666667461395264,
+    "enterSpeed": 2,
+    "entranceDuration": 1.3333333730697632,
+    "entranceAuthorship": "native action reused as entrance at 2x playback; not a source game entrance event",
+    "entranceLabel": "native physical flourish",
+    "bounds": {
+      "min": [
+        -1.9817882911234443,
+        1.1168382824066387,
+        -3.9428155911950173
+      ],
+      "max": [
+        2.62012019744217,
+        7.032547532915549,
+        1.900608173620007
+      ],
+      "center": [
+        0.3191659531593629,
+        4.074692907661094,
+        -1.0211037087875052
+      ],
+      "size": [
+        4.6019084885656145,
+        5.91570925050891,
+        5.843423764815024
+      ],
+      "method": "CPU-skinned indexed world vertices at native idle t=0"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%204)/pm0487_12_00.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0487_12_00_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0487_12_00_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0487_12_00_ba21_tokusyu01.anim"
+    ],
+    "notes": [
+      "Exact form HOME geometry, native skin weights, inverse binds and rest transforms preserved.",
+      "Native textures resolved by material GUID and baked using source integer tiling, offsets, mirrored-U/repeated-V wrap and neutral eye layers. No recoloring.",
+      "All skeletal channel paths resolve exactly to source skeleton; Unity translation X reflection and quaternion Y/Z reflection independently verified against native prefab.",
+      "Shader-driven animated eye/mouth expression UVs and emission pulsation are not reproduced; neutral face atlases are fixed."
+    ],
+    "optimization": {
+      "sha256": "eb90899c79c2de1e2a8916fb5d0d86ef52fb577b0a7926b487011038f80c71e5"
+    }
+  },
+  "wooper-paldean": {
+    "name": "Paldean Wooper",
+    "species": "wooper",
+    "dexId": 194,
+    "path": "/pokemon-legends-showcase/assets/pokemon-3d/wooper-paldean.glb",
+    "bytes": 392380,
+    "sha256": "001e1d3cf1a80cce07977654ddfc3be9cb1e4cf699728cc2740de33e69e11f10",
+    "skins": [
+      11,
+      2
+    ],
+    "textures": 3,
+    "extensionsRequired": [],
+    "clips": [
+      {
+        "name": "pm0194_00_51_ba10_waitA01",
+        "duration": 3,
+        "channels": 52,
+        "varyingSkinnedJointChannels": 10,
+        "movingSkinnedJointCount": 8
+      },
+      {
+        "name": "pm0194_00_51_ba20_buturi01",
+        "duration": 2.1666667461395264,
+        "channels": 52,
+        "varyingSkinnedJointChannels": 13,
+        "movingSkinnedJointCount": 8
+      },
+      {
+        "name": "pm0194_00_51_ba21_tokusyu01",
+        "duration": 2.299999952316284,
+        "channels": 52,
+        "varyingSkinnedJointChannels": 12,
+        "movingSkinnedJointCount": 8
+      }
+    ],
+    "idle": "pm0194_00_51_ba10_waitA01",
+    "attack": "pm0194_00_51_ba21_tokusyu01",
+    "attackTimeScale": 1,
+    "attackAuthorship": "native HOME skeletal animation; 60 Hz Hermite curve conversion",
+    "enter": "pm0194_00_51_ba20_buturi01",
+    "enterStart": 0,
+    "enterEnd": 2.1666667461395264,
+    "enterSpeed": 2,
+    "entranceDuration": 1.0833333730697632,
+    "entranceAuthorship": "native action reused as entrance at 2x playback; not a source game entrance event",
+    "entranceLabel": "native physical flourish",
+    "bounds": {
+      "min": [
+        -0.252149132626481,
+        -0.00031434261213242646,
+        -0.24777889327607447
+      ],
+      "max": [
+        0.24666928116054418,
+        0.3843138829626861,
+        0.14696826278905067
+      ],
+      "center": [
+        -0.0027399257329683985,
+        0.19199977017527683,
+        -0.0504053152435119
+      ],
+      "size": [
+        0.4988184137870252,
+        0.3846282255748185,
+        0.3947471560651251
+      ],
+      "method": "CPU-skinned indexed world vertices at native idle t=0"
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%202)/pm0194_00_51.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0194_00_51_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0194_00_51_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0194_00_51_ba21_tokusyu01.anim"
+    ],
+    "notes": [
+      "Exact form HOME geometry, native skin weights, inverse binds and rest transforms preserved.",
+      "Native textures resolved by material GUID and baked using source integer tiling, offsets, mirrored-U/repeated-V wrap and neutral eye layers. No recoloring.",
+      "All skeletal channel paths resolve exactly to source skeleton; Unity translation X reflection and quaternion Y/Z reflection independently verified against native prefab.",
+      "Shader-driven animated eye/mouth expression UVs and emission pulsation are not reproduced; neutral face atlases are fixed."
+    ],
+    "optimization": {
+      "sha256": "001e1d3cf1a80cce07977654ddfc3be9cb1e4cf699728cc2740de33e69e11f10"
+    }
   }
 }

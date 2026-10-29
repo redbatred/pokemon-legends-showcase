@@ -227,5 +227,71 @@
     "dexId": 44,
     "species": "gloom",
     "image": "/pokemon-legends-showcase/assets/pokemon/gloom-shiny.png"
+  },
+  "Tera dark Charizard": {
+    "dexId": 6,
+    "species": "charizard",
+    "image": "/pokemon-legends-showcase/assets/pokemon/charizard-tera-dark.png"
+  },
+  "Shiny Tera dark Charizard": {
+    "dexId": 6,
+    "species": "charizard",
+    "image": "/pokemon-legends-showcase/assets/pokemon/charizard-shiny-tera-dark.png"
+  },
+  "Tera dragon Dragonite": {
+    "dexId": 149,
+    "species": "dragonite",
+    "image": "/pokemon-legends-showcase/assets/pokemon/dragonite-tera-dragon.png"
+  },
+  "Tera grass Forretress": {
+    "dexId": 205,
+    "species": "forretress",
+    "image": "/pokemon-legends-showcase/assets/pokemon/forretress-tera-grass.png"
+  },
+  "Tera electric Tyranitar": {
+    "dexId": 248,
+    "species": "tyranitar",
+    "image": "/pokemon-legends-showcase/assets/pokemon/tyranitar-tera-electric.png"
+  },
+  "Gigantamax Gengar": {
+    "dexId": 94,
+    "species": "gengar",
+    "image": "/pokemon-legends-showcase/assets/pokemon/gengar-gigantamax.png"
+  },
+  "Gigantamax Pikachu": {
+    "dexId": 25,
+    "species": "pikachu",
+    "image": "/pokemon-legends-showcase/assets/pokemon/pikachu-gigantamax.png"
+  },
+  "Gigantamax Duraludon": {
+    "dexId": 884,
+    "species": "duraludon",
+    "image": "/pokemon-legends-showcase/assets/pokemon/duraludon-gigantamax.png"
+  },
+  "Shiny Mew": {
+    "species": "mew",
+    "dexId": 151,
+    "image": "/pokemon-legends-showcase/assets/pokemon/mew-shiny.png"
+  },
+  "Shiny Umbreon": {
+    "species": "umbreon",
+    "dexId": 197,
+    "image": "/pokemon-legends-showcase/assets/pokemon/umbreon-shiny.png"
+  },
+  "Shiny Alakazam": {
+    "species": "alakazam",
+    "dexId": 65,
+    "image": "/pokemon-legends-showcase/assets/pokemon/alakazam-shiny.png"
+  },
+  "Origin Giratina": {
+    "species": "giratina",
+    "dexId": 487,
+    "image": "/pokemon-legends-showcase/assets/pokemon/giratina-origin.png"
+  },
+  "Paldean Wooper": {
+    "species": "wooper",
+    "dexId": 194,
+    "image": "/pokemon-legends-showcase/assets/pokemon/wooper-paldean.png",
+    "cryId": 10253
   }
 }

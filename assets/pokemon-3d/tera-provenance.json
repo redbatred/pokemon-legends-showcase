@@ -1,0 +1,223 @@
+{
+  "crowns": {
+    "grass": {
+      "sourceUrl": "https://pmrandom.dpdns.org/api/lmd/object/ob0300_05_crown",
+      "sourceModel": "ob0300_05_crown",
+      "meshes": 6,
+      "textures": 2,
+      "triangles": 6456,
+      "vertices": 15573,
+      "bounds": {
+        "min": [
+          -0.9052836894989014,
+          -0.022453274577856064,
+          -0.8863413333892822
+        ],
+        "max": [
+          1.0042239427566528,
+          2.2369470596313477,
+          1.117467999458313
+        ],
+        "size": [
+          1.9095076322555542,
+          2.2594003342092037,
+          2.003809332847595
+        ]
+      },
+      "bytes": 594824,
+      "axis": {
+        "up": "+Y",
+        "front": "+Z"
+      },
+      "origin": "Original base center (0,0,0); lowest core points are approximately -0.02Y. Attach this origin at head crown seat.",
+      "sha256": "3048a073cdf8bf37d68612643a7b54657e95dc71ca3afb1be74ab7483c539636",
+      "animated": false,
+      "usage": "Attach crown root to animated Pokemon head; static crown inherits native body animation.",
+      "sourceKind": "Game-derived LMD geometry from public Pok\u00e9mon Masters EX community viewer; converted without changing mesh vertices/UVs.",
+      "sourceViewer": "https://pmrandom.dpdns.org/modelviewer",
+      "materialConversion": "Original diffuse PNGs embedded unchanged; normals recomputed from source triangles; PBR approximation. Runtime should use crystal materials for crystal overlays.",
+      "nativeGameScreenshot": "https://archives.bulbagarden.net/media/upload/0/04/Tera_Jewel_Grass.png",
+      "referenceDimensions": [
+        1920,
+        1080
+      ],
+      "path": "/pokemon-legends-showcase/assets/pokemon-3d/tera-crown-grass.glb"
+    },
+    "dragon": {
+      "sourceUrl": "https://pmrandom.dpdns.org/api/lmd/object/ob0300_15_crown",
+      "sourceModel": "ob0300_15_crown",
+      "meshes": 6,
+      "textures": 2,
+      "triangles": 2706,
+      "vertices": 3647,
+      "bounds": {
+        "min": [
+          -1.5317020416259766,
+          -0.018840542063117027,
+          -0.9967058300971985
+        ],
+        "max": [
+          1.5317020416259766,
+          2.3150417804718018,
+          0.9632310271263123
+        ],
+        "size": [
+          3.063404083251953,
+          2.333882322534919,
+          1.9599368572235107
+        ]
+      },
+      "bytes": 168084,
+      "axis": {
+        "up": "+Y",
+        "front": "+Z"
+      },
+      "origin": "Original base center (0,0,0); lowest core points are approximately -0.02Y. Attach this origin at head crown seat.",
+      "sha256": "5a2175d689815190f4815a4df5285bff100b71c01b66b07b432a571a454bc411",
+      "animated": false,
+      "usage": "Attach crown root to animated Pokemon head; static crown inherits native body animation.",
+      "sourceKind": "Game-derived LMD geometry from public Pok\u00e9mon Masters EX community viewer; converted without changing mesh vertices/UVs.",
+      "sourceViewer": "https://pmrandom.dpdns.org/modelviewer",
+      "materialConversion": "Original diffuse PNGs embedded unchanged; normals recomputed from source triangles; PBR approximation. Runtime should use crystal materials for crystal overlays.",
+      "nativeGameScreenshot": "https://archives.bulbagarden.net/media/upload/e/e6/Tera_Jewel_Dragon.png",
+      "referenceDimensions": [
+        1920,
+        1080
+      ],
+      "path": "/pokemon-legends-showcase/assets/pokemon-3d/tera-crown-dragon.glb"
+    },
+    "dark": {
+      "sourceUrl": "https://pmrandom.dpdns.org/api/lmd/object/ob0300_16_crown",
+      "sourceModel": "ob0300_16_crown",
+      "meshes": 7,
+      "textures": 2,
+      "triangles": 2248,
+      "vertices": 5259,
+      "bounds": {
+        "min": [
+          -0.9529891014099121,
+          -0.019840534776449203,
+          -0.5665623545646667
+        ],
+        "max": [
+          1.4520221948623657,
+          3.0663037300109863,
+          0.297353595495224
+        ],
+        "size": [
+          2.405011296272278,
+          3.0861442647874355,
+          0.8639159500598907
+        ]
+      },
+      "bytes": 214684,
+      "axis": {
+        "up": "+Y",
+        "front": "+Z"
+      },
+      "origin": "Original base center (0,0,0); lowest core points are approximately -0.02Y. Attach this origin at head crown seat.",
+      "sha256": "48c0fe27c6b086f5b3d541eb08e5c5b5c0aa3a74d40bf48566bf0bd3aea74f2c",
+      "animated": false,
+      "usage": "Attach crown root to animated Pokemon head; static crown inherits native body animation.",
+      "sourceKind": "Game-derived LMD geometry from public Pok\u00e9mon Masters EX community viewer; converted without changing mesh vertices/UVs.",
+      "sourceViewer": "https://pmrandom.dpdns.org/modelviewer",
+      "materialConversion": "Original diffuse PNGs embedded unchanged; normals recomputed from source triangles; PBR approximation. Runtime should use crystal materials for crystal overlays.",
+      "nativeGameScreenshot": "https://archives.bulbagarden.net/media/upload/6/67/Tera_Jewel_Dark.png",
+      "referenceDimensions": [
+        1920,
+        1080
+      ],
+      "path": "/pokemon-legends-showcase/assets/pokemon-3d/tera-crown-dark.glb"
+    },
+    "electric": {
+      "provenance": {
+        "provenance": "Hybrid: authored Electric bulb, bolt and socket reconstructed from the original Scarlet/Violet screenshot; original universal hexagonal crystal/eye geometry and textures from Pok\u00e9mon Masters EX ob0300_01_crown.",
+        "sourceReference": "https://archives.bulbagarden.net/media/upload/5/58/Tera_Jewel_Electric.png",
+        "nativeCoreSource": "https://pmrandom.dpdns.org/api/lmd/object/ob0300_01_crown",
+        "nativeElectricUnavailable": "https://pmrandom.dpdns.org/api/lmd/object/ob0300_04_crown returned Object LMD not found",
+        "upAxis": "+Y",
+        "frontAxis": "+Z",
+        "mountOrigin": "base center (0,0,0)"
+      },
+      "meshes": 12,
+      "textures": 2,
+      "triangles": 800,
+      "bytes": 91888,
+      "bounds": {
+        "min": [
+          -0.96,
+          -0.02,
+          -0.96
+        ],
+        "max": [
+          0.96,
+          2.46,
+          0.96
+        ]
+      },
+      "parts": [
+        {
+          "name": "authored_faceted_glass_lightbulb",
+          "triangles": 320
+        },
+        {
+          "name": "authored_gold_socket",
+          "triangles": 48
+        },
+        {
+          "name": "authored_socket_thread_0",
+          "triangles": 48
+        },
+        {
+          "name": "authored_socket_thread_1",
+          "triangles": 48
+        },
+        {
+          "name": "authored_socket_thread_2",
+          "triangles": 48
+        },
+        {
+          "name": "authored_socket_thread_3",
+          "triangles": 48
+        },
+        {
+          "name": "authored_socket_thread_4",
+          "triangles": 48
+        },
+        {
+          "name": "authored_lightning_filament",
+          "triangles": 52
+        },
+        {
+          "name": "native_G_eye",
+          "triangles": 2
+        },
+        {
+          "name": "native_G_core_mark",
+          "triangles": 18
+        },
+        {
+          "name": "native_G_core",
+          "triangles": 60
+        },
+        {
+          "name": "native_G_core_back",
+          "triangles": 60
+        }
+      ],
+      "sha256": "0ca43b00d12809424b307455d6d28b84d727d936e295566a63ba0a627d4ef1b7",
+      "animated": false,
+      "usage": "Attach crown root to animated Pokemon head; static crown inherits native body animation.",
+      "nativeGameScreenshot": "https://archives.bulbagarden.net/media/upload/5/58/Tera_Jewel_Electric.png",
+      "referenceDimensions": [
+        1920,
+        1080
+      ],
+      "glassMaterial": "Alpha BLEND 0.20, clearcoat 1, roughness 0.04. Transmission omitted to preserve deterministic rendering and avoid extra render pass; retain transparency.",
+      "visualVerification": "/tmp/pokemon-tera-research/crowns-all-simple-preview.png",
+      "path": "/pokemon-legends-showcase/assets/pokemon-3d/tera-crown-electric.glb"
+    }
+  },
+  "bodyMaterial": "Runtime physical crystal shading; native body geometry, skinning, UV maps and animation clips remain unchanged.",
+  "fallbackPortraits": "1024px transparent renders of the exact runtime 3D form; not recolored base artwork."
+}
