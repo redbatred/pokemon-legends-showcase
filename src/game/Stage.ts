@@ -15,7 +15,7 @@ import {cardHover} from './cardHover';
 import {crowdLevel} from './crowdReaction';
 import {packStackPose,packStackFan,transferStackFront,PACK_EXTRACTION_START,PACK_ARRIVAL_TIME} from './packOpeningMotion';
 
-type Options = { reduced: boolean; low: boolean; onTear: () => void; onNext: () => void };
+type Options = { reduced: boolean; turbo?:boolean; low: boolean; onTear: () => void; onNext: () => void };
 type Particle = { sprite: Graphics; x: number; y: number; speed: number; phase: number; depth: number };
 /** The render loop owns all frame state. The controller sends discrete commands and receives completion events. */
 export class OpeningStage {
@@ -43,7 +43,7 @@ export class OpeningStage {
   private cardEdge = new Graphics();
   private special:SpineReveal|null=null;private charging=false;private disposeSpecialResources:(()=>void)|null=null;
   particles: Particle[] = [];
-  mode: 'pack' | 'sealed' | 'tearing' | 'card' | 'result' = 'pack';
+  mode: 'pack' | 'sealed' | 'tearing' | 'waiting' | 'card' | 'result' = 'pack';
   time = 0;
   destroyed = false;
   private observer!: ResizeObserver;
@@ -160,7 +160,7 @@ export class OpeningStage {
     gsap.to(this.pack, { alpha: 1, duration: this.options.reduced ? .01 : .6 });
   }
 
-  updateOptions(options: Options) { const changed=this.options.low!==options.low,reducing=!this.options.reduced&&options.reduced;this.options=options;if(reducing){this.revealEffects.clear();this.scene.setCharge(null);this.scene.setCinematic(false,true);}if(reducing&&(this.special||this.charging)){this.timeline?.progress(1);this.special?.update(3);this.charging=false;this.scene.setCharge(null);this.scene.setCinematic(false,true);stopRevealAudio();}if(changed&&this.app.renderer)this.resize(); }
+  updateOptions(options: Options) { const changed=this.options.low!==options.low,reducing=!this.options.reduced&&options.reduced;this.options=options;this.timeline?.timeScale(options.turbo?4:1);if(reducing){this.revealEffects.clear();this.scene.setCharge(null);this.scene.setCinematic(false,true);}if(reducing&&(this.special||this.charging)){this.timeline?.progress(1);this.special?.update(3);this.charging=false;this.scene.setCharge(null);this.scene.setCinematic(false,true);stopRevealAudio();}if(changed&&this.app.renderer)this.resize(); }
   draw(){
     if(this.destroyed||!this.app.renderer||this.app.ticker.started||this.drawFrame)return;
     this.drawFrame=requestAnimationFrame(()=>{this.drawFrame=0;if(!this.destroyed&&!this.app.ticker.started)this.app.renderer.render(this.app.stage);});
@@ -212,7 +212,7 @@ export class OpeningStage {
       else if(++this.sampleFrames>=120){this.app.canvas.dataset.renderFps=(1000*this.sampleFrames/(now-this.sampleStart)).toFixed(1);this.app.canvas.dataset.lightTint='#'+this.scene.lightTint.toString(16).padStart(6,'0');this.sampleStart=now;this.sampleFrames=0;}
     }
     this.time += dt;
-    if(!this.options.reduced)this.special?.update(dt);
+    if(!this.options.reduced)this.special?.update(dt*(this.options.turbo?4:1));
     this.scene.tick(this.time,this.options.reduced,this.options.low);
     const move = !this.options.reduced;
     this.tilt.x += ((move ? this.target.x : 0) - this.tilt.x) * Math.min(1, dt * 5);
@@ -251,6 +251,7 @@ export class OpeningStage {
   }
 
   setSealed() { this.mode = 'sealed'; }
+  waitForReveal(){this.mode='waiting';this.travelling=false;this.draw();}
   private clearPackOpening(){
     if(!this.packOpening)return;
     if(this.stack.parent!==this.world)this.world.addChildAt(this.stack,2);
@@ -288,7 +289,7 @@ export class OpeningStage {
         .to(opening.bodyRoot,{x:35,y:570,rotation:.24,alpha:0,duration:.49*d,ease:'power2.in'},PACK_CLEARANCE_TIME*d)
         .to(this.packShadow,{alpha:0,duration:.38*d},PACK_CLEARANCE_TIME*d)
         .to(transport,{time:PACK_ARRIVAL_TIME,duration:(PACK_ARRIVAL_TIME-PACK_EXTRACTION_START)*d,ease:'none',onUpdate:()=>{const pose=packStackPose(transport.time);travel.amount=pose.camera;this.positionJourney();this.stack.position.set(pose.x,pose.y);this.stack.scale.set(pose.scale);this.stack.rotation=pose.rotation;this.fanStack(transport.time);}},PACK_EXTRACTION_START*d);
-      if(this.blocked||document.hidden)this.timeline.pause();
+      this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
     });
   }
 
@@ -300,7 +301,7 @@ export class OpeningStage {
     const key=card.image+'|'+pokemonImage;if(this.prepared?.key===key)return;
     this.discardPrepared();const entry={key,cancelled:false,promise:null as unknown as Promise<{texture:Texture;special:SpineReveal|null}>};this.prepared=entry;
     entry.promise=(async()=>{const texture=await Assets.load<Texture>(card.image);let special:SpineReveal|null=null;
-      if(pokemonImage&&!this.options.reduced&&!entry.cancelled&&!this.destroyed){try{const {SpineReveal}=await import('./SpineReveal');if(!entry.cancelled&&!this.destroyed){this.disposeSpecialResources=()=>SpineReveal.disposeResources();special=await SpineReveal.create(texture,pokemonImage,this.options.low);}}catch(error){console.warn('Special reveal artwork unavailable',error);}}
+      if(pokemonImage&&!this.options.reduced&&!this.options.turbo&&!entry.cancelled&&!this.destroyed){try{const {SpineReveal}=await import('./SpineReveal');if(!entry.cancelled&&!this.destroyed){this.disposeSpecialResources=()=>SpineReveal.disposeResources();special=await SpineReveal.create(texture,pokemonImage,this.options.low);}}catch(error){console.warn('Special reveal artwork unavailable',error);}}
       if(entry.cancelled||this.destroyed){special?.destroy();special=null;}return {texture,special};})();
     void entry.promise.catch(()=>{});
   }
@@ -311,7 +312,7 @@ export class OpeningStage {
     this.prepareReveal(card,pokemonImage);const prepared=this.prepared!;this.prepared=null;
     const loaded=await prepared.promise,texture=loaded.texture;let special=loaded.special;
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
-    if(this.options.reduced){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
+    if(this.options.reduced||this.options.turbo){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
     this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced,crowdLevel(card,packPrice,!!special));
     this.mode = 'card'; this.pack.visible = false; this.packShadow.visible = false;
     this.cardLayer.visible = true;
@@ -358,13 +359,13 @@ export class OpeningStage {
         .to(this.motion,{flip:0,offsetX:0,lift:-8,roll:0,pitch:0,scale:1,duration:.43*d,ease:'back.out(1.08)'},(turn+.24)*d)
         .to(this.foil.resources.foil.uniforms,{uSweep:.8,duration:.46*d,ease:'sine.inOut'},(turn+.28)*d)
         .to(this.foil.resources.foil.uniforms,{uSweep:0,duration:.24*d,ease:'sine.out'},(turn+.74)*d);
-      if(this.blocked||document.hidden)this.timeline.pause();
+      this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
     });
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
-    if(this.options.reduced){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
+    if(this.options.reduced||this.options.turbo){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
     if(special){
       this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);special.setFloor(performanceFloor(gameLayout(this.app.screen.width,this.app.screen.height,true)));if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
-      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});if(this.blocked||document.hidden)this.timeline.pause();});
+      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});
       if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(false,this.options.reduced);}
     }
     if(!this.destroyed&&request===this.revealToken)this.cardHoverReady=true;
@@ -406,12 +407,12 @@ export class OpeningStage {
         timeline.call(()=>this.onCollectFocus?.(index),[],at+duration);
       });
       timeline.to({}, {duration:.12*d});
-      if(this.blocked||document.hidden)timeline.pause();
+      timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)timeline.pause();
     });
   }
   async storeCurrent(index:number){
     const flight=this.detachCard();if(!flight)return;
-    return new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});this.flyToTray(this.timeline,flight,index,index,this.options.reduced?.01:1);if(this.blocked||document.hidden)this.timeline.pause();});
+    return new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});this.flyToTray(this.timeline,flight,index,index,this.options.reduced?.01:1);this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});
   }
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }

@@ -1,3 +1,4 @@
+import {packGridLayout} from './packGrid';
 export function renderResolution(width: number, height: number, dpr: number, low: boolean) {
   const pixels = Math.max(1,width*height);
   return Math.min(dpr,low?1:1.5,Math.sqrt((low?950_000:1_700_000)/pixels));
@@ -10,8 +11,8 @@ export function pageWindow(total: number, size: number, requested: number) {
 export function gameLayout(width:number,height:number,opening=false) {
   const portrait=width<700,compact=height<550&&width>=560,short=height<620;
   const sideControls=width>=900||compact;
-  const top=compact?84:sideControls?90:short?148:156;
-  const dock=opening?(compact?92:short?112:148):(compact?148:portrait?216:226);
+  const top=compact?84:sideControls?90:short?172:196;
+  const dock=opening?(compact?92:short?112:148):(height-packGridLayout(width,height).top);
   const actions=opening?(sideControls?(compact?0:44):short?112:124):(compact?52:72);
   const dockTop=height-dock,actionTop=dockTop-actions;
   // One local coordinate system for the card, physical platform and floor gap.
@@ -23,7 +24,7 @@ export function gameLayout(width:number,height:number,opening=false) {
   const arenaScale=Math.min(widthLimit/platformSpan,Math.max(1,actionTop-frontInset-top)/compositionHeight,1.4);
   const stageWidth=platformSpan*arenaScale,stageFrontOffset=frontPerScale*arenaScale;
   const stageY=actionTop-stageFrontOffset-frontInset,stageFront=stageY+stageFrontOffset;
-  const playHeight=opening?cardHeight*arenaScale:Math.max(76,(compact?dockTop-9:actionTop-16)-top);
+  const playHeight=opening?cardHeight*arenaScale:Math.max(36,(compact?dockTop-9:actionTop-16)-top);
   const scale=opening?arenaScale:Math.max(.17,Math.min(width/(sideControls?720:430),playHeight/cardHeight,1.4));
   const worldY=opening?stageY-(floorGap+cardHeight/2)*scale:top+playHeight/2;
   return {width,height,portrait,compact,short,sideControls,top,dock,actions,playHeight,actionTop,dockTop,worldY,scale,stageY,stageFront,stageWidth,stageFlatten};

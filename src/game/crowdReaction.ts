@@ -10,7 +10,7 @@ export function crowdLevel(card:Pick<Card,'id'|'rarity'|'value'>,packPrice:numbe
  return 1;
 }
 export function crowdMix(level:CrowdLevel){
- const gain=[{rise:0,loop:0},{rise:.20,loop:0},{rise:.30,loop:0},{rise:.66,loop:.34},{rise:.80,loop:.46}][level];
- return {...gain,attack:level<=1?'crowdreact':level===2?'crowdreactrare':'crowdrise',bed:level<=2?null:'crowdcheer'};
+ const rise=[0,.06,.12,.24,.34][level];
+ return {rise,loop:0,attack:level<=1?'crowdreact':'crowdreactrare',bed:null as string|null};
 }
 export function crowdAnimationLevel(level:CrowdLevel){return Math.min(3,level);}

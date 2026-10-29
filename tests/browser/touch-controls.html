@@ -1,38 +1,18 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Touch controls regression</title><link rel="stylesheet" href="/src/styles.css"><style>html,body{overflow:auto}nav{display:flex;gap:12px;padding:12px;align-items:center}#host{position:relative;width:390px;height:780px;margin:auto;overflow:hidden}output{font:14px monospace;white-space:pre-wrap}</style></head><body><nav><button id="test">Run touch regression</button><button id="desktop">Desktop</button><button id="phone">Phone</button><output>Loading</output></nav><div class="canvas-host" id="host"></div><script type="module">
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pack grid touch regression</title><link rel="stylesheet" href="/src/styles.css"><style>html,body{overflow:auto}nav{display:flex;gap:12px;padding:12px;align-items:center}#host{position:relative;width:390px;height:780px;margin:auto;overflow:hidden}output{font:14px monospace;white-space:pre-wrap}</style></head><body><nav><button id="test">Run grid regression</button><button id="desktop">Desktop</button><button id="phone">Phone</button><output>Loading</output></nav><div class="canvas-host" id="host"></div><script type="module">
 import {PokemonGame} from '/src/game/Game.ts';
-import {CanvasUI} from '/src/game/CanvasUI.ts';
 import {newSave} from '/src/game/model.ts';
-const host=document.querySelector('#host'),out=document.querySelector('output');
-const game=new PokemonGame(host);await game.stage.init();await document.fonts.load('800 24px Nunito');game.save=newSave();game.packs=await fetch('/assets/packs.json').then(r=>r.json());game.view=new CanvasUI(game.stage,game.syncTargets);await game.preparePack();
+const host=document.querySelector('#host'),out=document.querySelector('output');let save=newSave();
+const game=new PokemonGame(host,{loadSave:async()=>save,transactSave:async fn=>(save=fn(save)),resetSave:async()=>(save=newSave())});await game.init();
 document.querySelector('#desktop').onclick=()=>{host.style.width='1280px';host.style.height='720px'};
 document.querySelector('#phone').onclick=()=>{host.style.width='390px';host.style.height='780px'};
-// Uses the real controls and rail with no save writes. Synthetic touch releases
-// deliberately stay on their starting button, like implicit touch capture.
 document.querySelector('#test').onclick=async()=>{
- game.view.railMotion.offset=0;game.selectedId=game.packs[0].id;await game.preparePack();
- const results=[],canvas=game.stage.app.canvas,originalCanvas=canvas.setPointerCapture,originalHost=host.setPointerCapture;
- canvas.setPointerCapture=host.setPointerCapture=()=>{};
- const touch=(target,type,x,y,id=81)=>target.dispatchEvent(new PointerEvent(type,{pointerId:id,pointerType:'touch',isPrimary:true,button:0,buttons:type==='pointerup'?0:1,clientX:x,clientY:y,bubbles:true,cancelable:true}));
- const pick=()=>host.querySelector('[data-control="pack-'+game.packs[1].id+'"]');
- try{
-  const button=pick(),rect=button.getBoundingClientRect(),x=rect.x+rect.width/2,y=rect.y+rect.height/2;
-  touch(button,'pointerdown',x,y);touch(button,'pointerup',x,y);
-  results.push((game.selectedId===game.packs[1].id?'PASS':'FAIL')+' touch tap selects Pokémon 151');
-  await new Promise(r=>setTimeout(r,700));
-  const next=pick(),box=next.getBoundingClientRect(),px=box.x+box.width/2,py=box.y+box.height/2,start=game.view.railMotion.offset,selected=game.selectedId;
-  touch(next,'pointerdown',px,py);touch(next,'pointermove',px-90,py);touch(next,'pointerup',px-90,py);
-  await new Promise(r=>setTimeout(r,550));
-  results.push((game.view.railMotion.offset>start?'PASS':'FAIL')+' touch swipe scrolls rail');
-  results.push((game.selectedId===selected?'PASS':'FAIL')+' swipe does not select a different pack');
-  results.push((game.view.drag===null?'PASS':'FAIL')+' release clears gesture');
-  const visible=host.querySelector('[data-control^="pack-"]'),vb=visible.getBoundingClientRect(),vx=vb.x+vb.width/2,vy=vb.y+vb.height/2;
-  touch(visible,'pointerdown',vx,vy);touch(visible,'pointermove',vx-35,vy);touch(visible,'pointercancel',vx-35,vy);
-  results.push((game.view.drag===null&&game.selectedId===selected?'PASS':'FAIL')+' cancelled touch never selects a pack');
-  await new Promise(r=>setTimeout(r,550));
-  const css=getComputedStyle(host.querySelector('[data-control^="pack-"]'));
-  results.push((css.webkitTapHighlightColor==='rgba(0, 0, 0, 0)'&&css.backgroundColor==='rgba(0, 0, 0, 0)'?'PASS':'FAIL')+' no native tap background');
- }finally{canvas.setPointerCapture=originalCanvas;host.setPointerCapture=originalHost;}
+ const results=[],hits=[...host.querySelectorAll('[data-control^="pack-"]')],frame=host.getBoundingClientRect();
+ results.push((hits.length===game.packs.length?'PASS':'FAIL')+' every pack has a native tap/keyboard target');
+ results.push((hits.every(hit=>{const r=hit.getBoundingClientRect();return r.left>=frame.left&&r.right<=frame.right+1&&r.bottom<=frame.bottom+1})?'PASS':'FAIL')+' every pack fits without a carousel');
+ const button=host.querySelector('[data-control="pack-'+game.packs[1].id+'"]');button.click();
+ results.push((game.selectedId===game.packs[1].id&&game.phase==='browse'&&!save.active?'PASS':'FAIL')+' selecting only previews the chosen pack');
+ const css=getComputedStyle(host.querySelector('[data-control^="pack-"]'));
+ results.push((css.webkitTapHighlightColor==='rgba(0, 0, 0, 0)'&&css.backgroundColor==='rgba(0, 0, 0, 0)'?'PASS':'FAIL')+' no native tap background');
  out.textContent=results.join('\n');
-};
-out.textContent='Ready · in-memory save · touch release stays on button';
+};out.textContent='Ready · in-memory save · native buttons, no gesture interception';
 </script></body></html>

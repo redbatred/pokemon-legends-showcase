@@ -16,31 +16,16 @@ vi.mock('howler',()=>{
 });
 import { destroyAudio, playPokemonMove,pokemonSoundTiming,playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio,playCrowdReaction,stopCrowdReaction } from './audio';
 import cueManifest from '../../public/assets/audio-v4/cues.json';
+import interfaceManifest from '../../public/assets/audio-v12/cues.json';
 const voice=(key:string)=>mock.howls.find(h=>h.source.endsWith(`/${key}.mp3`));
 beforeEach(()=>{destroyAudio();mock.howls=[];mock.loaded=true;});
 afterEach(()=>{destroyAudio();vi.useRealTimers();});
-it('starts the current card crowd when sound is enabled after the reveal without replaying its impact',()=>{
- playCrowdReaction(4);setSound(true);
- expect(voice('crowdcheer').play).toHaveBeenCalledOnce();
- expect(voice('crowdrise').play).not.toHaveBeenCalled();
- setSound(false);setSound(true);
- expect(voice('crowdcheer').play).toHaveBeenCalledTimes(2);
- stopCrowdReaction();setSound(false);setSound(true);
- expect(voice('crowdcheer').play).toHaveBeenCalledTimes(2);
-});
-it('recovers a loading crowd loop only while its revealed card still owns the reaction',()=>{
- vi.useFakeTimers();mock.loaded=false;setSound(true);playCrowdReaction(4);const loop=voice('crowdcheer');
- mock.loaded=true;for(const e of [...loop.events])if(e.name==='load')e.fn();
- expect(loop.play).toHaveBeenCalledOnce();
- stopCrowdReaction();mock.loaded=false;playCrowdReaction(4);const callbacks=[...loop.events].filter((e:any)=>e.name==='load');stopCrowdReaction();mock.loaded=true;for(const e of callbacks)e.fn();
- expect(loop.play).toHaveBeenCalledOnce();
-});
 it('halves Pokémon attacks and cries while preserving menu and card volume',()=>{
  setSound(true);
  for(const key of ['fire','water','electric','psychic','swift','hyperbeam','shadowball','aeroblast','petals'] as const){
   playSound(key);expect(voice(key).volume).toHaveBeenLastCalledWith(cueManifest[key].gain*.5,1);
  }
- playSound('ui');expect(voice('ui').volume).toHaveBeenLastCalledWith(cueManifest.ui.gain,1);
+ playSound('ui');expect(voice('ui').volume).toHaveBeenLastCalledWith(interfaceManifest.ui.gain,1);
  playPokemonCry(6);expect(voice('cries/6').volume).toHaveBeenLastCalledWith(.28,1);
 });
 it('uses the matching unpitched game cry and sampled ball cue',async()=>{
@@ -64,7 +49,7 @@ it('drops unloaded cues instead of queuing a late effect on the next card',async
  mock.loaded=true;expect(voice('release').play).not.toHaveBeenCalled();
 });
 it('bounds rapid overlapping voices and removes event listeners when stopped',()=>{
- setSound(true);for(let i=0;i<20;i++)playSound('flip');const h=voice('flip');
+ setSound(true);for(let i=0;i<20;i++)playSound('impact');const h=voice('impact');
  expect(h.playing.size).toBe(2);expect(h.events.length).toBe(4);stopRevealAudio();expect(h.events).toHaveLength(0);
 });
 
@@ -78,7 +63,7 @@ it('does not resume skipped cinematic audio after leaving the settings panel',()
 
 it('uses distinct normal/rare payoffs and keeps menu clicks audible while the scene is paused',()=>{
  setSound(true);playSound('reveal');playSound('rare');setAudioScenePaused(true);playSound('ui');
- for(const key of ['normal','rare','ui'])expect(mock.howls.find(h=>h.source===`/assets/audio-v4/${key}.mp3`).play).toHaveBeenCalledOnce();
+ for(const key of ['normal','rare','ui'])expect(mock.howls.find(h=>h.source===`/assets/audio-v12/${key}.mp3`).play).toHaveBeenCalledOnce();
 });
 it('ducks release effects underneath the Pokemon cry',async()=>{
  setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');playSound('release');playPokemonCry(6);expect(voice('release').fade).toHaveBeenCalledWith(0.44,0.44*.42,65,1);
@@ -128,29 +113,26 @@ it('preloads dedicated PCM bounce cues with independent floor contacts and scene
  setAudioScenePaused(true);expect(first.pause).toHaveBeenCalledWith(1);expect(second.pause).toHaveBeenCalledWith(1);stopRevealAudio();setAudioScenePaused(false);expect(first.play).toHaveBeenCalledTimes(1);expect(second.play).toHaveBeenCalledTimes(1);
 });
 
-it('keeps one rare crowd loop until next card, including loop boundaries and pause/resume',()=>{
- setSound(true);playCrowdReaction(4);const rise=voice('crowdrise'),loop=voice('crowdcheer');
- expect(rise.play).toHaveBeenCalledOnce();expect(loop.loop).toHaveBeenCalledWith(true,1);expect(loop.events.some((e:any)=>e.name==='end')).toBe(false);
- playCrowdReaction(4);expect(loop.play).toHaveBeenCalledOnce();expect(rise.play).toHaveBeenCalledOnce();
- setAudioScenePaused(true);expect(loop.pause).toHaveBeenCalledWith(1);setAudioScenePaused(false);expect(loop.play).toHaveBeenLastCalledWith(1);
- stopCrowdReaction();expect(loop.stop).toHaveBeenCalledWith(1);expect(loop.events).toHaveLength(0);setAudioHidden(true);setAudioHidden(false);expect(loop.play).toHaveBeenCalledTimes(2);
-});
-it('uses one brief vocal reaction for low cards and resumes only a big-win bed after unmuting',()=>{
- setSound(true);playCrowdReaction(1);expect(voice('crowdreact').volume).toHaveBeenLastCalledWith(.20,1);expect(voice('crowdreact').loop).toHaveBeenLastCalledWith(false,1);expect(voice('crowdcheer').play).not.toHaveBeenCalled();expect(voice('crowdrise').play).not.toHaveBeenCalled();setAudioScenePaused(false);expect(voice('crowdreact').play).toHaveBeenCalledOnce();
- playCrowdReaction(4);setSound(false);setSound(true);setAudioScenePaused(false);expect(voice('crowdcheer').play).toHaveBeenCalledTimes(2);expect(voice('crowdrise').play).toHaveBeenCalledOnce();
-});
-
-it('reserves silence for energy and scales applause into stadium cheers',()=>{
- setSound(true);playCrowdReaction(0);expect(voice('crowdreact').play).not.toHaveBeenCalled();expect(voice('crowdcheer').play).not.toHaveBeenCalled();
- playCrowdReaction(2);expect(voice('crowdreactrare').volume).toHaveBeenLastCalledWith(.30,1);expect(voice('crowdreactrare').loop).toHaveBeenLastCalledWith(false,1);
- stopCrowdReaction();playCrowdReaction(4);expect(voice('crowdrise').volume).toHaveBeenLastCalledWith(.80,1);expect(voice('crowdcheer').fade).toHaveBeenLastCalledWith(0,.46,260,1);
-});
-
-it('does not restart a lower-win vocal reaction on unmute or late loading',()=>{
- setSound(true);playCrowdReaction(1);setSound(false);setSound(true);setAudioScenePaused(false);expect(voice('crowdreact').play).toHaveBeenCalledOnce();expect(voice('crowdcheer').play).not.toHaveBeenCalled();
- stopCrowdReaction();mock.loaded=false;playCrowdReaction(2);const cue=voice('crowdreactrare'),callbacks=[...cue.events].filter((e:any)=>e.name==='load');stopCrowdReaction();mock.loaded=true;for(const e of callbacks)e.fn();expect(cue.play).not.toHaveBeenCalled();
-});
-
 it('pauses the win celebration and money-arrival cues with the scene',()=>{
  setSound(true);playSound('win');playSound('wincollect');const playing=mock.howls.filter(h=>h.play.mock.calls.length);expect(playing).toHaveLength(2);setAudioScenePaused(true);for(const cue of playing)expect(cue.pause).toHaveBeenCalledOnce();setAudioScenePaused(false);for(const cue of playing)expect(cue.play).toHaveBeenCalledTimes(2);
+});
+
+it('uses short tactile cues and throttles rapid UI clicks',()=>{
+ setSound(true);playSound('ui');playSound('ui');playSound('flip');playSound('reveal');
+ expect(voice('ui').source).toContain('/audio-v12/');expect(voice('ui').play).toHaveBeenCalledOnce();
+ expect(voice('flip').source).toContain('/audio-v12/');expect(voice('normal').source).toContain('/audio-v12/');
+});
+it('never plays or loops applause, even for the highest value cards',()=>{
+ setSound(true);playCrowdReaction(4);const vocal=voice('crowdreactrare');
+ expect(vocal.play).toHaveBeenCalledOnce();expect(vocal.loop).toHaveBeenLastCalledWith(false,1);
+ expect(mock.howls.filter(h=>h.play.mock.calls.length).every(h=>!h.source.includes('crowdcheer')&&!h.source.includes('crowdrise'))).toBe(true);
+ setSound(false);setSound(true);setAudioScenePaused(false);expect(vocal.play).toHaveBeenCalledOnce();
+});
+it('keeps routine reactions quiet and avoids a vocal sound on every fast card',()=>{
+ setSound(true);playCrowdReaction(1);const vocal=voice('crowdreact');expect(vocal.volume).toHaveBeenLastCalledWith(.06,1);
+ stopCrowdReaction();playCrowdReaction(1);expect(vocal.play).toHaveBeenCalledOnce();
+});
+it('does not play a stale crowd reaction after leaving the card',()=>{
+ vi.useFakeTimers();mock.loaded=false;setSound(true);playCrowdReaction(4);const cue=voice('crowdreactrare'),callbacks=[...cue.events].filter((e:any)=>e.name==='load');
+ stopCrowdReaction();mock.loaded=true;for(const e of callbacks)e.fn();expect(cue.play).not.toHaveBeenCalled();
 });
