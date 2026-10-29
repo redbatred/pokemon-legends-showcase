@@ -271,7 +271,7 @@ export class CanvasUI {
     else if(kind==='history')icon.circle(0,0,12).stroke({color:white,width:2}).moveTo(0,-7).lineTo(0,0).lineTo(6,4).stroke({color:white,width:2.4});
     else if(kind==='plus')icon.roundRect(-10,-2,20,4,2).fill(white).roundRect(-2,-10,4,20,2).fill(white);
     else {icon.poly([-12,-4,-6,-4,1,-10,1,10,-6,4,-12,4]).fill(white);if(kind==='sound'){for(const radius of [7,12])icon.moveTo(1+Math.cos(-.7)*radius,Math.sin(-.7)*radius).arc(1,0,radius,-.7,.7).stroke({color:white,width:2});}else icon.moveTo(6,-5).lineTo(13,5).moveTo(6,5).lineTo(13,-5).stroke({color:white,width:2});}
-    if(kind==='binder'||kind==='history'){const caption=this.text(kind==='binder'?'COLLECTION':'HISTORY',cx,y+size+5,size<40?7:8.5,C.white,group,'center','bold');caption.style.stroke={color:0x072b49,width:2.8};}
+    if(kind==='binder'||kind==='history'){const caption=this.text(kind==='binder'?'CARDS':'HISTORY',cx,y+size+5,size<40?7:8.5,C.white,group,'center','bold');caption.style.stroke={color:0x072b49,width:2.8};}
     group.pivot.set(cx,cy);group.position.set(cx,cy);this.hits.push({id,label,x,y,width:size,height:size,disabled:false,action});return group;
   }
   private hud(w:number,h:number){

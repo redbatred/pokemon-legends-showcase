@@ -20,7 +20,7 @@ export function creditLayout(w:number,h:number){
 export function totalWinLayout(w:number,h:number){
  const l=gameLayout(w,h,true);
  // Reserve the header for the total, outside every character's attack envelope.
- if(l.compact)return {x:66,y:78,size:18,width:120,labelY:55};
+ if(l.compact)return {x:54,y:78,size:18,width:98,labelY:55};
  if(l.sideControls)return {x:w/2,y:53,size:36,width:220,labelY:15};
  if(l.short)return {x:w/2,y:l.dockTop-18,size:24,width:200,labelY:l.dockTop-46};
  const y=182;return {x:w/2,y,size:32,width:Math.min(240,w-80),labelY:y-32};
