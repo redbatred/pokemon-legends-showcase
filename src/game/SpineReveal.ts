@@ -95,7 +95,7 @@ export class SpineReveal {
       .to(departure,{progress:1,duration:departDuration,ease:'power2.inOut',onUpdate:()=>{this.ball.y=this.floor-50+21*departure.progress;}},form+entryDuration*.48)
       .to(this.ball.scale,{x:.25,y:.25,duration:departDuration},form+entryDuration*.48)
       .call(()=>{this.hero.play('charge');this.power.begin();},[],charge)
-      .call(()=>playPokemonCry(this.power.profile.dexId),[],charge+Math.min(.22,this.hero.chargeDuration*.32))
+      .call(()=>playPokemonCry(this.power.profile.cryId??this.power.profile.dexId),[],charge+Math.min(.22,this.hero.chargeDuration*.32))
       .to(attackClock,{time:this.hero.chargeDuration+this.hero.attackDuration+this.hero.recoveryDuration,duration:this.hero.chargeDuration+this.hero.attackDuration+this.hero.recoveryDuration,ease:'none',onUpdate:()=>{this.hero.setAttackTime(attackClock.time);this.power.clock=attackClock.time;}},charge)
       .to(this.power,{charge:1,duration:this.hero.chargeDuration,ease:'power2.in',onUpdate:()=>onCharge?.(this.power.charge,this.power.profile.color)},charge)
       .call(()=>{this.hero.setAttackTime(this.hero.chargeDuration);this.hero.capturePose();this.power.release(this.hero.chargeDuration);this.hero.play('attack');onPower?.(this.power.profile.color);},[],attack)

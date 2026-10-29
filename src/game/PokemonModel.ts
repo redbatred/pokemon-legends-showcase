@@ -1,7 +1,9 @@
 import {Texture as PixiTexture} from 'pixi.js';
-import {AnimationMixer,Box3,DataTexture,DirectionalLight,Group,HemisphereLight,LoopOnce,LoopRepeat,Matrix4,Mesh,NearestFilter,NoToneMapping,OrthographicCamera,RGBAFormat,Scene,SRGBColorSpace,Vector3,WebGLRenderer,type AnimationAction,type Material,type MeshStandardMaterial,type Object3D,type Texture,type SkinnedMesh} from 'three';
+import {AnimationMixer,Box3,DataTexture,DirectionalLight,Group,HemisphereLight,LoopOnce,LoopRepeat,Matrix4,Mesh,NearestFilter,NoToneMapping,OrthographicCamera,PMREMGenerator,RGBAFormat,Scene,SRGBColorSpace,Vector3,WebGLRenderer,type AnimationAction,type Material,type MeshStandardMaterial,type Object3D,type Texture,type SkinnedMesh,type WebGLRenderTarget} from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+import {attachTeraCrown,pokemonBoneName,teraMaterial,type TeraAttachment} from './teraAppearance';
 import type {PowerProfile} from './powerProfiles';
 import {createModelOutline} from './modelOutline';
 import {ensurePokemonNormals,pokemonToonMaterial,pokemonInkEligible} from './pokemonMaterials';
@@ -10,8 +12,8 @@ import {performanceProfile} from './performanceProfiles';
 import {sampleAttack} from './attackClock';
 import {moveRigs,type ProjectedEmitter} from './moveRig';
 
-type Entry={path:string;species?:string;optimization?:{sha256?:string};idle?:string;attack?:string;powerAt?:number;attackTimeScale?:number;enter?:string;enterStart?:number;enterEnd?:number;enterSpeed?:number;entranceDuration?:number;runtime?:{idle?:string;attack?:string}};
-let manifest:Promise<Record<string,Entry>>|null=null,renderer:WebGLRenderer|null=null,decoder:DRACOLoader|null=null,generation=0,inflight=0,releaseDecoder=false;
+type Entry={path:string;species?:string;tera?:{type:string;path:string;sha256:string;attachment:TeraAttachment};optimization?:{sha256?:string};idle?:string;attack?:string;powerAt?:number;attackTimeScale?:number;enter?:string;enterStart?:number;enterEnd?:number;enterSpeed?:number;entranceDuration?:number;runtime?:{idle?:string;attack?:string}};
+let manifest:Promise<Record<string,Entry>>|null=null,renderer:WebGLRenderer|null=null,environment:WebGLRenderTarget|null=null,decoder:DRACOLoader|null=null,generation=0,inflight=0,releaseDecoder=false;
 function rendererFor(size:number){if(!renderer){renderer=new WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});renderer.setClearColor(0x000000,0);renderer.outputColorSpace=SRGBColorSpace;renderer.toneMapping=NoToneMapping;}if(renderer.domElement.width!==size||renderer.domElement.height!==size)renderer.setSize(size,size,false);return renderer;}
 function disposeDecoder(){decoder?.dispose();decoder=null;releaseDecoder=false;}
 function disposeObject(root:Object3D,extraTextures:Iterable<Texture>=[]){
@@ -20,7 +22,7 @@ function disposeObject(root:Object3D,extraTextures:Iterable<Texture>=[]){
  for(const m of materials){for(const value of Object.values(m))if(value&&typeof value==='object'&&'isTexture' in value)textures.add(value as Texture);m.dispose();}
  for(const s of skeletons)s.dispose();for(const g of geometries)g.dispose();for(const t of textures){const image=t.source?.data;if(typeof ImageBitmap!=='undefined'&&image instanceof ImageBitmap)image.close();t.dispose();}
 }
-export function disposePokemonRenderer(){generation++;renderer?.dispose();renderer?.forceContextLoss();renderer=null;if(inflight)releaseDecoder=true;else disposeDecoder();}
+export function disposePokemonRenderer(){generation++;environment?.dispose();environment=null;renderer?.dispose();renderer?.forceContextLoss();renderer=null;if(inflight)releaseDecoder=true;else disposeDecoder();}
 export async function createPokemonModel(path:string,low:boolean){
  const epoch=generation;
  manifest??=fetch('/assets/pokemon-3d/manifest.json',{cache:'no-cache'}).then(r=>r.ok?r.json():{}).catch(()=>({}));
@@ -28,9 +30,11 @@ export async function createPokemonModel(path:string,low:boolean){
  const entry=raw[stem];if(!entry?.path||epoch!==generation)return null;
  decoder??=new DRACOLoader().setDecoderPath('/assets/draco/').setWorkerLimit(1);
  inflight++;
- try{const gltf=await new GLTFLoader().setDRACOLoader(decoder).loadAsync(entry.path+(entry.optimization?.sha256?'?v='+entry.optimization.sha256.slice(0,12):''));
+ try{const loader=new GLTFLoader().setDRACOLoader(decoder),gltf=await loader.loadAsync(entry.path+(entry.optimization?.sha256?'?v='+entry.optimization.sha256.slice(0,12):''));
   if(epoch!==generation){disposeObject(gltf.scene);return null;}
-  try{return new PokemonModel(gltf.scene,gltf.animations,entry,low,stem);}catch(error){disposeObject(gltf.scene);throw error;}
+  try{if(entry.tera){const crown=await loader.loadAsync(entry.tera.path+'?v='+entry.tera.sha256.slice(0,12));if(epoch!==generation){disposeObject(crown.scene);disposeObject(gltf.scene);return null;}try{attachTeraCrown(gltf.scene,crown.scene,entry.tera.attachment);}catch(error){disposeObject(crown.scene);throw error;}}
+   return new PokemonModel(gltf.scene,gltf.animations,entry,low,stem);
+  }catch(error){disposeObject(gltf.scene);throw error;}
  }finally{inflight--;if(!inflight&&releaseDecoder)disposeDecoder();}
 }
 export class PokemonModel {
@@ -44,9 +48,10 @@ export class PokemonModel {
   const outlines:{mesh:Mesh;outline:Mesh}[]=[];
   this.model.traverse(obj=>{if(!(obj instanceof Mesh))return;ensurePokemonNormals(obj.geometry);const materials=Array.isArray(obj.material)?obj.material:[obj.material];const converted=materials.map(material=>{
    const old=material as MeshStandardMaterial;this.originalMaterials.add(old);for(const value of Object.values(old))if(value&&typeof value==='object'&&'isTexture' in value)this.textures.add(value as Texture);
-   const mat=pokemonToonMaterial(old,this.gradient);this.toonMaterials.add(mat);return mat;});obj.material=Array.isArray(obj.material)?converted:converted[0];
-   if(pokemonInkEligible(stem,obj.name,materials)){const outline=obj.clone(false),ink=createModelOutline(obj.geometry);outline.material=ink;outline.renderOrder=-1;this.toonMaterials.add(ink);outlines.push({mesh:obj,outline});}
+   const mat=entry.tera?teraMaterial(old,this.gradient,!!obj.userData.teraCrown,entry.species??stem):pokemonToonMaterial(old,this.gradient);this.toonMaterials.add(mat);return mat;});obj.material=Array.isArray(obj.material)?converted:converted[0];
+   if(!obj.userData.teraCrown&&pokemonInkEligible(entry.species??stem,obj.name,materials)){const outline=obj.clone(false),ink=createModelOutline(obj.geometry);outline.material=ink;outline.renderOrder=-1;this.toonMaterials.add(ink);outlines.push({mesh:obj,outline});}
   });for(const {mesh,outline} of outlines)mesh.parent!.add(outline);
+  if(entry.tera){if(!environment){const source=new RoomEnvironment(),pmrem=new PMREMGenerator(rendererFor(this.size));environment=pmrem.fromScene(source,.04,.1,100,{size:128});source.dispose();pmrem.dispose();}this.scene.environment=environment.texture;}
   this.scene.add(model);this.scene.add(new HemisphereLight(0xeef7ff,0x66759c,.88));const key=new DirectionalLight(0xffffff,1.5);key.position.set(-3,5,7);this.scene.add(key);const rim=new DirectionalLight(0x8fdcff,.42);rim.position.set(1,-1,3);this.scene.add(rim);
   this.mixer=new AnimationMixer(model);this.clips=new Map(animations.map(clip=>[clip.name,this.mixer.clipAction(clip)]));this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);
   const performance=performanceProfile(entry.species??stem),yaw=performance.cameraYaw*Math.PI/180,elevation=performance.cameraElevation*Math.PI/180,view=new Vector3(Math.sin(yaw)*Math.cos(elevation),Math.sin(elevation),Math.cos(yaw)*Math.cos(elevation));
@@ -72,11 +77,11 @@ export class PokemonModel {
   this.attackLight.position.copy(center).addScaledVector(right,-span*1.6).addScaledVector(view,-span*.55).addScaledVector(up,span*.8);this.attackLight.target.position.copy(center);this.scene.add(this.attackLight,this.attackLight.target);
   // Center the body, not its asymmetric attack envelope. Wings and tails still retain safe frame padding.
   const anchors:Object3D[]=[];model.traverse(o=>{if('isBone' in o)anchors.push(o);});
-  const bodyAnchor=['waist','chest','body','spine','root'].map(name=>anchors.find(b=>b.name.toLowerCase().replace(/[_\s]*\d+$/,'')===name)).find(Boolean);
+  const bodyAnchor=['waist','chest','body','spine','root'].map(name=>anchors.find(b=>pokemonBoneName(b.name)===name)).find(Boolean);
   this.horizontalAnchor=(bodyAnchor?bodyAnchor.getWorldPosition(new Vector3()):model.getWorldPosition(new Vector3())).project(this.camera).x;
   this.groundY=-2*(idleBottom-center.dot(up))/span;
 
-  const bones:Object3D[]=[];model.traverse(o=>{if('isBone' in o)bones.push(o);});const named=(keys:string[])=>keys.map(key=>bones.find(b=>b.name.toLowerCase().replace(/[_\s]*\d+$/,'')===key)).find(Boolean);
+  const bones:Object3D[]=[];model.traverse(o=>{if('isBone' in o)bones.push(o);});const named=(keys:string[])=>keys.map(key=>bones.find(b=>pokemonBoneName(b.name)===key)).find(Boolean);
   this.bones=bones;this.bodySpan=size.y;this.head=named(['head','jaw','neck']);this.torso=named(['chest','waist','body','spine']);this.fallback.copy(center).add(new Vector3(0,size.y*.22,size.z*.1));this.render();
  }
  private get timing(){const clip=this.clips.get(this.entry.attack??this.entry.runtime?.attack??'');return performanceTiming(this.entry.species??this.stem,clip?.getClip().duration??2,moveRigs[this.stem]);}

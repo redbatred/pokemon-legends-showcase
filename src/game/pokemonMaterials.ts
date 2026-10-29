@@ -2,7 +2,10 @@ import {MeshToonMaterial,Color,Vector2,TangentSpaceNormalMap,type DataTexture,ty
 /** Preserve source texture detail while converting only its lighting model to cel shading. */
 export function pokemonToonMaterial(material:Material,gradient:DataTexture){
  const old=material as MeshStandardMaterial;
- return new MeshToonMaterial({name:old.name,map:old.map??null,color:old.color??new Color('white'),gradientMap:gradient,normalMap:old.normalMap??null,normalScale:old.normalScale??new Vector2(1,1),normalMapType:old.normalMapType??TangentSpaceNormalMap,bumpMap:old.bumpMap??null,bumpScale:old.bumpScale??1,transparent:old.transparent,opacity:old.opacity,alphaTest:old.alphaTest,side:old.side,vertexColors:old.vertexColors,depthWrite:old.depthWrite,emissive:old.emissive??new Color(0),emissiveMap:old.emissiveMap??null,emissiveIntensity:Math.min(old.emissiveIntensity??0,1.5)});
+ const result=new MeshToonMaterial({name:old.name,map:old.map??null,color:old.color??new Color('white'),gradientMap:gradient,normalMap:old.normalMap??null,normalScale:old.normalScale??new Vector2(1,1),normalMapType:old.normalMapType??TangentSpaceNormalMap,bumpMap:old.bumpMap??null,bumpScale:old.bumpScale??1,transparent:old.transparent,opacity:old.opacity,alphaTest:old.alphaTest,side:old.side,vertexColors:old.vertexColors,depthWrite:old.depthWrite,emissive:old.emissive??new Color(0),emissiveMap:old.emissiveMap??null,emissiveIntensity:Math.min(old.emissiveIntensity??0,1.5)});
+ // HOME's native red emission mask makes this dedicated tail surface fully lit.
+ if(old.name==='pm0025_81_00-BodyA01'){result.emissiveMap=result.map;result.emissive.setRGB(1,1,1);result.emissiveIntensity=1;result.color.setRGB(0,0,0);result.toneMapped=false;}
+ return result;
 }
 export function ensurePokemonNormals(geometry:BufferGeometry){if(!geometry.hasAttribute('normal'))geometry.computeVertexNormals();}
 const facialParts:Record<string,number[]>={arceus:[23],breloom:[2,3],gardevoir:[61,64],genesect:[257,258],giratina:[218],kyogre:[35],raikou:[27],rayquaza:[35],rotom:[11],sylveon:[10,12],tyranitar:[218]};

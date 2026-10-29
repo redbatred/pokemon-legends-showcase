@@ -159,7 +159,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Native jaw opening reaches35.1deg at1.633s, sustaining >=80% from1.567–2.7s. A finite ice-crystal volley follows the real head/beak through the flying pose. Beak tip is measured from frontmost head-skinned vertices in idle and stored in head-local coordinates.",
+    "evidence": "Native jaw opening reaches35.1deg at1.633s, sustaining >=80% from1.567\u20132.7s. A finite ice-crystal volley follows the real head/beak through the flying pose. Beak tip is measured from frontmost head-skinned vertices in idle and stored in head-local coordinates.",
     "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/144/model.glb",
     "attackClip": "attack",
     "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
@@ -455,7 +455,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Native special-attack clip opens LowerJaw_05040deg with a peak at.633s and >=80% interval.267–1.167s. Upper/lower jaw landmarks locate the mouth. A short electrical burst aligns with this body action.",
+    "evidence": "Native special-attack clip opens LowerJaw_05040deg with a peak at.633s and >=80% interval.267\u20131.167s. Upper/lower jaw landmarks locate the mouth. A short electrical burst aligns with this body action.",
     "sourceModel": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/880.glb",
     "attackClip": "Armature|Armature|pm0880_00_00_ba21_tokusyu01|Base Layer",
     "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
@@ -493,7 +493,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Jaw rotation peaks1.717s and stays >=80% over.75–2.5s. Head pitches through2.083s. The native jaw joint is already near the snout; the socket moves a small distance forward along head-to-jaw direction. Head-relative Hyper Beam needs a finite straight light beam, rather than flame-shaped dragon particles. Generic supplied attack is not an official Hyper Beam event track.",
+    "evidence": "Jaw rotation peaks1.717s and stays >=80% over.75\u20132.5s. Head pitches through2.083s. The native jaw joint is already near the snout; the socket moves a small distance forward along head-to-jaw direction. Head-relative Hyper Beam needs a finite straight light beam, rather than flame-shaped dragon particles. Generic supplied attack is not an official Hyper Beam event track.",
     "sources": [
       "https://unite.pokemon.com/en-us/news/dragonite-dances-its-way-into-pokemon-unite/"
     ],
@@ -533,7 +533,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Native special-attack clip hinges UpperJaw1_039118.6deg open from about.667–1.7s. Socket is fixed in RootJaw_028 space at the native front jaw landmarks so the beam comes from the aperture rather than following the raised lid.",
+    "evidence": "Native special-attack clip hinges UpperJaw1_039118.6deg open from about.667\u20131.7s. Socket is fixed in RootJaw_028 space at the native front jaw landmarks so the beam comes from the aperture rather than following the raised lid.",
     "sourceModel": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/884.glb",
     "attackClip": "Armature|Armature|pm0884_00_00_ba21_tokusyu01|Base Layer",
     "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
@@ -571,7 +571,7 @@
       }
     ],
     "attachment": "capture-at-release",
-    "evidence": "Native attack keeps lower_jaw effectively static while raising/swiping the forepaws near1.2–1.7s. Socket is the mean upper/lower snout joints in head space; a brief star volley can accompany the flourish. The previous wind blades are not a useful species-specific cue. Official UNITE descriptions explicitly associate Eevee Swift with star-shaped rays. The source generic body attack is not specifically labelled Swift.",
+    "evidence": "Native attack keeps lower_jaw effectively static while raising/swiping the forepaws near1.2\u20131.7s. Socket is the mean upper/lower snout joints in head space; a brief star volley can accompany the flourish. The previous wind blades are not a useful species-specific cue. Official UNITE descriptions explicitly associate Eevee Swift with star-shaped rays. The source generic body attack is not specifically labelled Swift.",
     "sources": [
       "https://unite.pokemon.com/en-us/news/espeon-unleashes-its-power-in-pokemon-unite/"
     ],
@@ -802,7 +802,7 @@
       }
     ],
     "attachment": "capture-at-release",
-    "evidence": "Jaw opening peaks1.5s with >=80% interval .983–2.267s. Socket uses the native teeth_01/02 center, shifted slightly toward the lower jaw to center within the open mouth, then expressed in head space at1.35s. A compact shadow orb fits this open-mouth pose; orbiting chest particles miss it. Capture projectile launch once.",
+    "evidence": "Jaw opening peaks1.5s with >=80% interval .983\u20132.267s. Socket uses the native teeth_01/02 center, shifted slightly toward the lower jaw to center within the open mouth, then expressed in head space at1.35s. A compact shadow orb fits this open-mouth pose; orbiting chest particles miss it. Capture projectile launch once.",
     "sources": [
       "https://assets.pokemon.com/assets/cms2/pdf/video-game/pokken/Gengar_Chart_EN.pdf"
     ],
@@ -921,7 +921,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "The native action raises both arms and hops around.55–.74s. Petals originate in the real flower crown, using the feeler_a-controlled flower vertices. The mouth remains largely static; it is not used as a false breath emitter.",
+    "evidence": "The native action raises both arms and hops around.55\u2013.74s. Petals originate in the real flower crown, using the feeler_a-controlled flower vertices. The mouth remains largely static; it is not used as a false breath emitter.",
     "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/044/model.glb",
     "attackClip": "attack",
     "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
@@ -997,7 +997,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Lower-jaw rotation peaks.60s; >=80% window .55–1.483s. Socket is the mean upper_jaw and teeth joint positions, converted to head space at.68s; forward follows head toward upper_jaw. Strong downward head motion makes a fixed stage angle incorrect. Water stream is an authored water-type interpretation of the generic attack; source clip is not named Hydro Pump.",
+    "evidence": "Lower-jaw rotation peaks.60s; >=80% window .55\u20131.483s. Socket is the mean upper_jaw and teeth joint positions, converted to head space at.68s; forward follows head toward upper_jaw. Strong downward head motion makes a fixed stage angle incorrect. Water stream is an authored water-type interpretation of the generic attack; source clip is not named Hydro Pump.",
     "sources": [
       "https://www.pokemon.com/uk/pokedex/gyarados"
     ],
@@ -1115,7 +1115,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Native rangeattack01 has head rotation >=80% of its maximum about.65–1.15s and jaw secondary rotation peaks.867s. Mouth socket is the mean six native upper/lower tooth joint locations at.85s; axis follows head toward the upper-front teeth. Existing wind blade form does not represent the mouth-directed ranged pose. Aeroblast form is a recommendation supported by the official move association.",
+    "evidence": "Native rangeattack01 has head rotation >=80% of its maximum about.65\u20131.15s and jaw secondary rotation peaks.867s. Mouth socket is the mean six native upper/lower tooth joint locations at.85s; axis follows head toward the upper-front teeth. Existing wind blade form does not represent the mouth-directed ranged pose. Aeroblast form is a recommendation supported by the official move association.",
     "sources": [
       "https://pokemongo.com/news/apex-reveal"
     ],
@@ -1318,7 +1318,7 @@
       }
     ],
     "attachment": "capture-at-release",
-    "evidence": "Native attack bows and fans nine tails while the jaw stays static. Three real tail-tip joints carry detached fire-star bursts during1.1–2.25s. No mouth breath is implied.",
+    "evidence": "Native attack bows and fans nine tails while the jaw stays static. Three real tail-tip joints carry detached fire-star bursts during1.1\u20132.25s. No mouth breath is implied.",
     "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/038/model.glb",
     "attackClip": "attack",
     "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
@@ -1450,7 +1450,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Native action is a compact head/beak peck, with Head rotation peak near.7s. Gust uses the true EffMouth01 landmark in Head space and a short.65–1.0s envelope.",
+    "evidence": "Native action is a compact head/beak peck, with Head rotation peak near.7s. Gust uses the true EffMouth01 landmark in Head space and a short.65\u20131.0s envelope.",
     "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/016/model.glb",
     "attackClip": "attack",
     "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
@@ -1559,7 +1559,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Native action closes and lowers the large horns near.9–1.1s. Exact EffHorn01/02 landmarks are transformed into their REar/LEar parent spaces. Crossed slashes originate at both horn tips, not facial feeler bones.",
+    "evidence": "Native action closes and lowers the large horns near.9\u20131.1s. Exact EffHorn01/02 landmarks are transformed into their REar/LEar parent spaces. Crossed slashes originate at both horn tips, not facial feeler bones.",
     "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/127/model.glb",
     "attackClip": "attack",
     "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
@@ -1598,7 +1598,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Native attack raises and leans the body while the tail arcs, with the strongest arm posture from.5–1.067s. The right fist socket is measured from frontmost right-hand-skinned vertices. Electrical punch release is .55–1.02 s. Punch direction is measured from the torso toward the active fist at release, then stored in fist-local space.",
+    "evidence": "Native attack raises and leans the body while the tail arcs, with the strongest arm posture from.5\u20131.067s. The right fist socket is measured from frontmost right-hand-skinned vertices. Electrical punch release is .55\u20131.02 s. Punch direction is measured from the torso toward the active fist at release, then stored in fist-local space.",
     "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/026/model.glb",
     "attackClip": "attack",
     "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
@@ -2068,7 +2068,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Lower-jaw opening peaks.717s, with >=80% opening only .60–.833s. Generic .36*duration trigger fires1.665s, well after the useful mouth pose. Socket is the mean left/right upper/lower lip-joint locations, expressed in head space at.72s. Use a short water pulse rather than a long jet while the mouth is closed. Named Water Pulse behavior is an authored interpretation, not a source clip label. Playback .75 keeps the narrow source window above the current runtime minimum .30-second effect duration.",
+    "evidence": "Lower-jaw opening peaks.717s, with >=80% opening only .60\u2013.833s. Generic .36*duration trigger fires1.665s, well after the useful mouth pose. Socket is the mean left/right upper/lower lip-joint locations, expressed in head space at.72s. Use a short water pulse rather than a long jet while the mouth is closed. Named Water Pulse behavior is an authored interpretation, not a source clip label. Playback .75 keeps the narrow source window above the current runtime minimum .30-second effect duration.",
     "sources": [
       "https://sg.portal-pokemon.com/pokedex/0134/"
     ],
@@ -2163,7 +2163,7 @@
       }
     ],
     "attachment": "continuous",
-    "evidence": "Native head/wing preparation peaks around1.3s; jaw opening is only brief near1.467s. Twin lightning emitters bind to actual outer wing joints, supporting a1.25–1.95s feather discharge.",
+    "evidence": "Native head/wing preparation peaks around1.3s; jaw opening is only brief near1.467s. Twin lightning emitters bind to actual outer wing joints, supporting a1.25\u20131.95s feather discharge.",
     "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/145/model.glb",
     "attackClip": "attack",
     "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
@@ -2350,5 +2350,698 @@
     "requiresMoveFormRouting": true,
     "animationAuthorship": "native",
     "effectAuthorship": "project-authored elemental interpretation; no official move event track is asserted"
+  },
+  "charizard-tera-dark": {
+    "form": "flamethrower",
+    "seek": 1.8,
+    "speed": 1.3,
+    "powerAt": 2.6,
+    "sustainEnd": 3.55,
+    "end": 3.85,
+    "recoverAt": 5.55,
+    "emitters": [
+      {
+        "id": "mouth",
+        "bone": "head",
+        "tip": [
+          -0.00496,
+          -3.1e-05,
+          0.203129
+        ],
+        "forward": [
+          -0.03922,
+          -3e-05,
+          0.501166
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Native happy/glad01 is an upright celebration, not an official Flamethrower action. Mouth tip averages left/right upper_jaw_a and lower_jaw bone positions at source t=3.5, converted to head-local coordinates. Forward follows head to center_nose. At 60 Hz over authored emission t=2.60-3.85, this native muzzle axis points 27.28-40.25 degrees above the world horizontal; the head remains upright. Jaw opening has a roughly 31.04 degree plateau and >=80% window 2.2167-4.3833. The mouth socket is an approximation because secondary jaw movement continues. Preserve the source recovery from end=3.85 to recoveryEnd=5.875; recoverAt=5.55 is only a legacy blend-ready marker (~2.93% height-normalized joint RMS difference from happy start), not the full native end. All effect events are authored recommendations.",
+    "sources": [
+      "https://assets.pokemon.com/assets/cms2/pdf/video-game/pokken/Charizard_Chart_EN.pdf",
+      "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/006/model.glb"
+    ],
+    "attackClip": "happy",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt, recoveryEnd and pulseTimes are source clip seconds; speed and recoverySpeed are playback rates; projectileLifetime is wall seconds",
+    "coordinateUnits": "tip and forward are absolute points in the named bone local space, not direction vectors",
+    "chargeDuration": 0.6153846153846154,
+    "sourceGlbSha256": "f9085a9d6fe0a7f56a7bf7c499d75470cba93681e7e730d27f5c6db54302fbb2",
+    "recoveryEnd": 5.875,
+    "recoverySpeed": 1.8,
+    "socketSampleTime": 3.5
+  },
+  "charizard-shiny-tera-dark": {
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.6949999809265136,
+    "end": 1.6679999542236328,
+    "recoveryEnd": 2.316666603088379,
+    "recoverySpeed": 1,
+    "emitters": [
+      {
+        "bone": "center_nose_24",
+        "tip": [
+          0,
+          0,
+          4.440892098500626e-16
+        ],
+        "forward": [
+          0.21916278130317357,
+          -4.61182357434081e-09,
+          -0.019174273196578273
+        ]
+      }
+    ],
+    "evidence": "Authored effect window within the complete native ranged-attack clip. Separate timing and bone-local sockets for this variant; source clips and recovery preserved.",
+    "source": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/shiny/6.glb"
+  },
+  "dragonite-tera-dragon": {
+    "form": "hyper-beam",
+    "seek": 0.5,
+    "speed": 1.35,
+    "powerAt": 1.78,
+    "sustainEnd": 2.35,
+    "end": 2.5,
+    "recoverAt": 3.25,
+    "emitters": [
+      {
+        "id": "mouth",
+        "bone": "head",
+        "sourceBone": "head",
+        "tip": [
+          0.123917,
+          1e-06,
+          0.228082
+        ],
+        "forward": [
+          0.291005,
+          1e-06,
+          0.535624
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Jaw rotation peaks1.717s and stays >=80% over.75\u20132.5s. Head pitches through2.083s. The native jaw joint is already near the snout; the socket moves a small distance forward along head-to-jaw direction. Head-relative Hyper Beam needs a finite straight light beam, rather than flame-shaped dragon particles. Generic supplied attack is not an official Hyper Beam event track.",
+    "sources": [
+      "https://unite.pokemon.com/en-us/news/dragonite-dances-its-way-into-pokemon-unite/"
+    ],
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/149/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end and recoverAt are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup; sourceBone preserves original case",
+    "chargeDuration": 0.9481481481481481,
+    "sourceGlbSha256": "c7b0605fe01544b52baaecfa98f608d0d32b87e3fd3600234de3a1e2c65381a0",
+    "socketSampleTime": 1.95,
+    "requiresMoveFormRouting": true
+  },
+  "forretress-tera-grass": {
+    "form": "shell-cannon",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.76,
+    "sustainEnd": 1.35,
+    "end": 1.5,
+    "recoverAt": 2,
+    "recoveryEnd": 2,
+    "recoverySpeed": 1,
+    "attackClip": "ensemble_attack",
+    "chargeDuration": 0.76,
+    "attachment": "continuous",
+    "socketSampleTime": 0.9,
+    "sourceGlbSha256": "8c717aaa5f9238c550a1542dcd1ef8888422c6072f85d652f494d536fb89f370",
+    "timeUnits": "source clip seconds; authored clip runs at speed 1",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space",
+    "evidence": "Newly authored action; timing is an authored envelope, not extracted game event metadata. Socket points are measured from CPU-skinned source geometry at t=0.9 and transformed into the animated joint local space. Forward is authored +Z at release (Forretress follows each native cannon axis), then follows the joint. These are geometric effect attachments, not official move events.",
+    "sources": [
+      "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/205.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20%28Generation%202%29/pm0205_00_00.glb"
+    ],
+    "emitters": [
+      {
+        "id": "cannon-left",
+        "bone": "lhanda",
+        "sourceBone": "LHandA",
+        "tip": [
+          0.31695692872912135,
+          0.025375565235036618,
+          0.04872290056240325
+        ],
+        "forward": [
+          0.575131635156475,
+          0.048469035116563336,
+          0.06481716981558527
+        ],
+        "method": "Centroid of outermost 12% of skinned cannon vertices along cannon-joint to waist axis."
+      },
+      {
+        "id": "cannon-right",
+        "bone": "rhanda",
+        "sourceBone": "RHandA",
+        "tip": [
+          0.3169569863196971,
+          -0.025375599672923917,
+          0.048722976276283095
+        ],
+        "forward": [
+          0.5751316934116933,
+          -0.048469051740327854,
+          0.06481726051685512
+        ],
+        "method": "Centroid of outermost 12% of skinned cannon vertices along cannon-joint to waist axis."
+      }
+    ]
+  },
+  "tyranitar-tera-electric": {
+    "form": "dark-pulse",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.76,
+    "sustainEnd": 1.35,
+    "end": 1.5,
+    "recoverAt": 2,
+    "recoveryEnd": 2,
+    "recoverySpeed": 1,
+    "attackClip": "ensemble_attack",
+    "chargeDuration": 0.76,
+    "attachment": "continuous",
+    "socketSampleTime": 0.9,
+    "sourceGlbSha256": "20e6e61c5fdfc80779ab418002472bcd59f50ac15b44e2428fd51932818cd5f6",
+    "timeUnits": "source clip seconds; authored clip runs at speed 1",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space",
+    "evidence": "Newly authored action; timing is an authored envelope, not extracted game event metadata. Socket points are measured from CPU-skinned source geometry at t=0.9 and transformed into the animated joint local space. Forward is authored +Z at release (Forretress follows each native cannon axis), then follows the joint. These are geometric effect attachments, not official move events.",
+    "sources": [
+      "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/248.glb"
+    ],
+    "emitters": [
+      {
+        "id": "muzzle",
+        "bone": "head",
+        "sourceBone": "Head",
+        "tip": [
+          0.04488698688493886,
+          0.00018575981959765192,
+          0.40067664559773075
+        ],
+        "forward": [
+          0.13045248020208788,
+          0.00018554502637732525,
+          0.7725874467486707
+        ],
+        "method": "Centroid of frontmost 8% of vertices influenced by the named joint and descendants at release pose."
+      }
+    ]
+  },
+  "gengar-gigantamax": {
+    "form": "shadow-ball",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.6333333,
+    "sustainEnd": 1.15,
+    "end": 1.5,
+    "emitters": [
+      {
+        "id": "mouth",
+        "bone": "head",
+        "sourceBone": "Head",
+        "tip": [
+          -0.0272727,
+          0.0078788,
+          0.4907561
+        ],
+        "forward": [
+          -0.0272727,
+          0.0078788,
+          0.7907561
+        ]
+      }
+    ],
+    "attachment": "capture-at-release",
+    "evidence": "Socket is mean of four native Gmax upper/lower mouth-corner joints at exact effect-start event, offset .04 native units forward into the mouth opening, expressed in Head space. Capture launch at release; sustain envelope is project-authored.",
+    "attackClip": "pm0094_81_00_ba21_tokusyu01",
+    "sourceModel": "https://github.com/Lilothestitch16/Pokemon-HOME-GLB-Models/tree/27703273836f38f0e185976d955b1fbfb15448af",
+    "sourceAnimation": "https://github.com/Lilothestitch16/Pokemon-HOME-Unity-Project/blob/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0094_81_00_ba21_tokusyu01.anim",
+    "timeUnits": "source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are points in Head bone local space; native model units",
+    "chargeDuration": 0.6333333,
+    "sourceGlbSha256": "1fbc7a7bbd19c238b25c51708703a795a9f051762272e6a7693f1663949350a9",
+    "socketSampleTime": 0.6333333,
+    "nativeEffectStartEvent": {
+      "functionName": "AK_EffectStart01",
+      "time": 0.6333333,
+      "intParameter": 1
+    },
+    "requiresMoveFormRouting": true,
+    "animationAuthorship": "native exact-form Pokemon HOME skeletal clips",
+    "effectAuthorship": "project-authored elemental interpretation; onset follows the native animation effect-start event",
+    "recoveryEnd": 2.6666667
+  },
+  "pikachu-gigantamax": {
+    "form": "cheek-lightning",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.73333335,
+    "sustainEnd": 1.55,
+    "end": 1.9,
+    "emitters": [
+      {
+        "id": "cheek-right",
+        "bone": "head",
+        "sourceBone": "Head",
+        "tip": [
+          0.0225096,
+          0.3631957,
+          0.3767366
+        ],
+        "forward": [
+          0.0225123,
+          0.3631957,
+          0.6767366
+        ]
+      },
+      {
+        "id": "cheek-left",
+        "bone": "head",
+        "sourceBone": "Head",
+        "tip": [
+          0.02175,
+          -0.3623829,
+          0.377354
+        ],
+        "forward": [
+          0.0217527,
+          -0.3623829,
+          0.677354
+        ]
+      }
+    ],
+    "attachment": "continuous-pulses",
+    "pulseTimes": [
+      0.73333335,
+      0.95,
+      1.2,
+      1.5
+    ],
+    "evidence": "Sockets are exact Gmax BodyB cheek-surface vertex centroids per anatomical side, CPU skinned at the native effect-start event and expressed in Head local space. Native special crouches and raises the lightning-bolt tail. Repeated cheek discharge is a project-authored elemental interpretation.",
+    "attackClip": "pm0025_81_00_ba21_tokusyu01",
+    "sourceModel": "https://github.com/Lilothestitch16/Pokemon-HOME-GLB-Models/tree/27703273836f38f0e185976d955b1fbfb15448af",
+    "sourceAnimation": "https://github.com/Lilothestitch16/Pokemon-HOME-Unity-Project/blob/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0025_81_00_ba21_tokusyu01.anim",
+    "timeUnits": "source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are points in Head bone local space; native model units",
+    "chargeDuration": 0.73333335,
+    "sourceGlbSha256": "3478b7aedbf6acc50288c7c364fdafaaa7a401e83c68190bfb4b41151b9986c8",
+    "socketSampleTime": 0.73333335,
+    "nativeEffectStartEvent": {
+      "functionName": "AK_EffectStart01",
+      "time": 0.73333335,
+      "intParameter": 1
+    },
+    "requiresMoveFormRouting": true,
+    "animationAuthorship": "native exact-form Pokemon HOME skeletal clips",
+    "effectAuthorship": "project-authored elemental interpretation; onset follows the native animation effect-start event",
+    "recoveryEnd": 2.6666667
+  },
+  "duraludon-gigantamax": {
+    "form": "flash-cannon",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.6333333,
+    "sustainEnd": 1.25,
+    "end": 1.5,
+    "emitters": [
+      {
+        "id": "cannon-aperture",
+        "bone": "head",
+        "sourceBone": "Head",
+        "tip": [
+          0.1773497,
+          -6e-07,
+          0.0553955
+        ],
+        "forward": [
+          0.1882382,
+          -6e-07,
+          0.3551978
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "Socket is native Gmax MouthInc aperture mesh centroid, CPU skinned at exact effect-start event and expressed in Head space; it follows the fixed lower aperture while UpperJaw hinges. Sustain envelope is project-authored.",
+    "attackClip": "pm0884_81_00_ba21_tokusyu01",
+    "sourceModel": "https://github.com/Lilothestitch16/Pokemon-HOME-GLB-Models/tree/27703273836f38f0e185976d955b1fbfb15448af",
+    "sourceAnimation": "https://github.com/Lilothestitch16/Pokemon-HOME-Unity-Project/blob/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0884_81_00_ba21_tokusyu01.anim",
+    "timeUnits": "source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are points in Head bone local space; native model units",
+    "chargeDuration": 0.6333333,
+    "sourceGlbSha256": "dfa45ee287de72a800b2fec76c6f0de2100e8fe5768e1fa3cf716505503714d4",
+    "socketSampleTime": 0.6333333,
+    "nativeEffectStartEvent": {
+      "functionName": "AK_EffectStart01",
+      "time": 0.6333333,
+      "intParameter": 1
+    },
+    "requiresMoveFormRouting": true,
+    "animationAuthorship": "native exact-form Pokemon HOME skeletal clips",
+    "effectAuthorship": "project-authored elemental interpretation; onset follows the native animation effect-start event",
+    "recoveryEnd": 2
+  },
+  "mew-shiny": {
+    "form": "psychic-sphere",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.6333333,
+    "sustainEnd": 0.9833333,
+    "end": 1.1833333000000001,
+    "recoverAt": 1.1833333000000001,
+    "recoveryEnd": 2.6666667461395264,
+    "recoverySpeed": 1,
+    "emitters": [
+      {
+        "id": "muzzle",
+        "bone": "head",
+        "sourceBone": "Head",
+        "tip": [
+          0.07121465029500101,
+          -0.0010665843515772506,
+          0.0911165430297369
+        ],
+        "forward": [
+          0.11764238016430778,
+          -0.003210109314141972,
+          0.17557700931836615
+        ],
+        "releaseWorldTip": [
+          -0.004177351898075175,
+          0.4077886273577013,
+          0.35419895955413255
+        ],
+        "candidateVertexCount": 891,
+        "method": "Centroid of frontmost 8% head-weighted surface vertices at native attack sample."
+      }
+    ],
+    "attachment": "continuous",
+    "attackClip": "pm0151_00_00_ba21_tokusyu01",
+    "chargeDuration": 0.6333333,
+    "socketSampleTime": 0.6333333,
+    "sourceGlbSha256": "b225426d53b5af4c7d1ee836016912da1f28e02394504b99a5d2df0cabb374e9",
+    "timeUnits": "source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space; bone keys lowercase",
+    "animationAuthorship": "native",
+    "effectAuthorship": "project-authored elemental interpretation using original native skeletal action",
+    "timingAuthorship": "native AK_EffectStart01 release; project-authored sustain/recovery envelope",
+    "evidence": "Original native special-attack m_Events AK_EffectStart01 at t=0.6333333; measured sockets at this exact native event time. Surface sockets measured from skin-weight-selected geometry. Sustained effect endpoint is an authored effect envelope, not a native event.",
+    "nativeEvents": [
+      {
+        "time": 0.6333333,
+        "functionName": "AK_EffectStart01",
+        "data": null,
+        "objectReferenceParameter": {
+          "fileID": 0
+        },
+        "floatParameter": 0,
+        "intParameter": 1,
+        "messageOptions": 0
+      }
+    ],
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%201)/pm0151_00_00_rare.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0151_00_00_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0151_00_00_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0151_00_00_ba21_tokusyu01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0151_00_00_ba02_roar01.anim"
+    ]
+  },
+  "umbreon-shiny": {
+    "form": "dark-pulse",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.6333333,
+    "sustainEnd": 0.9833333,
+    "end": 1.1833333000000001,
+    "recoverAt": 1.1833333000000001,
+    "recoveryEnd": 1.5,
+    "recoverySpeed": 1,
+    "emitters": [
+      {
+        "id": "muzzle",
+        "bone": "head",
+        "sourceBone": "Head",
+        "tip": [
+          0.12842633758399236,
+          0.0007561130641893062,
+          0.1543284539824592
+        ],
+        "forward": [
+          0.18254504631326318,
+          0.0007554415889920208,
+          0.32740357759218086
+        ],
+        "releaseWorldTip": [
+          -0.0007555191147910892,
+          0.4854416520547285,
+          0.42892865981836437
+        ],
+        "candidateVertexCount": 810,
+        "method": "Centroid of frontmost 8% head-weighted surface vertices at native attack sample."
+      }
+    ],
+    "attachment": "continuous",
+    "attackClip": "pm0197_00_00_ba21_tokusyu01",
+    "chargeDuration": 0.6333333,
+    "socketSampleTime": 0.6333333,
+    "sourceGlbSha256": "18b38c9c6b30b3f2422b7ff94d607ac3134db90ff332ee0dc354d54b7be548c4",
+    "timeUnits": "source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space; bone keys lowercase",
+    "animationAuthorship": "native",
+    "effectAuthorship": "project-authored elemental interpretation using original native skeletal action",
+    "timingAuthorship": "native AK_EffectStart01 release; project-authored sustain/recovery envelope",
+    "evidence": "Original native special-attack m_Events AK_EffectStart01 at t=0.6333333; measured sockets at this exact native event time. Surface sockets measured from skin-weight-selected geometry. Sustained effect endpoint is an authored effect envelope, not a native event.",
+    "nativeEvents": [
+      {
+        "time": 0.6333333,
+        "functionName": "AK_EffectStart01",
+        "data": null,
+        "objectReferenceParameter": {
+          "fileID": 0
+        },
+        "floatParameter": 0,
+        "intParameter": 1,
+        "messageOptions": 0
+      }
+    ],
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%202)/pm0197_00_00_rare.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0197_00_00_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0197_00_00_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0197_00_00_ba21_tokusyu01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0197_00_00_ba02_roar01.anim"
+    ]
+  },
+  "alakazam-shiny": {
+    "form": "spoon-psychic-wave",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.6333333,
+    "sustainEnd": 0.9833333,
+    "end": 1.1833333000000001,
+    "recoverAt": 1.1833333000000001,
+    "recoveryEnd": 2.3333332538604736,
+    "recoverySpeed": 1,
+    "emitters": [
+      {
+        "id": "left-palm",
+        "bone": "lhand",
+        "sourceBone": "LHand",
+        "tip": [
+          0.15976717709846122,
+          -0.011569029535264175,
+          0.04144745349605028
+        ],
+        "forward": [
+          0.4096838769886252,
+          -0.07072296417039725,
+          -0.01779577936776755
+        ],
+        "releaseWorldTip": [
+          0.5626131777987725,
+          1.2134277512509575,
+          0.2885840848378998
+        ],
+        "candidateVertexCount": 200,
+        "method": "Centroid of hand/finger weighted surface vertices."
+      },
+      {
+        "id": "right-palm",
+        "bone": "rhand",
+        "sourceBone": "RHand",
+        "tip": [
+          0.16437506252967507,
+          0.010298886674075193,
+          0.04200941850252966
+        ],
+        "forward": [
+          0.41390998184650496,
+          0.0773179780143698,
+          -0.010029712415799143
+        ],
+        "releaseWorldTip": [
+          -0.6107007148147143,
+          1.211115556904659,
+          0.27126476214413336
+        ],
+        "candidateVertexCount": 200,
+        "method": "Centroid of hand/finger weighted surface vertices."
+      }
+    ],
+    "attachment": "continuous",
+    "attackClip": "pm0065_00_00_ba21_tokusyu01",
+    "chargeDuration": 0.6333333,
+    "socketSampleTime": 0.6333333,
+    "sourceGlbSha256": "62be021aeaaa106de0bf6b7dc8182854343b532c1a59a2925fb8f8687f63d3a7",
+    "timeUnits": "source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space; bone keys lowercase",
+    "animationAuthorship": "native",
+    "effectAuthorship": "project-authored elemental interpretation using original native skeletal action",
+    "timingAuthorship": "native AK_EffectStart01 release; project-authored sustain/recovery envelope",
+    "evidence": "Original native special-attack m_Events AK_EffectStart01 at t=0.6333333; measured sockets at this exact native event time. Surface sockets measured from skin-weight-selected geometry. Sustained effect endpoint is an authored effect envelope, not a native event.",
+    "nativeEvents": [
+      {
+        "time": 0.6333333,
+        "functionName": "AK_EffectStart01",
+        "data": null,
+        "objectReferenceParameter": {
+          "fileID": 0
+        },
+        "floatParameter": 0,
+        "intParameter": 1,
+        "messageOptions": 0
+      }
+    ],
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%201)/pm0065_00_00_rare.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0065_00_00_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0065_00_00_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0065_00_00_ba21_tokusyu01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0065_00_00_ba02_roar01.anim"
+    ]
+  },
+  "giratina-origin": {
+    "form": "shadow-pulse",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.6333333,
+    "sustainEnd": 0.9833333,
+    "end": 1.1833333000000001,
+    "recoverAt": 1.1833333000000001,
+    "recoveryEnd": 2.3333332538604736,
+    "recoverySpeed": 1,
+    "emitters": [
+      {
+        "id": "muzzle",
+        "bone": "head",
+        "sourceBone": "Head",
+        "tip": [
+          0.5307426358855616,
+          0.028071216458400522,
+          0.05942190639781453
+        ],
+        "forward": [
+          1.5895482359786839,
+          0.09392261349660314,
+          -0.03251420857923115
+        ],
+        "releaseWorldTip": [
+          -0.009194589004831877,
+          2.4851275576536556,
+          2.959995713185846
+        ],
+        "candidateVertexCount": 1130,
+        "method": "Centroid of frontmost 8% head-weighted surface vertices at native attack sample."
+      }
+    ],
+    "attachment": "continuous",
+    "attackClip": "pm0487_12_00_ba21_tokusyu01",
+    "chargeDuration": 0.6333333,
+    "socketSampleTime": 0.6333333,
+    "sourceGlbSha256": "eb90899c79c2de1e2a8916fb5d0d86ef52fb577b0a7926b487011038f80c71e5",
+    "timeUnits": "source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space; bone keys lowercase",
+    "animationAuthorship": "native",
+    "effectAuthorship": "project-authored elemental interpretation using original native skeletal action",
+    "timingAuthorship": "native AK_EffectStart01 release; project-authored sustain/recovery envelope",
+    "evidence": "Original native special-attack m_Events AK_EffectStart01 at t=0.6333333; measured sockets at this exact native event time. Surface sockets measured from skin-weight-selected geometry. Sustained effect endpoint is an authored effect envelope, not a native event.",
+    "nativeEvents": [
+      {
+        "time": 0.6333333,
+        "functionName": "AK_EffectStart01",
+        "data": null,
+        "objectReferenceParameter": {
+          "fileID": 0
+        },
+        "floatParameter": 0,
+        "intParameter": 1,
+        "messageOptions": 0
+      }
+    ],
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%204)/pm0487_12_00.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0487_12_00_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0487_12_00_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0487_12_00_ba21_tokusyu01.anim"
+    ]
+  },
+  "wooper-paldean": {
+    "form": "sludge-bomb",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 1.2,
+    "sustainEnd": 1.5499999999999998,
+    "end": 1.75,
+    "recoverAt": 1.75,
+    "recoveryEnd": 2.299999952316284,
+    "recoverySpeed": 1,
+    "emitters": [
+      {
+        "id": "muzzle",
+        "bone": "head",
+        "sourceBone": "head",
+        "tip": [
+          0.17149310759627,
+          0.06574437609028448,
+          0.07676307403598936
+        ],
+        "forward": [
+          0.23086135546697162,
+          0.07803654802672871,
+          0.1429905267703136
+        ],
+        "releaseWorldTip": [
+          -0.052558178401234924,
+          0.21520612209441964,
+          0.2370322652179779
+        ],
+        "candidateVertexCount": 1624,
+        "method": "Centroid of frontmost 8% head-weighted surface vertices at native attack sample."
+      }
+    ],
+    "attachment": "capture-at-release",
+    "attackClip": "pm0194_00_51_ba21_tokusyu01",
+    "chargeDuration": 1.2,
+    "socketSampleTime": 1.2,
+    "sourceGlbSha256": "001e1d3cf1a80cce07977654ddfc3be9cb1e4cf699728cc2740de33e69e11f10",
+    "timeUnits": "source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space; bone keys lowercase",
+    "animationAuthorship": "native",
+    "effectAuthorship": "project-authored elemental interpretation using original native skeletal action",
+    "timingAuthorship": "project-authored synchronization to visually inspected native action; source clip has no event metadata",
+    "evidence": "Project-authored effect synchronization at visually inspected native special-attack projection pose; native m_Events is empty. Surface sockets measured from skin-weight-selected geometry. Sustained effect endpoint is an authored effect envelope, not a native event.",
+    "nativeEvents": [],
+    "sources": [
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-GLB-Models/27703273836f38f0e185976d955b1fbfb15448af/Pokemon%20(Generation%202)/pm0194_00_51.glb",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0194_00_51_ba10_waitA01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0194_00_51_ba20_buturi01.anim",
+      "https://raw.githubusercontent.com/Lilothestitch16/Pokemon-HOME-Unity-Project/9ec0fc731f2eafbd13add5fb1e4bdfc017fbb809/Assets/AnimationClip/pm0194_00_51_ba21_tokusyu01.anim"
+    ],
+    "projectileCount": 1,
+    "projectileLifetime": 0.6
   }
 }

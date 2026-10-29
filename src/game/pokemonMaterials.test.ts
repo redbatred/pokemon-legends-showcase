@@ -26,3 +26,8 @@ it('keeps the shiny Gardevoir face readable when source materials have appended 
  expect(pokemonInkEligible('gardevoir-shiny','Object_3',[new MeshBasicMaterial({name:'5_Material64_1_0_0'})])).toBe(false);
  expect(pokemonInkEligible('gardevoir-shiny','body',[new MeshBasicMaterial({name:'5_Material60_1_0_0'})])).toBe(true);
 });
+it('restores the native fully lit Gigantamax Pikachu tail without tinting the body',()=>{
+ const map=new Texture(),tail=pokemonToonMaterial(new MeshStandardMaterial({name:'pm0025_81_00-BodyA01',map}),new DataTexture());
+ expect(tail.emissiveMap).toBe(map);expect(tail.emissive.getHex()).toBe(0xffffff);expect(tail.color.getHex()).toBe(0);expect(tail.emissiveIntensity).toBe(1);
+ const body=pokemonToonMaterial(new MeshStandardMaterial({name:'pm0025_81_00-BodyA00',map}),new DataTexture());expect(body.emissiveMap).toBeNull();expect(body.color.getHex()).toBe(0xffffff);
+});

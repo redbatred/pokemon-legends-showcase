@@ -64,7 +64,7 @@ function ready(key:string){
  });pending.set(key,promise);return promise;
 }
 export function preloadAudio(){for(const name of ['flight','tear','flip','normal','rare','complete','credit','throw','impact','release','charge','ui','latch','stage','land','suspense','slam','ballbounce','ballsettle','crowdreact','crowdreactrare','packtear','packrustle','win','wincollect'])void ready(name);}
-export async function preloadRevealAudio(path:string){if(!enabled)return;const p=pokemonPower(path);await Promise.all([ready(p.cue),ready('release'),ready('flight'),ready('throw'),ready('impact'),ready('charge'),ready('latch'),ready('slam'),ready('ballbounce'),ready('ballsettle'),...(p.dexId===null?[]:[ready(`cries/${p.dexId}`)])]);}
+export async function preloadRevealAudio(path:string){if(!enabled)return;const p=pokemonPower(path);await Promise.all([ready(p.cue),ready('release'),ready('flight'),ready('throw'),ready('impact'),ready('charge'),ready('latch'),ready('slam'),ready('ballbounce'),ready('ballsettle'),...(p.dexId===null?[]:[ready(`cries/${p.cryId??p.dexId}`)])]);}
 function forget(voice:OwnedVoice){voices.delete(voice);voice.howl.off('end',voice.done,voice.id);voice.howl.off('stop',voice.done,voice.id);if(voice.key.startsWith('cries/')&&![...voices].some(v=>v.key.startsWith('cries/')))for(const v of voices)if(v.scene&&!v.key.startsWith('cries/'))v.howl.fade(v.gain*.42,v.gain,120,v.id);mixMusic();}
 // Per-ID event ownership prevents old callbacks from retaining destroyed reveals.
 type OwnedVoice=Voice & {done:()=>void};

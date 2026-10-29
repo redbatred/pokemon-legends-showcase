@@ -9,6 +9,9 @@ it('assigns a cry and an elemental performance to all supported Pokemon',()=>{
  expect(pokemonPower('/assets/pokemon/mewtwo.png').kind).toBe('psychic');
 });
 it('does not invent a Pokemon cry for unknown artwork',()=>expect(pokemonPower('/missing.png').dexId).toBeNull());
+it('uses Paldean Wooper’s form-specific cry while keeping its national species identity',()=>{
+ expect(pokemonPower('/assets/pokemon/wooper-paldean.png')).toMatchObject({species:'wooper',dexId:194,cryId:10253,cue:'ground',kind:'ground'});
+});
 it('routes the expanded species to their distinct attack forms and sampled cues',()=>{
  const cases=[['mewtwo','wave','psystrike'],['alakazam','wave','psychic'],['lugia','beam','aeroblast'],['dragonite','beam','hyperbeam'],['gengar','orb','shadowball'],['mew','sphere','psychic'],['venusaur','petals','petals'],['eevee','stars','swift'],['vaporeon','pulse','waterpulse'],['gyarados','stream','hydropump']];
  for(const [name,move,cue] of cases){const p=pokemonPower(`/assets/pokemon/${name}.png`);expect(p.move).toBe(move);expect(p.cue).toBe(cue);}
