@@ -2174,5 +2174,181 @@
     "requiresMoveFormRouting": true,
     "animationAuthorship": "native",
     "effectAuthorship": "project-authored elemental interpretation; no official move event track is asserted"
+  },
+  "charizard-shiny": {
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.6949999809265136,
+    "end": 1.6679999542236328,
+    "recoveryEnd": 2.316666603088379,
+    "recoverySpeed": 1,
+    "emitters": [
+      {
+        "bone": "center_nose_24",
+        "tip": [
+          0,
+          0,
+          4.440892098500626e-16
+        ],
+        "forward": [
+          0.21916278130317357,
+          -4.61182357434081e-09,
+          -0.019174273196578273
+        ]
+      }
+    ],
+    "evidence": "Authored effect window within the complete native ranged-attack clip. Separate timing and bone-local sockets for this variant; source clips and recovery preserved.",
+    "source": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/shiny/6.glb"
+  },
+  "mewtwo-shiny": {
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.6049999952316284,
+    "end": 1.451999988555908,
+    "recoveryEnd": 2.0166666507720947,
+    "recoverySpeed": 1,
+    "emitters": [
+      {
+        "bone": "left_hand_30",
+        "tip": [
+          6.938893903907228e-17,
+          -1.3877787807814457e-17,
+          0
+        ],
+        "forward": [
+          -0.0020901284102970846,
+          0.23829040938899776,
+          -1.0424378693585368e-08
+        ]
+      }
+    ],
+    "evidence": "Authored effect window within the complete native ranged-attack clip. Separate timing and bone-local sockets for this variant; source clips and recovery preserved.",
+    "source": "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/shiny/150.glb"
+  },
+  "gardevoir-shiny": {
+    "form": "psychic-palm-wave",
+    "seek": 0,
+    "speed": 1,
+    "powerAt": 0.76,
+    "sustainEnd": 1.35,
+    "end": 1.5,
+    "recoverAt": 2,
+    "recoveryEnd": 2,
+    "recoverySpeed": 1,
+    "attackClip": "ensemble_attack",
+    "chargeDuration": 0.76,
+    "attachment": "continuous",
+    "socketSampleTime": 0.9,
+    "sourceGlbSha256": "c7dd0b39e8d26902640a2cc9d1ba4d94fb0dd15148b87a35488f49b89e539cd6",
+    "timeUnits": "source clip seconds; authored clip runs at speed 1",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space",
+    "evidence": "Existing Gardevoir choreography with its bone-local palm sockets converted through source and target rest axes and measured model scale; target clips retargeted through world-space rotation deltas.",
+    "sources": [
+      "https://raw.githubusercontent.com/pokemon-party/3d-pokemon/429de1288cea0d43f5b4f56305d2276e94239d65/models/opt/regular/282.glb"
+    ],
+    "emitters": [
+      {
+        "bone": "lhand_67",
+        "tip": [
+          -1.6144032024033983,
+          -0.013267600326047901,
+          0.011511949823759693
+        ],
+        "forward": [
+          -7.917662332076809,
+          2.7368166996886174,
+          -5.194548576085104
+        ]
+      },
+      {
+        "bone": "rhand_89",
+        "tip": [
+          1.6395405816553463,
+          -0.011203520944528589,
+          0.021147775243640865
+        ],
+        "forward": [
+          7.942799529320784,
+          2.7388811797416976,
+          -5.184912034275321
+        ]
+      }
+    ]
+  },
+  "oddish-shiny": {
+    "form": "mega-drain",
+    "seek": 0.4,
+    "speed": 1.5,
+    "powerAt": 1.65,
+    "sustainEnd": 2.2,
+    "end": 2.45,
+    "recoverAt": 2.6500000000000004,
+    "recoveryEnd": 4.625,
+    "emitters": [
+      {
+        "id": "leaf-crown",
+        "bone": "006_feelera2",
+        "tip": [
+          5.551115123125783e-17,
+          -2.3852447794681098e-18,
+          1.3877787807814457e-17
+        ],
+        "forward": [
+          0.13127949965219932,
+          -0.0013374923232091437,
+          0.07397544467245382
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "desired target world q = source animated world q * inverse(source rest world q) * target rest world q. desired target world p = target rest world p + uniform anatomical scale * (source animated world p - source rest world p). Solve each local rotation and translation through actual target parent. Target file rest transforms remain unchanged.",
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/043/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup",
+    "chargeDuration": 0.8333333333333334,
+    "sourceGlbSha256": "959d47852381223b213ef2478eb9b5054ad63f668855ea5a489dce82441cc723",
+    "socketSampleTime": 0,
+    "requiresMoveFormRouting": true,
+    "animationAuthorship": "native",
+    "effectAuthorship": "project-authored elemental interpretation; no official move event track is asserted"
+  },
+  "gloom-shiny": {
+    "form": "petal-burst",
+    "seek": 0.02,
+    "speed": 1,
+    "powerAt": 0.55,
+    "sustainEnd": 0.92,
+    "end": 1.1,
+    "recoverAt": 1.3,
+    "recoveryEnd": 1.850000023841858,
+    "emitters": [
+      {
+        "id": "flower-crown",
+        "bone": "005_feelera",
+        "tip": [
+          0.24485400649915723,
+          0.0009090414109325096,
+          -0.005587945741553283
+        ],
+        "forward": [
+          0.4804909477744711,
+          0.0009031062256460694,
+          0.06508641542864525
+        ]
+      }
+    ],
+    "attachment": "continuous",
+    "evidence": "desired target world q = source animated world q * inverse(source rest world q) * target rest world q. desired target world p = target rest world p + uniform anatomical scale * (source animated world p - source rest world p). Solve each local rotation and translation through actual target parent. Target file rest transforms remain unchanged.",
+    "sourceModel": "https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/public/models/044/model.glb",
+    "attackClip": "attack",
+    "timeUnits": "seek, powerAt, sustainEnd, end, recoverAt and recoveryEnd are source clip seconds; speed is playback rate",
+    "coordinateUnits": "tip and forward are absolute points in named bone-local space, not direction vectors; bone keys are lowercase for runtime lookup",
+    "chargeDuration": 0.53,
+    "sourceGlbSha256": "acacfb0c6ffa22676e61150cb3e5f401e48b94b1f0f4bde8a696c8bd8e0a57bf",
+    "socketSampleTime": 0,
+    "requiresMoveFormRouting": true,
+    "animationAuthorship": "native",
+    "effectAuthorship": "project-authored elemental interpretation; no official move event track is asserted"
   }
 }

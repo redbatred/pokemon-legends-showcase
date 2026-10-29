@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Modal continuity QA</title><link rel="stylesheet" href="/src/styles.css"><style>html,body{overflow:auto;background:#09182c}nav{display:flex;gap:12px;padding:10px;flex-wrap:wrap}button{padding:8px}#host{position:relative;width:1280px;height:780px;margin:auto;overflow:hidden}output{color:#b9f5dd;font:13px monospace;white-space:pre-wrap}#report{display:block;padding:12px}</style></head><body><nav><button id="run" disabled>Run desktop modal checks</button><button id="phone" disabled>Run phone modal checks</button><output id="status">Loading…</output></nav><div class="canvas-host" id="host"></div><output id="report"></output><script type="module">
+import {PokemonGame} from '/src/game/Game.ts';
+import {newSave,createOpening,settleOpening} from '/src/game/model.ts';
+import {setSound} from '/src/game/audio.ts';
+let save=newSave();const host=document.querySelector('#host'),status=document.querySelector('#status'),report=document.querySelector('#report');
+const game=new PokemonGame(host,{loadSave:async()=>save,transactSave:async update=>(save=update(save)),resetSave:async()=>(save=newSave())});
+await game.init();setSound(false);let i=0;save=settleOpening(createOpening(save,game.pool,()=>[.91,.1,.33,.48,.57,.68,.78,.87,.94,.99][i++%10],game.selected));game.save=save;game.render();
+const frame=()=>new Promise(resolve=>requestAnimationFrame(resolve));async function settled(){let n=0;while(game.view.transitioning&&n++<240)await frame();await frame();}
+async function run(phone){document.querySelector('#run').disabled=document.querySelector('#phone').disabled=true;host.style.width=(phone?390:1280)+'px';host.style.height='780px';await frame();await frame();const results=[];
+ for(const kind of ['settings','collection','history','about','auto','inspect','history-pack']){
+  status.textContent='Checking '+kind;
+  if(kind==='inspect'){game.action('collection');await settled();game.inspected=game.pool[0];game.render();}
+  else if(kind==='history-pack'){game.action('history');await settled();game.view.historyOpening=save.history[0];game.view.build();}
+  else game.action(kind);
+  await settled();const canvas=game.stage.app.canvas,size=[canvas.width,canvas.height],samples=[],oldChildren=game.stage.app.stage.children.length;
+  game.view.dismissModal();const hadCover=!!game.view.returnCover,destinationReady=game.view.modalKind!==(kind==='history-pack'?'history-pack':kind);
+  for(let n=0;n<40;n++){await frame();samples.push({w:canvas.width,h:canvas.height,world:game.stage.world.visible,cover:game.view.returnCover?.alpha??0});}
+  const pass=hadCover&&destinationReady&&samples.every(s=>s.w===size[0]&&s.h===size[1]&&s.world)&&!game.view.returnCover&&!game.view.transitioning;
+  results.push({kind,pass,hadCover,destinationReady,stableCanvas:samples.every(s=>s.w===size[0]&&s.h===size[1]),visibleWorld:samples.every(s=>s.world),transitionReleased:!game.view.returnCover,frames:samples.length});
+  if(game.panel||game.inspected){game.view.dismissModal();await settled();}
+  report.textContent=JSON.stringify(results,null,2);
+ }
+ status.textContent=(results.every(r=>r.pass)?'PASS':'FAIL')+' · '+(phone?'phone':'desktop')+' · '+results.length+' modal transitions';document.querySelector('#run').disabled=document.querySelector('#phone').disabled=false;
+}
+document.querySelector('#run').onclick=()=>run(false);document.querySelector('#phone').onclick=()=>run(true);document.querySelector('#run').disabled=document.querySelector('#phone').disabled=false;status.textContent='Ready';
+</script></body></html>

@@ -75,7 +75,7 @@ export class OpeningStage {
   private stack = new Container();private openingCard:PerspectiveMesh|null=null;
   private resize = () => {
     const w = this.host.clientWidth, h = this.host.clientHeight;
-    const resolution=renderResolution(w,h,devicePixelRatio,this.options.low,this.blocked);
+    const resolution=renderResolution(w,h,devicePixelRatio,this.options.low);
     // Resizing a WebGL canvas clears it. Layout-only updates must not clear a live frame.
     if(this.app.screen.width!==w||this.app.screen.height!==h||Math.abs(this.app.renderer.resolution-resolution)>.001){this.app.renderer.resolution=resolution;this.app.renderer.resize(w,h);}
     const layout=gameLayout(w,h,this.openingLayout);
@@ -168,13 +168,15 @@ export class OpeningStage {
   }
   setLayoutMode(opening:boolean){opening=opening||this.travelling;if(opening!==this.openingLayout){this.openingLayout=opening;this.resize();}}
   private positionJourney(){if(!this.journey)return;const w=this.app.screen.width,h=this.app.screen.height,a=gameLayout(w,h,false),b=gameLayout(w,h,true),t=this.journey.amount;this.world.y=a.worldY+(b.worldY-a.worldY)*t;this.world.scale.set(a.scale+(b.scale-a.scale)*t);}
-  setBlocked(value:boolean,keepScene=false){
+  setBlocked(value:boolean){
     if(value&&this.peelPointer)this.peelCancel();const changed=value!==this.blocked;if(changed){this.sampleStart=0;this.sampleFrames=0;}
-    this.blocked=value;this.world.visible=!value||keepScene;this.flightLayer.visible=!value||keepScene;this.scene.pause(value||document.hidden);
+    // A modal pauses the existing scene; its backdrop supplies the dimming.
+    // Hiding it or changing canvas density here creates a blank frame on close.
+    this.blocked=value;this.scene.pause(value||document.hidden);
     if(value){this.timeline?.pause();for(const t of this.tweens)t.pause();this.app.stop();}
     else if(!document.hidden){if(this.mode!=='result')this.app.start();this.timeline?.resume();for(const t of this.tweens)t.resume();}
     if(this.diagnostics)this.app.canvas.dataset.renderState=value?'paused':'running';
-    if(changed)this.resize();this.draw();
+    this.draw();
   }
   getBackTexture(){return this.back;}
   setScene(active:boolean){this.scene.setActive(active||this.travelling,this.options.reduced);}

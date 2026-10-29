@@ -1,0 +1,33 @@
+import {expect,it} from 'vitest';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import artwork from '../../public/assets/pokemon/manifest.json';
+import models from '../../public/assets/pokemon-3d/manifest.json';
+import {specialPokemon} from './specialReward';
+import {moveRigs} from './moveRig';
+import {pokemonIdentity} from './pokemonIdentity';
+
+it.each([
+ ['sma-SV49','Charizard-GX','Shiny rare','charizard'],
+ ['swsh12.5-020','Radiant Charizard','Radiant Rare','charizard'],
+ ['sma-SV59','Mewtwo-GX','Shiny rare','mewtwo'],
+ ['sv04.5-233','Gardevoir ex','Special illustration rare','gardevoir'],
+ ['sv04.5-092','Oddish','Shiny rare','oddish'],
+ ['sv04.5-093','Gloom','Shiny rare','gloom'],
+])('uses the exact shipped shiny skin and its own playable skeletal rig for %s',(id,name,rarity,species)=>{
+ const image=specialPokemon({id,name,rarity,value:10000,weight:1,number:'1',image:'/card.webp'},100,artwork);
+ expect(image).toBe(`/assets/pokemon/${species}-shiny.png`);
+ const key=`${species}-shiny`,model=(models as any)[key],bytes=readFileSync(new URL('../../public'+model.path,import.meta.url));
+ expect(createHash('sha256').update(bytes).digest('hex')).toBe(model.optimization.sha256);
+ const jsonLength=bytes.readUInt32LE(12),gltf=JSON.parse(bytes.subarray(20,20+jsonLength).toString());
+ const animations=gltf.animations.map((a:any)=>a.name),nodes=gltf.nodes.map((n:any)=>n.name.toLowerCase().replace(/ /g,'_'));
+ for(const clip of [model.idle,model.attack,model.enter])expect(animations).toContain(clip);
+ expect(gltf.skins.length).toBeGreaterThan(0);
+ for(const emitter of moveRigs[key].emitters)expect(nodes).toContain(emitter.bone);
+});
+it('keeps ordinary ex and Dynamax species separate from actual body-changing forms',()=>{
+ expect(pokemonIdentity({id:'sv03.5-199',name:'Charizard ex',rarity:'Special illustration rare'}).artworkKey).toBe('Charizard');
+ expect(pokemonIdentity({id:'swsh7-218',name:'Rayquaza VMAX',rarity:'Rare'})).toMatchObject({species:'Rayquaza',form:'dynamax',artworkKey:'Rayquaza'});
+ expect(pokemonIdentity({id:'swsh8-271',name:'Gengar VMAX',rarity:'Rare'}).artworkKey).toBe('Gigantamax Gengar');
+ expect(pokemonIdentity({id:'sv04.5-059',name:'Paldean Clodsire ex',rarity:'Double rare'}).artworkKey).toBe('Clodsire');
+});

@@ -70,3 +70,27 @@ it('chooses the showcase art edition when two cards have the same demo value',()
   const opened=createPreviewOpening(newSave(),[holo,fullArt],pack,{Mewtwo:{dexId:150,image:'/assets/pokemon/mewtwo.png'}},()=>0);
   expect(opened.active?.cards[0]).toEqual(fullArt);
 });
+
+it('varies the first showcase on a fresh save instead of always picking the first species',()=>{
+  const dragonite={...rare,id:'dragonite',name:'Dragonite ex',value:1500};
+  const illustrated={...art,Dragonite:{dexId:149,image:'/assets/pokemon/dragonite.png'}};
+  let draw=0;
+  const opened=createPreviewOpening(newSave(),[common,rare,dragonite],DEFAULT_PACK,illustrated,()=>draw++<10?0:.99);
+  expect(opened.active?.cards[0].name).toBe('Dragonite ex');
+});
+
+it('avoids a recently seen Pokémon when switching to a different pack',()=>{
+  const gardevoir={...rare,id:'gardevoir',name:'Gardevoir ex',value:2200};
+  const illustrated={...art,Gardevoir:{dexId:282,image:'/assets/pokemon/gardevoir.png'}};
+  const settled=settleOpening(createPreviewOpening(newSave(),[common,rare],DEFAULT_PACK,illustrated,()=>0));
+  const opened=createPreviewOpening(settled,[common,rare,gardevoir],{...DEFAULT_PACK,id:'paldean-fates'},illustrated,()=>0);
+  expect(opened.active?.cards[0].name).toBe('Gardevoir ex');
+});
+
+it('prefers a different showcase Pokémon when the same species already occurs later in the pack',()=>{
+  const dragonite={...rare,id:'dragonite',name:'Dragonite ex',value:1500};
+  const illustrated={...art,Dragonite:{dexId:149,image:'/assets/pokemon/dragonite.png'}};
+  const opened=createPreviewOpening(newSave(),[rare,dragonite],DEFAULT_PACK,illustrated,()=>0);
+  expect(opened.active?.cards[0].name).toBe('Dragonite ex');
+  expect(opened.active?.cards.slice(1,10).every(card=>card.name==='Charizard ex')).toBe(true);
+});

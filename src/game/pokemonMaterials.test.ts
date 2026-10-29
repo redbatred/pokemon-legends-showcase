@@ -21,3 +21,8 @@ it('preserves Rotom’s native inverted cyan silhouette without covering its ora
  expect(pokemonInkEligible('rotom','Rotom_Tail',[body])).toBe(true);
  expect(pokemonInkEligible('giratina','Giratina_1',[new MeshStandardMaterial({name:'Material #217'})])).toBe(true);
 });
+it('keeps the shiny Gardevoir face readable when source materials have appended export indices',()=>{
+ expect(pokemonInkEligible('gardevoir-shiny','Object_0',[new MeshBasicMaterial({name:'5_Material61_1_0_0'})])).toBe(false);
+ expect(pokemonInkEligible('gardevoir-shiny','Object_3',[new MeshBasicMaterial({name:'5_Material64_1_0_0'})])).toBe(false);
+ expect(pokemonInkEligible('gardevoir-shiny','body',[new MeshBasicMaterial({name:'5_Material60_1_0_0'})])).toBe(true);
+});

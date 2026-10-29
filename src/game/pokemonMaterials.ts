@@ -11,6 +11,6 @@ const facialParts:Record<string,number[]>={arceus:[23],breloom:[2,3],gardevoir:[
 // Its bottom uses the same native hull; the outward-wound arms and tail remain inked.
 const nativeSilhouetteParts:Record<string,RegExp>={rotom:/^Rotom(?:_1|_Bottom)?$/};
 export function pokemonInkEligible(species:string,meshName:string,materials:Material[]){return !nativeSilhouetteParts[species]?.test(meshName)&&materials.length>0&&materials.every(material=>{
- const m=material as MeshStandardMaterial,number=Number(m.name.match(/(\d+)$/)?.[1]);
- return !m.transparent&&m.opacity>=.98&&m.alphaTest===0&&!m.emissiveMap&&!/(eye|mouth|tongue|teeth|fire|flame|glow|effect)/i.test(m.name+' '+meshName)&&!(facialParts[species]??[]).includes(number);
+ const m=material as MeshStandardMaterial,number=Number(m.name.match(/Material\s*#?\s*(\d+)/i)?.[1]??m.name.match(/(\d+)$/)?.[1]);
+ return !m.transparent&&m.opacity>=.98&&m.alphaTest===0&&!m.emissiveMap&&!/(eye|mouth|tongue|teeth|fire|flame|glow|effect)/i.test(m.name+' '+meshName)&&!(facialParts[species.replace(/-shiny$/,'')]??[]).includes(number);
 });}

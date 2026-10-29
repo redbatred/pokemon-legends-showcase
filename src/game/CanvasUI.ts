@@ -39,7 +39,6 @@ export class CanvasUI {
   private completedResultSound='';private resultUnderlay:Sprite|null=null;private resultLaunch:{sources:{x:number;y:number;cardWidth:number}[];total:ReturnType<typeof totalWinLayout>}|null=null;
   private resultChrome:Container|null=null;private resultAmount:MoneyReadout|null=null;private resultCards:{group:Container;x:number;y:number;width:number;index:number}[]=[];
   private modalOrigin={x:0,y:0};
-  private dismissal:'close'|'continue'|null=null;
   private tray:Texture;
   private moneyAnimations:gsap.core.Tween[]=[];private moneyValues=new Map<string,MoneyState>();
   private rewards:RewardTransfers;private cardCaptions:Text[]=[];
@@ -47,7 +46,7 @@ export class CanvasUI {
   private awardCard=(card:Card,immediate=false)=>{
     const s=this.state;if(!s?.save?.active||s.save.active.cards[s.index]?.id!==card.id)return;
     const tier=winTier(card,s.save.active.pack?.price??s.selected.price,!!s.save.active.previewSpecial&&s.index===0);
-    this.rewards.reveal(s.index,card.value,s.reduced,tier,s.low,cardPowerKind(card.name));
+    this.rewards.reveal(s.index,card.value,s.reduced,tier,s.low,cardPowerKind(card));
     this.stage.scene.setBoard({phase:'revealed',packName:s.save.active.pack?.name??s.selected.name,index:s.index,cardName:card.name,cardValue:card.value,special:!!tier});
     if(immediate){this.rewards.finish(s.index);this.rewards.update(0,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);this.stage.draw();}
   };
@@ -84,7 +83,7 @@ export class CanvasUI {
     this.updating=true;
     this.stage.setLayoutMode(['awaiting','revealing','revealed','collecting','settling','complete'].includes(state.phase));
     this.stage.setScene(['awaiting','revealing','revealed','collecting','settling','complete'].includes(state.phase));
-    this.stage.setBlocked(!!state.panel||!!state.inspected||(state.phase==='complete'&&!state.autoRun?.running),state.panel==='settings');
+    this.stage.setBlocked(!!state.panel||!!state.inspected||(state.phase==='complete'&&!state.autoRun?.running));
     if(state.panel||state.inspected||state.phase==='complete')this.stage.app.stage.addChild(this.backdrop,this.root);else this.stage.app.stage.addChild(this.stage.flightLayer,this.rewards.root);
     this.rewards.background.visible=this.rewards.root.visible=!state.panel&&!state.inspected&&['awaiting','revealing','revealed','collecting','settling'].includes(state.phase);
     this.updating=false;
@@ -211,9 +210,9 @@ export class CanvasUI {
   }
   private build(){
     if(!this.state||this.destroyed)return;
-    if(this.dismissal){const action=this.dismissal;this.dismissal=null;this.modalTween?.kill();this.transitioning=false;this.state.action(action);return;}
-    if(this.state.panel==='settings'&&!this.modalKind&&!this.frozenHud){const texture=this.stage.app.renderer.generateTexture({target:this.root,frame:new Rectangle(0,0,this.stage.app.screen.width,this.stage.app.screen.height),resolution:1});this.frozenHud=new Sprite(texture);this.stage.app.stage.addChildAt(this.frozenHud,this.stage.app.stage.getChildIndex(this.backdrop));}
-    if(this.state.panel!=='settings'&&this.frozenHud){this.frozenHud.destroy({texture:true,textureSource:true});this.frozenHud=null;}
+    const overlay=!!this.state.panel||!!this.state.inspected;
+    if(overlay&&!this.modalKind&&!this.frozenHud){const texture=this.stage.app.renderer.generateTexture({target:this.root,frame:new Rectangle(0,0,this.stage.app.screen.width,this.stage.app.screen.height),resolution:this.stage.app.renderer.resolution});this.frozenHud=new Sprite(texture);this.stage.app.stage.addChildAt(this.frozenHud,this.stage.app.stage.getChildIndex(this.backdrop));}
+    if(!overlay&&this.frozenHud){this.frozenHud.destroy({texture:true,textureSource:true});this.frozenHud=null;}
     this.resultUnderlay?.destroy({texture:true,textureSource:true});this.resultUnderlay=null;
     if(this.resultLaunch&&!this.state.reduced){const texture=this.stage.app.renderer.generateTexture({target:this.root,frame:new Rectangle(0,0,this.stage.app.screen.width,this.stage.app.screen.height),resolution:1});this.resultUnderlay=new Sprite(texture);this.stage.app.stage.addChildAt(this.resultUnderlay,this.stage.app.stage.getChildIndex(this.backdrop));}
     this.resultChrome=null;this.resultAmount=null;this.resultCards=[];this.trayPan.cancel();this.trayPointer=null;
@@ -255,19 +254,14 @@ export class CanvasUI {
   }
   private dismissModal(action:'close'|'continue'='close'){
     if(this.transitioning)return;const s=this.state!;
-    if(this.historyOpening&&s.inspected){s.action('close');return;}
-    if(this.historyOpening&&!s.inspected){this.historyOpening=null;this.build();return;}
-    if(!this.modalKind||s.reduced){s.action(action);return;}
-    if(this.modalKind==='results'&&!s.panel&&!s.inspected){
-      // Capture before reset, build the browse scene underneath, then dissolve the
-      // complete frame. Neither an empty canvas nor the old stadium can flash.
-      const {width,height}=this.stage.app.screen,texture=this.stage.app.renderer.generateTexture({target:this.stage.app.stage,frame:new Rectangle(0,0,width,height),resolution:this.stage.app.renderer.resolution});
-      const cover=this.returnCover=new Sprite(texture);s.action(action);this.stage.app.stage.addChild(cover);this.transitioning=true;this.emitTargets();
-      this.returnTween=gsap.to(cover,{alpha:0,duration:.42,ease:'power2.inOut',onUpdate:()=>{cover.width=this.stage.app.screen.width;cover.height=this.stage.app.screen.height;this.stage.draw();},onComplete:()=>{cover.destroy({texture:true,textureSource:true});this.returnCover=null;this.returnTween=null;this.transitioning=false;this.emitTargets();}});return;
-    }
-    this.transitioning=true;this.dismissal=action;this.emitTargets();this.modalTween?.kill();
-    this.modalTween=gsap.timeline({onUpdate:()=>this.stage.draw(),onComplete:()=>{this.dismissal=null;this.transitioning=false;s.action(action);}})
-      .to(this.root,{x:s.panel==='settings'?Math.min(440,this.stage.app.screen.width)+24:this.modalOrigin.x,y:s.panel==='settings'?0:this.modalOrigin.y+12,alpha:0,duration:.2,ease:'power2.in'},0).to(this.backdrop,{alpha:0,duration:.2},0);
+    const destination=()=>{if(this.historyOpening&&!s.inspected){this.historyOpening=null;this.build();}else s.action(action);};
+    if(!this.modalKind||s.reduced){destination();return;}
+    // Build the destination before fading the old, fully composed frame. This
+    // also covers inspector → library and history pack → history transitions.
+    const results=this.modalKind==='results',{width,height}=this.stage.app.screen;
+    const texture=this.stage.app.renderer.generateTexture({target:this.stage.app.stage,frame:new Rectangle(0,0,width,height),resolution:this.stage.app.renderer.resolution});
+    const cover=this.returnCover=new Sprite(texture);destination();this.stage.app.stage.addChild(cover);this.transitioning=true;this.emitTargets();
+    this.returnTween=gsap.to(cover,{alpha:0,duration:results?.42:.26,ease:'power2.inOut',onUpdate:()=>{cover.width=this.stage.app.screen.width;cover.height=this.stage.app.screen.height;this.stage.draw();},onComplete:()=>{cover.destroy({texture:true,textureSource:true});this.returnCover=null;this.returnTween=null;this.transitioning=!!this.modalTween?.isActive();this.emitTargets();this.stage.draw();}});
   }
   private iconButton(id:string,label:string,x:number,y:number,size:number,kind:'binder'|'gear'|'sound'|'mute'|'history'|'plus',action:()=>void){
     const group=new Container();this.root.addChild(group);this.paints.set(id,group);const cx=x+size/2,cy=y+size/2,r=size/2;

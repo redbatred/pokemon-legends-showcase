@@ -10,7 +10,7 @@ import {performanceProfile} from './performanceProfiles';
 import {sampleAttack} from './attackClock';
 import {moveRigs,type ProjectedEmitter} from './moveRig';
 
-type Entry={path:string;optimization?:{sha256?:string};idle?:string;attack?:string;powerAt?:number;attackTimeScale?:number;enter?:string;enterStart?:number;enterEnd?:number;enterSpeed?:number;entranceDuration?:number;runtime?:{idle?:string;attack?:string}};
+type Entry={path:string;species?:string;optimization?:{sha256?:string};idle?:string;attack?:string;powerAt?:number;attackTimeScale?:number;enter?:string;enterStart?:number;enterEnd?:number;enterSpeed?:number;entranceDuration?:number;runtime?:{idle?:string;attack?:string}};
 let manifest:Promise<Record<string,Entry>>|null=null,renderer:WebGLRenderer|null=null,decoder:DRACOLoader|null=null,generation=0,inflight=0,releaseDecoder=false;
 function rendererFor(size:number){if(!renderer){renderer=new WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});renderer.setClearColor(0x000000,0);renderer.outputColorSpace=SRGBColorSpace;renderer.toneMapping=NoToneMapping;}if(renderer.domElement.width!==size||renderer.domElement.height!==size)renderer.setSize(size,size,false);return renderer;}
 function disposeDecoder(){decoder?.dispose();decoder=null;releaseDecoder=false;}
@@ -49,7 +49,7 @@ export class PokemonModel {
   });for(const {mesh,outline} of outlines)mesh.parent!.add(outline);
   this.scene.add(model);this.scene.add(new HemisphereLight(0xeef7ff,0x66759c,.88));const key=new DirectionalLight(0xffffff,1.5);key.position.set(-3,5,7);this.scene.add(key);const rim=new DirectionalLight(0x8fdcff,.42);rim.position.set(1,-1,3);this.scene.add(rim);
   this.mixer=new AnimationMixer(model);this.clips=new Map(animations.map(clip=>[clip.name,this.mixer.clipAction(clip)]));this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);
-  const performance=performanceProfile(stem),yaw=performance.cameraYaw*Math.PI/180,elevation=performance.cameraElevation*Math.PI/180,view=new Vector3(Math.sin(yaw)*Math.cos(elevation),Math.sin(elevation),Math.cos(yaw)*Math.cos(elevation));
+  const performance=performanceProfile(entry.species??stem),yaw=performance.cameraYaw*Math.PI/180,elevation=performance.cameraElevation*Math.PI/180,view=new Vector3(Math.sin(yaw)*Math.cos(elevation),Math.sin(elevation),Math.cos(yaw)*Math.cos(elevation));
   const bounds=new Box3().setFromObject(model,true),right=new Vector3(view.z,0,-view.x).normalize(),up=view.clone().cross(right).normalize(),vertex=new Vector3();
   let left=Infinity,rightEdge=-Infinity,bottom=Infinity,top=-Infinity;
   const includePose=()=>{model.traverse(o=>{if(!(o instanceof Mesh)||o.renderOrder===-1)return;const positions=o.geometry.getAttribute('position');if(!positions)return;for(let i=0;i<positions.count;i++){o.getVertexPosition(i,vertex).applyMatrix4(o.matrixWorld);const x=vertex.dot(right),y=vertex.dot(up);left=Math.min(left,x);rightEdge=Math.max(rightEdge,x);bottom=Math.min(bottom,y);top=Math.max(top,y);}});};includePose();const idleHeight=top-bottom,idleBottom=bottom;
@@ -57,7 +57,7 @@ export class PokemonModel {
   if(attackAction){
    const original=this.current;original?.stop();attackAction.reset().setLoop(LoopOnce,1).play();attackAction.clampWhenFinished=true;
    const start=rig?.seek??0,end=Math.min(attackAction.getClip().duration,rig?.recoveryEnd??attackAction.getClip().duration);
-   const samples=this.stem==='mewtwo'?48:12;
+   const samples=(entry.species??this.stem)==='mewtwo'?48:12;
    for(let i=0;i<=samples;i++){attackAction.time=start+(end-start)*i/samples;this.mixer.update(0);model.updateMatrixWorld(true);bounds.union(new Box3().setFromObject(model,true));includePose();}
    attackAction.stop();this.current=null;this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);
   }
@@ -79,7 +79,7 @@ export class PokemonModel {
   const bones:Object3D[]=[];model.traverse(o=>{if('isBone' in o)bones.push(o);});const named=(keys:string[])=>keys.map(key=>bones.find(b=>b.name.toLowerCase().replace(/[_\s]*\d+$/,'')===key)).find(Boolean);
   this.bones=bones;this.bodySpan=size.y;this.head=named(['head','jaw','neck']);this.torso=named(['chest','waist','body','spine']);this.fallback.copy(center).add(new Vector3(0,size.y*.22,size.z*.1));this.render();
  }
- private get timing(){const clip=this.clips.get(this.entry.attack??this.entry.runtime?.attack??'');return performanceTiming(this.stem,clip?.getClip().duration??2,moveRigs[this.stem]);}
+ private get timing(){const clip=this.clips.get(this.entry.attack??this.entry.runtime?.attack??'');return performanceTiming(this.entry.species??this.stem,clip?.getClip().duration??2,moveRigs[this.stem]);}
  get entranceDuration(){const clip=this.entry.enter?this.clips.get(this.entry.enter):null;return clip?Math.min(1.4,Math.max(.4,((this.entry.enterEnd??clip.getClip().duration)-(this.entry.enterStart??0))/(this.entry.enterSpeed??1))):.68;}
  get chargeDuration(){return this.timing.charge;}
  get attackDuration(){return this.timing.attack;}

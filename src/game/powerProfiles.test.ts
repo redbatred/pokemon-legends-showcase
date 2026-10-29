@@ -18,7 +18,8 @@ it('gives every eligible species an explicit recorded move and a deliberate entr
  const sounds=(await import('../../public/assets/audio-v6/cues.json')).default;
  const routes=(await import('../../public/assets/audio-v6/species-cues.json')).default;
  const {performanceProfile}=await import('./performanceProfiles');
- expect(Object.keys(routes)).toHaveLength(Object.keys(artwork).length);
+ const species=new Set(Object.values(artwork).map(entry=>pokemonPower(entry.image).species));
+ expect(Object.keys(routes).sort()).toEqual([...species].sort());
  for(const entry of Object.values(artwork)){const p=pokemonPower(entry.image);expect(routes).toHaveProperty(p.species,p.cue);expect(sounds).toHaveProperty(p.cue);const scene=performanceProfile(p.species);expect(Number.isFinite(scene.lift)).toBe(true);expect(scene.cameraYaw).toBeGreaterThan(-60);expect(scene.cameraYaw).toBeLessThan(60);}
  expect(pokemonPower('/assets/pokemon/greninja.png').cue).toBe('watershuriken');
  expect(pokemonPower('/assets/pokemon/scizor.png').move).toBe('punch');
@@ -27,3 +28,12 @@ it('gives every eligible species an explicit recorded move and a deliberate entr
 });
 
 it('routes named prize cards to the matching elemental win',async()=>{const {cardPowerKind}=await import('./powerProfiles');expect(cardPowerKind('Charizard ex')).toBe('fire');expect(cardPowerKind('Blastoise VMAX')).toBe('water');expect(cardPowerKind('Pikachu V')).toBe('electric');expect(cardPowerKind('Radiant Alakazam')).toBe('psychic');});
+
+it('preserves the species attack for shiny forms and uses the card’s Tera element for the win',async()=>{
+ const {pokemonPower,cardPowerKind}=await import('./powerProfiles');
+ expect(pokemonPower('/assets/pokemon/charizard-shiny.png').species).toBe('charizard');
+ expect(pokemonPower('/assets/pokemon/charizard-shiny.png').kind).toBe('fire');
+ expect(cardPowerKind('Charizard-GX')).toBe('fire');
+ expect(cardPowerKind({id:'sv03-223',name:'Charizard ex',rarity:'Special illustration rare'})).toBe('dark');
+ expect(cardPowerKind({id:'sv03-066',name:'Tyranitar ex',rarity:'Double rare'})).toBe('electric');
+});
