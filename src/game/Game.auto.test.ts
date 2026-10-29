@@ -1,6 +1,6 @@
 import {beforeEach,afterEach,expect,it,vi} from 'vitest';
 vi.mock('./Stage',()=>({OpeningStage:class{
- init=vi.fn(async()=>{});setPack=vi.fn(async()=>{});setSealed=vi.fn();waitForReveal=vi.fn();prepareReveal=vi.fn();
+ init=vi.fn(async()=>{});setPack=vi.fn(async()=>{});setSealed=vi.fn();waitForReveal=vi.fn();prepareReveal=vi.fn();skipReveal=vi.fn();
  tear=vi.fn(async()=>{});reveal=vi.fn(async()=>{});collectRemaining=vi.fn(async()=>{});showResult=vi.fn();reset=vi.fn();updateOptions=vi.fn();destroy=vi.fn();
 }}));
 vi.mock('./CanvasUI',()=>({CanvasUI:class{update=vi.fn();destroy=vi.fn();setFocus=vi.fn();}}));
@@ -67,4 +67,14 @@ it('does not take over an opening purchased in a different tab',async()=>{
  storage.transactSave.mockImplementationOnce(update=>real(s=>update({...s,active:{id:'other-tab',at:new Date().toISOString(),pack:DEFAULT_PACK,cards:[]}})));
  game.action('auto-start');await vi.advanceTimersByTimeAsync(10000);
  expect(state.autoRun.running).toBe(false);expect(state.stage.tear).not.toHaveBeenCalled();expect(state.error).toContain('another tab');
+});
+
+it('Next finishes the current reveal before a later click advances the index',async()=>{
+ const {game,state}=await setup();game.action('open');await vi.advanceTimersByTimeAsync(1);game.action('tear');await vi.advanceTimersByTimeAsync(1);
+ let complete!:()=>void;state.stage.reveal.mockImplementationOnce(()=>new Promise<void>(resolve=>{complete=resolve;}));
+ state.stage.skipReveal.mockImplementation(()=>{complete();return true;});
+ game.action('next');await vi.advanceTimersByTimeAsync(1);expect(state.phase).toBe('revealing');expect(state.index).toBe(0);
+ game.action('next');expect(state.stage.skipReveal).toHaveBeenCalledOnce();await vi.advanceTimersByTimeAsync(1);
+ expect(state.phase).toBe('revealed');expect(state.index).toBe(0);
+ game.action('next');await vi.advanceTimersByTimeAsync(1);expect(state.index).toBe(1);expect(state.stage.reveal).toHaveBeenCalledTimes(2);
 });

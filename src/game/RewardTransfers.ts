@@ -19,6 +19,7 @@ export class RewardTransfers {
   if(celebration)this.root.addChild(celebration.root);
   this.root.addChild(trail,label);this.flights.push({index,amount,age:reduced?1:0,transferAge:null,speed:1.5,label,trail,width:label.getLocalBounds().width,launched:false,tier,celebration});label.alpha=0;
  }
+ finish(index:number){const f=this.flights.find(f=>f.index===index);if(!f||f.transferAge!==null)return;f.age=Math.max(1,f.age);f.label.display(f.amount);f.celebration?.finish();}
  /** Advancing the card is the only trigger for the reward's exit/transfer clock. */
  rush(){for(const f of this.flights)f.transferAge??=0;}
  deposit(index:number,amount:number){

@@ -10,6 +10,7 @@ import { gameLayout, renderResolution, cardTrayLayout, performanceFloor } from '
 import { loadPackTexture } from './packTexture';
 import type { SpineReveal } from './SpineReveal';
 import {PackOpening} from './PackOpening';
+import {RevealCompletion} from './revealCompletion';
 import {PACK_CLEARANCE_TIME,PACK_TEAR_LIMIT} from './packTearGeometry';
 import {cardHover} from './cardHover';
 import {crowdLevel} from './crowdReaction';
@@ -22,7 +23,7 @@ export class OpeningStage {
   app = new Application();
   scene = new CanvasScene();private revealEffects=new CardRevealEffects();
   onLayout: (()=>void) | null = null;
-  onCardStored: ((index:number)=>void)|null=null;onSpecialWin:((card:Card)=>void)|null=null;flightLayer=new Container();private cardColors=new Map<string,number>();
+  onCardStored: ((index:number)=>void)|null=null;onSpecialWin:((card:Card,immediate?:boolean)=>void)|null=null;flightLayer=new Container();private cardColors=new Map<string,number>();
   onCollectFocus:((index:number)=>void)|null=null;
   cardDestination:((index:number)=>{x:number;y:number;cardWidth:number})|null=null;
   blocked = false;
@@ -59,7 +60,7 @@ export class OpeningStage {
   private openingLayout = false;private travelling=false;
   private journey:{amount:number}|null=null;
   private prepared:{key:string;cancelled:boolean;promise:Promise<{texture:Texture;special:SpineReveal|null}>}|null=null;
-  private cardHoverReady=false;
+  private cardHoverReady=false;private revealCompletion=new RevealCompletion();
   private dragProgress = 0;
   private dragStart: number | null = null;
   private resetPointer=()=>{this.target.x=0;this.target.y=0;};
@@ -139,7 +140,8 @@ export class OpeningStage {
     this.app.stage.on('pointerup', e => {if(e.pointerType!=='mouse')this.resetPointer(); this.dragStart = null; this.dragProgress = 0; this.tearLine.clear(); });
     this.app.stage.on('pointerupoutside', () => { this.dragStart = null; this.dragProgress = 0; this.tearLine.clear(); });
     this.app.canvas.addEventListener('pointerleave',this.resetPointer);this.app.canvas.addEventListener('pointercancel',this.resetPointer);
-    this.cardLayer.eventMode = 'static'; this.cardLayer.cursor = 'pointer';
+    this.cardLayer.eventMode = 'static'; this.cardLayer.cursor = 'pointer';this.cardLayer.hitArea=new Rectangle(-166,-227,332,455);
+    this.stack.eventMode='static';this.stack.cursor='pointer';this.stack.hitArea=new Rectangle(-166,-227,332,455);this.stack.on('pointertap',()=>{if(!this.blocked&&this.mode==='waiting')this.options.onNext();});
     this.cardLayer.on('pointertap', () => {if(!this.blocked)this.options.onNext();});
     for (let i = 3; i >= 1; i--) {
       const s = new Sprite(this.back); s.anchor.set(.5); s.width = 312; s.height = 435; s.y = i * 1.3; s.x = i * .8; s.rotation = (i - 1) * .003; this.stack.addChild(s);
@@ -306,8 +308,10 @@ export class OpeningStage {
     void entry.promise.catch(()=>{});
   }
 
+  skipReveal(){return this.revealCompletion.request();}
+
   async reveal(card: Card, first = false, previousIndex=0,pokemonImage:string|null=null,packPrice=1000): Promise<void> {
-    this.cardHoverReady=false;this.resetPointer();this.scene.endCelebration();
+    this.revealCompletion.begin();this.cardHoverReady=false;this.resetPointer();this.scene.endCelebration();
     const request = ++this.revealToken;
     this.prepareReveal(card,pokemonImage);const prepared=this.prepared!;this.prepared=null;
     const loaded=await prepared.promise,texture=loaded.texture;let special=loaded.special;
@@ -359,16 +363,22 @@ export class OpeningStage {
         .to(this.motion,{flip:0,offsetX:0,lift:-8,roll:0,pitch:0,scale:1,duration:.43*d,ease:'back.out(1.08)'},(turn+.24)*d)
         .to(this.foil.resources.foil.uniforms,{uSweep:.8,duration:.46*d,ease:'sine.inOut'},(turn+.28)*d)
         .to(this.foil.resources.foil.uniforms,{uSweep:0,duration:.24*d,ease:'sine.out'},(turn+.74)*d);
+      this.revealCompletion.bind(this.timeline,()=>{
+        stopRevealAudio();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCardColor(color!,true);this.scene.setCinematic(false,true);
+        next.texture=texture;next.alpha=1;this.lastProjection.delete(next);this.foil.resources.foil.uniforms.uStrength=foilStrength(card.rarity,card.value)*(this.options.low?.55:1);this.foil.resources.foil.uniforms.uSweep=0;
+        Object.assign(this.motion,{flip:0,pitch:0,lift:-8,offsetX:0,roll:0,scale:1,hover:1});this.cardLayer.position.set(0,-8);this.cardLayer.scale.set(1);this.cardLayer.rotation=0;this.project(next,312,435);this.cardEdge.alpha=0;
+        if(departing&&!departing.destroyed){departing.destroy({children:true});this.onCardStored?.(previousIndex);}
+      },resolve);
       this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
     });
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     if(this.options.reduced||this.options.turbo){special?.destroy();special=null;this.scene.setCharge(null);this.scene.setCinematic(false,true);}
     if(special){
       this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);special.setFloor(performanceFloor(gameLayout(this.app.screen.width,this.app.screen.height,true)));if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
-      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});
+      await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.revealCompletion.bind(this.timeline,()=>{special!.finish();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCinematic(false,true);this.scene.setCardColor(color!,true);},resolve);this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});
       if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(false,this.options.reduced);}
     }
-    if(!this.destroyed&&request===this.revealToken)this.cardHoverReady=true;
+    if(!this.destroyed&&request===this.revealToken){this.cardHoverReady=true;if(this.revealCompletion.requested)this.onSpecialWin?.(card,true);this.revealCompletion.end();this.draw();}
   }
 
   private detachCard(){
@@ -417,6 +427,7 @@ export class OpeningStage {
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }
   reset() {
+    this.revealCompletion.end();
     this.discardPrepared();this.cardHoverReady=false;this.resetPointer();this.openingCard?.destroy();this.openingCard=null;this.travelling=false;this.journey=null;this.scene.endCelebration();this.scene.setCinematic(false,this.options.reduced);
     this.revealEffects.clear();this.charging=false;this.scene.setCharge(null);this.timeline?.kill();this.timeline=null;this.clearPackOpening();stopRevealAudio();
     this.special?.destroy();this.special=null;++this.revealToken;
@@ -424,6 +435,7 @@ export class OpeningStage {
     this.flightLayer.removeChildren().forEach(child=>child.destroy({children:true}));this.cardMesh?.destroy(); this.cardMesh = null; this.cardEdge.alpha=0; this.stack.visible = false; this.cardLayer.visible = false; this.pack.alpha = 1; this.packShadow.alpha = 1; this.pack.scale.set(1); this.dragProgress = 0; this.tearLine.clear();
   }
   destroy() {
+    this.revealCompletion.end();
     this.discardPrepared();this.openingCard?.destroy();this.openingCard=null;
     this.clearPackOpening();this.special?.destroy();this.special=null;this.disposeSpecialResources?.();
     this.destroyed = true;cancelAnimationFrame(this.drawFrame); ++this.revealToken; ++this.packToken; this.timeline?.kill(); this.observer?.disconnect();

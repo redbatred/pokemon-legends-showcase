@@ -30,7 +30,7 @@ export function preloadWinCelebration(){
 /** Two actual Spine skeletons: the winged award and full-screen weighted effects. */
 export class WinCelebration {
  root=new Container();private shade=new Graphics();private title:Text;private banner:Spine|null=null;private fx:Spine|null=null;
- private age=0;private lastAge=0;private sounded=false;private geometry=specialWinGeometry(1280,720);
+ private settled=false;private age=0;private lastAge=0;private sounded=false;private geometry=specialWinGeometry(1280,720);
  constructor(private tier:Exclude<WinTier,null>,low=false){
   this.title=new Text({text:tier==='epic'?'EPIC WIN!':tier==='big'?'BIG WIN!':'SPECIAL PULL',style:{fontFamily:'Nunito',fontWeight:'900',fontStyle:'italic',fontSize:30,fill:0xffed87,stroke:{color:0x08244d,width:2},letterSpacing:1.5},resolution:2});this.title.anchor.set(.5);
   this.root.addChild(this.shade,this.title);this.root.eventMode='none';
@@ -38,11 +38,11 @@ export class WinCelebration {
    if(this.root.destroyed)return;
    this.fx=new Spine({skeletonData:data.fx[low?'special':tier],autoUpdate:false});this.banner=new Spine({skeletonData:data.banner,autoUpdate:false});
    this.banner.state.addListener({event:(_entry,event)=>{if(event.data.name==='impact'&&!this.sounded){this.sounded=true;if(this.age>=.16&&this.age<.46)playSound(this.tier==='special'?'rare':'win',{gain:this.tier==='special'?.48:.78});}}});
-   this.fx.state.setAnimation(0,'celebrate',false);this.banner.state.setAnimation(0,'celebrate',false);
-   this.fx.state.addAnimation(0,'idle',true,0);this.banner.state.addAnimation(0,'idle',true,0);
+   if(this.settled){this.fx.state.setAnimation(0,'idle',true);this.banner.state.setAnimation(0,'idle',true);}else{this.fx.state.setAnimation(0,'celebrate',false);this.banner.state.setAnimation(0,'celebrate',false);this.fx.state.addAnimation(0,'idle',true,0);this.banner.state.addAnimation(0,'idle',true,0);}
    this.root.addChildAt(this.fx,1);this.root.addChildAt(this.banner,2);
   }).catch(()=>{});
  }
+ finish(){this.settled=true;this.sounded=true;for(const rig of [this.banner,this.fx])if(rig){rig.skeleton.setToSetupPose();rig.state.setAnimation(0,'idle',true);rig.update(0);}this.lastAge=this.age;}
  update(age:number,w:number,h:number,exitAge=0,reduced=false){
   this.age=age;const g=this.geometry=specialWinGeometry(w,h),p=celebrationPose(age,exitAge),dt=reduced?(this.lastAge===0?1:0):Math.max(0,age-this.lastAge);
   this.root.alpha=p.alpha;this.shade.clear().rect(0,0,w,h).fill({color:0x061731,alpha:p.enter*(this.tier==='special'?.12:.30)});

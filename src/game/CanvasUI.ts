@@ -1,6 +1,7 @@
 import { Assets, Container, Graphics, Sprite, Text, Texture, BitmapFont, BitmapText,Rectangle,type Ticker } from 'pixi.js';
 import { gsap } from 'gsap';
-import {packGridLayout} from './packGrid';
+import {packGridLayout,packTileLayout} from './packGrid';
+import {utilityLayout} from './utilityLayout';
 import {AUTO_SPIN_COUNTS,type AutoRevealMode} from './autoSpin';
 import { gameLayout, pageWindow, cardTrayLayout,revealControlsLayout } from './rendering';
 import { money, recordedWinnings, type Card, type Pack, type Save, type Result } from './model';
@@ -32,7 +33,7 @@ export class CanvasUI {
   private moneyAnimations:gsap.core.Tween[]=[];private moneyValues=new Map<string,MoneyState>();
   private rewards:RewardTransfers;private cardCaptions:Text[]=[];
   private rewardPhaseKey='';
-  private awardCard=(card:Card)=>{const s=this.state;if(!s?.save?.active||s.save.active.cards[s.index]?.id!==card.id)return;this.rewards.reveal(s.index,card.value,s.reduced,winTier(card,s.save.active.pack?.price??s.selected.price,!!s.save.active.previewSpecial&&s.index===0),s.low);};
+  private awardCard=(card:Card,immediate=false)=>{const s=this.state;if(!s?.save?.active||s.save.active.cards[s.index]?.id!==card.id)return;this.rewards.reveal(s.index,card.value,s.reduced,winTier(card,s.save.active.pack?.price??s.selected.price,!!s.save.active.previewSpecial&&s.index===0),s.low);if(immediate){this.rewards.finish(s.index);this.rewards.update(0,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);this.stage.draw();}};
   private tickRewards=(ticker:Ticker)=>{const s=this.state;if(!s)return;const visible=!s.panel&&!s.inspected&&['awaiting','revealing','revealed','collecting','settling'].includes(s.phase);this.rewards.root.visible=visible;if(visible)this.rewards.update(ticker.deltaMS/1000,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;};
   private creditReward=(total:number)=>{if(this.moneyValues.get('revealed')?.target===total)return;if(this.packValueLabel){this.packValueLabel.retarget(total);this.packValueLabel.pulse();}else this.moneyValues.set('revealed',moneyState(this.moneyValues.get('revealed'),this.openingId,total,false));};
   private updating=false;
@@ -75,7 +76,7 @@ export class CanvasUI {
     if(event.key==='Escape'){event.preventDefault();this.dismissModal();return;}
     if((event.target as HTMLElement)?.tagName==='BUTTON')return;
     if(this.state.panel==='collection'&&!this.state.inspected&&['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();this.page+=event.key==='ArrowRight'?1:-1;this.build();}
-    if((event.key===' '||event.key==='Enter')&&!this.state.panel&&!this.state.inspected){event.preventDefault();const phase=this.state.phase;const action=phase==='browse'?'open':phase==='sealed'?'tear':['awaiting','revealed'].includes(phase)?'next':phase==='complete'?'continue':null;if(action)this.state.action(action);}
+    if((event.key===' '||event.key==='Enter')&&!this.state.panel&&!this.state.inspected){event.preventDefault();const phase=this.state.phase;const action=phase==='browse'?'open':phase==='sealed'?'tear':['awaiting','revealing','revealed'].includes(phase)?'next':phase==='complete'?'continue':null;if(action)this.state.action(action);}
   };
   private text(value:string,x:number,y:number,size=14,color=C.white,parent=this.root,align:'left'|'center'|'right'='left',weight:'normal'|'bold'='normal',maxWidth?:number){
     const text=new Text({text:value,style:{fontFamily:'Nunito, Arial, sans-serif',fontSize:size,fontWeight:weight==='bold'?'800':'600',fill:color,align,wordWrap:!!maxWidth,wordWrapWidth:maxWidth,lineHeight:size*1.3},resolution:Math.min(2,devicePixelRatio)});
@@ -106,6 +107,30 @@ export class CanvasUI {
     const hit={id,label,x,y,width:w,height:h,disabled:!!options.disabled,selected:options.active,action};this.hits.push(hit);
     group.eventMode=options.disabled?'none':'static';group.cursor='pointer';group.on('pointertap',()=>{if(!options.disabled&&!this.transitioning)action();});
     return group;
+  }
+  private utility(kind:'turbo'|'auto',label:string,r:{x:number;y:number;width:number;height:number},compact:boolean,active:boolean,disabled:boolean,action:()=>void){
+    const {x,y,width:w,height:h}=r,s=this.state!,group=new Container(),g=new Graphics();
+    group.position.set(x+w/2,y+h/2);group.pivot.set(w/2,h/2);group.addChild(g);this.root.addChild(group);this.paints.set(kind,group);
+    const shape=(inset:number,dy=0)=>[10+inset,inset+dy,w-10-inset,inset+dy,w-inset,10+inset+dy,w-inset,h-10-inset+dy,w-10-inset,h-inset+dy,10+inset,h-inset+dy,inset,h-10-inset+dy,inset,10+inset+dy];
+    g.poly(shape(0,3)).fill({color:0x051d37,alpha:.6}).poly(shape(0)).fill(active?0x145e90:0x123a5c).stroke({color:active?0xa8f6ff:0x6b9bb8,width:1.5});
+    g.poly(shape(4)).stroke({color:active?0x6edaff:0x2e6081,width:1,alpha:.65});
+    g.moveTo(14,5).lineTo(w-14,5).stroke({color:0xe7fcff,width:1.2,alpha:active?.65:.25});
+    const ix=compact?w/2:25,iy=compact?16:h/2,ir=compact?12:16;
+    g.circle(ix,iy,ir).fill(active?0x248ac5:0x0b2a49).stroke({color:active?0xb6f8ff:0x578cad,width:1.2});
+    if(kind==='turbo'){
+      for(const dx of [-5,3])g.poly([ix+dx-4,iy-7,ix+dx+3,iy,ix+dx-4,iy+7,ix+dx,iy+7,ix+dx+7,iy,ix+dx,iy-7]).fill(active?0xeeffff:0xb2d5ea);
+    }else if(active)g.roundRect(ix-5,iy-5,10,10,2).fill(0xf0fdff);
+    else{
+      g.arc(ix,iy,9,-Math.PI*.65,Math.PI*.95).stroke({color:0xb2d5ea,width:1.7}).poly([ix-10,iy+1,ix-12,iy-5,ix-5,iy-3]).fill(0xb2d5ea);
+      this.ball(ix,iy,4,0xc8eafa,group);
+    }
+    const title=kind==='turbo'?'TURBO':active?'STOP':'AUTO SPIN',status=kind==='turbo'?(active?'4× SPEED':'NORMAL SPEED'):active?`${s.autoRun!.completed} / ${s.autoRun!.total} PACKS`:'CHOOSE PACKS';
+    const tx=compact?w/2:48,titleY=compact?31:8,font=compact?9.5:w<160?12:14;
+    const caption=this.text(compact&&kind==='auto'&&active?`${s.autoRun!.completed}/${s.autoRun!.total} STOP`:title,tx,titleY,font,active?C.white:0xd4eaf5,group,compact?'center':'left','bold');
+    const available=compact?w-12:w-58;if(caption.width>available)caption.scale.set(available/caption.width);
+    if(!compact){const detail=this.text(status,tx,28,w<160?8:9,active?0xa2eeff:0x91b7cd,group,'left','bold');if(detail.width>available)detail.scale.set(available/detail.width);}
+    if(active&&!compact)g.circle(w-12,13,2).fill(0xa5fbff);
+    group.alpha=disabled?.4:1;this.hits.push({id:kind,label,x,y,width:w,height:h,disabled,selected:active,action});
   }
   private hit(id:string,label:string,x:number,y:number,w:number,h:number,action:()=>void,disabled=false){this.hits.push({id,label,x,y,width:w,height:h,disabled,action});}
   hover(id:string,value:boolean){this.feedback(id,value?1.045:1);}
@@ -237,11 +262,10 @@ export class CanvasUI {
       this.iconButton('settings','Settings',w-side-size*2-10,iconsY,size,'gear',()=>s.action('settings'));
       this.iconButton('sound',s.sound?'Mute sound':'Enable sound',w-side-size,iconsY,size,s.sound?'sound':'mute',()=>s.action('sound'));
     }
-    const utilityY=l.compact?101:l.sideControls?153:l.short?108:124,ux=l.sideControls?side:18,uw=l.compact?96:112;
-    this.button('turbo',`Turbo Mode: ${s.turbo?'on':'off'}`,ux,utilityY,uw,38,()=>s.action('turbo'),{active:!!s.turbo,small:true,visibleLabel:`» TURBO ${s.turbo?'ON':'OFF'}`});
-    const autoX=l.sideControls?ux:w-18-164,autoY=l.sideControls?utilityY+48:utilityY;
-    this.button('auto',s.autoRun?.running?'Stop Auto Spin':'Auto Spin',autoX,autoY,l.compact?118:164,38,()=>s.action(s.autoRun?.running?'auto-stop':'auto'),{active:!!s.autoRun?.running,small:true,disabled:!s.autoRun?.running&&!!s.save?.active,visibleLabel:s.autoRun?.running?`■ STOP  ${s.autoRun.completed} / ${s.autoRun.total}`:'↻ AUTO SPIN'});
-    const edgeTitle=l.compact||l.short,captionY=l.compact?65:!l.sideControls&&l.short?152:edgeTitle?125:l.sideControls?28:170;
+    const utilities=utilityLayout(w,h,['awaiting','revealing','revealed','collecting','settling'].includes(s.phase));
+    this.utility('turbo',`Turbo Mode: ${s.turbo?'on':'off'}`,utilities.turbo,utilities.compact,!!s.turbo,false,()=>s.action('turbo'));
+    this.utility('auto',s.autoRun?.running?'Stop Auto Spin':'Auto Spin',utilities.auto,utilities.compact,!!s.autoRun?.running,!s.autoRun?.running&&!!s.save?.active,()=>s.action(s.autoRun?.running?'auto-stop':'auto'));
+    const edgeTitle=l.compact||(l.short&&l.sideControls),captionY=l.compact?65:!l.sideControls&&l.short?166:edgeTitle?125:l.sideControls?28:182;
     const captionWidth=edgeTitle?Math.max(85,l.sideControls?(w-l.stageWidth)/2-28:w/2-156*l.scale-side-12):l.sideControls?w-510:w-112;
     const packTitle=this.text(s.save?.active?.pack?.name??s.selected.name,edgeTitle?side:w/2,captionY,edgeTitle?14:l.sideControls?22:18,C.white,this.root,edgeTitle?'left':'center','bold');packTitle.style.stroke={color:0x08315a,width:3};if(packTitle.width>captionWidth)packTitle.scale.set(captionWidth/packTitle.width);
     if(s.save?.active)this.revealCountLabel=this.text(`${Math.min(Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),11)} / 11`,w-side,l.compact?65:!l.sideControls?captionY+3:128,10,C.white,this.root,'right','bold');
@@ -262,7 +286,7 @@ export class CanvasUI {
     }
     if(['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)){
       const controls=revealControlsLayout(w,h);
-      this.command('next',s.phase==='awaiting'?'Reveal card':s.index===10?'Collect':'Next card',controls.next.x,controls.next.y,controls.next.size,'next',()=>s.action('next'),busy);
+      this.command('next',s.phase==='awaiting'?'Reveal card':s.index===10?'Collect':'Next card',controls.next.x,controls.next.y,controls.next.size,'next',()=>s.action('next'),['collecting','settling'].includes(s.phase));
       this.command('reveal-all','Open All',controls.all.x,controls.all.y,controls.all.size,'all',()=>s.action('all'),busy||s.index>=10);
     }else{
       const y=l.compact?Math.max(76,(l.top+l.dockTop)/2-28):l.dockTop-68;this.openCommand(w,y,busy||!s.ready||!s.save||(s.phase==='browse'&&!s.pool.length),l.compact?w*.80:w/2,l.compact?Math.min(204,w*.34):278);
@@ -298,13 +322,15 @@ export class CanvasUI {
     s.packs.forEach((pack,i)=>{
       const slot=grid.slot(i),{x,y,width:tw,height:th}=slot,selected=pack.id===s.selected.id,group=new Container();
       group.position.set(x+tw/2,y+th/2);group.pivot.set(tw/2,th/2);this.root.addChild(group);this.paints.set(`pack-${pack.id}`,group);
-      const artH=th-45,base=artH+2;
-      const halo=new Graphics().ellipse(tw/2,base,Math.min(tw*.4,50),4).fill({color:selected?0xa2eaff:0x061e34,alpha:selected?.5:.45});group.addChild(halo);
-      if(selected){halo.ellipse(tw/2,base,Math.min(tw*.46,58),7).stroke({color:0xb5f5ff,width:1.5,alpha:.8});if(!s.reduced)this.moneyAnimations.push(gsap.to(halo,{alpha:.55,duration:1.2,repeat:-1,yoyo:true,ease:'sine.inOut'}));}
-      this.picture(pack.packImage,tw*.14,0,tw*.72,artH,group);
-      const title=this.text(pack.name,tw/2,base+3,tw<85?8:tw<120?10:12,C.white,group,'center','bold');
-      if(title.width>tw-4)title.scale.set((tw-4)/title.width);
-      const bh=tw<85?23:27,bw=Math.min(tw-4,132),by=th-bh;
+      const tile=packTileLayout(tw,th),base=tile.artHeight+1;
+      const halo=new Graphics().ellipse(tw/2,base,Math.min(tw*.4,50),3).fill({color:selected?0xa2eaff:0x061e34,alpha:selected?.5:.45});group.addChild(halo);
+      if(selected){halo.ellipse(tw/2,base,Math.min(tw*.46,58),5).stroke({color:0xb5f5ff,width:1.5,alpha:.8});if(!s.reduced)this.moneyAnimations.push(gsap.to(halo,{alpha:.55,duration:1.2,repeat:-1,yoyo:true,ease:'sine.inOut'}));}
+      this.picture(pack.packImage,tw*.12,0,tw*.76,tile.artHeight,group);
+      const title=this.text(pack.name,tw/2,tile.nameY,tile.fontSize,C.white,group,'center','bold',tw-4);
+      title.style.lineHeight=tile.fontSize*1.15;
+      // Vertical centering keeps short and wrapped names aligned above their prices.
+      title.y=tile.nameY+(tile.nameHeight-title.height)/2;
+      const bh=tile.priceHeight,bw=Math.min(tw-4,132),by=tile.priceY;
       group.addChild(new Graphics().roundRect((tw-bw)/2,by,bw,bh,bh/2).fill({color:selected?0xc9f6ff:0x0b3052,alpha:.96}).stroke({color:selected?0xf1ffff:0x72a4c6,width:selected?2:1}));
       const price=new BitmapText({text:money(pack.price),style:{fontFamily:'LegendsMoney',fontSize:tw<85?16:tw<120?21:25}});price.anchor.set(.5);price.position.set(tw/2,by+bh/2);price.tint=selected?0x17436a:C.white;if(price.width>bw-8)price.scale.set((bw-8)/price.width);group.addChild(price);
       const disabled=!!s.autoRun?.running||!!s.save?.active;group.alpha=disabled?.45:1;

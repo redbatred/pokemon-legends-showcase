@@ -11,7 +11,7 @@ export function pageWindow(total: number, size: number, requested: number) {
 export function gameLayout(width:number,height:number,opening=false) {
   const portrait=width<700,compact=height<550&&width>=560,short=height<620;
   const sideControls=width>=900||compact;
-  const top=compact?84:sideControls?90:short?172:196;
+  const top=compact?84:sideControls?90:short?188:208;
   const dock=opening?(compact?92:short?112:148):(height-packGridLayout(width,height).top);
   const actions=opening?(sideControls?(compact?0:44):short?112:124):(compact?52:72);
   const dockTop=height-dock,actionTop=dockTop-actions;

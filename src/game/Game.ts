@@ -154,7 +154,7 @@ export class PokemonGame {
   };
   action=(type:GameAction)=>{
     if(this.destroyed)return;
-    if(this.autoRun?.running&&['open','tear','next','all','continue','reset'].includes(type))return;
+    if(this.autoRun?.running&&['open','tear','all','continue','reset'].includes(type))return;
     if(!['sound','next','all','tear'].includes(type))playSound('ui');
     const unobscured=!this.panel&&!this.inspected;
     switch(type){
@@ -178,7 +178,7 @@ export class PokemonGame {
       case 'continue':this.stage.reset();this.actor.send({type:'RESET'});return;
       case 'open':if(this.ready&&this.save&&this.pool.length&&unobscured){this.error='';this.actor.send({type:'OPEN'});}return;
       case 'tear':if(this.ready&&unobscured)this.actor.send({type:'TEAR'});return;
-      case 'next':if(unobscured)this.actor.send({type:'NEXT'});return;
+      case 'next':if(unobscured){clearTimeout(this.autoTimer);if(this.phase==='revealing')this.stage.skipReveal();else this.actor.send({type:'NEXT'});}return;
       case 'all':if(unobscured)this.actor.send({type:'ALL'});return;
     }
     this.render();

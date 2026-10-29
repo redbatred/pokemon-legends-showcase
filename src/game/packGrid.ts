@@ -7,3 +7,10 @@ export function packGridLayout(w:number,h:number,count=10){
  const rowGap=compact?6:10,totalHeight=height*rows+rowGap*(rows-1),top=h-totalHeight-12;
  return {top,totalHeight,columns,rows,slot:(i:number)=>{const row=Math.floor(i/columns),n=Math.min(columns,count-row*columns),rowWidth=n*width+(n-1)*gap;return {x:(w-rowWidth)/2+(i%columns)*(width+gap),y:top+row*(height+rowGap),width,height};}};
 }
+
+/** Fixed text bands keep long set names off the price capsule. */
+export function packTileLayout(width:number,height:number){
+ const fontSize=width<85?9:width<120?10:12,nameHeight=fontSize*2.3,priceHeight=width<85?23:28;
+ const priceY=height-priceHeight,nameY=priceY-nameHeight-4,artHeight=nameY-7;
+ return {fontSize,nameHeight,nameY,priceY,priceHeight,artHeight};
+}

@@ -98,6 +98,17 @@ export class SpineReveal {
       .to({}, {duration:.4},recoverEnd);
     this.shards.forEach((shard,i)=>{const a=i/12*Math.PI*2;timeline.set(shard,{visible:true},hit).to(shard,{x:Math.cos(a)*(95+i*4),y:IMPACT.y+Math.sin(a)*86+60,rotation:(i-6)*.7,alpha:0,duration:.55,ease:'power2.out'},hit);});
   }
+  /** Settle directly without running the skipped bounce, attack or audio callbacks. */
+  finish(){
+    this.moveVoice?.stop();this.moveVoice=null;stopRevealAudio();this.started=true;this.released=true;
+    this.face.texture=this.punctured;this.cardShell.position.set(0,0);this.cardShell.rotation=0;
+    this.ball.alpha=0;this.ball.visible=false;this.ball.state.clearTracks();this.trail.visible=false;
+    for(const effect of [this.flare,this.pressure,this.latch,...this.shards])effect.visible=false;
+    this.release.amount=0;this.entrance.opacity=0;this.power.charge=0;this.power.blast=0;this.power.fade=0;
+    const profile=performanceProfile(this.power.profile.species);
+    this.hero.filters=[];this.hero.visible=true;this.hero.alpha=1;this.hero.position.set(0,profile.grounded?65:profile.settle-10);this.hero.scale.set(1);
+    this.hero.play('idle');this.hero.update(.2);this.hero.capturePose();this.update(0);
+  }
   update(dt:number){
     this.hero.setEnergy(this.power.profile.color,Math.min(1,this.power.charge*.7+this.power.blast*this.power.fade*.9+this.release.amount*.45));
     this.ball.update(dt);this.latch.position.set(this.ball.x-19*this.ball.scale.x,this.ball.y);if(this.released)this.hero.update(dt);this.power.update(dt);this.entrance.update(this.hero.x,this.hero.y);if(this.released){this.shadow.x=this.hero.x;const lift=Math.max(0,65-this.hero.y);this.shadow.scale.set(Math.max(.4,1-lift*.0025));this.shadow.alpha=Math.max(.16,.85-lift*.006);}

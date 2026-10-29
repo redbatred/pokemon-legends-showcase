@@ -26,3 +26,8 @@ it('completes a visible reward flight before crediting during immediate reveal a
 it('keeps an in-flight award through resizing and stops old-pack credits on reset',()=>{
  const credit=vi.fn(),r=new RewardTransfers(credit,()=>{});r.reset('a');r.reveal(0,75,false);for(let i=0;i<11;i++)r.update(.05,1280,720,false);r.rush();r.update(.05,390,780,false);expect(credit).not.toHaveBeenCalled();r.reset('b');r.update(.05,390,780,false);expect(credit).not.toHaveBeenCalled();r.reveal(0,25,true);r.rush();r.update(.05,390,780,true);expect(credit).toHaveBeenCalledWith(25);r.destroy();
 });
+it('snaps the visible amount to its exact value without crediting before Next',()=>{
+ const credit=vi.fn(),r=new RewardTransfers(credit,()=>{});r.reset('skip');r.reveal(0,6789,false);r.finish(0);
+ r.update(0,1280,720,false);const f=(r as any).flights[0];expect(f.age).toBeGreaterThanOrEqual(1);expect(f.transferAge).toBe(null);expect(f.label.alpha).toBe(1);expect(r.ledger.total).toBe(0);expect(credit).not.toHaveBeenCalled();
+ r.rush();for(let i=0;i<10;i++)r.update(.05,1280,720,false);expect(credit).toHaveBeenCalledWith(6789);r.destroy();
+});
