@@ -19,10 +19,10 @@ export function creditLayout(w:number,h:number){
 /** Fixed destination for the card reward, separate from the card tray. */
 export function totalWinLayout(w:number,h:number){
  const l=gameLayout(w,h,true),controls=revealControlsLayout(w,h);
- if(l.compact)return {x:66,y:74,size:18,width:120,labelY:55};
- if(l.sideControls&&l.short)return {x:w-94,y:176,size:26,width:150,labelY:149};
- if(l.sideControls){const y=controls.next.y-controls.next.size/2-34;return {x:controls.next.x,y,size:32,width:190,labelY:y-31};}
- const y=l.dockTop-(l.short?26:54);return {x:w/2,y,size:l.short?26:30,width:Math.max(60,w-160),labelY:y-(l.short?27:30)};
+ if(l.compact)return {x:66,y:74,size:20,width:120,labelY:50};
+ if(l.sideControls&&l.short)return {x:w-94,y:176,size:30,width:150,labelY:149};
+ if(l.sideControls){const y=controls.next.y-controls.next.size/2-34;return {x:controls.next.x,y,size:42,width:190,labelY:y-39};}
+ const y=l.dockTop-(l.short?26:54);return {x:w/2,y,size:l.short?30:40,width:Math.max(120,w-120),labelY:y-(l.short?34:37)};
 }
 
 /** Landscape has separate count and mode columns, keeping purchase controls isolated. */

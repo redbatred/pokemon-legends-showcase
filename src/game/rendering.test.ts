@@ -3,10 +3,10 @@ import { renderResolution, pageWindow, gameLayout, cardTrayLayout } from './rend
 describe('bounded game rendering',()=>{
  it('caps render pixels on large high-density displays',()=>{
   const r=renderResolution(3840,2160,3,false);
-  expect(3840*2160*r*r).toBeLessThanOrEqual(1_700_001);
+  expect(3840*2160*r*r).toBeLessThanOrEqual(4_500_001);
  });
  it('keeps small high-density screens crisp without exceeding the density cap',()=>{
-  expect(renderResolution(390,700,3,false)).toBe(1.5);
+  expect(renderResolution(390,700,3,false)).toBe(2.5);
   expect(renderResolution(390,700,1,false)).toBe(1);
  });
  it('keeps narrow phones stacked and reserves a full caption above reveal controls',()=>{
@@ -33,3 +33,5 @@ describe('bounded game rendering',()=>{
   expect(pageWindow(250,12,1)).toEqual({page:1,pages:21,start:12,end:24});
  });
 });
+
+it('renders static detail panels at native retina density while bounding active scenes',()=>{expect(renderResolution(1920,1080,2,false,true)).toBe(2);expect(renderResolution(1920,1080,2,false)).toBeGreaterThan(1.4);expect(renderResolution(390,780,3,true,true)).toBe(1);});

@@ -74,7 +74,7 @@ export class OpeningStage {
   private stack = new Container();private openingCard:PerspectiveMesh|null=null;
   private resize = () => {
     const w = this.host.clientWidth, h = this.host.clientHeight;
-    this.app.renderer.resolution = renderResolution(w,h,devicePixelRatio,this.options.low);
+    this.app.renderer.resolution = renderResolution(w,h,devicePixelRatio,this.options.low,this.blocked);
     this.app.renderer.resize(w, h);
     const layout=gameLayout(w,h,this.openingLayout);
     this.world.position.set(w/2,layout.worldY);this.world.scale.set(layout.scale);this.special?.fitPresentation((w/2-12)/layout.scale);this.special?.setFloor(performanceFloor(layout));this.special?.update(0);
@@ -171,12 +171,12 @@ export class OpeningStage {
   setLayoutMode(opening:boolean){opening=opening||this.travelling;if(opening!==this.openingLayout){this.openingLayout=opening;this.resize();}}
   private positionJourney(){if(!this.journey)return;const w=this.app.screen.width,h=this.app.screen.height,a=gameLayout(w,h,false),b=gameLayout(w,h,true),t=this.journey.amount;this.world.y=a.worldY+(b.worldY-a.worldY)*t;this.world.scale.set(a.scale+(b.scale-a.scale)*t);}
   setBlocked(value:boolean,keepScene=false){
-    if(value!==this.blocked){this.sampleStart=0;this.sampleFrames=0;}
+    const changed=value!==this.blocked;if(changed){this.sampleStart=0;this.sampleFrames=0;}
     this.blocked=value;this.world.visible=!value||keepScene;this.flightLayer.visible=!value||keepScene;this.scene.pause(value||document.hidden);
     if(value){this.timeline?.pause();for(const t of this.tweens)t.pause();this.app.stop();}
     else if(!document.hidden){if(this.mode!=='result')this.app.start();this.timeline?.resume();for(const t of this.tweens)t.resume();}
     if(this.diagnostics)this.app.canvas.dataset.renderState=value?'paused':'running';
-    this.draw();
+    if(changed)this.resize();this.draw();
   }
   getBackTexture(){return this.back;}
   setScene(active:boolean){this.scene.setActive(active||this.travelling,this.options.reduced);}

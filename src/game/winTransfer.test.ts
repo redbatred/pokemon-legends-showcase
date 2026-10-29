@@ -14,7 +14,7 @@ it('holds on the stone, flies continuously and lands exactly on the total',()=>{
 it('keeps the total readable and clear of the centered reveal controls',()=>{
  for(const [w,h] of [[320,480],[360,540],[390,780],[430,932],[568,320],[844,390],[900,550],[1280,600],[1280,720],[1920,1080]]){
   const l=gameLayout(w,h,true),c=revealControlsLayout(w,h),v=totalWinLayout(w,h);
-  expect(v.x-v.width/2).toBeGreaterThan(0);expect(v.x+v.width/2).toBeLessThan(w);expect(v.labelY).toBeGreaterThan(54);expect(v.y+v.size/2).toBeLessThan(l.dockTop-4);
+  expect(v.x-v.width/2).toBeGreaterThan(0);expect(v.x+v.width/2).toBeLessThan(w);expect(v.labelY).toBeGreaterThan(l.compact?47:54);expect(v.y+v.size/2).toBeLessThan(l.dockTop-4);
   for(const button of [c.next,c.all])expect(v.y+v.size/2+4<button.y-button.size/2||v.labelY>button.y+button.size/2+26||v.x+v.width/2<button.x-button.size/2-4||v.x-v.width/2>button.x+button.size/2+4,`${w}x${h}`).toBe(true);
  }
 });

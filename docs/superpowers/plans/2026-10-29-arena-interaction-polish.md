@@ -44,8 +44,15 @@
 - Short-phone result plaque and total now have separate, readable bands.
 
 ## Final validation
-- 186 tests passed across 51 files; TypeScript and production Vite build succeeded.
+- 188 tests passed across 51 files; TypeScript and production Vite build succeeded.
 - Browser QA in an isolated in-memory fixture: scissors, shared pack journey at 2.1 seconds, right-side centered reveal controls, special formation and skip-to-exact-value, desktop/phone/small-phone/compact layouts, Open All, collection-flight midpoint, settled results, card inspection and return.
 - Review fixes: short results grids adapt column count; padded landscape frames use the compact layout; completion audio is deduplicated and also resolved after an interrupted resize.
 - Production browser save was not opened or reset.
-- Proof: output/arena-controls-polish-final.png and output/collection-arrival-final.png.
+- Proof: output/arena-controls-polish-final.png and output/collection-arrival-final.png; precision follow-up output/arena-precision-final.png and output/results-precision-final.png.
+
+## Precision and clarity follow-up
+- Generalized the projected body anchor beyond Mewtwo. CPU-skinned checks for Charizard, Lugia and Blastoise place the chosen body anchor at x=0 and the lowest idle geometry at y=154. The asymmetric attack bounds remain separate from those presentation anchors.
+- One transformed Poké Ball aperture now drives the release, conduit and formation source. Foreground shell pose follows the same clock; the conduit ends before the ball rolls clear. The body follows a direct centered path with species-colored native Spine crescents in front and behind it.
+- Increased bounded canvas density, with a larger budget for paused detail panels; 1024 px Pokémon renders; higher-resolution text/money atlases and mipmapped full card textures.
+- Total Win uses larger warm-white digits, a separate caption and restrained cyan brackets. Lifetime winnings remain visible in the result summary.
+- Added curved, blurred emissive spill and a spectral sweep around the holographic wall without distorting its text.

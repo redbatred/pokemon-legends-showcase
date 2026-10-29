@@ -1,7 +1,7 @@
 import {packGridLayout} from './packGrid';
-export function renderResolution(width: number, height: number, dpr: number, low: boolean) {
+export function renderResolution(width: number, height: number, dpr: number, low: boolean, detail=false) {
   const pixels = Math.max(1,width*height);
-  return Math.min(dpr,low?1:1.5,Math.sqrt((low?950_000:1_700_000)/pixels));
+  return Math.min(dpr,low?1:width<700?2.5:2,Math.sqrt((low?950_000:detail?8_300_000:4_500_000)/pixels));
 }
 export function pageWindow(total: number, size: number, requested: number) {
   const pages=Math.max(1,Math.ceil(total/size));

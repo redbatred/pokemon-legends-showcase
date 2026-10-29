@@ -39,7 +39,7 @@ export class PokemonModel {
  private current:AnimationAction|null=null;private clips:Map<string,AnimationAction>;private elapsed=0;private size:number;private stopped=false;private charging=false;private emerging=false;private entranceClock=0;private attackClock=0;private sourceClock=0;private low=false;private renderCost=0;
  private poses=new Map<string,Matrix4>();private bones:Object3D[]=[];private bodySpan=1;private tip=new Vector3();private forward=new Vector3();private fallback=new Vector3();private head:Object3D|undefined;private torso:Object3D|undefined;private gradient:DataTexture;private originalMaterials=new Set<Material>();private toonMaterials=new Set<Material>();private textures=new Set<Texture>();
  constructor(private model:Group,animations:import('three').AnimationClip[],private entry:Entry,low:boolean,private stem:string){
-  this.low=low;this.size=low?384:704;this.canvas.width=this.canvas.height=this.size;this.context=this.canvas.getContext('2d')!;this.texture=PixiTexture.from(this.canvas);
+  this.low=low;this.size=low?448:1024;this.canvas.width=this.canvas.height=this.size;this.context=this.canvas.getContext('2d')!;this.texture=PixiTexture.from(this.canvas);
   this.gradient=new DataTexture(new Uint8Array([65,65,65,255,142,142,142,255,215,215,215,255,255,255,255,255]),4,1,RGBAFormat);this.gradient.minFilter=this.gradient.magFilter=NearestFilter;this.gradient.needsUpdate=true;
   const outlines:{mesh:Mesh;outline:Mesh}[]=[];
   this.model.traverse(obj=>{if(!(obj instanceof Mesh))return;ensurePokemonNormals(obj.geometry);const materials=Array.isArray(obj.material)?obj.material:[obj.material];const converted=materials.map(material=>{
@@ -50,9 +50,9 @@ export class PokemonModel {
   this.scene.add(model);this.scene.add(new HemisphereLight(0xeef7ff,0x66759c,.88));const key=new DirectionalLight(0xffffff,1.5);key.position.set(-3,5,7);this.scene.add(key);const rim=new DirectionalLight(0x8fdcff,.42);rim.position.set(1,-1,3);this.scene.add(rim);
   this.mixer=new AnimationMixer(model);this.clips=new Map(animations.map(clip=>[clip.name,this.mixer.clipAction(clip)]));this.play('idle');this.mixer.update(0);model.updateMatrixWorld(true);
   const performance=performanceProfile(stem),yaw=performance.cameraYaw*Math.PI/180,elevation=performance.cameraElevation*Math.PI/180,view=new Vector3(Math.sin(yaw)*Math.cos(elevation),Math.sin(elevation),Math.cos(yaw)*Math.cos(elevation));
-  const bounds=new Box3().setFromObject(model,true),idleBounds=bounds.clone(),right=new Vector3(view.z,0,-view.x).normalize(),up=view.clone().cross(right).normalize(),vertex=new Vector3();
+  const bounds=new Box3().setFromObject(model,true),right=new Vector3(view.z,0,-view.x).normalize(),up=view.clone().cross(right).normalize(),vertex=new Vector3();
   let left=Infinity,rightEdge=-Infinity,bottom=Infinity,top=-Infinity;
-  const includePose=()=>{model.traverse(o=>{if(!(o instanceof Mesh)||o.renderOrder===-1)return;const positions=o.geometry.getAttribute('position');if(!positions)return;for(let i=0;i<positions.count;i++){o.getVertexPosition(i,vertex).applyMatrix4(o.matrixWorld);const x=vertex.dot(right),y=vertex.dot(up);left=Math.min(left,x);rightEdge=Math.max(rightEdge,x);bottom=Math.min(bottom,y);top=Math.max(top,y);}});};includePose();const idleHeight=top-bottom;
+  const includePose=()=>{model.traverse(o=>{if(!(o instanceof Mesh)||o.renderOrder===-1)return;const positions=o.geometry.getAttribute('position');if(!positions)return;for(let i=0;i<positions.count;i++){o.getVertexPosition(i,vertex).applyMatrix4(o.matrixWorld);const x=vertex.dot(right),y=vertex.dot(up);left=Math.min(left,x);rightEdge=Math.max(rightEdge,x);bottom=Math.min(bottom,y);top=Math.max(top,y);}});};includePose();const idleHeight=top-bottom,idleBottom=bottom;
   const rig=moveRigs[this.stem],attackAction=this.clips.get(this.entry.attack??this.entry.runtime?.attack??'');
   if(attackAction){
    const original=this.current;original?.stop();attackAction.reset().setLoop(LoopOnce,1).play();attackAction.clampWhenFinished=true;
@@ -70,7 +70,12 @@ export class PokemonModel {
   // A real oblique light catches the moving silhouette during the charge and attack.
   // It lights model normals instead of tinting the entire character sprite.
   this.attackLight.position.copy(center).addScaledVector(right,-span*1.6).addScaledVector(view,-span*.55).addScaledVector(up,span*.8);this.attackLight.target.position.copy(center);this.scene.add(this.attackLight,this.attackLight.target);
-  const foot=idleBounds.getCenter(new Vector3());foot.y=idleBounds.min.y;foot.project(this.camera);this.groundY=-foot.y;const bodyAnchor=this.stem==='mewtwo'?model.getObjectByName('waist'):null;this.horizontalAnchor=bodyAnchor?bodyAnchor.getWorldPosition(new Vector3()).project(this.camera).x:0;
+  // Center the body, not its asymmetric attack envelope. Wings and tails still retain safe frame padding.
+  const anchors:Object3D[]=[];model.traverse(o=>{if('isBone' in o)anchors.push(o);});
+  const bodyAnchor=['waist','chest','body','spine','root'].map(name=>anchors.find(b=>b.name.toLowerCase().replace(/[_\s]*\d+$/,'')===name)).find(Boolean);
+  this.horizontalAnchor=(bodyAnchor?bodyAnchor.getWorldPosition(new Vector3()):model.getWorldPosition(new Vector3())).project(this.camera).x;
+  this.groundY=-2*(idleBottom-center.dot(up))/span;
+
   const bones:Object3D[]=[];model.traverse(o=>{if('isBone' in o)bones.push(o);});const named=(keys:string[])=>keys.map(key=>bones.find(b=>b.name.toLowerCase().replace(/[_\s]*\d+$/,'')===key)).find(Boolean);
   this.bones=bones;this.bodySpan=size.y;this.head=named(['head','jaw','neck']);this.torso=named(['chest','waist','body','spine']);this.fallback.copy(center).add(new Vector3(0,size.y*.22,size.z*.1));this.render();
  }

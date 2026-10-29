@@ -59,7 +59,7 @@ export class CanvasUI {
   private thumbs=new Map<string,Texture>();private pending=new Map<string,Promise<Texture>>();private destroyed=false;
   constructor(private stage:OpeningStage,private onTargets:(hits:HitTarget[],summary:string)=>void){
     void preloadWinCelebration().catch(()=>{});
-    BitmapFont.install({name:'LegendsMoney',style:{fontFamily:'Nunito',fontSize:48,fontWeight:'900',fill:0xffffff,stroke:{color:0x082e52,width:3}},chars:'0123456789$.,+- ',resolution:2,padding:3,skipKerning:true});
+    BitmapFont.install({name:'LegendsMoney',style:{fontFamily:'Nunito',fontSize:64,fontWeight:'900',fill:0xffffff,stroke:{color:0x082e52,width:3}},chars:'0123456789$.,+- ',resolution:3,padding:3,skipKerning:true});
     const canvas=document.createElement('canvas');canvas.width=8;canvas.height=128;const ctx=canvas.getContext('2d')!;const gradient=ctx.createLinearGradient(0,0,0,128);gradient.addColorStop(0,'rgba(4,14,29,0)');gradient.addColorStop(1,'rgba(4,14,29,.65)');ctx.fillStyle=gradient;ctx.fillRect(0,0,8,128);this.tray=Texture.from(canvas);
     this.rewards=new RewardTransfers(this.creditReward,()=>stage.draw());stage.app.ticker.add(this.tickRewards);
     stage.app.stage.addChild(this.backdrop,this.root,stage.flightLayer,this.rewards.root);stage.onCardStored=this.storeCard;stage.onSpecialWin=this.awardCard;stage.onLayout=()=>{if(!this.updating)this.build();};
@@ -106,8 +106,8 @@ export class CanvasUI {
     if((event.key===' '||event.key==='Enter')&&!this.state.panel&&!this.state.inspected){event.preventDefault();const phase=this.state.phase;const action=phase==='browse'?'open':phase==='sealed'?'tear':['awaiting','revealing','revealed'].includes(phase)?'next':phase==='complete'?'continue':null;if(action)this.state.action(action);}
   };
   private text(value:string,x:number,y:number,size=14,color=C.white,parent=this.root,align:'left'|'center'|'right'='left',weight:'normal'|'bold'='normal',maxWidth?:number){
-    const text=new Text({text:value,style:{fontFamily:'Nunito, Arial, sans-serif',fontSize:size,fontWeight:weight==='bold'?'800':'600',fill:color,align,wordWrap:!!maxWidth,wordWrapWidth:maxWidth,lineHeight:size*1.3},resolution:Math.min(2,devicePixelRatio)});
-    text.anchor.set(align==='center'?.5:align==='right'?1:0,0);text.position.set(x,y);parent.addChild(text);return text;
+    const text=new Text({text:value,style:{fontFamily:'Nunito, Arial, sans-serif',fontSize:size,fontWeight:weight==='bold'?'800':'600',fill:color,align,wordWrap:!!maxWidth,wordWrapWidth:maxWidth,lineHeight:size*1.3},resolution:Math.max(2,Math.min(3,devicePixelRatio))});
+    text.roundPixels=true;text.anchor.set(align==='center'?.5:align==='right'?1:0,0);text.position.set(x,y);parent.addChild(text);return text;
   }
   private money(amount:number,x:number,y:number,size:number,color:number,align:'left'|'center'|'right',key:string,identity:string,plus=false,width=240,centerY=false){
     const state=moneyState(this.moneyValues.get(key),identity,amount,key==='wallet'||key==='lifetime'||key==='revealed');this.moneyValues.set(key,state);
@@ -189,7 +189,7 @@ export class CanvasUI {
       let source:CanvasImageSource,width:number,height:number;
       if(path.endsWith('pack.webp')){const texture=await loadPackTexture(path);source=texture.source.resource as CanvasImageSource;width=texture.width;height=texture.height;}
       else{const image=new Image();image.src=path;await image.decode();source=image;width=image.naturalWidth;height=image.naturalHeight;}
-      const scale=Math.min(1,384/Math.max(width,height));const canvas=document.createElement('canvas');canvas.width=Math.round(width*scale);canvas.height=Math.round(height*scale);const ctx=canvas.getContext('2d')!;
+      const scale=Math.min(1,640/Math.max(width,height));const canvas=document.createElement('canvas');canvas.width=Math.round(width*scale);canvas.height=Math.round(height*scale);const ctx=canvas.getContext('2d')!;ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
       if(path.includes('/cards/')||path.includes('card-back')){ctx.beginPath();ctx.roundRect(0,0,canvas.width,canvas.height,canvas.width*.05);ctx.clip();}
       ctx.drawImage(source,0,0,canvas.width,canvas.height);const texture=Texture.from(canvas);
       if(this.destroyed){texture.destroy(true);throw new Error('closed');}
@@ -198,7 +198,7 @@ export class CanvasUI {
   }
   private picture(path:string,x:number,y:number,w:number,h:number,parent=this.root,full=false,holo=0){
     const generation=this.generation;
-    const render=(texture:Texture)=>{if(this.destroyed||generation!==this.generation||parent.destroyed)return;const scale=Math.min(w/texture.width,h/texture.height);if(holo){const card=new HoloCard(texture,texture.width*scale*.96,texture.height*scale*.96,this.stage.app.canvas,()=>this.stage.draw(),holo,!!this.state?.reduced);card.position.set(x+w/2,y+h/2);parent.addChild(card);}else{const sprite=new Sprite(texture);sprite.anchor.set(.5);sprite.scale.set(scale);sprite.position.set(x+w/2,y+h/2);parent.addChild(sprite);}this.stage.draw();};
+    const render=(texture:Texture)=>{if(full&&!texture.source.autoGenerateMipmaps){texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';texture.source.updateMipmaps();}if(this.destroyed||generation!==this.generation||parent.destroyed)return;const scale=Math.min(w/texture.width,h/texture.height);if(holo){const card=new HoloCard(texture,texture.width*scale*.96,texture.height*scale*.96,this.stage.app.canvas,()=>this.stage.draw(),holo,!!this.state?.reduced);card.position.set(x+w/2,y+h/2);parent.addChild(card);}else{const sprite=new Sprite(texture);sprite.anchor.set(.5);sprite.scale.set(scale);sprite.position.set(x+w/2,y+h/2);parent.addChild(sprite);}this.stage.draw();};
     const ready=full?Assets.get<Texture>(path):this.thumbs.get(path);
     if(ready){if(!full){this.thumbs.delete(path);this.thumbs.set(path,ready);}render(ready);}else void (full?Assets.load<Texture>(path):this.thumbnail(path)).then(render).catch(()=>{if(generation===this.generation&&!parent.destroyed){this.text('Image unavailable',x+w/2,y+h/2,10,C.muted,parent,'center');this.stage.draw();}});
   }
@@ -298,7 +298,14 @@ export class CanvasUI {
   }
   private playControls(w:number,h:number){
     const s=this.state!,l=gameLayout(w,h,['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)),busy=!!s.autoRun?.running||['reserving','tearing','revealing','collecting','settling'].includes(s.phase);
-    if(s.save?.active&&['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)){const win=totalWinLayout(w,h);const caption=this.text('TOTAL WIN',win.x,win.labelY,10,C.cyan,this.root,'center','bold');caption.style.stroke={color:0x082b4b,width:3};caption.style.letterSpacing=.7;this.packValueLabel=this.money(this.rewards.ledger.total,win.x,win.y,win.size,C.white,'center','revealed',s.save.active.id,false,win.width,true);}
+    if(s.save?.active&&['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)){
+      const win=totalWinLayout(w,h),half=Math.min(win.width*.48,l.compact?55:92),top=win.y-win.size*.55,bottom=win.y+win.size*.60,g=new Graphics();
+      for(const side of [-1,1]){const x=win.x+side*half;g.moveTo(x-side*8,top).lineTo(x,top).lineTo(x,bottom).lineTo(x-side*8,bottom).stroke({color:0x062b4c,width:6,alpha:.7,join:'round'}).moveTo(x-side*8,top).lineTo(x,top).lineTo(x,bottom).lineTo(x-side*8,bottom).stroke({color:0x91efff,width:1.3,alpha:.85,join:'round'});}
+      g.moveTo(win.x-half+12,bottom+4).lineTo(win.x+half-12,bottom+4).stroke({color:0x79e9ff,width:1.5,alpha:.35});this.root.addChild(g);
+      const caption=this.text('TOTAL WIN',win.x,win.labelY,l.compact?9:11,0xb4f5ff,this.root,'center','bold');caption.style.stroke={color:0x082b4b,width:3};caption.style.letterSpacing=1.8;
+      this.packValueLabel=this.money(this.rewards.ledger.total,win.x,win.y,win.size,0xfff3c9,'center','revealed',s.save.active.id,false,win.width-26,true);
+    }
+
     if(s.phase==='revealed'){
       const card=s.save!.active!.cards[s.index],space=(w-l.stageWidth)/2;
       const captionW=l.compact?Math.min(238,space-32):l.sideControls?Math.min(420,l.stageWidth*.72):w-220;
@@ -523,6 +530,7 @@ export class CanvasUI {
       this.resultCards.push({group,x:p.x,y:p.y,width:p.width,index});this.hit(`result-${index}`,`Inspect ${card.name}`,p.x-p.width/2,p.y-p.height/2,p.width,p.height,()=>this.state!.inspect(card));
     });
     this.root.addChild(amount);
+    const lifetime=recordedWinnings(this.state!.save!);this.text('TOTAL WON',w/2-14,h-89,9,C.muted,chrome,'right','bold');const lifetimeAmount=this.money(lifetime,w/2-4,h-85,18,C.white,'left','lifetime','lifetime',false,Math.min(145,w/2-30),true);chrome.addChild(lifetimeAmount);
     const buttonW=Math.min(168,(w-68)/2),y=h-61;
     const collection=this.button('result-collection','View collection',w/2-buttonW-6,y,buttonW,42,()=>this.state!.action('collection'),{visibleLabel:'Collection'}),next=this.button('result-continue','Continue',w/2+6,y,buttonW,42,()=>this.dismissModal('continue'),{primary:true});chrome.addChild(collection,next);
   }

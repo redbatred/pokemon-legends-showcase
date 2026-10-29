@@ -1,5 +1,5 @@
 import {expect,it} from 'vitest';
-import {emergencePose,emergenceTiming} from './emergenceMotion';
+import {emergencePose,emergenceTiming,ballAperture} from './emergenceMotion';
 it('forms at the aperture and lands with a continuous foot anchor rather than scaling through the shell',()=>{
  const source={x:-42,y:161},target={x:0,y:65};
  let previous=emergencePose(0,source,target,true);
@@ -11,3 +11,5 @@ it('starts the award while the Pokémon forms and before its attack sequence',()
  const t=emergenceTiming(2.4,1.1,.8,1.2,.4);
  expect(t.form).toBeGreaterThan(2.55);expect(t.win-t.form).toBeLessThan(.5);expect(t.win).toBeLessThan(t.charge);expect(t.attack).toBeGreaterThan(t.charge);expect(t.recoverEnd).toBeGreaterThan(t.attackEnd);
 });
+
+it('moves monotonically from the real aperture to the centered body',()=>{let last=-40;for(let i=0;i<=100;i++){const pose=emergencePose(i/100,{x:-40,y:160},{x:0,y:65},true);expect(pose.x).toBeGreaterThanOrEqual(last);expect(pose.x).toBeLessThanOrEqual(0);last=pose.x;}expect(ballAperture({x:30,y:200,scale:.72,rotation:.2})).toEqual({x:30,y:200});expect(ballAperture({x:30,y:200,scale:.5,rotation:Math.PI/2},{x:10,y:0}).y).toBeCloseTo(205);});
