@@ -1,3 +1,4 @@
+import {RevealPreparation} from './revealPreparation';
 import { Application, Assets, Container, Graphics, PerspectiveMesh, Sprite, Texture, Rectangle } from 'pixi.js';
 import { gsap } from 'gsap';
 import { createFoil,foilStrength } from './foil';
@@ -63,7 +64,8 @@ export class OpeningStage {
   private drawFrame = 0;
   private openingLayout = false;private travelling=false;
   private journey:{amount:number}|null=null;
-  private prepared:{key:string;cancelled:boolean;promise:Promise<{texture:Texture;special:SpineReveal|null}>}|null=null;
+  private prepared=new Map<string,RevealPreparation<Texture,SpineReveal>>();
+  private loadingReveal:RevealPreparation<Texture,SpineReveal>|null=null;
   private previousTease=false;private cardHoverReady=false;private revealCompletion=new RevealCompletion();
   private dragProgress = 0;
   private dragStart: number | null = null;private peelPointer:{id:number;x:number;y:number;cut:boolean;moved:number}|null=null;private manualPeel=0;private peelSounded=false;private waitingPose={y:-8,rotation:0};
@@ -313,26 +315,32 @@ export class OpeningStage {
   private fanStack(time:number){
     for(let i=0;i<3;i++){const card=this.stack.children[i],pose=packStackFan(time,3-i);card.position.set(pose.x,pose.y);card.rotation=pose.rotation;}
   }
-  private discardPrepared(){if(this.prepared){this.prepared.cancelled=true;void this.prepared.promise.then(({special})=>special?.destroy()).catch(()=>{});}this.prepared=null;}
+  private discardPrepared(){for(const entry of this.prepared.values())entry.cancel();this.prepared.clear();this.loadingReveal?.cancel();this.loadingReveal=null;}
   prepareReveal(card:Card,pokemonImage:string|null){
-    const key=card.image+'|'+pokemonImage;if(this.prepared?.key===key)return;
-    this.discardPrepared();const entry={key,cancelled:false,promise:null as unknown as Promise<{texture:Texture;special:SpineReveal|null}>};this.prepared=entry;
-    entry.promise=(async()=>{const texture=await Assets.load<Texture>(card.image);let special:SpineReveal|null=null;
-      if(pokemonImage&&!entry.cancelled&&!this.destroyed){try{const {SpineReveal}=await import('./SpineReveal');if(!entry.cancelled&&!this.destroyed){this.disposeSpecialResources=()=>SpineReveal.disposeResources();special=await SpineReveal.create(texture,pokemonImage,this.options.low);}}catch(error){console.warn('Special reveal artwork unavailable',error);}}
-      if(entry.cancelled||this.destroyed){special?.destroy();special=null;}return {texture,special};})();
-    void entry.promise.catch(()=>{});
+    const key=card.image+'|'+pokemonImage,cached=this.prepared.get(key);if(cached)return cached;
+    const entry=new RevealPreparation<Texture,SpineReveal>(Assets.load<Texture>(card.image),async texture=>{
+      if(!pokemonImage||this.destroyed)return null;
+      try{const {SpineReveal}=await import('./SpineReveal');if(this.destroyed)return null;this.disposeSpecialResources=()=>SpineReveal.disposeResources();return await SpineReveal.create(texture,pokemonImage,this.options.low);}
+      catch(error){console.warn('Special reveal artwork unavailable',error);return null;}
+    });
+    this.prepared.set(key,entry);return entry;
   }
 
   skipReveal(){return this.revealCompletion.request();}
+  private waitForPresentation(){
+    if(!this.blocked&&!document.hidden)return Promise.resolve();
+    // Existing modal / visibility handlers resume this barrier. The preparation still owns its actor.
+    return new Promise<void>(resolve=>{this.timeline=gsap.timeline({paused:true,onComplete:resolve}).to({}, {duration:.001});});
+  }
 
   async reveal(card: Card, first = false, previousIndex=0,pokemonImage:string|null=null,packPrice=1000): Promise<void> {
-    this.revealCompletion.begin();this.cardHoverReady=false;this.resetPointer();this.scene.endCelebration();
+    this.revealCompletion.begin(!!pokemonImage&&!this.options.reduced&&!this.options.turbo);this.cardHoverReady=false;this.resetPointer();this.scene.endCelebration();
     const request = ++this.revealToken;
-    this.prepareReveal(card,pokemonImage);const prepared=this.prepared!;this.prepared=null;
-    const loaded=await prepared.promise,texture=loaded.texture,special=loaded.special;
-    if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
+    const prepared=this.prepareReveal(card,pokemonImage);this.prepared.delete(card.image+'|'+pokemonImage);this.loadingReveal=prepared;
+    const texture=await prepared.texture;
+    if(this.destroyed||request!==this.revealToken){prepared.cancel();return;}
     if(this.options.reduced||this.options.turbo){this.scene.setCharge(null);this.scene.setCinematic(false,true);}
-    this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced,crowdLevel(card,packPrice,!!special));
+    this.travelling=false;this.revealEffects.clear();this.scene.beginReveal(this.options.reduced,crowdLevel(card,packPrice,!!pokemonImage));
     this.mode = 'card'; this.pack.visible = false; this.packShadow.visible = false;
     this.cardLayer.visible = true;
     const d = this.options.reduced ? .01 : 1;
@@ -353,7 +361,7 @@ export class OpeningStage {
     next.alpha=first?1:0;
     this.foil.resources.foil.uniforms.uStrength=0;
     this.foil.resources.foil.uniforms.uSweep=-.6;
-    const lead=first?.40:.32,dramatic=!!special,hold=revealSuspense(dramatic,this.options.reduced||!!this.options.turbo,this.previousTease),turn=hold?lead+hold:first?.42:.19,charge={amount:0};this.previousTease=!dramatic&&hold>0;
+    const lead=first?.40:.32,dramatic=!!pokemonImage,hold=revealSuspense(dramatic,this.options.reduced||!!this.options.turbo,this.previousTease),turn=hold?lead+hold:first?.42:.19,charge={amount:0};this.previousTease=!dramatic&&hold>0;
     await new Promise<void>(resolve=>{
       this.timeline=gsap.timeline({onComplete:resolve});
       if(hold>0){
@@ -387,14 +395,21 @@ export class OpeningStage {
       },resolve);
       this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
     });
+    if(this.destroyed||request!==this.revealToken){prepared.cancel();return;}
+    await prepared.ready;
+    if(this.destroyed||request!==this.revealToken){prepared.cancel();return;}
+    await this.waitForPresentation();
+    if(this.destroyed||request!==this.revealToken){prepared.cancel();return;}
+    const special=await prepared.takeSpecial();if(this.loadingReveal===prepared)this.loadingReveal=null;
     if(this.destroyed||request!==this.revealToken){special?.destroy();return;}
     if(this.options.reduced||this.options.turbo){this.scene.setCharge(null);this.scene.setCinematic(false,true);}
     if(special){
       this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);special.setFloor(performanceFloor(gameLayout(this.app.screen.width,this.app.screen.height,true)));if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
       if(this.options.reduced||this.options.turbo){special.finish();this.onSpecialWin?.(card,true);}
-      else await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.revealCompletion.bind(this.timeline,()=>{special!.finish();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCinematic(false,true);this.scene.setCardColor(color!,true);},resolve);this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});
+      else {this.revealCompletion.lock();await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{this.revealCompletion.unlock();next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.revealCompletion.bind(this.timeline,()=>{special!.finish();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCinematic(false,true);this.scene.setCardColor(color!,true);},resolve);this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});}
       if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(.5,this.options.reduced);}
     }
+    if(!special&&dramatic&&!this.destroyed&&request===this.revealToken){this.scene.setCharge(null);this.scene.setCinematic(false,this.options.reduced);this.revealEffects.clear();this.onSpecialWin?.(card);}
     if(!this.destroyed&&request===this.revealToken){this.cardHoverReady=true;if(this.revealCompletion.requested)this.onSpecialWin?.(card,true);this.revealCompletion.end();this.draw();}
   }
 
@@ -416,6 +431,7 @@ export class OpeningStage {
     },onComplete:()=>{flight.destroy({children:true});playSound('land');this.onCardStored?.(index);}},at);
   }
   async collectRemaining(cards:Card[],from:number){
+    this.discardPrepared();
     const request=++this.revealToken;
     const textures=await Promise.all(cards.slice(from).map(card=>Assets.load<Texture>(card.image)));
     if(this.destroyed||request!==this.revealToken)return;

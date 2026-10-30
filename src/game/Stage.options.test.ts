@@ -20,3 +20,10 @@ it('keeps the stadium layout through HUD updates while the pack travels',()=>{
  stage.travelling=false;OpeningStage.prototype.setLayoutMode.call(stage as unknown as OpeningStage,false);
  expect(stage.openingLayout).toBe(false);expect(stage.resize).toHaveBeenCalledOnce();
 });
+it('holds late-loaded Pokémon presentation until a modal or hidden tab resumes',async()=>{
+ vi.stubGlobal('document',{hidden:false});
+ const stage={blocked:true,timeline:null} as any;let finished=false;
+ const waiting=(OpeningStage.prototype as any).waitForPresentation.call(stage).then(()=>finished=true);
+ await Promise.resolve();expect(finished).toBe(false);expect(stage.timeline.paused()).toBe(true);
+ stage.blocked=false;stage.timeline.resume().progress(1);await waiting;expect(finished).toBe(true);stage.timeline.kill();vi.unstubAllGlobals();
+});

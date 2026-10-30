@@ -68,7 +68,15 @@ export class PokemonGame {
     catch{if(token===this.packToken)this.error='Pack image could not load. Select another pack or reload.';}
     this.render();
   }
-  private warmReveal(index:number){const card=this.save?.active?.cards[index];if(card)this.stage.prepareReveal(card,specialPokemon(card,index===0&&this.save?.active?.previewSpecial?0:this.selected.price,this.pokemonArt));}
+  private warmReveal(index:number){
+    const opening=this.save?.active;if(!opening)return;
+    // Keep the next card ready and prepare the next Pokémon during earlier cards / wrapper opening.
+    for(let i=index;i<opening.cards.length;i++){
+      const card=opening.cards[i],image=specialPokemon(card,i===0&&opening.previewSpecial?0:this.selected.price,this.pokemonArt);
+      if(i===index||image)this.stage.prepareReveal(card,image);
+      if(image)break;
+    }
+  }
   private preloadOpening(){this.warmReveal(0);this.save?.active?.cards.forEach((c,i)=>{void Assets.load(c.image).catch(()=>{});const art=specialPokemon(c,i===0&&this.save?.active?.previewSpecial?0:this.selected.price,this.pokemonArt);if(art)void preloadRevealAudio(art);});}
   private async runPhase(){
     const token=++this.flowToken;const phase=this.phase;

@@ -78,3 +78,10 @@ it('Next finishes the current reveal before a later click advances the index',as
  expect(state.phase).toBe('revealed');expect(state.index).toBe(0);
  game.action('next');await vi.advanceTimersByTimeAsync(1);expect(state.index).toBe(1);expect(state.stage.reveal).toHaveBeenCalledTimes(2);
 });
+it('warms the next special at pack reservation rather than waiting until the previous card',async()=>{
+ const {state}=await setup(),common={id:'c',name:'Common',number:'1',rarity:'Common',image:'/assets/c.png',weight:20,value:25},rare={...common,id:'rare',name:'Pikachu V',rarity:'Holo Rare V',image:'/assets/rare.png'};
+ state.pokemonArt={Pikachu:{dexId:25,image:'/assets/pokemon/pikachu.png'}};
+ state.save.active={id:'test',at:'',pack:DEFAULT_PACK,cards:[common,common,common,rare,common,{...rare,id:'later',image:'/assets/later.png'}]};
+ state.stage.prepareReveal.mockClear();state.preloadOpening();
+ expect(state.stage.prepareReveal.mock.calls).toEqual([[common,null],[rare,'/assets/pokemon/pikachu.png']]);
+});
