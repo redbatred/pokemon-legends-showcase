@@ -35,3 +35,12 @@ describe('bounded game rendering',()=>{
 });
 
 it('renders static detail panels at native retina density while bounding active scenes',()=>{expect(renderResolution(1920,1080,2,false,true)).toBe(2);expect(renderResolution(1920,1080,2,false)).toBeGreaterThan(1.4);expect(renderResolution(390,780,3,true,true)).toBe(1);});
+it('reserves a readable price below each tray card without clipping it on short or narrow screens',()=>{
+ for(const [w,h] of [[360,540],[390,844],[568,320],[844,390],[1280,720],[1920,1080]]){
+  const tray=cardTrayLayout(w,h,5);
+  expect(tray.priceY).toBeGreaterThan(tray.cardHeight);
+  expect(tray.priceHeight).toBeGreaterThanOrEqual(18);
+  expect(tray.y+tray.slotHeight).toBeLessThanOrEqual(h-4);
+  expect(tray.y).toBeGreaterThanOrEqual(gameLayout(w,h,true).dockTop);
+ }
+});

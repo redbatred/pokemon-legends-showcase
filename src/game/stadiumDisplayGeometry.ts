@@ -26,3 +26,21 @@ export function screenTextWindow(side:0|1,minU:number,maxU:number){
  const left=wallScreenPoint(side,0,.5).u,right=wallScreenPoint(side,1,.5).u,clamp=(v:number)=>Math.max(0,Math.min(1,v)),a=clamp((minU-left)/(right-left)),b=clamp((maxU-left)/(right-left));
  return {center:(a+b)/2,span:Math.max(.05,b-a)};
 }
+
+export type RibbonCaption=[title:string,detail:string];
+/** Both former caption variants become consecutive entries in one repeating strip. */
+export function ribbonMessages(state:ArenaBoardState):RibbonCaption[]{
+ const captions:RibbonCaption[]=[],seen=new Set<string>();
+ for(const cycle of [0,1]){const lines=arenaMessages(state,cycle);for(const i of [0,2]){const caption:RibbonCaption=[lines[i],lines[i+1]],key=JSON.stringify(caption);if(!seen.has(key)){seen.add(key);captions.push(caption);}}}
+ return captions;
+}
+
+/** Align each bay's first caption with its visible portion; both share one phase. */
+export function ribbonMapping(side:0|1,window:{center:number;span:number},span:number,count:number){
+ const scale=1/(span*count);return {scale,origin:(side+.5)/count-window.center*scale};
+}
+
+/** Positive UV travel moves lettering left. Wrapping is a whole texture period. */
+export function advanceRibbonOffset(offset:number,seconds:number,span:number,count:number,reduced:boolean){
+ return reduced?offset:(offset+Math.max(0,seconds)*.06/(span*count))%1;
+}

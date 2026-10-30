@@ -46,6 +46,6 @@ export function cardTrayLayout(width:number,height:number,activeIndex:number){
   const viewportX=18,viewportWidth=width-36,contentWidth=11*stride-10;
   const offset=Math.max(0,Math.min(Math.max(0,contentWidth-viewportWidth),activeIndex*stride-(viewportWidth-cardWidth)/2));
   const start=contentWidth<=viewportWidth?(width-contentWidth)/2:viewportX-offset;
-  const y=layout.dockTop+(layout.compact?12:layout.short?28:31);
-  return {cardWidth,cardHeight,stride,offset,start,y,viewportX,viewportWidth,contentWidth,maxOffset:Math.max(0,contentWidth-viewportWidth),slot:(index:number)=>({x:start+index*stride+cardWidth/2,y:y+cardHeight/2})};
+  const priceHeight=layout.compact?18:layout.short?20:24,priceY=cardHeight+3,slotHeight=priceY+priceHeight,y=height-slotHeight-4;
+  return {cardWidth,cardHeight,priceY,priceHeight,slotHeight,stride,offset,start,y,viewportX,viewportWidth,contentWidth,maxOffset:Math.max(0,contentWidth-viewportWidth),slot:(index:number)=>({x:start+index*stride+cardWidth/2,y:y+cardHeight/2})};
 }

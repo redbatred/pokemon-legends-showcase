@@ -22,6 +22,8 @@ import {moneyState,type MoneyState} from './moneyMotion';
 import { loadPackTexture } from './packTexture';
 import {HoloCard} from './HoloCard';
 import {foilStrength} from './foil';
+import {SpecialCardFrame} from './SpecialCardFrame';
+import {isSpecialCard} from './specialCard';
 import type { OpeningStage } from './Stage';
 
 export type Panel = 'collection'|'settings'|'history'|'about'|'auto'|null;
@@ -59,6 +61,9 @@ export class CanvasUI {
   private page=0;private collected=false;private openingId='';private landed=new Set<number>();
   private trayArt:Texture|null=null;private redrawTray:(()=>void)|null=null;private trayOffset={value:0};private trayTween:gsap.core.Tween|null=null;
   private trayPan=new TrayPan();private trayPointer:number|null=null;private trayInterrupted=false;private trayFocusKey='';private suppressTrayClickUntil=0;private trayHost:HTMLElement;
+  private specialFrames=new Set<SpecialCardFrame>();
+  private tickSpecialFrames=(_time:number,delta:number)=>{if(document.hidden||this.state?.reduced)return;for(const frame of this.specialFrames)frame.update(Math.min(.05,delta/1000));if(this.specialFrames.size)this.stage.draw();};
+  private trayPrices=new Map<number,Container>();
   private trayStrip:Container|null=null;private collectingIndex:number|null=null;
   private packValueLabel:MoneyReadout|null=null;private revealCountLabel:Text|null=null;
   private thumbs=new Map<string,Texture>();private pending=new Map<string,Promise<Texture>>();private destroyed=false;
@@ -206,9 +211,11 @@ export class CanvasUI {
       this.thumbs.set(path,texture);this.pending.delete(path);return texture;
     })().catch(error=>{this.pending.delete(path);throw error;});this.pending.set(path,promise);return promise;
   }
-  private picture(path:string,x:number,y:number,w:number,h:number,parent=this.root,full=false,holo=0){
+  private picture(path:string,x:number,y:number,w:number,h:number,parent=this.root,full=false,holo=0,special?:Card){
     const generation=this.generation;
-    const render=(texture:Texture)=>{if(full&&!texture.source.autoGenerateMipmaps){texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';texture.source.updateMipmaps();}if(this.destroyed||generation!==this.generation||parent.destroyed)return;const scale=Math.min(w/texture.width,h/texture.height);if(holo){const card=new HoloCard(texture,texture.width*scale*.96,texture.height*scale*.96,this.stage.app.canvas,()=>this.stage.draw(),holo,!!this.state?.reduced);card.position.set(x+w/2,y+h/2);parent.addChild(card);}else{const sprite=new Sprite(texture);sprite.anchor.set(.5);sprite.scale.set(scale);sprite.position.set(x+w/2,y+h/2);parent.addChild(sprite);}this.stage.draw();};
+    const render=(texture:Texture)=>{if(full&&!texture.source.autoGenerateMipmaps){texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';texture.source.updateMipmaps();}if(this.destroyed||generation!==this.generation||parent.destroyed)return;const scale=Math.min(w/texture.width,h/texture.height);if(holo){const card=new HoloCard(texture,texture.width*scale*.96,texture.height*scale*.96,this.stage.app.canvas,()=>this.stage.draw(),holo,!!this.state?.reduced);card.position.set(x+w/2,y+h/2);parent.addChild(card);}else{const sprite=new Sprite(texture);sprite.anchor.set(.5);sprite.scale.set(scale);sprite.position.set(x+w/2,y+h/2);parent.addChild(sprite);}
+      if(special&&isSpecialCard(special)){const factor=holo?.96:1,frame=new SpecialCardFrame(texture.width*scale*factor,texture.height*scale*factor,cardPowerKind(special),!!this.state?.low,!!this.state?.reduced);frame.position.set(x+w/2,y+h/2);parent.addChild(frame);this.specialFrames.add(frame);if(!this.state?.reduced&&this.specialFrames.size===1)gsap.ticker.add(this.tickSpecialFrames);}
+      this.stage.draw();};
     const ready=full?Assets.get<Texture>(path):this.thumbs.get(path);
     if(ready){if(!full){this.thumbs.delete(path);this.thumbs.set(path,ready);}render(ready);}else void (full?Assets.load<Texture>(path):this.thumbnail(path)).then(render).catch(()=>{if(generation===this.generation&&!parent.destroyed){this.text('Image unavailable',x+w/2,y+h/2,10,C.muted,parent,'center');this.stage.draw();}});
   }
@@ -220,7 +227,7 @@ export class CanvasUI {
     this.resultUnderlay?.destroy({texture:true,textureSource:true});this.resultUnderlay=null;
     if(this.resultLaunch&&!this.state.reduced){const texture=this.stage.app.renderer.generateTexture({target:this.root,frame:new Rectangle(0,0,this.stage.app.screen.width,this.stage.app.screen.height),resolution:1});this.resultUnderlay=new Sprite(texture);this.stage.app.stage.addChildAt(this.resultUnderlay,this.stage.app.stage.getChildIndex(this.backdrop));}
     this.resultChrome=null;this.resultAmount=null;this.resultCards=[];this.trayPan.cancel();this.trayPointer=null;
-    ++this.generation;gsap.ticker.remove(this.tickHistoryFan);this.historyFanCards=[];this.historyFanTitle=this.historyFanRarity=null;this.historyFanValue=null;this.arrowPulses=[];this.rackGroup=null;this.rackMask=null;this.rackGlow=null;this.cardCaptions=[];this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.trayArt?.destroy(true);this.trayArt=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
+    ++this.generation;gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();gsap.ticker.remove(this.tickHistoryFan);this.historyFanCards=[];this.historyFanTitle=this.historyFanRarity=null;this.historyFanValue=null;this.arrowPulses=[];this.rackGroup=null;this.rackMask=null;this.rackGlow=null;this.cardCaptions=[];this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.trayArt?.destroy(true);this.trayArt=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
     this.root.removeChild(this.focus);this.root.removeChildren().forEach(child=>child.destroy({children:true}));
     const s=this.state,sw=this.stage.app.screen.width,sh=this.stage.app.screen.height,modal=s.inspected?'inspect':s.panel==='history'&&this.historyOpening?'history-pack':s.panel??(s.phase==='complete'&&!s.autoRun?.running?'results':'');
     const frame=modal&&modal!=='settings'?modalLayout(sw,sh,modal,s.save?.history.length):{x:0,y:0,width:sw,height:sh};this.modalOrigin={x:frame.x,y:frame.y};
@@ -346,14 +353,18 @@ export class CanvasUI {
     const fade=new Sprite(this.tray);fade.position.set(0,y-25);fade.width=w;fade.height=l.dock+25;this.root.addChild(fade);
     if(s.save?.active&&opening){
       const tray=cardTrayLayout(w,h,this.collectingIndex??s.index);
-      const viewport=new Container(),strip=new Container();this.trayStrip=strip;strip.y=tray.y;viewport.addChild(strip);this.root.addChild(viewport);const mask=new Graphics().rect(tray.viewportX,tray.y-5,tray.viewportWidth,tray.cardHeight+12).fill(0xffffff);this.root.addChild(mask);viewport.mask=mask;
+      const viewport=new Container(),strip=new Container();this.trayStrip=strip;strip.y=tray.y;viewport.addChild(strip);this.root.addChild(viewport);const mask=new Graphics().rect(tray.viewportX,tray.y-5,tray.viewportWidth,tray.slotHeight+12).fill(0xffffff);this.root.addChild(mask);viewport.mask=mask;
       const base=tray.start+tray.offset,focusKey=`${this.openingId}:${s.index}`,changed=focusKey!==this.trayFocusKey;this.trayFocusKey=focusKey;
       this.trayPan.configure(tray.maxOffset,this.trayOffset.value);this.trayOffset.value=this.trayPan.offset;strip.x=base-this.trayOffset.value;
       if(changed&&s.phase==='revealing'&&!s.reduced)this.scrollTrayTo(tray.offset,.38,false);
       else if(changed){this.trayOffset.value=tray.offset;this.trayPan.configure(tray.maxOffset,tray.offset);strip.x=base-tray.offset;}
-      s.save.active.cards.forEach((_card,i)=>{
+      s.save.active.cards.forEach((card,i)=>{
         const x=i*tray.stride,slot=new Container();slot.position.set(x,0);strip.addChild(slot);
         const active=i===s.index;const border=new Graphics().roundRect(-3,-3,tray.cardWidth+6,tray.cardHeight+6,7).fill({color:0x0b3155,alpha:.7}).stroke({width:active?2.5:1,color:active?0xc6f9ff:0x639bb7,alpha:active?1:.5});slot.addChild(border);
+        const price=new Container(),pw=tray.cardWidth,ph=tray.priceHeight,color=isSpecialCard(card)?0xffe59a:0xc6f5ff;
+        price.position.set(pw/2,tray.priceY+ph/2);price.visible=this.landed.has(i);slot.addChild(price);this.trayPrices.set(i,price);
+        price.addChild(new Graphics().poly([-pw/2+5,-ph/2,pw/2-5,-ph/2,pw/2,0,pw/2-5,ph/2,-pw/2+5,ph/2,-pw/2,0]).fill({color:0x09243e,alpha:.92}).stroke({color,width:1,alpha:.55}).moveTo(-pw*.28,-ph/2).lineTo(pw*.28,-ph/2).stroke({color,width:1.5,alpha:.9}));
+        price.addChild(new MoneyReadout({identity:this.openingId,value:card.value,target:card.value,remaining:0},{size:l.compact?15:l.short?17:21,color,align:'center',width:pw-7,plus:false,hero:false,centerY:true,reduced:true,ticks:false,draw:()=>this.stage.draw()}));
       });
       // One native canvas atlas keeps the static rack independent of animated
       // mesh buffers, with a single texture update for each landed card.
@@ -396,7 +407,7 @@ export class CanvasUI {
 
   private trayLayout(){return cardTrayLayout(this.stage.app.screen.width,this.stage.app.screen.height,this.collectingIndex??this.state?.index??0);}
   private trayPoint(event:PointerEvent|WheelEvent){const b=this.trayHost.getBoundingClientRect();return {x:(event.clientX-b.left)*this.stage.app.screen.width/b.width,y:(event.clientY-b.top)*this.stage.app.screen.height/b.height};}
-  private overTray(event:PointerEvent|WheelEvent){const s=this.state;if(!s||s.panel||s.inspected||!['awaiting','revealed'].includes(s.phase))return false;const t=this.trayLayout(),p=this.trayPoint(event);return t.maxOffset>0&&p.y>=t.y-6&&p.y<=t.y+t.cardHeight+8&&p.x>=0&&p.x<=this.stage.app.screen.width;}
+  private overTray(event:PointerEvent|WheelEvent){const s=this.state;if(!s||s.panel||s.inspected||!['awaiting','revealed'].includes(s.phase))return false;const t=this.trayLayout(),p=this.trayPoint(event);return t.maxOffset>0&&p.y>=t.y-6&&p.y<=t.y+t.slotHeight+8&&p.x>=0&&p.x<=this.stage.app.screen.width;}
   private trayDown=(e:PointerEvent)=>{if(!this.overTray(e)||e.button>0)return;this.trayInterrupted=!!this.trayTween?.isActive();this.trayTween?.kill();this.trayPointer=e.pointerId;this.trayPan.configure(this.trayLayout().maxOffset,this.trayOffset.value);this.trayPan.start(this.trayPoint(e).x,e.timeStamp);};
   private trayMove=(e:PointerEvent)=>{if(e.pointerId!==this.trayPointer)return;const was=this.trayPan.dragged;this.trayPan.move(this.trayPoint(e).x,e.timeStamp);if(!this.trayPan.dragged)return;e.preventDefault();e.stopPropagation();if(!was){this.trayHost.setPointerCapture(e.pointerId);this.syncTrayHits(false);this.emitTargets();}this.trayOffset.value=this.trayPan.offset;this.positionTray();};
   private trayUp=(e:PointerEvent)=>{if(e.pointerId!==this.trayPointer)return;this.trayPointer=null;if(this.trayPan.dragged){e.preventDefault();e.stopPropagation();this.suppressTrayClickUntil=performance.now()+400;if(this.trayHost.hasPointerCapture(e.pointerId))this.trayHost.releasePointerCapture(e.pointerId);this.scrollTrayTo(this.trayPan.end(),.34);}else{this.trayPan.cancel();if(this.trayInterrupted){this.syncTrayHits();this.emitTargets();}}this.trayInterrupted=false;};
@@ -413,11 +424,13 @@ export class CanvasUI {
   private syncTrayHits(enabled=true){
     this.hits=this.hits.filter(hit=>!hit.id.startsWith('card-'));const s=this.state;if(!enabled||s?.phase!=='revealed'||s.panel||s.inspected||!s.save?.active)return;
     const t=this.trayLayout(),base=t.start+t.offset-this.trayOffset.value;
-    s.save.active.cards.forEach((card,i)=>{const x=base+i*t.stride,left=Math.max(x,t.viewportX),right=Math.min(x+t.cardWidth,t.viewportX+t.viewportWidth);if(this.landed.has(i)&&right>left)this.hit(`card-${i}`,`Inspect ${card.name}, card ${i+1}`,left,t.y,right-left,t.cardHeight,()=>s.inspect(card));});
+    s.save.active.cards.forEach((card,i)=>{const x=base+i*t.stride,left=Math.max(x,t.viewportX),right=Math.min(x+t.cardWidth,t.viewportX+t.viewportWidth);if(this.landed.has(i)&&right>left)this.hit(`card-${i}`,`Inspect ${card.name}, ${money(card.value)}, card ${i+1}`,left,t.y,right-left,t.slotHeight,()=>s.inspect(card));});
   }
 
   private storeCard=(index:number)=>{
-    this.landed.add(index);this.redrawTray?.();
+    const fresh=!this.landed.has(index);this.landed.add(index);this.redrawTray?.();
+    const price=this.trayPrices.get(index);if(price){price.visible=true;if(fresh&&!this.state?.reduced){this.moneyAnimations.push(gsap.from(price,{alpha:0,y:price.y+5,duration:.26,ease:'power3.out',onUpdate:()=>this.stage.draw()}),gsap.from(price.scale,{x:.78,y:.78,duration:.32,ease:'back.out(1.5)',onUpdate:()=>this.stage.draw()}));}}
+    this.syncTrayHits();this.emitTargets();
     if(this.state?.phase==='collecting'){
       const card=this.state.save!.active!.cards[index];this.rewards.deposit(index,card.value);
       if(this.revealCountLabel)this.revealCountLabel.text=`${this.landed.size} / 11`;
@@ -472,7 +485,7 @@ export class CanvasUI {
       const r=layout.slot(i),count=s.save?.collection[card.id]??0,group=new Container();group.pivot.set(r.width/2,r.height/2);group.position.set(r.x+r.width/2,r.y+r.height/2);this.root.addChild(group);this.paints.set(`binder-${card.id}`,group);
       const g=new Graphics().roundRect(0,0,r.width,r.height,7).fill({color:0x153b53,alpha:count?.55:.22}).stroke({color:count?0x5996ad:0x234657,width:1,alpha:.65});group.addChild(g);
       const imageH=Math.max(28,r.height-43),imageW=Math.min(r.width-12,imageH/1.397),ix=(r.width-imageW)/2,iy=2;
-      const art=new Container();art.alpha=count?1:.86;group.addChild(art);this.picture(card.image,ix,iy,imageW,imageH,art,true);
+      const art=new Container();art.alpha=count?1:.86;group.addChild(art);this.picture(card.image,ix,iy,imageW,imageH,art,true,0,card);
       for(const side of [0,1]){const x=side?r.width-4:4;g.moveTo(x+(side?-9:9),6).lineTo(x,6).lineTo(x,18).stroke({color:count?0xbbf4fc:0x39556a,width:1.4});}
       const name=this.text(card.name,r.width/2,r.height-37,r.width<100?10:12,count?C.white:C.muted,group,'center','bold');if(name.width>r.width-8)name.scale.set((r.width-8)/name.width);
       this.text(`#${card.number}`,6,r.height-17,8,0x79a8bf,group);const value=this.text(money(card.value),r.width-6,r.height-17,9,count?0xacecf4:0x7596a8,group,'right','bold');if(value.width>r.width*.64)value.scale.set(r.width*.64/value.width);
@@ -498,7 +511,7 @@ export class CanvasUI {
       const date=new Date(result.at);this.text(date.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' · '+date.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}),textX,hRow<90?34:38,9,C.muted,group);
       this.text(`${result.cards.length} CARDS`,textX,hRow-22,9,0x85bdce,group,'left','bold');
       const amount=this.money(result.total,x+wRow-14,y+hRow-30,w<500?24:29,0xe4ffff,'right',`history-${result.id}`,result.id,false,w<500?wRow*.52:180,true);group.addChild(amount);amount.position.set(wRow-14,hRow-23);
-      if(w>=600){const bestCards=[...result.cards].sort((a,b)=>b.value-a.value).slice(0,3);bestCards.forEach((card,j)=>{const cx=wRow-300+j*29;const thumbH=Math.min(63,hRow-24);this.picture(card.image,cx,12,thumbH/1.4,thumbH,group,true);this.hit(`history-card-${result.id}-${j}`,`View pack with ${card.name}`,x+cx,y+12,29,thumbH,()=>this.openHistoryHand(result,result.cards.indexOf(card)));});}
+      if(w>=600){const bestCards=[...result.cards].sort((a,b)=>b.value-a.value).slice(0,3);bestCards.forEach((card,j)=>{const cx=wRow-300+j*29;const thumbH=Math.min(63,hRow-24);this.picture(card.image,cx,12,thumbH/1.4,thumbH,group,true,0,card);this.hit(`history-card-${result.id}-${j}`,`View pack with ${card.name}`,x+cx,y+12,29,thumbH,()=>this.openHistoryHand(result,result.cards.indexOf(card)));});}
       if(!s.reduced)this.moneyAnimations.push(gsap.from(group,{alpha:0,x:x+18,duration:.28,delay:i*.045,ease:'power3.out',onUpdate:()=>this.stage.draw()}));
     });
     this.libraryPager(w,h,pg.page,pg.pages,'history');
@@ -513,7 +526,7 @@ export class CanvasUI {
     if(!compact)this.text(w<600?'Tap to lift · Tap again to inspect':'Hover to fan · Select a card to inspect',34,123,10,C.muted);
     const hand=new Container();hand.sortableChildren=true;this.root.addChild(hand);
     result.cards.forEach((card,i)=>{const p=l.pose(i,i===this.historySelection),group=new Container();group.position.set(p.x,p.y);group.rotation=p.rotation;group.scale.set(p.scale);group.zIndex=i===this.historySelection?100:i;hand.addChild(group);
-      const shadow=new Graphics().roundRect(-l.width/2-2,-l.height/2+4,l.width+4,l.height,7).fill({color:0x000b18,alpha:.7}).roundRect(-l.width/2-1,-l.height/2-1,l.width+2,l.height+2,6).stroke({color:0xa9dfed,width:1.5,alpha:.7});group.addChild(shadow);this.picture(card.image,-l.width/2,-l.height/2,l.width,l.height,group,true);const entry={group,...p,ready:!!this.state!.reduced};this.historyFanCards.push(entry);
+      const shadow=new Graphics().roundRect(-l.width/2-2,-l.height/2+4,l.width+4,l.height,7).fill({color:0x000b18,alpha:.7}).roundRect(-l.width/2-1,-l.height/2-1,l.width+2,l.height+2,6).stroke({color:0xa9dfed,width:1.5,alpha:.7});group.addChild(shadow);this.picture(card.image,-l.width/2,-l.height/2,l.width,l.height,group,true,0,card);const entry={group,...p,ready:!!this.state!.reduced};this.historyFanCards.push(entry);
       const hitW=i===0||i===result.cards.length-1?l.step/2+l.width/2:l.step;const hitX=i===0?p.x-l.width/2:p.x-l.step/2;
       this.hit(`history-fan-${i}`,`Inspect ${card.name} from pack`,hitX,Math.max(104,p.y-l.height/2-l.lift),hitW,l.height+l.lift+16,()=>{if(this.historySelection!==i){this.focusHistoryCard(i);this.stage.draw();}else this.state!.inspect(card);});
       if(!this.state!.reduced)this.moneyAnimations.push(gsap.from(group,{x:w/2,y:h+40,rotation:0,alpha:0,duration:.48,delay:i*.026,ease:'power3.out',onUpdate:()=>this.stage.draw(),onComplete:()=>{entry.ready=true;}}));
@@ -579,7 +592,7 @@ export class CanvasUI {
     result.cards.forEach((card,index)=>{const p=l.slot(index),group=new Container();group.position.set(p.x,p.y);this.root.addChild(group);
       const rare=card.value>=Math.max(1000,(result.pack?.price??1000)*2),edge=rare?0xffe88e:0x6dcbdc;
       const frame=new Graphics().roundRect(-p.width/2-3,-p.height/2-3,p.width+6,p.height+6,5).fill({color:0x08334f,alpha:.5}).stroke({color:edge,width:rare?1.8:1,alpha:rare?.9:.35});group.addChild(frame);
-      this.picture(card.image,-p.width/2,-p.height/2,p.width,p.height,group,true);
+      this.picture(card.image,-p.width/2,-p.height/2,p.width,p.height,group,true,0,card);
       const caption=this.text(card.id==='energy'?'Energy':money(card.value),0,p.height/2+7,p.width<60?9:11,rare?0xffedb0:C.cyan,group,'center','bold');if(caption.width>p.width+8)caption.scale.set((p.width+8)/caption.width);
       this.resultCards.push({group,x:p.x,y:p.y,width:p.width,index});this.hit(`result-${index}`,`Inspect ${card.name}`,p.x-p.width/2,p.y-p.height/2,p.width,p.height,()=>this.state!.inspect(card));
     });
@@ -602,5 +615,5 @@ export class CanvasUI {
     timeline.to({}, {duration:.08*d});
   }
 
-  destroy(){gsap.ticker.remove(this.tickHistoryFan);this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.returnTween?.kill();this.returnCover?.destroy({texture:true,textureSource:true});this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
+  destroy(){gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();gsap.ticker.remove(this.tickHistoryFan);this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.returnTween?.kill();this.returnCover?.destroy({texture:true,textureSource:true});this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
 }
