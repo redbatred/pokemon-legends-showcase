@@ -361,7 +361,25 @@ export class OpeningStage {
     next.alpha=first?1:0;
     this.foil.resources.foil.uniforms.uStrength=0;
     this.foil.resources.foil.uniforms.uSweep=-.6;
-    const lead=first?.40:.32,dramatic=!!pokemonImage,hold=revealSuspense(dramatic,this.options.reduced||!!this.options.turbo,this.previousTease),turn=hold?lead+hold:first?.42:.19,charge={amount:0};this.previousTease=!dramatic&&hold>0;
+    const dramatic=!!pokemonImage;
+    if(dramatic){
+      // Arrive face down while the complete performance prepares. The normal idle float keeps
+      // this card alive on slow connections; no revealed face can get stranded waiting for a model.
+      const arrival=new Promise<void>(resolve=>{
+        this.timeline=gsap.timeline({onComplete:resolve});
+        if(departing)this.flyToTray(this.timeline,departing,previousIndex,previousIndex+1,d);
+        this.timeline.to(this.motion,{hover:1,lift:-19,scale:1.035,offsetX:0,roll:-.012,pitch:-.035,duration:(first?.40:.32)*d,ease:'power3.out'},0)
+          .to(next,{alpha:1,duration:.14*d},0)
+          .to(this.stack.scale,{x:.98,y:.98,duration:.32*d,ease:'power3.out'},0)
+          .to(this.stack,{x:0,y:5,rotation:0,duration:.32*d,ease:'power3.out'},0);
+        this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
+      });
+      await Promise.all([arrival,prepared.ready]);
+      if(this.destroyed||request!==this.revealToken){prepared.cancel();return;}
+      await this.waitForPresentation();
+      if(this.destroyed||request!==this.revealToken){prepared.cancel();return;}
+    }
+    const lead=dramatic?0:first?.40:.32,hold=revealSuspense(dramatic,this.options.reduced||!!this.options.turbo,this.previousTease),turn=hold?lead+hold:dramatic?0:first?.42:.19,charge={amount:0};this.previousTease=!dramatic&&hold>0;
     await new Promise<void>(resolve=>{
       this.timeline=gsap.timeline({onComplete:resolve});
       if(hold>0){
@@ -375,18 +393,20 @@ export class OpeningStage {
           }},lead*d)
           .call(()=>{this.charging=false;this.motion.offsetX=0;this.motion.roll=0;this.motion.lift=-19;},[],turn*d);
       }
-      if(departing)this.flyToTray(this.timeline,departing,previousIndex,previousIndex+1,d);
-      this.timeline.to(this.motion,{hover:1,duration:.6*d,ease:'sine.inOut'},0).to(next,{alpha:1,duration:.14*d},first?0:.08*d)
-        .to(this.motion,{lift:-19,scale:1.035,offsetX:0,roll:-.012,pitch:-.035,duration:(first?.6:.3)*d,ease:'power3.out'},0)
-        .to(this.stack.scale,{x:.98,y:.98,duration:.7*d,ease:'power3.out'},0)
-        .to(this.stack,{x:0,y:5,rotation:0,duration:.7*d,ease:'power3.out'},0)
-        .call(()=>playSound('flip'),[],turn*d)
+      if(!dramatic){
+        if(departing)this.flyToTray(this.timeline,departing,previousIndex,previousIndex+1,d);
+        this.timeline.to(this.motion,{hover:1,duration:.6*d,ease:'sine.inOut'},0).to(next,{alpha:1,duration:.14*d},first?0:.08*d)
+          .to(this.motion,{lift:-19,scale:1.035,offsetX:0,roll:-.012,pitch:-.035,duration:(first?.6:.3)*d,ease:'power3.out'},0)
+          .to(this.stack.scale,{x:.98,y:.98,duration:.7*d,ease:'power3.out'},0)
+          .to(this.stack,{x:0,y:5,rotation:0,duration:.7*d,ease:'power3.out'},0);
+      }
+      this.timeline.call(()=>playSound('flip'),[],turn*d)
         .to(this.motion,{flip:Math.PI/2,offsetX:15,roll:.035,duration:.24*d,ease:'power2.in'},turn*d)
         .call(()=>{next.texture=texture;next.filters=this.options.low?[]:[this.foil];this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=foilStrength(card.rarity,card.value)*(this.options.low?.55:1);const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(dramatic?'slam':rare?'rare':'reveal');this.charging=false;this.revealEffects.fire(color!,rare,this.options.reduced,this.options.low);this.scene.setCardColor(color!,this.options.reduced);this.scene.impact(rare,this.options.reduced);},[],(turn+.24)*d)
         .to(this.motion,{flip:0,offsetX:0,lift:-8,roll:0,pitch:0,scale:1,duration:.43*d,ease:'back.out(1.08)'},(turn+.24)*d)
         .call(()=>{if(!dramatic&&!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);},[],(turn+.42)*d)
-        .to(this.foil.resources.foil.uniforms,{uSweep:.8,duration:.46*d,ease:'sine.inOut'},(turn+.28)*d)
-        .to(this.foil.resources.foil.uniforms,{uSweep:0,duration:.24*d,ease:'sine.out'},(turn+.74)*d);
+        .to(this.foil.resources.foil.uniforms,{uSweep:.8,duration:(dramatic?.23:.46)*d,ease:'sine.inOut'},(turn+.28)*d)
+        .to(this.foil.resources.foil.uniforms,{uSweep:0,duration:(dramatic?.16:.24)*d,ease:'sine.out'},(turn+(dramatic?.51:.74))*d);
       this.revealCompletion.bind(this.timeline,()=>{
         stopRevealAudio();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCardColor(color!,true);this.scene.setCinematic(false,true);
         next.texture=texture;next.alpha=1;this.lastProjection.delete(next);this.foil.resources.foil.uniforms.uStrength=foilStrength(card.rarity,card.value)*(this.options.low?.55:1);this.foil.resources.foil.uniforms.uSweep=0;
