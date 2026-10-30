@@ -27,12 +27,12 @@ export class RewardTransfers {
   this.ledger.offer(index,amount);const flight=this.flights.find(f=>f.index===index);if(flight){flight.transferAge??=0;flight.speed=Math.max(flight.speed,3);return;}
   if(this.ledger.settle(index))this.credit(this.ledger.total);
  }
- update(dt:number,w:number,h:number,reduced:boolean){
+ update(dt:number,w:number,h:number,reduced:boolean,presentationRate=1){
   const stone=rewardLayout(w,h),target=totalWinLayout(w,h),special=specialWinGeometry(w,h),step=Math.min(.05,dt);
   this.impact.clear();this.impacts=this.impacts.map(age=>age+step).filter(age=>age<.24);
   for(const age of this.impacts){const p=age/.24;for(let i=0;i<8;i++){const a=i*Math.PI/4,dx=Math.cos(a),dy=Math.sin(a),r=25+p*24,tail=r+14*(1-p);this.impact.moveTo(target.x+dx*r,target.y+dy*r*.6).lineTo(target.x+dx*tail,target.y+dy*tail*.6).stroke({color:i%2?0x9eefff:0xfff297,width:3*(1-p),alpha:1-p});}}
   for(const f of [...this.flights]){
-   f.age+=step;if(f.transferAge!==null)f.transferAge+=step*f.speed;
+   f.age+=step*presentationRate;if(f.transferAge!==null)f.transferAge+=step*f.speed;
    const presentationAge=reduced?Math.max(WIN_COUNT_FINISH+.3,f.age):f.age,celebration=celebrationPose(presentationAge,f.transferAge??0);f.celebration?.update(presentationAge,w,h,f.transferAge??0,reduced);const bone=f.celebration?.amountPose();
    const source=f.tier?{x:bone?.x??special.x,y:bone?.y??special.amountY,size:special.size*(bone?.scaleY??1),width:special.amountWidth*(bone?.scaleX??1)}:{...stone,size:stone.size*1.35,width:stone.width*1.5};
    const age=WIN_LAUNCH_TIME-WIN_FOLD_TIME+(f.transferAge??0),pose=winFlightPose(age,source,target),count=f.transferAge!==null?1:f.tier?celebration.count:Math.min(1,presentationAge/WIN_COUNT_TIME),travel=pose.progress,morph=Math.sin(travel*Math.PI);

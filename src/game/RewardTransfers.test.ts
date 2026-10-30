@@ -1,7 +1,14 @@
 import {expect,it,vi} from 'vitest';
 vi.mock('./audio',()=>({playSound:vi.fn()}));
-vi.mock('./MoneyReadout',async()=>{const {Container}=await import('pixi.js');return {MoneyReadout:class extends Container{display(){} override getLocalBounds(){return {width:80} as ReturnType<InstanceType<typeof Container>['getLocalBounds']>;}}};});
+vi.mock('./MoneyReadout',async()=>{const {Container}=await import('pixi.js');return {MoneyReadout:class extends Container{display=vi.fn(); override getLocalBounds(){return {width:80} as ReturnType<InstanceType<typeof Container>['getLocalBounds']>;}}};});
+vi.mock('./WinCelebration',async()=>{const actual=await vi.importActual<typeof import('./WinCelebration')>('./WinCelebration'),{Container}=await import('pixi.js');return {...actual,WinCelebration:class{root=new Container();background=new Container();update(){} amountPose(){return null;}finish(){}destroy(){this.root.destroy();this.background.destroy();}}};});
 import {RewardTransfers} from './RewardTransfers';
+import {openingAnimationRate} from './autoSpin';
+it('counts a special automatic award to the exact amount before advancing, with credit still pending',()=>{
+ const credit=vi.fn(),r=new RewardTransfers(credit,()=>{});r.reset('auto');r.reveal(0,45678,false,'big');
+ for(let i=0;i<26;i++)r.update(.05,390,780,false,openingAnimationRate(false,true));
+ const flight=(r as any).flights[0];expect(flight.countFinished).toBe(true);expect(flight.label.display).toHaveBeenLastCalledWith(45678);expect(flight.transferAge).toBeNull();expect(credit).not.toHaveBeenCalled();r.destroy();
+});
 it('holds the card amount without crediting until the player advances',()=>{
  const credit=vi.fn(),r=new RewardTransfers(credit,()=>{});r.reset('pack');r.reveal(0,4500,false);
  for(let i=0;i<1200;i++)r.update(.05,1280,720,false);

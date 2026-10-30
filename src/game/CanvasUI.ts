@@ -10,7 +10,7 @@ import {playSound} from './audio';
 import {openingUiPose} from './openingUiMotion';
 import {utilityLayout,compactToolbar} from './utilityLayout';
 import {TrayPan} from './trayPan';
-import {AUTO_SPIN_COUNTS,type AutoRevealMode,type AutoSpinView} from './autoSpin';
+import {AUTO_SPIN_COUNTS,openingAnimationRate,type AutoRevealMode,type AutoSpinView} from './autoSpin';
 import { gameLayout, pageWindow, cardTrayLayout,revealControlsLayout } from './rendering';
 import { money, recordedWinnings, type Card, type Pack, type Save, type Result } from './model';
 import {modalLayout,totalWinLayout,creditLayout,autoSpinLayout} from './modalLayout';
@@ -56,7 +56,7 @@ export class CanvasUI {
     this.stage.scene.setBoard({phase:'revealed',packName:s.save.active.pack?.name??s.selected.name,index:s.index,cardName:card.name,cardValue:card.value,special:!!tier});
     if(immediate){this.rewards.finish(s.index);this.rewards.update(0,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);this.stage.draw();}
   };
-  private tickRewards=(ticker:Ticker)=>{this.animateChrome();const s=this.state;if(!s)return;const visible=!s.panel&&!s.inspected&&['awaiting','revealing','revealed','collecting','settling'].includes(s.phase);this.rewards.root.visible=visible;this.rewards.background.visible=visible;if(visible)this.rewards.update(ticker.deltaMS/1000,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced);for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;};
+  private tickRewards=(ticker:Ticker)=>{this.animateChrome();const s=this.state;if(!s)return;const visible=!s.panel&&!s.inspected&&['awaiting','revealing','revealed','collecting','settling'].includes(s.phase);this.rewards.root.visible=visible;this.rewards.background.visible=visible;if(visible)this.rewards.update(ticker.deltaMS/1000,this.stage.app.screen.width,this.stage.app.screen.height,s.reduced,openingAnimationRate(false,!!s.autoRun&&!s.turbo));for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;};
   private creditReward=(total:number)=>{if(this.moneyValues.get('revealed')?.target===total)return;if(this.packValueLabel){this.packValueLabel.retarget(total);this.packValueLabel.pulse();}else this.moneyValues.set('revealed',moneyState(this.moneyValues.get('revealed'),this.openingId,total,false));};
   private updating=false;
   private lastPackId='';private rackGroup:Container|null=null;private rackMask:Graphics|null=null;private rackGlow:Graphics|null=null;private rackKind:'packs'|'cards'='packs';private arrowPulses:{glyph:Graphics;base:number;phase:number;axis:'x'|'y'}[]=[];
@@ -656,10 +656,11 @@ export class CanvasUI {
     this.resultAmount=this.winSummary(session.totalWon,session.id+':session',l.total,'session');
     session.results.slice(pg.start,pg.end).forEach((result,i)=>{
       const r=l.slot(i),index=pg.start+i,group=new Container();group.pivot.set(r.width/2,r.height/2);group.position.set(r.x+r.width/2,r.y+r.height/2);this.root.addChild(group);this.paints.set(`auto-pack-${index}`,group);
-      group.addChild(new Graphics().roundRect(0,0,r.width,r.height,9).fill({color:0x12486c,alpha:.65}).stroke({color:0x70cde8,width:1.3,alpha:.7}).ellipse(r.width/2,r.height-29,r.width*.31,4).fill({color:0x6eeaff,alpha:.2}));
-      const artHeight=Math.max(26,r.height-34);this.picture(result.pack?.packImage??s.selected.packImage,6,4,r.width-12,artHeight,group);
-      this.text(`PACK ${String(index+1).padStart(2,'0')}`,r.width/2,r.height-23,r.width<75?9:11,C.white,group,'center','bold');
-      this.hit(`auto-pack-${index}`,`View pack ${index+1}, ${result.pack?.name??s.selected.name}`,r.x,r.y,r.width,r.height,()=>{this.autoPack=result;this.build();});
+      group.addChild(new Graphics().roundRect(0,0,r.width,r.height,9).fill({color:0x12486c,alpha:.65}).stroke({color:0x70cde8,width:1.3,alpha:.7}).ellipse(r.width/2,r.height-46,r.width*.31,3).fill({color:0x6eeaff,alpha:.2}).roundRect(5,r.height-27,r.width-10,22,6).fill({color:0x052b46,alpha:.75}).stroke({color:0xffe89c,width:1,alpha:.25}));
+      const artHeight=Math.max(12,r.height-53);this.picture(result.pack?.packImage??s.selected.packImage,6,4,r.width-12,artHeight,group);
+      this.text(`PACK ${String(index+1).padStart(2,'0')}`,r.width/2,r.height-44,r.width<90?9:11,C.cyan,group,'center','bold');
+      const prize=this.text(money(result.total),r.width/2,r.height-16,r.width<90?14:18,0xffedb0,group,'center','bold');prize.anchor.set(.5);if(prize.width>r.width-18)prize.scale.set((r.width-18)/prize.width);
+      this.hit(`auto-pack-${index}`,`View pack ${index+1}, ${result.pack?.name??s.selected.name}, won ${money(result.total)}`,r.x,r.y,r.width,r.height,()=>{this.autoPack=result;this.build();});
       if(!s.reduced)this.moneyAnimations.push(gsap.from(group,{alpha:0,y:group.y+10,duration:.3,delay:i*.025,ease:'power3.out',onUpdate:()=>this.stage.draw()}));
     });
     const y=h-61,bw=Math.min(pg.pages>1?150:230,w-156);

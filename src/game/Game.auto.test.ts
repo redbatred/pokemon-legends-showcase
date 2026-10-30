@@ -1,7 +1,7 @@
 import {beforeEach,afterEach,expect,it,vi} from 'vitest';
 const boot=vi.hoisted(()=>({assets:vi.fn(async()=>{}),frame:vi.fn(async()=>{})}));
 vi.mock('./Stage',()=>({OpeningStage:class{
- prepareFirstFrame=boot.frame;
+ prepareFirstFrame=boot.frame;setAutomatic=vi.fn();
  init=vi.fn(async()=>{});setPack=vi.fn(async()=>{});setSealed=vi.fn();waitForReveal=vi.fn();prepareReveal=vi.fn();skipReveal=vi.fn();
  tear=vi.fn(async()=>{});reveal=vi.fn(async()=>{});collectRemaining=vi.fn(async()=>{});showResult=vi.fn();reset=vi.fn();updateOptions=vi.fn();destroy=vi.fn();
 }}));
@@ -54,7 +54,21 @@ it.each(['individual','all'] as const)('completes exactly five automatic packs i
  await vi.advanceTimersByTimeAsync(120000);
  expect(save().history).toHaveLength(5);expect(state.autoRun.completed).toBe(5);expect(state.autoRun.running).toBe(false);
  expect(storage.transactSave).toHaveBeenCalledTimes(10);expect(state.phase).toBe('complete');
- expect(state.view.beginAutoPackTransition).toHaveBeenCalledTimes(4);expect(state.stage.reveal).toHaveBeenCalledTimes(mode==='individual'?55:0);expect(state.stage.collectRemaining).toHaveBeenCalledTimes(5);
+ expect(state.view.beginAutoPackTransition).toHaveBeenCalledTimes(4);expect(state.stage.reveal).toHaveBeenCalledTimes(55);expect(state.stage.collectRemaining).toHaveBeenCalledTimes(5);
+});
+it('waits for the full automatic reveal, then holds the visible price before the next card',async()=>{
+ const {game,state}=await setup();let revealDone!:()=>void;
+ state.stage.reveal.mockImplementationOnce(()=>new Promise<void>(resolve=>revealDone=resolve));
+ state.configureAuto(1,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(10000);
+ expect(state.phase).toBe('revealing');expect(state.stage.reveal).toHaveBeenCalledOnce();expect(state.stage.skipReveal).not.toHaveBeenCalled();expect(state.stage.collectRemaining).not.toHaveBeenCalled();
+ revealDone();await vi.advanceTimersByTimeAsync(0);expect(state.phase).toBe('revealed');
+ await vi.advanceTimersByTimeAsync(519);expect(state.stage.reveal).toHaveBeenCalledOnce();
+ await vi.advanceTimersByTimeAsync(1);expect(state.stage.reveal).toHaveBeenCalledTimes(2);
+});
+it('keeps Turbo Open All on the instant collection route',async()=>{
+ const {game,state}=await setup();game.action('turbo');state.configureAuto(1,'all');game.action('auto-start');
+ await vi.advanceTimersByTimeAsync(540);expect(state.phase).toBe('complete');expect(state.autoRun.completed).toBe(1);
+ expect(state.stage.reveal).not.toHaveBeenCalled();expect(state.stage.collectRemaining).toHaveBeenCalledOnce();
 });
 it('does not use the 30-result history cap as the auto counter',async()=>{
  const {game,state,save,storage}=await setup();state.configureAuto(100,'all');game.action('turbo');game.action('auto-start');
@@ -108,12 +122,12 @@ it('warms the next special at pack reservation rather than waiting until the pre
 });
 
 it('shows the normal result immediately for a one-pack automatic opening',async()=>{
- const {game,state,storage}=await setup();state.configureAuto(1,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ const {game,state,storage}=await setup();state.configureAuto(1,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(6660);
  expect(state.phase).toBe('complete');expect(state.autoRun.running).toBe(false);expect(state.autoInterlude).toBe(false);
  const view=state.view.update.mock.lastCall[0];expect(view.autoRun.results).toHaveLength(1);expect(view.result).toBe(view.autoRun.results[0]);
  expect(view.autoRun.totalWon).toBe(view.result.total);await vi.advanceTimersByTimeAsync(10000);expect(storage.transactSave).toHaveBeenCalledTimes(2);
 });
-it.each([{turbo:false,reduced:false,first:1360,hold:1800},{turbo:true,reduced:false,first:540,hold:1200},{turbo:false,reduced:true,first:1360,hold:400}])('holds every pack total, including the final one, with $hold ms interludes',async({turbo,reduced,first,hold})=>{
+it.each([{turbo:false,reduced:false,first:6660,hold:1800},{turbo:true,reduced:false,first:540,hold:1200},{turbo:false,reduced:true,first:6660,hold:400}])('holds every pack total, including the final one, with $hold ms interludes',async({turbo,reduced,first,hold})=>{
  const {game,state,storage}=await setup();state.reduced=reduced;if(turbo)game.action('turbo');state.configureAuto(5,'all');game.action('auto-start');
  await vi.advanceTimersByTimeAsync(first);expect(state.phase).toBe('complete');expect(state.autoInterlude).toBe(true);expect(storage.transactSave).toHaveBeenCalledTimes(2);
  await vi.advanceTimersByTimeAsync(hold-1);expect(state.phase).toBe('complete');expect(storage.transactSave).toHaveBeenCalledTimes(2);
@@ -125,7 +139,7 @@ it.each([{turbo:false,reduced:false,first:1360,hold:1800},{turbo:true,reduced:fa
  expect(state.view.update.mock.lastCall[0].autoRun.results).toHaveLength(5);expect(storage.transactSave).toHaveBeenCalledTimes(10);
 });
 it.each(['hidden','panel','inspect'] as const)('pauses an interlude while %s and resumes without buying early',async pause=>{
- const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(6660);
  if(pause==='hidden')(document as any).hidden=true;else if(pause==='panel')game.action('settings');else state.inspected=state.autoRun.results[0].cards[0];
  state.scheduleAuto();await vi.advanceTimersByTimeAsync(10000);expect(state.autoInterlude).toBe(true);expect(storage.transactSave).toHaveBeenCalledTimes(2);
  if(pause==='hidden')(document as any).hidden=false;else game.action('close');
@@ -133,30 +147,30 @@ it.each(['hidden','panel','inspect'] as const)('pauses an interlude while %s and
  await vi.advanceTimersByTimeAsync(381);expect(storage.transactSave).toHaveBeenCalledTimes(3);expect(state.phase).toBe('sealed');
 });
 it('stopping between packs preserves the completed pack view and cancels its scheduled purchase',async()=>{
- const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(3160);
+ const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(8460);
  expect(state.phase).toBe('browse');game.action('auto-stop');await vi.advanceTimersByTimeAsync(10000);
  expect(storage.transactSave).toHaveBeenCalledTimes(2);expect(state.view.update.mock.lastCall[0].phase).toBe('complete');expect(state.autoRun.results).toHaveLength(1);
  game.action('continue');expect(state.autoRun).toBeNull();expect(state.view.update.mock.lastCall[0].phase).toBe('browse');
 });
 it('stopping during a total celebration finishes that celebration without another purchase',async()=>{
- const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(6660);
  game.action('auto-stop');expect(state.autoInterlude).toBe(true);await vi.advanceTimersByTimeAsync(10000);
  expect(state.autoInterlude).toBe(false);expect(state.phase).toBe('complete');expect(storage.transactSave).toHaveBeenCalledTimes(2);
 });
 it('keeps completed packs reviewable if the next purchase fails',async()=>{
- const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(6660);
  storage.transactSave.mockRejectedValueOnce(new Error('Storage unavailable'));await vi.advanceTimersByTimeAsync(10000);
  expect(state.autoRun.running).toBe(false);expect(state.autoRun.results).toHaveLength(1);expect(state.view.update.mock.lastCall[0].phase).toBe('complete');
  expect(state.view.update.mock.lastCall[0].result).toBe(state.autoRun.results[0]);expect(storage.transactSave).toHaveBeenCalledTimes(3);
 });
 it.each(['continue','close','open'] as const)('clears completed auto results on %s and never attaches later manual packs',async action=>{
- const {game,state}=await setup();state.configureAuto(1,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ const {game,state}=await setup();state.configureAuto(1,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(6660);
  const session=state.autoRun;game.action(action);expect(state.autoRun).toBeNull();expect(state.autoInterlude).toBe(false);
  if(action==='open'){await vi.advanceTimersByTimeAsync(1);game.action('tear');await vi.advanceTimersByTimeAsync(1);game.action('all');await vi.advanceTimersByTimeAsync(1);expect(state.phase).toBe('complete');}
  expect(session.results).toHaveLength(1);
 });
 it('preserves the final session through its interlude while still allowing menus to close',async()=>{
- const {game,state}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(14000);
+ const {game,state}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(40500);
  const session=state.autoRun;expect(session.running).toBe(false);expect(session.results).toHaveLength(5);expect(state.autoInterlude).toBe(true);
  game.action('continue');game.action('close');expect(state.autoRun).toBe(session);expect(state.autoInterlude).toBe(true);expect(state.phase).toBe('complete');
  game.action('settings');expect(state.panel).toBe('settings');game.action('close');expect(state.panel).toBeNull();expect(state.autoRun).toBe(session);

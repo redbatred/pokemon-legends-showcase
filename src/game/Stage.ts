@@ -1,4 +1,5 @@
 import {RevealPreparation} from './revealPreparation';
+import {openingAnimationRate} from './autoSpin';
 import 'pixi.js/prepare';
 import { Application, Assets, Container, Graphics, PerspectiveMesh, Sprite, Texture, Rectangle } from 'pixi.js';
 import { gsap } from 'gsap';
@@ -55,6 +56,8 @@ export class OpeningStage {
   destroyed = false;
   private observer!: ResizeObserver;
   private timeline: gsap.core.Timeline | null = null;
+  private automatic=false;
+  setAutomatic(active:boolean){if(this.automatic===active)return;this.automatic=active;this.timeline?.timeScale(openingAnimationRate(this.options.turbo,active));}
   private packOpening:PackOpening|null=null;
   private tweens = new Set<gsap.core.Tween>();
   private revealToken = 0;
@@ -172,7 +175,7 @@ export class OpeningStage {
       this.app.renderer.render(this.app.stage);
     }
   }
-  updateOptions(options: Options) { const changed=this.options.low!==options.low,reducing=!this.options.reduced&&options.reduced;this.options=options;this.timeline?.timeScale(options.turbo?4:1);if(reducing){this.revealEffects.clear();this.scene.setCharge(null);this.scene.setCinematic(false,true);}if(reducing&&(this.special||this.charging)){this.timeline?.progress(1);this.special?.update(3);this.charging=false;this.scene.setCharge(null);this.scene.setCinematic(false,true);stopRevealAudio();}if(changed&&this.app.renderer)this.resize(); }
+  updateOptions(options: Options) { const changed=this.options.low!==options.low,reducing=!this.options.reduced&&options.reduced;this.options=options;this.timeline?.timeScale(openingAnimationRate(options.turbo,this.automatic));if(reducing){this.revealEffects.clear();this.scene.setCharge(null);this.scene.setCinematic(false,true);}if(reducing&&(this.special||this.charging)){this.timeline?.progress(1);this.special?.update(3);this.charging=false;this.scene.setCharge(null);this.scene.setCinematic(false,true);stopRevealAudio();}if(changed&&this.app.renderer)this.resize(); }
   draw(){
     if(this.destroyed||!this.app.renderer||this.app.ticker.started||this.drawFrame)return;
     this.drawFrame=requestAnimationFrame(()=>{this.drawFrame=0;if(!this.destroyed&&!this.app.ticker.started)this.app.renderer.render(this.app.stage);});
@@ -226,7 +229,7 @@ export class OpeningStage {
       else if(++this.sampleFrames>=120){this.app.canvas.dataset.renderFps=(1000*this.sampleFrames/(now-this.sampleStart)).toFixed(1);this.app.canvas.dataset.lightTint='#'+this.scene.lightTint.toString(16).padStart(6,'0');this.sampleStart=now;this.sampleFrames=0;}
     }
     this.time += dt;if(this.openingUiTime!==null&&this.mode!=='tearing')this.openingUiTime=Math.min(PACK_ARRIVAL_TIME+.25,this.openingUiTime+dt*(this.options.turbo?4:1));
-    if(!this.options.reduced)this.special?.update(dt*(this.options.turbo?4:1));
+    if(!this.options.reduced)this.special?.update(dt*openingAnimationRate(this.options.turbo,this.automatic));
     this.scene.tick(this.time,this.options.reduced,this.options.low);
     const move = !this.options.reduced;
     this.tilt.x += ((move ? this.target.x : 0) - this.tilt.x) * Math.min(1, dt * 5);
@@ -317,7 +320,7 @@ export class OpeningStage {
         .to(this.packShadow,{alpha:0,duration:.38*d},PACK_CLEARANCE_TIME*d)
         .to(transport,{time:PACK_ARRIVAL_TIME,duration:(PACK_ARRIVAL_TIME-PACK_EXTRACTION_START)*d,ease:'none',onUpdate:()=>{const pose=packStackPose(transport.time);travel.amount=pose.camera;this.positionJourney();this.stack.position.set(pose.x,pose.y);this.stack.scale.set(pose.scale);this.stack.rotation=pose.rotation;this.fanStack(transport.time);}},PACK_EXTRACTION_START*d);
       if(scrub){const straighten=gsap.to(opening.projection,{yaw:0,pitch:0,duration:.18,ease:'power2.out',onComplete:()=>this.tweens.delete(straighten)});this.tweens.add(straighten);expose();this.timeline.time((PEEL_START+PEEL_DURATION*scrub)*d,true);deform();opening.update();this.pack.position.set(held.x,held.y);this.pack.rotation=held.rotation;this.pack.scale.set(held.sx,held.sy);const settle=gsap.to(this.pack,{x:0,y:0,rotation:0,duration:.18,ease:'power2.out',onComplete:()=>this.tweens.delete(settle)});this.tweens.add(settle);playSound('packrustle',{gain:.45});}
-      this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
+      this.timeline.timeScale(openingAnimationRate(this.options.turbo,this.automatic));if(this.blocked||document.hidden)this.timeline.pause();
     });
   }
 
@@ -381,7 +384,7 @@ export class OpeningStage {
           .to(next,{alpha:1,duration:.14*d},0)
           .to(this.stack.scale,{x:.98,y:.98,duration:.32*d,ease:'power3.out'},0)
           .to(this.stack,{x:0,y:5,rotation:0,duration:.32*d,ease:'power3.out'},0);
-        this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
+        this.timeline.timeScale(openingAnimationRate(this.options.turbo,this.automatic));if(this.blocked||document.hidden)this.timeline.pause();
       });
       await Promise.all([arrival,prepared.ready]);
       if(this.destroyed||request!==this.revealToken){prepared.cancel();return;}
@@ -422,7 +425,7 @@ export class OpeningStage {
         Object.assign(this.motion,{flip:0,pitch:0,lift:-8,offsetX:0,roll:0,scale:1,hover:1});this.cardLayer.position.set(0,-8);this.cardLayer.scale.set(1);this.cardLayer.rotation=0;this.project(next,312,435);this.cardEdge.alpha=0;
         if(departing&&!departing.destroyed){departing.destroy({children:true});this.onCardStored?.(previousIndex);}
       },resolve);
-      this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();
+      this.timeline.timeScale(openingAnimationRate(this.options.turbo,this.automatic));if(this.blocked||document.hidden)this.timeline.pause();
     });
     if(this.destroyed||request!==this.revealToken){prepared.cancel();return;}
     await prepared.ready;
@@ -435,7 +438,7 @@ export class OpeningStage {
     if(special){
       this.scene.setCinematic(true,this.options.reduced);this.special=special;special.fitPresentation((this.app.screen.width/2-12)/this.world.scale.x);special.setFloor(performanceFloor(gameLayout(this.app.screen.width,this.app.screen.height,true)));if(!this.options.low)special.setCardFoil(this.foil);this.stack.visible=false;this.cardLayer.addChild(special.root);next.visible=false;
       if(this.options.reduced||this.options.turbo){special.finish();this.onSpecialWin?.(card,true);}
-      else {this.revealCompletion.lock();await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{this.revealCompletion.unlock();next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.revealCompletion.bind(this.timeline,()=>{special!.finish();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCinematic(false,true);this.scene.setCardColor(color!,true);},resolve);this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});}
+      else {this.revealCompletion.lock();await new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});special!.play(this.timeline,-this.world.y/this.world.scale.y-100,()=>{this.revealCompletion.unlock();next.visible=false;this.scene.impact(true,this.options.reduced,false);this.revealEffects.fire(color!,true,this.options.reduced,this.options.low);},powerColor=>{this.scene.setCardColor(powerColor,this.options.reduced,.1);this.scene.impact(true,this.options.reduced);},(amount,powerColor)=>{this.scene.setCharge(amount);if(amount<.02)this.scene.setCardColor(powerColor,this.options.reduced,.25);},()=>{if(!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);});this.revealCompletion.bind(this.timeline,()=>{special!.finish();this.charging=false;this.scene.setCharge(null);this.revealEffects.clear();this.scene.setCinematic(false,true);this.scene.setCardColor(color!,true);},resolve);this.timeline.timeScale(openingAnimationRate(this.options.turbo,this.automatic));if(this.blocked||document.hidden)this.timeline.pause();});}
       if(!this.destroyed&&request===this.revealToken){this.scene.setCardColor(color!,this.options.reduced);this.scene.setCinematic(.5,this.options.reduced);}
     }
     if(!special&&dramatic&&!this.destroyed&&request===this.revealToken){this.scene.setCharge(null);this.scene.setCinematic(false,this.options.reduced);this.revealEffects.clear();this.onSpecialWin?.(card);}
@@ -479,12 +482,12 @@ export class OpeningStage {
         timeline.call(()=>this.onCollectFocus?.(index),[],at+duration);
       });
       timeline.to({}, {duration:.12*d});
-      timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)timeline.pause();
+      timeline.timeScale(openingAnimationRate(this.options.turbo,this.automatic));if(this.blocked||document.hidden)timeline.pause();
     });
   }
   async storeCurrent(index:number){
     const flight=this.detachCard();if(!flight)return;
-    return new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});this.flyToTray(this.timeline,flight,index,index,this.options.reduced?.01:1);this.timeline.timeScale(this.options.turbo?4:1);if(this.blocked||document.hidden)this.timeline.pause();});
+    return new Promise<void>(resolve=>{this.timeline=gsap.timeline({onComplete:resolve});this.flyToTray(this.timeline,flight,index,index,this.options.reduced?.01:1);this.timeline.timeScale(openingAnimationRate(this.options.turbo,this.automatic));if(this.blocked||document.hidden)this.timeline.pause();});
   }
   async inspect(card: Card) { this.stack.visible = false; return this.reveal(card, true); }
   showResult() { this.mode = 'result'; this.stack.visible = false; this.cardLayer.visible = false; this.pack.visible = false; this.packShadow.visible = false; this.app.stop(); }

@@ -13,8 +13,10 @@ it('gives each run its own stable identity',()=>{
 it('uses the opening machine one card at a time or all at once',()=>{
  const single=new AutoSpinSession(5,'individual'),all=new AutoSpinSession(5,'all');
  expect(single.next('browse')).toBe('open');expect(single.next('sealed')).toBe('tear');
- expect(single.next('awaiting')).toBe('next');expect(all.next('awaiting')).toBe('all');
- expect(single.next('revealed')).toBe('next');expect(all.next('revealed')).toBe('all');
+ expect(single.next('awaiting')).toBe('next');expect(all.next('awaiting')).toBe('next');
+ expect(single.next('revealed')).toBe('next');expect(all.next('revealed')).toBe('next');
+ expect(all.next('awaiting',false,true)).toBe('all');expect(all.next('revealed',false,true)).toBe('all');
+ expect(single.next('revealed',false,true)).toBe('next');
  for(const phase of ['reserving','tearing','revealing','collecting','settling'])expect(all.next(phase)).toBe(null);
 });
 it('retains all exact results and integer-cent winnings across 100 packs independently of bounded history',()=>{

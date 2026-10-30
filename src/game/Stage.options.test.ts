@@ -3,6 +3,16 @@ import gsap from 'gsap';
 import { OpeningStage } from './Stage';
 vi.mock('./audio',()=>({stopRevealAudio:vi.fn()}));
 
+it('accelerates automatic animations without skipping special reveals and restores manual speed',()=>{
+ const stage=Object.create(OpeningStage.prototype),timeline={timeScale:vi.fn(),progress:vi.fn()},special={finish:vi.fn(),update:vi.fn()};
+ Object.assign(stage,{automatic:false,options:{turbo:false,low:false,reduced:false},timeline,special});
+ stage.setAutomatic(true);expect(timeline.timeScale).toHaveBeenLastCalledWith(1.65);expect(stage.options.turbo).toBe(false);
+ stage.updateOptions({...stage.options,turbo:true});expect(timeline.timeScale).toHaveBeenLastCalledWith(4);
+ stage.updateOptions({...stage.options,turbo:false});expect(timeline.timeScale).toHaveBeenLastCalledWith(1.65);
+ stage.setAutomatic(false);expect(timeline.timeScale).toHaveBeenLastCalledWith(1);
+ expect(timeline.progress).not.toHaveBeenCalled();expect(special.finish).not.toHaveBeenCalled();expect(special.update).not.toHaveBeenCalled();
+});
+
 it('restores the arena when reduced motion skips a pending suspense callback',()=>{
  const scene={setCinematic:vi.fn(),setCharge:vi.fn()},timeline=gsap.timeline({paused:true});
  timeline.call(()=>scene.setCinematic(true,false),[],.6).to({}, {duration:1.3},.6);

@@ -5,6 +5,7 @@ export type AutoRevealMode='individual'|'all';
 export type AutoAction='open'|'tear'|'next'|'all'|'continue';
 export interface AutoSpinView {id:string;running:boolean;completed:number;total:number;totalWon:number;results:readonly Result[];interlude:boolean}
 export const autoInterludeDelay=(turbo:boolean,reduced:boolean)=>reduced?400:turbo?1200:1800;
+export const openingAnimationRate=(turbo=false,automatic=false)=>turbo?4:automatic?1.65:1;
 
 /** A run owns its exact settlements, independently of the bounded saved history. */
 export class AutoSpinSession {
@@ -22,12 +23,12 @@ export class AutoSpinSession {
   if(this.completed>=this.total)this.stop();
   return true;
  }
- next(phase:string,finishCurrent=false):AutoAction|null {
+ next(phase:string,finishCurrent=false,turbo=false):AutoAction|null {
   if(!this.running&&!finishCurrent)return null;
   switch(phase){
    case 'browse':return this.running?'open':null;
    case 'sealed':return 'tear';
-   case 'awaiting':case 'revealed':return this.mode==='all'?'all':'next';
+   case 'awaiting':case 'revealed':return this.mode==='all'&&turbo?'all':'next';
    case 'complete':return this.running?'continue':null;
    default:return null;
   }

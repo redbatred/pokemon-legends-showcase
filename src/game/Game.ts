@@ -120,6 +120,7 @@ export class PokemonGame {
     }
   }
   private render(){
+    this.stage.setAutomatic(!!this.autoRun?.running||this.autoFinishing);
     setBattleMusic(['tearing','awaiting','revealing','revealed','collecting','settling','complete'].includes(this.displayPhase)||!!this.autoRun?.running&&this.autoRun.completed>0);setAudioScenePaused(!!this.panel||!!this.inspected);
     if(!this.view||this.destroyed)return;
     const cards=Array.from(new Map([...Object.values(this.catalogs).flat(),...(this.save?.history.flatMap(o=>o.cards)??[])].filter(c=>c.id!=='energy').map(c=>[c.id,c])).values());
@@ -186,12 +187,12 @@ export class PokemonGame {
       },autoInterludeDelay(this.turbo,this.reduced));
       return;
     }
-    const action=session.next(this.phase,this.autoFinishing);if(!action||!this.ready)return;
+    const action=session.next(this.phase,this.autoFinishing,this.turbo);if(!action||!this.ready)return;
     if(action==='open'&&(!this.save||this.save.balance<this.selected.price)){session.stop();this.notify('Auto Spin stopped · not enough credits');return;}
     const card=this.save?.active?.cards[this.index],big=card&&winTier(card,this.selected.price,!!this.save?.active?.previewSpecial&&this.index===0);
-    const delay=this.turbo?180:action==='next'?(big?2200:1400):action==='all'?600:action==='continue'?650:380;
+    const delay=this.turbo?180:action==='next'?(phase==='awaiting'?180:big?1450:session.mode==='all'?520:780):action==='all'?600:action==='continue'?650:380;
     this.autoTimer=window.setTimeout(()=>{
-      if(!valid()||session.next(this.phase,this.autoFinishing)!==action)return;
+      if(!valid()||session.next(this.phase,this.autoFinishing,this.turbo)!==action)return;
       if(action==='continue'){this.stage.reset();this.actor.send({type:'RESET'});}
       else this.actor.send({type:({open:'OPEN',tear:'TEAR',next:'NEXT',all:'ALL'} as const)[action]});
     },delay);
