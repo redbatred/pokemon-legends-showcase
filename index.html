@@ -1,6 +1,52 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#141a2f"/><meta name="description" content="Pokémon Legends. Open packs, reveal cards and build your collection. Frontend demo."/><title>Pokémon Legends · Obsidian Flames</title>  <script type="module" crossorigin src="/pokemon-legends-showcase/assets/index-D-w4bUcc.js"></script>
-  <link rel="modulepreload" crossorigin href="/pokemon-legends-showcase/assets/pixi-B8PkG-fw.js">
-  <link rel="modulepreload" crossorigin href="/pokemon-legends-showcase/assets/motion-xgxdCp6f.js">
-  <link rel="stylesheet" crossorigin href="/pokemon-legends-showcase/assets/index-D66tF7L0.css">
-</head><body><div id="root"></div></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#061326"/>
+  <meta name="description" content="Pokémon Legends. Open packs, reveal cards and build your collection. Frontend demo."/>
+  <title>Pokémon Legends · Obsidian Flames</title>
+  <style>html,body{margin:0;background:#061326}#root[data-booting]{visibility:hidden}</style>
+  <script type="module" crossorigin src="/pokemon-legends-showcase/assets/index-QjDxQ5SP.js"></script>
+  <link rel="modulepreload" crossorigin href="/pokemon-legends-showcase/assets/pixi-OZvX_Bk0.js">
+  <link rel="stylesheet" crossorigin href="/pokemon-legends-showcase/assets/index-opnO_SwM.css">
+</head>
+<body>
+  <div id="boot-screen" aria-label="Loading Pokémon Legends">
+    <div class="boot-field" aria-hidden="true"></div>
+    <div class="boot-content">
+      <div class="boot-brand">
+        <img src="/pokemon-legends-showcase/assets/pokemon-logo.png" width="280" height="103" alt="Pokémon" fetchpriority="high"/>
+        <span>Legends</span>
+      </div>
+      <svg class="boot-emblem" viewBox="0 0 240 240" aria-hidden="true">
+        <defs><clipPath id="boot-ball-clip"><circle cx="120" cy="120" r="46"/></clipPath></defs>
+        <ellipse class="boot-shadow" cx="120" cy="204" rx="35" ry="5" fill="#020e21" opacity=".6"/>
+        <circle cx="120" cy="120" r="77" fill="none" stroke="#3676a2" stroke-width="1" opacity=".4"/>
+        <g class="boot-orbit"><circle cx="120" cy="120" r="77" fill="none" stroke="#7ce7ff" stroke-width="3" stroke-linecap="round" stroke-dasharray="66 176"/><circle cx="120" cy="120" r="89" fill="none" stroke="#b8edff" stroke-width="1" stroke-dasharray="6 134" opacity=".65"/></g>
+        <g class="boot-ball">
+          <circle cx="120" cy="120" r="49" fill="#071d3a" stroke="#aadced" stroke-width="1.5"/>
+          <g clip-path="url(#boot-ball-clip)">
+            <path d="M72 72H168V120H72Z" fill="#e44555"/>
+            <path d="M72 120H168V168H72Z" fill="#e8f4f7"/>
+            <path d="M150 80Q174 143 111 164Q158 180 171 133Z" fill="#85a9c4" opacity=".7"/>
+            <path d="M80 93Q106 65 143 86Q108 75 87 108Z" fill="#ffb1b3"/>
+            <path d="M71 120H169" stroke="#092039" stroke-width="9"/>
+          </g>
+          <circle cx="120" cy="120" r="15" fill="#071d3a"/>
+          <circle cx="120" cy="120" r="10.5" fill="#f1fcff" stroke="#9dbfd3" stroke-width="2"/>
+          <circle class="boot-core" cx="120" cy="120" r="5" fill="#71dbf4"/>
+        </g>
+        <path class="boot-spark" d="M187 43L190 51L198 54L190 57L187 65L184 57L176 54L184 51Z" fill="#fff1a0"/>
+        <path class="boot-spark boot-spark-small" d="M50 162L52 168L58 170L52 172L50 178L48 172L42 170L48 168Z" fill="#a1ebff"/>
+      </svg>
+      <div class="boot-meter" role="progressbar" aria-label="Game loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+      <p class="boot-status" data-boot-status role="status" aria-live="polite">Loading the stadium</p>
+      <p class="boot-help" data-boot-help></p>
+      <button class="boot-retry" data-boot-retry hidden>Try again</button>
+      <noscript>Enable JavaScript to enter the stadium.</noscript>
+    </div>
+  </div>
+  <div id="root" data-booting inert aria-busy="true"></div>
+</body>
+</html>
