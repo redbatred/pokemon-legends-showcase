@@ -180,19 +180,19 @@ export class CanvasUI {
   }
   private utility(kind:'turbo'|'auto',label:string,r:{x:number;y:number;width:number;height:number},active:boolean,disabled:boolean,action:()=>void){
     const {x,y,width:w,height:h}=r,group=new Container(),g=new Graphics(),cx=w/2,cy=w/2;
-    const accent=kind==='turbo'?0xffdf68:0x72f5b4,ink=disabled?0x8ba9bf:active?0x082d45:0xf2fbff;
+    const accent=0xc9f4ff,ink=disabled?0x8ba9bf:0xf2fbff;
     group.position.set(x+cx,y+cy);group.pivot.set(cx,cy);group.addChild(g);this.root.addChild(group);this.paints.set(kind,group);
-    g.circle(cx,cy+3,w/2).fill({color:0x05233f,alpha:.55}).circle(cx,cy,w/2).fill(active?accent:0x124a79).stroke({color:active?0xf5fff5:0xa8d5e9,width:1.8}).circle(cx,cy,w/2-4).stroke({color:active?0x123c50:0x4389b8,width:1,alpha:active?.4:.65});
+    g.circle(cx,cy+3,w/2).fill({color:0x05233f,alpha:.55}).circle(cx,cy,w/2).fill(active?0x197ab8:0x124a79).stroke({color:active?0xf2fbff:0xa8d5e9,width:1.8}).circle(cx,cy,w/2-4).stroke({color:active?accent:0x4389b8,width:1,alpha:active?.85:.65});
     if(active){
       // All active decoration is inset: no corner badges or expanding halos.
       const pulse=new Graphics().circle(cx,cy,w/2-2).stroke({color:0xffffff,width:1.4});group.addChild(pulse);this.utilityPulses.push(pulse);
-      g.roundRect(1,w+3,w-2,14,5).fill(accent);
+      g.roundRect(1,w+3,w-2,14,5).fill(0x124a79).stroke({color:accent,width:1,alpha:.85});
     }
     const icon=new Graphics();icon.position.set(cx,active?w*.33:cy);icon.scale.set(w/44*(active?.65:1));group.addChild(icon);
     if(kind==='turbo')icon.poly([3,-14,-9,2,-1,2,-5,14,11,-4,3,-4]).fill(ink).stroke({color:0x063557,width:1.4,join:'round'});
     else if(active)icon.roundRect(-7,-7,14,14,2).fill(ink);
     else{icon.moveTo(9,-8).arc(0,0,12,-.72,Math.PI*1.12).stroke({color:ink,width:2.2,cap:'round'}).poly([-13,-7,-14,2,-5,-1]).fill(ink);icon.roundRect(-4,-6,8,12,1.5).stroke({color:ink,width:1.5}).moveTo(-2,-3).lineTo(2,-3).stroke({color:ink,width:1});}
-    const text=this.text(kind==='turbo'?'TURBO':'AUTO',cx,w+5,w<40?7:8.5,disabled?0x9bb5c9:active?0x082d45:C.white,group,'center','bold');if(!active)text.style.stroke={color:0x072b49,width:2.8};
+    const text=this.text(kind==='turbo'?'TURBO':'AUTO',cx,w+5,w<40?7:8.5,disabled?0x9bb5c9:C.white,group,'center','bold');if(!active)text.style.stroke={color:0x072b49,width:2.8};
     if(active){
       const badgeY=w*.57,badgeW=w*.62,badgeH=w*.26;
       g.roundRect(cx-badgeW/2,badgeY,badgeW,badgeH,4).fill(0x082d45);
