@@ -30,6 +30,12 @@ it('holds the complete face-up formation before storing any card, then stores ea
  stage.timeline.time(PACK_REVEAL.depart-.01);await flush();expect(finished).toBe(false);expect(stage.onCardStored).not.toHaveBeenCalled();
  stage.timeline.progress(1);await done;expect(stage.onCardStored.mock.calls.map((x:any[])=>x[0])).toEqual(Array.from({length:11},(_,i)=>i));expect(boards[0].destroy).toHaveBeenCalledOnce();expect(stage.packReveal).toBeNull();
 });
+it('flies the current face-up card to the tray while only unopened cards join the formation',async()=>{
+ const {stage,cards}=setup(),current=new Container();stage.automatic=false;stage.cardMesh={};stage.detachCard=vi.fn(()=>current);stage.flightLayer.addChild(current);
+ const done=stage.collectRemaining(cards,2,true);await flush();expect(boards[0].items).toHaveLength(8);expect(current.destroyed).toBe(false);
+ stage.timeline.time(.65);expect(stage.onCardStored.mock.calls.map((x:any[])=>x[0])).toEqual([2]);
+ stage.timeline.progress(1);await done;expect(stage.onCardStored.mock.calls.map((x:any[])=>x[0])).toEqual([2,3,4,5,6,7,8,9,10]);
+});
 it.each(['turbo','reduced'])('uses the existing quick collection path for %s',async option=>{
  const {stage,cards}=setup();stage.options[option]=true;const done=stage.collectRemaining(cards,0,true);await flush();expect(boards).toHaveLength(0);stage.timeline.progress(1);await done;expect(stage.onCardStored).toHaveBeenCalledTimes(11);
 });

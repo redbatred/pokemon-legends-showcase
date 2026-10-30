@@ -37,6 +37,10 @@ export class PokemonGame {
   private get selected(){return this.save?.active?.pack??this.packs.find(p=>p.id===this.selectedId)??DEFAULT_PACK;}
   private get pool(){return this.catalogs[this.selected.id]??[];}
   private get opening(){return !['browse','complete'].includes(this.phase);}
+  private get groupRevealCount(){
+    const count=this.save?.active?.cards.length??0;
+    return this.phase==='collecting'&&this.index<count-1?count-this.index-(this.actor.getSnapshot().context.collectFrom==='revealed'?1:0):0;
+  }
   private get displayPhase(){return this.phase==='browse'&&!this.save?.active&&this.autoRun&&!this.autoRun.running&&this.autoRun.completed>0?'complete':this.phase;}
   async init(progress:(value:number,label:string)=>void=()=>{}){
     progress(.12,'Preparing the stadium');
@@ -104,7 +108,7 @@ export class PokemonGame {
       }else if(phase==='revealed'){this.warmReveal(this.index+1);
       }else if(phase==='collecting'){
         const cards=this.save?.active?.cards;if(!cards)throw new Error('Opening changed. Reload to sync your game.');
-        await this.stage.collectRemaining(cards,this.index,this.autoRun?.mode==='all',this.selected.price);if(valid())this.actor.send({type:'COLLECTED'});
+        await this.stage.collectRemaining(cards,this.index,this.groupRevealCount>0,this.selected.price);if(valid())this.actor.send({type:'COLLECTED'});
       }else if(phase==='settling'){
         const id=this.save?.active?.id;if(!id)throw new Error('Opening changed. Reload to sync your game.');
         this.save=await this.persistence.transactSave(s=>settleOpening(s,id));if(!valid())return;
@@ -124,7 +128,7 @@ export class PokemonGame {
     setBattleMusic(['tearing','awaiting','revealing','revealed','collecting','settling','complete'].includes(this.displayPhase)||!!this.autoRun?.running&&this.autoRun.completed>0);setAudioScenePaused(!!this.panel||!!this.inspected);
     if(!this.view||this.destroyed)return;
     const cards=Array.from(new Map([...Object.values(this.catalogs).flat(),...(this.save?.history.flatMap(o=>o.cards)??[])].filter(c=>c.id!=='energy').map(c=>[c.id,c])).values());
-    const state:UIState={phase:this.displayPhase,index:this.index,save:this.save,packs:this.packs,selected:this.selected,pool:this.pool,cards,ready:this.ready,error:this.error,toast:this.toast,panel:this.panel,inspected:this.inspected,result:this.autoRun?.results.find(o=>o.id===this.resultId)??this.save?.history.find(o=>o.id===this.resultId),sound:this.sound,reduced:this.reduced,turbo:this.turbo,autoCount:this.autoCount,autoMode:this.autoMode,autoRun:this.autoRun?{id:this.autoRun.id,running:this.autoRun.running,completed:this.autoRun.completed,total:this.autoRun.total,totalWon:this.autoRun.totalWon,results:this.autoRun.results,interlude:this.autoInterlude}:undefined,configureAuto:this.configureAuto,low:this.low,action:this.action,select:this.select,inspect:card=>{this.inspected=card;this.render();}};
+    const state:UIState={phase:this.displayPhase,index:this.index,groupRevealCount:this.groupRevealCount,save:this.save,packs:this.packs,selected:this.selected,pool:this.pool,cards,ready:this.ready,error:this.error,toast:this.toast,panel:this.panel,inspected:this.inspected,result:this.autoRun?.results.find(o=>o.id===this.resultId)??this.save?.history.find(o=>o.id===this.resultId),sound:this.sound,reduced:this.reduced,turbo:this.turbo,autoCount:this.autoCount,autoMode:this.autoMode,autoRun:this.autoRun?{id:this.autoRun.id,running:this.autoRun.running,completed:this.autoRun.completed,total:this.autoRun.total,totalWon:this.autoRun.totalWon,results:this.autoRun.results,interlude:this.autoInterlude}:undefined,configureAuto:this.configureAuto,low:this.low,action:this.action,select:this.select,inspect:card=>{this.inspected=card;this.render();}};
     this.view.update(state);this.scheduleAuto();
   }
   private syncTargets=(hits:HitTarget[],summary:string)=>{

@@ -47,6 +47,21 @@ it('selection and manual wrapper opening never reveal the first card automatical
  game.action('tear');await vi.advanceTimersByTimeAsync(10000);expect(state.phase).toBe('awaiting');expect(state.stage.reveal).not.toHaveBeenCalled();
  game.action('next');await vi.advanceTimersByTimeAsync(1);expect(state.phase).toBe('revealed');expect(state.stage.reveal).toHaveBeenCalledOnce();
 });
+it.each([0,3])('uses the shared Open All animation after %i manual reveals and waits to settle',async revealed=>{
+ const {game,state,storage}=await setup();game.action('open');await vi.advanceTimersByTimeAsync(1);game.action('tear');await vi.advanceTimersByTimeAsync(1);
+ for(let i=0;i<revealed;i++){game.action('next');await vi.advanceTimersByTimeAsync(1);}
+ let finish!:()=>void;state.stage.collectRemaining.mockImplementationOnce(()=>new Promise<void>(resolve=>finish=resolve));
+ game.action('all');await vi.advanceTimersByTimeAsync(1);
+ expect(state.phase).toBe('collecting');expect(state.autoRun).toBeNull();expect(storage.transactSave).toHaveBeenCalledOnce();
+ expect(state.stage.collectRemaining.mock.lastCall.slice(1)).toEqual([Math.max(0,revealed-1),true,DEFAULT_PACK.price]);
+ expect(state.view.update.mock.lastCall[0].groupRevealCount).toBe(11-revealed);
+ finish();await vi.advanceTimersByTimeAsync(1);expect(state.phase).toBe('complete');expect(storage.transactSave).toHaveBeenCalledTimes(2);
+});
+it('collects the last individually revealed card without starting another group reveal',async()=>{
+ const {game,state}=await setup();game.action('open');await vi.advanceTimersByTimeAsync(1);game.action('tear');await vi.advanceTimersByTimeAsync(1);
+ for(let i=0;i<12;i++){game.action('next');await vi.advanceTimersByTimeAsync(1);}
+ expect(state.stage.collectRemaining.mock.lastCall[2]).toBe(false);expect(state.phase).toBe('complete');
+});
 it.each(['individual','all'] as const)('completes exactly five automatic packs in %s mode',async mode=>{
  const {game,state,save,storage}=await setup();state.configureAuto(5,mode);game.action('auto-start');
  // Repeated starts and manual input during auto do not buy extra packs.

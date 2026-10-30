@@ -473,7 +473,7 @@ export class OpeningStage {
     const request=++this.revealToken;
     const textures=await Promise.all(cards.slice(from).map(card=>Assets.load<Texture>(card.image)));
     if(this.destroyed||request!==this.revealToken)return;
-    if(together&&!this.options.turbo&&!this.options.reduced){await this.revealTogether(cards,from,textures,request,packPrice);return;}
+    if(together&&!this.options.turbo&&!this.options.reduced&&cards.length-from-(this.cardMesh?1:0)>0){await this.revealTogether(cards,from,textures,request,packPrice);return;}
     const first=this.detachCard();this.stack.visible=false;
     const d=this.options.reduced?.01:1;
     return new Promise<void>(resolve=>{
@@ -493,16 +493,17 @@ export class OpeningStage {
     });
   }
   private async revealTogether(cards:Card[],from:number,textures:Texture[],request:number,packPrice:number){
-    const remaining=cards.slice(from),board=new PackReveal(remaining,textures,this.back,this.options.low);
+    const hasCurrent=!!this.cardMesh,groupFrom=from+(hasCurrent?1:0),remaining=cards.slice(groupFrom),fronts=hasCurrent?textures.slice(1):textures,board=new PackReveal(remaining,fronts,this.back,this.options.low);
     const source=()=>({x:this.world.x,y:this.world.y,scale:this.world.scale.x});
     board.render(0,this.app.screen.width,this.app.screen.height,source());
     try{await this.app.renderer.prepare.upload([board.root,...textures]);}catch(error){board.destroy();throw error;}
     if(this.destroyed||request!==this.revealToken){board.destroy();return;}
-    this.detachCard()?.destroy({children:true});this.stack.visible=false;this.cardLayer.visible=false;this.packReveal=board;this.flightLayer.addChild(board.root);
+    const current=this.detachCard();this.stack.visible=false;this.cardLayer.visible=false;this.packReveal=board;this.flightLayer.addChild(board.root);
     const best=remaining.reduce((a,b)=>b.value>a.value?b:a),rare=remaining.some(isSpecialCard),clock={time:0},color=rare?0xffe694:0x9cefff;
     this.scene.beginReveal(false,crowdLevel(best,packPrice,rare));this.scene.setCinematic(.32,false);this.scene.setCardColor(color,false,.3);
     await new Promise<void>(resolve=>{
       const timeline=this.timeline=gsap.timeline({onComplete:resolve});
+      if(current){this.flyToTray(timeline,current,from,groupFrom,.88,0,undefined,.4);timeline.call(()=>this.onCollectFocus?.(from),[],.62*.88);}
       timeline.call(()=>playSound('flip',{gain:.7}),[],0)
         .to(clock,{time:PACK_REVEAL.depart,duration:PACK_REVEAL.depart,ease:'none',onUpdate:()=>board.render(clock.time,this.app.screen.width,this.app.screen.height,source())},0)
         .call(()=>{this.scene.setCharge(.45);playSound('suspense',{gain:.22});},[],PACK_REVEAL.flip-.16)
@@ -510,7 +511,7 @@ export class OpeningStage {
         .call(()=>{this.scene.setCharge(null);this.scene.impact(rare,false);this.revealEffects.fire(color,rare,false,this.options.low);playSound(rare?'rare':'reveal',{gain:.7});},[],PACK_REVEAL.face)
         .call(()=>{this.scene.setCinematic(false,false);playSound('flip',{gain:.55});},[],PACK_REVEAL.depart);
       board.items.forEach((item,offset)=>{
-        const index=from+offset,at=PACK_REVEAL.depart+offset*PACK_REVEAL.stagger;
+        const index=groupFrom+offset,at=PACK_REVEAL.depart+offset*PACK_REVEAL.stagger;
         this.flyToTray(timeline,item.flight,index,index,.88,at,()=>{const flight=board.takeFlight(offset);this.flightLayer.addChild(flight);},offset===0?.4:offset===board.items.length-1?.65:0);
         timeline.call(()=>this.onCollectFocus?.(index),[],at+.62*.88);
       });
