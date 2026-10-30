@@ -1,3 +1,4 @@
+import {drawPackCards} from './packDraw';
 export interface Card { id: string; number: string; name: string; rarity: string; image: string; value: number; weight: number }
 export interface Pack { id: string; name: string; price: number; packImage: string; catalogUrl: string; accent: string; rewardCount: 9 | 10 }
 export const DEFAULT_PACK: Pack = { id: 'obsidian-flames', name: 'Obsidian Flames', price: 1000, packImage: '/assets/pack.webp', catalogUrl: '/assets/catalog.json', accent: '#f09749', rewardCount: 10 };
@@ -13,11 +14,7 @@ export function createOpening(save: Save, pool: Card[], rng = Math.random, pack:
   if (!pool.length || pool.some(c => c.weight <= 0 || !Number.isFinite(c.weight))) throw new Error('Card pool is unavailable.');
   if (!Number.isSafeInteger(pack.price) || pack.price <= 0 || ![9,10].includes(pack.rewardCount)) throw new Error('Invalid pack configuration.');
   if (save.balance < pack.price) throw new Error('Insufficient demo balance. Use + to add free credits.');
-  const totalWeight = pool.reduce((n, c) => n + c.weight, 0);
-  const cards = Array.from({ length: pack.rewardCount }, () => {
-    let pick = Math.min(0.9999999, Math.max(0, rng())) * totalWeight;
-    return pool.find(c => (pick -= c.weight) < 0) ?? pool[pool.length - 1];
-  });
+  const cards = drawPackCards(pool,pack.rewardCount,pack.price,save.history,rng);
   // Order for presentation only; all results are fixed before the wrapper opens.
   cards.sort((a, b) => a.value - b.value);
   while (cards.length < 11) cards.push(energy);

@@ -1,96 +1,39 @@
-import { specialPokemon } from './specialReward';
-import { expect,it } from 'vitest';
-import { createPreviewOpening } from './previewOpening';
-import { SHOWCASE_CAST,showcaseSpecies } from './showcaseCast';
-import { DEFAULT_PACK,newSave,settleOpening,validateSave,priceCard,type Card,type Pack } from './model';
-const common:Card={id:'c',number:'1',name:'Oddish',rarity:'Common',image:'/assets/cards/c.webp',value:25,weight:20};
-const rare:Card={...common,id:'r',number:'223',name:'Charizard ex',rarity:'Special Illustration Rare',value:4500,weight:.6};
-const trainer:Card={...rare,id:'t',name:'Serena',value:6000};
+import {expect,it} from 'vitest';
+import {createPreviewOpening,GUARANTEED_FIRST_SPECIAL} from './previewOpening';
+import {DEFAULT_PACK,newSave,settleOpening,validateSave,type Card} from './model';
+import {isSpecialCard} from './specialCard';
+const commons:Card[]=Array.from({length:12},(_,i)=>({id:'common-'+i,number:String(i),name:'Common '+i,rarity:'Common',image:'/assets/cards/c.webp',value:25,weight:20}));
+const rare:Card={...commons[0],id:'r',name:'Charizard ex',rarity:'Special Illustration Rare',value:4500,weight:.6};
 const art={Charizard:{dexId:6,image:'/assets/pokemon/charizard.png'}};
-it('always starts new preview packs with the best supported special without extra cards or charges',()=>{
-  const opened=createPreviewOpening(newSave(),[common,rare,trainer],DEFAULT_PACK,art,()=>0);
-  expect(opened.active?.cards[0]).toEqual(rare);expect(opened.active?.cards).toHaveLength(11);
-  expect(opened.active?.cards[10].id).toBe('energy');expect(opened.balance).toBe(9000);
-  expect(validateSave(opened)).toEqual(opened);expect(settleOpening(opened).balance).toBe(13725);
-  expect(createPreviewOpening(opened,[common,rare],DEFAULT_PACK,art)).toBe(opened);
+it('disables the old guaranteed first-special override for the live game',()=>{
+ expect(GUARANTEED_FIRST_SPECIAL).toBe(false);
+ const opened=createPreviewOpening(newSave(),[...commons,rare],DEFAULT_PACK,art,()=>.9);
+ expect(opened.active?.previewSpecial).not.toBe(true);expect(opened.active?.cards.some(isSpecialCard)).toBe(false);
+ expect(opened.balance).toBe(9000);expect(opened.active?.cards).toHaveLength(11);expect(validateSave(opened)).toEqual(opened);
+ expect(settleOpening(opened).balance).toBe(9250);
 });
-it('can disable the temporary preview override and preserves nine-reward pack layouts',()=>{
-  expect(createPreviewOpening(newSave(),[common,rare],DEFAULT_PACK,art,()=>0,false).active?.cards[0]).toEqual(common);
-  const opened=createPreviewOpening(newSave(),[common,rare],{...DEFAULT_PACK,rewardCount:9},art,()=>0);
-  expect(opened.active?.cards.filter(c=>c.id==='energy')).toHaveLength(2);
-  expect(validateSave(opened)).toEqual(opened);
+it('uses the new single-special draw without forcing it into the first slot',()=>{
+ const opened=createPreviewOpening(newSave(),[...commons,rare],DEFAULT_PACK,art,()=>0);
+ expect(opened.active?.cards.filter(isSpecialCard)).toHaveLength(1);expect(opened.active?.cards[0].rarity).toBe('Common');
+ expect(opened.active?.previewSpecial).not.toBe(true);expect(settleOpening(opened).history[0].total).toBe(4725);
 });
-
-it('preview triggers supported artwork even when its real demo value is below pack cost',()=>{
-  const card={...rare,value:950};const opened=createPreviewOpening(newSave(),[common,card],DEFAULT_PACK,art,()=>0);
-  expect(opened.active?.cards[0]).toEqual(card);expect(opened.active?.previewSpecial).toBe(true);
-  expect(validateSave(opened)?.active?.previewSpecial).toBe(true);
-  expect(settleOpening(opened).history[0].total).toBe(1175);
+it('never rerolls an already reserved pack',()=>{
+ const opened=createPreviewOpening(newSave(),[...commons,rare],DEFAULT_PACK,art,()=>0);
+ expect(createPreviewOpening(opened,[...commons,rare],DEFAULT_PACK,art,()=>.99)).toBe(opened);
 });
-
-it('every shipped set has a supported first-card animation in preview mode',()=>{
-  const files=import.meta.glob('../../public/assets/**/*.json',{eager:true,import:'default'});
-  const packs=files['../../public/assets/packs.json'] as Pack[];
-  const artwork=files['../../public/assets/pokemon/manifest.json'] as typeof art;
-  const models=files['../../public/assets/pokemon-3d/manifest.json'] as Record<string,{clips:{movingSkinnedJointCount:number}[]}>;
-  for(const pack of packs){
-    const pool=(files[`../../public${pack.catalogUrl}`] as Omit<Card,'value'|'weight'>[]).map(raw=>{const c=priceCard(raw);return {...c,value:Math.round(c.value*pack.price/DEFAULT_PACK.price)};});
-    const opened=createPreviewOpening({...newSave(),balance:1000000},pool,pack,artwork,()=>0);
-    expect(opened.active?.previewSpecial,pack.name).toBe(true);
-    expect(specialPokemon(opened.active!.cards[0],0,artwork),pack.name).toBeTruthy();
-    expect(opened.active?.cards).toHaveLength(11);
-    for(const species of SHOWCASE_CAST[pack.id]){
-      expect(pool.some(card=>showcaseSpecies(card.name)===species),`${pack.name}: ${species}`).toBe(true);
-      expect(models[species.toLowerCase()]?.clips.some(clip=>clip.movingSkinnedJointCount>5),species).toBe(true);
-    }
-  }
+it('keeps the guaranteed first card available only for explicitly requested diagnostic previews',()=>{
+ const opened=createPreviewOpening(newSave(),commons.concat(rare),DEFAULT_PACK,art,()=>.9,true);
+ expect(opened.active?.previewSpecial).toBe(true);expect(opened.active?.cards[0]).toEqual(rare);expect(opened.balance).toBe(9000);
 });
-
-it('rotates the curated showcase cast without changing the card pool, price, or saved results',()=>{
-  const dragonite={...rare,id:'dragonite',name:'Dragonite ex',value:1500};
-  const illustrated={...art,Dragonite:{dexId:149,image:'/assets/pokemon/dragonite.png'}};
-  const pool=[common,dragonite,rare],first=createPreviewOpening(newSave(),pool,DEFAULT_PACK,illustrated,()=>0);
-  const settled=settleOpening(first),second=createPreviewOpening(settled,pool,DEFAULT_PACK,illustrated,()=>0);
-  expect(first.active?.cards[0].name).toBe('Charizard ex');
-  expect(second.active?.cards[0]).toEqual(dragonite);
-  expect(second.balance).toBe(settled.balance-DEFAULT_PACK.price);
-  expect(second.history).toEqual(settled.history);
-  expect(second.active?.cards.slice(1)).toEqual(first.active?.cards.slice(1));
-  let save=settled;
-  for(let i=0;i<33;i++)save=settleOpening(createPreviewOpening(save,pool,DEFAULT_PACK,illustrated,()=>0));
-  expect(save.history).toHaveLength(30);
-  const afterLimit=createPreviewOpening(save,pool,DEFAULT_PACK,illustrated,()=>0);
-  expect(afterLimit.active?.cards[0].name).not.toBe(save.history[0].cards[0].name);
+it('keeps the nine-card legacy pack and two Energy slots intact',()=>{
+ const opened=createPreviewOpening(newSave(),commons,{...DEFAULT_PACK,rewardCount:9},art,()=>.9);
+ expect(opened.active?.cards.filter(c=>c.id==='energy')).toHaveLength(2);expect(validateSave(opened)).toEqual(opened);
 });
-
-it('chooses the showcase art edition when two cards have the same demo value',()=>{
-  const holo={...rare,id:'mewtwo-holo',name:'Mewtwo',rarity:'Holo Rare',number:'059',value:250};
-  const fullArt={...holo,id:'mewtwo-vstar',name:'Mewtwo VSTAR',rarity:'Ultra Rare',number:'GG44'};
-  const pack={...DEFAULT_PACK,id:'crown-zenith'};
-  const opened=createPreviewOpening(newSave(),[holo,fullArt],pack,{Mewtwo:{dexId:150,image:'/assets/pokemon/mewtwo.png'}},()=>0);
-  expect(opened.active?.cards[0]).toEqual(fullArt);
-});
-
-it('varies the first showcase on a fresh save instead of always picking the first species',()=>{
-  const dragonite={...rare,id:'dragonite',name:'Dragonite ex',value:1500};
-  const illustrated={...art,Dragonite:{dexId:149,image:'/assets/pokemon/dragonite.png'}};
-  let draw=0;
-  const opened=createPreviewOpening(newSave(),[common,rare,dragonite],DEFAULT_PACK,illustrated,()=>draw++<10?0:.99);
-  expect(opened.active?.cards[0].name).toBe('Dragonite ex');
-});
-
-it('avoids a recently seen Pokémon when switching to a different pack',()=>{
-  const gardevoir={...rare,id:'gardevoir',name:'Gardevoir ex',value:2200};
-  const illustrated={...art,Gardevoir:{dexId:282,image:'/assets/pokemon/gardevoir.png'}};
-  const settled=settleOpening(createPreviewOpening(newSave(),[common,rare],DEFAULT_PACK,illustrated,()=>0));
-  const opened=createPreviewOpening(settled,[common,rare,gardevoir],{...DEFAULT_PACK,id:'paldean-fates'},illustrated,()=>0);
-  expect(opened.active?.cards[0].name).toBe('Gardevoir ex');
-});
-
-it('prefers a different showcase Pokémon when the same species already occurs later in the pack',()=>{
-  const dragonite={...rare,id:'dragonite',name:'Dragonite ex',value:1500};
-  const illustrated={...art,Dragonite:{dexId:149,image:'/assets/pokemon/dragonite.png'}};
-  const opened=createPreviewOpening(newSave(),[rare,dragonite],DEFAULT_PACK,illustrated,()=>0);
-  expect(opened.active?.cards[0].name).toBe('Dragonite ex');
-  expect(opened.active?.cards.slice(1,10).every(card=>card.name==='Charizard ex')).toBe(true);
+it('retains occasional legacy Base Set showcases without making every pack special',()=>{
+ const legacy={...rare,id:'base1-4',name:'Charizard',rarity:'Rare',value:90};
+ const pack={...DEFAULT_PACK,id:'base-set',rewardCount:9 as const};
+ const hit=createPreviewOpening(newSave(),commons.concat(legacy),pack,art,()=>0);
+ expect(hit.active?.previewSpecial).toBe(true);expect(hit.active?.cards[0]).toEqual(legacy);expect(new Set(hit.active!.cards.slice(0,9).map(c=>c.id)).size).toBe(9);
+ const miss=createPreviewOpening(newSave(),commons.concat(legacy),pack,art,()=>.9);
+ expect(miss.active?.previewSpecial).not.toBe(true);
 });
