@@ -176,16 +176,16 @@ export class CanvasUI {
     group.eventMode=options.disabled?'none':'static';group.cursor='pointer';group.on('pointertap',()=>{if(!options.disabled&&!this.transitioning)action();});
     return group;
   }
-  private utility(kind:'turbo'|'auto',label:string,r:{x:number;y:number;width:number;height:number},_compact:boolean,active:boolean,disabled:boolean,action:()=>void){
-    const {x,y,width:w,height:h}=r,group=new Container(),g=new Graphics(),cx=w/2,cy=22,ink=disabled?0x8ba9bf:active?0xecffff:0xf2fbff;
+  private utility(kind:'turbo'|'auto',label:string,r:{x:number;y:number;width:number;height:number},active:boolean,disabled:boolean,action:()=>void){
+    const {x,y,width:w,height:h}=r,group=new Container(),g=new Graphics(),cx=w/2,cy=w/2,ink=disabled?0x8ba9bf:active?0xecffff:0xf2fbff;
     group.position.set(x+cx,y+cy);group.pivot.set(cx,cy);group.addChild(g);this.root.addChild(group);this.paints.set(kind,group);
-    g.circle(cx,cy+3,22).fill({color:0x05233f,alpha:.55}).circle(cx,cy,22).fill(active?0x197ab8:0x124a79).stroke({color:active?0x8ef7ff:0xa8d5e9,width:1.8}).circle(cx,cy,18).stroke({color:active?0x9cf7ff:0x4389b8,width:1,alpha:.65});
-    const icon=new Graphics();icon.position.set(cx,cy);group.addChild(icon);
+    g.circle(cx,cy+3,w/2).fill({color:0x05233f,alpha:.55}).circle(cx,cy,w/2).fill(active?0x197ab8:0x124a79).stroke({color:active?0x8ef7ff:0xa8d5e9,width:1.8}).circle(cx,cy,w/2-4).stroke({color:active?0x9cf7ff:0x4389b8,width:1,alpha:.65});
+    const icon=new Graphics();icon.position.set(cx,cy);icon.scale.set(w/44);group.addChild(icon);
     if(kind==='turbo')icon.poly([3,-14,-9,2,-1,2,-5,14,11,-4,3,-4]).fill(ink).stroke({color:0x063557,width:1.4,join:'round'});
     else if(active)icon.roundRect(-6,-6,12,12,2).fill(ink);
     else{icon.moveTo(9,-8).arc(0,0,12,-.72,Math.PI*1.12).stroke({color:ink,width:2.2,cap:'round'}).poly([-13,-7,-14,2,-5,-1]).fill(ink);icon.roundRect(-4,-6,8,12,1.5).stroke({color:ink,width:1.5}).moveTo(-2,-3).lineTo(2,-3).stroke({color:ink,width:1});}
     if(active)g.circle(w-3,4,6).fill(0x082e4f).stroke({color:0x9af7ff,width:1.2});
-    const text=this.text(kind==='turbo'?'TURBO':active?'STOP':'AUTO',cx,48,10,disabled?0x9bb5c9:C.white,group,'center','bold');text.style.stroke={color:0x072b49,width:2.8};
+    const text=this.text(kind==='turbo'?'TURBO':active?'STOP':'AUTO',cx,w+5,w<40?7:8.5,disabled?0x9bb5c9:C.white,group,'center','bold');text.style.stroke={color:0x072b49,width:2.8};
     if(active){const badge=this.text(kind==='turbo'?'4×':String(this.state!.autoRun!.total-this.state!.autoRun!.completed),w-3,-1,7,0xefffff,group,'center','bold');badge.style.lineHeight=8;}
     this.hits.push({id:kind,label,x,y,width:w,height:h,disabled,selected:active,action});
   }
@@ -327,7 +327,7 @@ export class CanvasUI {
     else if(kind==='plus')icon.roundRect(-10,-2,20,4,2).fill(white).roundRect(-2,-10,4,20,2).fill(white);
     else {icon.poly([-12,-4,-6,-4,1,-10,1,10,-6,4,-12,4]).fill(white);if(kind==='sound'){for(const radius of [7,12])icon.moveTo(1+Math.cos(-.7)*radius,Math.sin(-.7)*radius).arc(1,0,radius,-.7,.7).stroke({color:white,width:2});}else icon.moveTo(6,-5).lineTo(13,5).moveTo(6,5).lineTo(13,-5).stroke({color:white,width:2});}
     if(kind==='binder'||kind==='history'){const caption=this.text(kind==='binder'?'CARDS':'HISTORY',cx,y+size+5,size<40?7:8.5,C.white,group,'center','bold');caption.style.stroke={color:0x072b49,width:2.8};}
-    group.pivot.set(cx,cy);group.position.set(cx,cy);this.hits.push({id,label,x,y,width:size,height:size,disabled:false,action});return group;
+    group.pivot.set(cx,cy);group.position.set(cx,cy);this.hits.push({id,label,x,y,width:size,height:size+(['binder','history'].includes(kind)?18:0),disabled:false,action});return group;
   }
   private hud(w:number,h:number){
     const s=this.state!,l=gameLayout(w,h,['awaiting','revealing','revealed','collecting','settling'].includes(s.phase));
@@ -340,22 +340,12 @@ export class CanvasUI {
     this.text('DEMO CREDITS',credit.textX,credit.labelY,9,C.muted,this.root,'left','bold');
     this.money(s.save?.balance??10000,credit.textX,credit.amountY,credit.amountSize,C.white,'left','wallet','balance',false,credit.textWidth,true);
     this.iconButton('credits','Add 1000 free demo credits',credit.buttonX,credit.buttonY,credit.buttonSize,'plus',()=>s.action('credits'));
-    const size=l.compact||l.short&&!l.sideControls?34:l.portrait?40:44,side=l.portrait?18:25,iconsY=l.compact?18:l.short&&!l.sideControls?66:76;
-    if(l.compact){
-      const {left}=compactToolbar(w);
-      this.iconButton('binder','My collection',left,iconsY,size,'binder',()=>s.action('collection'));
-      this.iconButton('history','Opening history',left+size+6,iconsY,size,'history',()=>s.action('history'));
-      this.iconButton('settings','Settings',left+180,iconsY,size,'gear',()=>s.action('settings'));
-      this.iconButton('sound',s.sound?'Mute sound':'Enable sound',left+220,iconsY,size,s.sound?'sound':'mute',()=>s.action('sound'));
-    }else{
-      this.iconButton('binder','My collection',side,iconsY,size,'binder',()=>s.action('collection'));
-      this.iconButton('history','Opening history',side+size+10,iconsY,size,'history',()=>s.action('history'));
-      this.iconButton('settings','Settings',w-side-size*2-10,iconsY,size,'gear',()=>s.action('settings'));
-      this.iconButton('sound',s.sound?'Mute sound':'Enable sound',w-side-size,iconsY,size,s.sound?'sound':'mute',()=>s.action('sound'));
+    const side=l.portrait?18:25,utilities=utilityLayout(w,h,['awaiting','revealing','revealed','collecting','settling'].includes(s.phase));
+    for(const [id,label,kind,action] of [['binder','My collection','binder','collection'],['history','Opening history','history','history'],['settings','Settings','gear','settings'],['sound',s.sound?'Mute sound':'Enable sound',s.sound?'sound':'mute','sound']] as const){
+      const r=utilities[id];this.iconButton(id,label,r.x,r.y,r.width,kind,()=>s.action(action));
     }
-    const utilities=utilityLayout(w,h,['awaiting','revealing','revealed','collecting','settling'].includes(s.phase));
-    this.utility('turbo',`Turbo Mode: ${s.turbo?'on':'off'}`,utilities.turbo,utilities.compact,!!s.turbo,false,()=>s.action('turbo'));
-    this.utility('auto',s.autoRun?.running?'Stop Auto Spin':'Auto Spin',utilities.auto,utilities.compact,!!s.autoRun?.running,!s.autoRun?.running&&!!s.save?.active,()=>s.action(s.autoRun?.running?'auto-stop':'auto'));
+    this.utility('turbo',`Turbo Mode: ${s.turbo?'on':'off'}`,utilities.turbo,!!s.turbo,false,()=>s.action('turbo'));
+    this.utility('auto',s.autoRun?.running?'Stop Auto Spin':'Auto Spin',utilities.auto,!!s.autoRun?.running,!s.autoRun?.running&&!!s.save?.active,()=>s.action(s.autoRun?.running?'auto-stop':'auto'));
     const edgeTitle=l.compact||(l.short&&l.sideControls),captionY=l.compact?65:!l.sideControls&&l.short?166:edgeTitle?125:l.sideControls?28:182;
     const captionWidth=edgeTitle?Math.max(85,l.sideControls?(w-l.stageWidth)/2-28:w/2-156*l.scale-side-12):l.sideControls?w-510:w-112;
     const packTitle=this.text(s.save?.active?.pack?.name??s.selected.name,edgeTitle?side:w/2,captionY,edgeTitle?14:l.sideControls?22:18,C.white,this.root,edgeTitle?'left':'center','bold');packTitle.visible=!['awaiting','revealing','revealed','collecting','settling'].includes(s.phase);packTitle.style.stroke={color:0x08315a,width:3};if(packTitle.width>captionWidth)packTitle.scale.set(captionWidth/packTitle.width);
