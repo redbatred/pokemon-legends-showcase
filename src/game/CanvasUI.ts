@@ -61,6 +61,7 @@ export class CanvasUI {
   private creditReward=(total:number)=>{if(this.moneyValues.get('revealed')?.target===total)return;if(this.packValueLabel){this.packValueLabel.retarget(total);this.packValueLabel.pulse();}else this.moneyValues.set('revealed',moneyState(this.moneyValues.get('revealed'),this.openingId,total,false));};
   private updating=false;
   private lastPackId='';private rackGroup:Container|null=null;private rackMask:Graphics|null=null;private rackGlow:Graphics|null=null;private rackKind:'packs'|'cards'='packs';private arrowPulses:{glyph:Graphics;base:number;phase:number;axis:'x'|'y'}[]=[];
+  private utilityPulses:Graphics[]=[];
   private cardPulses:{group:Container;baseX:number;baseY:number;rotation:number;phase:number;shine:Graphics}[]=[];
   private generation=0;private hits:HitTarget[]=[];private paints=new Map<string,Container>();private feedbackTweens=new Map<string,gsap.core.Tween>();
   private historyOpening:Result|null=null;private historySelection=0;private historyFanCards:{group:Container;x:number;y:number;rotation:number;scale:number;ready:boolean}[]=[];private historyFanTime=0;private tickHistoryFan=(_time:number,delta:number)=>{if(document.hidden)return;this.historyFanTime+=delta/1000;this.animateHistoryFan(Math.min(.05,delta/1000));this.stage.draw();};private historyFanTitle:Text|null=null;private historyFanRarity:Text|null=null;private historyFanValue:MoneyReadout|null=null;
@@ -129,6 +130,7 @@ export class CanvasUI {
   }
   private animateChrome(){
     const s=this.state;if(!s)return;const time=this.stage.openingUiTime,pose=time===null?null:openingUiPose(time),w=this.stage.app.screen.width,h=this.stage.app.screen.height;
+    for(const pulse of this.utilityPulses)pulse.alpha=s.reduced?.8:.5+.3*(1+Math.sin(this.stage.time*3))/2;
     for(const c of this.cardPulses){const wave=s.reduced?0:Math.sin(this.stage.time*2.2-c.phase);c.group.x=c.baseX+wave*.7;c.group.y=c.baseY-wave*1.2;c.group.rotation=c.rotation+wave*.018;c.shine.alpha=s.reduced?.55:.25+.6*(1+wave)/2;}
     for(const {glyph,base,phase,axis} of this.arrowPulses){const p=s.reduced?1:(1+Math.sin(this.stage.time*3.6-phase))*.5;glyph[axis]=base+p*2.6;glyph.alpha=.72+.28*p;}
     if(this.rackGroup){const a=pose?(this.rackKind==='packs'?pose.packs:pose.cards):1;this.rackGroup.alpha=a;
@@ -177,16 +179,27 @@ export class CanvasUI {
     return group;
   }
   private utility(kind:'turbo'|'auto',label:string,r:{x:number;y:number;width:number;height:number},active:boolean,disabled:boolean,action:()=>void){
-    const {x,y,width:w,height:h}=r,group=new Container(),g=new Graphics(),cx=w/2,cy=w/2,ink=disabled?0x8ba9bf:active?0xecffff:0xf2fbff;
+    const {x,y,width:w,height:h}=r,group=new Container(),g=new Graphics(),cx=w/2,cy=w/2;
+    const accent=kind==='turbo'?0xffdf68:0x72f5b4,ink=disabled?0x8ba9bf:active?0x082d45:0xf2fbff;
     group.position.set(x+cx,y+cy);group.pivot.set(cx,cy);group.addChild(g);this.root.addChild(group);this.paints.set(kind,group);
-    g.circle(cx,cy+3,w/2).fill({color:0x05233f,alpha:.55}).circle(cx,cy,w/2).fill(active?0x197ab8:0x124a79).stroke({color:active?0x8ef7ff:0xa8d5e9,width:1.8}).circle(cx,cy,w/2-4).stroke({color:active?0x9cf7ff:0x4389b8,width:1,alpha:.65});
-    const icon=new Graphics();icon.position.set(cx,cy);icon.scale.set(w/44);group.addChild(icon);
+    g.circle(cx,cy+3,w/2).fill({color:0x05233f,alpha:.55}).circle(cx,cy,w/2).fill(active?accent:0x124a79).stroke({color:active?0xf5fff5:0xa8d5e9,width:1.8}).circle(cx,cy,w/2-4).stroke({color:active?0x123c50:0x4389b8,width:1,alpha:active?.4:.65});
+    if(active){
+      // All active decoration is inset: no corner badges or expanding halos.
+      const pulse=new Graphics().circle(cx,cy,w/2-2).stroke({color:0xffffff,width:1.4});group.addChild(pulse);this.utilityPulses.push(pulse);
+      g.roundRect(1,w+3,w-2,14,5).fill(accent);
+    }
+    const icon=new Graphics();icon.position.set(cx,active?w*.33:cy);icon.scale.set(w/44*(active?.65:1));group.addChild(icon);
     if(kind==='turbo')icon.poly([3,-14,-9,2,-1,2,-5,14,11,-4,3,-4]).fill(ink).stroke({color:0x063557,width:1.4,join:'round'});
-    else if(active)icon.roundRect(-6,-6,12,12,2).fill(ink);
+    else if(active)icon.roundRect(-7,-7,14,14,2).fill(ink);
     else{icon.moveTo(9,-8).arc(0,0,12,-.72,Math.PI*1.12).stroke({color:ink,width:2.2,cap:'round'}).poly([-13,-7,-14,2,-5,-1]).fill(ink);icon.roundRect(-4,-6,8,12,1.5).stroke({color:ink,width:1.5}).moveTo(-2,-3).lineTo(2,-3).stroke({color:ink,width:1});}
-    if(active)g.circle(w-3,4,6).fill(0x082e4f).stroke({color:0x9af7ff,width:1.2});
-    const text=this.text(kind==='turbo'?'TURBO':active?'STOP':'AUTO',cx,w+5,w<40?7:8.5,disabled?0x9bb5c9:C.white,group,'center','bold');text.style.stroke={color:0x072b49,width:2.8};
-    if(active){const badge=this.text(kind==='turbo'?'4×':String(this.state!.autoRun!.total-this.state!.autoRun!.completed),w-3,-1,7,0xefffff,group,'center','bold');badge.style.lineHeight=8;}
+    const text=this.text(kind==='turbo'?'TURBO':'AUTO',cx,w+5,w<40?7:8.5,disabled?0x9bb5c9:active?0x082d45:C.white,group,'center','bold');if(!active)text.style.stroke={color:0x072b49,width:2.8};
+    if(active){
+      const badgeY=w*.57,badgeW=w*.62,badgeH=w*.26;
+      g.roundRect(cx-badgeW/2,badgeY,badgeW,badgeH,4).fill(0x082d45);
+      const value=kind==='turbo'?'ON':String(Math.max(0,(this.state!.autoRun?.total??0)-(this.state!.autoRun?.completed??0)));
+      const badge=this.text(value,cx,badgeY+badgeH/2,w<40?8:9,accent,group,'center','bold');badge.anchor.y=.5;
+      if(badge.width>badgeW-4)badge.scale.set((badgeW-4)/badge.width);
+    }
     this.hits.push({id:kind,label,x,y,width:w,height:h,disabled,selected:active,action});
   }
 
@@ -266,7 +279,7 @@ export class CanvasUI {
     this.resultUnderlay?.destroy({texture:true,textureSource:true});this.resultUnderlay=null;
     if((this.resultLaunch||this.interludeEntry)&&!this.state.reduced){const texture=this.stage.app.renderer.generateTexture({target:this.root,frame:new Rectangle(0,0,this.stage.app.screen.width,this.stage.app.screen.height),resolution:1});this.resultUnderlay=new Sprite(texture);this.stage.app.stage.addChildAt(this.resultUnderlay,this.stage.app.stage.getChildIndex(this.backdrop));}
     this.resultChrome=null;this.resultAmount=null;this.resultCards=[];this.trayPan.cancel();this.trayPointer=null;
-    ++this.generation;gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();gsap.ticker.remove(this.tickHistoryFan);this.historyFanCards=[];this.historyFanTitle=this.historyFanRarity=null;this.historyFanValue=null;this.arrowPulses=[];this.cardPulses=[];this.rackGroup=null;this.rackMask=null;this.rackGlow=null;this.cardCaptions=[];this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.trayArt?.destroy(true);this.trayArt=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
+    ++this.generation;gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();gsap.ticker.remove(this.tickHistoryFan);this.historyFanCards=[];this.historyFanTitle=this.historyFanRarity=null;this.historyFanValue=null;this.arrowPulses=[];this.cardPulses=[];this.utilityPulses=[];this.rackGroup=null;this.rackMask=null;this.rackGlow=null;this.cardCaptions=[];this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.trayArt?.destroy(true);this.trayArt=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
     this.root.removeChild(this.focus);this.root.removeChildren().forEach(child=>child.destroy({children:true}));
     const s=this.state,sw=this.stage.app.screen.width,sh=this.stage.app.screen.height,modal=s.inspected?'inspect':s.panel==='history'&&this.historyOpening?'history-pack':s.panel??(s.phase==='complete'?(s.autoRun?.interlude?'interlude':s.autoRun&&s.autoRun.results.length>1?(this.autoPack?'auto-pack':'auto-session'):'results'):'');
     const frame=modal&&!['settings','interlude'].includes(modal)?modalLayout(sw,sh,modal,s.save?.history.length):{x:0,y:0,width:sw,height:sh};this.modalOrigin={x:frame.x,y:frame.y};
@@ -345,7 +358,7 @@ export class CanvasUI {
       const r=utilities[id];this.iconButton(id,label,r.x,r.y,r.width,kind,()=>s.action(action));
     }
     this.utility('turbo',`Turbo Mode: ${s.turbo?'on':'off'}`,utilities.turbo,!!s.turbo,false,()=>s.action('turbo'));
-    this.utility('auto',s.autoRun?.running?'Stop Auto Spin':'Auto Spin',utilities.auto,!!s.autoRun?.running,!s.autoRun?.running&&!!s.save?.active,()=>s.action(s.autoRun?.running?'auto-stop':'auto'));
+    this.utility('auto',s.autoRun?.running?`Auto Spin active: ${Math.max(0,s.autoRun.total-s.autoRun.completed)} packs remaining. Stop Auto Spin`:'Auto Spin',utilities.auto,!!s.autoRun?.running,!s.autoRun?.running&&!!s.save?.active,()=>s.action(s.autoRun?.running?'auto-stop':'auto'));
     const edgeTitle=l.compact||(l.short&&l.sideControls),captionY=l.compact?65:!l.sideControls&&l.short?166:edgeTitle?125:l.sideControls?28:182;
     const captionWidth=edgeTitle?Math.max(85,l.sideControls?(w-l.stageWidth)/2-28:w/2-156*l.scale-side-12):l.sideControls?w-510:w-112;
     const packTitle=this.text(s.save?.active?.pack?.name??s.selected.name,edgeTitle?side:w/2,captionY,edgeTitle?14:l.sideControls?22:18,C.white,this.root,edgeTitle?'left':'center','bold');packTitle.visible=!['awaiting','revealing','revealed','collecting','settling'].includes(s.phase);packTitle.style.stroke={color:0x08315a,width:3};if(packTitle.width>captionWidth)packTitle.scale.set(captionWidth/packTitle.width);
