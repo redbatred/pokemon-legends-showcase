@@ -36,6 +36,18 @@ const options = (overrides: Partial<ResultWinOptions> = {}): ResultWinOptions =>
 const descendants = (root: Container): Container[] => [root, ...root.children.flatMap(child => descendants(child as Container))];
 
 describe('single result win ownership', () => {
+  it('places the impact on the exact total, then one delayed resolution cue',()=>{
+    const add=vi.spyOn(gsap.ticker,'add'),state=moneyState(undefined,'timed-session',123456,false);
+    const win=new ResultWin(state,options({mode:'session'})),tick=add.mock.calls.at(-1)![0];
+    tick(1,90,1,0);expect(playSound).toHaveBeenCalledWith('wincollect',{gain:.38});
+    expect(vi.mocked(playSound).mock.calls.some(([name])=>name==='win'||name==='complete')).toBe(false);
+    win.display(state.target);expect(playSound).toHaveBeenLastCalledWith('win',{gain:.85});
+    tick(2,80,2,0);expect(vi.mocked(playSound).mock.calls.some(([name])=>name==='complete')).toBe(false);
+    tick(3,90,3,0);expect(playSound).toHaveBeenLastCalledWith('complete',{gain:.8});
+    tick(4,100,4,0);expect(vi.mocked(playSound).mock.calls.filter(([name])=>name==='complete')).toHaveLength(1);
+    win.destroy();add.mockRestore();
+  });
+
   it.each(['pack', 'interlude', 'session'] as const)('keeps the %s completion cue with reduced motion without repeating on rebuild', mode => {
     const state = moneyState(undefined, 'reduced-' + mode, 125000, false);
     const win = new ResultWin(state, options({ reduced: true, mode }));
@@ -60,7 +72,7 @@ describe('single result win ownership', () => {
 
   it('continues the actual displayed cents and does not repeat entrance or finish audio after rebuilding', async () => {
     const state = moneyState(undefined, 'pack-1', 420000, false), win = new ResultWin(state, options());
-    expect(state.remaining).toBe(1.3);
+    expect(state.remaining).toBe(1.5);
     gsap.getTweensOf(state)[0].progress(.4);
     const displayed = state.value, remaining = state.remaining;
     expect(displayed).toBeGreaterThan(0); expect(displayed).toBeLessThan(state.target);
@@ -68,7 +80,7 @@ describe('single result win ownership', () => {
     const rebuilt = new ResultWin(state, options({ width: 500 }));
     expect(state.value).toBe(displayed); expect(state.remaining).toBe(remaining);
     rebuilt.display(state.target);
-    expect(playSound).toHaveBeenCalledTimes(1); expect(playSound).toHaveBeenLastCalledWith('complete', { gain: .42 });
+    expect(playSound).toHaveBeenCalledTimes(1); expect(playSound).toHaveBeenLastCalledWith('win', { gain: .6 });
     rebuilt.destroy();
     const settled = new ResultWin(state, options()); await preloadResultWin();
     expect(state.value).toBe(420000); expect(playSound).toHaveBeenCalledTimes(1);
@@ -79,7 +91,7 @@ describe('single result win ownership', () => {
     const add = vi.spyOn(gsap.ticker, 'add'), remove = vi.spyOn(gsap.ticker, 'remove');
     const state = moneyState(undefined, 'pack-2', 5000, false), draw = vi.fn();
     const win = new ResultWin(state, options({ turbo: true, draw }));
-    expect(state.remaining).toBe(.85);
+    expect(state.remaining).toBe(.95);
     const tick = add.mock.calls.at(-1)![0];
     await preloadResultWin();
     const rig = descendants(win).find(child => child instanceof Spine) as Spine;

@@ -64,7 +64,7 @@ export class OpeningStage {
   private sampleFrames = 0;
   private drawFrame = 0;
   private openingLayout = false;private travelling=false;
-  private journey:{amount:number}|null=null;
+  private journey:{amount:number;startOpening:boolean}|null=null;
   private prepared=new Map<string,RevealPreparation<Texture,SpineReveal>>();
   private loadingReveal:RevealPreparation<Texture,SpineReveal>|null=null;
   private previousTease=false;private cardHoverReady=false;private revealCompletion=new RevealCompletion();
@@ -178,7 +178,7 @@ export class OpeningStage {
     this.drawFrame=requestAnimationFrame(()=>{this.drawFrame=0;if(!this.destroyed&&!this.app.ticker.started)this.app.renderer.render(this.app.stage);});
   }
   setLayoutMode(opening:boolean){opening=opening||this.travelling;if(opening!==this.openingLayout){this.openingLayout=opening;this.resize();}}
-  private positionJourney(){if(!this.journey)return;const w=this.app.screen.width,h=this.app.screen.height,a=gameLayout(w,h,false),b=gameLayout(w,h,true),t=this.journey.amount;this.world.y=a.worldY+(b.worldY-a.worldY)*t;this.world.scale.set(a.scale+(b.scale-a.scale)*t);}
+  private positionJourney(){if(!this.journey)return;const w=this.app.screen.width,h=this.app.screen.height,a=gameLayout(w,h,this.journey.startOpening),b=gameLayout(w,h,true),t=this.journey.amount;this.world.y=a.worldY+(b.worldY-a.worldY)*t;this.world.scale.set(a.scale+(b.scale-a.scale)*t);}
   setBlocked(value:boolean){
     if(value&&this.peelPointer)this.peelCancel();const changed=value!==this.blocked;if(changed){this.sampleStart=0;this.sampleFrames=0;}
     // A modal pauses the existing scene; its backdrop supplies the dimming.
@@ -297,7 +297,7 @@ export class OpeningStage {
     const opening=this.packOpening??new PackOpening(this.packMesh.texture);this.packOpening=opening;opening.root.visible=!!scrub;this.pack.addChild(opening.root);
     const projection={yaw:this.tilt.x*.32,pitch:-this.tilt.y*.19};this.target.x=this.target.y=0;
     const align=()=>{const a:number[]=[];for(const [x,y] of [[-115,-210.5],[115,-210.5],[115,210.5],[-115,210.5]]){const depth=700/(700-x*Math.sin(projection.yaw)+y*Math.sin(projection.pitch));a.push(x*Math.cos(projection.yaw)*depth,y*Math.cos(projection.pitch)*depth);}this.packMesh.setCorners(a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]);};
-    const s=opening.state,d=this.options.reduced?.008:1,travel={amount:0},transport={time:PACK_EXTRACTION_START},peel={p:0};Object.assign(s,manualPeelPose(0));
+    const s=opening.state,d=this.options.reduced?.008:1,travel={amount:0,startOpening:this.openingLayout},transport={time:PACK_EXTRACTION_START},peel={p:0};Object.assign(s,manualPeelPose(0));
     const expose=()=>{opening.root.visible=true;this.packMesh.visible=false;this.stack.visible=true;this.stack.alpha=1;this.stack.scale.set(.66);this.stack.position.set(0,9);this.stack.rotation=0;this.fanStack(0);opening.root.addChildAt(this.stack,1);};
     const deform=()=>Object.assign(s,manualPeelPose(peel.p));
     return new Promise(resolve=>{

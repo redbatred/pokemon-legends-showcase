@@ -5,7 +5,7 @@ vi.mock('./Stage',()=>({OpeningStage:class{
  init=vi.fn(async()=>{});setPack=vi.fn(async()=>{});setSealed=vi.fn();waitForReveal=vi.fn();prepareReveal=vi.fn();skipReveal=vi.fn();
  tear=vi.fn(async()=>{});reveal=vi.fn(async()=>{});collectRemaining=vi.fn(async()=>{});showResult=vi.fn();reset=vi.fn();updateOptions=vi.fn();destroy=vi.fn();
 }}));
-vi.mock('./CanvasUI',()=>({CanvasUI:class{prepareAssets=boot.assets;update=vi.fn();destroy=vi.fn();setFocus=vi.fn();}}));
+vi.mock('./CanvasUI',()=>({CanvasUI:class{prepareAssets=boot.assets;beginAutoPackTransition=vi.fn();update=vi.fn();destroy=vi.fn();setFocus=vi.fn();}}));
 vi.mock('./storage',()=>({loadSave:vi.fn(),transactSave:vi.fn(),resetSave:vi.fn()}));
 vi.mock('./audio',()=>({setSound:vi.fn(),setBattleMusic:vi.fn(),playSound:vi.fn(),setAudioScenePaused:vi.fn(),destroyAudio:vi.fn(),preloadRevealAudio:vi.fn(async()=>{}),unlockAudio:vi.fn()}));
 vi.mock('pixi.js',()=>({Assets:{load:vi.fn(async()=>{})}}));
@@ -54,7 +54,7 @@ it.each(['individual','all'] as const)('completes exactly five automatic packs i
  await vi.advanceTimersByTimeAsync(120000);
  expect(save().history).toHaveLength(5);expect(state.autoRun.completed).toBe(5);expect(state.autoRun.running).toBe(false);
  expect(storage.transactSave).toHaveBeenCalledTimes(10);expect(state.phase).toBe('complete');
- expect(state.stage.reveal).toHaveBeenCalledTimes(mode==='individual'?55:0);expect(state.stage.collectRemaining).toHaveBeenCalledTimes(5);
+ expect(state.view.beginAutoPackTransition).toHaveBeenCalledTimes(4);expect(state.stage.reveal).toHaveBeenCalledTimes(mode==='individual'?55:0);expect(state.stage.collectRemaining).toHaveBeenCalledTimes(5);
 });
 it('does not use the 30-result history cap as the auto counter',async()=>{
  const {game,state,save,storage}=await setup();state.configureAuto(100,'all');game.action('turbo');game.action('auto-start');

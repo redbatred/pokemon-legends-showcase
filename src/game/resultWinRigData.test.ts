@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { AnimationState, AnimationStateData, AtlasAttachmentLoader, MeshAttachment, Physics, RegionAttachment, Skeleton, SkeletonJson, TextureAtlas } from '@esotericsoftware/spine-core';
-import { buildResultWinRigJson, RESULT_WIN_ATLAS } from './resultWinRigData';
+import { buildResultWinRigJson,buildResultWinFountainsJson, RESULT_WIN_ATLAS } from './resultWinRigData';
 
 function load(width: number, height: number, low = false) {
   const json = buildResultWinRigJson(width, height, low);
@@ -17,7 +17,7 @@ describe('compact native result-win rig', () => {
   it.each([[240, 76], [342, 100], [560, 108], [680, 200]])('keeps every visible animated vertex inside its %s × %s award area', (width, height) => {
     const { skeleton, pose } = load(width, height);
     let largestExtent = 0;
-    for (const animation of ['arrive', 'impact', 'idle', 'held']) for (let time = 0; time <= 4; time += .025) {
+    for (const animation of ['arrive', 'charge', 'impact', 'idle', 'held']) for (let time = 0; time <= 4; time += .025) {
       pose(animation, time);
       for (const slot of skeleton.slots.filter(slot => slot.color.a > .001)) {
         const attachment = slot.getAttachment()!;
@@ -50,4 +50,17 @@ describe('compact native result-win rig', () => {
       expect(skeleton.slots.filter(slot => slot.data.name.startsWith('confetti')).every(slot => slot.color.a === 0)).toBe(true);
     }
   });
+});
+
+it('authors the side fountains as ballistic native Spine keys with a clean end pose',()=>{
+ const reader=new SkeletonJson(new AtlasAttachmentLoader(new TextureAtlas(RESULT_WIN_ATLAS)));
+ for(const low of [false,true]){
+  const data=reader.readSkeletonData(buildResultWinFountainsJson(900,520,low)),skeleton=new Skeleton(data),state=new AnimationState(new AnimationStateData(data));
+  state.setAnimation(0,'impact',false);state.update(.4);state.apply(skeleton);skeleton.updateWorldTransform(Physics.none);
+  expect(skeleton.slots.filter(s=>s.color.a>.5)).toHaveLength(low?12:36);
+  const firstY=skeleton.slots[0].bone.worldY;
+  state.update(.8);state.apply(skeleton);skeleton.updateWorldTransform(Physics.none);
+  expect(skeleton.slots[0].bone.worldY).toBeLessThan(firstY);
+  state.update(.6);state.apply(skeleton);expect(skeleton.slots.every(s=>s.color.a===0)).toBe(true);
+ }
 });

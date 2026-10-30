@@ -16,6 +16,7 @@ import { money, recordedWinnings, type Card, type Pack, type Save, type Result }
 import {modalLayout,totalWinLayout,creditLayout,autoSpinLayout} from './modalLayout';
 import {MoneyReadout} from './MoneyReadout';
 import {ResultWin} from './ResultWin';
+import {AutoPackBridge} from './AutoPackBridge';
 import {RewardTransfers} from './RewardTransfers';
 import {preloadWinCelebration} from './WinCelebration';
 import {winTier} from './winTransfer';
@@ -39,6 +40,8 @@ export class CanvasUI {
   private backdrop=new Graphics();private modalTween:gsap.core.Timeline|null=null;private modalKind='';private transitioning=false;
   private frozenHud:Sprite|null=null;
   private returnCover:Sprite|null=null;private returnTween:gsap.core.Tween|null=null;
+  private autoCover:AutoPackBridge|null=null;private autoCoverTween:gsap.core.Tween|null=null;
+  private autoCoverMotion={value:0};
   private interludeEntry=false;private autoResultsPage=0;private autoPack:Result|null=null;private autoIdentity='';private resultUnderlay:Sprite|null=null;private resultLaunch:{sources:{x:number;y:number;cardWidth:number}[];total:ReturnType<typeof totalWinLayout>}|null=null;
   private resultChrome:Container|null=null;private resultAmount:ResultWin|null=null;private resultCards:{group:Container;x:number;y:number;width:number;index:number}[]=[];
   private modalOrigin={x:0,y:0};
@@ -90,8 +93,9 @@ export class CanvasUI {
     this.state=state;if(state.panel!=='history')this.historyOpening=null;
     if(!['collecting','settling'].includes(state.phase))this.collectingIndex=null;
     this.updating=true;
-    this.stage.setLayoutMode(['awaiting','revealing','revealed','collecting','settling','complete'].includes(state.phase));
-    this.stage.setScene(['awaiting','revealing','revealed','collecting','settling','complete'].includes(state.phase));
+    const arena=['awaiting','revealing','revealed','collecting','settling','complete'].includes(state.phase)||!!state.autoRun?.running&&state.autoRun.completed>0;
+    this.stage.setLayoutMode(arena);
+    this.stage.setScene(arena);
     this.stage.setBlocked(!!state.panel||!!state.inspected||state.phase==='complete');
     if(state.panel||state.inspected||state.phase==='complete')this.stage.app.stage.addChild(this.backdrop,this.root);else this.stage.app.stage.addChild(this.stage.flightLayer,this.rewards.root);
     this.rewards.background.visible=this.rewards.root.visible=!state.panel&&!state.inspected&&['awaiting','revealing','revealed','collecting','settling'].includes(state.phase);
@@ -100,7 +104,27 @@ export class CanvasUI {
     if(phaseKey!==this.rewardPhaseKey){const card=state.phase==='revealed'?state.save?.active?.cards[state.index]:undefined;this.stage.scene.setBoard({phase:state.phase,packName:state.save?.active?.pack?.name??state.selected.name,index:state.index,cardName:card?.name,cardValue:card?.value});}
     if(phaseKey!==this.rewardPhaseKey&&(state.phase==='collecting'||state.phase==='revealing'))this.rewards.rush();this.rewardPhaseKey=phaseKey;
     this.build();
+    if(this.autoCover&&!this.autoCoverTween&&(state.phase==='tearing'||state.phase==='awaiting'||!state.autoRun?.running||state.error||state.panel||state.inspected))this.finishAutoPackTransition();
     if(state.phase==='revealed'&&state.save?.active)this.awardCard(state.save.active.cards[state.index]);
+  }
+  /** Preserve the complete award frame until the next wrapper is actually ready.
+   * This cover survives the browse/reservation/asset-loading rebuilds. */
+  beginAutoPackTransition(){
+    if(this.destroyed||this.autoCover)return;
+    const {width,height}=this.stage.app.screen;
+    this.autoCoverMotion.value=0;
+    this.root.visible=false;
+    let texture:Texture;try{texture=this.stage.app.renderer.generateTexture({target:this.stage.app.stage,frame:new Rectangle(0,0,width,height),resolution:Math.min(1.5,this.stage.app.renderer.resolution)});}finally{this.root.visible=true;}
+    const s=this.state!,run=s.autoRun!;
+    const cover=this.autoCover=new AutoPackBridge(texture,{completed:run.completed,total:run.total,amount:s.result?.total??0,reduced:s.reduced,turbo:!!s.turbo,low:s.low},()=>this.stage.draw());
+    cover.layout(width,height);this.stage.app.stage.addChild(cover);
+  }
+  private layoutAutoCover(){if(!this.autoCover)return;const {width,height}=this.stage.app.screen;this.autoCover.layout(width,height);}
+  private finishAutoPackTransition(){
+    const cover=this.autoCover;if(!cover)return;
+    const s=this.state!,duration=s.reduced?.12:s.turbo?.16:.32;
+    if(!s.reduced&&!s.error)playSound('wincollect',{gain:.3});
+    this.autoCoverTween=gsap.to(this.autoCoverMotion,{value:1,duration,ease:'power2.inOut',onUpdate:()=>{cover.alpha=1-this.autoCoverMotion.value;this.layoutAutoCover();this.stage.draw();},onComplete:()=>{cover.destroy();this.autoCover=null;this.autoCoverTween=null;this.emitTargets();this.stage.draw();}});
   }
   private animateChrome(){
     const s=this.state;if(!s)return;const time=this.stage.openingUiTime,pose=time===null?null:openingUiPose(time),w=this.stage.app.screen.width,h=this.stage.app.screen.height;
@@ -191,7 +215,7 @@ export class CanvasUI {
       const flash=new Graphics().poly([0,-8,2,-2,8,0,2,2,0,8,-2,2,-8,0,-2,-2]).fill(0xf0ffff);flash.position.set(27,-28);icon.addChild(flash);
     }
     const text=this.text(kind==='all'?'OPEN ALL':label,0,r+7,kind==='all'?Math.min(18,size*.18):size>=76?14:12,C.white,group,'center','bold');text.style.stroke={color:0x082b4b,width:3};
-    if(kind==='all'){const plate=new Graphics().roundRect(-r-3,r+2,size+6,28,8).fill({color:0x07365d,alpha:.94}).stroke({color:0x8ee9ff,width:1.5});group.addChildAt(plate,group.getChildIndex(text));}
+    if(kind==='all'){text.anchor.set(.5);text.y=r+16;const plate=new Graphics().roundRect(-r-3,r+2,size+6,28,8).fill({color:0x07365d,alpha:.94}).stroke({color:0x8ee9ff,width:1.5});group.addChildAt(plate,group.getChildIndex(text));}
     group.alpha=disabled?.42:1;
     this.hits.push({id,label,x:cx-r-4,y:cy-r-4,width:size+8,height:size+30,disabled,action});
     return group;
@@ -266,14 +290,14 @@ export class CanvasUI {
       if(s.phase==='revealing')this.button('retry','Retry reveal',w-132,l.top+17,66,32,()=>s.action('retry'),{small:true,visibleLabel:'Retry'});
     }
     if(s.toast){this.panel(w/2-145,h-46,290,32,0x163c54,C.line);this.text(s.toast,w/2,h-40,12,C.cyan,this.root,'center');}
-    this.hits.forEach(hit=>{hit.x+=frame.x;hit.y+=frame.y;});this.root.addChild(this.focus);if(this.returnCover)this.stage.app.stage.addChild(this.returnCover);this.rewards.update(0,sw,sh,s.reduced);for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;this.stage.draw();
+    this.hits.forEach(hit=>{hit.x+=frame.x;hit.y+=frame.y;});this.root.addChild(this.focus);if(this.returnCover)this.stage.app.stage.addChild(this.returnCover);if(this.autoCover){this.layoutAutoCover();this.stage.app.stage.addChild(this.autoCover);}this.rewards.update(0,sw,sh,s.reduced);for(const caption of this.cardCaptions)caption.alpha=1-this.rewards.celebrationOpacity;this.stage.draw();
     if(modal==='results'&&this.resultLaunch&&!s.reduced)this.animateResults();else if(modal&&changed&&!s.reduced)this.animateModal(modal,w,h);
     this.resultLaunch=null;this.interludeEntry=false;
     this.emitTargets();
     // Keep thumbnail memory bounded. A screen uses fewer than 24; oldest pages can be discarded.
     while(this.thumbs.size>72){const key=this.thumbs.keys().next().value!;const texture=this.thumbs.get(key)!;this.thumbs.delete(key);texture.destroy(true);}
   }
-  private emitTargets(){const s=this.state!;this.onTargets(this.hits.map(hit=>({...hit,disabled:hit.disabled||this.transitioning})),s.inspected?`Viewing ${s.inspected.name}`:s.panel?`${s.panel} screen`:`${s.selected.name}. ${s.phase}. Balance ${money(s.save?.balance??10000)}. ${s.phase==='revealed'?s.save?.active?.cards[s.index]?.name??'':''}`);}
+  private emitTargets(){const s=this.state!;const {width,height}=this.stage.app.screen,bw=Math.min(166,width-60);const hits=this.autoCover?(s.autoRun?.running?[{id:'auto-transition-stop',label:'Stop Auto Spin',x:width/2-bw/2,y:height-58,width:bw,height:38,disabled:false,action:()=>s.action('auto-stop')}]:[]):this.hits.map(hit=>({...hit,disabled:hit.disabled||this.transitioning}));this.onTargets(hits,s.inspected?`Viewing ${s.inspected.name}`:s.panel?`${s.panel} screen`:`${s.selected.name}. ${s.phase}. Balance ${money(s.save?.balance??10000)}. ${s.phase==='revealed'?s.save?.active?.cards[s.index]?.name??'':''}`);}
   private animateModal(kind:string,w:number,h:number){
     this.transitioning=true;this.root.alpha=0;this.backdrop.alpha=0;
     if(kind==='settings')this.root.x=Math.min(440,w)+24;else{this.root.scale.set(.985);this.root.position.set(this.modalOrigin.x+w*.0075,this.modalOrigin.y+h*.0075+14);}
@@ -606,8 +630,9 @@ export class CanvasUI {
   }
   private winSummary(value:number,identity:string,area:{x:number;y:number;width:number;height:number},mode:'pack'|'session'|'interlude'){
     const key=`summary:${identity}`,state=moneyState(this.moneyValues.get(key),identity,value,false);this.moneyValues.set(key,state);
-    const win=new ResultWin(state,{width:area.width,height:area.height,mode,reduced:this.state!.reduced,turbo:!!this.state!.turbo,low:this.state!.low,draw:()=>this.stage.draw()});
-    win.position.set(area.x,area.y);this.root.addChild(win);return win;
+    const effectsWidth=mode==='interlude'?this.stage.app.screen.width-20:area.x*2-24,effectsHeight=mode==='interlude'?this.stage.app.screen.height*.7:Math.min(520,this.stage.app.screen.height*.7);
+    const win=new ResultWin(state,{width:area.width,height:area.height,effectsWidth,effectsHeight,mode,reduced:this.state!.reduced,turbo:!!this.state!.turbo,low:this.state!.low,draw:()=>this.stage.draw()});
+    win.position.set(area.x,area.y);win.celebrationLayer.position.copyFrom(win.position);this.root.addChild(win.celebrationLayer,win);return win;
   }
   private results(w:number,h:number,result:Result,fromAuto=false){
     const l=packResultsLayout(w,h),s=this.state!,ordinal=fromAuto?(s.autoRun!.results.findIndex(pack=>pack.id===result.id)+1):0;
@@ -650,15 +675,15 @@ export class CanvasUI {
     if(session.running){const bw=Math.min(166,w-60);this.button('auto-interlude-stop','Stop Auto Spin',w/2-bw/2,h-58,bw,38,()=>this.state!.action('auto-stop'),{small:true,visibleLabel:'STOP AUTO'});}
   }
   private animateResults(){
-    const launch=this.resultLaunch!,chrome=this.resultChrome!,amount=this.resultAmount!,d=this.state!.turbo?.35:1,trail=new Graphics();this.root.addChildAt(trail,1);
+    const launch=this.resultLaunch!,chrome=this.resultChrome!,d=this.state!.turbo?.35:1,trail=new Graphics();this.root.addChildAt(trail,1);
     this.transitioning=true;chrome.alpha=0;this.backdrop.alpha=0;
     const tracks=this.resultCards.map(c=>{const source=launch.sources[c.index],from={x:Math.max(18,Math.min(this.stage.app.screen.width-18,source.x))-this.modalOrigin.x,y:source.y-this.modalOrigin.y};c.group.position.set(from.x,from.y);c.group.scale.set(source.cardWidth/c.width);return {...c,from,startScale:source.cardWidth/c.width,p:0};});
-    const timeline=this.modalTween=gsap.timeline({onUpdate:()=>{trail.clear();for(const c of tracks){if(c.p<=0||c.p>=1)continue;const a=collectionFlight(Math.max(0,c.p-.09),c.from,c,c.index),b=collectionFlight(c.p,c.from,c,c.index);trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({color:0x7deeff,width:7,alpha:.13}).moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({color:0xddffff,width:1.4,alpha:.6});}this.stage.draw();},onComplete:()=>{trail.destroy();this.resultUnderlay?.destroy({texture:true,textureSource:true});this.resultUnderlay=null;this.transitioning=false;this.emitTargets();amount.pulse();}});
+    const timeline=this.modalTween=gsap.timeline({onUpdate:()=>{trail.clear();for(const c of tracks){if(c.p<=0||c.p>=1)continue;const a=collectionFlight(Math.max(0,c.p-.09),c.from,c,c.index),b=collectionFlight(c.p,c.from,c,c.index);trail.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({color:0x7deeff,width:7,alpha:.13}).moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({color:0xddffff,width:1.4,alpha:.6});}this.stage.draw();},onComplete:()=>{trail.destroy();this.resultUnderlay?.destroy({texture:true,textureSource:true});this.resultUnderlay=null;this.transitioning=false;this.emitTargets();}});
     timeline.to(chrome,{alpha:1,duration:.28*d,ease:'power2.out'},0).to(this.backdrop,{alpha:1,duration:.3*d},0);
     if(this.resultUnderlay)timeline.to(this.resultUnderlay,{alpha:0,duration:.26*d},.1*d);
     for(const c of tracks)timeline.to(c,{p:1,duration:.53*d,ease:'none',onUpdate:()=>{const p=collectionFlight(c.p,c.from,c,c.index);c.group.position.set(p.x,p.y);c.group.rotation=p.rotation;c.group.scale.set(c.startScale+(1-c.startScale)*p.scale);},onComplete:()=>{if(c.index%4===0)playSound('land',{gain:.28});}},(.10+c.index*.035)*d);
     timeline.to({}, {duration:.08*d});
   }
 
-  destroy(){gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();gsap.ticker.remove(this.tickHistoryFan);this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.returnTween?.kill();this.returnCover?.destroy({texture:true,textureSource:true});this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
+  destroy(){this.autoCoverTween?.kill();this.autoCover?.destroy();gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();gsap.ticker.remove(this.tickHistoryFan);this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.returnTween?.kill();this.returnCover?.destroy({texture:true,textureSource:true});this.backdrop.destroy();this.trayTween?.kill();this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
 }

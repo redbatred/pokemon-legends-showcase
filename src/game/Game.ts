@@ -120,7 +120,7 @@ export class PokemonGame {
     }
   }
   private render(){
-    setBattleMusic(['tearing','awaiting','revealing','revealed','collecting','settling','complete'].includes(this.displayPhase));setAudioScenePaused(!!this.panel||!!this.inspected);
+    setBattleMusic(['tearing','awaiting','revealing','revealed','collecting','settling','complete'].includes(this.displayPhase)||!!this.autoRun?.running&&this.autoRun.completed>0);setAudioScenePaused(!!this.panel||!!this.inspected);
     if(!this.view||this.destroyed)return;
     const cards=Array.from(new Map([...Object.values(this.catalogs).flat(),...(this.save?.history.flatMap(o=>o.cards)??[])].filter(c=>c.id!=='energy').map(c=>[c.id,c])).values());
     const state:UIState={phase:this.displayPhase,index:this.index,save:this.save,packs:this.packs,selected:this.selected,pool:this.pool,cards,ready:this.ready,error:this.error,toast:this.toast,panel:this.panel,inspected:this.inspected,result:this.autoRun?.results.find(o=>o.id===this.resultId)??this.save?.history.find(o=>o.id===this.resultId),sound:this.sound,reduced:this.reduced,turbo:this.turbo,autoCount:this.autoCount,autoMode:this.autoMode,autoRun:this.autoRun?{id:this.autoRun.id,running:this.autoRun.running,completed:this.autoRun.completed,total:this.autoRun.total,totalWon:this.autoRun.totalWon,results:this.autoRun.results,interlude:this.autoInterlude}:undefined,configureAuto:this.configureAuto,low:this.low,action:this.action,select:this.select,inspect:card=>{this.inspected=card;this.render();}};
@@ -181,7 +181,7 @@ export class PokemonGame {
         this.autoInterlude=false;
         if(session.running){
           if(!this.save||this.save.balance<this.selected.price){session.stop();this.notify('Auto Spin stopped · not enough credits');return;}
-          this.stage.reset();this.actor.send({type:'RESET'});
+          this.view?.beginAutoPackTransition();this.stage.reset();this.actor.send({type:'RESET'});
         }else this.render();
       },autoInterludeDelay(this.turbo,this.reduced));
       return;
