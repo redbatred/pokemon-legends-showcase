@@ -36,11 +36,13 @@ export class PokemonGame {
   private get selected(){return this.save?.active?.pack??this.packs.find(p=>p.id===this.selectedId)??DEFAULT_PACK;}
   private get pool(){return this.catalogs[this.selected.id]??[];}
   private get opening(){return !['browse','complete'].includes(this.phase);}
-  async init(){
+  async init(progress:(value:number,label:string)=>void=()=>{}){
+    progress(.12,'Preparing the stadium');
     const savePromise=this.persistence.loadSave().catch((e:Error)=>{this.error=e.message;return null;});
     const packPromise=fetch('/assets/packs.json').then(r=>r.ok?r.json():[DEFAULT_PACK]).catch(()=>[DEFAULT_PACK]) as Promise<Pack[]>;
     const artworkPromise=fetch('/assets/pokemon/manifest.json').then(r=>r.ok?r.json():{}).catch(()=>({})) as Promise<PokemonArtwork>;
     await Promise.all([this.stage.init(),document.fonts.load('800 24px Nunito').catch(()=>{})]);if(this.destroyed)return;
+    progress(.5,'Loading card sets');
     this.view=new CanvasUI(this.stage,this.syncTargets);
     this.actor.subscribe(snapshot=>{
       this.phase=String(snapshot.value);this.index=snapshot.context.index;
@@ -50,9 +52,10 @@ export class PokemonGame {
     [this.save,this.packs]=await Promise.all([savePromise,packPromise]);if(this.destroyed)return;
     this.pokemonArt=await artworkPromise;if(this.destroyed)return;
     try{
+      let catalogsReady=0;
       const entries=await Promise.allSettled(this.packs.map(async pack=>{
         const response=await fetch(pack.catalogUrl);if(!response.ok)throw new Error(`Could not load ${pack.name}. Reload to retry.`);
-        const raw:Omit<Card,'value'|'weight'>[]=await response.json();
+        const raw:Omit<Card,'value'|'weight'>[]=await response.json();progress(.5+.2*++catalogsReady/this.packs.length,'Loading card sets');
         return [pack.id,raw.map(c=>{const card=priceCard(c);return {...card,value:Math.round(card.value*pack.price/DEFAULT_PACK.price)};})] as const;
       }));this.catalogs=Object.fromEntries(entries.flatMap(entry=>entry.status==='fulfilled'?[entry.value]:[]));
       if(entries.some(entry=>entry.status==='rejected'))this.error='Some sets could not load. Reload to retry.';
@@ -61,6 +64,11 @@ export class PokemonGame {
     if(this.save?.active)this.selectedId=this.save.active.pack?.id??DEFAULT_PACK.id;
     await this.preparePack();if(this.destroyed)return;
     if(this.save?.active){this.preloadOpening();this.actor.send({type:'RESUME'});}else this.render();
+    progress(.72,'Preparing your packs');
+    await this.view.prepareAssets(this.packs,value=>progress(.72+value*.2,'Preparing your packs'));if(this.destroyed)return;
+    progress(.94,'Entering the stadium');
+    await this.stage.prepareFirstFrame();if(this.destroyed)return;
+    progress(1,'Ready');
   }
   private async preparePack(){
     const token=++this.packToken;this.ready=false;this.render();
@@ -163,7 +171,7 @@ export class PokemonGame {
     },delay);
   };
   action=(type:GameAction)=>{
-    if(this.destroyed)return;
+    if(this.destroyed||this.host.inert)return;
     if(this.autoRun?.running&&['open','tear','all','continue','reset'].includes(type))return;
     if(!['sound','next','all','tear'].includes(type))playSound('ui');
     const unobscured=!this.panel&&!this.inspected;

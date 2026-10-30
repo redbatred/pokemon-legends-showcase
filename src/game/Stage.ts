@@ -1,4 +1,5 @@
 import {RevealPreparation} from './revealPreparation';
+import 'pixi.js/prepare';
 import { Application, Assets, Container, Graphics, PerspectiveMesh, Sprite, Texture, Rectangle } from 'pixi.js';
 import { gsap } from 'gsap';
 import { createFoil,foilStrength } from './foil';
@@ -163,6 +164,14 @@ export class OpeningStage {
     gsap.to(this.pack, { alpha: 1, duration: this.options.reduced ? .01 : .6 });
   }
 
+  async prepareFirstFrame(){
+    // Upload artwork and compile the visible scene under the boot cover, including the HUD.
+    await this.app.renderer.prepare.upload(this.app.stage);if(this.destroyed)return;
+    for(let frame=0;frame<2;frame++){
+      await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));if(this.destroyed)return;
+      this.app.renderer.render(this.app.stage);
+    }
+  }
   updateOptions(options: Options) { const changed=this.options.low!==options.low,reducing=!this.options.reduced&&options.reduced;this.options=options;this.timeline?.timeScale(options.turbo?4:1);if(reducing){this.revealEffects.clear();this.scene.setCharge(null);this.scene.setCinematic(false,true);}if(reducing&&(this.special||this.charging)){this.timeline?.progress(1);this.special?.update(3);this.charging=false;this.scene.setCharge(null);this.scene.setCinematic(false,true);stopRevealAudio();}if(changed&&this.app.renderer)this.resize(); }
   draw(){
     if(this.destroyed||!this.app.renderer||this.app.ticker.started||this.drawFrame)return;

@@ -104,7 +104,7 @@ export class CanvasUI {
     if(pose){const primary=this.paints.get('primary');if(primary&&s.phase==='tearing')primary.alpha=.4*pose.open;for(const id of ['next','reveal-all']){const group=this.paints.get(id);if(group&&s.phase==='awaiting')group.alpha=pose.controls;}}
   }
   private keydown=(event:KeyboardEvent)=>{
-    if(!this.state)return;
+    if(!this.state||this.trayHost.inert)return;
     if(this.transitioning){event.preventDefault();return;}
     if(event.key==='Escape'){event.preventDefault();this.dismissModal();return;}
     if((event.target as HTMLElement)?.tagName==='BUTTON')return;
@@ -188,6 +188,10 @@ export class CanvasUI {
     group.alpha=disabled?.4:1;this.hits.push({id:'primary',label,x,y,width,height,disabled,action:()=>s.action(s.phase==='sealed'?'tear':'open')});
   }
   setFocus(id:string|null){if(id?.startsWith('history-fan-'))this.focusHistoryCard(Number(id.slice(12)));this.focus.clear();const hit=this.hits.find(h=>h.id===id);if(hit)this.focus.roundRect(hit.x-this.modalOrigin.x-3,hit.y-this.modalOrigin.y-3,hit.width+6,hit.height+6,8).stroke({color:0xe3fcff,width:2});this.stage.draw();}
+  async prepareAssets(packs:Pack[],progress:(value:number)=>void=()=>{}){
+    const paths=[...new Set(['/assets/pokemon-logo.png',...packs.map(pack=>pack.packImage)])];let completed=0;
+    await Promise.all(paths.map(async path=>{await this.thumbnail(path);progress(++completed/paths.length);}));
+  }
   private async thumbnail(path:string){
     const cached=this.thumbs.get(path);if(cached){this.thumbs.delete(path);this.thumbs.set(path,cached);return cached;}
     if(this.pending.has(path))return this.pending.get(path)!;

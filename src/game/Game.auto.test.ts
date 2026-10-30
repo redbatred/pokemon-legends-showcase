@@ -1,9 +1,11 @@
 import {beforeEach,afterEach,expect,it,vi} from 'vitest';
+const boot=vi.hoisted(()=>({assets:vi.fn(async()=>{}),frame:vi.fn(async()=>{})}));
 vi.mock('./Stage',()=>({OpeningStage:class{
+ prepareFirstFrame=boot.frame;
  init=vi.fn(async()=>{});setPack=vi.fn(async()=>{});setSealed=vi.fn();waitForReveal=vi.fn();prepareReveal=vi.fn();skipReveal=vi.fn();
  tear=vi.fn(async()=>{});reveal=vi.fn(async()=>{});collectRemaining=vi.fn(async()=>{});showResult=vi.fn();reset=vi.fn();updateOptions=vi.fn();destroy=vi.fn();
 }}));
-vi.mock('./CanvasUI',()=>({CanvasUI:class{update=vi.fn();destroy=vi.fn();setFocus=vi.fn();}}));
+vi.mock('./CanvasUI',()=>({CanvasUI:class{prepareAssets=boot.assets;update=vi.fn();destroy=vi.fn();setFocus=vi.fn();}}));
 vi.mock('./storage',()=>({loadSave:vi.fn(),transactSave:vi.fn(),resetSave:vi.fn()}));
 vi.mock('./audio',()=>({setSound:vi.fn(),setBattleMusic:vi.fn(),playSound:vi.fn(),setAudioScenePaused:vi.fn(),destroyAudio:vi.fn(),preloadRevealAudio:vi.fn(async()=>{}),unlockAudio:vi.fn()}));
 vi.mock('pixi.js',()=>({Assets:{load:vi.fn(async()=>{})}}));
@@ -11,11 +13,21 @@ import {PokemonGame} from './Game';
 import {DEFAULT_PACK,newSave,type Save} from './model';
 const games:PokemonGame[]=[];
 beforeEach(()=>{
+ boot.assets.mockReset().mockResolvedValue();boot.frame.mockReset().mockResolvedValue();
  vi.useFakeTimers();
  vi.stubGlobal('matchMedia',()=>({matches:false}));vi.stubGlobal('localStorage',{getItem:()=>null,setItem:vi.fn()});
  vi.stubGlobal('document',{hidden:false,createElement:()=>({className:'',setAttribute:vi.fn(),remove:vi.fn()}),addEventListener:vi.fn(),removeEventListener:vi.fn(),fonts:{load:async()=>{}}});
  vi.stubGlobal('window',{setTimeout:globalThis.setTimeout});
  vi.stubGlobal('fetch',vi.fn(async(url:string)=>({ok:true,json:async()=>url.endsWith('packs.json')?[DEFAULT_PACK]:url.endsWith('manifest.json')?{}:[{id:'qa',name:'Test',number:'1',rarity:'Common',image:'/assets/cards/test.webp'}]})));
+});
+it('keeps startup pending until pack artwork and the first rendered scene are ready',async()=>{
+ let assetsReady!:()=>void,frameReady!:()=>void,finished=false;
+ boot.assets.mockImplementation(()=>new Promise<void>(resolve=>assetsReady=resolve));
+ boot.frame.mockImplementation(()=>new Promise<void>(resolve=>frameReady=resolve));
+ const game=new PokemonGame({append:vi.fn()} as unknown as HTMLElement,{loadSave:async()=>newSave(),transactSave:vi.fn(),resetSave:vi.fn()});games.push(game);
+ const loading=game.init().then(()=>finished=true);await vi.advanceTimersByTimeAsync(1);
+ expect(finished).toBe(false);assetsReady();await vi.advanceTimersByTimeAsync(1);expect(finished).toBe(false);
+ frameReady();await loading;expect(finished).toBe(true);
 });
 afterEach(()=>{games.forEach(g=>g.destroy());games.length=0;vi.useRealTimers();vi.unstubAllGlobals();});
 async function setup(balance=1000000){
@@ -24,6 +36,11 @@ async function setup(balance=1000000){
  const game=new PokemonGame({append:vi.fn()} as unknown as HTMLElement,storage);games.push(game);await game.init();
  return {game,storage,state:game as any,save:()=>save};
 }
+it('ignores game actions while the boot cover keeps its host inert, including the exit fade',async()=>{
+ const {game,state,storage}=await setup();state.host.inert=true;game.action('open');game.action('settings');await vi.advanceTimersByTimeAsync(10);
+ expect(storage.transactSave).not.toHaveBeenCalled();expect(state.phase).toBe('browse');expect(state.panel).toBeNull();
+ state.host.inert=false;game.action('open');await vi.advanceTimersByTimeAsync(1);expect(storage.transactSave).toHaveBeenCalledOnce();expect(state.phase).toBe('sealed');
+});
 it('selection and manual wrapper opening never reveal the first card automatically',async()=>{
  const {game,state}=await setup();state.select(DEFAULT_PACK);await vi.advanceTimersByTimeAsync(1);
  expect(state.phase).toBe('browse');game.action('open');await vi.advanceTimersByTimeAsync(1);expect(state.phase).toBe('sealed');

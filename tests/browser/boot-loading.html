@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Startup readiness QA</title><link rel="stylesheet" href="/src/boot.css"><link rel="stylesheet" href="/src/styles.css"><style>#root[data-booting]{visibility:hidden}nav{position:fixed;top:8px;left:8px;right:8px;z-index:20000;display:flex;flex-wrap:wrap;gap:8px;font:11px monospace}nav button{padding:7px;background:#173958;color:white;border:1px solid #82cbec}output{width:100%;color:#c7eefe}body[data-clean] nav{display:none}</style></head><body tabindex="-1"><nav><button id="assets">Release pack artwork</button><button id="frame">Release first frame</button><button id="fail">Fail startup</button><button id="clean">Hide test controls</button><output>Initializing</output></nav><script type="module">
+const html=new DOMParser().parseFromString(await(await fetch('/')).text(),'text/html');document.body.append(html.querySelector('#boot-screen'),html.querySelector('#root'));
+const {BootScreen}=await import('/src/BootScreen.ts'),{PokemonGame}=await import('/src/game/Game.ts'),{CanvasUI}=await import('/src/game/CanvasUI.ts'),{OpeningStage}=await import('/src/game/Stage.ts'),{newSave}=await import('/src/game/model.ts');
+const root=document.querySelector('#root');root.className='game-viewport canvas-host';const cover=document.querySelector('#boot-screen'),boot=new BootScreen(cover,root);
+let allowAssets,allowFrame,rejectAssets,phase='starting',finished=false,attemptedActions=0;
+const assetsGate=new Promise((resolve,reject)=>{allowAssets=resolve;rejectAssets=reject;}),frameGate=new Promise(resolve=>allowFrame=resolve);
+void assetsGate.catch(()=>{});
+const assets=CanvasUI.prototype.prepareAssets,frame=OpeningStage.prototype.prepareFirstFrame;
+CanvasUI.prototype.prepareAssets=async function(...args){phase='artwork';await assetsGate;return assets.apply(this,args);};
+OpeningStage.prototype.prepareFirstFrame=async function(){phase='first-frame';await frameGate;await frame.call(this);phase='painted';};
+const game=new PokemonGame(root,{loadSave:async()=>newSave(),transactSave:async()=>{attemptedActions++;throw new Error('Preview only');},resetSave:async()=>newSave()});
+document.querySelector('#assets').onclick=()=>allowAssets();document.querySelector('#frame').onclick=()=>allowFrame();document.querySelector('#fail').onclick=()=>rejectAssets(new Error('Simulated startup failure'));document.querySelector('#clean').onclick=()=>document.body.dataset.clean='true';
+function report(){document.querySelector('output').textContent=JSON.stringify({phase,finished,attemptedActions,covered:cover.isConnected,inert:root.inert,hidden:getComputedStyle(root).visibility==='hidden',progress:cover.querySelector('[role=progressbar]').getAttribute('aria-valuenow'),status:cover.querySelector('[data-boot-status]').textContent,canvas:!!root.querySelector('canvas')});}
+setInterval(report,100);await game.init(boot.progress).then(async()=>{await boot.finish();finished=true;}).catch(()=>{phase='failed';boot.fail();});report();
+</script></body></html>
