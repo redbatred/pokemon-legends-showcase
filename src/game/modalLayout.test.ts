@@ -23,8 +23,8 @@ it('reserves the reward between the card and tray without covering mobile contro
 
 it('keeps Auto Spin count, mode and start hit areas separate in landscape and portrait',async()=>{
  const {autoSpinLayout}=await import('./modalLayout');
- for(const [w,h] of [[568,320],[560,390],[390,570],[320,568],[560,570]]){
-  const l=autoSpinLayout(w,h),targets=[...Array.from({length:8},(_,i)=>l.count(i)),l.individual,l.all,l.start];
+ for(const [w,h] of [[320,400],[390,400],[568,320],[560,390],[390,570],[320,568],[560,570]]){
+  const l=autoSpinLayout(w,h),targets=[...Array.from({length:9},(_,i)=>l.count(i)),l.individual,l.all,l.start];
   for(const a of targets){expect(a.x).toBeGreaterThanOrEqual(0);expect(a.x+a.width).toBeLessThanOrEqual(w);expect(a.y+a.height).toBeLessThanOrEqual(h);}
   for(let i=0;i<targets.length;i++)for(let j=i+1;j<targets.length;j++){const a=targets[i],b=targets[j];expect(a.x+a.width<=b.x||b.x+b.width<=a.x||a.y+a.height<=b.y||b.y+b.height<=a.y).toBe(true);}
   expect(l.infoY+16).toBeLessThan(l.start.y);

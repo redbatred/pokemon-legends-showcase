@@ -58,22 +58,26 @@ it.each(['individual','all'] as const)('completes exactly five automatic packs i
 });
 it('does not use the 30-result history cap as the auto counter',async()=>{
  const {game,state,save,storage}=await setup();state.configureAuto(100,'all');game.action('turbo');game.action('auto-start');
- await vi.advanceTimersByTimeAsync(120000);expect(state.autoRun.completed).toBe(100);expect(save().history).toHaveLength(30);expect(storage.transactSave).toHaveBeenCalledTimes(200);
+ await vi.advanceTimersByTimeAsync(180000);expect(state.autoRun.completed).toBe(100);expect(save().history).toHaveLength(30);expect(storage.transactSave).toHaveBeenCalledTimes(200);
+ expect(state.autoRun.results).toHaveLength(100);expect(state.autoRun.totalWon).toBe(save().totalWon);
+ expect(state.autoRun.results[0].id).not.toBe(save().history[0].id);expect(state.autoInterlude).toBe(false);
 });
 it('pauses before buying while a menu or hidden tab is active',async()=>{
  const {game,state,storage}=await setup();game.action('auto-start');game.action('settings');await vi.advanceTimersByTimeAsync(5000);expect(storage.transactSave).not.toHaveBeenCalled();
  game.action('close');(document as any).hidden=true;state.scheduleAuto();await vi.advanceTimersByTimeAsync(5000);expect(storage.transactSave).not.toHaveBeenCalled();
  (document as any).hidden=false;state.scheduleAuto();await vi.advanceTimersByTimeAsync(400);expect(storage.transactSave).toHaveBeenCalledOnce();game.action('auto-stop');
 });
-it('stops while a purchase is in flight, leaving that pack sealed for manual use',async()=>{
+it('stops future purchases while finishing and retaining the pack already in flight',async()=>{
  const {game,state,storage}=await setup();const real=storage.transactSave.getMockImplementation()!;let release:()=>void=()=>{};
  storage.transactSave.mockImplementationOnce(async update=>{await new Promise<void>(resolve=>{release=resolve;});return real(update);});
- game.action('auto-start');await vi.advanceTimersByTimeAsync(400);expect(state.phase).toBe('reserving');game.action('auto-stop');release();await vi.advanceTimersByTimeAsync(10000);
- expect(state.phase).toBe('sealed');expect(state.stage.tear).not.toHaveBeenCalled();expect(storage.transactSave).toHaveBeenCalledOnce();
+ state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(400);expect(state.phase).toBe('reserving');game.action('auto-stop');release();await vi.advanceTimersByTimeAsync(10000);
+ expect(state.phase).toBe('complete');expect(state.stage.tear).toHaveBeenCalledOnce();expect(storage.transactSave).toHaveBeenCalledTimes(2);
+ expect(state.autoRun.results).toHaveLength(1);expect(state.autoRun.running).toBe(false);expect(state.autoFinishing).toBe(false);
 });
 it('stops on insufficient credits without topping up or buying a second pack',async()=>{
  const {game,state,storage,save}=await setup(1000);state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(30000);
  expect(save().history).toHaveLength(1);expect(state.autoRun.running).toBe(false);expect(storage.transactSave).toHaveBeenCalledTimes(2);expect(state.toast).toBe('');
+ expect(state.phase).toBe('complete');expect(state.view.update.mock.lastCall[0].result).toBe(state.autoRun.results[0]);
 });
 it('stops on storage failure without an automatic retry loop',async()=>{
  const {game,state,storage}=await setup();storage.transactSave.mockRejectedValueOnce(new Error('Storage unavailable'));game.action('auto-start');await vi.advanceTimersByTimeAsync(10000);
@@ -101,4 +105,61 @@ it('warms the next special at pack reservation rather than waiting until the pre
  state.save.active={id:'test',at:'',pack:DEFAULT_PACK,cards:[common,common,common,rare,common,{...rare,id:'later',image:'/assets/later.png'}]};
  state.stage.prepareReveal.mockClear();state.preloadOpening();
  expect(state.stage.prepareReveal.mock.calls).toEqual([[common,null],[rare,'/assets/pokemon/pikachu.png']]);
+});
+
+it('shows the normal result immediately for a one-pack automatic opening',async()=>{
+ const {game,state,storage}=await setup();state.configureAuto(1,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ expect(state.phase).toBe('complete');expect(state.autoRun.running).toBe(false);expect(state.autoInterlude).toBe(false);
+ const view=state.view.update.mock.lastCall[0];expect(view.autoRun.results).toHaveLength(1);expect(view.result).toBe(view.autoRun.results[0]);
+ expect(view.autoRun.totalWon).toBe(view.result.total);await vi.advanceTimersByTimeAsync(10000);expect(storage.transactSave).toHaveBeenCalledTimes(2);
+});
+it.each([{turbo:false,reduced:false,first:1360,hold:1800},{turbo:true,reduced:false,first:540,hold:1200},{turbo:false,reduced:true,first:1360,hold:400}])('holds every pack total, including the final one, with $hold ms interludes',async({turbo,reduced,first,hold})=>{
+ const {game,state,storage}=await setup();state.reduced=reduced;if(turbo)game.action('turbo');state.configureAuto(5,'all');game.action('auto-start');
+ await vi.advanceTimersByTimeAsync(first);expect(state.phase).toBe('complete');expect(state.autoInterlude).toBe(true);expect(storage.transactSave).toHaveBeenCalledTimes(2);
+ await vi.advanceTimersByTimeAsync(hold-1);expect(state.phase).toBe('complete');expect(storage.transactSave).toHaveBeenCalledTimes(2);
+ await vi.advanceTimersByTimeAsync(1);expect(state.phase).toBe('browse');expect(state.autoInterlude).toBe(false);
+ await vi.advanceTimersByTimeAsync(first+3*(hold+first));expect(state.autoRun.completed).toBe(5);expect(state.autoRun.running).toBe(false);
+ expect(state.phase).toBe('complete');expect(state.autoInterlude).toBe(true);
+ await vi.advanceTimersByTimeAsync(hold-1);expect(state.autoInterlude).toBe(true);
+ await vi.advanceTimersByTimeAsync(1);expect(state.autoInterlude).toBe(false);expect(state.phase).toBe('complete');
+ expect(state.view.update.mock.lastCall[0].autoRun.results).toHaveLength(5);expect(storage.transactSave).toHaveBeenCalledTimes(10);
+});
+it.each(['hidden','panel','inspect'] as const)('pauses an interlude while %s and resumes without buying early',async pause=>{
+ const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ if(pause==='hidden')(document as any).hidden=true;else if(pause==='panel')game.action('settings');else state.inspected=state.autoRun.results[0].cards[0];
+ state.scheduleAuto();await vi.advanceTimersByTimeAsync(10000);expect(state.autoInterlude).toBe(true);expect(storage.transactSave).toHaveBeenCalledTimes(2);
+ if(pause==='hidden')(document as any).hidden=false;else game.action('close');
+ state.scheduleAuto();await vi.advanceTimersByTimeAsync(1799);expect(state.phase).toBe('complete');
+ await vi.advanceTimersByTimeAsync(381);expect(storage.transactSave).toHaveBeenCalledTimes(3);expect(state.phase).toBe('sealed');
+});
+it('stopping between packs preserves the completed pack view and cancels its scheduled purchase',async()=>{
+ const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(3160);
+ expect(state.phase).toBe('browse');game.action('auto-stop');await vi.advanceTimersByTimeAsync(10000);
+ expect(storage.transactSave).toHaveBeenCalledTimes(2);expect(state.view.update.mock.lastCall[0].phase).toBe('complete');expect(state.autoRun.results).toHaveLength(1);
+ game.action('continue');expect(state.autoRun).toBeNull();expect(state.view.update.mock.lastCall[0].phase).toBe('browse');
+});
+it('stopping during a total celebration finishes that celebration without another purchase',async()=>{
+ const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ game.action('auto-stop');expect(state.autoInterlude).toBe(true);await vi.advanceTimersByTimeAsync(10000);
+ expect(state.autoInterlude).toBe(false);expect(state.phase).toBe('complete');expect(storage.transactSave).toHaveBeenCalledTimes(2);
+});
+it('keeps completed packs reviewable if the next purchase fails',async()=>{
+ const {game,state,storage}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ storage.transactSave.mockRejectedValueOnce(new Error('Storage unavailable'));await vi.advanceTimersByTimeAsync(10000);
+ expect(state.autoRun.running).toBe(false);expect(state.autoRun.results).toHaveLength(1);expect(state.view.update.mock.lastCall[0].phase).toBe('complete');
+ expect(state.view.update.mock.lastCall[0].result).toBe(state.autoRun.results[0]);expect(storage.transactSave).toHaveBeenCalledTimes(3);
+});
+it.each(['continue','close','open'] as const)('clears completed auto results on %s and never attaches later manual packs',async action=>{
+ const {game,state}=await setup();state.configureAuto(1,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(1360);
+ const session=state.autoRun;game.action(action);expect(state.autoRun).toBeNull();expect(state.autoInterlude).toBe(false);
+ if(action==='open'){await vi.advanceTimersByTimeAsync(1);game.action('tear');await vi.advanceTimersByTimeAsync(1);game.action('all');await vi.advanceTimersByTimeAsync(1);expect(state.phase).toBe('complete');}
+ expect(session.results).toHaveLength(1);
+});
+it('preserves the final session through its interlude while still allowing menus to close',async()=>{
+ const {game,state}=await setup();state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(14000);
+ const session=state.autoRun;expect(session.running).toBe(false);expect(session.results).toHaveLength(5);expect(state.autoInterlude).toBe(true);
+ game.action('continue');game.action('close');expect(state.autoRun).toBe(session);expect(state.autoInterlude).toBe(true);expect(state.phase).toBe('complete');
+ game.action('settings');expect(state.panel).toBe('settings');game.action('close');expect(state.panel).toBeNull();expect(state.autoRun).toBe(session);
+ await vi.advanceTimersByTimeAsync(1800);expect(state.autoInterlude).toBe(false);expect(state.autoRun).toBe(session);
+ game.action('continue');expect(state.autoRun).toBeNull();expect(state.phase).toBe('browse');
 });

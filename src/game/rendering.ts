@@ -31,7 +31,7 @@ export function gameLayout(width:number,height:number,opening=false) {
 }
 
 export function revealControlsLayout(width:number,height:number){
- const l=gameLayout(width,height,true),y=l.worldY-8*l.scale,size=l.compact||width<360?80:l.sideControls?132:96,allSize=l.compact||width<360?72:l.sideControls?106:84;
+ const l=gameLayout(width,height,true),y=l.worldY-8*l.scale,size=l.compact||width<360?80:l.sideControls?132:96,allSize=l.compact||width<360?78:l.sideControls?120:92;
  const nextX=l.compact?width-66:Math.min(width-size/2-10,width/2+156*l.scale+size/2+14);
  const allX=l.compact?66:Math.max(allSize/2+10,width/2-156*l.scale-allSize/2-20);
  return {next:{x:nextX,y,size},all:{x:allX,y,size:allSize}};

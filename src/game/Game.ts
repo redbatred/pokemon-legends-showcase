@@ -9,7 +9,7 @@ import {winTier} from './winTransfer';
 import { setSound, setBattleMusic,playSound,setAudioScenePaused,destroyAudio,preloadRevealAudio,unlockAudio } from './audio';
 import { specialPokemon,type PokemonArtwork } from './specialReward';
 import { createPreviewOpening } from './previewOpening';
-import {AutoSpinSession,type AutoRevealMode} from './autoSpin';
+import {AutoSpinSession,autoInterludeDelay,type AutoRevealMode} from './autoSpin';
 
 /** Discrete game state and persistence. Pixi owns every visible screen and frame. */
 export class PokemonGame {
@@ -20,6 +20,7 @@ export class PokemonGame {
   private panel:Panel=null;private inspected:Card|null=null;private resultId:string|null=null;
   private sound=false;private reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;private low=false;
   private turbo=false;private autoCount=5;private autoMode:AutoRevealMode='individual';private autoRun:AutoSpinSession|null=null;private autoTimer=0;
+  private autoInterlude=false;private autoFinishing=false;private autoTimerToken=0;
   private flowToken=0;private packToken=0;private destroyed=false;private toastTimer=0;private stateKey='';
   private controls=document.createElement('div');private announcer=document.createElement('p');private keyboard=false;
   private pokemonArt:PokemonArtwork={};
@@ -36,6 +37,7 @@ export class PokemonGame {
   private get selected(){return this.save?.active?.pack??this.packs.find(p=>p.id===this.selectedId)??DEFAULT_PACK;}
   private get pool(){return this.catalogs[this.selected.id]??[];}
   private get opening(){return !['browse','complete'].includes(this.phase);}
+  private get displayPhase(){return this.phase==='browse'&&!this.save?.active&&this.autoRun&&!this.autoRun.running&&this.autoRun.completed>0?'complete':this.phase;}
   async init(progress:(value:number,label:string)=>void=()=>{}){
     progress(.12,'Preparing the stadium');
     const savePromise=this.persistence.loadSave().catch((e:Error)=>{this.error=e.message;return null;});
@@ -106,7 +108,9 @@ export class PokemonGame {
       }else if(phase==='settling'){
         const id=this.save?.active?.id;if(!id)throw new Error('Opening changed. Reload to sync your game.');
         this.save=await this.persistence.transactSave(s=>settleOpening(s,id));if(!valid())return;
-        this.resultId=id;this.autoRun?.record(id);this.stage.showResult();this.actor.send({type:'SETTLED'});if(this.autoRun?.running||this.reduced)playSound('complete');
+        const result=this.save.history.find(opening=>opening.id===id);if(!result)throw new Error('The settled pack could not be found. Reload to sync your game.');
+        this.resultId=id;this.autoRun?.record(result);this.autoFinishing=false;this.autoInterlude=!!this.autoRun&&this.autoRun.total>1;
+        this.stage.showResult();this.actor.send({type:'SETTLED'});
       }
     }catch(e){
       if(!valid())return;
@@ -116,10 +120,10 @@ export class PokemonGame {
     }
   }
   private render(){
-    setBattleMusic(['tearing','awaiting','revealing','revealed','collecting','settling','complete'].includes(this.phase));setAudioScenePaused(!!this.panel||!!this.inspected);
+    setBattleMusic(['tearing','awaiting','revealing','revealed','collecting','settling','complete'].includes(this.displayPhase));setAudioScenePaused(!!this.panel||!!this.inspected);
     if(!this.view||this.destroyed)return;
     const cards=Array.from(new Map([...Object.values(this.catalogs).flat(),...(this.save?.history.flatMap(o=>o.cards)??[])].filter(c=>c.id!=='energy').map(c=>[c.id,c])).values());
-    const state:UIState={phase:this.phase,index:this.index,save:this.save,packs:this.packs,selected:this.selected,pool:this.pool,cards,ready:this.ready,error:this.error,toast:this.toast,panel:this.panel,inspected:this.inspected,result:this.save?.history.find(o=>o.id===this.resultId),sound:this.sound,reduced:this.reduced,turbo:this.turbo,autoCount:this.autoCount,autoMode:this.autoMode,autoRun:this.autoRun?{running:this.autoRun.running,completed:this.autoRun.completed,total:this.autoRun.total}:undefined,configureAuto:this.configureAuto,low:this.low,action:this.action,select:this.select,inspect:card=>{this.inspected=card;this.render();}};
+    const state:UIState={phase:this.displayPhase,index:this.index,save:this.save,packs:this.packs,selected:this.selected,pool:this.pool,cards,ready:this.ready,error:this.error,toast:this.toast,panel:this.panel,inspected:this.inspected,result:this.autoRun?.results.find(o=>o.id===this.resultId)??this.save?.history.find(o=>o.id===this.resultId),sound:this.sound,reduced:this.reduced,turbo:this.turbo,autoCount:this.autoCount,autoMode:this.autoMode,autoRun:this.autoRun?{id:this.autoRun.id,running:this.autoRun.running,completed:this.autoRun.completed,total:this.autoRun.total,totalWon:this.autoRun.totalWon,results:this.autoRun.results,interlude:this.autoInterlude}:undefined,configureAuto:this.configureAuto,low:this.low,action:this.action,select:this.select,inspect:card=>{this.inspected=card;this.render();}};
     this.view.update(state);this.scheduleAuto();
   }
   private syncTargets=(hits:HitTarget[],summary:string)=>{
@@ -135,7 +139,7 @@ export class PokemonGame {
   };
   private select=(pack:Pack)=>{
     if(this.opening||this.autoRun?.running)return;
-    if(this.phase==='complete'){this.stage.reset();this.actor.send({type:'RESET'});}
+    if(this.displayPhase==='complete')this.dismissResults();
     playSound('ui');this.selectedId=pack.id;this.error='';void this.preparePack();
   };
   private notify(message:string){clearTimeout(this.toastTimer);this.toast=message;this.render();this.toastTimer=window.setTimeout(()=>{this.toast='';this.render();},2200);}
@@ -150,33 +154,56 @@ export class PokemonGame {
   private settings(){setSound(this.sound);try{localStorage.setItem('legends-settings',JSON.stringify({sound:this.sound,turbo:this.turbo,low:this.low}));}catch{/* Memory-only settings. */}this.stage.updateOptions({reduced:this.reduced,turbo:this.turbo,low:this.low,onTear:()=>this.action('tear'),onNext:()=>this.action('next')});}
   private configureAuto=(count:number,mode:AutoRevealMode)=>{if(this.autoRun?.running)return;this.autoCount=count;this.autoMode=mode;this.render();};
   private startAuto(){
-    if(this.autoRun?.running||this.opening||!this.ready||!this.save||!this.pool.length)return;
+    if(this.autoRun?.running||this.autoInterlude||this.opening||!this.ready||!this.save||!this.pool.length)return;
     if(this.save.balance<this.selected.price){this.error='Not enough demo credits for this pack.';this.render();return;}
     try{this.autoRun=new AutoSpinSession(this.autoCount,this.autoMode);}catch{return;}
+    this.cancelAutoTimer();this.autoInterlude=false;this.autoFinishing=false;this.resultId=null;
     this.panel=null;this.error='';if(this.phase==='complete'){this.stage.reset();this.actor.send({type:'RESET'});}this.render();
   }
-  private stopAuto(notify=true){clearTimeout(this.autoTimer);this.autoRun?.stop();if(notify)this.notify('Auto Spin stopped');}
+  private cancelAutoTimer(){clearTimeout(this.autoTimer);++this.autoTimerToken;}
+  private dismissResults(){
+    this.cancelAutoTimer();this.autoRun=null;this.autoInterlude=false;this.autoFinishing=false;this.resultId=null;
+    this.stage.reset();this.actor.send({type:'RESET'});this.render();
+  }
+  private stopAuto(notify=true){
+    this.cancelAutoTimer();this.autoFinishing=notify&&!!this.autoRun&&this.opening&&!this.error;this.autoRun?.stop();
+    if(notify)this.notify(this.autoFinishing?'Auto Spin stopped · finishing this pack':'Auto Spin stopped');
+  }
   private scheduleAuto=()=>{
-    clearTimeout(this.autoTimer);
-    if(this.destroyed||document.hidden||this.panel||this.inspected||this.error||!this.autoRun?.running)return;
-    const action=this.autoRun.next(this.phase);if(!action||!this.ready)return;
-    if(action==='open'&&(!this.save||this.save.balance<this.selected.price)){this.autoRun.stop();this.notify('Auto Spin stopped · not enough credits');return;}
+    this.cancelAutoTimer();
+    if(this.destroyed||document.hidden||this.panel||this.inspected||this.error||!this.autoRun)return;
     const session=this.autoRun,phase=this.phase,index=this.index;
+    const timerToken=this.autoTimerToken;
+    const valid=()=>!this.destroyed&&!document.hidden&&!this.panel&&!this.inspected&&!this.error&&timerToken===this.autoTimerToken&&session===this.autoRun&&this.phase===phase&&this.index===index;
+    if(this.autoInterlude&&phase==='complete'){
+      this.autoTimer=window.setTimeout(()=>{
+        if(!valid()||!this.autoInterlude)return;
+        this.autoInterlude=false;
+        if(session.running){
+          if(!this.save||this.save.balance<this.selected.price){session.stop();this.notify('Auto Spin stopped · not enough credits');return;}
+          this.stage.reset();this.actor.send({type:'RESET'});
+        }else this.render();
+      },autoInterludeDelay(this.turbo,this.reduced));
+      return;
+    }
+    const action=session.next(this.phase,this.autoFinishing);if(!action||!this.ready)return;
+    if(action==='open'&&(!this.save||this.save.balance<this.selected.price)){session.stop();this.notify('Auto Spin stopped · not enough credits');return;}
     const card=this.save?.active?.cards[this.index],big=card&&winTier(card,this.selected.price,!!this.save?.active?.previewSpecial&&this.index===0);
     const delay=this.turbo?180:action==='next'?(big?2200:1400):action==='all'?600:action==='continue'?650:380;
     this.autoTimer=window.setTimeout(()=>{
-      if(this.destroyed||document.hidden||this.panel||this.inspected||session!==this.autoRun||!session.running||this.phase!==phase||this.index!==index)return;
+      if(!valid()||session.next(this.phase,this.autoFinishing)!==action)return;
       if(action==='continue'){this.stage.reset();this.actor.send({type:'RESET'});}
       else this.actor.send({type:({open:'OPEN',tear:'TEAR',next:'NEXT',all:'ALL'} as const)[action]});
     },delay);
   };
   action=(type:GameAction)=>{
     if(this.destroyed||this.host.inert)return;
+    if(this.autoInterlude&&!this.panel&&!this.inspected&&(type==='continue'||type==='close'))return;
     if(this.autoRun?.running&&['open','tear','all','continue','reset'].includes(type))return;
     if(!['sound','next','all','tear'].includes(type))playSound('ui');
     const unobscured=!this.panel&&!this.inspected;
     switch(type){
-      case 'close':if(this.inspected)this.inspected=null;else if(this.panel)this.panel=null;else if(this.phase==='complete'){this.stage.reset();this.actor.send({type:'RESET'});return;}break;
+      case 'close':if(this.inspected)this.inspected=null;else if(this.panel)this.panel=null;else if(this.displayPhase==='complete'){if(!this.autoRun?.running)this.dismissResults();return;}break;
       case 'collection':this.panel='collection';break;
       case 'settings':this.panel='settings';break;
       case 'history':this.panel='history';break;
@@ -192,11 +219,11 @@ export class PokemonGame {
       case 'retry':this.error='';void this.runPhase();break;
       case 'dismiss':this.error='';break;
       case 'fullscreen':if(document.fullscreenElement)void document.exitFullscreen();else void this.host.requestFullscreen().catch(()=>this.notify('Full screen is unavailable.'));return;
-      case 'reset':if(!this.opening)void this.persistence.resetSave().then(s=>{this.save=s;this.error='';this.panel=null;this.stage.reset();if(this.phase==='complete')this.actor.send({type:'RESET'});this.render();}).catch(()=>{this.error='Browser storage unavailable.';this.render();});return;
-      case 'continue':this.stage.reset();this.actor.send({type:'RESET'});return;
-      case 'open':if(this.ready&&this.save&&this.pool.length&&unobscured){this.error='';this.actor.send({type:'OPEN'});}return;
+      case 'reset':if(!this.opening)void this.persistence.resetSave().then(s=>{this.save=s;this.error='';this.panel=null;this.dismissResults();}).catch(()=>{this.error='Browser storage unavailable.';this.render();});return;
+      case 'continue':this.dismissResults();return;
+      case 'open':if(this.ready&&this.save&&this.pool.length&&unobscured){if(!this.opening)this.dismissResults();this.error='';this.actor.send({type:'OPEN'});}return;
       case 'tear':if(this.ready&&unobscured)this.actor.send({type:'TEAR'});return;
-      case 'next':if(unobscured){clearTimeout(this.autoTimer);if(this.phase==='revealing')this.stage.skipReveal();else this.actor.send({type:'NEXT'});}return;
+      case 'next':if(unobscured){this.cancelAutoTimer();if(this.phase==='revealing')this.stage.skipReveal();else this.actor.send({type:'NEXT'});}return;
       case 'all':if(unobscured)this.actor.send({type:'ALL'});return;
     }
     this.render();
