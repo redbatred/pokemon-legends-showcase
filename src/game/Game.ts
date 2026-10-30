@@ -104,7 +104,7 @@ export class PokemonGame {
       }else if(phase==='revealed'){this.warmReveal(this.index+1);
       }else if(phase==='collecting'){
         const cards=this.save?.active?.cards;if(!cards)throw new Error('Opening changed. Reload to sync your game.');
-        await this.stage.collectRemaining(cards,this.index);if(valid())this.actor.send({type:'COLLECTED'});
+        await this.stage.collectRemaining(cards,this.index,this.autoRun?.mode==='all',this.selected.price);if(valid())this.actor.send({type:'COLLECTED'});
       }else if(phase==='settling'){
         const id=this.save?.active?.id;if(!id)throw new Error('Opening changed. Reload to sync your game.');
         this.save=await this.persistence.transactSave(s=>settleOpening(s,id));if(!valid())return;
@@ -187,12 +187,12 @@ export class PokemonGame {
       },autoInterludeDelay(this.turbo,this.reduced));
       return;
     }
-    const action=session.next(this.phase,this.autoFinishing,this.turbo);if(!action||!this.ready)return;
+    const action=session.next(this.phase,this.autoFinishing);if(!action||!this.ready)return;
     if(action==='open'&&(!this.save||this.save.balance<this.selected.price)){session.stop();this.notify('Auto Spin stopped · not enough credits');return;}
     const card=this.save?.active?.cards[this.index],big=card&&winTier(card,this.selected.price,!!this.save?.active?.previewSpecial&&this.index===0);
     const delay=this.turbo?180:action==='next'?(phase==='awaiting'?180:big?1450:session.mode==='all'?520:780):action==='all'?600:action==='continue'?650:380;
     this.autoTimer=window.setTimeout(()=>{
-      if(!valid()||session.next(this.phase,this.autoFinishing,this.turbo)!==action)return;
+      if(!valid()||session.next(this.phase,this.autoFinishing)!==action)return;
       if(action==='continue'){this.stage.reset();this.actor.send({type:'RESET'});}
       else this.actor.send({type:({open:'OPEN',tear:'TEAR',next:'NEXT',all:'ALL'} as const)[action]});
     },delay);

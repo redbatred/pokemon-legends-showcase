@@ -23,12 +23,12 @@ export class AutoSpinSession {
   if(this.completed>=this.total)this.stop();
   return true;
  }
- next(phase:string,finishCurrent=false,turbo=false):AutoAction|null {
+ next(phase:string,finishCurrent=false):AutoAction|null {
   if(!this.running&&!finishCurrent)return null;
   switch(phase){
    case 'browse':return this.running?'open':null;
    case 'sealed':return 'tear';
-   case 'awaiting':case 'revealed':return this.mode==='all'&&turbo?'all':'next';
+   case 'awaiting':case 'revealed':return this.mode==='all'?'all':'next';
    case 'complete':return this.running?'continue':null;
    default:return null;
   }

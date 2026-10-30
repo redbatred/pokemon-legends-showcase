@@ -6,6 +6,7 @@ import {cardPowerKind} from './powerProfiles';
 import {historyFanLayout} from './historyFan';
 import {settingsLayout} from './settingsLayout';
 import {packResultsLayout,autoResultsLayout,collectionFlight} from './packResultsLayout';
+import {packRevealLayout} from './packRevealMotion';
 import {playSound} from './audio';
 import {openingUiPose} from './openingUiMotion';
 import {utilityLayout,compactToolbar} from './utilityLayout';
@@ -358,7 +359,7 @@ export class CanvasUI {
     const edgeTitle=l.compact||(l.short&&l.sideControls),captionY=l.compact?65:!l.sideControls&&l.short?166:edgeTitle?125:l.sideControls?28:182;
     const captionWidth=edgeTitle?Math.max(85,l.sideControls?(w-l.stageWidth)/2-28:w/2-156*l.scale-side-12):l.sideControls?w-510:w-112;
     const packTitle=this.text(s.save?.active?.pack?.name??s.selected.name,edgeTitle?side:w/2,captionY,edgeTitle?14:l.sideControls?22:18,C.white,this.root,edgeTitle?'left':'center','bold');packTitle.visible=!['awaiting','revealing','revealed','collecting','settling'].includes(s.phase);packTitle.style.stroke={color:0x08315a,width:3};if(packTitle.width>captionWidth)packTitle.scale.set(captionWidth/packTitle.width);
-    if(s.save?.active)this.revealCountLabel=this.text(`${Math.min(Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),11)} / 11`,w-side,l.compact?65:!l.sideControls?captionY+3:128,10,C.white,this.root,'right','bold');
+    if(s.save?.active){const grouped=s.phase==='collecting'&&s.autoRun&&s.autoMode==='all',countY=l.compact?65:!l.sideControls?captionY+3:128;this.revealCountLabel=this.text(grouped?`${s.save.active.cards.length} CARDS`:`${Math.min(Math.max(this.landed.size,s.index+(['revealed','collecting','settling'].includes(s.phase)?1:0)),11)} / 11`,w-side,grouped?Math.min(countY,packRevealLayout(w,h,s.save.active.cards.length).top-19):countY,10,C.white,this.root,'right','bold');}
   }
   private playControls(w:number,h:number){
     const s=this.state!,l=gameLayout(w,h,['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)),busy=!!s.autoRun?.running||['reserving','tearing','revealing','collecting','settling'].includes(s.phase);
@@ -382,7 +383,8 @@ export class CanvasUI {
       this.hit('inspect',`Inspect ${card.name}`,captionX,captionY-2,captionW,l.sideControls?40:36,()=>s.inspect(card));
     }
     if(['awaiting','revealing','revealed','collecting','settling'].includes(s.phase)){
-      const controls=revealControlsLayout(w,h);
+      const grouped=s.phase==='collecting'&&s.autoRun&&s.autoMode==='all';
+      const controls=grouped?packRevealLayout(w,h,s.save?.active?.cards.length??11).controls:revealControlsLayout(w,h);
       this.command('next',s.phase==='awaiting'?'Reveal card':s.index===10?'Collect':'Next card',controls.next.x,controls.next.y,controls.next.size,'next',()=>s.action('next'),['collecting','settling'].includes(s.phase));
       this.command('reveal-all','Open All',controls.all.x,controls.all.y,controls.all.size,'all',()=>s.action('all'),busy||s.index>=10);
     }else{
