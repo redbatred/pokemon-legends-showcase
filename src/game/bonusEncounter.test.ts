@@ -22,8 +22,15 @@ describe('bonus scene files shipped with the build',()=>{
   for(const file of ship)expect(existsSync(folder+file),file).toBe(true);
  });
  it('ships the image pages of every atlas and both legendaries\' own files',()=>{
-  for(const atlas of ship.filter(file=>file.endsWith('.atlas')))for(const line of readFileSync(folder+atlas,'utf8').split('\n').map(l=>l.trim()).filter(l=>l.endsWith('.png')))expect(ship,`${atlas} page ${line}`).toContain('assets/'+line);
-  for(const file of ['assets/lugia-conversion.json','assets/mewtwo-conversion.json','audio/capture-score.wav','audio/escape-score.wav','audio/lugia-capture-score.wav','audio/lugia-escape-score.wav','assets/receiver.png','assets/cave.png'])expect(ship).toContain(file);
+  // Art ships as lossless WebP: every atlas names WebP pages, and each one is shipped.
+  for(const atlas of ship.filter(file=>file.endsWith('.atlas'))){
+   const pages=readFileSync(folder+atlas,'utf8').split('\n').map(l=>l.trim()).filter(l=>/\.(png|webp)$/.test(l));expect(pages.length,atlas).toBeGreaterThan(0);
+   for(const page of pages){expect(page,`${atlas} page`).toMatch(/\.webp$/);expect(ship,`${atlas} page ${page}`).toContain('assets/'+page);}
+  }
+  expect(ship.filter(file=>file.endsWith('.png'))).toEqual([]);
+  // Music ships as FLAC, with the WAV it was made from beside it for a browser that cannot decode FLAC.
+  for(const name of ['music-loop','capture-score','escape-score','lugia-capture-score','lugia-escape-score'])for(const type of ['flac','wav'])expect(ship).toContain(`audio/${name}.${type}`);
+  for(const file of ['assets/lugia-conversion.json','assets/mewtwo-conversion.json','assets/receiver.webp','assets/cave.webp','assets/smoke-sequence.webp'])expect(ship).toContain(file);
   // Every voice line in the bank can be drawn, so every one is shipped.
   for(const id of Object.keys(JSON.parse(readFileSync(folder+'audio/rocket/bank.json','utf8'))))expect(ship).toContain(`audio/rocket/${id}.ogg`);
  });

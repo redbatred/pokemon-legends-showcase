@@ -9,8 +9,12 @@ const base='/output/capture-motion-v25/';
 const clamp=(x:number)=>Math.max(0,Math.min(1,x));
 const out=(x:number)=>1-(1-clamp(x))**3;
 /** Registered speech cels in Spine; original voice takes retain their cadence. */
-export async function createAnimeGuide(){
+/** `celsReady` settles once the ink cel behind the portrait is loaded; the guide's own files download meanwhile. */
+export async function createAnimeGuide(celsReady:Promise<unknown>){
  const [atlas,json,metadata]=await Promise.all([Assets.load<TextureAtlas>(base+'assets/rocket-cels-v34.atlas'),Assets.load(base+'assets/rocket-cels-v34.json'),fetch(base+'audio/rocket/bank.json').then(r=>r.json() as Promise<Record<string,VoiceCue>>) ]);
+ // The voice takes download with the scene, so the first tap does not wait for them; they are decoded when sound starts.
+ const voices=Object.keys(metadata).map(id=>{const bytes=fetch(base+`audio/rocket/${id}.ogg`).then(r=>{if(!r.ok)throw Error('Guide voice missing');return r.arrayBuffer();});bytes.catch(()=>{});return [id,bytes] as const;});
+ await celsReady;
  const rig=new Spine({skeletonData:new SkeletonJson(new AtlasAttachmentLoader(atlas)).readSkeletonData(json),autoUpdate:false});rig.eventMode='none';
  const container=new Container(),portrait=new Container(),art=new Container(),panel=new Graphics(),clip=new Graphics(),wipe=new Graphics(),ink=createAnimeCel('ink'),bubble=new Container(),paper=new Graphics();
  art.addChild(ink.rig,rig);art.mask=clip;portrait.addChild(panel,art,clip);portrait.mask=wipe;
@@ -26,7 +30,7 @@ export async function createAnimeGuide(){
  function stop(){if(voice){try{voice.stop();}catch{}voice.disconnect();voice=undefined;}voiceGain?.disconnect();voiceGain=undefined;}
  async function prepare(context:AudioContext,destination:AudioNode){
   ctx=context;bus=destination;
-  await Promise.all(Object.keys(metadata).map(async id=>{const bytes=await fetch(base+`audio/rocket/${id}.ogg`).then(r=>{if(!r.ok)throw Error('Guide voice missing');return r.arrayBuffer();});buffers.set(id,await context.decodeAudioData(bytes));}));
+  await Promise.all(voices.map(async([id,bytes])=>{buffers.set(id,await context.decodeAudioData((await bytes).slice(0)));}));
  }
  function swoosh(){
   if(!ctx||!bus)return;

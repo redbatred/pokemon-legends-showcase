@@ -3,7 +3,9 @@ export const VERDICT_CUES={capture:[{at:12.2,file:'se_go_ball_gotcha',gain:.8},{
 /** Physical seal/break first, then the matching game-confirmation phrase. */
 export function createVerdictAudio(){
  const buffers=new Map<string,AudioBuffer>(),nodes=new Set<AudioBufferSourceNode>();let context:AudioContext|undefined,bus:AudioNode|undefined,previous=-1,until=0;
- async function prepare(ctx:AudioContext,destination:AudioNode){context=ctx;bus=destination;await Promise.all([...new Set(Object.values(VERDICT_CUES).flat().map(c=>c.file))].map(async file=>{const response=await fetch('/output/capture-motion-v25/audio/verdict/'+file+'.wav');if(!response.ok)throw Error('Verdict audio missing');buffers.set(file,await ctx.decodeAudioData(await response.arrayBuffer()));}));}
+ // The cues download with the scene, so the first tap does not wait for them; they are decoded when sound starts.
+ const files=[...new Set(Object.values(VERDICT_CUES).flat().map(c=>c.file))].map(file=>{const bytes=fetch('/output/capture-motion-v25/audio/verdict/'+file+'.wav').then(r=>{if(!r.ok)throw Error('Verdict audio missing');return r.arrayBuffer();});bytes.catch(()=>{});return [file,bytes] as const;});
+ async function prepare(ctx:AudioContext,destination:AudioNode){context=ctx;bus=destination;await Promise.all(files.map(async([file,bytes])=>{buffers.set(file,await ctx.decodeAudioData((await bytes).slice(0)));}));}
  function reset(){for(const node of nodes){try{node.stop();}catch{}node.disconnect();}nodes.clear();previous=-1;until=0;}
  function sample(t:number,outcome:Outcome,playing:boolean){
   if(!playing||!context||!bus)return false;

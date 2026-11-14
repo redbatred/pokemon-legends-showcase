@@ -1,4 +1,4 @@
-capture.png
+capture.webp
 size: 1536,1024
 filter: Linear,Linear
 pma: false
@@ -19,7 +19,7 @@ lid
 base
   bounds: 616,295,322,192
 
-finish-fx.png
+finish-fx.webp
 size: 1536,1024
 filter: Linear,Linear
 pma: false

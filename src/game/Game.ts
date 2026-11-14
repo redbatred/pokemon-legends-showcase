@@ -14,6 +14,8 @@ import {createCheatOpening,NO_CHEATS,type Cheats} from './cheats';
 import {AutoSpinSession,autoInterludeDelay,type AutoRevealMode} from './autoSpin';
 import {qualifiesForShowdown} from './showdown/showdownSymbols';
 import {bonusFrameBox,BONUS_SCENE,type CaptureDemo} from './bonusEncounter';
+import {BonusPrefetch,bonusName,type BonusSpecies} from './bonusPrefetch';
+import {BonusLoader} from './BonusLoader';
 
 /** Discrete game state and persistence. Pixi owns every visible screen and frame. */
 export class PokemonGame {
@@ -165,7 +167,7 @@ export class PokemonGame {
   }
   private settings(){setSound(this.sound);try{localStorage.setItem('legends-settings',JSON.stringify({sound:this.sound,turbo:this.turbo,low:this.low}));}catch{/* Memory-only settings. */}this.stage.updateOptions({reduced:this.reduced,turbo:this.turbo,low:this.low,onTear:()=>this.action('tear'),onNext:()=>this.action('next')});}
   /** Demo cheats choose what the next pack holds; they stay chosen until changed or reset. */
-  private setCheats=(patch:Partial<Cheats>)=>{this.cheats={...this.cheats,...patch};this.render();};
+  private setCheats=(patch:Partial<Cheats>)=>{const legendary=this.legendary;this.cheats={...this.cheats,...patch};this.render();if(this.prefetch&&this.legendary!==legendary)void this.prefetch.warm(this.legendary,400);};
   private configureAuto=(count:number,mode:AutoRevealMode)=>{if(this.autoRun?.running)return;this.autoCount=count;this.autoMode=mode;this.render();};
   private startAuto(){
     if(this.autoRun?.running||this.autoInterlude||this.opening||!this.ready||!this.save||!this.pool.length)return;
@@ -269,24 +271,29 @@ export class PokemonGame {
   private openPendingShowdown(){
     if(this.showdownPending&&!this.panel&&!this.inspected&&(!this.opening||this.bonusDue)&&(!this.autoRun?.running||this.bonusDue)&&!this.showdown&&!this.showdownLoading)void this.openShowdown('trigger');
   }
+  /** The legendary is the one chosen in the cheats panel (Lugia unless changed); `?legendary=mewtwo` still forces Mewtwo. */
+  private get legendary():BonusSpecies{return typeof location!=='undefined'&&new URLSearchParams(location.search).get('legendary')==='mewtwo'?'mewtwo':this.cheats.legendary;}
+  private prefetch:BonusPrefetch|null=null;private bonusBooting=false;private bonusLoaded=0;
+  /** Once the game is up, the encounter's files are fetched into the browser's cache in the background (see `BonusPrefetch`),
+   * so the first Bonus Buy or triggered encounter reads them from the device instead of waiting on the network. */
+  warmBonus(){this.prefetch??=new BonusPrefetch(()=>this.bonusBooting);void this.prefetch.warm(this.legendary);}
   /** The encounter scene lives in its own page; it is loaded once, hidden, and driven through `captureDemo`. */
   private loadBonus(){
     // The scene shows the reward for the pack being opened: a different pack price needs the scene loaded again.
     // It also takes the shape of the screen when it loads; a screen that has turned or changed a lot gets a fresh one.
     const stake=this.selected.price,shape=Math.max(.4,Math.min(2.6,this.host.clientWidth/Math.max(1,this.host.clientHeight)))||.75,turned=Math.abs(Math.log(shape/(this.bonusShape||shape)))>.18;
-    // The legendary is the one chosen in the cheats panel (Lugia unless changed); `?legendary=mewtwo` still forces Mewtwo.
-    const species=typeof location!=='undefined'&&new URLSearchParams(location.search).get('legendary')==='mewtwo'?'mewtwo':this.cheats.legendary;
+    const species=this.legendary;
     if(this.bonusDemo&&(this.bonusStake!==stake||turned||this.bonusSpecies!==species)&&!this.showdown&&!this.showdownLoading){this.bonusDemo=null;this.bonusFrame?.remove();this.bonusFrame=null;}
     return this.bonusDemo??=new Promise<CaptureDemo>((resolve,reject)=>{
-      const frame=this.bonusFrame=document.createElement('iframe');this.bonusStake=stake;this.bonusShape=shape;this.bonusSpecies=species;
+      const frame=this.bonusFrame=document.createElement('iframe');this.bonusStake=stake;this.bonusShape=shape;this.bonusSpecies=species;this.bonusBooting=true;this.bonusLoaded=0;
       frame.title='Legendary encounter';frame.allow='autoplay';frame.tabIndex=-1;frame.src=`${BONUS_SCENE}index.html?pokemon=${species}&embed=1&bet=${stake/100}&aspect=${shape.toFixed(3)}`;
       Object.assign(frame.style,{position:'absolute',border:'0',visibility:'hidden',zIndex:'6',background:'transparent'});
       Object.assign(this.bonusShade.style,{position:'absolute',inset:'0',background:'#061624',opacity:'0',transition:'opacity .35s ease',pointerEvents:'none',zIndex:'5',visibility:'hidden'});
       this.host.append(this.bonusShade,frame);
-      const started=performance.now(),poll=()=>{const demo=(frame.contentWindow as (Window&{captureDemo?:CaptureDemo})|null)?.captureDemo;
+      const started=performance.now(),poll=()=>{const page=frame.contentWindow as (Window&{captureDemo?:CaptureDemo;captureLoad?:{progress:number}})|null,demo=page?.captureDemo;this.bonusLoaded=demo?1:page?.captureLoad?.progress??0;
         if(this.destroyed)reject(new Error('closed'));else if(demo)resolve(demo);else if(performance.now()-started>45000)reject(new Error('The encounter scene did not load.'));else setTimeout(poll,60);};
       frame.addEventListener('error',()=>reject(new Error('The encounter scene could not load.')));poll();
-    }).catch(error=>{this.bonusDemo=null;this.bonusFrame?.remove();this.bonusFrame=null;this.bonusShade.remove();throw error;});
+    }).finally(()=>{this.bonusBooting=false;}).catch(error=>{this.bonusDemo=null;this.bonusFrame?.remove();this.bonusFrame=null;this.bonusShade.remove();throw error;});
   }
   private placeBonus(){const box=bonusFrameBox(this.host.clientWidth,this.host.clientHeight,this.bonusAspect);if(this.bonusFrame)Object.assign(this.bonusFrame.style,{left:box.x+'px',top:box.y+'px',width:box.width+'px',height:box.height+'px'});return box;}
   private async openShowdown(entry:'buy'|'trigger'){
@@ -298,10 +305,18 @@ export class PokemonGame {
     const restore=()=>{if(closed)return;closed=true;removeEventListener('resize',resize);if(this.bonusFrame)this.bonusFrame.style.visibility='hidden';this.bonusShade.style.opacity='0';this.bonusShade.style.visibility='hidden';
       this.stage.setCovered(false);this.stage.finishBonusTransfer();this.controls.inert=false;this.stage.setBlocked(false);setSound(this.sound);this.showdown=null;};
     const resize=()=>this.placeBonus();
+    // An encounter that is not on the device yet says so at once: the tap is answered with a loader and its progress, not a still screen.
+    // A bought preview starts from the idle game, which is paused underneath so the encounter's start-up has the whole device.
+    const loader=new BonusLoader(this.host,bonusName(this.legendary));let waiting:ReturnType<typeof setTimeout>|undefined,pauseUnder:ReturnType<typeof setTimeout>|undefined,reporting:ReturnType<typeof setInterval>|undefined;
     try{
       // A win being presented on this card finishes first; the encounter never opens over it.
       if(entry==='trigger'){await this.view?.waitForWinRecovery();await pause(650);if(this.destroyed)return;}
-      const [demo,receiver]=await Promise.all([this.loadBonus(),Assets.load<Texture>(BONUS_SCENE+'assets/receiver.png')]);if(this.destroyed)return;
+      // A scene already loaded answers within the moment and the loader never appears.
+      waiting=setTimeout(()=>{if(closed||this.destroyed)return;loader.progress(.04);loader.show();this.announcer.textContent='Loading the legendary encounter.';
+        if(entry==='buy')pauseUnder=setTimeout(()=>{if(!closed&&loader.visible)this.stage.setBlocked(true);},240);},140);
+      reporting=setInterval(()=>loader.progress(.04+.86*this.bonusLoaded),100);
+      const [demo,receiver]=await Promise.all([this.loadBonus(),Assets.load<Texture>(BONUS_SCENE+'assets/receiver.webp')]);clearTimeout(waiting);clearInterval(reporting);if(this.destroyed)return;
+      loader.progress(.94);if(entry==='trigger')loader.hide();
       const size=demo.size;this.bonusAspect=size.width/size.height;freeze.width=size.width;freeze.height=size.height;const box=this.placeBonus();addEventListener('resize',resize);
       this.stage.blocked=true;if(entry==='trigger')await this.stage.bonusTransfer(receiver);if(this.destroyed)return;
       // Entry is drawn from the pack as it looks now (with the receiver); exit returns to the pack without it.
@@ -310,7 +325,7 @@ export class PokemonGame {
       // The throw ends as chosen in the cheats panel; otherwise `?outcome=` decides, otherwise chance.
       const forced=this.cheats.bonus==='capture'||this.cheats.bonus==='escape'?this.cheats.bonus:new URLSearchParams(location.search).get('outcome');
       await demo.start(forced==='capture'||forced==='escape'?forced:'random');if(this.destroyed)return;
-      this.showdown={destroy:()=>{demo.stop();restore();}};this.bonusPlayed=openingId;this.bonusShade.style.visibility='visible';this.bonusShade.style.opacity=box.letterboxed?'.88':'0';this.bonusFrame!.style.visibility='visible';this.stage.setCovered(true);this.bonusFrame!.focus({preventScroll:true});
+      this.showdown={destroy:()=>{demo.stop();restore();}};this.bonusPlayed=openingId;this.bonusShade.style.visibility='visible';this.bonusShade.style.opacity=box.letterboxed?'.88':'0';this.bonusFrame!.style.visibility='visible';this.stage.setCovered(true);this.bonusFrame!.focus({preventScroll:true});loader.hide();
       this.announcer.textContent='Legendary encounter. Throw the Poké Ball to try to catch it.';
       while(demo.running&&!this.destroyed&&!closed)await pause(60);
       // A catch in a pack's own bonus pays that pack: the amount joins its total and reaches the wallet when the pack settles
@@ -324,11 +339,12 @@ export class PokemonGame {
     }catch(error){
       this.error='The encounter could not load. Please try again.';console.error('Legendary encounter failed',error);
     }finally{
+      clearTimeout(waiting);clearTimeout(pauseUnder);clearInterval(reporting);loader.hide();
       restore();this.showdownLoading=false;this.bonusDueAt=0;this.bonusQuiet=performance.now()+450;
       // Back on the pack: the catch is paid into the running total in front of the player.
       if(this.bonusAward&&!this.destroyed){const amount=this.bonusAward;this.bonusAward=0;this.view?.awardBonus(amount);}
       if(!this.destroyed){this.render();this.controls.querySelector<HTMLButtonElement>('[data-control="next"], [data-control="showdown"], [data-control="result-continue"]')?.focus({preventScroll:true});}
     }
   }
-  destroy(){this.showdown?.destroy();this.showdown=null;this.host.removeEventListener('legendary-bonus-ready',this.bonusReady);this.bonusFrame?.remove();this.bonusShade.remove();this.stopAuto(false);document.removeEventListener('visibilitychange',this.scheduleAuto);destroyAudio();this.destroyed=true;++this.flowToken;++this.packToken;clearTimeout(this.toastTimer);this.actor.stop();this.view?.destroy();this.stage.destroy();this.controls.remove();this.announcer.remove();document.removeEventListener('keydown',this.trackKeys);document.removeEventListener('pointerdown',this.trackPointer);}
+  destroy(){this.showdown?.destroy();this.showdown=null;this.host.removeEventListener('legendary-bonus-ready',this.bonusReady);this.bonusFrame?.remove();this.bonusShade.remove();this.prefetch?.destroy();this.stopAuto(false);document.removeEventListener('visibilitychange',this.scheduleAuto);destroyAudio();this.destroyed=true;++this.flowToken;++this.packToken;clearTimeout(this.toastTimer);this.actor.stop();this.view?.destroy();this.stage.destroy();this.controls.remove();this.announcer.remove();document.removeEventListener('keydown',this.trackKeys);document.removeEventListener('pointerdown',this.trackPointer);}
 }

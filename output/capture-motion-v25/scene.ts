@@ -41,22 +41,36 @@ const ENTRY_AT=ENTRY_START;
 const embedded=new URLSearchParams(location.search).has('embed');const hostAspect=Number(new URLSearchParams(location.search).get('aspect'))||0;if(embedded)document.body.classList.add('embedded');
 const base='/output/capture-motion-v25/',host=document.getElementById('stage')!,play=document.getElementById('play') as HTMLButtonElement,record=document.getElementById('record') as HTMLButtonElement,status=document.getElementById('status')!,save=document.getElementById('save') as HTMLAnchorElement,choice=document.getElementById('outcome') as HTMLSelectElement;
 keepTextCanvasesInMemory();
+// Every download starts here, side by side, and each is awaited further down where it is first needed. Awaited one stage
+// after another, each stage cost a round trip to the server before the next could begin: seconds on a phone connection.
+// The game shows how far along this is while the player waits: `captureLoad.progress` is the share of downloads that have settled.
+let asked=0,settled=0;(window as any).captureLoad={get progress(){return asked?settled/asked:0;}};
+const early=<T>(work:Promise<T>)=>{asked++;const done=()=>{settled++;};work.then(done,done);return work;};
+const all=<T extends unknown[]>(...works:{[K in keyof T]:Promise<T[K]>})=>early(Promise.all(works.map(early)) as Promise<T>);
+// Music ships as FLAC: the same samples in a third of the bytes. The WAV beside it is fetched only by a browser that cannot decode FLAC.
+const sound=(name:string)=>{const bytes=early(fetch(base+'audio/'+name+'.flac').then(r=>{if(!r.ok)throw Error('Audio missing: '+name);return r.arrayBuffer()}));
+ return async(ctx:BaseAudioContext)=>{try{return await ctx.decodeAudioData((await bytes).slice(0));}catch{const r=await fetch(base+'audio/'+name+'.wav');if(!r.ok)throw Error('Audio missing: '+name);return ctx.decodeAudioData(await r.arrayBuffer());}};};
+const sceneFiles=all(
+ Assets.load<Texture>(base+'assets/cave.webp'),Assets.load<Texture>('/assets/stage/pokemon-anime-arena-v2.png'),Assets.load<Texture>(encounter.cardUrl),Assets.load<Texture>('/assets/card-back.webp'),Assets.load<Texture>('/assets/showdown-v10/shadow.png'),Assets.load<Texture>(base+'assets/receiver.webp'),
+ Assets.load<TextureAtlas>(base+'assets/mewtwo.atlas'),Assets.load(base+'assets/mewtwo.json'),Assets.load<TextureAtlas>(base+'assets/capture.atlas'),Assets.load(base+'assets/effects.json'),Assets.load<Texture>(base+'assets/smoke-sequence.webp'),Assets.load<TextureAtlas>(base+'assets/limb-flow.atlas'),Assets.load(base+'assets/limb-flow.json'),Assets.load<TextureAtlas>(base+'assets/'+encounter.id+'-conversion.atlas'),Assets.load(base+'assets/'+encounter.id+'-conversion.json'),Assets.load<TextureAtlas>(base+'assets/eye-sequence.atlas'),Assets.load(base+'assets/eye-sequence.json'),Assets.load(base+'assets/drawn-metadata.json'));
+const fontLoading=early(document.fonts.load('800 24px Nunito')),battleFontLoading=prepareBattleFont().catch(()=>{}),celsLoading=all(loadCaptureSeals(),loadNativeCurrent(),loadAnimeCels(),loadPremiumCels());
+const characterLoading=early(createEncounterActor(encounter)),guideLoading=early(createAnimeGuide(celsLoading)),verdictAudio=createVerdictAudio();
+const packLoading=early(Assets.load<Texture>('/assets/pack.webp')),triggerLoading=Promise.all(['001','011','047'].map(id=>early(Assets.load<Texture>('/assets/sets/crown-zenith/cards/'+id+'.webp'))));
+const music=sound('music-loop'),scores=['capture','escape'].map(name=>sound(encounter.audioPrefix+name+'-score'));
 const app=new Application();await app.init({width:1280,height:720,antialias:true,resolution:1,background:0x192d41,preference:'webgl',preserveDrawingBuffer:!embedded});app.stop();host.append(app.canvas);
-await document.fonts.load('800 24px Nunito');
-const [background,stadium,card,back,shadowTex,receiverTex,charAtlas,charJSON,fxAtlas,fxJSON,smokeTexture,flowAtlas,flowJSON,drawnAtlas,drawnJSON,eyeAtlas,eyeJSON,drawnMeta]=await Promise.all([
- Assets.load<Texture>(base+'assets/cave.png'),Assets.load<Texture>('/assets/stage/pokemon-anime-arena-v2.png'),Assets.load<Texture>(encounter.cardUrl),Assets.load<Texture>('/assets/card-back.webp'),Assets.load<Texture>('/assets/showdown-v10/shadow.png'),Assets.load<Texture>(base+'assets/receiver.png'),
- Assets.load<TextureAtlas>(base+'assets/mewtwo.atlas'),Assets.load(base+'assets/mewtwo.json'),Assets.load<TextureAtlas>(base+'assets/capture.atlas'),Assets.load(base+'assets/effects.json'),Assets.load<Texture>(base+'assets/smoke-sequence.png'),Assets.load<TextureAtlas>(base+'assets/limb-flow.atlas'),Assets.load(base+'assets/limb-flow.json'),Assets.load<TextureAtlas>(base+'assets/'+encounter.id+'-conversion.atlas'),Assets.load(base+'assets/'+encounter.id+'-conversion.json'),Assets.load<TextureAtlas>(base+'assets/eye-sequence.atlas'),Assets.load(base+'assets/eye-sequence.json'),Assets.load(base+'assets/drawn-metadata.json')]);
+await fontLoading;
+const [background,stadium,card,back,shadowTex,receiverTex,charAtlas,charJSON,fxAtlas,fxJSON,smokeTexture,flowAtlas,flowJSON,drawnAtlas,drawnJSON,eyeAtlas,eyeJSON,drawnMeta]=await sceneFiles;
 const charData=new SkeletonJson(new AtlasAttachmentLoader(charAtlas)).readSkeletonData(charJSON),fxData=new SkeletonJson(new AtlasAttachmentLoader(fxAtlas)).readSkeletonData(fxJSON);
 // Legacy smoke rig remains in assets for provenance; playback blends its drawn frames.
 function rig(data:SkeletonData){const s=new Spine({skeletonData:data,autoUpdate:false});s.eventMode='none';return s}
 function pose(s:Spine,name:string,t:number){s.skeleton.setToSetupPose();const entry=s.state.getCurrent(0);if(!entry||entry.animation?.name!==name)s.state.setAnimation(0,name,false);s.state.getCurrent(0)!.trackTime=Math.max(0,t);s.update(0)}
-await prepareBattleFont().catch(()=>{});
+await battleFontLoading;
 /** Display lettering: the battle font with an ink edge and a hard drop, the same voice as the game's win titles. */
 function display(value:string,size:number,fill=0xffffff,edge=0x1c5f8f){return new Text({text:value,style:{fontFamily:'BattleDisplay, Nunito, Arial',fontWeight:'400',fontSize:size,fill,letterSpacing:1,stroke:{color:0x061b32,width:Math.max(4,size*.14)},dropShadow:{color:edge,alpha:1,blur:0,distance:Math.max(3,size*.13),angle:Math.PI/2}},resolution:2})}
 function text(value:string,size=24,color=0xfffdf4){return new Text({text:value,style:{fontFamily:'Nunito',fontWeight:'800',fontSize:size,fill:color,stroke:{color:0x172c40,width:2}}})}
 function plate(color:number){const s=new Sprite(Texture.WHITE);s.tint=color;return s}
-await Promise.all([loadCaptureSeals(),loadNativeCurrent(),loadAnimeCels(),loadPremiumCels()]);
-const character=await createEncounterActor(encounter);
+await celsLoading;
+const character=await characterLoading;
 character.sample('idle',0);
 const cavernMotion=createCavernMotion();
 const world=new Container(),bg=new Sprite(background),ripples=[rig(fxData),rig(fxData),rig(fxData)],shadow=new Sprite(new Texture({source:shadowTex.source,frame:new Rectangle(128,586,994,169)})),actor=character.display,ball=rig(fxData),ballFront=rig(fxData),lidFront=rig(fxData),frontMask=new Sprite(Texture.WHITE),contact=rig(fxData),pull=rig(fxData),stars=rig(fxData),lock=rig(fxData),release=rig(fxData),dust=rig(fxData),mouthFlare=rig(fxData),flowPulses=[rig(fxData),rig(fxData),rig(fxData)];
@@ -76,14 +90,13 @@ for(const wake of wingWakes)world.addChildAt(wake.rig,world.getChildIndex(actor)
 const pullColor=new ColorMatrixFilter();pullColor.hue(encounter.pullHue,false);pull.filters=[pullColor];
 const poolColor=new ColorMatrixFilter();poolColor.hue(encounter.poolHue,false);for(const ripple of ripples)ripple.filters=[poolColor];
 const contactImpact=createAnimeCel('impact'),ballImpact=createAnimeCel('impact');world.addChild(contactImpact.rig,ballImpact.rig);
-const cardReveal=createCardReveal({card,back,fxData}),guide=await createAnimeGuide(),verdictAudio=createVerdictAudio();
+const cardReveal=createCardReveal({card,back,fxData}),guide=await guideLoading;
 const transition=new Container(),topCurtain=plate(0x112b40),bottomCurtain=plate(0x112b40),band=plate(0xc6b8d5),eye=rig(charData),liveCutin=new Sprite(character.sprite.texture),eyeMask=plate(0xffffff),transitionName=display(encounter.name.toUpperCase(),50),sceneTitle=text('LEGENDARY ENCOUNTER',16),sceneSub=display(encounter.location,28),footer=new Container(),footerTitle=display('',26,0xfff4dc,0x16405e),footerSub=text('',16,0xe0eaf0);sceneTitle.style.letterSpacing=3;sceneTitle.style.fontWeight='900';footerSub.style.letterSpacing=1.5;footerSub.style.fontWeight='900';let footerShown='',footerAt=0;
 footerSub.style.stroke={color:0x102b40,width:2};footer.addChild(footerTitle,footerSub);transition.addChild(topCurtain,bottomCurtain,band,eye,liveCutin,eyeMask,transitionName);eye.mask=eyeMask;liveCutin.mask=eyeMask;liveCutin.anchor.copyFrom(character.sprite.anchor);
 const intro=new Container(),introBg=new Sprite(stadium),introShade=plate(0x102b43),receiver=new Sprite(receiverTex),introBalls=[rig(fxData),rig(fxData),rig(fxData)],socketFX=[rig(fxData),rig(fxData),rig(fxData)],unlock=rig(fxData),introText=text('Three symbols. One encounter.',42),introSmall=text('3 bonus symbols in one pack',22),introCount=text('0 / 3',24),returnTitle=text('',40),returnSub=text('',22);
 intro.addChild(introBg,introShade,receiver,...introBalls,...socketFX,unlock,introText,introSmall,introCount,returnTitle,returnSub);
 app.stage.addChild(intro,cardReveal.container,sceneTitle,sceneSub,footer,transition);
-const packTexture=await Assets.load<Texture>('/assets/pack.webp');
-const triggerCards=await Promise.all(['001','011','047'].map(id=>Assets.load<Texture>('/assets/sets/crown-zenith/cards/'+id+'.webp')));
+const packTexture=await packLoading,triggerCards=await triggerLoading;
 const prelude=createBonusPrelude(back,receiverTex,stadium,fxData,packTexture,triggerCards),eyeCinema=createCinematicEye(new SkeletonJson(new AtlasAttachmentLoader(eyeAtlas)).readSkeletonData(eyeJSON),encounter.id,encounter.name);const entrySnapshot=new Sprite(Texture.EMPTY),exitSnapshot=new Sprite(Texture.EMPTY);let hasEntryBackdrop=false,hasExitBackdrop=false;app.stage.addChild(prelude.container,entrySnapshot,eyeCinema.container,exitSnapshot);
 const modeWipe=createModeTransition(),verdict=createBallVerdict();app.stage.addChild(verdict.container,modeWipe.container);
 // Light answers the scene's beats: one layer inside the world (under the camera), one around the reward.
@@ -97,10 +110,8 @@ const throwGate=new ThrowGate(),throwInput=document.getElementById('throw') as H
 const throwIcon=rig(fxData),throwButton=createThrowButton(throwInput,throwIcon);app.stage.addChild(throwButton.container,guide.container);
 let scoreGain:GainNode|undefined;
 let musicBuffer:AudioBuffer|undefined,musicSource:AudioBufferSourceNode|undefined,musicGain:GainNode|undefined;
-const musicBytes=await fetch(base+'audio/music-loop.wav').then(r=>r.arrayBuffer());
 let gateStarted=0,recordingDemo=false,ambientTime=0,ambientNode:AudioBufferSourceNode|undefined;
 let w=1280,h=720,portrait=false,time=ENTRY_AT,running=false,outcome:Outcome='capture',audioCtx:AudioContext|undefined,audioBuffers:Record<Outcome,AudioBuffer>|undefined,source:AudioBufferSourceNode|undefined,bus:GainNode|undefined,startAt=0,recorder:MediaRecorder|undefined,chunks:BlobPart[]=[],recStream:MediaStream|undefined,lastUrl='';
-const scores=await Promise.all(['capture','escape'].map(name=>fetch(base+'audio/'+encounter.audioPrefix+name+'-score.wav').then(r=>{if(!r.ok)throw Error('Score missing');return r.arrayBuffer()})));
 function cover(sprite:Sprite,width:number,height:number){const s=Math.max(width/sprite.texture.width,height/sprite.texture.height);sprite.scale.set(s);sprite.position.set((width-sprite.width)/2,(height-sprite.height)/2)}
 function resize(){if(recorder?.state==='recording')return;portrait=embedded||host.clientWidth<600;w=portrait?720:1280;h=portrait?960:720;
  // Embedded in the game, the scene takes the shape of the screen it is on: tall for phones (down to 9:19.5), wide for desktops
@@ -290,7 +301,7 @@ function sample(totalTime:number){
  flash.width=w;flash.height=h;flash.alpha=t>=5.85&&t<5.97?.19*(1-(t-5.85)/.12):t>=12.2&&t<12.35?(caught?.17:.4)*(1-(t-12.2)/.15):0;
 }
 new ResizeObserver(resize).observe(host);resize();
-async function audio(){if(!audioCtx){audioCtx=new AudioContext({sampleRate:48000});bus=audioCtx.createGain();bus.gain.value=demoMuted?0:1.3;bus.connect(audioCtx.destination);scoreGain=audioCtx.createGain();scoreGain.connect(bus);const decoded=await Promise.all(scores.map(s=>audioCtx!.decodeAudioData(s.slice(0))));audioBuffers={capture:extendRewardAudio(audioCtx,decoded[0]),escape:decoded[1]};musicBuffer=await audioCtx.decodeAudioData(musicBytes.slice(0));musicGain=audioCtx.createGain();musicGain.gain.value=.72;musicGain.connect(bus);await Promise.all([guide.prepare(audioCtx,bus),verdictAudio.prepare(audioCtx,bus)]);}await audioCtx.resume();lightLayer.audio(!demoMuted);}
+async function audio(){if(!audioCtx){audioCtx=new AudioContext({sampleRate:48000});bus=audioCtx.createGain();bus.gain.value=demoMuted?0:1.3;bus.connect(audioCtx.destination);scoreGain=audioCtx.createGain();scoreGain.connect(bus);const decoded=await Promise.all([...scores,music].map(decode=>decode(audioCtx!)));audioBuffers={capture:extendRewardAudio(audioCtx,decoded[0]),escape:decoded[1]};musicBuffer=decoded[2];musicGain=audioCtx.createGain();musicGain.gain.value=.72;musicGain.connect(bus);await Promise.all([guide.prepare(audioCtx,bus),verdictAudio.prepare(audioCtx,bus)]);}await audioCtx.resume();lightLayer.audio(!demoMuted);}
 function startAmbience(){const buffer=audioCtx!.createBuffer(2,48000*4,48000);let seed=12345;for(let channel=0;channel<2;channel++){const data=buffer.getChannelData(channel);let filtered=0;for(let i=0;i<data.length;i++){seed=(seed*1664525+1013904223)>>>0;const n=(seed/4294967296-.5);filtered=.94*filtered+.06*n;const p=i/data.length;data[i]=filtered*.12*(.7+.3*Math.sin(p*Math.PI*8+channel));}}ambientNode=audioCtx!.createBufferSource();ambientNode.buffer=buffer;ambientNode.loop=true;ambientNode.connect(bus!);ambientNode.start();}
 function startMusic(){if(musicSource){musicGain!.gain.cancelScheduledValues(audioCtx!.currentTime);musicGain!.gain.setTargetAtTime(.72,audioCtx!.currentTime,.15);return;}musicSource=audioCtx!.createBufferSource();musicSource.buffer=musicBuffer!;musicSource.loop=true;musicSource.connect(musicGain!);musicGain!.gain.cancelScheduledValues(audioCtx!.currentTime);musicGain!.gain.setValueAtTime(.72,audioCtx!.currentTime);musicSource.start();}
 function halt(keepMusic=false){inspectedGuide=null;guide.reset();verdictAudio.reset();if(!keepMusic){musicSource?.stop();musicSource=undefined;}running=false;throwGate.reset();throwInput.hidden=true;ambientNode?.stop();ambientNode=undefined;source?.stop();source=undefined;if(recorder?.state==='recording')recorder.stop()}

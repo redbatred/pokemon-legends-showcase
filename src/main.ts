@@ -14,5 +14,7 @@ void (async()=>{
   // Development only: lets a profiling script reach the running game. Never present in a production build.
   if(import.meta.env.DEV)(window as unknown as {__game?:PokemonGame}).__game=game;
   await game.init(boot.progress);if(!disposed)await boot.finish();
+  // With the game on screen, the legendary encounter's files are fetched in the background, ahead of the first Bonus Buy.
+  if(!disposed)game.warmBonus();
 })().catch(error=>{console.error('Game startup failed',error);if(!disposed)boot.fail();});
 if(import.meta.hot)import.meta.hot.dispose(()=>{disposed=true;boot.destroy();stopProbe();game?.destroy();root.replaceChildren();});

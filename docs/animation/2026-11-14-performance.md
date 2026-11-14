@@ -85,6 +85,55 @@ second and a half started the count before the flying amount arrived. The total 
 | Big-win scene (Legendary) | same | never under 60 fps; one 50 ms frame |
 | Open All | not measured | 104 fps, 95 % of frames within 16.7 ms |
 
+## Third round: the wait after tapping Bonus Buy
+
+Reported as "takes ages on some phones". It was the network, and nothing was shown while it ran.
+
+- The encounter is a page of its own, loaded on the tap. It downloaded 42 MB: three uncompressed WAV scores (15.7 MB), PNG
+  atlases, and game assets the game itself had not needed yet. On a phone connection that is most of a minute.
+- It asked for its files in ten stages, one after the other, so each stage also paid a round trip before the next began;
+  the voice lines and verdict sounds were fetched only after the tap that starts the encounter.
+- The game showed nothing while this happened. The controls went inert and the screen stayed as it was.
+
+What changed:
+
+1. **Smaller files, same content.** Art is lossless WebP (`cwebp -lossless -exact`), music is FLAC. Every image decodes to
+   the same RGBA bytes as its PNG and every score to the same samples as its WAV (compared with `ffmpeg`, 16 images and
+   5 scores, no mismatch). `scripts/pack-bonus-assets.mjs` does the conversion and rewrites `ship.json`. Each score's WAV
+   still ships, and is fetched only if `decodeAudioData` rejects the FLAC.
+2. **Fetched ahead.** 1.2 s after the game is on screen, `BonusPrefetch` fetches the chosen legendary's files into the
+   browser's HTTP cache, three at a time at low priority: the built page's scripts, the files in `ship.json` for that
+   legendary, and the game assets the scene also loads (`sharedFiles`). Nothing is decoded or kept in memory. It is skipped
+   on a data-saver or 2G connection, and starts nothing new once the encounter itself begins loading.
+3. **One stage instead of ten.** `scene.ts` starts every download at the top of the module and awaits each where it is first
+   used. The guide's voice takes and the verdict cues download with the scene and are decoded when sound starts. The guide
+   still waits for its ink cel (`createAnimeGuide(celsReady)`), the one real ordering between loaders.
+4. **The tap is answered.** If the scene is not ready within 140 ms, `BonusLoader` covers the game: the boot screen's ball,
+   ring and meter, with progress read from the scene (`window.captureLoad.progress`, the share of its downloads settled).
+   Its motion is CSS transforms on whole elements, so it keeps moving while the scene's start-up holds the main thread.
+   For a bought preview the idle game is paused underneath. A scene that is already loaded never shows it.
+
+Measured in headless Chrome (real GPU, a fresh profile per run so the disk cache starts empty), production builds served
+through `tests/browser/slow-server.mjs` at 9 Mbit/s with 100 ms added to every response, phone-sized viewport, driven by
+`tests/browser/bonus-tap-probe.mjs` (tap = the Bonus Buy control):
+
+| | old build | new build |
+|---|---|---|
+| downloaded for the encounter | 42.3 MB | 23.6 MB cold; 0.06 MB after the background fetch |
+| tap to loader | never | 0.2 s |
+| tap to scene, background fetch finished (CPU 1x / 4x slower) | n/a | 1.6 s / 2.5 s |
+| tap to scene, tapped the instant the game appears (CPU 4x slower) | 40.1 s, nothing shown | 21.6 s, with progress |
+
+The background fetch takes 23 s on that connection (23.5 MB). A tap during it finds part of the files on the device.
+The test server is HTTP/1.1, so the 80 revalidation requests of the warm case queue six at a time and account for about
+1.3 s of its 1.6 s; a host that serves HTTP/2 answers them together.
+
+Not done: the encounter is not started in the background. Booting it means a second WebGL context, a few hundred MB of
+textures and a second or two of main-thread work, which would stutter the game being played and risks a phone discarding
+the tab. Only its files are fetched ahead.
+
+The cost: every visit now downloads the encounter (about 24 MB) in the background, whether or not it is opened.
+
 ## Tried and withdrawn
 
 Drawing the card's foil ahead of the frame the same way as the board glow. It drew the card at the wrong place and size
@@ -107,6 +156,8 @@ instead (point 8).
 - `tests/browser/gpu-probe.js`: GPU time per frame (timer queries), draw calls, framebuffer switches, uploads.
 - `tests/browser/perf-profile.js` with `pack-flow-lab.html?real=1` on the lab server: a sampled CPU profile of a whole pack.
   The lab server sends `Document-Policy: js-profiling` for this.
+- `tests/browser/slow-server.mjs` and `tests/browser/bonus-tap-probe.mjs`: a production build on a throttled connection, and
+  the time from tapping Bonus Buy to the encounter in a real Chrome with an empty cache and a slowed CPU.
 - A change that claims to draw the same picture is checked by rendering both ways with the ticker stopped and comparing the
   pixels. The board glow differs by at most 2/255 on 0.0004 % of values; the tray strip by rounding on a handful of pixels
   (`CanvasUI.trayDirect` paints it the old way for that comparison).
