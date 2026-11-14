@@ -93,8 +93,9 @@ instead (point 8).
 
 ## Still there
 
-- The first time a given Pokémon's 3D model is needed, parsing it holds one frame for up to about 160 ms (three.js parses a
-  model in a single task). It happens while its pack is being bought.
+- Buying a pack that holds a special Pokémon, measured again after point 11 with three different Pokémon loaded for the
+  first time (Pidgeot ex, Ninetales, Charizard ex): no frame over 60 ms for two of them and one 62 ms frame for the third
+  (the screen rebuilding on the click). The 160-216 ms freezes were the one-time work now done at boot, not the model.
 - The big-win scene holds 60 fps on this machine but not 120: about 12–16 ms of GPU time per frame while both the 3D
   Pokémon and the arena are on screen.
 - None of this was measured on a phone. The causes are the same there (tile-based GPU, one main thread), but every number
