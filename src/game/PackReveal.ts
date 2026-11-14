@@ -1,7 +1,7 @@
 import {updateBonusBadge} from './showdown/BonusSymbolArtwork';
 import {createShowdownBadge} from './showdown/ShowdownSymbolsView';
 import {Container,Graphics,PerspectiveMesh,Text,Texture} from 'pixi.js';
-import {createFoil,foilStrength} from './foil';
+import {createCardFoil,setCardFoil,cardMesh,foilStrength} from './foil';
 import {SpecialCardFrame} from './SpecialCardFrame';
 import {isSpecialCard} from './specialCard';
 import {cardPowerKind} from './powerProfiles';
@@ -18,12 +18,12 @@ export class PackReveal {
  constructor(cards:Card[],textures:Texture[],private back:Texture,low:boolean,symbols:boolean[]=[]){
   this.root.eventMode='none';
   this.items=cards.map((card,i)=>{
-   const flight=new Container(),mesh=new PerspectiveMesh({texture:back,verticesX:4,verticesY:6}),special=isSpecialCard(card);
+   const flight=new Container(),mesh=cardMesh(new PerspectiveMesh({texture:back,verticesX:4,verticesY:6})),special=isSpecialCard(card);
    const shadow=new Graphics().roundRect(-158,-216,316,438,15).fill({color:0x031729,alpha:.38});shadow.position.set(3,7);flight.addChild(shadow,mesh);
    const frame=special?new SpecialCardFrame(312,435,cardPowerKind(card),card.rarity,low):null;
    if(frame){frame.visible=false;flight.addChild(frame);}
    const badge=symbols[i]?createShowdownBadge(true):null;if(badge){badge.visible=false;flight.addChild(badge);}
-   const foil=special&&!low?createFoil(foilStrength(card.rarity,card.value)):null;
+   const foil=special&&!low?createCardFoil(foilStrength(card.rarity,card.value)):null;
    const price=new Container(),chip=new Graphics(),label=new Text({text:money(card.value),style:{fontFamily:'Nunito, Arial, sans-serif',fontWeight:'800',fontSize:17,fill:special?0xffedac:0xd9fcff},resolution:Math.max(2,Math.min(3,devicePixelRatio))});label.anchor.set(.5);price.addChild(chip,label);price.alpha=0;
    this.root.addChild(flight,price);
    return {flight,mesh,frame,badge,foil,price,chip,label,special,texture:textures[i],front:false,taken:false};
@@ -36,7 +36,7 @@ export class PackReveal {
    const slot=layout.slot(i),pose=packRevealPose(time,i),p=pose.spread,scale=source.scale+(slot.width/312-source.scale)*p;
    item.flight.position.set(source.x+(slot.x-source.x)*p,source.y+(slot.y-source.y)*p-Math.sin(Math.PI*p)*30);
    item.flight.scale.set(scale*(1+pose.pulse*.035));item.flight.rotation=(i-(this.items.length-1)/2)*.014*(1-p);
-   if(item.front!==pose.front){item.front=pose.front;item.mesh.texture=pose.front?item.texture:this.back;item.mesh.filters=pose.front&&item.foil?[item.foil]:[];}
+   if(item.front!==pose.front){item.front=pose.front;item.mesh.texture=pose.front?item.texture:this.back;setCardFoil(item.mesh,pose.front&&item.foil?item.foil:null);}
    const corners:number[]=[];
    for(const [x,y] of [[-156,-217.5],[156,-217.5],[156,217.5],[-156,217.5]]){const perspective=740/(740-x*Math.sin(pose.flip));corners.push(x*Math.cos(pose.flip)*perspective,y*perspective);}
    item.mesh.setCorners(corners[0],corners[1],corners[2],corners[3],corners[4],corners[5],corners[6],corners[7]);
@@ -52,6 +52,6 @@ export class PackReveal {
   });
  }
  update(dt:number){for(const item of this.items)if(!item.taken){if(item.frame?.visible)item.frame.update(dt);if(item.badge?.visible)updateBonusBadge(item.badge,dt);}}
- takeFlight(index:number){const item=this.items[index];item.taken=true;item.mesh.filters=[];item.frame?.destroy();item.price.destroy({children:true});item.flight.removeFromParent();return item.flight;}
+ takeFlight(index:number){const item=this.items[index];item.taken=true;setCardFoil(item.mesh,null);item.frame?.destroy();item.price.destroy({children:true});item.flight.removeFromParent();return item.flight;}
  destroy(){for(const item of this.items)item.foil?.destroy();this.root.destroy({children:true});}
 }

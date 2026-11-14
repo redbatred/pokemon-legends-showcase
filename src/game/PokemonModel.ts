@@ -1,7 +1,7 @@
 import {prepareOnFrame} from './preparationFrames';
 import {applyHitPose} from './showdown/showdownImpact';
 import {pokemonCameraDepth} from './pokemonPresentation';
-import {Texture as PixiTexture} from 'pixi.js';
+import {CanvasSource,Texture as PixiTexture} from 'pixi.js';
 import {AnimationMixer,Box3,DataTexture,DirectionalLight,Group,HemisphereLight,LoopOnce,LoopRepeat,Matrix4,Mesh,NearestFilter,NoToneMapping,OrthographicCamera,PMREMGenerator,RGBAFormat,Scene,SRGBColorSpace,Vector3,WebGLRenderer,type AnimationAction,type Material,type MeshStandardMaterial,type Object3D,type Texture,type SkinnedMesh,type WebGLRenderTarget} from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
@@ -20,6 +20,12 @@ let manifest:Promise<Record<string,Entry>>|null=null,renderer:WebGLRenderer|null
 function rendererFor(size:number){if(!renderer){renderer=new WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});renderer.setClearColor(0x000000,0);renderer.outputColorSpace=SRGBColorSpace;renderer.toneMapping=NoToneMapping;}if(renderer.domElement.width!==size||renderer.domElement.height!==size)renderer.setSize(size,size,false);return renderer;}
 /** The reveal's one WebGL renderer, shared with the Poké Ball; created at `fallback` size only if no model has made it yet. */
 export function sharedPokemonRenderer(fallback:number){return renderer??rendererFor(fallback);}
+/** The reflection environment the Tera Pokémon are lit by takes about 40 ms to build. It is built once, under the boot
+ * cover, instead of on the frame the first Tera Pokémon is bought. */
+export function warmPokemonEnvironment(size=1024){
+ if(environment||typeof document==='undefined')return;
+ try{const source=new RoomEnvironment(),pmrem=new PMREMGenerator(rendererFor(size));environment=pmrem.fromScene(source,.04,.1,100,{size:128});source.dispose();pmrem.dispose();}catch{/* Built on first use instead. */}
+}
 function disposeDecoder(){decoder?.dispose();decoder=null;releaseDecoder=false;}
 function disposeObject(root:Object3D,extraTextures:Iterable<Texture>=[]){
  const geometries=new Set<import('three').BufferGeometry>(),materials=new Set<Material>(),textures=new Set<Texture>(extraTextures),skeletons=new Set<import('three').Skeleton>();
@@ -43,12 +49,18 @@ export async function createPokemonModel(path:string,low:boolean,viewYaw?:number
  }finally{inflight--;if(!inflight&&releaseDecoder)disposeDecoder();}
 }
 export class PokemonModel {
- readonly texture:PixiTexture;groundY=0;horizontalAnchor=0;bodyHeight=1;frameWidth=1;private canvas=document.createElement('canvas');private context:CanvasRenderingContext2D;
+ readonly texture:PixiTexture;groundY=0;horizontalAnchor=0;bodyHeight=1;frameWidth=1;
  private scene=new Scene();private camera=new OrthographicCamera(-1,1,1,-1,.01,100);private mixer:AnimationMixer;private attackLight=new DirectionalLight(0x8fdcff,0);
  private current:AnimationAction|null=null;private clips:Map<string,AnimationAction>;private elapsed=0;private size:number;private stopped=false;private charging=false;private emerging=false;private entranceClock=0;private attackClock=0;private sourceClock=0;private low=false;private renderCost=0;private continuousRendering=false;private hitAmount=0;private hitPower=1;
  private poses=new Map<string,Matrix4>();private bones:Object3D[]=[];private bodySpan=1;private tip=new Vector3();private forward=new Vector3();private fallback=new Vector3();private head:Object3D|undefined;private torso:Object3D|undefined;private gradient:DataTexture;private originalMaterials=new Set<Material>();private toonMaterials=new Set<Material>();private textures=new Set<Texture>();
  constructor(private model:Group,animations:import('three').AnimationClip[],private entry:Entry,low:boolean,private stem:string,private viewYaw?:number){
-  this.low=low;this.size=low?448:1024;this.canvas.width=this.canvas.height=this.size;this.context=this.canvas.getContext('2d')!;this.texture=PixiTexture.from(this.canvas);
+  this.low=low;this.size=low?448:1024;
+  // The model is drawn by the shared 3D renderer and copied from that canvas straight into this model's own texture, on the
+  // GPU. It used to go through a 2D canvas of its own on the way, and uploading a megapixel of GPU-backed 2D canvas every
+  // frame cost 8-10 ms: most of the frame whenever a Pokémon was on screen, and what held the big-win scene near 30 fps.
+  // The texture is this model's alone and is never collected: collected, it would be refilled from whatever the shared
+  // canvas showed last.
+  this.texture=new PixiTexture({source:new CanvasSource({resource:rendererFor(this.size).domElement,autoGarbageCollect:false})});
   this.gradient=new DataTexture(new Uint8Array([65,65,65,255,142,142,142,255,215,215,215,255,255,255,255,255]),4,1,RGBAFormat);this.gradient.minFilter=this.gradient.magFilter=NearestFilter;this.gradient.needsUpdate=true;
   const outlines:{mesh:Mesh;outline:Mesh}[]=[];
   this.model.traverse(obj=>{if(!(obj instanceof Mesh))return;ensurePokemonNormals(obj.geometry);const materials=Array.isArray(obj.material)?obj.material:[obj.material];const converted=materials.map(material=>{
@@ -125,7 +137,7 @@ export class PokemonModel {
  setHitReaction(amount:number,power=1){this.hitAmount=Math.max(0,Math.min(1,amount));this.hitPower=power;}
  capturePose(){this.render();}
  setEnergy(color:number,amount:number){this.attackLight.color.setHex(color);this.attackLight.intensity=Math.max(0,Math.min(1,amount))*1.65;}
- private render(){const restore=applyHitPose(this.bones,this.hitAmount,this.hitPower);try{this.model.updateMatrixWorld(true);for(const bone of this.bones){let m=this.poses.get(bone.name.toLowerCase());if(!m){m=new Matrix4();this.poses.set(bone.name.toLowerCase(),m);}m.copy(bone.matrixWorld);}const r=rendererFor(this.size);r.render(this.scene,this.camera);this.context.clearRect(0,0,this.size,this.size);this.context.drawImage(r.domElement,0,0);this.texture.source.update();}finally{restore();}}
+ private render(){const restore=applyHitPose(this.bones,this.hitAmount,this.hitPower);try{this.model.updateMatrixWorld(true);for(const bone of this.bones){let m=this.poses.get(bone.name.toLowerCase());if(!m){m=new Matrix4();this.poses.set(bone.name.toLowerCase(),m);}m.copy(bone.matrixWorld);}const r=rendererFor(this.size);r.render(this.scene,this.camera);const source=this.texture.source as CanvasSource,view=r.domElement;if(source.resource!==view)source.resource=view;if(source.pixelWidth!==view.width||source.pixelHeight!==view.height)source.resize(view.width,view.height,1);source.update();}finally{restore();}}
  emitters(profile:PowerProfile):ProjectedEmitter[]{
   const rig=moveRigs[this.stem];
   const project=()=>{const axis=this.forward.clone().sub(this.tip).normalize(),view=this.camera.getWorldDirection(new Vector3()),foreshortening=Math.sqrt(Math.max(0,1-axis.dot(view)**2));this.tip.project(this.camera);this.forward.project(this.camera);const dx=this.forward.x-this.tip.x,dy=this.tip.y-this.forward.y,length=Math.hypot(dx,dy)||1;return {x:this.tip.x,y:-this.tip.y,dx:dx/length,dy:dy/length,foreshortening};};

@@ -2,8 +2,13 @@ import {prepareWinEffects,spineTextures} from './prepareWinEffects';
 import {winRenderers} from './WinRendererPool';
 import {prewarmWinStage,clearPreparedWinStages} from './WinCinemaStage';
 import {warmPokeBall} from './PokeBall3D';
+import {createPokeballRig} from './PokeballRig';
+import {juiceTextures} from './WinJuice';
+import {warmPokemonEnvironment} from './PokemonModel';
 import {keepTextCanvasesInMemory} from './canvasUploads';
 import {runBeforeFrame} from './frameHooks';
+/** A frame is due once this long has passed since the last one: a sixtieth of a second, less the slack a refresh can arrive early by. */
+const FRAME_GATE_MS=1000/60-3;
 import {winTier,type WinTier} from './winTransfer';
 import {loadBonusSymbolArtwork,updateBonusBadge} from './showdown/BonusSymbolArtwork';
 import {cardShadowTexture} from './traySlotArt';
@@ -14,7 +19,7 @@ import {openingAnimationRate} from './autoSpin';
 import 'pixi.js/prepare';
 import { Application, Assets, Container, Graphics, PerspectiveMesh, Sprite, Texture, Rectangle, UPDATE_PRIORITY } from 'pixi.js';
 import { gsap } from 'gsap';
-import { createFoil,foilStrength } from './foil';
+import { createFoil,createCardFoil,setCardFoil,cardMesh,foilStrength } from './foil';
 import { playSound,setAudioHidden,stopRevealAudio } from './audio';
 import type { Card } from './model';
 import { artworkColor } from './cardColor';
@@ -86,7 +91,7 @@ export class OpeningStage {
   effects = new Container();
   packMesh!: PerspectiveMesh;
   cardMesh: PerspectiveMesh | null = null;
-  foil = createFoil(.65);
+  foil = createCardFoil(.65);
   packFoil = createFoil(.18);private packSwapAge=9;
   tilt = { x: 0, y: 0 };
   target = { x: 0, y: 0 };
@@ -207,7 +212,12 @@ export class OpeningStage {
       s.blendMode = 'add'; this.effects.addChild(s);
       this.particles.push({ sprite: s, x: Math.random()*580-290, y: Math.random()*560-280, speed: 4 + depth*12, phase: Math.random()*6.28, depth });
     }
-    this.app.ticker.maxFPS = 60;
+    // Sixty frames a second, on every display. Pixi's own cap compares whole milliseconds and carries the remainder forward,
+    // so on a 120 Hz screen one frame that runs long is followed by a 25 ms gap and then an 8 ms one: a visible hitch out of
+    // a frame that was only a little late. This gate counts from the frame that was actually drawn and gives a late frame
+    // the very next refresh, so the pace returns to even at once. (120 Hz: every second refresh. 60 Hz: every refresh.)
+    {const ticker=this.app.ticker,update=ticker.update.bind(ticker);let drawn=-Infinity;ticker.maxFPS=0;
+      ticker.update=(time:number=performance.now())=>{if(time-drawn<FRAME_GATE_MS)return;drawn=time;update(time);};}
     // After everything has moved for this frame and just before the application renders it (which it does at LOW priority).
     this.app.ticker.add(()=>runBeforeFrame(this.app.renderer,this.app.screen.width,this.app.screen.height),undefined,UPDATE_PRIORITY.LOW+5);
     this.app.ticker.add(t => this.tick(Math.min(t.deltaMS, 50) / 1000));
@@ -222,11 +232,14 @@ export class OpeningStage {
     await this.app.renderer.prepare.upload(this.app.stage);if(this.destroyed)return;
     // The card's foil pass is the heaviest program on the play screen. Compile it here, under the boot cover, on a card-shaped
     // mesh the size of a thumbnail; otherwise the first reveal stalls for most of a second on its first lit frame.
-    const warm=this.options.low||!this.back?null:new PerspectiveMesh({texture:this.back,verticesX:4,verticesY:6});
-    if(warm){warm.setCorners(0,0,31,0,31,43,0,43);warm.position.set(4,4);warm.filters=[this.foil];this.app.stage.addChild(warm);}
-    try{await this.warmFrames();}finally{if(warm){warm.filters=[];warm.destroy();}}
+    const warm=this.options.low||!this.back?null:cardMesh(new PerspectiveMesh({texture:this.back,verticesX:4,verticesY:6}));
+    if(warm){warm.setCorners(0,0,31,0,31,43,0,43);warm.position.set(4,4);setCardFoil(warm,this.foil);this.app.stage.addChild(warm);}
+    try{await this.warmFrames();}finally{if(warm){setCardFoil(warm,null);warm.destroy();}}
     // The 3D Poké Ball appears on cards, in flight and in the reveal. Its shaders are compiled here, once, and then kept.
     if(!this.destroyed)await warmPokeBall();
+    // What the first special reveal would otherwise build on the frame its pack is bought: the painted ball rig (about 50 ms
+    // of per-pixel shading), the soft light sprites, and the Tera Pokémon's reflection environment (about 40 ms).
+    if(!this.destroyed&&!this.options.low){try{createPokeballRig().destroy();juiceTextures();warmPokemonEnvironment();}catch{/* Each is built on first use instead. */}}
   }
   private async warmFrames(){
     for(let frame=0;frame<2;frame++){
@@ -369,7 +382,7 @@ export class OpeningStage {
   }
   async tear(): Promise<void> {
     if(this.peelPointer){const id=this.peelPointer.id;this.peelPointer=null;if(this.app.canvas.hasPointerCapture(id))this.app.canvas.releasePointerCapture(id);}
-    const scrub=this.manualPeel,held={x:this.pack.x,y:this.pack.y,rotation:this.pack.rotation,sx:this.pack.scale.x,sy:this.pack.scale.y};this.manualPeel=0;this.openingUiTime=0;this.cutCue?.hide();if(!scrub)this.clearPackOpening();this.openingCard?.destroy();this.openingCard=new PerspectiveMesh({texture:this.back,verticesX:4,verticesY:6});this.openingCard.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);this.stack.addChild(this.openingCard);this.mode='tearing';this.dragStart=null;this.dragProgress=0;this.tearLine.clear();
+    const scrub=this.manualPeel,held={x:this.pack.x,y:this.pack.y,rotation:this.pack.rotation,sx:this.pack.scale.x,sy:this.pack.scale.y};this.manualPeel=0;this.openingUiTime=0;this.cutCue?.hide();if(!scrub)this.clearPackOpening();this.openingCard?.destroy();this.openingCard=cardMesh(new PerspectiveMesh({texture:this.back,verticesX:4,verticesY:6}));this.openingCard.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);this.stack.addChild(this.openingCard);this.mode='tearing';this.dragStart=null;this.dragProgress=0;this.tearLine.clear();
     const opening=this.packOpening??new PackOpening(this.packMesh.texture);this.packOpening=opening;opening.root.visible=!!scrub;this.pack.addChild(opening.root);
     const projection={yaw:this.tilt.x*.32,pitch:-this.tilt.y*.19};this.target.x=this.target.y=0;
     const align=()=>{const a:number[]=[];for(const [x,y] of [[-115,-210.5],[115,-210.5],[115,210.5],[-115,210.5]]){const depth=700/(700-x*Math.sin(projection.yaw)+y*Math.sin(projection.pitch));a.push(x*Math.cos(projection.yaw)*depth,y*Math.cos(projection.pitch)*depth);}this.packMesh.setCorners(a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]);};
@@ -451,10 +464,12 @@ export class OpeningStage {
       if(this.diagnostics)this.app.canvas.dataset.cardLight='#'+color.toString(16).padStart(6,'0');
     }
     const arriving=first?this.openingCard:null;
-    const next = arriving??new PerspectiveMesh({ texture: this.back, verticesX: 4, verticesY: 6 });
+    const next = arriving??cardMesh(new PerspectiveMesh({ texture: this.back, verticesX: 4, verticesY: 6 }));
     const pose=arriving?transferStackFront(this.stack,this.cardLayer,arriving):{offsetX:first?0:-22,lift:first?0:24,scale:first?.96:.86,roll:first?0:-.065};
     if(arriving)this.openingCard=null;
-    next.filters = this.options.low?[]:[this.foil]; this.cardMesh = next; this.cardLayer.addChild(next);
+    // The foil lights one card: the one now on the pedestal.
+    if(this.cardMesh&&this.cardMesh!==next&&!this.cardMesh.destroyed)setCardFoil(this.cardMesh,null);
+    setCardFoil(next,this.options.low?null:this.foil); this.cardMesh = next; this.cardLayer.addChild(next);
     Object.assign(this.motion,{...pose,flip:0,pitch:first?0:.14,hover:0});
     this.cardLayer.position.set(pose.offsetX,pose.lift);this.cardLayer.scale.set(pose.scale);this.cardLayer.rotation=pose.roll;this.project(next,312,435,0,this.motion.pitch);
     next.alpha=first?1:0;
@@ -501,7 +516,7 @@ export class OpeningStage {
       }
       this.timeline.call(()=>playSound('flip'),[],turn*d)
         .to(this.motion,{flip:Math.PI/2,offsetX:15,roll:.035,duration:.24*d,ease:'power2.in'},turn*d)
-        .call(()=>{next.texture=texture;next.filters=this.options.low?[]:[this.foil];this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=foilStrength(card.rarity,card.value)*(this.options.low?.55:1);const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(dramatic?'slam':rare?'rare':'reveal');this.charging=false;this.revealEffects.fire(color!,rare,this.options.reduced,this.options.low);this.scene.setCardColor(color!,this.options.reduced);this.scene.impact(rare,this.options.reduced);},[],(turn+.24)*d)
+        .call(()=>{next.texture=texture;setCardFoil(next,this.options.low?null:this.foil);this.lastProjection.delete(next);this.motion.flip=-Math.PI/2;this.foil.resources.foil.uniforms.uStrength=foilStrength(card.rarity,card.value)*(this.options.low?.55:1);const rare=/Illustration|Ultra|Hyper|Special/i.test(card.rarity);playSound(dramatic?'slam':rare?'rare':'reveal');this.charging=false;this.revealEffects.fire(color!,rare,this.options.reduced,this.options.low);this.scene.setCardColor(color!,this.options.reduced);this.scene.impact(rare,this.options.reduced);},[],(turn+.24)*d)
         .to(this.motion,{flip:0,offsetX:0,lift:-8,roll:0,pitch:0,scale:1,duration:.43*d,ease:'back.out(1.08)'},(turn+.24)*d)
         .call(()=>{if(!dramatic&&!this.destroyed&&request===this.revealToken)this.onSpecialWin?.(card);},[],(turn+.42)*d)
         .to(this.foil.resources.foil.uniforms,{uSweep:.8,duration:(dramatic?.23:.46)*d,ease:'sine.inOut'},(turn+.28)*d)
@@ -538,7 +553,7 @@ export class OpeningStage {
     this.scene.setCinematic(false,this.options.reduced);this.revealEffects.clear();const mesh=this.cardMesh;if(!mesh)return null;
     const flight=new Container();flight.position.set(this.world.x+this.cardLayer.x*this.world.scale.x,this.world.y+this.cardLayer.y*this.world.scale.y);flight.scale.set(this.world.scale.x*this.cardLayer.scale.x);flight.rotation=this.cardLayer.rotation;
     if(this.special){flight.addChild(this.special.takeCard());this.special.destroy();this.special=null;mesh.destroy();}
-    else{mesh.filters=[];mesh.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);flight.addChild(mesh);}
+    else{setCardFoil(mesh,null);mesh.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);flight.addChild(mesh);}
     if(this.showdownBadge){flight.addChild(this.showdownBadge);this.showdownBadge=null;}
     this.flightLayer.addChild(flight);this.cardMesh=null;this.cardEdge.alpha=0;return flight;
   }

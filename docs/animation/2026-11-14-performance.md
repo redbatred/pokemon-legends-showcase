@@ -57,20 +57,48 @@ second and a half started the count before the flying amount arrived. The total 
 | Bonus, after the throw | 44 fps | 117 fps, worst 41 ms |
 | Cards after the bonus | 52 fps | 116 fps |
 
+## Second round: the card's shine, the big-win scene and the first special pack
+
+8. **The card's foil was a filter**, so every lit card interrupted the frame the same way the board glow did, and in the
+   big-win scene, where the card is at its largest, it was most of the frame. It is now part of the card mesh's own shader
+   (`foil.ts`: `createCardFoil`, `setCardFoil`): the lighting is the filter's, line for line, with the card's own corners as
+   its coordinates where the filter used the card's bounding box. Compared with the filter on the same frame: mean
+   difference 0.24/255 at rest and 0.42/255 with the foil at full strength, sweeping and tilted; side by side they cannot
+   be told apart. One foil can light several meshes (the plain card, the special reveal's card, each special card on the
+   Open All board); each keeps its own picture. Card meshes are created unbatched (`cardMesh`), because the renderer only
+   re-checks whether a mesh is batched on a frame where nothing else changed, and a card that gained its foil on a busy
+   frame could go on being drawn without it. Reveal frame, GPU: 11 → 7 ms, with no interruption left in the main pass.
+9. **The 3D Pokémon went through a 2D canvas on its way into the 2D scene**: drawn by the shared 3D renderer, copied into a
+   1024×1024 2D canvas, and that canvas uploaded, every frame. The upload of a megapixel of GPU-backed canvas cost 8–10 ms.
+   It is now copied straight from the 3D canvas into the model's own texture (`PokemonModel.render`), as the arena already
+   was. This is what held the big-win scene near 30 fps.
+10. **Frame pacing.** Pixi's 60 fps cap compares whole milliseconds and carries the remainder, so on a 120 Hz screen one
+    late frame was followed by a 25 ms gap and then an 8 ms one. `OpeningStage` now gates frames from the one actually
+    drawn (`FRAME_GATE_MS`), so a late frame costs one refresh and the pace is even again.
+11. **The first special reveal's one-time work** is done under the boot cover instead of on the frame the pack is bought:
+    the painted ball rig (about 50 ms), the soft light sprites and the Tera Pokémon's reflection environment (about 40 ms).
+
+| Scene | Before the whole pass | Now |
+| --- | --- | --- |
+| Card reveals, plain pack | 66 fps, 17 freezes over 50 ms | 119 fps, worst frame 33 ms, no long frames |
+| Big-win scene (Mega) | frames of 15–23 ms with 58–83 ms hitches | never under 60 fps; 95 % of frames within 17.5 ms, none over 26 ms |
+| Big-win scene (Legendary) | same | never under 60 fps; one 50 ms frame |
+| Open All | not measured | 104 fps, 95 % of frames within 16.7 ms |
+
 ## Tried and withdrawn
 
 Drawing the card's foil ahead of the frame the same way as the board glow. It drew the card at the wrong place and size
-(the card left its shadow on the way to the tray) and was removed the same hour. The foil is still a mid-frame filter and
-costs about 2.6 ms of each reveal frame.
+(the card left its shadow on the way to the tray) and was removed the same hour. The foil became part of the card's shader
+instead (point 8).
 
 ## Still there
 
-- Buying a pack that holds a special Pokémon: one freeze of about 160 ms while its model is parsed (three.js, one task),
-  and 50–95 ms warm-up steps after it.
-- The big-win arena runs near 30 fps: the whole 3D scene is copied into the 2D renderer's context every frame.
-- The reveal frame is still about 11 ms of GPU time on this machine: the foil filter and 4× multisampling over 3.3 megapixels.
-- None of this was measured on a phone. The causes are the same there (tile-based GPU, one main thread), but the numbers
-  above are from the laptop.
+- The first time a given Pokémon's 3D model is needed, parsing it holds one frame for up to about 160 ms (three.js parses a
+  model in a single task). It happens while its pack is being bought.
+- The big-win scene holds 60 fps on this machine but not 120: about 12–16 ms of GPU time per frame while both the 3D
+  Pokémon and the arena are on screen.
+- None of this was measured on a phone. The causes are the same there (tile-based GPU, one main thread), but every number
+  here is from the laptop.
 
 ## Tools (lab only)
 

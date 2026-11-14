@@ -1,12 +1,12 @@
 import {Container,PerspectiveMesh,Point,type Texture} from 'pixi.js';
 import {gsap} from 'gsap';
 import {cardHover} from './cardHover';
-import {createFoil} from './foil';
+import {createCardFoil,setCardFoil,cardMesh} from './foil';
 /** Inspector material updates only during pointer movement/settling; a paused game stays paused. */
 export class HoloCard extends Container {
  private mesh:PerspectiveMesh;private foil;private pose={x:0,y:0};private tween:gsap.core.Tween|null=null;private elapsed=0;private aimPoint={x:0,y:0};
  constructor(texture:Texture,private widthPx:number,private heightPx:number,private canvas:HTMLCanvasElement,private redraw:()=>void,strength:number,private reduced:boolean){
-  super();this.foil=createFoil(strength);this.mesh=new PerspectiveMesh({texture,verticesX:4,verticesY:6});this.mesh.filters=[this.foil];this.addChild(this.mesh);this.updatePose();
+  super();this.foil=createCardFoil(strength);this.mesh=cardMesh(new PerspectiveMesh({texture,verticesX:4,verticesY:6}));setCardFoil(this.mesh,this.foil);this.addChild(this.mesh);this.updatePose();
   canvas.addEventListener('pointermove',this.move);canvas.addEventListener('pointerleave',this.leave);canvas.addEventListener('pointercancel',this.leave);canvas.addEventListener('pointerup',this.up);
  }
  private move=(event:PointerEvent)=>{if(this.reduced)return;const b=this.canvas.getBoundingClientRect(),logicalW=this.canvas.clientWidth,logicalH=this.canvas.clientHeight,p=this.toLocal(new Point((event.clientX-b.left)*logicalW/b.width,(event.clientY-b.top)*logicalH/b.height)),pose=cardHover(p.x,p.y,this.widthPx,this.heightPx,event.pointerType==='mouse');this.aim(pose.x,pose.y);};

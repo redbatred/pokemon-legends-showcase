@@ -1,6 +1,7 @@
 import {smooth} from './winCinemaMotion';
 import {winChoreography} from './winChoreography';
-import { ColorMatrixFilter,Container,Graphics,PerspectiveMesh,Sprite,Texture,type Filter } from 'pixi.js';
+import { ColorMatrixFilter,Container,Graphics,PerspectiveMesh,Sprite,Texture } from 'pixi.js';
+import {setCardFoil,cardMesh,type CardFoil} from './foil';
 import {PokeballReleaseCels} from './PokeballReleaseCels';
 import {RevealJuice} from './RevealJuice';
 import {PokeBall3D,ballSpin} from './PokeBall3D';
@@ -39,7 +40,7 @@ export class SpineReveal {
   static disposeResources(){disposePokemonRenderer();}
   static async create(card:Texture,pokemonImage:string,low=false){void preloadRevealAudio(pokemonImage).catch(()=>{});const [hero,cels]=await Promise.all([PokemonActor.create(pokemonImage,low),loadPressureRig()]);return new SpineReveal(card,hero,pokemonImage,low,cels);}
   private constructor(card:Texture,hero:PokemonActor,pokemonImage:string,low:boolean,cels:SkeletonData){
-    this.intact=card;this.releaseCels=new PokeballReleaseCels(cels,performanceProfile(pokemonPower(pokemonImage).species).grounded);this.hero=hero;this.power=new PokemonPower(hero,pokemonPower(pokemonImage),low);this.entrance=new EntranceEffects(performanceProfile(this.power.profile.species),this.power.profile.color,this.power.profile.light,low);this.ball=createPokeballRig();this.shellFront=createPokeballRig();this.shellFront.visible=false;this.formationFx=createBallRevealFx(low);this.formationFront=createBallRevealFx(low);this.conduitFx=createBallRevealFx(low);this.flightFx=createBallRevealFx(low);this.releaseFx=createBallRevealFx(low);this.face=new PerspectiveMesh({texture:card,verticesX:4,verticesY:6});this.face.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);
+    this.intact=card;this.releaseCels=new PokeballReleaseCels(cels,performanceProfile(pokemonPower(pokemonImage).species).grounded);this.hero=hero;this.power=new PokemonPower(hero,pokemonPower(pokemonImage),low);this.entrance=new EntranceEffects(performanceProfile(this.power.profile.species),this.power.profile.color,this.power.profile.light,low);this.ball=createPokeballRig();this.shellFront=createPokeballRig();this.shellFront.visible=false;this.formationFx=createBallRevealFx(low);this.formationFront=createBallRevealFx(low);this.conduitFx=createBallRevealFx(low);this.flightFx=createBallRevealFx(low);this.releaseFx=createBallRevealFx(low);this.face=cardMesh(new PerspectiveMesh({texture:card,verticesX:4,verticesY:6}));this.face.setCorners(-156,-217.5,156,-217.5,156,217.5,-156,217.5);
     this.cardShell.addChild(this.face);this.root.addChild(this.behind,this.cardShell,this.front);this.behind.addChild(this.trail,this.flightFx,this.ball);this.actors.addChild(this.entrance.back,this.power.back,this.hero,this.power.front,this.entrance.front);this.front.addChild(this.ballShadow,this.shadow,this.releaseFx,this.formationFx,this.conduitFx,this.actors,this.formationFront,this.shellFront,this.energy,this.pressure,this.latch,this.flare);this.actors.y=this.floor-219;this.front.addChildAt(this.releaseCels.back,this.front.getChildIndex(this.actors));this.front.addChildAt(this.releaseCels.front,this.front.getChildIndex(this.shellFront));
     this.juice=new RevealJuice(low);this.front.addChildAt(this.juice.back,0);this.front.addChild(this.juice.front);
     // Contact and release are carried by light; the flat pressure star and release cels stay retired.
@@ -220,7 +221,7 @@ export class SpineReveal {
   setFloor(y:number){this.ball.y+=(y-this.floor)*this.ballFloorInfluence;this.floor=y;this.actors.y=y-219;this.shadow.y=y;}
   setCardTilt(x:number,y:number){this.hover.x=x;this.hover.y=y;this.applyCardTilt();}
   private applyCardTilt(){const strike=this.cardStrike.v,yaw=this.hover.x*.19,pitch=-this.hover.y*.13-strike*.42,points:number[]=[];for(const [xx,yy] of [[-156,-217.5],[156,-217.5],[156,217.5],[-156,217.5]]){const z=-xx*Math.sin(yaw)+yy*Math.sin(pitch),p=700/(700+z);points.push(xx*Math.cos(yaw)*p,yy*Math.cos(pitch)*p);}this.face.setCorners(points[0],points[1],points[2],points[3],points[4],points[5],points[6],points[7]);}
-  setCardFoil(filter:Filter){this.face.filters=[filter];}
-  takeCard(){this.face.texture=this.intact;this.face.filters=[];this.setCardTilt(0,0);this.cardShell.removeFromParent();return this.cardShell;}
+  setCardFoil(foil:CardFoil){setCardFoil(this.face,foil);}
+  takeCard(){this.face.texture=this.intact;setCardFoil(this.face,null);this.setCardTilt(0,0);this.cardShell.removeFromParent();return this.cardShell;}
   destroy(){this.ball3d.dispose();this.moveVoice?.stop();this.moveVoice=null;if(this.started)stopRevealAudio();this.hero.filters=[];this.white.destroy();this.root.destroy({children:true});}
 }
