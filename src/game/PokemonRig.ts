@@ -12,7 +12,7 @@ async function loadSkeleton(path: string): Promise<SkeletonData> {
   let page=texture,regions=`artwork\n  bounds: 0,0,${texture.width},${texture.height}\n`;
   if(hasJaw){
     const canvas=document.createElement('canvas');canvas.width=texture.width*3;canvas.height=texture.height;
-    const c=canvas.getContext('2d')!,w=texture.width,h=texture.height;
+    const c=canvas.getContext('2d',{willReadFrequently:true})!,w=texture.width,h=texture.height;
     const points=[[181,94],[192,94],[212,99],[233,105],[244,112],[249,122],[233,128],[210,122],[191,112],[182,103]];
     const mouth=()=>{c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x/475*w,y/475*h):c.moveTo(x/475*w,y/475*h));c.closePath();};
     c.drawImage(texture.source.resource as CanvasImageSource,0,0);c.save();c.globalCompositeOperation='destination-out';mouth();c.fill();c.restore();

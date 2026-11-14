@@ -22,7 +22,7 @@ export function perimeter(points:number[],step=6){const out:number[]=[],n=points
 /** Stroke the part of a closed outline between two fractions of its length (wrapping), as a travelling highlight. */
 export function strokeRun(g:Graphics,path:number[],from:number,to:number,color:number,width:number,alpha=1){const n=path.length/2;if(to<=from||n<2)return;const a=Math.floor(from*n),b=Math.ceil(to*n);g.moveTo(path[((a%n)+n)%n*2],path[((a%n)+n)%n*2+1]);for(let i=a+1;i<=b;i++){const k=((i%n)+n)%n;g.lineTo(path[k*2],path[k*2+1]);}g.stroke({color,width,alpha,cap:'round',join:'round'});}
 const made=new Map<string,Texture>();
-function canvasTexture(key:string,width:number,height:number,draw:(c:CanvasRenderingContext2D)=>void){let t=made.get(key);if(!t){const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;draw(canvas.getContext('2d')!);t=Texture.from(canvas);made.set(key,t);}return t;}
+function canvasTexture(key:string,width:number,height:number,draw:(c:CanvasRenderingContext2D)=>void){let t=made.get(key);if(!t){const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;draw(canvas.getContext('2d',{willReadFrequently:true})!);t=Texture.from(canvas);made.set(key,t);}return t;}
 /** Soft card-shaped light or shadow: a blurred rounded rectangle, never a disc. */
 export const softCard=()=>canvasTexture('soft-card',192,256,c=>{c.filter='blur(22px)';c.fillStyle='#fff';c.beginPath();c.roundRect(40,44,112,168,14);c.fill();});
 /** Soft wide bar for plate shadows and the warmth inside the reel window. */

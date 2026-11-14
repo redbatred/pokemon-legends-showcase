@@ -7,7 +7,7 @@ export function loadPackTexture(path:string){
   const cached=wrappers.get(path);if(cached)return cached;
   const promise=Assets.load<Texture>(path).then(texture=>{
     const canvas=document.createElement('canvas');canvas.width=texture.width;canvas.height=texture.height;
-    const ctx=canvas.getContext('2d')!,w=canvas.width,h=canvas.height;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true})!,w=canvas.width,h=canvas.height;
     ctx.beginPath();ctx.moveTo(w*.004,h*.002);ctx.lineTo(w*.996,h*.002);
     ctx.bezierCurveTo(w*.996,h*.06,w*.976,h*.13,w*.976,h*.23);
     ctx.lineTo(w*.976,h*.84);ctx.bezierCurveTo(w*.976,h*.91,w*.996,h*.96,w*.996,h*.998);

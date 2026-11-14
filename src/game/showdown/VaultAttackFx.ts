@@ -12,7 +12,7 @@ const dataCache=new Map<AttackIndex,SkeletonData>();
 function getAtlas(){
  if(atlas)return atlas;
  const canvas=document.createElement('canvas');canvas.width=canvas.height=512;
- const c=canvas.getContext('2d')!;c.fillStyle='#fff';c.fillRect(0,0,16,16);
+ const c=canvas.getContext('2d',{willReadFrequently:true})!;c.fillStyle='#fff';c.fillRect(0,0,16,16);
  c.save();c.translate(24,0);
  c.beginPath();c.moveTo(3,66);c.bezierCurveTo(46,36,58,66,84,31);c.bezierCurveTo(76,54,110,51,126,15);c.bezierCurveTo(116,42,148,43,158,30);c.bezierCurveTo(179,6,203,40,229,62);c.bezierCurveTo(204,59,188,88,164,86);c.bezierCurveTo(172,107,140,119,120,93);c.bezierCurveTo(100,111,91,80,71,96);c.bezierCurveTo(59,102,38,67,3,66);c.fill();c.restore();
  // Rolling comma lobe: a broad curl with a single cutout, not a thin trail.

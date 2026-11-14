@@ -5,7 +5,7 @@ export const VAULT_CARD_ATLAS='vault-card.png\nsize: 512,512\nfilter: Linear,Lin
 let atlas:TextureAtlas,data:SkeletonData;
 function getAtlas(){
  if(atlas)return atlas;
- const canvas=document.createElement('canvas');canvas.width=canvas.height=512;const c=canvas.getContext('2d')!;
+ const canvas=document.createElement('canvas');canvas.width=canvas.height=512;const c=canvas.getContext('2d',{willReadFrequently:true})!;
  for(const [radius,width,color] of [[115,8,'#a38ad433'],[115,2,'#d3bcffcc'],[105,1,'#d0b89177']] as const){c.beginPath();c.ellipse(128,128,radius,radius,0,0,Math.PI*2);c.strokeStyle=color;c.lineWidth=width;c.stroke();}
  for(let i=0;i<12;i++){const a=i/12*Math.PI*2;c.save();c.translate(128+Math.cos(a)*115,128+Math.sin(a)*115);c.rotate(a);c.fillStyle=i%3?'#b397d0':'#f5dfb0';c.fillRect(-4,-1,i%3?5:9,2);c.restore();}
  // The three lock emblems share the Poké Ball language of the actual trigger badges.

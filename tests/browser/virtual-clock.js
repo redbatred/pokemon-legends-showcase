@@ -1,6 +1,8 @@
 // Virtual 60 fps clock for lab pages: the whole game (Pixi ticker, GSAP, three.js preparation) advances
 // only when stepped, so captures stay deterministic even while the preview pane is throttled or hidden.
 (()=>{const realNow=performance.now.bind(performance),origin=realNow(),dateOrigin=Date.now();let virtual=origin,handle=0;const queue=[];
+// `?real=1` leaves the browser's own clock and frames alone, for profiling real pacing on a lab page.
+if(new URLSearchParams(location.search).has('real')){window.virtualClock={step(){},realNow,manual(){},auto(){},get now(){return realNow();}};return;}
 performance.now=()=>virtual;Date.now=()=>dateOrigin+(virtual-origin);
 window.requestAnimationFrame=cb=>{queue.push([++handle,cb]);return handle;};window.cancelAnimationFrame=id=>{const i=queue.findIndex(q=>q[0]===id);if(i>=0)queue.splice(i,1);};
 const step=(ms=1000/60)=>{virtual+=ms;for(const [,cb] of queue.splice(0)){try{cb(virtual);}catch(error){console.error(error);}}};

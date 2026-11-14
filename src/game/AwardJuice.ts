@@ -16,7 +16,7 @@ let shapes:{flare:Texture;shade:Texture}|undefined;
  * and a soft dark blot for contact shadows. */
 export function awardTextures(){
  if(shapes)return shapes;
- const sheet=(w:number,h:number,paint:(c:CanvasRenderingContext2D)=>void)=>{const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;paint(canvas.getContext('2d')!);return Texture.from(canvas);};
+ const sheet=(w:number,h:number,paint:(c:CanvasRenderingContext2D)=>void)=>{const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;paint(canvas.getContext('2d',{willReadFrequently:true})!);return Texture.from(canvas);};
  const flare=sheet(256,32,c=>{const along=c.createLinearGradient(0,0,256,0);along.addColorStop(0,'rgba(255,255,255,0)');along.addColorStop(.32,'rgba(255,255,255,.28)');along.addColorStop(.5,'rgba(255,255,255,1)');along.addColorStop(.68,'rgba(255,255,255,.28)');along.addColorStop(1,'rgba(255,255,255,0)');
   c.fillStyle=along;c.beginPath();c.moveTo(0,16);c.quadraticCurveTo(128,-2,256,16);c.quadraticCurveTo(128,34,0,16);c.fill();
   // A hot hairline through the middle keeps the streak sharp where it crosses the type.

@@ -5,7 +5,7 @@ const data=new Map<boolean,SkeletonData>();let atlas:TextureAtlas;
 /** Small reusable cel-effect atlas; movement/opacity is animated by actual Spine tracks. */
 export function createBallRevealFx(low=false){
  if(!atlas){
-  const canvas=document.createElement('canvas');canvas.width=canvas.height=256;const c=canvas.getContext('2d')!;c.fillStyle='#fff';
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=256;const c=canvas.getContext('2d',{willReadFrequently:true})!;c.fillStyle='#fff';
   c.beginPath();c.moveTo(0,16);c.bezierCurveTo(55,7,150,5,240,16);c.bezierCurveTo(150,27,55,25,0,16);c.fill();
   c.beginPath();for(let i=0;i<=32;i++){const a=-1.35+i/32*2.7,x=64+Math.cos(a)*60,y=104+Math.sin(a)*60;i?c.lineTo(x,y):c.moveTo(x,y);}for(let i=32;i>=0;i--){const a=-1.35+i/32*2.7,r=60-Math.sin(i/32*Math.PI)*16;c.lineTo(64+Math.cos(a)*r,104+Math.sin(a)*r);}c.closePath();c.fill();
   c.beginPath();[[168,41],[173,66],[198,72],[173,77],[168,103],[163,77],[137,72],[163,66]].forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.fill();

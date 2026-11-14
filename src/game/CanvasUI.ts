@@ -20,6 +20,7 @@ import { money, recordedWinnings, type Card, type Pack, type Save, type Result }
 import {modalLayout,totalWinLayout,rewardLayout,creditLayout,autoSpinLayout,cheatsLayout} from './modalLayout';
 import {CHEAT_BONUSES,CHEAT_LABELS,CHEAT_LEGENDARIES,CHEAT_TOTALS,CHEAT_WINS,NO_CHEATS,cheatSummary,cheatsActive,type Cheats} from './cheats';
 import {drawPanel,drawPlate,drawBall} from './panelArt';
+import {textureContext} from './canvasUploads';
 import {MoneyReadout,prepareAmountFont} from './MoneyReadout';
 import {ResultWin,type ResultSource} from './ResultWin';
 import {drawResultPanel,resultPanelParts} from './resultPanelArt';
@@ -86,7 +87,13 @@ export class CanvasUI {
   private generation=0;private hits:HitTarget[]=[];private paints=new Map<string,Container>();private feedbackTweens=new Map<string,gsap.core.Tween>();
   private historyOpening:Result|null=null;private historySelection=0;private historyFanCards:{group:Container;x:number;y:number;rotation:number;scale:number;ready:boolean}[]=[];private historyFanTime=0;private tickHistoryFan=(_time:number,delta:number)=>{if(document.hidden)return;this.historyFanTime+=delta/1000;this.animateHistoryFan(Math.min(.05,delta/1000));this.stage.draw();};private historyFanTitle:Text|null=null;private historyFanRarity:Text|null=null;private historyFanValue:MoneyReadout|null=null;
   private page=0;private collected=false;private openingId='';private landed=new Set<number>();
-  private trayArt:Texture|null=null;private redrawTray:(()=>void)|null=null;private trayOffset={value:0};private trayTween:gsap.core.Tween|null=null;
+  // The tray's painted strip outlives a rebuild of the screen: the same canvas and texture are kept while the layout is the
+  // same, and it is only repainted when what it shows has changed. Each slot is painted once into a small canvas of its own
+  // (a seated card costs a soft shadow and a scaled picture) and after that only copied into the strip.
+  private trayAtlas:{canvas:HTMLCanvasElement;context:CanvasRenderingContext2D;texture:Texture;drawn:string}|null=null;private traySlots=new Map<string,HTMLCanvasElement>();
+  /** Review switch: paint every slot straight into the strip, as before the slot cache, to compare the two pictures. */
+  trayDirect=false;
+  private redrawTray:(()=>void)|null=null;private trayOffset={value:0};private trayTween:gsap.core.Tween|null=null;
   private trayWheelRemainder=0;private trayPan=new TrayPan();private trayPointer:number|null=null;private trayInterrupted=false;private trayFocusKey='';private suppressTrayClickUntil=0;private trayHost:HTMLElement;
   private specialFrames=new Set<SpecialCardFrame>();
   private tickSpecialFrames=(_time:number,delta:number)=>{if(document.hidden||this.state?.reduced)return;for(const frame of this.specialFrames)frame.update(Math.min(.05,delta/1000));if(this.specialFrames.size)this.stage.draw();};
@@ -97,7 +104,7 @@ export class CanvasUI {
   constructor(private stage:OpeningStage,private onTargets:(hits:HitTarget[],summary:string)=>void){
     void preloadWinCelebration().catch(()=>{});
     BitmapFont.install({name:'LegendsMoney',style:{fontFamily:'Nunito',fontSize:64,fontWeight:'900',fill:0xffffff,stroke:{color:0x082e52,width:3}},chars:'0123456789$.,+- ',resolution:3,padding:3,skipKerning:true});
-    const canvas=document.createElement('canvas');canvas.width=8;canvas.height=128;const ctx=canvas.getContext('2d')!;const gradient=ctx.createLinearGradient(0,0,0,128);gradient.addColorStop(0,'rgba(4,14,29,0)');gradient.addColorStop(1,'rgba(4,14,29,.65)');ctx.fillStyle=gradient;ctx.fillRect(0,0,8,128);this.tray=Texture.from(canvas);
+    const canvas=document.createElement('canvas');canvas.width=8;canvas.height=128;const ctx=canvas.getContext('2d',{willReadFrequently:true})!;const gradient=ctx.createLinearGradient(0,0,0,128);gradient.addColorStop(0,'rgba(4,14,29,0)');gradient.addColorStop(1,'rgba(4,14,29,.65)');ctx.fillStyle=gradient;ctx.fillRect(0,0,8,128);this.tray=Texture.from(canvas);
     this.rewards=new RewardTransfers(this.creditReward,()=>stage.draw(),()=>this.state?.action('next'));stage.app.stage.addChildAt(this.rewards.background,stage.app.stage.getChildIndex(stage.world));stage.app.ticker.add(this.tickRewards);
     stage.app.stage.addChild(this.backdrop,this.root,stage.flightLayer,this.rewards.root);stage.onCardStored=this.storeCard;stage.onSpecialWin=this.awardCard;stage.onLayout=()=>{if(!this.updating)this.build();};
     stage.onBeforeCardTransfer=()=>this.rewards.beforeCardTransfer();stage.onCollectFocus=this.focusTray;stage.cardDestination=this.cardDestination;
@@ -343,7 +350,7 @@ export class CanvasUI {
       let source:CanvasImageSource,width:number,height:number;
       if(path.endsWith('pack.webp')){const texture=await loadPackTexture(path);source=texture.source.resource as CanvasImageSource;width=texture.width;height=texture.height;}
       else{const image=new Image();image.src=path;await image.decode();source=image;width=image.naturalWidth;height=image.naturalHeight;}
-      const scale=Math.min(1,640/Math.max(width,height));const canvas=document.createElement('canvas');canvas.width=Math.round(width*scale);canvas.height=Math.round(height*scale);const ctx=canvas.getContext('2d')!;ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+      const scale=Math.min(1,640/Math.max(width,height));const canvas=document.createElement('canvas');canvas.width=Math.round(width*scale);canvas.height=Math.round(height*scale);const ctx=canvas.getContext('2d',{willReadFrequently:true})!;ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
       if(path.includes('/cards/')||path.includes('card-back')){ctx.beginPath();ctx.roundRect(0,0,canvas.width,canvas.height,canvas.width*.05);ctx.clip();}
       ctx.drawImage(source,0,0,canvas.width,canvas.height);const texture=Texture.from(canvas);
       if(this.destroyed){texture.destroy(true);throw new Error('closed');}
@@ -366,7 +373,7 @@ export class CanvasUI {
     this.resultUnderlay?.destroy({texture:true,textureSource:true});this.resultUnderlay=null;
     if((this.resultLaunch||this.interludeEntry)&&!this.state.reduced){const texture=this.stage.app.renderer.generateTexture({target:this.root,frame:new Rectangle(0,0,this.stage.app.screen.width,this.stage.app.screen.height),resolution:1});this.resultUnderlay=new Sprite(texture);this.stage.app.stage.addChildAt(this.resultUnderlay,this.stage.app.stage.getChildIndex(this.backdrop));}
     this.resultChrome=null;this.resultAmount=null;this.resultCount=null;this.resultCards=[];this.resultButtons=[];this.trayPan.cancel();this.trayPointer=null;
-    ++this.generation;gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();this.trayBadges.clear();gsap.ticker.remove(this.tickHistoryFan);this.historyFanCards=[];this.historyFanTitle=this.historyFanRarity=null;this.historyFanValue=null;this.arrowPulses=[];this.cardPulses=[];this.utilityPulses=[];this.trayNext=null;this.rackGroup=null;this.rackMask=null;this.rackGlow=null;this.cardCaptions=[];this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.trayArt?.destroy(true);this.trayArt=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
+    ++this.generation;gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();this.trayBadges.clear();gsap.ticker.remove(this.tickHistoryFan);this.historyFanCards=[];this.historyFanTitle=this.historyFanRarity=null;this.historyFanValue=null;this.arrowPulses=[];this.cardPulses=[];this.utilityPulses=[];this.trayNext=null;this.rackGroup=null;this.rackMask=null;this.rackGlow=null;this.cardCaptions=[];this.trayStrip=null;this.packValueLabel=null;this.revealCountLabel=null;this.moneyAnimations.forEach(t=>t.kill());this.moneyAnimations=[];this.trayTween?.kill();this.redrawTray=null;this.hits=[];this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.paints.clear();this.focus.clear();
     this.root.removeChild(this.focus);this.root.removeChildren().forEach(child=>child.destroy({children:true}));
     const s=this.state,sw=this.stage.app.screen.width,sh=this.stage.app.screen.height,modal=s.inspected?'inspect':s.panel==='history'&&this.historyOpening?'history-pack':s.panel??(s.phase==='complete'?(s.autoRun?.interlude?'interlude':s.autoRun&&s.autoRun.results.length>1?(this.autoPack?'auto-pack':'auto-session'):'results'):'');
     const frame=modal&&!['settings','interlude'].includes(modal)?modalLayout(sw,sh,modal,s.save?.history.length):{x:0,y:0,width:sw,height:sh};this.modalOrigin={x:frame.x,y:frame.y};
@@ -525,15 +532,31 @@ export class CanvasUI {
       });
       // One native canvas atlas keeps the static rack independent of animated
       // mesh buffers, with a single texture update for each landed card.
-      const resolution=Math.min(2,this.stage.app.renderer.resolution),art=document.createElement('canvas'),artWidth=(s.save.active.cards.length-1)*tray.stride+tray.cardWidth;
-      art.width=Math.ceil((artWidth+TRAY_PAD*2)*resolution);art.height=Math.ceil((tray.slotHeight+TRAY_PAD*2)*resolution);
-      const context=art.getContext('2d')!,texture=Texture.from(art),sprite=new Sprite(texture);this.trayArt=texture;sprite.position.set(-TRAY_PAD);sprite.width=artWidth+TRAY_PAD*2;sprite.height=tray.slotHeight+TRAY_PAD*2;strip.addChildAt(sprite,0);
+      const resolution=Math.min(2,this.stage.app.renderer.resolution),artWidth=(s.save.active.cards.length-1)*tray.stride+tray.cardWidth;
+      const pixelWidth=Math.ceil((artWidth+TRAY_PAD*2)*resolution),pixelHeight=Math.ceil((tray.slotHeight+TRAY_PAD*2)*resolution);
+      let atlas=this.trayAtlas;
+      if(!atlas||atlas.canvas.width!==pixelWidth||atlas.canvas.height!==pixelHeight){atlas?.texture.destroy(true);this.traySlots.clear();const art=document.createElement('canvas');art.width=pixelWidth;art.height=pixelHeight;atlas=this.trayAtlas={canvas:art,context:textureContext(art),texture:Texture.from(art),drawn:''};}
+      const context=atlas.context,texture=atlas.texture,sprite=new Sprite(texture),strip_=atlas;sprite.position.set(-TRAY_PAD);sprite.width=artWidth+TRAY_PAD*2;sprite.height=tray.slotHeight+TRAY_PAD*2;strip.addChildAt(sprite,0);
       const generation=this.generation,cards=s.save.active.cards;
+      // Room around a slot for its shadow, in the slot's own canvas.
+      const spill=Math.ceil(14*resolution),slotWidth=Math.ceil(tray.cardWidth*resolution)+spill*2+1,slotHeight=Math.ceil(tray.slotHeight*resolution)+spill*2+1;
       // The slot that will take the card now on the stage is the lit one; once that card is seated the light moves on with the next reveal.
-      const redraw=()=>{if(this.destroyed||generation!==this.generation)return;context.setTransform(resolution,0,0,resolution,TRAY_PAD*resolution,TRAY_PAD*resolution);context.clearRect(-TRAY_PAD,-TRAY_PAD,artWidth+TRAY_PAD*2,tray.slotHeight+TRAY_PAD*2);cards.forEach((card,i)=>{
-        const x=i*tray.stride,image=this.landed.has(i)?this.thumbs.get(card.image):null;
-        context.save();context.translate(x,0);drawTraySlot(context,tray,{index:i,next:i===this.waitingSlot(),special:isSpecialCard(card),image:image?{source:image.source.resource as CanvasImageSource,width:image.width,height:image.height}:null});context.restore();
-      });texture.source.update();this.stage.draw();};
+      const redraw=()=>{if(this.destroyed||generation!==this.generation)return;
+        const waiting=this.waitingSlot(),slots=cards.map((card,i)=>{const image=this.landed.has(i)?this.thumbs.get(card.image)??null:null;return {i,next:i===waiting,special:isSpecialCard(card),image,look:`${image?card.image:'#'+i}|${i===waiting?1:0}|${isSpecialCard(card)?1:0}`};});
+        // Painted already, exactly like this: nothing to do, and nothing to upload.
+        const state=`${this.trayDirect?'direct':'cached'}|${resolution}|${tray.cardWidth}|${tray.cardHeight}|${tray.slotHeight}|${tray.stride}|${slots.map(slot=>slot.look).join(',')}`;
+        if(state===strip_.drawn)return;strip_.drawn=state;
+        const state_=(slot:typeof slots[number])=>({index:slot.i,next:slot.next,special:slot.special,image:slot.image?{source:slot.image.source.resource as CanvasImageSource,width:slot.image.width,height:slot.image.height}:null});
+        context.setTransform(1,0,0,1,0,0);context.clearRect(0,0,pixelWidth,pixelHeight);
+        for(const slot of slots){
+          // Where the slot's corner falls in the strip, in whole pixels plus the fraction it is painted at.
+          const left=(TRAY_PAD+slot.i*tray.stride)*resolution,top=TRAY_PAD*resolution,px=Math.floor(left),py=Math.floor(top),fx=left-px,fy=top-py;
+          if(this.trayDirect){context.setTransform(resolution,0,0,resolution,left,top);drawTraySlot(context,tray,state_(slot));continue;}
+          const key=`${slot.look}|${resolution}|${tray.cardWidth}|${tray.cardHeight}|${tray.slotHeight}|${fx.toFixed(3)}|${fy.toFixed(3)}`;let painted=this.traySlots.get(key);
+          if(!painted){painted=document.createElement('canvas');painted.width=slotWidth;painted.height=slotHeight;const c=textureContext(painted);c.setTransform(resolution,0,0,resolution,spill+fx,spill+fy);drawTraySlot(c,tray,state_(slot));if(this.traySlots.size>240)this.traySlots.clear();this.traySlots.set(key,painted);}
+          context.setTransform(1,0,0,1,0,0);context.drawImage(painted,px-spill,py-spill);
+        }
+        texture.source.update();this.stage.draw();};
       this.redrawTray=redraw;redraw();
       new Set(cards.map(card=>card.image)).forEach(path=>{void this.thumbnail(path).then(redraw).catch(()=>{});});
       this.syncTrayHits();
@@ -906,5 +929,5 @@ export class CanvasUI {
     const after=(.16+tracks.length*.04+.42)*d;this.resultButtons.forEach((button,i)=>{timeline.to(button,{alpha:1,y:button.y-12,duration:.3*d,ease:'back.out(1.8)'},after+i*.07*d);});
     timeline.to({}, {duration:.08*d});
   }
-  destroy(){this.autoCoverTween?.kill();this.autoCover?.destroy();gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();gsap.ticker.remove(this.tickHistoryFan);this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.trayArt?.destroy(true);this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.returnTween?.kill();this.returnCover?.destroy({texture:true,textureSource:true});this.backdrop.destroy();this.trayTween?.kill();this.stage.onBeforeCardTransfer=null;this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
+  destroy(){this.trayAtlas?.texture.destroy(true);this.trayAtlas=null;this.traySlots.clear();this.autoCoverTween?.kill();this.autoCover?.destroy();gsap.ticker.remove(this.tickSpecialFrames);this.specialFrames.clear();this.trayPrices.clear();gsap.ticker.remove(this.tickHistoryFan);this.trayHost.removeEventListener('pointerdown',this.trayDown,true);this.trayHost.removeEventListener('pointermove',this.trayMove,true);this.trayHost.removeEventListener('pointerup',this.trayUp,true);this.trayHost.removeEventListener('pointercancel',this.trayCancel,true);this.trayHost.removeEventListener('click',this.trayClick,true);this.trayHost.removeEventListener('wheel',this.trayWheel,true);this.stage.app.ticker.remove(this.tickRewards);this.rewards.destroy();this.feedbackTweens.forEach(t=>t.kill());this.feedbackTweens.clear();this.frozenHud?.destroy({texture:true,textureSource:true});this.resultUnderlay?.destroy({texture:true,textureSource:true});this.modalTween?.kill();this.returnTween?.kill();this.returnCover?.destroy({texture:true,textureSource:true});this.backdrop.destroy();this.trayTween?.kill();this.stage.onBeforeCardTransfer=null;this.stage.onCardStored=null;this.stage.onSpecialWin=null;this.stage.onCollectFocus=null;this.stage.cardDestination=null;this.moneyAnimations.forEach(t=>t.kill());this.destroyed=true;++this.generation;window.removeEventListener('keydown',this.keydown);this.stage.onLayout=null;this.root.destroy({children:true});this.thumbs.forEach(t=>t.destroy(true));this.thumbs.clear();this.pending.clear();this.tray.destroy(true);BitmapFont.uninstall('LegendsMoney');}
 }

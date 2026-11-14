@@ -14,6 +14,8 @@ export interface CaptureDemo{
 /** The scene takes the screen's shape when it loads (tall, 3:4 or wide). It is shown in the largest box of that shape that fits
  * the game, centred; if the screen has changed shape since, what is left over is shaded. */
 export function bonusFrameBox(width:number,height:number,aspect=.75){
- const boxWidth=Math.round(Math.min(width,height*aspect)),boxHeight=Math.round(boxWidth/aspect);
- return {x:Math.round((width-boxWidth)/2),y:Math.round((height-boxHeight)/2),width:boxWidth,height:boxHeight,letterboxed:boxWidth<width-2||boxHeight<height-2};
+ const boxWidth=Math.round(Math.min(width,height*aspect)),boxHeight=Math.round(boxWidth/aspect),letterboxed=boxWidth<width-2||boxHeight<height-2;
+ // A box within a pixel or two of the screen is the screen: rounding must not leave a line of the game showing at one edge.
+ if(!letterboxed)return {x:0,y:0,width:Math.round(width),height:Math.round(height),letterboxed};
+ return {x:Math.round((width-boxWidth)/2),y:Math.round((height-boxHeight)/2),width:boxWidth,height:boxHeight,letterboxed};
 }

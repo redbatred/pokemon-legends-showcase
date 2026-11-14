@@ -27,7 +27,7 @@ export function createLightLayer(){
  // Behind the reward card: slow rays and a glow that warm up as the count climbs. Over the cavern during the checks: the room
  // falls away around the ball, so the three shakes play in a pool of light.
  const textures=juiceTextures(),halo=new Container(),rays=new Sprite(textures.rays),glow=new Sprite(textures.dot);for(const sprite of [rays,glow]){sprite.anchor.set(.5);sprite.blendMode='add';}const warmth=new Sprite(textures.dot);warmth.anchor.set(.5);warmth.blendMode='add';halo.addChild(glow,rays,warmth);halo.eventMode='none';
- const shadeCanvas=document.createElement('canvas');shadeCanvas.width=shadeCanvas.height=256;{const c=shadeCanvas.getContext('2d')!,g=c.createRadialGradient(128,128,22,128,128,128);g.addColorStop(0,'rgba(3,10,22,0)');g.addColorStop(.42,'rgba(3,10,22,.55)');g.addColorStop(1,'rgba(3,10,22,1)');c.fillStyle=g;c.fillRect(0,0,256,256);}
+ const shadeCanvas=document.createElement('canvas');shadeCanvas.width=shadeCanvas.height=256;{const c=shadeCanvas.getContext('2d',{willReadFrequently:true})!,g=c.createRadialGradient(128,128,22,128,128,128);g.addColorStop(0,'rgba(3,10,22,0)');g.addColorStop(.42,'rgba(3,10,22,.55)');g.addColorStop(1,'rgba(3,10,22,1)');c.fillStyle=g;c.fillRect(0,0,256,256);}
  const vignette=new Sprite(Texture.from(shadeCanvas));vignette.anchor.set(.5);vignette.eventMode='none';vignette.visible=false;
  const ease=(v:number)=>{const p=Math.max(0,Math.min(1,v));return p*p*(3-2*p);};
  let lastT=-99,lastAge=-99,lastNow=0,trail=0,shownTier=-2,twinkle=0,seed=7,previous={x:0,y:0};

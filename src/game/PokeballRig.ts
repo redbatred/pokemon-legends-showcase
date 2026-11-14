@@ -18,7 +18,7 @@ let data:SkeletonData|undefined;
 export function createPokeballRig(){
   if(!data){
     const size=160,frames=48,canvas=document.createElement('canvas');canvas.width=size*8;canvas.height=size*7+960;
-    const ctx=canvas.getContext('2d')!;let regions='';
+    const ctx=canvas.getContext('2d',{willReadFrequently:true})!;let regions='';
     for(let frame=0;frame<frames;frame++){
       const pixels=ctx.createImageData(size,size),angle=frame/frames*Math.PI*2;
       const ca=Math.cos(angle),sa=Math.sin(angle),tilt=.28,ct=Math.cos(tilt),st=Math.sin(tilt);

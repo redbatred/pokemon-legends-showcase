@@ -13,7 +13,7 @@ export class StageLightRig {
     const mask=document.createElement('canvas');mask.width=1024;mask.height=512;
     const context=mask.getContext('2d',{willReadFrequently:true})!;context.drawImage(platform.source.resource as CanvasImageSource,0,0,1024,512);
     const pixels=context.getImageData(0,0,1024,512);
-    const center=document.createElement('canvas');center.width=1024;center.height=512;const centerContext=center.getContext('2d')!,centerPixels=centerContext.createImageData(1024,512);
+    const center=document.createElement('canvas');center.width=1024;center.height=512;const centerContext=center.getContext('2d',{willReadFrequently:true})!,centerPixels=centerContext.createImageData(1024,512);
     for(let i=0;i<pixels.data.length;i+=4){const strength=centerEmissionStrength(pixels.data[i],pixels.data[i+1],pixels.data[i+2],(i/4%1024)/1024,Math.floor(i/4/1024)/512);centerPixels.data[i]=centerPixels.data[i+1]=centerPixels.data[i+2]=255;centerPixels.data[i+3]=pixels.data[i+3]*strength;}centerContext.putImageData(centerPixels,0,0);
     for(let i=0;i<pixels.data.length;i+=4){const strength=stageEmissionStrength(pixels.data[i],pixels.data[i+1],pixels.data[i+2],(i/4%1024)/1024,Math.floor(i/4/1024)/512);pixels.data[i]=pixels.data[i+1]=pixels.data[i+2]=255;pixels.data[i+3]*=strength;}
     context.putImageData(pixels,0,0);
@@ -23,10 +23,10 @@ export class StageLightRig {
     for(let i=0;i<distance.length;i++)distance[i]=pixels.data[i*4+3]>12?64:0;
     for(let y=1;y<512;y++)for(let x=1;x<1024;x++){const i=y*1024+x;if(distance[i])distance[i]=Math.min(distance[i],distance[i-1]+1,distance[i-1024]+1,distance[i-1025]+1.414);}
     for(let y=510;y>=0;y--)for(let x=1022;x>=0;x--){const i=y*1024+x;if(distance[i])distance[i]=Math.min(distance[i],distance[i+1]+1,distance[i+1024]+1,distance[i+1025]+1.414);}
-    const core=document.createElement('canvas');core.width=1024;core.height=512;const cc=core.getContext('2d')!,corePixels=cc.createImageData(1024,512);
+    const core=document.createElement('canvas');core.width=1024;core.height=512;const cc=core.getContext('2d',{willReadFrequently:true})!,corePixels=cc.createImageData(1024,512);
     for(let i=0;i<distance.length;i++){corePixels.data[i*4]=corePixels.data[i*4+1]=corePixels.data[i*4+2]=255;corePixels.data[i*4+3]=pixels.data[i*4+3]*Math.min(1,distance[i]/5);}
     cc.putImageData(corePixels,0,0);
-    const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=2048;const c=canvas.getContext('2d')!;
+    const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=2048;const c=canvas.getContext('2d',{willReadFrequently:true})!;
     c.drawImage(mask,0,0);c.save();c.filter='blur(16px)';c.drawImage(mask,1024,0);c.restore();c.drawImage(core,1024,512);
     const radial=c.createRadialGradient(64,576,0,64,576,64);radial.addColorStop(0,'rgba(255,255,255,1)');radial.addColorStop(.12,'rgba(255,255,255,.8)');radial.addColorStop(.4,'rgba(255,255,255,.22)');radial.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=radial;c.fillRect(0,512,128,128);
     const beam=c.createImageData(256,512);

@@ -17,7 +17,7 @@ export function bonusBallTexture(){
  try{
   const size=384,ball=new PokeBall3D(false,0xbdf7ff,size);ball.place(0,0,10,1,true);ball.update({spin:new Quaternion(),roll:0,open:0,button:.2,inner:0,front:false});
   const source=ball.sprite.texture.source.resource as CanvasImageSource,radius=size/(BALL_FRAME.top-BALL_FRAME.bottom),side=Math.ceil(radius*2*STILL_PAD),canvas=document.createElement('canvas');canvas.width=canvas.height=side;
-  canvas.getContext('2d')!.drawImage(source,size/2-side/2,size*BALL_FRAME.anchorY-side/2,side,side,0,0,side,side);ball.dispose();still=Texture.from(canvas);
+  canvas.getContext('2d',{willReadFrequently:true})!.drawImage(source,size/2-side/2,size*BALL_FRAME.anchorY-side/2,side,side,0,0,side,side);ball.dispose();still=Texture.from(canvas);
  }catch(error){console.warn('Bonus ball could not be rendered',error);still=null;}
  return still;
 }

@@ -11,7 +11,7 @@ let resources: Promise<ElementalResources> | undefined;
 function loadResources(): Promise<ElementalResources> {
   return resources ??= Promise.resolve().then(() => {
     const canvas = document.createElement('canvas'); canvas.width = canvas.height = 256;
-    const c = canvas.getContext('2d');
+    const c = canvas.getContext('2d',{willReadFrequently:true});
     if (!c) throw new Error('A 2D canvas is required for elemental materials.');
     const material = c.createLinearGradient(0, 0, 64, 0);
     material.addColorStop(0, '#ffffffc8'); material.addColorStop(.18, '#ffffffff');

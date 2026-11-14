@@ -6,7 +6,7 @@ import {packSeam} from './packTearGeometry';
 let data:SkeletonData|undefined;
 function makeRig(){
  if(!data){
-  const canvas=document.createElement('canvas');canvas.width=320;canvas.height=192;const c=canvas.getContext('2d')!;
+  const canvas=document.createElement('canvas');canvas.width=320;canvas.height=192;const c=canvas.getContext('2d',{willReadFrequently:true})!;
   for(let i=0;i<2;i++){
    c.save();c.translate(i*160+80,80);if(i===1)c.scale(1,-1);c.lineJoin='round';c.lineCap='round';
    const metal=c.createLinearGradient(0,-8,0,10);metal.addColorStop(0,'#f1fbff');metal.addColorStop(.45,i?'#83a9c0':'#c3e4f3');metal.addColorStop(.58,'#50758e');metal.addColorStop(1,'#d3f0fa');

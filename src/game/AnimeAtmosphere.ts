@@ -3,7 +3,7 @@ import {Container,Graphics,Sprite,Texture} from 'pixi.js';
 export class AnimeAtmosphere {
  root=new Container();private vignette:Sprite;private lines=new Graphics();private texture:Texture;private w=1;private h=1;
  constructor(){
-  const canvas=document.createElement('canvas');canvas.width=canvas.height=512;const c=canvas.getContext('2d')!,gradient=c.createRadialGradient(256,235,70,256,256,340);
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=512;const c=canvas.getContext('2d',{willReadFrequently:true})!,gradient=c.createRadialGradient(256,235,70,256,256,340);
   gradient.addColorStop(0,'rgba(2,5,25,0)');gradient.addColorStop(.5,'rgba(2,5,25,.15)');gradient.addColorStop(1,'rgba(2,5,25,.95)');c.fillStyle=gradient;c.fillRect(0,0,512,512);
   this.texture=Texture.from(canvas);this.vignette=new Sprite(this.texture);this.root.addChild(this.vignette,this.lines);this.root.eventMode='none';
  }

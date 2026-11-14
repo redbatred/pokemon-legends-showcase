@@ -5,7 +5,7 @@ type Point={x:number;y:number};
 const SEGMENTS=30;
 /** A strip of flowing light, seamless along its length so it can scroll: a hot core, a soft body and filaments that show the flow. */
 function flowTexture(seed:number,core:number){
- const W=256,H=64,canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;const context=canvas.getContext('2d')!,image=context.createImageData(W,H),rows=8,cols=16;
+ const W=256,H=64,canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;const context=canvas.getContext('2d',{willReadFrequently:true})!,image=context.createImageData(W,H),rows=8,cols=16;
  const grid=Array.from({length:rows*cols},(_,i)=>{const x=Math.sin((i+1)*12.9898+seed*78.233)*43758.5453;return x-Math.floor(x);});
  const noise=(u:number,v:number)=>{const x=u*cols,y=v*(rows-1),x0=Math.floor(x)%cols,x1=(x0+1)%cols,y0=Math.min(rows-2,Math.floor(y)),fx=x-Math.floor(x),fy=y-y0,sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy);
   return (grid[y0*cols+x0]*(1-sx)+grid[y0*cols+x1]*sx)*(1-sy)+(grid[(y0+1)*cols+x0]*(1-sx)+grid[(y0+1)*cols+x1]*sx)*sy;};

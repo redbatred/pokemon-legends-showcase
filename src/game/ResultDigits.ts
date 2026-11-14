@@ -9,12 +9,12 @@ function glyphs(size:number):Glyphs{
  const key=Math.round(size);let set=cache.get(key);if(set)return set;
  const advance:Record<string,number>={},ink:Record<string,Texture>={},fill:Record<string,Texture>={};
  // Headless (tests): metrics only.
- const canvas2d=typeof document==='undefined'?null:document.createElement('canvas').getContext?.('2d') as CanvasRenderingContext2D|null;
+ const canvas2d=typeof document==='undefined'?null:document.createElement('canvas').getContext?.('2d',{willReadFrequently:true}) as CanvasRenderingContext2D|null;
  if(!canvas2d||typeof canvas2d.measureText!=='function'){for(const char of CHARS){advance[char]=key*(/\d/.test(char)?.56:char==='$'?.5:.24);ink[char]=fill[char]=Texture.EMPTY;}set={scale:1,height:key,baseline:key*.8,advance,ink,fill};cache.set(key,set);return set;}
  const k=2,px=key*k,pad=Math.ceil(px*.16),depth=Math.max(2,Math.round(px*.085)),stroke=Math.max(2,px*.1),font=`400 ${px}px BattleDisplay, Nunito, Arial`,probe=canvas2d;probe.font=font;
  const digit=Math.max(...[...'0123456789'].map(char=>probe.measureText(char).width));
  for(const char of CHARS){
-  const width=/\d/.test(char)?digit:probe.measureText(char).width,w=Math.ceil(width+pad*2),h=Math.ceil(px*1.16+pad*2+depth),paint=(draw:(c:CanvasRenderingContext2D,x:number,y:number)=>void)=>{const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const c=canvas.getContext('2d')!;c.font=font;c.textAlign='center';c.textBaseline='alphabetic';c.lineJoin='round';draw(c,w/2,pad+px*.92);return Texture.from(canvas);};
+  const width=/\d/.test(char)?digit:probe.measureText(char).width,w=Math.ceil(width+pad*2),h=Math.ceil(px*1.16+pad*2+depth),paint=(draw:(c:CanvasRenderingContext2D,x:number,y:number)=>void)=>{const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const c=canvas.getContext('2d',{willReadFrequently:true})!;c.font=font;c.textAlign='center';c.textBaseline='alphabetic';c.lineJoin='round';draw(c,w/2,pad+px*.92);return Texture.from(canvas);};
   // Ink: an amber edge extruded downward, then the navy outline. Fill: the face alone, white, tinted at draw time.
   ink[char]=paint((c,x,y)=>{c.lineWidth=stroke;c.strokeStyle=c.fillStyle='#b9680e';for(let d=depth;d>0;d--){c.strokeText(char,x,y+d);}c.strokeStyle='#061b32';c.strokeText(char,x,y);});
   fill[char]=paint((c,x,y)=>{c.fillStyle='#fff';c.fillText(char,x,y);});

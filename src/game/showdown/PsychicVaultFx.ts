@@ -12,7 +12,7 @@ let atlas:TextureAtlas|undefined;
 function getAtlas(){
  if(atlas)return atlas;
  const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=512;
- const c=canvas.getContext('2d')!;
+ const c=canvas.getContext('2d',{willReadFrequently:true})!;
  const poly=(p:number[],fill:string,stroke?:string)=>{c.beginPath();for(let i=0;i<p.length;i+=2)i?c.lineTo(p[i],p[i+1]):c.moveTo(p[i],p[i+1]);c.closePath();c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=1.5;c.stroke();}};
  // Eight substantial machined segments, dark inner bevel, champagne outer bevel.
  for(let i=0;i<8;i++){

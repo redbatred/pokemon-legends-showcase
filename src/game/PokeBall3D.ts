@@ -36,13 +36,35 @@ export function createBallParts(gradient:DataTexture,light:number){
  return {root,lid:lidGroup,shell,glow,dispose(){owned.forEach(m=>m.dispose());geometries.forEach(g=>g.dispose());}};
 }
 export type BallParts=ReturnType<typeof createBallParts>;
+// Balls come and go all through a pack (on a card, in flight, in the tray, in the reveal). three.js deletes a shader program
+// when the last material using it is disposed, and linking it again holds the frame for about a quarter of a second, so a
+// finished ball hands its meshes and materials back here and the next ball takes them. Nothing about a ball's look is shared:
+// the borrower sets its own light.
+let ramp:DataTexture|null=null;const spare:BallParts[]=[],SPARE_LIMIT=8;
+/** The same four-step ramp as the Pokémon models. */
+function ballRamp(){if(!ramp){ramp=new DataTexture(new Uint8Array([65,65,65,255,142,142,142,255,215,215,215,255,255,255,255,255]),4,1,RGBAFormat);ramp.minFilter=ramp.magFilter=NearestFilter;ramp.needsUpdate=true;}return ramp;}
+function borrowBallParts(light:number){
+ const parts=spare.pop()??createBallParts(ballRamp(),light);
+ for(const material of [parts.glow.button,parts.glow.floor,parts.glow.lining]){material.emissive.setHex(light);material.emissiveIntensity=0;}
+ parts.root.quaternion.identity();parts.lid.rotation.set(0,0,0);parts.lid.visible=true;for(const child of parts.root.children)child.visible=true;
+ return parts;
+}
+function returnBallParts(parts:BallParts){parts.root.removeFromParent();if(spare.length<SPARE_LIMIT)spare.push(parts);else parts.dispose();}
+/** Compile the ball's shaders ahead of its first appearance, for both of its passes, where the browser can do so without
+ * holding a frame. Call under the boot cover; after it the first ball of a pack costs what every later one does. */
+export async function warmPokeBall(){
+ if(typeof document==='undefined')return;
+ let ball:PokeBall3D|null=null;
+ try{ball=new PokeBall3D(false);await ball.warm();}catch{/* A device without WebGL shows the drawn ball instead. */}
+ finally{ball?.dispose();}
+}
 /** A real Poké Ball in the reveal's 3D renderer: toon-shaded and inked like the Pokémon, lit by the same lights,
  * with a hinged lid, a latch button and an interior that glows with the Pokémon's light when it opens. */
 export class PokeBall3D{
  readonly sprite:Sprite;readonly front:Sprite;
  private scene=new Scene();private camera=new OrthographicCamera(-HALF,HALF,TOP,BOTTOM,.1,40);private root:Group;private lid:Group;private parts:BallParts;
  private canvas=document.createElement('canvas');private context:CanvasRenderingContext2D;private frontCanvas=document.createElement('canvas');private frontContext:CanvasRenderingContext2D;
- private size:number;private gradient:DataTexture;
+ private size:number;
  private shell:Mesh[];private glow:BallParts['glow'];private energy:DirectionalLight;
  private clip=[new Plane(new Vector3(0,0,1),0)];private none:Plane[]=[];private roll=new Quaternion();private viewport=new Vector2();private dead=false;
  constructor(low=false,light=0xbdf7ff,size=low?160:256){
@@ -50,9 +72,7 @@ export class PokeBall3D{
   this.context=this.canvas.getContext('2d')!;this.frontContext=this.frontCanvas.getContext('2d')!;
   this.sprite=new Sprite(Texture.from(this.canvas));this.front=new Sprite(Texture.from(this.frontCanvas));
   for(const sprite of [this.sprite,this.front]){sprite.anchor.set(.5,BALL_FRAME.anchorY);sprite.eventMode='none';sprite.visible=false;}
-  // The same four-step ramp as the Pokémon models.
-  this.gradient=new DataTexture(new Uint8Array([65,65,65,255,142,142,142,255,215,215,215,255,255,255,255,255]),4,1,RGBAFormat);this.gradient.minFilter=this.gradient.magFilter=NearestFilter;this.gradient.needsUpdate=true;
-  const parts=this.parts=createBallParts(this.gradient,light);this.root=parts.root;this.lid=parts.lid;this.shell=parts.shell;this.glow=parts.glow;
+  const parts=this.parts=borrowBallParts(light);this.root=parts.root;this.lid=parts.lid;this.shell=parts.shell;this.glow=parts.glow;
   // The Pokémon's own lights, so ball and Pokémon are shaded by one scene.
   this.scene.add(new HemisphereLight(0xeef7ff,0x66759c,.88));const key=new DirectionalLight(0xffffff,1.5);key.position.set(-3,5,7);const rimLight=new DirectionalLight(0x8fdcff,.42);rimLight.position.set(1,-1,3);
   this.energy=new DirectionalLight(light,0);this.energy.position.set(0,3,4);this.scene.add(key,rimLight,this.energy,this.root);
@@ -74,10 +94,13 @@ export class PokeBall3D{
   // Back hinge: the front edge rises and the lid swings over the back, past vertical.
   this.lid.rotation.x=-pose.open*1.2;
   this.glow.button.emissiveIntensity=pose.button*1.6;this.glow.floor.emissiveIntensity=pose.inner*2.4;this.glow.lining.emissiveIntensity=pose.inner*.45;this.energy.intensity=pose.inner*.7+pose.button*.4;
-  this.render(this.context,this.sprite,false);
   this.front.visible=pose.front&&this.sprite.visible;
   // The front of the lower shell is drawn again over the Pokémon, so it rises out of the ball rather than in front of it.
+  // It is drawn first: the renderer is shared, and whatever is compiled next takes the clipping state of the last frame
+  // drawn. Ending on the unclipped ball keeps a Pokémon prepared afterwards from being compiled for a clipped scene, only
+  // to be compiled again, on a visible frame, the first time it is drawn.
   if(this.front.visible){for(const m of this.root.children)m.visible=this.shell.includes(m as Mesh);this.lid.visible=false;this.render(this.frontContext,this.front,true);for(const m of this.root.children)m.visible=true;this.lid.visible=true;}
+  this.render(this.context,this.sprite,false);
  }
  private render(context:CanvasRenderingContext2D,sprite:Sprite,clipped:boolean){
   const renderer=sharedPokemonRenderer(this.size),full=renderer.getSize(this.viewport),side=Math.min(this.size,full.x,full.y);
@@ -87,7 +110,17 @@ export class PokeBall3D{
  }
  /** Compile both passes during preparation, so the first visible frame never waits on shaders. */
  prepare(){const shown=this.sprite.visible;this.sprite.visible=true;this.update({spin:new Quaternion(),roll:0,open:.5,button:1,inner:1,front:true});this.sprite.visible=shown;this.front.visible=false;}
- dispose(){this.dead=true;this.parts.dispose();this.gradient.dispose();this.sprite.destroy({texture:true,textureSource:true});this.front.destroy({texture:true,textureSource:true});}
+ /** Programs for the whole ball and for its clipped front pass, compiled in parallel where the browser supports it. */
+ async warm(){
+  const renderer=sharedPokemonRenderer(this.size),empty=new Scene();
+  await renderer.compileAsync(this.scene,this.camera);
+  // The front pass is the same ball under one clipping plane: a different program. An empty frame with the plane set tells the
+  // renderer how many planes to compile for.
+  try{renderer.clippingPlanes=this.clip;renderer.render(empty,this.camera);await renderer.compileAsync(this.scene,this.camera);}
+  finally{renderer.clippingPlanes=this.none;renderer.render(empty,this.camera);}
+  if(!this.dead)this.prepare();
+ }
+ dispose(){if(this.dead)return;this.dead=true;returnBallParts(this.parts);this.sprite.destroy({texture:true,textureSource:true});this.front.destroy({texture:true,textureSource:true});}
 }
 /** Ball orientation over the reveal: it tumbles in flight, the spin bleeds off through the bounces, and it settles button-forward. */
 export function ballSpin(t:number,hit:number,first:number,settled:number,out=new Quaternion()){

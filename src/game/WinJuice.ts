@@ -14,7 +14,7 @@ type Particle={sprite:Sprite;kind:Kind;x:number;y:number;vx:number;vy:number;age
 export type JuiceFrame={socket:Point|null;body:Point;amount:Point;banner:Point;count:number;exitAge:number;reduced:boolean;eyes?:Point[];bars?:number};
 
 let atlas:{dot:Texture;streak:Texture;ring:Texture;star:Texture;rays:Texture;coins:Texture[]}|undefined;
-const sheet=(w:number,h:number,paint:(c:CanvasRenderingContext2D)=>void)=>{const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;paint(canvas.getContext('2d')!);return Texture.from(canvas);};
+const sheet=(w:number,h:number,paint:(c:CanvasRenderingContext2D)=>void)=>{const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;paint(canvas.getContext('2d',{willReadFrequently:true})!);return Texture.from(canvas);};
 /** Soft light shapes shared by every win: glow, streak, pressure ring, flare, rays and shaded coins. */
 export function juiceTextures(){
  if(atlas)return atlas;

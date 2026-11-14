@@ -32,7 +32,7 @@ export function drawTraySlot(c:CanvasRenderingContext2D,m:TrayMetrics,s:SlotStat
 let shaft:Texture|undefined,shadow:Texture|undefined;
 /** Light falling from the stage into the waiting slot: bright at its foot, gone before it reaches the pedestal. */
 export function trayShaftTexture(){
- if(shaft)return shaft;if(typeof document==='undefined'||typeof document.createElement!=='function')return Texture.EMPTY;const canvas=document.createElement('canvas');canvas.width=64;canvas.height=160;const c=canvas.getContext('2d')!;
+ if(shaft)return shaft;if(typeof document==='undefined'||typeof document.createElement!=='function')return Texture.EMPTY;const canvas=document.createElement('canvas');canvas.width=64;canvas.height=160;const c=canvas.getContext('2d',{willReadFrequently:true})!;
  const fall=c.createLinearGradient(0,0,0,160);fall.addColorStop(0,'rgba(170,236,255,0)');fall.addColorStop(.55,'rgba(170,236,255,.2)');fall.addColorStop(1,'rgba(214,250,255,.62)');c.fillStyle=fall;
  c.beginPath();c.moveTo(20,0);c.lineTo(44,0);c.lineTo(64,160);c.lineTo(0,160);c.closePath();c.fill();
  c.globalCompositeOperation='destination-in';const across=c.createLinearGradient(0,0,64,0);across.addColorStop(0,'rgba(0,0,0,0)');across.addColorStop(.3,'rgba(0,0,0,1)');across.addColorStop(.7,'rgba(0,0,0,1)');across.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=across;c.fillRect(0,0,64,160);
@@ -40,7 +40,7 @@ export function trayShaftTexture(){
 }
 /** A card's soft shadow on whatever lies under it while it travels. */
 export function cardShadowTexture(){
- if(shadow)return shadow;if(typeof document==='undefined'||typeof document.createElement!=='function')return Texture.EMPTY;const canvas=document.createElement('canvas');canvas.width=96;canvas.height=128;const c=canvas.getContext('2d')!;
+ if(shadow)return shadow;if(typeof document==='undefined'||typeof document.createElement!=='function')return Texture.EMPTY;const canvas=document.createElement('canvas');canvas.width=96;canvas.height=128;const c=canvas.getContext('2d',{willReadFrequently:true})!;
  c.shadowColor='rgba(1,8,18,.9)';c.shadowBlur=14;c.fillStyle='rgba(1,8,18,.9)';c.beginPath();c.roundRect(20,22,56,84,7);c.fill();
  return shadow=Texture.from(canvas);
 }

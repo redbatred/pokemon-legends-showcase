@@ -7,7 +7,7 @@ const cache=new Map<Kind,SkeletonData>();
 export const SHOWDOWN_FX_ATLAS='showdown.png\nsize: 512,512\nfilter: Linear,Linear\npma: false\nsolid\n  bounds: 0,0,16,16\nflame\n  bounds: 32,0,224,128\narc\n  bounds: 0,144,128,128\nshock\n  bounds: 144,144,160,160\nsmoke\n  bounds: 320,144,128,128\nshard\n  bounds: 272,0,48,96\ncore\n  bounds: 0,320,160,160\nshield\n  bounds: 320,320,160,160\nring\n  bounds: 176,320,128,128\nspark\n  bounds: 272,104,48,32\n';
 function getAtlas(){
  if(atlas)return atlas;
- const canvas=document.createElement('canvas');canvas.width=canvas.height=512;const c=canvas.getContext('2d')!;c.fillStyle='#fff';c.fillRect(0,0,16,16);
+ const canvas=document.createElement('canvas');canvas.width=canvas.height=512;const c=canvas.getContext('2d',{willReadFrequently:true})!;c.fillStyle='#fff';c.fillRect(0,0,16,16);
  // Authored flame silhouette: a single directional tongue, with torn trailing lobes.
  c.beginPath();c.moveTo(35,67);c.bezierCurveTo(80,28,106,73,146,32);c.bezierCurveTo(137,56,186,15,251,61);c.bezierCurveTo(224,60,219,85,179,72);c.bezierCurveTo(201,91,127,116,115,82);c.bezierCurveTo(86,110,82,73,35,67);c.fill();
  c.beginPath();for(let i=0;i<=32;i++){const a=-1.45+i/32*2.9,x=64+Math.cos(a)*59,y=208+Math.sin(a)*59;i?c.lineTo(x,y):c.moveTo(x,y);}for(let i=32;i>=0;i--){const a=-1.45+i/32*2.9,r=59-Math.sin(i/32*Math.PI)*13;c.lineTo(64+Math.cos(a)*r,208+Math.sin(a)*r);}c.closePath();c.fill();

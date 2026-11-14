@@ -13,7 +13,7 @@ export class WinCoins{
   const cap=new MeshPhongMaterial({color:0xffffff,specular:0xfff6d0,shininess:80,emissive:0xffa51e,emissiveIntensity:.5});
   if(typeof document!=='undefined'){
    // A struck face: raised rim, a band across the middle and a centre button.
-   const canvas=document.createElement('canvas');canvas.width=canvas.height=128;const c=canvas.getContext('2d')!;
+   const canvas=document.createElement('canvas');canvas.width=canvas.height=128;const c=canvas.getContext('2d',{willReadFrequently:true})!;
    c.fillStyle='#ffd65a';c.fillRect(0,0,128,128);c.strokeStyle='#b9741a';c.lineWidth=9;c.beginPath();c.arc(64,64,54,0,Math.PI*2);c.stroke();
    c.lineWidth=7;c.beginPath();c.moveTo(12,64);c.lineTo(116,64);c.stroke();c.fillStyle='#fff3b0';c.beginPath();c.arc(64,64,17,0,Math.PI*2);c.fill();c.stroke();
    this.face=new CanvasTexture(canvas);this.face.colorSpace=SRGBColorSpace;cap.map=this.face;cap.emissiveMap=this.face;

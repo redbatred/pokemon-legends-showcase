@@ -1,6 +1,9 @@
 import {prepareWinEffects,spineTextures} from './prepareWinEffects';
 import {winRenderers} from './WinRendererPool';
 import {prewarmWinStage,clearPreparedWinStages} from './WinCinemaStage';
+import {warmPokeBall} from './PokeBall3D';
+import {keepTextCanvasesInMemory} from './canvasUploads';
+import {runBeforeFrame} from './frameHooks';
 import {winTier,type WinTier} from './winTransfer';
 import {loadBonusSymbolArtwork,updateBonusBadge} from './showdown/BonusSymbolArtwork';
 import {cardShadowTexture} from './traySlotArt';
@@ -9,7 +12,7 @@ import {ShowdownSymbolsView,createShowdownBadge} from './showdown/ShowdownSymbol
 import {RevealPreparation} from './revealPreparation';
 import {openingAnimationRate} from './autoSpin';
 import 'pixi.js/prepare';
-import { Application, Assets, Container, Graphics, PerspectiveMesh, Sprite, Texture, Rectangle } from 'pixi.js';
+import { Application, Assets, Container, Graphics, PerspectiveMesh, Sprite, Texture, Rectangle, UPDATE_PRIORITY } from 'pixi.js';
 import { gsap } from 'gsap';
 import { createFoil,foilStrength } from './foil';
 import { playSound,setAudioHidden,stopRevealAudio } from './audio';
@@ -71,7 +74,7 @@ export class OpeningStage {
   setBonusCollectorBlocked(value:boolean){this.showdownSymbols?.setBlocked(value);}
   /** The current frame of the game, cropped to a region of the screen, for the encounter's entry and exit transitions. */
   snapshot(target:HTMLCanvasElement,x:number,y:number,width:number,height:number){
-    this.app.renderer.render(this.app.stage);const source=this.app.canvas,k=source.width/this.app.screen.width,context=target.getContext('2d')!;
+    this.present();const source=this.app.canvas,k=source.width/this.app.screen.width,context=target.getContext('2d',{willReadFrequently:true})!;
     context.clearRect(0,0,target.width,target.height);context.drawImage(source,x*k,y*k,width*k,height*k,0,0,target.width,target.height);
   }
   blocked = false;
@@ -146,6 +149,7 @@ export class OpeningStage {
   async init() {
     // Register the Spine render pipe before Pixi constructs its renderer.
     await import('@esotericsoftware/spine-pixi-v8');
+    keepTextCanvasesInMemory();
     await this.app.init({ backgroundAlpha: 0, antialias: true, resolution: renderResolution(this.host.clientWidth,this.host.clientHeight,devicePixelRatio,this.options.low), autoDensity: true, preference: 'webgl', powerPreference: 'high-performance' });
     if (this.destroyed) { this.app.destroy(true, { children: true }); return; }
     this.host.appendChild(this.app.canvas);
@@ -156,7 +160,7 @@ export class OpeningStage {
     this.cardEdge.alpha=0;
     this.cardLayer.addChild(this.cardEdge);
     const shadow=document.createElement('canvas');shadow.width=256;shadow.height=64;
-    const shadowContext=shadow.getContext('2d')!;const shade=shadowContext.createRadialGradient(128,32,1,128,32,128);
+    const shadowContext=shadow.getContext('2d',{willReadFrequently:true})!;const shade=shadowContext.createRadialGradient(128,32,1,128,32,128);
     shade.addColorStop(0,'rgba(0,5,19,.4)');shade.addColorStop(1,'rgba(0,5,19,0)');shadowContext.scale(1,.25);shadowContext.fillStyle=shade;shadowContext.fillRect(0,0,256,256);
     this.shadowTexture=Texture.from(shadow);this.shadows.texture=this.shadowTexture;this.shadows.anchor.set(.5);this.shadows.position.set(0,235);this.shadows.width=340;this.shadows.height=60;
     await this.scene.init();
@@ -165,7 +169,7 @@ export class OpeningStage {
     // Clip white source-corner pixels once, at native resolution.
     const backCanvas = document.createElement('canvas');
     backCanvas.width = back.width; backCanvas.height = back.height;
-    const ctx = backCanvas.getContext('2d')!;
+    const ctx = backCanvas.getContext('2d',{willReadFrequently:true})!;
     ctx.beginPath(); ctx.roundRect(0, 0, back.width, back.height, back.width * .052); ctx.clip();
     ctx.drawImage(back.source.resource as CanvasImageSource, 0, 0);
     this.back = Texture.from(backCanvas);
@@ -204,6 +208,8 @@ export class OpeningStage {
       this.particles.push({ sprite: s, x: Math.random()*580-290, y: Math.random()*560-280, speed: 4 + depth*12, phase: Math.random()*6.28, depth });
     }
     this.app.ticker.maxFPS = 60;
+    // After everything has moved for this frame and just before the application renders it (which it does at LOW priority).
+    this.app.ticker.add(()=>runBeforeFrame(this.app.renderer,this.app.screen.width,this.app.screen.height),undefined,UPDATE_PRIORITY.LOW+5);
     this.app.ticker.add(t => this.tick(Math.min(t.deltaMS, 50) / 1000));
     this.observer = new ResizeObserver(this.resize); this.observer.observe(this.host); this.resize();
     document.addEventListener('visibilitychange', this.visibility);
@@ -219,19 +225,27 @@ export class OpeningStage {
     const warm=this.options.low||!this.back?null:new PerspectiveMesh({texture:this.back,verticesX:4,verticesY:6});
     if(warm){warm.setCorners(0,0,31,0,31,43,0,43);warm.position.set(4,4);warm.filters=[this.foil];this.app.stage.addChild(warm);}
     try{await this.warmFrames();}finally{if(warm){warm.filters=[];warm.destroy();}}
+    // The 3D Poké Ball appears on cards, in flight and in the reveal. Its shaders are compiled here, once, and then kept.
+    if(!this.destroyed)await warmPokeBall();
   }
   private async warmFrames(){
     for(let frame=0;frame<2;frame++){
       await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));if(this.destroyed)return;
-      this.app.renderer.render(this.app.stage);
+      this.present();
     }
   }
   updateOptions(options: Options) { const changed=this.options.low!==options.low,reducing=!this.options.reduced&&options.reduced;this.options=options;this.timeline?.timeScale(openingAnimationRate(options.turbo,this.automatic));if(reducing){this.revealEffects.clear();this.scene.setCharge(null);this.scene.setCinematic(false,true);}if(reducing&&(this.special||this.charging)){this.timeline?.progress(1);this.special?.update(3);this.charging=false;this.scene.setCharge(null);this.scene.setCinematic(false,true);stopRevealAudio();}if(changed&&this.app.renderer)this.resize(); }
+  /** One whole frame outside the ticker: what is drawn ahead of the scene, then the scene. */
+  private present(){runBeforeFrame(this.app.renderer,this.app.screen.width,this.app.screen.height);this.app.renderer.render(this.app.stage);}
+  /** While the bonus scene covers the stage nothing drawn here can be seen: redraws asked for in that time are dropped,
+   * and one is made when the cover comes off. */
+  private covered=false;
+  setCovered(value:boolean){this.covered=value;if(!value)this.draw();}
   draw(){
-    if(this.destroyed||!this.app.renderer||this.app.ticker.started||this.drawFrame)return;
+    if(this.destroyed||!this.app.renderer||this.app.ticker.started||this.drawFrame||this.covered)return;
     // While the ticker is stopped (results), render at the end of the callback that asked: a request made during an
     // animation tick is on screen in that same frame. Waiting for the next frame halved the result screens to 30 fps.
-    this.drawFrame=-1;queueMicrotask(()=>{this.drawFrame=0;if(!this.destroyed&&!this.app.ticker.started)this.app.renderer.render(this.app.stage);});
+    this.drawFrame=-1;queueMicrotask(()=>{this.drawFrame=0;if(!this.destroyed&&!this.app.ticker.started)this.present();});
   }
   setLayoutMode(opening:boolean){opening=opening||this.travelling;if(opening!==this.openingLayout){this.openingLayout=opening;this.resize();}}
   private positionJourney(){if(!this.journey)return;const w=this.app.screen.width,h=this.app.screen.height,a=gameLayout(w,h,this.journey.startOpening),b=gameLayout(w,h,true),t=this.journey.amount;this.world.y=a.worldY+(b.worldY-a.worldY)*t;this.world.scale.set(a.scale+(b.scale-a.scale)*t);}

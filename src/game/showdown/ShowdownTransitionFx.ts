@@ -6,7 +6,7 @@ export const SHOWDOWN_TRANSITION_ATLAS='transition.png\nsize: 1024,512\nfilter: 
 let atlas:TextureAtlas|undefined,data:SkeletonData|undefined;
 function getAtlas(){
  if(atlas)return atlas;
- const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=512;const c=canvas.getContext('2d')!;
+ const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=512;const c=canvas.getContext('2d',{willReadFrequently:true})!;
  // Curved, bevelled locking plates. Their broad dark faces carry the machinery;
  // the cyan edge is an inlaid channel, rather than another floating outline.
  c.lineJoin='round';c.beginPath();c.moveTo(12,93);c.lineTo(29,34);c.quadraticCurveTo(128,-8,227,34);c.lineTo(244,93);c.lineTo(222,113);c.quadraticCurveTo(128,76,34,113);c.closePath();

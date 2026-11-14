@@ -7,7 +7,7 @@ export class StadiumFloodlights {
  root=new Container();private rays:Sprite[]=[];private halos:Sprite[]=[];private lenses:Sprite[]=[];private bankHalos:Sprite[]=[];private atlas:Texture;private regions:Texture[]=[];
  private sockets:LightSocket[]=[];private target={x:0,y:0};private width=1;
  constructor(){
-  const canvas=document.createElement('canvas');canvas.width=canvas.height=1024;const c=canvas.getContext('2d')!,p=c.createImageData(256,768);
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=1024;const c=canvas.getContext('2d',{willReadFrequently:true})!,p=c.createImageData(256,768);
   for(let y=0;y<768;y++)for(let x=0;x<256;x++){
    const v=y/767,n=(x-127.5)/128,spread=.012+v*.96,edge=Math.exp(-3*(n/spread)**2),end=1-Math.max(0,Math.min(1,(v-.84)/.16))**2,falloff=1/(1+v*v*2.2),k=(y*256+x)*4;
    p.data[k]=p.data[k+1]=p.data[k+2]=255;p.data[k+3]=255*edge*end*falloff;

@@ -10,7 +10,9 @@ export interface Result extends Opening { total: number }
 export interface Save { version: 1; balance: number; totalWon?: number; collection: Record<string, number>; history: Result[]; active: Opening | null }
 export const newSave = (): Save => ({ version: 1, balance: 10000, totalWon: 0, collection: {}, history: [], active: null });
 export const PACK_COST = 1000;
-export const money = (cents: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
+// One formatter for the whole game: building one costs far more than using it, and amounts are formatted every frame while they count.
+const dollars = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+export const money = (cents: number) => dollars.format(cents / 100);
 export const energy: Card = { id: 'energy', number: '', name: 'Basic Fire Energy', rarity: 'Energy', image: '/assets/cards/energy.webp', value: 0, weight: 0 };
 export function createOpening(save: Save, pool: Card[], rng = Math.random, pack: Pack = DEFAULT_PACK): Save {
   if (save.active) return save;

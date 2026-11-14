@@ -23,7 +23,7 @@ export class LivingBackdrop {
   const pixels=context.getImageData(0,0,this.width,this.height),mask=skyPixels(pixels.data,this.width,this.height);
   for(let i=0;i<mask.length;i++)if(mask[i])pixels.data[i*4+3]=0;
   context.putImageData(pixels,0,0);clearLightTowers(context,this.width,this.height);const terrainTexture=Texture.from(canvas);this.textures.push(terrainTexture);
-  const skyCanvas=document.createElement('canvas');skyCanvas.width=32;skyCanvas.height=512;const sky=skyCanvas.getContext('2d')!,gradient=sky.createLinearGradient(0,0,0,512);
+  const skyCanvas=document.createElement('canvas');skyCanvas.width=32;skyCanvas.height=512;const sky=skyCanvas.getContext('2d',{willReadFrequently:true})!,gradient=sky.createLinearGradient(0,0,0,512);
   gradient.addColorStop(0,'#2585ed');gradient.addColorStop(.4,'#4ca6f6');gradient.addColorStop(1,'#c1e9fc');sky.fillStyle=gradient;sky.fillRect(0,0,32,512);
   const skyTexture=Texture.from(skyCanvas);this.textures.push(skyTexture);const skySprite=new Sprite(skyTexture);skySprite.width=this.width;skySprite.height=this.height*.6;this.root.addChild(skySprite);
   const cloudTextures=this.extract(cloudAtlas,regions.clouds.regions);
@@ -40,13 +40,13 @@ export class LivingBackdrop {
   const slots=[[0,.035,.19],[1,.15,.145],[3,.255,.105],[0,.375,.087],[4,.61,.09],[1,.73,.125],[3,.84,.135],[2,.965,.205]];
   slots.forEach(([id,u,h],i)=>{const tex=treeTextures[id],height=this.height*h,width=height*tex.width/tex.height,mesh=new MeshPlane({texture:tex,verticesX:15,verticesY:13});mesh.geometry.batchMode='no-batch';mesh.scale.set(width/tex.width);const x=this.width*u-width/2,y=this.height*(stadiumRim(u)+.027)-height;mesh.position.set(x,y);this.trees.push({mesh,base:new Float32Array(mesh.geometry.getBuffer('aPosition').data),x,y,width:tex.width,height:tex.height,seed:i*1.73});this.root.addChild(mesh);});
   this.root.addChild(this.leaves);
-  const architecture=document.createElement('canvas');architecture.width=this.width;architecture.height=this.height;const a=architecture.getContext('2d')!;
+  const architecture=document.createElement('canvas');architecture.width=this.width;architecture.height=this.height;const a=architecture.getContext('2d',{willReadFrequently:true})!;
   a.beginPath();a.moveTo(0,this.height);a.lineTo(0,this.height*stadiumRim(0));for(let i=1;i<=120;i++)a.lineTo(this.width*i/120,this.height*stadiumRim(i/120));a.lineTo(this.width,this.height);a.closePath();a.clip();a.drawImage(texture.source.resource as CanvasImageSource,0,0);
   // Clean lamp faces and slender supports sit above the moving tree silhouettes.
-  const towers=document.createElement('canvas');towers.width=this.width;towers.height=this.height;const tc=towers.getContext('2d')!;
+  const towers=document.createElement('canvas');towers.width=this.width;towers.height=this.height;const tc=towers.getContext('2d',{willReadFrequently:true})!;
   drawLightTowers(tc,texture.source.resource as CanvasImageSource,this.width,this.height);
   // Drawing into a fresh combined canvas avoids carrying the rim clip into the tower layer.
-  const composite=document.createElement('canvas');composite.width=this.width;composite.height=this.height;const cc=composite.getContext('2d')!;cc.drawImage(architecture,0,0);cc.drawImage(towers,0,0);
+  const composite=document.createElement('canvas');composite.width=this.width;composite.height=this.height;const cc=composite.getContext('2d',{willReadFrequently:true})!;cc.drawImage(architecture,0,0);cc.drawImage(towers,0,0);
   const stadiumTexture=Texture.from(composite);this.textures.push(stadiumTexture);this.stadium=new MeshPlane({texture:stadiumTexture,verticesX:97,verticesY:55});this.stadium.geometry.batchMode='no-batch';this.root.addChild(this.stadium);
   this.display=new StadiumDisplay(this.width,this.height);this.root.addChild(this.display.root);
   this.audience=new StadiumAudience(crowd,this.width,this.height);this.root.addChild(this.audience.root);this.audience.update(0,-1,false);

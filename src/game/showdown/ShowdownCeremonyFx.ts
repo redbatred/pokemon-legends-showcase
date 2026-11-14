@@ -14,7 +14,7 @@ const cache=new Map<string,SkeletonData>();
 /** Crisp atlas paintings; every moving element below is a native Spine attachment. */
 function getAtlas(){
  if(atlas)return atlas;
- const canvas=document.createElement('canvas');canvas.width=canvas.height=1024;const c=canvas.getContext('2d')!;
+ const canvas=document.createElement('canvas');canvas.width=canvas.height=1024;const c=canvas.getContext('2d',{willReadFrequently:true})!;
  const polygon=(points:number[],fill:string,stroke?:string,width=2)=>{c.beginPath();for(let i=0;i<points.length;i+=2)i?c.lineTo(points[i],points[i+1]):c.moveTo(points[i],points[i+1]);c.closePath();c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=width;c.stroke();}};
  // Real separate Poké Ball shells: the dark rim and inset planes survive opening.
  c.beginPath();c.moveTo(4,92);c.bezierCurveTo(4,-25,188,-25,188,92);c.closePath();c.fillStyle='#8b233d';c.fill();c.strokeStyle='#18213a';c.lineWidth=7;c.stroke();

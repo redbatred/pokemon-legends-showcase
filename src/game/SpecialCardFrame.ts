@@ -7,7 +7,7 @@ let atlas:TextureAtlas|undefined;
 const data=new Map<string,SkeletonData>();
 function frameData(kind:PowerKind,rarity:string,low:boolean){
   if(!atlas){
-    const canvas=document.createElement('canvas');canvas.width=canvas.height=256;const c=canvas.getContext('2d')!;
+    const canvas=document.createElement('canvas');canvas.width=canvas.height=256;const c=canvas.getContext('2d',{willReadFrequently:true})!;
     c.strokeStyle='#ffffff';c.lineWidth=3;c.lineJoin='round';c.beginPath();c.moveTo(52,12);c.lineTo(27,12);c.quadraticCurveTo(12,12,12,27);c.lineTo(12,52);c.stroke();
     c.globalAlpha=.35;c.lineWidth=9;c.stroke();c.globalAlpha=1;c.fillStyle='#fff';
     c.beginPath();c.moveTo(96,3);c.quadraticCurveTo(101,27,125,32);c.quadraticCurveTo(101,37,96,61);c.quadraticCurveTo(91,37,67,32);c.quadraticCurveTo(91,27,96,3);c.fill();

@@ -1,4 +1,6 @@
-import {Container,BlurFilter,Shader,GlProgram,MeshPlane,Texture} from 'pixi.js';
+import {Container,BlurFilter,Shader,GlProgram,MeshPlane,Texture,Matrix,Rectangle,RenderTexture,Sprite,type Renderer} from 'pixi.js';
+import {textureContext} from './canvasUploads';
+import {addBeforeFrame} from './frameHooks';
 import {groundWarp} from './backdropMotion';
 import {advanceRibbonOffset,arenaMessages,ribbonMapping,ribbonMessages,wallScreenPoint,screenTextWindow,type ArenaBoardState,type RibbonCaption} from './stadiumDisplayGeometry';
 
@@ -8,24 +10,33 @@ const vertex=`in vec2 aPosition;in vec2 aUV;out vec2 vUV;out vec4 vColor;uniform
 void main(){vec3 p=uProjectionMatrix*uWorldTransformMatrix*uTransformMatrix*vec3(aPosition,1.0);gl_Position=vec4(p.xy,0.0,1.0);vUV=aUV;vColor=uWorldColorAlpha*uColor;}`;
 const fragment=`in vec2 vUV;in vec4 vColor;out vec4 finalColor;uniform sampler2D uTexture;uniform float uScroll;uniform float uScale;uniform float uOrigin;uniform float uGlow;
 void main(){vec2 uv=vec2(fract(vUV.x*uScale+uOrigin+uScroll),vUV.y);vec4 c=texture(uTexture,uv);float scan=.98+.02*sin(vUV.y*402.0);float rail=exp(-vUV.y*75.0)+exp(-(1.0-vUV.y)*75.0);float glow=exp(-vUV.y*14.0)+exp(-(1.0-vUV.y)*14.0);vec3 light=vec3(.13,.78,.94)*(rail*.42+glow*.08);vec3 rgb=c.rgb*scan+light*c.a;float alpha=c.a*.91;if(uGlow>.5)rgb=max(vec3(0.0),rgb-.43)*1.15;finalColor=vec4(rgb*.91,alpha)*vColor;}`;
-type Bay={meshes:MeshPlane[];canvas:HTMLCanvasElement;texture:Texture;key:string;window:{center:number;span:number};shaders:Shader[];blur:BlurFilter};
+type Bay={meshes:MeshPlane[];canvas:HTMLCanvasElement;texture:Texture;key:string;window:{center:number;span:number};shaders:Shader[]};
 
 /** Two precisely traced wall bays reading a single continuously repeating ribbon. */
 export class StadiumDisplay {
  root=new Container();private bays:Bay[]=[];private state:ArenaBoardState={phase:'browse',packName:'Obsidian Flames',index:0};
  private captions=ribbonMessages(this.state);private lastTime=0;private offset=0;private reduced=true;private low=false;private revision='';
+ // The soft glow behind the two bays is a blur. A filter met in the middle of the scene makes the renderer leave the screen's
+ // framebuffer and come back, and on the tile-based GPUs in phones and Apple laptops each such round trip stores and reloads
+ // the whole multisampled screen: these two small glows cost a quarter of the frame. So both glow meshes live outside the
+ // scene, under one blur, and are drawn into a texture before the frame's main pass begins; a sprite shows that texture where
+ // the glow was. Same meshes, same blur, same resolution, same blending (measured: no channel differs by more than 2/255).
+ private glow=new Container();private glowBlur=new BlurFilter({strength:3.5,quality:2});private glowSprite=new Sprite(Texture.EMPTY);private glowTarget:RenderTexture|null=null;private glowView:Texture|null=null;
+ private glowStamp='';private glowDrawn='';private warped=0;private world=new Matrix();private place=new Matrix();private stopGlow:()=>void;
  constructor(private width:number,private height:number){
   for(let side=0;side<2;side++){
    const group=new Container(),canvas=document.createElement('canvas');canvas.width=2048;canvas.height=128;
    const texture=Texture.from(canvas);texture.source.style.addressModeU='repeat';
-   const meshes=[0,1].map(()=>new MeshPlane({texture,verticesX:49,verticesY:7})),blur=new BlurFilter({strength:3.5,quality:2});
+   const meshes=[0,1].map(()=>new MeshPlane({texture,verticesX:49,verticesY:7}));
    const shaders=meshes.map((mesh,i)=>{
-    mesh.geometry.batchMode='no-batch';if(i){mesh.filters=[blur];mesh.blendMode='add';group.addChildAt(mesh,0);}else group.addChild(mesh);
+    mesh.geometry.batchMode='no-batch';if(i){mesh.blendMode='add';this.glow.addChild(mesh);}else group.addChild(mesh);
     const shader=new Shader({glProgram:GlProgram.from({vertex,fragment}),resources:{uTexture:texture.source,display:{uScroll:{value:0,type:'f32'},uScale:{value:1,type:'f32'},uOrigin:{value:0,type:'f32'},uGlow:{value:i,type:'f32'}}}});
     mesh.shader=Object.assign(shader,{texture});return shader;
    });
-   this.root.addChild(group);this.bays.push({meshes,canvas,texture,key:'',window:{center:.5,span:1},shaders,blur});
+   this.root.addChild(group);this.bays.push({meshes,canvas,texture,key:'',window:{center:.5,span:1},shaders});
   }
+  this.glow.filters=[this.glowBlur];this.glowSprite.eventMode='none';this.glowSprite.visible=false;this.root.addChildAt(this.glowSprite,0);
+  this.stopGlow=addBeforeFrame((renderer,width,height)=>this.drawGlow(renderer,width,height));
   this.root.eventMode='none';this.warp(0);this.tick(0,true,false);
  }
  setState(state:ArenaBoardState){
@@ -47,7 +58,7 @@ export class StadiumDisplay {
   if(detail){x.font='800 24px Nunito';const measuredDetail=x.measureText(detail).width;if(measuredDetail>available)x.font=`800 ${24*available/measuredDetail}px Nunito`;x.fillStyle='#82d4ee';x.fillText(detail,center,93);}
  }
  private paint(bay:Bay,captions:RibbonCaption[],span:number,reduced:boolean){
-  const c=bay.canvas,x=c.getContext('2d')!,width=c.width;x.clearRect(0,0,width,128);
+  const c=bay.canvas,x=textureContext(c),width=c.width;x.clearRect(0,0,width,128);
   const g=x.createLinearGradient(0,0,0,128);g.addColorStop(0,'#168ba7');g.addColorStop(.40,'#125f83');g.addColorStop(1,'#168ba7');x.fillStyle=g;x.fillRect(0,0,width,128);
   // The two edges of the tile have the same background and glyph-free padding.
   x.strokeStyle='rgba(126,247,255,.12)';x.lineWidth=1;for(let k=16;k<width;k+=32){x.beginPath();x.moveTo(k,0);x.lineTo(k,128);x.stroke();}for(let y=16;y<128;y+=16){x.beginPath();x.moveTo(0,y);x.lineTo(width,y);x.stroke();}
@@ -63,7 +74,7 @@ export class StadiumDisplay {
    this.caption(x,caption,logicalWidth/2+14,Math.min(1030,logicalWidth-90));x.restore();
   });
  }
- warp(shift:number){this.bays.forEach((bay,side)=>bay.meshes.forEach(mesh=>{const buffer=mesh.geometry.getBuffer('aPosition');for(let row=0;row<7;row++)for(let col=0;col<49;col++){const p=wallScreenPoint(side as 0|1,col/48,row/6),i=(row*49+col)*2;buffer.data[i]=p.u*this.width;buffer.data[i+1]=p.v*this.height+shift*groundWarp(p.v);}buffer.update();}));}
+ warp(shift:number){this.bays.forEach((bay,side)=>bay.meshes.forEach(mesh=>{const buffer=mesh.geometry.getBuffer('aPosition');for(let row=0;row<7;row++)for(let col=0;col<49;col++){const p=wallScreenPoint(side as 0|1,col/48,row/6),i=(row*49+col)*2;buffer.data[i]=p.u*this.width;buffer.data[i+1]=p.v*this.height+shift*groundWarp(p.v);}buffer.update();}));this.warped++;}
  tick(time:number,motionReduced:boolean,low:boolean){
   const dt=Math.min(.05,Math.max(0,time-this.lastTime));this.lastTime=time;this.reduced=motionReduced;this.low=low;
   // Held still while something stands in front of it, exactly as it is for reduced motion.
@@ -79,6 +90,33 @@ export class StadiumDisplay {
    bay.meshes[1].alpha=low?0:.42;
    for(const shader of bay.shaders){const u=shader.resources.display.uniforms;u.uScroll=reduced?0:this.offset;u.uScale=mapping.scale;u.uOrigin=mapping.origin;}
   }
+  // Everything the glow's picture depends on: while none of it changes, the glow drawn last time is still right.
+  this.glowStamp=this.bays.map(bay=>{const u=bay.shaders[1].resources.display.uniforms;return `${bay.key}|${u.uScroll}|${u.uScale}|${u.uOrigin}|${bay.meshes[1].alpha}`;}).join('#')+'#'+this.warped;
  }
- destroy(){for(const bay of this.bays){for(const shader of bay.shaders)shader.destroy();bay.blur.destroy();bay.texture.destroy(true);}this.root.destroy({children:true});}
+ /** Draws the blurred glow into its texture, ahead of the frame, and seats its sprite on the pixels it was drawn from. */
+ private drawGlow(renderer:Renderer,screenWidth:number,screenHeight:number){
+  const sprite=this.glowSprite;let shown=this.bays.some(bay=>bay.meshes[1].alpha>0);
+  for(let node:Container|null=this.root;node&&shown;node=node.parent)if(!node.visible||!node.renderable)shown=false;
+  if(!shown){sprite.visible=false;return;}
+  // The glow meshes are warped in this root's own space: where they land on screen is the root's transform.
+  const m=this.root.getGlobalTransform(this.world,false);let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+  for(const bay of this.bays){const b=bay.meshes[1].getLocalBounds();for(const [lx,ly] of [[b.minX,b.minY],[b.maxX,b.minY],[b.minX,b.maxY],[b.maxX,b.maxY]]){const px=m.a*lx+m.c*ly+m.tx,py=m.b*lx+m.d*ly+m.ty;minX=Math.min(minX,px);maxX=Math.max(maxX,px);minY=Math.min(minY,py);maxY=Math.max(maxY,py);}}
+  const pad=16,x=Math.max(0,Math.floor(minX-pad)),y=Math.max(0,Math.floor(minY-pad)),width=Math.min(Math.ceil(screenWidth),Math.ceil(maxX+pad))-x,height=Math.min(Math.ceil(screenHeight),Math.ceil(maxY+pad))-y;
+  if(!(width>0&&height>0)){sprite.visible=false;return;}
+  const drawn=`${this.glowStamp}@${x},${y},${width},${height},${m.a},${m.b},${m.c},${m.d},${m.tx},${m.ty}`;
+  if(drawn!==this.glowDrawn||!this.glowTarget){
+   this.glowDrawn=drawn;
+   // The texture only grows, in steps; it is in screen pixels, as the filter's own was.
+   if(!this.glowTarget||this.glowTarget.width<width||this.glowTarget.height<height){
+    const w=Math.ceil(Math.max(width,this.glowTarget?.width??0)/64)*64,h=Math.ceil(Math.max(height,this.glowTarget?.height??0)/64)*64;
+    this.glowTarget?.destroy(true);this.glowView?.destroy(false);this.glowTarget=RenderTexture.create({width:w,height:h,resolution:1,antialias:false});
+    this.glowView=new Texture({source:this.glowTarget.source,frame:new Rectangle(0,0,width,height)});sprite.texture=this.glowView;
+   }
+   if(this.glowView!.frame.width!==width||this.glowView!.frame.height!==height){this.glowView!.frame.width=width;this.glowView!.frame.height=height;this.glowView!.update();}
+   renderer.render({container:this.glow,target:this.glowTarget,clear:true,transform:this.place.identity().translate(-x,-y).append(m)});
+  }
+  sprite.setFromMatrix(this.place.copyFrom(m).invert().append(SHIFT.identity().translate(x,y)));sprite.visible=true;
+ }
+ destroy(){this.stopGlow();this.glow.destroy({children:true});this.glowBlur.destroy();this.glowTarget?.destroy(true);this.glowView?.destroy(false);for(const bay of this.bays){for(const shader of bay.shaders)shader.destroy();bay.texture.destroy(true);}this.root.destroy({children:true});}
 }
+const SHIFT=new Matrix();

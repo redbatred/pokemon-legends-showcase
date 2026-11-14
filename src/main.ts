@@ -10,6 +10,9 @@ void (async()=>{
   // Let the lightweight intro paint before parsing or initializing WebGL / Spine.
   await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
   const [{PokemonGame},{startFrameProbe}]=await Promise.all([import('./game/Game'),import('./game/perf')]);if(disposed)return;
-  stopProbe=startFrameProbe();game=new PokemonGame(root);await game.init(boot.progress);if(!disposed)await boot.finish();
+  stopProbe=startFrameProbe();game=new PokemonGame(root);
+  // Development only: lets a profiling script reach the running game. Never present in a production build.
+  if(import.meta.env.DEV)(window as unknown as {__game?:PokemonGame}).__game=game;
+  await game.init(boot.progress);if(!disposed)await boot.finish();
 })().catch(error=>{console.error('Game startup failed',error);if(!disposed)boot.fail();});
 if(import.meta.hot)import.meta.hot.dispose(()=>{disposed=true;boot.destroy();stopProbe();game?.destroy();root.replaceChildren();});

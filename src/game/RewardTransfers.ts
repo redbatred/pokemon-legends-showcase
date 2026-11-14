@@ -25,15 +25,16 @@ export class RewardTransfers {
  arrivalPower=0;
  private bonusFlight:{amount:number;age:number;from:{x:number;y:number};root:Container;comet:LightComet;stamped:boolean;shed:number}|null=null;
  /** A caught bonus pays this pack: its amount is stamped where the three seats are, then travels into the total as one big award.
-  * The ledger takes it at once, so nothing is lost if the screen changes mid-flight; the total shows it on arrival. */
+  * The total does not know about it until it lands: the running total only starts to count when the amount reaches it.
+  * If the screen changes mid-flight the amount is still added, without the show. */
  bonus(amount:number,from:{x:number;y:number}){
-  this.ledger.total+=amount;this.endBonus();
+  this.endBonus();
   const root=new Container(),title=new Text({text:'BONUS',style:{fontFamily:'BattleDisplay, Nunito, Arial',fontSize:30,fill:0xff6a78,letterSpacing:2,stroke:{color:0x061b32,width:7,join:'round'},dropShadow:{color:0x7a1220,alpha:1,blur:0,distance:4,angle:Math.PI/2}},resolution:2});
   const value=new MoneyReadout({identity:'bonus',value:amount,target:amount,remaining:0},{size:44,meter:true,color:0xffe27a,align:'center',width:600,plus:true,centerY:true,hero:false,reduced:true,ticks:false,draw:this.draw});
   title.anchor.set(.5);title.y=-34;root.addChild(title,value);root.alpha=0;const comet=new LightComet();this.root.addChild(comet.root,root,this.juice.front);
   this.bonusFlight={amount,age:0,from,root,comet,stamped:false,shed:0};
  }
- private endBonus(credit=false){const b=this.bonusFlight;if(!b)return;this.bonusFlight=null;b.root.destroy({children:true});b.comet.root.destroy({children:true});if(credit)this.credit(this.ledger.total);}
+ private endBonus(credit=false){const b=this.bonusFlight;if(!b)return;this.bonusFlight=null;this.ledger.total+=b.amount;b.root.destroy({children:true});b.comet.root.destroy({children:true});if(credit)this.credit(this.ledger.total);}
  private updateBonus(step:number,w:number,h:number,reduced:boolean){
   const b=this.bonusFlight;if(!b)return;b.age+=step;const target=totalWinLayout(w,h),unit=Math.min(w,h),HOLD=.95,FLY=.46;
   if(reduced||b.age>=HOLD+FLY){this.arrivalPower=reduced?0:1;this.endBonus(true);if(!reduced){this.juice.strike(target.x,target.y,target.width*.8,GOLD,1,Math.atan2(target.y-b.from.y,target.x-b.from.x));playSound('win-final-1' as Sound,{gain:.8});playSound('wincollect',{gain:1.1});}return;}

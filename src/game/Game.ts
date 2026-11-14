@@ -296,7 +296,7 @@ export class PokemonGame {
     this.showdownLoading=true;this.showdownPending=false;this.cancelAutoTimer();this.controls.inert=true;
     const freeze=document.createElement('canvas');freeze.width=720;freeze.height=960;let closed=false;
     const restore=()=>{if(closed)return;closed=true;removeEventListener('resize',resize);if(this.bonusFrame)this.bonusFrame.style.visibility='hidden';this.bonusShade.style.opacity='0';this.bonusShade.style.visibility='hidden';
-      this.stage.finishBonusTransfer();this.controls.inert=false;this.stage.setBlocked(false);setSound(this.sound);this.showdown=null;};
+      this.stage.setCovered(false);this.stage.finishBonusTransfer();this.controls.inert=false;this.stage.setBlocked(false);setSound(this.sound);this.showdown=null;};
     const resize=()=>this.placeBonus();
     try{
       // A win being presented on this card finishes first; the encounter never opens over it.
@@ -310,7 +310,7 @@ export class PokemonGame {
       // The throw ends as chosen in the cheats panel; otherwise `?outcome=` decides, otherwise chance.
       const forced=this.cheats.bonus==='capture'||this.cheats.bonus==='escape'?this.cheats.bonus:new URLSearchParams(location.search).get('outcome');
       await demo.start(forced==='capture'||forced==='escape'?forced:'random');if(this.destroyed)return;
-      this.showdown={destroy:()=>{demo.stop();restore();}};this.bonusPlayed=openingId;this.bonusShade.style.visibility='visible';this.bonusShade.style.opacity=box.letterboxed?'.88':'0';this.bonusFrame!.style.visibility='visible';this.bonusFrame!.focus({preventScroll:true});
+      this.showdown={destroy:()=>{demo.stop();restore();}};this.bonusPlayed=openingId;this.bonusShade.style.visibility='visible';this.bonusShade.style.opacity=box.letterboxed?'.88':'0';this.bonusFrame!.style.visibility='visible';this.stage.setCovered(true);this.bonusFrame!.focus({preventScroll:true});
       this.announcer.textContent='Legendary encounter. Throw the Poké Ball to try to catch it.';
       while(demo.running&&!this.destroyed&&!closed)await pause(60);
       // A catch in a pack's own bonus pays that pack: the amount joins its total and reaches the wallet when the pack settles

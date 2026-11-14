@@ -9,7 +9,7 @@ export class StadiumAudience {
  constructor(frames:Texture[],width:number,private height:number){
   const cropY=Math.floor(standBounds(0).top*height)-2,cropBottom=Math.ceil(.61*height);
   this.atlases=frames.map(frame=>{
-   const canvas=document.createElement('canvas');canvas.width=width;canvas.height=cropBottom-cropY;const c=canvas.getContext('2d')!;c.translate(0,-cropY);
+   const canvas=document.createElement('canvas');canvas.width=width;canvas.height=cropBottom-cropY;const c=canvas.getContext('2d',{willReadFrequently:true})!;c.translate(0,-cropY);
    c.beginPath();for(let i=0;i<=160;i++){const u=i/160,y=standBounds(u).top*height;i?c.lineTo(u*width,y):c.moveTo(0,y);}
    for(let i=160;i>=0;i--){const u=i/160;c.lineTo(u*width,standBounds(u).bottom*height);}c.closePath();c.clip();c.drawImage(frame.source.resource as CanvasImageSource,0,0,width,height);
    c.globalCompositeOperation='destination-out';

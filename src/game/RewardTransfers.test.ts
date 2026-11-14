@@ -80,3 +80,18 @@ it('retains the final strike scale at the start of an early return',()=>{
  const f=(r as any).flights[0],before=f.label.scale.y;r.rush();r.update(0,390,844,false);
  expect(f.label.scale.y).toBeCloseTo(before,6);r.destroy();
 });
+it('keeps a caught bonus out of the running total until its amount lands on it',()=>{
+ const credit=vi.fn(),r=new RewardTransfers(credit,()=>{});r.reset('pack',[25,50]);expect(r.ledger.total).toBe(75);
+ r.bonus(180000,{x:200,y:500});
+ // Stamped and held over the seats, then in flight: a rebuild of the screen in this window still shows the old total.
+ for(let i=0;i<26;i++){r.update(.05,390,780,false);expect(r.ledger.total).toBe(75);}
+ expect(credit).not.toHaveBeenCalled();
+ for(let i=0;i<6;i++)r.update(.05,390,780,false);
+ expect(r.ledger.total).toBe(180075);expect(credit).toHaveBeenCalledOnce();expect(credit).toHaveBeenLastCalledWith(180075);r.destroy();
+});
+it('still pays a bonus whose flight is cut short',()=>{
+ const credit=vi.fn(),r=new RewardTransfers(credit,()=>{});r.reset('pack');r.bonus(5000,{x:10,y:10});r.update(.05,390,780,false);
+ r.bonus(700,{x:10,y:10});expect(r.ledger.total).toBe(5000);
+ // With reduced motion there is no flight: the amount is counted at once.
+ r.update(.05,390,780,true);expect(r.ledger.total).toBe(5700);expect(credit).toHaveBeenLastCalledWith(5700);r.destroy();
+});

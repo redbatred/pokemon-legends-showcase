@@ -78,7 +78,7 @@ export class PsychicVaultScene {
   async init() {
     if (this.dead || this.ready) return;
     const canvas = document.createElement('canvas');canvas.width = canvas.height = 128;
-    const c = canvas.getContext('2d')!;
+    const c = canvas.getContext('2d',{willReadFrequently:true})!;
     aura(c, 64, 64, 64, 64, 'rgba(255,255,255,.72)');
     this.glowTexture = Texture.from(canvas);
     this.machinery = new PsychicVaultFx();this.machinery.root.visible=this.active;this.root.addChildAt(this.machinery.root,2);
@@ -92,7 +92,7 @@ export class PsychicVaultScene {
     const canvas = document.createElement('canvas');
     const resolution = Math.min(2, Math.sqrt(4_200_000 / (w*h)));
     canvas.width = Math.ceil(w*resolution);canvas.height = Math.ceil(h*resolution);
-    const c = canvas.getContext('2d')!;c.scale(resolution, resolution);
+    const c = canvas.getContext('2d',{willReadFrequently:true})!;c.scale(resolution, resolution);
     this.paint(c, w, h, layout);
     const old = this.artTexture;this.artTexture = Texture.from(canvas);
     this.painting.texture = this.artTexture;this.painting.width = w;this.painting.height = h;old?.destroy(true);

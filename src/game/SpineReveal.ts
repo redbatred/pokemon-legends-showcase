@@ -58,7 +58,7 @@ export class SpineReveal {
     this.flare.circle(0,0,34).fill({color:0xeafaff,alpha:.5}).circle(0,0,13).fill(0xffffff);this.flare.position.set(IMPACT.x,IMPACT.y);this.flare.alpha=0;this.flare.blendMode='add';
     for(let i=0;i<12;i++){const a=i/12*Math.PI*2,r=i%2?104:145;this.pressure.poly([Math.cos(a-.08)*52,Math.sin(a-.08)*45,Math.cos(a)*r,Math.sin(a)*r*.8,Math.cos(a+.06)*55,Math.sin(a+.06)*46]).fill({color:i%3?0xb9f3ff:0xffffff,alpha:.8});}this.pressure.position.set(IMPACT.x,IMPACT.y);this.pressure.alpha=0;this.pressure.blendMode='add';
     this.latch.circle(0,0,16).fill({color:0x8beeff,alpha:.18}).circle(0,0,8).fill({color:0xbdf7ff,alpha:.7}).circle(0,0,4).fill(0xffffff);this.latch.alpha=0;this.latch.blendMode='add';
-    const canvas=document.createElement('canvas');canvas.width=card.width;canvas.height=card.height;const c=canvas.getContext('2d')!;
+    const canvas=document.createElement('canvas');canvas.width=card.width;canvas.height=card.height;const c=canvas.getContext('2d',{willReadFrequently:true})!;
     c.drawImage(card.source.resource as CanvasImageSource,0,0);c.save();c.scale(card.width/312,card.height/435);c.translate(156,217.5);
     const points=Array.from({length:34},(_,i)=>{const a=i/34*Math.PI*2,r=65+Math.sin(i*7.83)*4.5+Math.sin(i*2.6)*3;return [IMPACT.x+Math.cos(a)*r,IMPACT.y+Math.sin(a)*r*.83];});
     const path=()=>{c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();};

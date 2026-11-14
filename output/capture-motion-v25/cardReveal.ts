@@ -44,7 +44,7 @@ export function createCardReveal({card,back}:CardRevealAssets,profile:Pick<Encou
  mock.style.stroke={color:INK,width:3,join:'round'};
  shadow.anchor.set(.5);shadow.tint=0x02070e;glare.blendMode='add';face.filters=[foil];badge.addChild(badgeGlow,badgePlate,badgeText);flyer.addChild(flyerPlate,flyerText);header.anchor.set(0,.5);rarity.anchor.set(0,.5);
  // The card-back image is a square-cornered picture with white outside its rounded border: redraw it once, cut to the card's shape.
- {const source=back.source,canvas=document.createElement('canvas');canvas.width=source.pixelWidth;canvas.height=source.pixelHeight;const c=canvas.getContext('2d');
+ {const source=back.source,canvas=document.createElement('canvas');canvas.width=source.pixelWidth;canvas.height=source.pixelHeight;const c=canvas.getContext('2d',{willReadFrequently:true});
   if(c&&source.resource){c.beginPath();c.roundRect(0,0,canvas.width,canvas.height,canvas.width*.048);c.clip();c.drawImage(source.resource as CanvasImageSource,0,0,canvas.width,canvas.height);rear.texture=Texture.from(canvas);}}
  physical.addChild(shadow,leak,edges,rear,face,glare,rimLight,badge,...sparkles);
  composition.addChild(physical,counter.container,rarityTab,header,rarity,mock,...trails,flyer,strikeFlare,strikeCore);front.addChild(...nearCoins,edgeGlow);container.addChild(stage,composition,front,flash);container.eventMode='none';
