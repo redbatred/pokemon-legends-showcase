@@ -1,0 +1,62 @@
+[
+  {
+    "species": "mewtwo-",
+    "multiplier": 10.0,
+    "time": 22.75,
+    "secondImpact": 22.91
+  },
+  {
+    "species": "mewtwo-",
+    "multiplier": 30.0,
+    "time": 23.55,
+    "secondImpact": 23.71
+  },
+  {
+    "species": "mewtwo-",
+    "multiplier": 75.0,
+    "time": 24.45,
+    "secondImpact": 24.61
+  },
+  {
+    "species": "mewtwo-",
+    "multiplier": 120.0,
+    "time": 25.349999999999998,
+    "secondImpact": 25.509999999999998
+  },
+  {
+    "species": "mewtwo-",
+    "multiplier": 180.0,
+    "time": 26.55,
+    "secondImpact": 26.71
+  },
+  {
+    "species": "lugia-",
+    "multiplier": 10.0,
+    "time": 22.75,
+    "secondImpact": 22.91
+  },
+  {
+    "species": "lugia-",
+    "multiplier": 30.0,
+    "time": 23.55,
+    "secondImpact": 23.71
+  },
+  {
+    "species": "lugia-",
+    "multiplier": 75.0,
+    "time": 24.45,
+    "secondImpact": 24.61
+  },
+  {
+    "species": "lugia-",
+    "multiplier": 120.0,
+    "time": 25.349999999999998,
+    "secondImpact": 25.509999999999998
+  },
+  {
+    "species": "lugia-",
+    "multiplier": 180.0,
+    "time": 26.55,
+    "secondImpact": 26.71
+  }
+]

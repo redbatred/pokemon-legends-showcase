@@ -15,7 +15,7 @@ export class LivingBackdrop {
  root=new Container();private terrain:MeshPlane;private stadium:MeshPlane;private base:Float32Array;private foliage:Float32Array;
  private trees:Tree[]=[];private clouds:Cloud[]=[];private leaves=new Graphics();private textures:Texture[]=[];
  private previous=-1;private wasReduced=false;private floorShift=0;private width:number;private height:number;
- private display:StadiumDisplay;private audience:StadiumAudience;private birds:BirdFlocks;private baseScale=1;
+ private display:StadiumDisplay;private audience:StadiumAudience;private birds:BirdFlocks;private baseScale=1;private viewWidth=0;
  constructor(texture:Texture,treeAtlas:Texture,cloudAtlas:Texture,crowd:Texture[]){
   this.width=texture.width;this.height=texture.height;
   const canvas=document.createElement('canvas');canvas.width=this.width;canvas.height=this.height;
@@ -55,10 +55,13 @@ export class LivingBackdrop {
  private extract(atlas:Texture,parts:{contentBounds:{x:number;y:number;width:number;height:number}}[]){
   return parts.map(({contentBounds:b})=>{const canvas=document.createElement('canvas');canvas.width=b.width;canvas.height=b.height;const c=canvas.getContext('2d',{willReadFrequently:true})!;c.drawImage(atlas.source.resource as CanvasImageSource,b.x,b.y,b.width,b.height,0,0,b.width,b.height);const pixels=c.getImageData(0,0,b.width,b.height);for(let i=3;i<pixels.data.length;i+=4){const alpha=pixels.data[i];pixels.data[i]=alpha*clamp((alpha-28)/48);}c.putImageData(pixels,0,0);const t=Texture.from(canvas);this.textures.push(t);return t;});
  }
- resize(w:number,h:number,floorY?:number){const scale=Math.max(w/this.width,h/this.height)*1.035;this.baseScale=scale;this.root.position.set(w/2,h/2);this.root.scale.set(scale);const ground=h/2+this.height*.18*scale;this.floorShift=floorY===undefined?0:(floorY-ground)/scale;this.audience.warp(this.floorShift);this.display.warp(this.floorShift);this.display.setViewport(.5-w/(2*this.width*scale),.5+w/(2*this.width*scale));this.wasReduced=false;this.previous=-1;}
+ resize(w:number,h:number,floorY?:number){const scale=Math.max(w/this.width,h/this.height)*1.035;this.baseScale=scale;this.viewWidth=w;this.root.position.set(w/2,h/2);this.root.scale.set(scale);const ground=h/2+this.height*.18*scale;this.floorShift=floorY===undefined?0:(floorY-ground)/scale;this.audience.warp(this.floorShift);this.display.warp(this.floorShift);this.display.setViewport(.5-w/(2*this.width*scale),.5+w/(2*this.width*scale));this.wasReduced=false;this.previous=-1;}
  show(visibility:number,celebrationAge:number,travel:number,reduced:boolean,low=false,energy=3){this.audience.update(visibility,celebrationAge,reduced,travel,low,energy);this.root.scale.set(this.baseScale*(1+(reduced?0:travel*.018)));}
  project(u:number,v:number){return {x:this.root.x+(u-.5)*this.width*this.root.scale.x,y:this.root.y+((v-.5)*this.height+this.floorShift*groundWarp(v))*this.root.scale.y};}
  setBoard(state:ArenaBoardState){this.display.setState(state);}
+ /** Screen x-range covered by foreground controls, or null. The board keeps its lettering out of it when each side still has room. */
+ setBoardKeepOut(range:[number,number]|null){const w=this.viewWidth,span=this.width*this.baseScale,u=(x:number)=>.5+(x-w/2)/span;
+  const room=!!range&&w>0&&range[0]>=120&&w-range[1]>=120;this.display.setBlank(!!range&&!room);this.display.setKeepOut(range&&room?[u(range[0]),u(range[1])]:null);}
  showBirds(){return this.birds.showBirds();}
  tick(time:number,reduced:boolean,low:boolean){
   this.display.tick(time,reduced,low);

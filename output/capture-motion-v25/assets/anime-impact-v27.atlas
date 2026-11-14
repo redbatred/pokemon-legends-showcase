@@ -1,0 +1,229 @@
+anime-impact-v27.png
+size: 887,1774
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame00
+  rotate: false
+  xy: 3,3
+  size: 215,215
+  orig: 215,215
+  offset: 0,0
+  index: -1
+frame01
+  rotate: false
+  xy: 224,3
+  size: 216,215
+  orig: 216,215
+  offset: 0,0
+  index: -1
+frame02
+  rotate: false
+  xy: 446,3
+  size: 216,215
+  orig: 216,215
+  offset: 0,0
+  index: -1
+frame03
+  rotate: false
+  xy: 668,3
+  size: 216,215
+  orig: 216,215
+  offset: 0,0
+  index: -1
+frame04
+  rotate: false
+  xy: 3,224
+  size: 215,216
+  orig: 215,216
+  offset: 0,0
+  index: -1
+frame05
+  rotate: false
+  xy: 224,224
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame06
+  rotate: false
+  xy: 446,224
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame07
+  rotate: false
+  xy: 668,224
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame08
+  rotate: false
+  xy: 3,446
+  size: 215,216
+  orig: 215,216
+  offset: 0,0
+  index: -1
+frame09
+  rotate: false
+  xy: 224,446
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame10
+  rotate: false
+  xy: 446,446
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame11
+  rotate: false
+  xy: 668,446
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame12
+  rotate: false
+  xy: 3,668
+  size: 215,216
+  orig: 215,216
+  offset: 0,0
+  index: -1
+frame13
+  rotate: false
+  xy: 224,668
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame14
+  rotate: false
+  xy: 446,668
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame15
+  rotate: false
+  xy: 668,668
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame16
+  rotate: false
+  xy: 3,890
+  size: 215,215
+  orig: 215,215
+  offset: 0,0
+  index: -1
+frame17
+  rotate: false
+  xy: 224,890
+  size: 216,215
+  orig: 216,215
+  offset: 0,0
+  index: -1
+frame18
+  rotate: false
+  xy: 446,890
+  size: 216,215
+  orig: 216,215
+  offset: 0,0
+  index: -1
+frame19
+  rotate: false
+  xy: 668,890
+  size: 216,215
+  orig: 216,215
+  offset: 0,0
+  index: -1
+frame20
+  rotate: false
+  xy: 3,1111
+  size: 215,216
+  orig: 215,216
+  offset: 0,0
+  index: -1
+frame21
+  rotate: false
+  xy: 224,1111
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame22
+  rotate: false
+  xy: 446,1111
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame23
+  rotate: false
+  xy: 668,1111
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame24
+  rotate: false
+  xy: 3,1333
+  size: 215,216
+  orig: 215,216
+  offset: 0,0
+  index: -1
+frame25
+  rotate: false
+  xy: 224,1333
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame26
+  rotate: false
+  xy: 446,1333
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame27
+  rotate: false
+  xy: 668,1333
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame28
+  rotate: false
+  xy: 3,1555
+  size: 215,216
+  orig: 215,216
+  offset: 0,0
+  index: -1
+frame29
+  rotate: false
+  xy: 224,1555
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame30
+  rotate: false
+  xy: 446,1555
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1
+frame31
+  rotate: false
+  xy: 668,1555
+  size: 216,216
+  orig: 216,216
+  offset: 0,0
+  index: -1

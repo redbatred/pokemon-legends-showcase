@@ -1,0 +1,1 @@
+Original vector pressure arcs and dust curls authored in pressure.svg. Spine 4.2 skeletal animations move individual parts with continuous translation, rotation, scale and opacity keys. No raster image generation, billboard flame loops or spritesheet scaling.

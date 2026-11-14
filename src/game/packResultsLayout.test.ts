@@ -14,3 +14,5 @@ it('keeps every auto-session pack reachable without overlapping the win hero or 
   expect(seen).toHaveLength(100);expect(new Set(seen).size).toBe(100);
  }
 });
+
+it('fits a short demo pack without reserving empty rows for eleven cards',()=>{const full=packResultsLayout(402,680),short=packResultsLayout(402,680,5);expect(short.slot(0).width).toBeGreaterThan(full.slot(0).width);for(let i=0;i<5;i++){const p=short.slot(i);expect(p.y+p.height/2+18).toBeLessThan(600);expect(p.y-p.height/2).toBeGreaterThan(short.total.y+short.total.height/2);}});

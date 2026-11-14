@@ -1,0 +1,26 @@
+rocket-jessie.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jessie
+  rotate: false
+  xy: 340,200
+  size: 340,460
+  orig: 340,460
+  offset: 0,0
+  index: -1
+
+rocket-james.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+james
+  rotate: false
+  xy: 340,200
+  size: 340,460
+  orig: 340,460
+  offset: 0,0
+  index: -1
+

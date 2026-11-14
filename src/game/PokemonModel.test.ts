@@ -3,7 +3,7 @@ import {Bone,BufferGeometry,Group,MeshBasicMaterial,Skeleton,SkinnedMesh} from '
 const loader=vi.hoisted(()=>({load:vi.fn(),dispose:vi.fn()}));
 vi.mock('three/addons/loaders/GLTFLoader.js',()=>({GLTFLoader:class{setDRACOLoader(){return this;}loadAsync=loader.load;}}));
 vi.mock('three/addons/loaders/DRACOLoader.js',()=>({DRACOLoader:class{setDecoderPath(){return this;}setWorkerLimit(){return this;}dispose=loader.dispose;}}));
-import {createPokemonModel,disposePokemonRenderer} from './PokemonModel';
+import {PokemonModel,createPokemonModel,disposePokemonRenderer} from './PokemonModel';
 afterEach(()=>{disposePokemonRenderer();vi.unstubAllGlobals();});
 it('discards a model that finishes after teardown, releases bones, and waits for active decodes before terminating workers',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({ok:true,json:async()=>({charizard:{path:'/charizard.glb',idle:'idle'}})})));
@@ -13,4 +13,15 @@ it('discards a model that finishes after teardown, releases bones, and waits for
  const result=createPokemonModel('/assets/pokemon/charizard.png',false);await vi.waitFor(()=>expect(loader.load).toHaveBeenCalledOnce());
  disposePokemonRenderer();expect(loader.dispose).not.toHaveBeenCalled();finish({scene:root,animations:[]});
  expect(await result).toBeNull();expect(loader.dispose).toHaveBeenCalledOnce();expect(boneDispose).toHaveBeenCalledOnce();expect(geometryDispose).toHaveBeenCalledOnce();expect(materialDispose).toHaveBeenCalledOnce();
+});
+
+it('renders every available battle frame even while idle, with a stable low-power cadence',()=>{
+ const run=(low:boolean)=>{
+  let frames=0;
+  const model=Object.assign(Object.create(PokemonModel.prototype),{stopped:false,charging:false,emerging:false,elapsed:0,low,renderCost:9,mixer:{update:()=>{}},render:()=>{frames++;}}) as PokemonModel;
+  model.setContinuousRendering(true);
+  for(let i=0;i<60;i++)model.update(1/60);
+  return frames;
+ };
+ expect(run(false)).toBe(60);expect(run(true)).toBe(30);
 });

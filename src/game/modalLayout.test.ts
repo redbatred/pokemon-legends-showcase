@@ -32,3 +32,19 @@ it('keeps Auto Spin count, mode and start hit areas separate in landscape and po
 });
 
 it('keeps the short landscape guide clear of its footer',()=>{const f=modalLayout(720,320,'about');expect(f.height).toBe(320);expect(240).toBeLessThan(f.height-73);});
+
+it('fits every cheat chip between the header and the footer, apart from the others, on every screen',async()=>{
+ const {cheatsLayout}=await import('./modalLayout');
+ for(const [w,h] of [[320,480],[320,568],[360,640],[390,844],[430,932],[568,320],[667,375],[844,390],[768,1024],[800,797],[1024,768],[1280,720],[1920,1080]]){
+  const f=modalLayout(w,h,'cheats'),l=cheatsLayout(f.width,f.height),name=`${w}x${h}`;
+  expect(f.x,name).toBeGreaterThanOrEqual(0);expect(f.y,name).toBeGreaterThanOrEqual(0);expect(f.x+f.width,name).toBeLessThanOrEqual(w);expect(f.y+f.height,name).toBeLessThanOrEqual(h);
+  const chips=[...Array.from({length:7},(_,i)=>l.win(i)),...Array.from({length:5},(_,i)=>l.total(i)),...Array.from({length:4},(_,i)=>l.bonus(i)),...Array.from({length:2},(_,i)=>l.legendary(i))],targets=[...chips,l.reset,l.open];
+  for(const chip of chips){expect(chip.y,name).toBeGreaterThanOrEqual(92);expect(chip.y+chip.height,name).toBeLessThanOrEqual(l.ledge-2);expect(chip.width,name).toBeGreaterThanOrEqual(56);expect(chip.height,name).toBeGreaterThanOrEqual(28);}
+  for(const a of targets){expect(a.x,name).toBeGreaterThanOrEqual(20);expect(a.x+a.width,name).toBeLessThanOrEqual(f.width-20+.001);expect(a.y+a.height,name).toBeLessThanOrEqual(f.height-12);}
+  for(let i=0;i<targets.length;i++)for(let j=i+1;j<targets.length;j++){const a=targets[i],b=targets[j];expect(a.x+a.width<=b.x+.001||b.x+b.width<=a.x+.001||a.y+a.height<=b.y||b.y+b.height<=a.y,name).toBe(true);}
+  // Each section's label sits under the header seam and above its own chips, clear of the row before it.
+  const rows=[['win',l.win(0),0],['total',l.total(0),l.win(6).y+l.win(6).height],['bonus',l.bonus(0),l.total(4).y+l.total(4).height],['legendary',l.legendary(0),l.strips?l.total(4).y+l.total(4).height:l.bonus(3).y+l.bonus(3).height]] as const;
+  for(const [key,first,previous] of rows){const at=l.labels[key];expect(at.y,name+key).toBeGreaterThanOrEqual(82);expect(at.y,name+key).toBeGreaterThanOrEqual(previous+2);expect(at.y+12,name+key).toBeLessThanOrEqual(first.y);}
+  expect(l.reset.y,name).toBeGreaterThanOrEqual(l.ledge+8);if(l.info)expect(l.infoY,name).toBeGreaterThan(l.bottom);
+ }
+});

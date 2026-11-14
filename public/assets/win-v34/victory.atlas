@@ -1,0 +1,61 @@
+victory.png
+size: 1774,887
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+left
+  rotate: false
+  xy: 0,0
+  size: 444,444
+  orig: 444,444
+  offset: 0,0
+  index: -1
+right
+  rotate: false
+  xy: 444,0
+  size: 443,444
+  orig: 443,444
+  offset: 0,0
+  index: -1
+medal
+  rotate: false
+  xy: 887,0
+  size: 443,444
+  orig: 443,444
+  offset: 0,0
+  index: -1
+burst
+  rotate: false
+  xy: 1330,0
+  size: 444,444
+  orig: 444,444
+  offset: 0,0
+  index: -1
+goldSlash
+  rotate: false
+  xy: 0,444
+  size: 444,443
+  orig: 444,443
+  offset: 0,0
+  index: -1
+blueSlash
+  rotate: false
+  xy: 444,444
+  size: 443,443
+  orig: 443,443
+  offset: 0,0
+  index: -1
+glint
+  rotate: false
+  xy: 887,444
+  size: 443,443
+  orig: 443,443
+  offset: 0,0
+  index: -1
+foil
+  rotate: false
+  xy: 1330,444
+  size: 444,443
+  orig: 444,443
+  offset: 0,0
+  index: -1

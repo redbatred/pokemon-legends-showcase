@@ -1,0 +1,13 @@
+// Normal-game review helpers for pack-flow-lab.html. Load after the page says Ready.
+// ngPass(tag): stills of the play screen (sealed, waiting, first and second card) or, with ?browse=1, of the browse screen.
+// ngPerf(): real milliseconds per stepped frame while idle, during a reveal and during the card-to-slot move.
+(async()=>{for(let i=0;i<160&&!window.flow;i++)await new Promise(r=>setTimeout(r,500));if(!window.flow){window.ngState={done:true,error:'not ready: '+document.querySelector('output')?.textContent};return;}
+ await new Promise((res,rej)=>{const s=document.createElement('script');s.src='/tests/browser/pw-helpers.js';s.onload=res;s.onerror=rej;document.head.append(s);});
+ const query=new URLSearchParams(location.search),tag=query.get('tag')??'x',errors=[];addEventListener('error',e=>errors.push(String(e.message)));addEventListener('unhandledrejection',e=>errors.push(String(e.reason&&e.reason.stack||e.reason)));
+ const cost=async(frames)=>{virtualClock.manual();const times=[];for(let i=0;i<frames;i++){const t=virtualClock.realNow();virtualClock.step();await Promise.resolve();await Promise.resolve();times.push(virtualClock.realNow()-t);if(i%15===14)await new Promise(r=>setTimeout(r,0));}times.sort((a,b)=>a-b);const mean=times.reduce((a,b)=>a+b,0)/times.length;return {mean:+mean.toFixed(2),p50:+times[times.length>>1].toFixed(2),p95:+times[Math.floor(times.length*.95)].toFixed(2),max:+times.at(-1).toFixed(2)};};
+ window.ngPerf=async()=>{const out={};await flow.open();await stepFor(.6);out.idleWaiting=await cost(120);flow.next();out.reveal=await cost(70);await stepUntil(()=>flowGame.phase==='revealed',20);await stepFor(.8);out.idleRevealed=await cost(120);flow.next();out.cardToSlot=await cost(50);await stepUntil(()=>flowGame.phase==='revealed'&&flowGame.index===1,20);return out;};
+ window.ngPass=async()=>{const out=[];if(query.has('browse')){await stepFor(.4);out.push(await snap('ng-'+tag+'-browse'));return out;}
+  out.push(await snap('ng-'+tag+'-sealed'));await flow.open();await stepFor(.5);out.push(await snap('ng-'+tag+'-await'));flow.next();await stepUntil(()=>flowGame.phase==='revealed',20);await stepFor(1.0);out.push(await snap('ng-'+tag+'-card1'));flow.next();await stepUntil(()=>flowGame.phase==='revealed'&&flowGame.index===1,20);await stepFor(1.2);out.push(await snap('ng-'+tag+'-card2'));return out;};
+ window.ngState={done:false};const job=query.get('job')??'pass';
+ try{const result=job==='perf'?await ngPerf():job==='none'?null:await ngPass();window.ngState={done:true,result,errors,error:flowGame.error};}catch(e){window.ngState={done:true,error:String(e&&e.stack||e),errors};}
+})();

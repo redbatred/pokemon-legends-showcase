@@ -1,0 +1,127 @@
+{
+ "generator": "scripts/generate-win-audio-v14.mjs",
+ "method": "oscillator, filtered-noise and struck-partial synthesis with an algorithmic room; no samples or recordings",
+ "sampleRate": 44100,
+ "files": {
+  "win-puncture": {
+   "pcmSha256": "966d9faffa8c450550ea028ef19f691e0a690d7a4993caefabe30cdc7a8cd999",
+   "format": "wav",
+   "rmsDbfs": -16.5
+  },
+  "win-gather": {
+   "pcmSha256": "1c722e3d49a25deb0138434d8717534fd0daa8642f83a65e4a3c4e4b511eb60a",
+   "format": "wav",
+   "rmsDbfs": -18
+  },
+  "win-bloom": {
+   "pcmSha256": "8e613757f277cf33ca388648775448a763148d21fbe18247bd9d27d73e514b2e",
+   "format": "mp3",
+   "rmsDbfs": -19.9
+  },
+  "win-land": {
+   "pcmSha256": "5e422acec8201c0a8ac31354e2a20db72a44a11b303d5495b9f40825f8b34b32",
+   "format": "wav",
+   "rmsDbfs": -14.2
+  },
+  "win-charge": {
+   "pcmSha256": "270c7be6709f57560132434db649b6033a3c6bbe9b6a3107923ffa4c3621c1d0",
+   "format": "mp3",
+   "rmsDbfs": -19.6
+  },
+  "win-launch": {
+   "pcmSha256": "441d36b254e6175820bdbcdc6d984a4fb1cbf7142986c990f44e357f8c0c2bc5",
+   "format": "wav",
+   "rmsDbfs": -18.3
+  },
+  "win-flood": {
+   "pcmSha256": "b714fe034a583393dacf11620c752d9dd17cbd74e38e133f0e59d0b68db9b4c9",
+   "format": "mp3",
+   "rmsDbfs": -14.4
+  },
+  "win-return": {
+   "pcmSha256": "318f2a65b6d01e93e2583d00bb86cc50d4189c7f4d4343aef71f0a0d47fa2fa7",
+   "format": "mp3",
+   "rmsDbfs": -18.2
+  },
+  "win-tick": {
+   "pcmSha256": "3d5925a8996ad19c2c8824db8d1a682206b63e7c9cef17d9be9416ec22188264",
+   "format": "wav",
+   "rmsDbfs": -19.5
+  },
+  "win-strike-1": {
+   "pcmSha256": "4c439ad2361ac9a8c3ba01a2bcea50cd954e4e71c9b9b0857727f52423bada40",
+   "format": "wav",
+   "rmsDbfs": -19
+  },
+  "win-strike-2": {
+   "pcmSha256": "0279028e0b1bbbd1f348bff65b7bd62a806f8599cd0cde3eaf398c26ff31b287",
+   "format": "wav",
+   "rmsDbfs": -19.4
+  },
+  "win-strike-3": {
+   "pcmSha256": "fc4521fa70e787eb14ea7834c58a90425c9a139cd7dacc965d3fa2aa5d47d7ab",
+   "format": "wav",
+   "rmsDbfs": -22.1
+  },
+  "win-coins-1": {
+   "pcmSha256": "3b2de407db5150e512eaf5a5f97e42314b943ca1c3ce29ce3356fb7cfedb91bd",
+   "format": "mp3",
+   "rmsDbfs": -24.1
+  },
+  "win-coins-2": {
+   "pcmSha256": "98d735a7fb7f5b2f87703c95e166b06152b6ec231c8c6791c6481248993bf042",
+   "format": "mp3",
+   "rmsDbfs": -22.8
+  },
+  "win-coins-3": {
+   "pcmSha256": "a92e8a1e4285eb5e4830236f02ce2e3d4a829767780608de8fcc7bb6ef95292a",
+   "format": "mp3",
+   "rmsDbfs": -22.7
+  },
+  "win-rung-1": {
+   "pcmSha256": "2f3fc4134269e7b0cb8d006d8bfcb8976163b36611a14bfcf84451c7078a229e",
+   "format": "mp3",
+   "rmsDbfs": -20.9
+  },
+  "win-rung-2": {
+   "pcmSha256": "2924b70601854a49f3c06824b09b3c54136d9947a71c45a7d1668f964dd5c90f",
+   "format": "mp3",
+   "rmsDbfs": -22.7
+  },
+  "win-rung-3": {
+   "pcmSha256": "b892354bbc18200aea7e93bb91b932ddbf7b1a9d4f65ac156125b4bee32712ec",
+   "format": "mp3",
+   "rmsDbfs": -21.2
+  },
+  "win-final-1": {
+   "pcmSha256": "529329ab47e1c7488912942b02f5670478b8bd2413f7ab8c6349c9f8a4dc008b",
+   "format": "mp3",
+   "rmsDbfs": -16.4
+  },
+  "win-final-2": {
+   "pcmSha256": "f28526c079d1cb6478174630569e5940eb712a12bb2db2f55d335d66fcfb1c6d",
+   "format": "mp3",
+   "rmsDbfs": -16.7
+  },
+  "win-final-3": {
+   "pcmSha256": "b014eb04901818a9d594d0ceb1f5a22092eda7c987f1b77b63af39141b8f748f",
+   "format": "mp3",
+   "rmsDbfs": -16.6
+  },
+  "win-final-4": {
+   "pcmSha256": "0f41905a112dd6d4b219a303fecb1610ddf89de5496c5132a6f2f5c227b156ac",
+   "format": "mp3",
+   "rmsDbfs": -16.4
+  },
+  "win-stamp": {
+   "pcmSha256": "344d47f0bde41931e5b7fa43233ac3d40bb710764fff2d1a82792a264fa0629b",
+   "format": "wav",
+   "rmsDbfs": -21.5
+  },
+  "win-glint": {
+   "pcmSha256": "88885a9d33c4f46039a3992103b5a64e9c1f19aeb925b12871c19015a99bc901",
+   "format": "wav",
+   "rmsDbfs": -21.7
+  }
+ }
+}

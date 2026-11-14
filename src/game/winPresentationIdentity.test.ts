@@ -1,0 +1,10 @@
+import {expect,it} from 'vitest';
+import {readFileSync,existsSync} from 'node:fs';
+import packs from '../../public/assets/packs.json';
+import models from '../../public/assets/pokemon-3d/manifest.json';
+import {isSpecialCard} from './specialCard';
+import {winPokemonImage,winModelKey} from './winPresentationIdentity';
+import type {Card} from './model';
+const entries=packs.flatMap(p=>JSON.parse(readFileSync(new URL('../../public'+p.catalogUrl,import.meta.url),'utf8')) as Card[]).filter(c=>isSpecialCard(c)&&c.id!=='swsh12-193');
+it.each(entries)('resolves exact cinematic appearance for $id $name',card=>{const image=winPokemonImage(card);expect(image).toBeTruthy();const model=models[winModelKey(image!) as keyof typeof models];expect(model).toBeDefined();expect(existsSync(new URL('../../public'+model.path,import.meta.url))).toBe(true);});
+it('keeps form identity in an artwork path',()=>{expect(winModelKey('/assets/pokemon/charizard-shiny-tera-dark.png')).toBe('charizard-shiny-tera-dark');});

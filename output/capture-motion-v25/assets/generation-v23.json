@@ -1,0 +1,15 @@
+{
+  "mode": "built-in image_gen",
+  "assets": {
+    "ball-seal.png": {
+      "source": "exec-0188ca31-b853-441b-a6ed-7bd5b101ab41.png",
+      "prompt": "Game animation sprite sheet, 4x4 equal cells, 16 consecutive hand-drawn anime capture-seal pulse frames. Red and ivory curved ink strokes grow into a circular orbit around an empty center, roll around it, then separate into tapered arcs and settle to empty. Scarlet, ivory and navy cel shading. No ball, character, stars, rays, lens flares, glitter, haze, text or background. True alpha transparency."
+    },
+    "card-seal.png": {
+      "source": "exec-f3fe1d4e-52f1-4de9-8388-3a56b5650545.png",
+      "generation_brief": "4x4 atlas of a portrait card frame being drawn from lower corners, sweeping up the edges and settling into a thin scarlet/ivory/navy capture seal. Empty center and outer space, no card, character, text, rays or glitter.",
+      "final_edit_prompt": "Extract the red, cream and navy frame strokes from this exact 4x4 animation atlas. Remove ALL brown/gray/red translucent haze and all background pixels, inside every frame opening and outside every frame. The result must contain only the thin, solid colored border strokes on a genuinely zero-alpha transparent canvas. Preserve the exact image dimensions, grid positions, frame shapes and in-betweens. No other changes, no added effects or glow. The empty center in each of the 16 cells must be completely transparent, not an opaque or semi-transparent rectangle."
+    }
+  },
+  "lugia": "Image edit blocked by output safety system; existing V22 raster retained, convergence changed in Spine rendering only."
+}

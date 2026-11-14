@@ -1,0 +1,33 @@
+sharp-current.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame00
+  rotate: false
+  xy: 41,267
+  size: 520,103
+  orig: 520,103
+  offset: 0,0
+  index: -1
+frame01
+  rotate: false
+  xy: 670,267
+  size: 521,103
+  orig: 521,103
+  offset: 0,0
+  index: -1
+frame02
+  rotate: false
+  xy: 44,895
+  size: 517,107
+  orig: 517,107
+  offset: 0,0
+  index: -1
+frame03
+  rotate: false
+  xy: 673,903
+  size: 517,94
+  orig: 517,94
+  offset: 0,0
+  index: -1

@@ -1,0 +1,13 @@
+mewtwo.png
+size: 475,475
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pma: false
+mewtwo
+  rotate: false
+  xy: 0,0
+  size: 475,475
+  orig: 475,475
+  offset: 0,0
+  index: -1

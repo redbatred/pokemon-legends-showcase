@@ -1,0 +1,35 @@
+capture.png
+size: 1536,1024
+filter: Linear,Linear
+pma: false
+closed
+  bounds: 88,93,335,347
+opened
+  bounds: 616,39,322,448
+contact
+  bounds: 1176,145,231,249
+ribbon
+  bounds: 19,666,488,198
+stars
+  bounds: 621,604,301,286
+water
+  bounds: 1038,700,485,136
+lid
+  bounds: 616,39,322,250
+base
+  bounds: 616,295,322,192
+
+finish-fx.png
+size: 1536,1024
+filter: Linear,Linear
+pma: false
+lock
+  bounds: 0,0,512,512
+rays
+  bounds: 512,0,512,512
+glint
+  bounds: 1024,0,512,512
+release
+  bounds: 0,512,512,512
+dust
+  bounds: 1024,512,512,512

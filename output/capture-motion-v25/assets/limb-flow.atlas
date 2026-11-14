@@ -1,0 +1,117 @@
+limb-flow.png
+size: 1261,1247
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+flow00
+  rotate: false
+  xy: 0, 0
+  size: 315, 311
+  orig: 315, 311
+  offset: 0, 0
+  index: -1
+flow01
+  rotate: false
+  xy: 315, 0
+  size: 315, 311
+  orig: 315, 311
+  offset: 0, 0
+  index: -1
+flow02
+  rotate: false
+  xy: 630, 0
+  size: 315, 311
+  orig: 315, 311
+  offset: 0, 0
+  index: -1
+flow03
+  rotate: false
+  xy: 945, 0
+  size: 316, 311
+  orig: 316, 311
+  offset: 0, 0
+  index: -1
+flow04
+  rotate: false
+  xy: 0, 311
+  size: 315, 312
+  orig: 315, 312
+  offset: 0, 0
+  index: -1
+flow05
+  rotate: false
+  xy: 315, 311
+  size: 315, 312
+  orig: 315, 312
+  offset: 0, 0
+  index: -1
+flow06
+  rotate: false
+  xy: 630, 311
+  size: 315, 312
+  orig: 315, 312
+  offset: 0, 0
+  index: -1
+flow07
+  rotate: false
+  xy: 945, 311
+  size: 316, 312
+  orig: 316, 312
+  offset: 0, 0
+  index: -1
+flow08
+  rotate: false
+  xy: 0, 623
+  size: 315, 312
+  orig: 315, 312
+  offset: 0, 0
+  index: -1
+flow09
+  rotate: false
+  xy: 315, 623
+  size: 315, 312
+  orig: 315, 312
+  offset: 0, 0
+  index: -1
+flow10
+  rotate: false
+  xy: 630, 623
+  size: 315, 312
+  orig: 315, 312
+  offset: 0, 0
+  index: -1
+flow11
+  rotate: false
+  xy: 945, 623
+  size: 316, 312
+  orig: 316, 312
+  offset: 0, 0
+  index: -1
+flow12
+  rotate: false
+  xy: 0, 935
+  size: 315, 312
+  orig: 315, 312
+  offset: 0, 0
+  index: -1
+flow13
+  rotate: false
+  xy: 315, 935
+  size: 315, 312
+  orig: 315, 312
+  offset: 0, 0
+  index: -1
+flow14
+  rotate: false
+  xy: 630, 935
+  size: 315, 312
+  orig: 315, 312
+  offset: 0, 0
+  index: -1
+flow15
+  rotate: false
+  xy: 945, 935
+  size: 316, 312
+  orig: 316, 312
+  offset: 0, 0
+  index: -1

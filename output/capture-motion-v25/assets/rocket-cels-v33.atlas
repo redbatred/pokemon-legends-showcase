@@ -1,0 +1,117 @@
+rocket-cels-v33.png
+size: 1312,1199
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame00
+  rotate: false
+  xy: 0,0
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame01
+  rotate: false
+  xy: 328,0
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame02
+  rotate: false
+  xy: 656,0
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame03
+  rotate: false
+  xy: 984,0
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame04
+  rotate: false
+  xy: 0,300
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame05
+  rotate: false
+  xy: 328,300
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame06
+  rotate: false
+  xy: 656,300
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame07
+  rotate: false
+  xy: 984,300
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame08
+  rotate: false
+  xy: 0,600
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame09
+  rotate: false
+  xy: 328,600
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame10
+  rotate: false
+  xy: 656,600
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame11
+  rotate: false
+  xy: 984,600
+  size: 328,300
+  orig: 328,300
+  offset: 0,0
+  index: -1
+frame12
+  rotate: false
+  xy: 0,900
+  size: 328,299
+  orig: 328,299
+  offset: 0,0
+  index: -1
+frame13
+  rotate: false
+  xy: 328,900
+  size: 328,299
+  orig: 328,299
+  offset: 0,0
+  index: -1
+frame14
+  rotate: false
+  xy: 656,900
+  size: 328,299
+  orig: 328,299
+  offset: 0,0
+  index: -1
+frame15
+  rotate: false
+  xy: 984,900
+  size: 328,299
+  orig: 328,299
+  offset: 0,0
+  index: -1

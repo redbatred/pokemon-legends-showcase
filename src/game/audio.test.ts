@@ -1,5 +1,6 @@
 import { beforeEach, afterEach, expect, it, vi } from 'vitest';
-const mock=vi.hoisted(()=>({howls:[] as any[],loaded:true}));
+import {existsSync} from 'node:fs';
+const mock=vi.hoisted(()=>({howls:[] as any[],loaded:true,captureTrack:{stop:vi.fn()}}));
 vi.mock('howler',()=>{
  class Howl {
   source:string;playing=new Set<number>();paused=new Set<number>();next=1;events:{name:string;fn:(id?:number)=>void;id?:number}[]=[];
@@ -12,12 +13,16 @@ vi.mock('howler',()=>{
   once(name:string,fn:()=>void,id?:number){this.events.push({name,fn,id});}
   off(name:string,fn:()=>void,id?:number){this.events=this.events.filter(e=>e.name!==name||e.fn!==fn||e.id!==id);}
  }
- return {Howl,Howler:{mute:vi.fn(),ctx:{resume:vi.fn(async()=>{})}}};
+ return {Howl,Howler:{mute:vi.fn(),usingWebAudio:true,masterGain:{connect:vi.fn(),disconnect:vi.fn()},ctx:{destination:{},resume:vi.fn(async()=>{}),state:'running',createMediaStreamDestination:vi.fn(()=>({stream:{getTracks:()=>[mock.captureTrack]}}))}}};
 });
 import { setBattleMusic,destroyAudio, playPokemonMove,pokemonSoundTiming,playSound,playPokemonCry,preloadRevealAudio,setAudioHidden,setAudioScenePaused,setSound,stopRevealAudio,unlockAudio,playCrowdReaction,stopCrowdReaction } from './audio';
 import cueManifest from '../../public/assets/audio-v4/cues.json';
-import interfaceManifest from '../../public/assets/audio-v12/cues.json';
-const voice=(key:string)=>mock.howls.find(h=>h.source.endsWith(`/${key}.mp3`));
+import gameManifest from '../../public/assets/audio-game-v15/cues.json';
+import vaultManifest from '../../public/assets/audio-showdown-v8/cues.json';
+import {setAudioMonitorMuted,createAudioCapture,preloadVaultAudio,preloadCaptureAudio,preloadAudio,setVaultAudio,type VaultSound,type GameSound} from './audio';
+import {Howler} from 'howler';
+const voice=(key:string)=>mock.howls.find(h=>h.source.endsWith(`/${key}.mp3`)||h.source.endsWith(`/${key}.wav`));
+const gameKeys=Object.keys(gameManifest) as GameSound[],gameFile=(key:GameSound)=>{const files:{wav?:string;mp3?:string}=gameManifest[key].files;return files.wav??files.mp3!;};
 beforeEach(()=>{destroyAudio();mock.howls=[];mock.loaded=true;});
 afterEach(()=>{destroyAudio();vi.useRealTimers();});
 it('halves Pokémon attacks and cries while preserving menu and card volume',()=>{
@@ -25,7 +30,7 @@ it('halves Pokémon attacks and cries while preserving menu and card volume',()=
  for(const key of ['fire','water','electric','psychic','swift','hyperbeam','shadowball','aeroblast','petals'] as const){
   playSound(key);expect(voice(key).volume).toHaveBeenLastCalledWith(cueManifest[key].gain*.5,1);
  }
- playSound('ui');expect(voice('ui').volume).toHaveBeenLastCalledWith(interfaceManifest.ui.gain,1);
+ playSound('ui');expect(voice('ui').volume).toHaveBeenLastCalledWith(gameManifest.ui.gain,1);
  playPokemonCry(6);expect(voice('cries/6').volume).toHaveBeenLastCalledWith(.28,1);
 });
 it('uses the matching unpitched game cry and sampled ball cue',async()=>{
@@ -63,10 +68,10 @@ it('does not resume skipped cinematic audio after leaving the settings panel',()
 
 it('uses distinct normal/rare payoffs and keeps menu clicks audible while the scene is paused',()=>{
  setSound(true);playSound('reveal');playSound('rare');setAudioScenePaused(true);playSound('ui');
- for(const key of ['normal','rare','ui'])expect(mock.howls.find(h=>h.source===`/assets/audio-v12/${key}.mp3`).play).toHaveBeenCalledOnce();
+ for(const key of ['normal','rare','ui'] as const)expect(mock.howls.find(h=>h.source===gameFile(key)).play).toHaveBeenCalledOnce();
 });
 it('ducks release effects underneath the Pokemon cry',async()=>{
- setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');playSound('release');playPokemonCry(6);expect(voice('release').fade).toHaveBeenCalledWith(0.46,0.46*.42,65,1);
+ setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');playSound('release');playPokemonCry(6);const gain=gameManifest.release.gain;expect(voice('release').fade).toHaveBeenCalledWith(gain,gain*.42,65,1);
 });
 
 it('does not duck the release when the cry is unavailable',()=>{
@@ -109,7 +114,7 @@ it('uses the expanded move recordings at quiet gain and seeks to the measured at
 
 it('preloads dedicated PCM bounce cues with independent floor contacts and scene pause ownership',async()=>{
  setSound(true);await preloadRevealAudio('/assets/pokemon/charizard.png');const first=mock.howls.find(h=>h.source.endsWith('/ballbounce.wav')),second=mock.howls.find(h=>h.source.endsWith('/ballsettle.wav'));expect(first).toBeDefined();expect(second).toBeDefined();
- playSound('ballbounce');expect(first.play).toHaveBeenCalledOnce();expect(first.volume).toHaveBeenLastCalledWith(.38,1);expect(second.play).not.toHaveBeenCalled();playSound('ballsettle');expect(second.play).toHaveBeenCalledOnce();
+ playSound('ballbounce');expect(first.play).toHaveBeenCalledOnce();expect(first.volume).toHaveBeenLastCalledWith(gameManifest.ballbounce.gain,1);expect(second.play).not.toHaveBeenCalled();playSound('ballsettle');expect(second.play).toHaveBeenCalledOnce();
  setAudioScenePaused(true);expect(first.pause).toHaveBeenCalledWith(1);expect(second.pause).toHaveBeenCalledWith(1);stopRevealAudio();setAudioScenePaused(false);expect(first.play).toHaveBeenCalledTimes(1);expect(second.play).toHaveBeenCalledTimes(1);
 });
 
@@ -119,8 +124,8 @@ it('pauses the win celebration and money-arrival cues with the scene',()=>{
 
 it('uses short tactile cues and throttles rapid UI clicks',()=>{
  setSound(true);playSound('ui');playSound('ui');playSound('flip');playSound('reveal');
- expect(voice('ui').source).toContain('/audio-v12/');expect(voice('ui').play).toHaveBeenCalledOnce();
- expect(voice('flip').source).toContain('/audio-v12/');expect(voice('normal').source).toContain('/audio-v12/');
+ expect(voice('ui').source).toContain('/audio-game-v15/');expect(voice('ui').play).toHaveBeenCalledOnce();
+ expect(voice('flip').source).toContain('/audio-game-v15/');expect(voice('normal').source).toContain('/audio-game-v15/');
 });
 it('never plays or loops applause, even for the highest value cards',()=>{
  setSound(true);playCrowdReaction(4);const vocal=voice('crowdreactrare');
@@ -147,4 +152,94 @@ it('does not switch to an obsolete late-loading battle track',()=>{setSound(true
 it('restarts a ducked crossfade from its current audible gain',()=>{
  setSound(true);unlockAudio();setBattleMusic(true);const battle=voice('battle');battle.volume.mockReturnValue(.055);playSound('packrustle');expect(battle.fade).toHaveBeenLastCalledWith(.055,.09,110,1);
  const lobby=voice('ambience');lobby.volume.mockReturnValue(.06);unlockAudio();expect(lobby.fade).toHaveBeenLastCalledWith(.06,0,800,1);
+});
+
+it('preloads six distinct vault cues and keeps every voice scene owned',async()=>{
+ setSound(true);await preloadVaultAudio();
+ const keys=Object.keys(vaultManifest) as VaultSound[];
+ const cues=keys.map(key=>mock.howls.find(h=>h.source===vaultManifest[key].files.wav));
+ expect(cues).toHaveLength(6);expect(new Set(cues).size).toBe(6);
+ keys.forEach(key=>playSound(key));
+ cues.forEach((cue,i)=>expect(cue.volume).toHaveBeenLastCalledWith(vaultManifest[keys[i]].gain,1));
+ setAudioScenePaused(true);cues.forEach(cue=>expect(cue.pause).toHaveBeenCalledWith(1));
+ setAudioScenePaused(false);cues.forEach(cue=>expect(cue.play).toHaveBeenLastCalledWith(1));
+ setAudioHidden(true);setAudioHidden(false);
+ stopRevealAudio();const counts=cues.map(cue=>cue.play.mock.calls.length);
+ setAudioScenePaused(true);setAudioScenePaused(false);
+ cues.forEach((cue,i)=>{expect(cue.stop).toHaveBeenCalledWith(1);expect(cue.play).toHaveBeenCalledTimes(counts[i]);expect(cue.events).toHaveLength(0);});
+});
+
+it('does not wait for muted vault downloads or revive vault sounds after mute',async()=>{
+ mock.loaded=false;await preloadVaultAudio();expect(mock.howls).toHaveLength(0);
+ mock.loaded=true;setSound(true);await preloadVaultAudio();playSound('vault-break');
+ const cue=mock.howls.find(h=>h.source===vaultManifest['vault-break'].files.wav);
+ setSound(false);setSound(true);setAudioScenePaused(false);
+ expect(cue.stop).toHaveBeenCalledWith(1);expect(cue.play).toHaveBeenCalledOnce();
+});
+
+it('captures the existing master mix and detaches only its destination, idempotently',()=>{
+ vi.mocked(Howler.masterGain.disconnect).mockClear();mock.captureTrack.stop.mockClear();
+ const capture=createAudioCapture()!;
+ const destination=vi.mocked(Howler.ctx.createMediaStreamDestination).mock.results.at(-1)!.value;
+ expect(capture.stream).toBe(destination.stream);expect(Howler.masterGain.connect).toHaveBeenLastCalledWith(destination);
+ capture.dispose();capture.dispose();expect(Howler.masterGain.disconnect).toHaveBeenCalledExactlyOnceWith(destination);
+ expect(mock.captureTrack.stop).toHaveBeenCalledOnce();
+});
+
+it('disposes capture tracks when audio is destroyed and declines a closed context',()=>{
+ mock.captureTrack.stop.mockClear();createAudioCapture();destroyAudio();expect(mock.captureTrack.stop).toHaveBeenCalledOnce();
+ const context=Howler.ctx as unknown as {state:string};context.state='closed';expect(createAudioCapture()).toBeNull();context.state='running';
+});
+
+it('silences ordinary music throughout the vault and restores the selected track on exit',async()=>{
+ setSound(true);unlockAudio();setBattleMusic(true);const battle=voice('battle');
+ setVaultAudio(true);expect(battle.fade).toHaveBeenLastCalledWith(.24,0,110,1);
+ await preloadVaultAudio();playSound('vault-enter');setAudioScenePaused(true);setAudioScenePaused(false);
+ expect(battle.fade).toHaveBeenLastCalledWith(.24,0,110,1);
+ stopRevealAudio();setVaultAudio(false);expect(battle.fade).toHaveBeenLastCalledWith(0,.24,650,1);
+});
+
+it('mutes the speaker route while leaving capture audio connected',()=>{
+ const capture=createAudioCapture()!;const destination=vi.mocked(Howler.ctx.createMediaStreamDestination).mock.results.at(-1)!.value;
+ vi.mocked(Howler.masterGain.disconnect).mockClear();
+ setAudioMonitorMuted(true);setAudioMonitorMuted(true);
+ expect(Howler.masterGain.disconnect).toHaveBeenCalledExactlyOnceWith(Howler.ctx.destination);
+ expect(Howler.masterGain.disconnect).not.toHaveBeenCalledWith(destination);
+ capture.dispose();setAudioMonitorMuted(false);
+ expect(Howler.masterGain.connect).toHaveBeenLastCalledWith(Howler.ctx.destination);
+});
+
+it('ships every v15 cue as a file on disk with a usable gain and duration',()=>{
+ expect(gameKeys.filter(key=>key.startsWith('cap-'))).toHaveLength(19);expect(gameKeys.filter(key=>!key.startsWith('cap-'))).toHaveLength(23);
+ for(const key of gameKeys){
+  const cue=gameManifest[key],file=gameFile(key);
+  expect(file,key).toMatch(new RegExp(`^/assets/audio-game-v15/${key}\\.(wav|mp3)$`));
+  expect(existsSync(new URL(`../../public${file}`,import.meta.url)),file).toBe(true);
+  expect(cue.gain,key).toBeGreaterThan(0);expect(cue.gain,key).toBeLessThanOrEqual(1);expect(cue.duration,key).toBeGreaterThan(0);
+  expect(cue.peakDbfs,key).toBeLessThanOrEqual(-1);
+ }
+});
+
+it('plays every base cue from v15, leaving moves, crowd and the win and vault sets where they were',()=>{
+ setSound(true);preloadAudio();
+ for(const key of gameKeys.filter(key=>!key.startsWith('cap-'))){
+  const howl=mock.howls.find(h=>h.source===gameFile(key));expect(howl,key).toBeDefined();
+  expect(mock.howls.filter(h=>h.source.endsWith(`/${key}.mp3`)||h.source.endsWith(`/${key}.wav`)),key).toHaveLength(1);
+ }
+ const kept=['fire','water','electric','psychic','leaf','wind','ice','dark','metal','ground','dragon','fairy','swift','hyperbeam','shadowball','aeroblast','petals','hydropump','waterpulse','psystrike','crowdreact','crowdreactrare'];
+ for(const key of gameKeys){expect(kept).not.toContain(key);expect(/^(win|vault)-/.test(key),key).toBe(false);}
+ playSound('fire');expect(voice('fire').source).not.toContain('/audio-game-v15/');
+ playCrowdReaction(4);expect(voice('crowdreactrare').source).toContain('/audio-v11/');
+ playSound('win-stamp');expect(voice('win-stamp').source).toContain('/audio-win-v14/');
+});
+
+it('preloads the nineteen capture cues on request, and never while muted',async()=>{
+ const capture=gameKeys.filter(key=>key.startsWith('cap-'));
+ mock.loaded=false;await preloadCaptureAudio();expect(mock.howls).toHaveLength(0);
+ mock.loaded=true;setSound(true);expect(mock.howls.some(h=>h.source.includes('/cap-'))).toBe(false);
+ await preloadCaptureAudio();
+ const cues=capture.map(key=>mock.howls.find(h=>h.source===gameFile(key)));expect(new Set(cues).size).toBe(19);expect(cues.every(Boolean)).toBe(true);
+ capture.forEach((key,i)=>{playSound(key);expect(cues[i].volume).toHaveBeenLastCalledWith(gameManifest[key].gain,1);});
+ setAudioScenePaused(true);expect(cues.filter(cue=>cue.pause.mock.calls.length).length).toBeGreaterThan(0);
+ stopRevealAudio();for(const cue of cues)expect(cue.playing.size+cue.paused.size).toBe(0);
 });

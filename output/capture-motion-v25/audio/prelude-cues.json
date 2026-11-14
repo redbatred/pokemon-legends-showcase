@@ -1,0 +1,74 @@
+{
+  "duration": 21.25,
+  "core_offset": 2.65,
+  "cues": [
+    {
+      "time": 0.7,
+      "name": "card-turn"
+    },
+    {
+      "time": 0.86,
+      "name": "bonus-symbol-reveal"
+    },
+    {
+      "time": 2.55,
+      "name": "symbol-flight"
+    },
+    {
+      "time": 2.95,
+      "name": "socket-lock"
+    },
+    {
+      "time": 1.4,
+      "name": "card-turn"
+    },
+    {
+      "time": 1.5599999999999998,
+      "name": "bonus-symbol-reveal"
+    },
+    {
+      "time": 2.9499999999999997,
+      "name": "symbol-flight"
+    },
+    {
+      "time": 3.35,
+      "name": "socket-lock"
+    },
+    {
+      "time": 2.0999999999999996,
+      "name": "card-turn"
+    },
+    {
+      "time": 2.26,
+      "name": "bonus-symbol-reveal"
+    },
+    {
+      "time": 3.3499999999999996,
+      "name": "symbol-flight"
+    },
+    {
+      "time": 3.75,
+      "name": "socket-lock"
+    },
+    {
+      "time": 3.86,
+      "name": "all-three-unlock"
+    },
+    {
+      "time": 4.35,
+      "name": "eye-panel-sweep"
+    },
+    {
+      "time": 4.83,
+      "name": "eye-snap-open"
+    },
+    {
+      "time": 5.03,
+      "name": "pupil-glint"
+    },
+    {
+      "time": 5.4,
+      "name": "cavern-reveal"
+    }
+  ]
+}

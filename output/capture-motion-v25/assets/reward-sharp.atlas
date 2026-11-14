@@ -1,0 +1,271 @@
+reward-sharp-a.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame00
+  rotate: false
+  xy: 2,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame01
+  rotate: false
+  xy: 629,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame02
+  rotate: false
+  xy: 2,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame03
+  rotate: false
+  xy: 629,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+
+reward-sharp-b.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame04
+  rotate: false
+  xy: 2,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame05
+  rotate: false
+  xy: 629,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame06
+  rotate: false
+  xy: 2,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame07
+  rotate: false
+  xy: 629,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+
+reward-sharp-c.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame08
+  rotate: false
+  xy: 2,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame09
+  rotate: false
+  xy: 629,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame10
+  rotate: false
+  xy: 2,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame11
+  rotate: false
+  xy: 629,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+
+reward-sharp-d.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame12
+  rotate: false
+  xy: 2,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame13
+  rotate: false
+  xy: 629,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame14
+  rotate: false
+  xy: 2,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame15
+  rotate: false
+  xy: 629,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+
+reward-sharp-e.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame16
+  rotate: false
+  xy: 2,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame17
+  rotate: false
+  xy: 629,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame18
+  rotate: false
+  xy: 2,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame19
+  rotate: false
+  xy: 629,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+
+reward-sharp-f.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame20
+  rotate: false
+  xy: 2,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame21
+  rotate: false
+  xy: 629,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame22
+  rotate: false
+  xy: 2,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame23
+  rotate: false
+  xy: 629,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+
+reward-sharp-g.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame24
+  rotate: false
+  xy: 2,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame25
+  rotate: false
+  xy: 629,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame26
+  rotate: false
+  xy: 2,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame27
+  rotate: false
+  xy: 629,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+
+reward-sharp-h.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame28
+  rotate: false
+  xy: 2,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame29
+  rotate: false
+  xy: 629,2
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame30
+  rotate: false
+  xy: 2,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1
+frame31
+  rotate: false
+  xy: 629,629
+  size: 623,623
+  orig: 623,623
+  offset: 0,0
+  index: -1

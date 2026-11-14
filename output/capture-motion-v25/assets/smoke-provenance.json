@@ -1,0 +1,13 @@
+{
+  "tool": "built-in imagegen",
+  "asset": "smoke-sequence.png",
+  "source": "~/.codex/generated_images/01a1bfb1-a2cb-7f60-b9d7-5103369a04dd/exec-0d1c87a8-fcaa-4eba-abc8-dd86a0d05f41.png",
+  "frames": 16,
+  "grid": [
+    4,
+    4
+  ],
+  "alpha_preserved": true,
+  "method": "Spine attachment animation; no replicated clouds or scale-only animation",
+  "prompt": "Sixteen consecutive distinct anime magician-smoke drawings: anticipation, bloom, opaque cloud, rolling curls, central opening and wispy breakup; pale ivory and lavender cel shading, transparent background. Cleanup edit requested margins and clean contours."
+}

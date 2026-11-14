@@ -1,0 +1,18 @@
+{
+  "authoring": "Original procedural synthesis; no external samples",
+  "generator": "scripts/generate-vault-audio-v8.py",
+  "seed": 81065,
+  "format": "48 kHz stereo PCM16 WAV",
+  "timelineSeconds": {
+    "entry": 0,
+    "shieldHits": [
+      3,
+      5.8,
+      8.6
+    ],
+    "breakCue": 8.6,
+    "breakTransient": 8.8,
+    "reward": 10.65
+  },
+  "processing": "Layered oscillator/FM and filtered noise; asymmetric chamber delays; tanh saturation; -3.5 dBFS peak ceiling"
+}

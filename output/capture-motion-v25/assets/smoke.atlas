@@ -1,0 +1,36 @@
+smoke-sequence.png
+size: 1254,1254
+filter: Linear,Linear
+pma: false
+frame00
+  bounds: 0,0,313,313
+frame01
+  bounds: 313,0,314,313
+frame02
+  bounds: 627,0,313,313
+frame03
+  bounds: 940,0,314,313
+frame04
+  bounds: 0,313,313,314
+frame05
+  bounds: 313,313,314,314
+frame06
+  bounds: 627,313,313,314
+frame07
+  bounds: 940,313,314,314
+frame08
+  bounds: 0,627,313,313
+frame09
+  bounds: 313,627,314,313
+frame10
+  bounds: 627,627,313,313
+frame11
+  bounds: 940,627,314,313
+frame12
+  bounds: 0,940,313,314
+frame13
+  bounds: 313,940,314,314
+frame14
+  bounds: 627,940,313,314
+frame15
+  bounds: 940,940,314,314

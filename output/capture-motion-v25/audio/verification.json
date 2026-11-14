@@ -1,0 +1,95 @@
+{
+  "version": 7,
+  "passed": true,
+  "channels": 2,
+  "sample_rate": 48000,
+  "bit_depth": 24,
+  "shared_prefix_bytes_compared": 3513600,
+  "shared_prefix_byte_identical": true,
+  "lugia_shared_prefix_byte_identical": true,
+  "encoded_pcm_validated": true,
+  "true_peak_ceiling_dbtp": -2,
+  "joint_rms_dbfs": -22.500001033401556,
+  "continuous_pull_window_rms_dbfs": [
+    -26.33782733909614,
+    -21.59618613860593,
+    -16.917295758480336
+  ],
+  "mono_100_to_700_hz_impact_rms_dbfs": {
+    "absorption": -16.851634957244276,
+    "seal": -21.231063096230503,
+    "legendary_reveal": -15.509707754431922
+  },
+  "escape_has_award_cues": false,
+  "timing_checks": {
+    "socket-latch-1": 0.55,
+    "socket-latch-2": 1.15,
+    "socket-latch-3": 1.75,
+    "all-sockets-unlocked": 2.05,
+    "encounter-transition": 2.15,
+    "throw-swoosh": 5.1,
+    "contact-body-hit": 5.85,
+    "psychic-resistance": 6.4,
+    "accelerating-suction": 7.0,
+    "final-absorption": 8.05,
+    "absorption-weight": 8.08,
+    "ball-closure": 8.2,
+    "ball-landing": 8.55,
+    "ball-rock-1": 9.8,
+    "ball-rock-2": 10.65,
+    "ball-rock-3": 11.5,
+    "capture-final-lock": 12.2,
+    "card-rise-tension": 13.1,
+    "card-foil-whip": 13.68,
+    "card-reveal-impact": 14.05,
+    "payout-chord": 14.15,
+    "escape-ball-release": 12.2,
+    "escape-unfolded-burst": 12.45,
+    "escape-foot-landing": 13.05,
+    "psychic-reject": 13.45,
+    "conversion-ignition": 7.0,
+    "escape-smoke-buildup": 14.3,
+    "escape-smoke-poof": 14.65,
+    "escape-smoke-whisper": 14.7,
+    "lugia-entrance-wing-1": 3.25,
+    "lugia-entrance-wing-2": 3.8,
+    "lugia-escape-wing-1": 12.9,
+    "lugia-escape-wing-2": 13.45,
+    "return-transition": 17.3
+  },
+  "scores": {
+    "capture": {
+      "duration_seconds": 18.6,
+      "pcm_peak_dbfs": -3.0456498838723722,
+      "true_peak_4x_dbtp": -2.9939155877540906,
+      "rms_dbfs": -22.31683763638731,
+      "stereo_difference_rms_dbfs": -34.24477303028656,
+      "final_frame_is_zero": true
+    },
+    "escape": {
+      "duration_seconds": 18.6,
+      "pcm_peak_dbfs": -2.911779171583579,
+      "true_peak_4x_dbtp": -2.9062517965525094,
+      "rms_dbfs": -23.264408091019888,
+      "stereo_difference_rms_dbfs": -37.55416856184751,
+      "final_frame_is_zero": true
+    },
+    "lugia-capture": {
+      "duration_seconds": 18.6,
+      "pcm_peak_dbfs": -3.0456498838723722,
+      "true_peak_4x_dbtp": -2.9939155877540906,
+      "rms_dbfs": -22.014539935480414,
+      "stereo_difference_rms_dbfs": -33.240249992348446,
+      "final_frame_is_zero": true
+    },
+    "lugia-escape": {
+      "duration_seconds": 18.6,
+      "pcm_peak_dbfs": -2.911779171583579,
+      "true_peak_4x_dbtp": -2.9062517965525094,
+      "rms_dbfs": -22.49980144432698,
+      "stereo_difference_rms_dbfs": -34.14132758635323,
+      "final_frame_is_zero": true
+    }
+  },
+  "cue_exports_count": 61
+}

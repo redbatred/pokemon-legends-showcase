@@ -16,13 +16,14 @@ it('keeps the total readable and clear of the centered reveal controls',()=>{
  for(const [w,h] of [[320,480],[360,540],[390,780],[430,932],[568,320],[844,390],[900,550],[1280,600],[1280,720],[1920,1080]]){
   const l=gameLayout(w,h,true),c=revealControlsLayout(w,h),v=totalWinLayout(w,h);
   expect(v.x-v.width/2).toBeGreaterThan(0);expect(v.x+v.width/2).toBeLessThan(w);expect(v.labelY).toBeGreaterThan(10);expect(v.y+v.size/2).toBeLessThan(l.dockTop-4);
-  if(!l.compact&&!l.short)expect(v.y+v.size*.6).toBeLessThan(l.top-3);
+  // `y` is the middle of the digits; with their drop they end 0.475 of a size below it.
+  if(!l.compact&&!l.short)expect(v.y+v.size*.475).toBeLessThan(l.top-3);
   for(const button of [c.next,c.all])expect(v.y+v.size/2+4<button.y-button.size/2||v.labelY>button.y+button.size/2+26||v.x+v.width/2<button.x-button.size/2-4||v.x-v.width/2>button.x+button.size/2+4,JSON.stringify({w,h,v,button})).toBe(true);
  }
 });
 
 it('reserves big-win wording for a genuinely larger payout and marks lower specials distinctly',()=>{
- expect(winTier({id:'c',rarity:'Special Illustration Rare',value:500},1000)).toBe('special');expect(winTier({id:'c',rarity:'Rare',value:2500},1000)).toBe('big');expect(winTier({id:'c',rarity:'Rare',value:10000},1000)).toBe('epic');expect(winTier({id:'energy',rarity:'Energy',value:0},1000,true)).toBe(null);
+ expect(winTier({id:'c',rarity:'Special Illustration Rare',value:500},1000)).toBe('special');expect(winTier({id:'c',rarity:'Rare',value:2500},1000)).toBe('big');expect(winTier({id:'c',rarity:'Rare',value:10000},1000)).toBe('mega');expect(winTier({id:'energy',rarity:'Energy',value:0},1000,true)).toBe(null);
 });
 
 it('separates total captions from toolbar labels and compact branding',()=>{
@@ -33,3 +34,11 @@ it.each(['Double rare','Holo Rare V','Holo Rare VSTAR','Holo Rare VMAX','Radiant
  expect(winTier({id:'card',rarity,value:250},1000)).toBe('special');
  expect(winTier({id:'card',rarity,value:2500},1000)).toBe('big');
 });
+it('keeps the running total clear of the card on every portrait screen',()=>{
+ for(const [w,h] of [[360,640],[390,844],[430,932],[540,720],[600,960],[768,1024],[800,831],[895,896]]){const l=gameLayout(w,h,true);if(l.sideControls||l.shortWide||l.short||l.compact)continue;
+  const v=totalWinLayout(w,h),cardTop=l.worldY-217.5*l.scale;
+  // The digits are drawn from their centre line down to about 0.8 of their size below it.
+  expect(v.y+v.size*.475,`${w}x${h}`).toBeLessThan(cardTop-8);// The label's lettering ends at least four pixels above the top edge of the digits.
+  expect(v.labelY+v.labelSize*1.25+4,`${w}x${h}`).toBeLessThanOrEqual(v.y-v.size*.43+.001);expect(v.labelY,`${w}x${h}`).toBeGreaterThan(60);}
+});
+

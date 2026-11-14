@@ -1,0 +1,404 @@
+{
+ "ui": {
+  "files": {
+   "wav": "/assets/audio-game-v15/ui.wav"
+  },
+  "duration": 0.34,
+  "gain": 0.023,
+  "peakDbfs": -3
+ },
+ "flip": {
+  "files": {
+   "wav": "/assets/audio-game-v15/flip.wav"
+  },
+  "duration": 0.48,
+  "gain": 0.054,
+  "peakDbfs": -3,
+  "marks": {
+   "snap": 0.098
+  }
+ },
+ "normal": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/normal.mp3"
+  },
+  "duration": 0.66,
+  "gain": 0.049,
+  "peakDbfs": -3
+ },
+ "rare": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/rare.mp3"
+  },
+  "duration": 1.26,
+  "gain": 0.081,
+  "peakDbfs": -3
+ },
+ "complete": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/complete.mp3"
+  },
+  "duration": 2.17,
+  "gain": 0.096,
+  "peakDbfs": -3
+ },
+ "credit": {
+  "files": {
+   "wav": "/assets/audio-game-v15/credit.wav"
+  },
+  "duration": 0.58,
+  "gain": 0.02,
+  "peakDbfs": -3
+ },
+ "win": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/win.mp3"
+  },
+  "duration": 1.2,
+  "gain": 0.164,
+  "peakDbfs": -3
+ },
+ "wincollect": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/wincollect.mp3"
+  },
+  "duration": 1,
+  "gain": 0.021,
+  "peakDbfs": -3,
+  "marks": {
+   "ching": 0.074
+  }
+ },
+ "latch": {
+  "files": {
+   "wav": "/assets/audio-game-v15/latch.wav"
+  },
+  "duration": 0.31,
+  "gain": 0.265,
+  "peakDbfs": -3,
+  "marks": {
+   "bolt": 0.061
+  }
+ },
+ "stage": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/stage.mp3"
+  },
+  "duration": 0.8,
+  "gain": 0.149,
+  "peakDbfs": -3
+ },
+ "land": {
+  "files": {
+   "wav": "/assets/audio-game-v15/land.wav"
+  },
+  "duration": 0.22,
+  "gain": 0.06,
+  "peakDbfs": -3
+ },
+ "suspense": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/suspense.mp3"
+  },
+  "duration": 1.3,
+  "gain": 0.543,
+  "peakDbfs": -3,
+  "marks": {
+   "crest": 0.866
+  }
+ },
+ "charge": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/charge.mp3"
+  },
+  "duration": 1.3,
+  "gain": 0.261,
+  "peakDbfs": -3.1
+ },
+ "slam": {
+  "files": {
+   "wav": "/assets/audio-game-v15/slam.wav"
+  },
+  "duration": 0.42,
+  "gain": 0.643,
+  "peakDbfs": -3
+ },
+ "throw": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/throw.mp3"
+  },
+  "duration": 0.54,
+  "gain": 0.414,
+  "peakDbfs": -2.9,
+  "marks": {
+   "peak": 0.146
+  }
+ },
+ "flight": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/flight.mp3"
+  },
+  "duration": 1.12,
+  "gain": 0.381,
+  "peakDbfs": -3.1,
+  "marks": {
+   "pass": 0.936
+  }
+ },
+ "impact": {
+  "files": {
+   "wav": "/assets/audio-game-v15/impact.wav"
+  },
+  "duration": 0.52,
+  "gain": 0.245,
+  "peakDbfs": -3
+ },
+ "release": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/release.mp3"
+  },
+  "duration": 1,
+  "gain": 0.254,
+  "peakDbfs": -3.1
+ },
+ "ballbounce": {
+  "files": {
+   "wav": "/assets/audio-game-v15/ballbounce.wav"
+  },
+  "duration": 0.16,
+  "gain": 0.595,
+  "peakDbfs": -3
+ },
+ "ballsettle": {
+  "files": {
+   "wav": "/assets/audio-game-v15/ballsettle.wav"
+  },
+  "duration": 0.16,
+  "gain": 0.349,
+  "peakDbfs": -3
+ },
+ "tear": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/tear.mp3"
+  },
+  "duration": 1.2,
+  "gain": 0.196,
+  "peakDbfs": -3,
+  "marks": {
+   "free": 0.986
+  }
+ },
+ "packtear": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/packtear.mp3"
+  },
+  "duration": 1,
+  "gain": 0.092,
+  "peakDbfs": -3.1,
+  "marks": {
+   "free": 0.846
+  }
+ },
+ "packrustle": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/packrustle.mp3"
+  },
+  "duration": 0.5,
+  "gain": 0.042,
+  "peakDbfs": -2.9
+ },
+ "cap-merge": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-merge.mp3"
+  },
+  "duration": 1.25,
+  "gain": 0.51,
+  "peakDbfs": -3,
+  "marks": {
+   "chime": 0.8
+  }
+ },
+ "cap-enter": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-enter.mp3"
+  },
+  "duration": 1.8,
+  "gain": 0.76,
+  "peakDbfs": -3.1,
+  "marks": {
+   "boom": 1
+  }
+ },
+ "cap-presence": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-presence.mp3"
+  },
+  "duration": 2.4,
+  "gain": 0.31,
+  "peakDbfs": -3
+ },
+ "cap-ready": {
+  "files": {
+   "wav": "/assets/audio-game-v15/cap-ready.wav"
+  },
+  "duration": 0.5,
+  "gain": 0.18,
+  "peakDbfs": -3
+ },
+ "cap-throw": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-throw.mp3"
+  },
+  "duration": 0.6,
+  "gain": 0.52,
+  "peakDbfs": -3.3,
+  "marks": {
+   "peak": 0.166
+  }
+ },
+ "cap-hit": {
+  "files": {
+   "wav": "/assets/audio-game-v15/cap-hit.wav"
+  },
+  "duration": 0.5,
+  "gain": 0.76,
+  "peakDbfs": -3
+ },
+ "cap-absorb": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-absorb.mp3"
+  },
+  "duration": 1.18,
+  "gain": 0.42,
+  "peakDbfs": -3,
+  "marks": {
+   "end": 1.1
+  }
+ },
+ "cap-shut": {
+  "files": {
+   "wav": "/assets/audio-game-v15/cap-shut.wav"
+  },
+  "duration": 0.4,
+  "gain": 0.56,
+  "peakDbfs": -3
+ },
+ "cap-drop": {
+  "files": {
+   "wav": "/assets/audio-game-v15/cap-drop.wav"
+  },
+  "duration": 0.7,
+  "gain": 0.79,
+  "peakDbfs": -3,
+  "marks": {
+   "bounce1": 0.006,
+   "bounce2": 0.276,
+   "bounce3": 0.436
+  }
+ },
+ "cap-wobble-1": {
+  "files": {
+   "wav": "/assets/audio-game-v15/cap-wobble-1.wav"
+  },
+  "duration": 0.5,
+  "gain": 0.67,
+  "peakDbfs": -3,
+  "marks": {
+   "out": 0.006,
+   "back": 0.306
+  }
+ },
+ "cap-wobble-2": {
+  "files": {
+   "wav": "/assets/audio-game-v15/cap-wobble-2.wav"
+  },
+  "duration": 0.5,
+  "gain": 0.45,
+  "peakDbfs": -3,
+  "marks": {
+   "out": 0.006,
+   "back": 0.306
+  }
+ },
+ "cap-wobble-3": {
+  "files": {
+   "wav": "/assets/audio-game-v15/cap-wobble-3.wav"
+  },
+  "duration": 0.5,
+  "gain": 0.58,
+  "peakDbfs": -3,
+  "marks": {
+   "out": 0.006,
+   "back": 0.306
+  }
+ },
+ "cap-hold": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-hold.mp3"
+  },
+  "duration": 1.3,
+  "gain": 0.42,
+  "peakDbfs": -3,
+  "marks": {
+   "stop": 1.286
+  }
+ },
+ "cap-lock": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-lock.mp3"
+  },
+  "duration": 1.2,
+  "gain": 0.61,
+  "peakDbfs": -3,
+  "marks": {
+   "click": 0.006,
+   "star": 0.091
+  }
+ },
+ "cap-break": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-break.mp3"
+  },
+  "duration": 1,
+  "gain": 0.63,
+  "peakDbfs": -2.6
+ },
+ "cap-flee": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-flee.mp3"
+  },
+  "duration": 1,
+  "gain": 0.28,
+  "peakDbfs": -2.8
+ },
+ "cap-card": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-card.mp3"
+  },
+  "duration": 0.9,
+  "gain": 0.46,
+  "peakDbfs": -3,
+  "marks": {
+   "snap": 0.6
+  }
+ },
+ "cap-mult": {
+  "files": {
+   "wav": "/assets/audio-game-v15/cap-mult.wav"
+  },
+  "duration": 0.7,
+  "gain": 0.68,
+  "peakDbfs": -3
+ },
+ "cap-exit": {
+  "files": {
+   "mp3": "/assets/audio-game-v15/cap-exit.mp3"
+  },
+  "duration": 0.9,
+  "gain": 0.29,
+  "peakDbfs": -3,
+  "marks": {
+   "close": 0.746
+  }
+ }
+}

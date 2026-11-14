@@ -17,10 +17,10 @@ export function attachTeraCrown(model:Group,crown:Group,fit:TeraAttachment){
  crown.traverse(o=>{if(o instanceof Mesh)o.userData.teraCrown=true;});
 }
 
-/** Keep eyes/flame readable; crystal highlights follow actual skinned surface normals. */
+/** Textured cel-shaded skin stays organic; only the head accessory uses a crystal finish. */
 export function teraMaterial(material:Material,gradient:DataTexture,crown:boolean,species=''){
  const old=material as MeshStandardMaterial;
- if(/(eye|mouth|tongue|teeth|fire|flame|glow|effect)/i.test(old.name)||(!crown&&species&&!pokemonInkEligible(species,'',[material])))return pokemonToonMaterial(old,gradient);
+ if(!crown||/(eye|mouth|tongue|teeth|fire|flame|glow|effect)/i.test(old.name)||(!crown&&species&&!pokemonInkEligible(species,'',[material])))return pokemonToonMaterial(old,gradient);
  const result=new MeshPhysicalMaterial({name:old.name,map:old.map??null,color:old.color??new Color('white'),normalMap:old.normalMap??null,normalScale:old.normalScale??new Vector2(1,1),bumpMap:old.bumpMap??null,bumpScale:old.bumpScale??1,transparent:old.transparent,opacity:old.opacity,alphaTest:old.alphaTest,side:old.side,vertexColors:old.vertexColors,depthWrite:old.depthWrite,emissive:old.emissive??new Color(0),emissiveMap:old.emissiveMap??null,emissiveIntensity:Math.min(old.emissiveIntensity??0,1.5)});
  result.metalness=crown?.12:.04;result.roughness=crown?.12:.18;result.clearcoat=1;result.clearcoatRoughness=.08;
  result.iridescence=crown?.3:.22;result.iridescenceIOR=1.35;result.iridescenceThicknessRange=[180,420];result.ior=1.65;

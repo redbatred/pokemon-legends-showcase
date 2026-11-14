@@ -1,0 +1,12 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Edit the supplied 4 by 4 chronological conversion sprite sheet. Preserve uniform grid, all 16 frames, transparent background, character pose and first-frame coordinates. Replace broad melting ribbons with sharp thin cel-animated energy filaments. Solid anatomy stays rigid until fingers, feet, tail or wing tips progressively convert into connected tapered strands rooted in the remaining limb and flowing to one right-side outlet. Keep normal opaque cel shading on intact torso/head. Later frames drain a thin coherent bundle into a final spark at the same endpoint. Minimal soft bloom; no liquid, rubber, fabric ribbons, silhouette fill, detached particles, extra objects or labels.",
+  "mewtwo": {
+    "status": "used",
+    "file": "mewtwo-conversion.png",
+    "source": "~/.codex/generated_images/01a1bfb1-a2cb-7f60-b9d7-5103369a04dd/exec-79ef108b-b5c1-4a71-9667-eb773f3f725a.png"
+  },
+  "lugia": {
+    "status": "generation failed; previous artwork retained"
+  }
+}

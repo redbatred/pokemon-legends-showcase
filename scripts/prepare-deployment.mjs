@@ -13,7 +13,8 @@ async function rebase(directory){
   if(entry.isDirectory())await rebase(path);
   else if(['.js','.json','.css','.html','.svg'].includes(extname(path))){
    const source=await readFile(path,'utf8');
-   const output=source.replace(/(?<=["'`(])\/assets\//g,base+'assets/');
+   // The capture bonus page also names its own folder from the site root.
+   const output=source.replace(/(?<=["'`(])\/(assets|output)\//g,(_,folder)=>base+folder+'/');
    if(output!==source)await writeFile(path,output);
   }
  }

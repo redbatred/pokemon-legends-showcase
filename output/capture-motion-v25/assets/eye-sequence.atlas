@@ -1,0 +1,117 @@
+eye-sequence.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame00
+  rotate: false
+  xy: 15,10
+  size: 602,150
+  orig: 602,150
+  offset: 0,0
+  index: -1
+frame01
+  rotate: false
+  xy: 636,10
+  size: 602,150
+  orig: 602,150
+  offset: 0,0
+  index: -1
+frame02
+  rotate: false
+  xy: 15,175
+  size: 602,151
+  orig: 602,151
+  offset: 0,0
+  index: -1
+frame03
+  rotate: false
+  xy: 636,175
+  size: 602,151
+  orig: 602,151
+  offset: 0,0
+  index: -1
+frame04
+  rotate: false
+  xy: 15,341
+  size: 602,151
+  orig: 602,151
+  offset: 0,0
+  index: -1
+frame05
+  rotate: false
+  xy: 636,341
+  size: 602,151
+  orig: 602,151
+  offset: 0,0
+  index: -1
+frame06
+  rotate: false
+  xy: 15,507
+  size: 602,152
+  orig: 602,152
+  offset: 0,0
+  index: -1
+frame07
+  rotate: false
+  xy: 636,507
+  size: 602,152
+  orig: 602,152
+  offset: 0,0
+  index: -1
+frame08
+  rotate: false
+  xy: 15,672
+  size: 602,144
+  orig: 602,144
+  offset: 0,0
+  index: -1
+frame09
+  rotate: false
+  xy: 636,672
+  size: 602,144
+  orig: 602,144
+  offset: 0,0
+  index: -1
+frame10
+  rotate: false
+  xy: 15,831
+  size: 602,137
+  orig: 602,137
+  offset: 0,0
+  index: -1
+frame11
+  rotate: false
+  xy: 636,831
+  size: 602,137
+  orig: 602,137
+  offset: 0,0
+  index: -1
+frame12
+  rotate: false
+  xy: 15,983
+  size: 602,126
+  orig: 602,126
+  offset: 0,0
+  index: -1
+frame13
+  rotate: false
+  xy: 636,983
+  size: 602,126
+  orig: 602,126
+  offset: 0,0
+  index: -1
+frame14
+  rotate: false
+  xy: 15,1123
+  size: 602,127
+  orig: 602,127
+  offset: 0,0
+  index: -1
+frame15
+  rotate: false
+  xy: 636,1123
+  size: 602,127
+  orig: 602,127
+  offset: 0,0
+  index: -1

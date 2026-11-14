@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { newSave, createOpening, settleOpening, validateSave, DEFAULT_PACK, type Card } from './model';
+import { DEFAULT_PACK, awardBonus, bonusCard, createOpening, newSave, settleOpening, type Card, validateSave } from './model';
 const pool: Card[] = [{ id: 'sv03-001', number: '001', name: 'Oddish', rarity: 'Common', image: '/assets/cards/001.webp', value: 25, weight: 1 }];
 describe('demo accounting', () => {
   it('creates ten paying cards and one zero-value Energy, with one debit', () => {
@@ -76,4 +76,27 @@ it('preserves old saves and seeds recorded winnings from retained completed open
  const {totalWon:_,...legacy}=save;
  expect(validateSave(legacy)?.totalWon).toBe(250);
  expect(validateSave({...save,totalWon:-1})).toBeNull();
+});
+describe('bonus win', () => {
+  const bonus = { name: 'Lugia', image: '/assets/sets/silver-tempest/cards/186.webp', multiplier: 180, amount: 180000 };
+  const opened = () => createOpening({ ...newSave(), balance: 5000 }, [{ id: 'a', number: '1', name: 'A', rarity: 'Common', image: '/assets/cards/a.webp', value: 25, weight: 1 }], () => .5);
+  it('rides an open pack into its settlement and is paid once', () => {
+    const open = opened(), id = open.active!.id, withBonus = awardBonus(open, id, bonus);
+    expect(withBonus.active!.bonus).toEqual(bonus);expect(awardBonus(withBonus, id, { ...bonus, amount: 5 })).toBe(withBonus);
+    const cards = open.active!.cards.reduce((n, c) => n + c.value, 0), settled = settleOpening(withBonus, id);
+    expect(settled.history[0].total).toBe(cards + bonus.amount);expect(settled.balance).toBe(open.balance + cards + bonus.amount);expect(settled.history[0].bonus).toEqual(bonus);
+    expect(validateSave(settled)).not.toBeNull();expect(validateSave(withBonus)).not.toBeNull();
+  });
+  it('pays a pack that settled before its bonus was played, once', () => {
+    const open = opened(), id = open.active!.id, settled = settleOpening(open, id), paid = awardBonus(settled, id, bonus);
+    expect(paid.history[0].total).toBe(settled.history[0].total + bonus.amount);expect(paid.balance).toBe(settled.balance + bonus.amount);expect(paid.totalWon).toBe((settled.totalWon ?? 0) + bonus.amount);
+    expect(awardBonus(paid, id, bonus)).toBe(paid);
+  });
+  it('ignores an unknown pack and a worthless bonus', () => {
+    const open = opened();expect(awardBonus(open, 'nope', bonus)).toBe(open);expect(awardBonus(open, open.active!.id, { ...bonus, amount: 0 })).toBe(open);
+  });
+  it('rejects a malformed bonus in a stored save and lists a catch as a card', () => {
+    const open = opened(), bad = { ...open, active: { ...open.active!, bonus: { ...bonus, image: 'http://x/y.png' } } };expect(validateSave(bad)).toBeNull();
+    expect(bonusCard(bonus)).toMatchObject({ id: 'bonus', name: 'Lugia', value: 180000, number: '180×' });
+  });
 });

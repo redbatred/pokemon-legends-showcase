@@ -1,0 +1,14 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Legendary Showdown preview</title></head>
+<body><div id="root"></div><script type="module">
+import '/src/styles.css';
+import {Application} from 'pixi.js';
+import '@esotericsoftware/spine-pixi-v8';
+import {LegendaryShowdown} from '/src/game/showdown/LegendaryShowdown.ts';
+const host=document.getElementById('root');host.className='canvas-host';
+await document.fonts.load('800 24px Nunito');
+const app=new Application();await app.init({width:innerWidth,height:innerHeight,background:0x061326,antialias:true,resolution:Math.min(devicePixelRatio,2),autoDensity:true,preference:'webgl'});host.append(app.canvas);app.stop();
+const observer=new ResizeObserver(()=>app.renderer.resize(host.clientWidth,host.clientHeight));observer.observe(host);
+const launch=()=>new LegendaryShowdown(host,app,{entry:new URLSearchParams(location.search).has('trigger')?'trigger':'buy',packPrice:1000,sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,low:innerWidth<600,onSound:()=>{},onArm:()=>{},onClose:()=>{const b=document.createElement('button');b.textContent='Reopen Legendary Showdown';b.style='position:absolute;top:40%;left:30%;padding:20px';host.append(b);b.onclick=()=>{b.remove();launch();};}});
+launch();
+</script></body></html>

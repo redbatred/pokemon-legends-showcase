@@ -1,0 +1,86 @@
+{
+  "vault-enter": {
+    "files": {
+      "wav": "/assets/audio-showdown-v8/vault-enter.wav"
+    },
+    "duration": 1.6,
+    "gain": 0.42,
+    "peakDbfs": -3.5,
+    "rmsDbfs": -16.487,
+    "channels": 2,
+    "sampleRate": 48000,
+    "impactOffset": 0,
+    "intent": "Low chamber pressure, violet harmonic resonance, distant glass",
+    "sha256": "d5cc7d9133f14cd320b5a61ea792056f91c7c33b9cbcf9b0491e4db33d8de8f0"
+  },
+  "vault-charge": {
+    "files": {
+      "wav": "/assets/audio-showdown-v8/vault-charge.wav"
+    },
+    "duration": 1.0,
+    "gain": 0.44,
+    "peakDbfs": -3.5,
+    "rmsDbfs": -16.068,
+    "channels": 2,
+    "sampleRate": 48000,
+    "impactOffset": 0,
+    "intent": "Rising sub bed, beating FM voices, widening filtered air",
+    "sha256": "5b4f6c62e963dcf56e239cd44470548a59c02bc39b96000f5a4bd89602309a9b"
+  },
+  "vault-hit": {
+    "files": {
+      "wav": "/assets/audio-showdown-v8/vault-hit.wav"
+    },
+    "duration": 0.74,
+    "gain": 0.49,
+    "peakDbfs": -3.5,
+    "rmsDbfs": -19.113,
+    "channels": 2,
+    "sampleRate": 48000,
+    "impactOffset": 0,
+    "intent": "Dry shield crack, short low punch, tuned glass stress",
+    "sha256": "049a46e9b905d2c9b338763b95914ff7dd0016aa6d7ef037c167476b586719d7"
+  },
+  "vault-hit-heavy": {
+    "files": {
+      "wav": "/assets/audio-showdown-v8/vault-hit-heavy.wav"
+    },
+    "duration": 0.88,
+    "gain": 0.51,
+    "peakDbfs": -3.5,
+    "rmsDbfs": -19.287,
+    "channels": 2,
+    "sampleRate": 48000,
+    "impactOffset": 0,
+    "intent": "Lower shield punch, double crack, falling crystal stress",
+    "sha256": "8809b7109d8a66f69244f199918aa623ebbcd8fce0435b169813229227632d2e"
+  },
+  "vault-break": {
+    "files": {
+      "wav": "/assets/audio-showdown-v8/vault-break.wav"
+    },
+    "duration": 1.52,
+    "gain": 0.58,
+    "peakDbfs": -3.5,
+    "rmsDbfs": -16.748,
+    "channels": 2,
+    "sampleRate": 48000,
+    "impactOffset": 0.2,
+    "intent": "180 ms inward suction, 20 ms gap, bass fracture and stereo shards",
+    "sha256": "f9630dd308e5d79234ea3482484c4adbdc214de2970137b924af294d86caaac4"
+  },
+  "vault-reward": {
+    "files": {
+      "wav": "/assets/audio-showdown-v8/vault-reward.wav"
+    },
+    "duration": 2.2,
+    "gain": 0.43,
+    "peakDbfs": -3.5,
+    "rmsDbfs": -18.479,
+    "channels": 2,
+    "sampleRate": 48000,
+    "impactOffset": 0,
+    "intent": "Warm Cmaj(add9) arrival, ascending glass bells and chamber decay",
+    "sha256": "ddede81a4fda942edd15cebb38adce5024628f89bd5ddd84c66e82de8a870c6c"
+  }
+}

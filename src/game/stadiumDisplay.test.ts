@@ -18,3 +18,8 @@ it('does not announce hidden card details until a reveal cue makes them visible'
 it('keeps screen captions in the wall portion visible on a cropped phone view',()=>{
  const a=screenTextWindow(0,.36,.64),b=screenTextWindow(1,.36,.64);expect(a.center).toBeGreaterThan(.8);expect(b.center).toBeLessThan(.2);expect(a.span).toBeGreaterThan(.25);expect(a.span).toBeLessThan(.4);expect(a.center+a.span/2).toBeLessThanOrEqual(1);expect(b.center-b.span/2).toBeGreaterThanOrEqual(0);
 });
+
+it('uses fighter names and remaining guards for showdown signage',()=>{
+ expect(arenaMessages({phase:'showdown',packName:'Legendary Showdown',index:3},0)).toEqual(['CHARIZARD','CHALLENGER','MEWTWO','3 GUARDS REMAIN']);
+ expect(arenaMessages({phase:'showdown',packName:'Legendary Showdown',index:0},1)).toEqual(['LEGENDARY SHOWDOWN','BATTLE COMPLETE','MEWTWO VSTAR','REWARD REVEALED']);
+});

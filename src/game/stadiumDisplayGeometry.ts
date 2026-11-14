@@ -11,6 +11,7 @@ export function wallScreenPoint(side:0|1,t:number,v:number){
  const edgeBleed=side?0:4*(1-at)**5;return {u:(side?1672-x+correction:x-edgeBleed)/1672,v:(y-(side?0:2*(1-at)**5*(1-level)))/941};
 }
 export function arenaMessages(s:ArenaBoardState,cycle:number):[string,string,string,string]{
+ if(s.phase==='showdown')return s.index>0?['CHARIZARD','CHALLENGER','MEWTWO',`${s.index} GUARDS REMAIN`]:['LEGENDARY SHOWDOWN','BATTLE COMPLETE','MEWTWO VSTAR','REWARD REVEALED'];
  const pack=s.packName.toUpperCase(),count=`CARD ${Math.min(11,s.index+1)} / 11`;
  if(s.phase==='sealed')return cycle%2?[pack,'PACK READY','CUT THE SEAL','DRAG ACROSS THE TOP']:[pack,'PACK READY','CUT THE SEAL','OR PRESS OPEN'];
  if(s.phase==='tearing')return [pack,'SEAL OPENING','ARENA READY','11 CARDS'];

@@ -1,0 +1,117 @@
+lugia-conversion.png
+size: 1774,887
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame00
+  rotate: false
+  xy: 0,0
+  size: 443,221
+  orig: 443,221
+  offset: 0,0
+  index: -1
+frame01
+  rotate: false
+  xy: 443,0
+  size: 444,221
+  orig: 444,221
+  offset: 0,0
+  index: -1
+frame02
+  rotate: false
+  xy: 887,0
+  size: 443,221
+  orig: 443,221
+  offset: 0,0
+  index: -1
+frame03
+  rotate: false
+  xy: 1330,0
+  size: 444,221
+  orig: 444,221
+  offset: 0,0
+  index: -1
+frame04
+  rotate: false
+  xy: 0,221
+  size: 443,222
+  orig: 443,222
+  offset: 0,0
+  index: -1
+frame05
+  rotate: false
+  xy: 443,221
+  size: 444,222
+  orig: 444,222
+  offset: 0,0
+  index: -1
+frame06
+  rotate: false
+  xy: 887,221
+  size: 443,222
+  orig: 443,222
+  offset: 0,0
+  index: -1
+frame07
+  rotate: false
+  xy: 1330,221
+  size: 444,222
+  orig: 444,222
+  offset: 0,0
+  index: -1
+frame08
+  rotate: false
+  xy: 0,443
+  size: 443,222
+  orig: 443,222
+  offset: 0,0
+  index: -1
+frame09
+  rotate: false
+  xy: 443,443
+  size: 444,222
+  orig: 444,222
+  offset: 0,0
+  index: -1
+frame10
+  rotate: false
+  xy: 887,443
+  size: 443,222
+  orig: 443,222
+  offset: 0,0
+  index: -1
+frame11
+  rotate: false
+  xy: 1330,443
+  size: 444,222
+  orig: 444,222
+  offset: 0,0
+  index: -1
+frame12
+  rotate: false
+  xy: 0,665
+  size: 443,222
+  orig: 443,222
+  offset: 0,0
+  index: -1
+frame13
+  rotate: false
+  xy: 443,665
+  size: 444,222
+  orig: 444,222
+  offset: 0,0
+  index: -1
+frame14
+  rotate: false
+  xy: 887,665
+  size: 443,222
+  orig: 443,222
+  offset: 0,0
+  index: -1
+frame15
+  rotate: false
+  xy: 1330,665
+  size: 444,222
+  orig: 444,222
+  offset: 0,0
+  index: -1

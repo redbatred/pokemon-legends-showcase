@@ -1,0 +1,13 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Showdown animation inspection</title></head><body><div id="root"></div><nav style="position:fixed;bottom:16px;left:16px;z-index:99;display:flex;gap:4px;right:16px;flex-wrap:wrap"></nav><script type="module">
+import '/src/styles.css';
+import {Application} from 'pixi.js';
+import '@esotericsoftware/spine-pixi-v8';
+import {ShowdownScene} from '/src/game/showdown/ShowdownScene.ts';
+const host=document.querySelector('#root');host.className='canvas-host';
+await document.fonts.load('900 24px Nunito');
+const app=new Application();await app.init({width:innerWidth,height:innerHeight,background:0x061326,antialias:true,resolution:Math.min(devicePixelRatio,2),autoDensity:true,preference:'webgl'});host.append(app.canvas);app.stop();
+const scene=new ShowdownScene(app,false);await scene.load();scene.reset('legendary');
+for(const [title,time] of [['Summon',.75],['Ready',1.5],['Defending',4.2],['Fire Blast',5.72],['Blast Burn',8.52],['Card release',9.3],['Fire release',2.62],['In flight',2.8],['First contact',3.02],['Recoil',3.2],['Compression',3.09],['Final contact',8.63],['Collapse',8.76],['Burst',8.98],['Card flip',10.6],['Coronation',11.4],['Reward',13]]){const b=document.createElement('button');b.textContent=title;b.style='padding:6px;font-size:11px';b.onclick=()=>{scene.reset('legendary');for(let t=0;t<time;t+=1/60)scene.update(t,1/60,false,true,true);scene.update(time,1/60,false,true,true);scene.render();};document.querySelector('nav').append(b);}
+scene.update(-1,1/60,false,false,true);scene.render();
+new ResizeObserver(()=>{app.renderer.resize(host.clientWidth,host.clientHeight);scene.resize();scene.render();}).observe(host);
+</script></body></html>

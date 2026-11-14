@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="256" viewBox="0 0 1024 256">
+<!-- Original vector artwork. Every tile has a fully transparent perimeter. -->
+<g fill="#effaff" stroke="#80b7c5" stroke-width="2" stroke-linejoin="round">
+ <path d="M205 30 C124 40 55 91 49 147 C43 195 102 225 187 222 C122 208 92 187 99 156 C106 118 150 71 205 30Z"/>
+ <path d="M190 54 C139 91 116 119 111 147 C122 108 157 77 190 54Z" fill="#fff" stroke="none"/>
+</g>
+<g transform="translate(256)" fill="#f7fcff" stroke="#80b7c5" stroke-width="2" stroke-linejoin="round">
+ <path d="M34 188 C65 160 68 126 82 91 C103 41 153 34 213 51 C159 52 135 65 124 95 C111 134 110 176 34 188Z"/>
+ <path d="M56 187 C100 160 112 133 120 104 C116 151 94 179 56 187Z" fill="#b4dce4" stroke="none"/>
+</g>
+<g transform="translate(512)" stroke="#7e9da8" stroke-width="3" stroke-linejoin="round">
+ <path d="M24 206 C48 193 43 168 65 162 C49 123 79 102 108 113 C94 75 125 48 159 65 C198 61 213 96 196 124 C231 139 237 182 211 201 C171 225 123 212 91 217 C63 221 43 216 24 206Z" fill="#edf5f3"/>
+ <path d="M108 113 C132 112 145 132 139 149 C159 134 170 109 158 92 M65 162 C84 153 102 166 102 183 M196 124 C180 135 179 153 193 165" fill="none" stroke="#a9c2c7" stroke-width="4" stroke-linecap="round"/>
+ <path d="M29 207 C81 215 79 193 114 196 C148 199 190 205 222 185 C208 221 151 219 114 217 C75 224 45 217 29 207Z" fill="#bed3d6" stroke="none"/>
+</g>
+<g transform="translate(768)" stroke="#7e9da8" stroke-width="3" stroke-linejoin="round">
+ <path d="M21 207 C57 192 62 175 56 158 C45 133 63 111 89 117 C84 82 111 67 137 82 C159 49 201 70 196 103 C225 114 229 147 210 165 C239 194 203 218 174 210 C131 218 84 206 21 207Z" fill="#f7faf5"/>
+ <path d="M89 117 C119 110 136 133 124 156 M137 82 C133 107 149 117 164 110 M210 165 C184 161 175 177 183 188" stroke="#abc4c8" stroke-width="4" stroke-linecap="round" fill="none"/>
+ <path d="M25 206 C78 199 109 207 137 197 C165 189 174 211 214 197 C206 218 176 216 151 211 C108 222 67 207 25 206Z" fill="#c3d7d8" stroke="none"/>
+</g></svg>

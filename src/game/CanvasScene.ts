@@ -13,6 +13,8 @@ import {crowdAnimationLevel,type CrowdLevel} from './crowdReaction';
 /** Only emitter pixels are neutralized; stadium paint and platform shadows keep their original colors. */
 export class CanvasScene {
   private atmosphere=new AnimeAtmosphere();private cinema={amount:0,travel:0};private cinemaTween:gsap.core.Tween|null=null;private travelTween:gsap.core.Tween|null=null;
+  /** 0–1 while the special reveal lens is pushed in; flat focus lines yield to the light effects. */
+  lensFocus=0;
   root=new Container();arena=new Container();private focusShade=new Sprite(Texture.WHITE);
   private contact:Sprite|null=null;private contactTexture:Texture|null=null;
   private background:LivingBackdrop|null=null;private platform:Sprite|null=null;private lights:StageLightRig|null=null;
@@ -41,6 +43,7 @@ export class CanvasScene {
     this.tick(this.lastTime,this.lastReduced,this.lastLow);
   }
   setBoard(state:ArenaBoardState){this.background?.setBoard(state);}
+  setBoardKeepOut(range:[number,number]|null){this.background?.setBoardKeepOut(range);}
   setActive(active:boolean,reduced:boolean){
     if(!active){this.setCinematic(false,reduced);this.endCelebration();this.travelTween?.kill();this.cinema.travel=0;this.impactTween?.kill();this.impactState.amount=0;}if(active===this.active)return;this.active=active;this.chargeLevel=-1;this.animation?.kill();this.arena.visible=active;
     if(active){playSound('stage');this.entrance.amount=reduced?1:0;this.animation=gsap.to(this.entrance,{amount:1,duration:reduced?.01:.8,ease:'power3.out',paused:this.paused});}
@@ -53,6 +56,13 @@ export class CanvasScene {
   setCharge(amount:number|null){this.chargeLevel=amount??-1;}
   beginReveal(reduced:boolean,reaction:CrowdLevel=0){this.reactionLevel=reaction;this.audienceLevel=crowdAnimationLevel(reaction);this.chargeLevel=-1;this.exposureTween?.kill();this.exposureTween=gsap.to(this.exposure,{amount:reduced?1:.45,duration:.18,ease:'power2.out',paused:this.paused});}
   endCelebration(){this.celebrationAge=-1;stopCrowdReaction();}
+  /** Replay clears presentation history while retaining loaded artwork and the active arena. */
+  resetPresentation(){
+    this.endCelebration();this.reactionLevel=0;this.audienceLevel=0;this.chargeLevel=-1;
+    for(const tween of [this.colorTween,this.exposureTween,this.impactTween,this.cinemaTween,this.travelTween])tween?.kill();
+    this.colorTween=this.exposureTween=this.impactTween=this.cinemaTween=this.travelTween=null;
+    this.light.r=140;this.light.g=221;this.light.b=255;this.exposure.amount=1;this.impactState.amount=0;this.cinema.amount=0;this.cinema.travel=0;
+  }
   impact(rare:boolean,reduced:boolean,celebrate=rare){if(celebrate||!rare){if(this.audienceLevel>0&&this.celebrationAge<0)this.celebrationAge=0;playCrowdReaction(this.reactionLevel);}this.chargeLevel=-1;this.exposureTween?.kill();this.exposure.amount=reduced?1:1.2;this.exposureTween=gsap.to(this.exposure,{amount:1,duration:.65,paused:this.paused});this.impactTween?.kill();this.impactState.amount=reduced?0:rare?1:.45;this.impactTween=gsap.to(this.impactState,{amount:0,duration:rare?1.2:.65,ease:'power2.out',paused:this.paused});}
   tick(time:number,reduced:boolean,low:boolean){
     this.lastReduced=reduced;this.lastLow=low;
@@ -63,7 +73,7 @@ export class CanvasScene {
     this.focusShade.alpha=Math.max(this.cinema.amount*.69,this.cinema.travel*.23,this.active?this.entrance.amount*(this.chargeLevel>=0?.12+this.chargeLevel*.38:.09):0);
     this.floodlights.resize(projectFloodlights((u,v)=>this.background!.project(u,v)),this.width/2,this.targetY,this.stageWidth);
     this.floodlights.update(time,this.active?this.entrance.amount:0,this.chargeLevel,this.impactState.amount,this.cinema.travel,this.lightTint,reduced,low);
-    this.atmosphere.update(time,this.cinema.amount,this.impactState.amount*this.cinema.amount,this.cinema.travel,this.lightTint,reduced,low);
+    this.atmosphere.update(time,this.cinema.amount,this.impactState.amount*this.cinema.amount,this.cinema.travel,this.lightTint,reduced,low,1-this.lensFocus*.85);
     if(this.platform){const shade=Math.round(255-this.cinema.amount*72);this.platform.tint=(shade<<16)|(shade<<8)|Math.min(255,shade+12);}
     if(!this.active)return;
     this.arena.alpha=this.entrance.amount;this.arena.y=(1-this.entrance.amount)*18;

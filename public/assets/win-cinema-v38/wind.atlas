@@ -1,0 +1,117 @@
+wind.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame00
+  rotate: false
+  xy: 3,3
+  size: 307,307
+  orig: 307,307
+  offset: 0,0
+  index: -1
+frame01
+  rotate: false
+  xy: 316,3
+  size: 308,307
+  orig: 308,307
+  offset: 0,0
+  index: -1
+frame02
+  rotate: false
+  xy: 630,3
+  size: 307,307
+  orig: 307,307
+  offset: 0,0
+  index: -1
+frame03
+  rotate: false
+  xy: 943,3
+  size: 308,307
+  orig: 308,307
+  offset: 0,0
+  index: -1
+frame04
+  rotate: false
+  xy: 3,316
+  size: 307,308
+  orig: 307,308
+  offset: 0,0
+  index: -1
+frame05
+  rotate: false
+  xy: 316,316
+  size: 308,308
+  orig: 308,308
+  offset: 0,0
+  index: -1
+frame06
+  rotate: false
+  xy: 630,316
+  size: 307,308
+  orig: 307,308
+  offset: 0,0
+  index: -1
+frame07
+  rotate: false
+  xy: 943,316
+  size: 308,308
+  orig: 308,308
+  offset: 0,0
+  index: -1
+frame08
+  rotate: false
+  xy: 3,630
+  size: 307,307
+  orig: 307,307
+  offset: 0,0
+  index: -1
+frame09
+  rotate: false
+  xy: 316,630
+  size: 308,307
+  orig: 308,307
+  offset: 0,0
+  index: -1
+frame10
+  rotate: false
+  xy: 630,630
+  size: 307,307
+  orig: 307,307
+  offset: 0,0
+  index: -1
+frame11
+  rotate: false
+  xy: 943,630
+  size: 308,307
+  orig: 308,307
+  offset: 0,0
+  index: -1
+frame12
+  rotate: false
+  xy: 3,943
+  size: 307,308
+  orig: 307,308
+  offset: 0,0
+  index: -1
+frame13
+  rotate: false
+  xy: 316,943
+  size: 308,308
+  orig: 308,308
+  offset: 0,0
+  index: -1
+frame14
+  rotate: false
+  xy: 630,943
+  size: 307,308
+  orig: 307,308
+  offset: 0,0
+  index: -1
+frame15
+  rotate: false
+  xy: 943,943
+  size: 308,308
+  orig: 308,308
+  offset: 0,0
+  index: -1

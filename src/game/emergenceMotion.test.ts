@@ -7,9 +7,14 @@ it('forms at the aperture and lands with a continuous foot anchor rather than sc
  for(let i=1;i<=100;i++){const p=emergencePose(i/100,source,target,true);expect(Math.abs(p.y-previous.y)).toBeLessThan(5);expect(p.scale).toBeGreaterThanOrEqual(previous.scale);expect(p.y+154*p.scale).toBeLessThanOrEqual(219.001);previous=p;}
  expect(previous).toMatchObject({x:0,y:65,scale:1,alpha:1,white:0,shell:0});
 });
-it('starts the award while the Pokémon forms and before its attack sequence',()=>{
+it('starts the cinematic only after the body has fully formed, during charge',()=>{
  const t=emergenceTiming(2.4,1.1,.8,1.2,.4);
- expect(t.form).toBeGreaterThan(2.55);expect(t.win-t.form).toBeLessThan(.5);expect(t.win).toBeLessThan(t.charge);expect(t.attack).toBeGreaterThan(t.charge);expect(t.recoverEnd).toBeGreaterThan(t.attackEnd);
+ expect(t.form).toBeGreaterThan(2.55);expect(t.win).toBeGreaterThan(t.form+1.1);expect(t.win).toBeGreaterThanOrEqual(t.charge);expect(t.win).toBeLessThan(t.attack);expect(t.attack).toBeGreaterThan(t.charge);expect(t.recoverEnd).toBeGreaterThan(t.attackEnd);
 });
 
 it('moves monotonically from the real aperture to the centered body',()=>{let last=-40;for(let i=0;i<=100;i++){const pose=emergencePose(i/100,{x:-40,y:160},{x:0,y:65},true);expect(pose.x).toBeGreaterThanOrEqual(last);expect(pose.x).toBeLessThanOrEqual(0);last=pose.x;}expect(ballAperture({x:30,y:200,scale:.72,rotation:.2})).toEqual({x:30,y:200});expect(ballAperture({x:30,y:200,scale:.5,rotation:Math.PI/2},{x:10,y:0}).y).toBeCloseTo(205);});
+it('finishes body growth and white conversion early enough to show the native landing pose',()=>{
+ const pose=emergencePose(.62,{x:0,y:160},{x:0,y:65},true);
+ expect(pose.scale).toBe(1);expect(pose.white).toBe(0);
+ expect(emergencePose(.8,{x:0,y:160},{x:0,y:65},true).scale).toBe(1);
+});

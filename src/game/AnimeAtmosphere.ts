@@ -8,7 +8,7 @@ export class AnimeAtmosphere {
   this.texture=Texture.from(canvas);this.vignette=new Sprite(this.texture);this.root.addChild(this.vignette,this.lines);this.root.eventMode='none';
  }
  resize(w:number,h:number){this.w=w;this.h=h;this.vignette.width=w;this.vignette.height=h;}
- update(time:number,amount:number,pulse:number,travel:number,color:number,reduced:boolean,low:boolean){
+ update(time:number,amount:number,pulse:number,travel:number,color:number,reduced:boolean,low:boolean,lines=1){
   this.root.visible=amount>.001||travel>.001;if(!this.root.visible)return;
   this.vignette.alpha=Math.max(amount,travel*.65);const g=this.lines.clear();if(reduced)return;
   const cx=this.w/2,cy=this.h*.44,count=low?14:28,diagonal=Math.hypot(this.w,this.h);
@@ -21,7 +21,7 @@ export class AnimeAtmosphere {
   if(pulse>.48){const a=(pulse-.48)/.52,r=diagonal*.34;for(let i=0;i<6;i++){const angle=i*Math.PI/3+.15,dx=Math.cos(angle),dy=Math.sin(angle),nx=-dy,ny=dx;g.poly([cx+dx*r+nx*12,cy+dy*r*.7+ny*12,cx+dx*diagonal,cy+dy*diagonal*.7,cx+dx*r-nx*4,cy+dy*r*.7-ny*4]).fill({color:0x030c26,alpha:a*.45});}}
   for(let i=0;i<count;i++){
    const a=i/count*Math.PI*2+.018*Math.sin(i*17),s=(time*(travel>0?1.8:.6)+i*.173)%1;
-   const inner=diagonal*(.19+s*.08),outer=inner+diagonal*(.12+.12*(i%3)/2),width=(i%4===0?3:1.2)*(1+travel*1.5),alpha=(.055+Math.sin(s*Math.PI)*.13)*amount+pulse*.25+travel*.28;
+   const inner=diagonal*(.19+s*.08),outer=inner+diagonal*(.12+.12*(i%3)/2),width=(i%4===0?3:1.2)*(1+travel*1.5),alpha=((.055+Math.sin(s*Math.PI)*.13)*amount+pulse*.25)*lines+travel*.28;
    const dx=Math.cos(a),dy=Math.sin(a),x=cx+dx*inner,y=cy+dy*inner*.75;
    g.poly([x-dy*width,y+dx*width,cx+dx*outer,cy+dy*outer*.75,x+dy*width,y-dx*width]).fill({color:i%3?color:0xd8edff,alpha});
   }

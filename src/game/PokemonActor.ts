@@ -7,8 +7,8 @@ export {disposePokemonRenderer};
 /** A real skeletal model rendered into the 2.5D scene. Unavailable models use intact art. */
 export class PokemonActor extends Container {
  private portrait:Sprite;private model:PokemonModel|null;private preferredSpan:number;
- static async create(path:string,low:boolean){
-  let model:PokemonModel|null=null;try{model=await createPokemonModel(path,low);}catch(error){console.warn('Animated model unavailable',error);}
+ static async create(path:string,low:boolean,viewYaw?:number){
+  let model:PokemonModel|null=null;try{model=await createPokemonModel(path,low,viewYaw);}catch(error){console.warn('Animated model unavailable',error);}
   const texture=model?.texture??await Assets.load<Texture>(path);return new PokemonActor(texture,model,path);
  }
  private constructor(texture:Texture,model:PokemonModel|null,_path:string){super();this.model=model;this.portrait=new Sprite(texture);this.portrait.anchor.set(.5);const span=model?pokemonFrameSpan(model.bodyHeight,model.frameWidth,model.horizontalAnchor,900):435;this.preferredSpan=span;const ratio=texture.width/texture.height;this.portrait.width=ratio>=1?span:span*ratio;this.portrait.height=ratio>=1?span/ratio:span;if(model){this.portrait.y=154-model.groundY*this.portrait.height/2;this.portrait.x=-model.horizontalAnchor*this.portrait.width/2;}this.addChild(this.portrait);}
@@ -16,11 +16,14 @@ export class PokemonActor extends Container {
  get entranceDuration(){return this.model?.entranceDuration??.68;}
  get attackDuration(){return this.model?.attackDuration??.9;}
  get recoveryDuration(){return this.model?.recoveryDuration??.35;}
+ get attackTime(){return this.model?.attackTime??0;}
  get chargeDuration(){return this.model?.chargeDuration??.65;}
  play(cue:'emerge'|'idle'|'charge'|'attack'|'recover'){this.model?.play(cue);}
+ setContinuousRendering(enabled:boolean){this.model?.setContinuousRendering(enabled);}
  capturePose(){this.model?.capturePose();}
  setEntranceTime(seconds:number){this.model?.setEntranceTime(seconds);}
  setAttackTime(seconds:number){this.model?.setAttackTime(seconds);}
+ setHitReaction(amount:number,power=1){this.model?.setHitReaction(amount,power);}
  setEnergy(color:number,amount:number){this.model?.setEnergy(color,amount);}
  update(dt:number){this.model?.update(dt);}
  powerEmitters(profile:PowerProfile):ProjectedEmitter[]{

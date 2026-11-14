@@ -33,7 +33,14 @@ export class StadiumDisplay {
   // A completed pack must update immediately, while retaining its scroll phase.
   this.tick(this.lastTime,this.reduced,this.low);
  }
- setViewport(minU:number,maxU:number){for(const [i,bay] of this.bays.entries())bay.window=screenTextWindow(i as 0|1,minU,maxU);}
+ private view:[number,number]=[0,1];private keepOut:[number,number]|null=null;private blank=false;
+ /** With no free room beside what stands in front of it, the board shows its grid and no lettering. */
+ setBlank(value:boolean){if(value===this.blank)return;this.blank=value;this.tick(this.lastTime,this.reduced,this.low);}
+ setViewport(minU:number,maxU:number){this.view=[minU,maxU];this.applyWindows();}
+ /** While controls stand in front of the board, its lettering stops running and sits in the free part of each bay, clear of them.
+  * `null` lets it run again. */
+ setKeepOut(zone:[number,number]|null){if(zone?.[0]===this.keepOut?.[0]&&zone?.[1]===this.keepOut?.[1])return;this.keepOut=zone;this.applyWindows();this.tick(this.lastTime,this.reduced,this.low);}
+ private applyWindows(){const [minU,maxU]=this.view,zone=this.keepOut;for(const [i,bay] of this.bays.entries())bay.window=zone?screenTextWindow(i as 0|1,i?Math.max(minU,zone[1]):minU,i?maxU:Math.min(maxU,zone[0])):screenTextWindow(i as 0|1,minU,maxU);}
  private caption(x:CanvasRenderingContext2D,[title,detail]:RibbonCaption,center:number,available:number){
   x.textAlign='center';x.textBaseline='middle';x.font='900 47px Nunito';const measured=x.measureText(title).width;if(measured>available)x.font=`900 ${47*available/measured}px Nunito`;
   x.shadowColor='#75f8ff';x.shadowBlur=18;x.fillStyle='#65eeff';x.globalAlpha=.55;x.fillText(title,center-1.5,(detail?49:64)+1);x.globalAlpha=1;x.fillStyle='#edffff';x.fillText(title,center,detail?49:64);x.shadowBlur=0;
@@ -57,11 +64,13 @@ export class StadiumDisplay {
   });
  }
  warp(shift:number){this.bays.forEach((bay,side)=>bay.meshes.forEach(mesh=>{const buffer=mesh.geometry.getBuffer('aPosition');for(let row=0;row<7;row++)for(let col=0;col<49;col++){const p=wallScreenPoint(side as 0|1,col/48,row/6),i=(row*49+col)*2;buffer.data[i]=p.u*this.width;buffer.data[i+1]=p.v*this.height+shift*groundWarp(p.v);}buffer.update();}));}
- tick(time:number,reduced:boolean,low:boolean){
-  const dt=Math.min(.05,Math.max(0,time-this.lastTime));this.lastTime=time;this.reduced=reduced;this.low=low;
+ tick(time:number,motionReduced:boolean,low:boolean){
+  const dt=Math.min(.05,Math.max(0,time-this.lastTime));this.lastTime=time;this.reduced=motionReduced;this.low=low;
+  // Held still while something stands in front of it, exactly as it is for reduced motion.
+  const reduced=motionReduced||!!this.keepOut||this.blank;
   const span=Math.max(.22,Math.min(...this.bays.map(bay=>bay.window.span))),count=this.captions.length;
   this.offset=advanceRibbonOffset(this.offset,dt,span,count,reduced);
-  const staticLines=reduced?arenaMessages(this.state,0):null;
+  const staticLines=reduced?(this.blank?['','','',''] as const:arenaMessages(this.state,0)):null;
   for(const [i,bay] of this.bays.entries()){
    const captions:RibbonCaption[]=staticLines?[[staticLines[i*2],staticLines[i*2+1]]]:this.captions;
    const key=JSON.stringify([captions,reduced,reduced?bay.window:span]);

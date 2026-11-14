@@ -1,0 +1,13 @@
+{
+  "tool": "image_gen",
+  "parts": [
+    {
+      "file": "reward-wave-a.png",
+      "prompt": "Use case illustration-story. High-quality game VFX animation sprite sheet, part A of a 32-frame sequence: sixteen consecutive DIFFERENT anime frames in exact uniform 4x4 grid. Square 2048x2048 canvas. Real transparent alpha background. Legendary ocean creature huge reward reveal, powerful hand-drawn anime sakuga ocean energy: cobalt and navy inked curling water, ivory foam, restrained turquoise energy accents. In each square cell the middle 40% width and 60% height stays empty/transparent for a trading card. Sequence from anticipation to full-screen eruption: 1 small two curling crescents bottom; 2-4 a braided twisting updraft rises behind empty center; 5-8 wave crests climb both sides, drawing sharp expressive curves; 9-12 a violent circular pressure wave surges outward toward all four screen corners; 13-16 large arcing foam crescents and elongated tapered water streaks around perimeter, at maximum expansion, epic full-screen scale. Intricate crisp ink outlines and convincing volumes, not neon glow. Every frame complete with 8% transparent gutter within its own cell, no clipping or artwork crossing cells. Middle stays clear. NO cards, pokemon, symbols, text, stars, sparkles, lens flares, shine rays, geometric UI. Frame16 is a fully expanded ocean-pressure crown to continue in next sheet."
+    },
+    {
+      "file": "reward-wave-b.png",
+      "prompt": "Create PART B of the attached anime ocean-pressure animation sprite sheet: the NEXT sixteen DIFFERENT consecutive frames in an exact 4x4 equal grid, same palette, same inked foam detail, same center registration. Actual transparent alpha background. Start frame1 from the last frame of the reference: ocean energy just exploded outward around a large empty central opening. Frames1-4 strong outward curling pressure strokes at all corners, waves tearing into elegantly tapered inked sprays. Frames5-8 crests travel toward perimeter; foam curls break naturally into droplets, action stays around edges. Frames9-12 intensity decreases into long peripheral swirls and falling droplets. Frames13-16 end with thin curling side wisps and sparse droplets, nearly empty final frame. Keep central 42% width by 60% height completely transparent, no central object. Strong anime action drawing, no shiny sparkles, stars, lens rays or haze. Do not draw grid separators or background. Each effect must fit its cell without bleeding into neighbours. No text, cards or characters. This is frames17-32 of one continuous game effect, not sixteen variations."
+    }
+  ]
+}

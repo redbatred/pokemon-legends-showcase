@@ -1,0 +1,117 @@
+mewtwo-conversion.png
+size: 1254,1254
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame00
+  rotate: false
+  xy: 0,0
+  size: 313,313
+  orig: 313,313
+  offset: 0,0
+  index: -1
+frame01
+  rotate: false
+  xy: 313,0
+  size: 314,313
+  orig: 314,313
+  offset: 0,0
+  index: -1
+frame02
+  rotate: false
+  xy: 627,0
+  size: 313,313
+  orig: 313,313
+  offset: 0,0
+  index: -1
+frame03
+  rotate: false
+  xy: 940,0
+  size: 314,313
+  orig: 314,313
+  offset: 0,0
+  index: -1
+frame04
+  rotate: false
+  xy: 0,313
+  size: 313,314
+  orig: 313,314
+  offset: 0,0
+  index: -1
+frame05
+  rotate: false
+  xy: 313,313
+  size: 314,314
+  orig: 314,314
+  offset: 0,0
+  index: -1
+frame06
+  rotate: false
+  xy: 627,313
+  size: 313,314
+  orig: 313,314
+  offset: 0,0
+  index: -1
+frame07
+  rotate: false
+  xy: 940,313
+  size: 314,314
+  orig: 314,314
+  offset: 0,0
+  index: -1
+frame08
+  rotate: false
+  xy: 0,627
+  size: 313,313
+  orig: 313,313
+  offset: 0,0
+  index: -1
+frame09
+  rotate: false
+  xy: 313,627
+  size: 314,313
+  orig: 314,313
+  offset: 0,0
+  index: -1
+frame10
+  rotate: false
+  xy: 627,627
+  size: 313,313
+  orig: 313,313
+  offset: 0,0
+  index: -1
+frame11
+  rotate: false
+  xy: 940,627
+  size: 314,313
+  orig: 314,313
+  offset: 0,0
+  index: -1
+frame12
+  rotate: false
+  xy: 0,940
+  size: 313,314
+  orig: 313,314
+  offset: 0,0
+  index: -1
+frame13
+  rotate: false
+  xy: 313,940
+  size: 314,314
+  orig: 314,314
+  offset: 0,0
+  index: -1
+frame14
+  rotate: false
+  xy: 627,940
+  size: 313,314
+  orig: 313,314
+  offset: 0,0
+  index: -1
+frame15
+  rotate: false
+  xy: 940,940
+  size: 314,314
+  orig: 314,314
+  offset: 0,0
+  index: -1

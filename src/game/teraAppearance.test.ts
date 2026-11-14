@@ -2,11 +2,11 @@ import {expect,it} from 'vitest';
 import {Bone,Box3,BoxGeometry,DataTexture,Group,Mesh,MeshStandardMaterial,Texture,Vector3} from 'three';
 import {attachTeraCrown,pokemonBoneName,teraMaterial} from './teraAppearance';
 
-it('keeps the original skin and face textures while giving the body a reflective crystal surface',()=>{
+it('keeps textured cel-shaded skin and reserves the crystal surface for the crown',()=>{
  const map=new Texture(),normalMap=new Texture(),source=new MeshStandardMaterial({name:'body',map,normalMap});
  const result=teraMaterial(source,new DataTexture(),false);
- expect(result.type).toBe('MeshPhysicalMaterial');expect(result.map).toBe(map);expect(result.normalMap).toBe(normalMap);
- expect((result as any).clearcoat).toBe(1);expect((result as any).flatShading).toBe(true);expect(result.opacity).toBe(1);
+ expect(result.type).toBe('MeshToonMaterial');expect(result.map).toBe(map);expect(result.normalMap).toBe(normalMap);
+ expect((result as any).clearcoat).toBeUndefined();expect(result.opacity).toBe(1);
  const eye=teraMaterial(new MeshStandardMaterial({name:'Eye',map}),new DataTexture(),false);
  expect(eye.type).toBe('MeshToonMaterial');expect(eye.map).toBe(map);
  expect(teraMaterial(new MeshStandardMaterial({name:'Material #218',map}),new DataTexture(),false,'tyranitar').type).toBe('MeshToonMaterial');

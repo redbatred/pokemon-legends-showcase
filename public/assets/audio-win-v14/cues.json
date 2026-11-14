@@ -1,0 +1,194 @@
+{
+ "win-puncture": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-puncture.wav"
+  },
+  "duration": 0.6,
+  "gain": 0.5,
+  "peakDbfs": -3.5
+ },
+ "win-gather": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-gather.wav"
+  },
+  "duration": 0.62,
+  "gain": 0.42,
+  "peakDbfs": -3.5
+ },
+ "win-bloom": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-bloom.mp3"
+  },
+  "duration": 1.5,
+  "gain": 0.5,
+  "peakDbfs": -3.5
+ },
+ "win-land": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-land.wav"
+  },
+  "duration": 0.6,
+  "gain": 0.52,
+  "peakDbfs": -3.5
+ },
+ "win-charge": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-charge.mp3"
+  },
+  "duration": 1.08,
+  "gain": 0.44,
+  "peakDbfs": -3.5
+ },
+ "win-launch": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-launch.wav"
+  },
+  "duration": 0.45,
+  "gain": 0.36,
+  "peakDbfs": -3.5
+ },
+ "win-flood": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-flood.mp3"
+  },
+  "duration": 2.3,
+  "gain": 0.56,
+  "peakDbfs": -3.5
+ },
+ "win-return": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-return.mp3"
+  },
+  "duration": 1,
+  "gain": 0.4,
+  "peakDbfs": -3.5
+ },
+ "win-tick": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-tick.wav"
+  },
+  "duration": 0.11,
+  "gain": 0.26,
+  "peakDbfs": -5
+ },
+ "win-strike-1": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-strike-1.wav"
+  },
+  "duration": 0.795,
+  "gain": 0.5,
+  "peakDbfs": -3.5
+ },
+ "win-strike-2": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-strike-2.wav"
+  },
+  "duration": 0.9,
+  "gain": 0.54,
+  "peakDbfs": -3.5
+ },
+ "win-strike-3": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-strike-3.wav"
+  },
+  "duration": 1.022,
+  "gain": 0.58,
+  "peakDbfs": -3.5
+ },
+ "win-coins-1": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-coins-1.mp3"
+  },
+  "duration": 1.9,
+  "gain": 0.39,
+  "peakDbfs": -3.5
+ },
+ "win-coins-2": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-coins-2.mp3"
+  },
+  "duration": 1.9,
+  "gain": 0.42,
+  "peakDbfs": -3.5
+ },
+ "win-coins-3": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-coins-3.mp3"
+  },
+  "duration": 1.9,
+  "gain": 0.45,
+  "peakDbfs": -3.5
+ },
+ "win-rung-1": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-rung-1.mp3"
+  },
+  "duration": 1.3,
+  "gain": 0.5,
+  "peakDbfs": -3.5
+ },
+ "win-rung-2": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-rung-2.mp3"
+  },
+  "duration": 1.3,
+  "gain": 0.5,
+  "peakDbfs": -3.5
+ },
+ "win-rung-3": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-rung-3.mp3"
+  },
+  "duration": 1.3,
+  "gain": 0.5,
+  "peakDbfs": -3.5
+ },
+ "win-final-1": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-final-1.mp3"
+  },
+  "duration": 2.55,
+  "gain": 0.58,
+  "peakDbfs": -3.5
+ },
+ "win-final-2": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-final-2.mp3"
+  },
+  "duration": 2.8,
+  "gain": 0.58,
+  "peakDbfs": -3.5
+ },
+ "win-final-3": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-final-3.mp3"
+  },
+  "duration": 3.05,
+  "gain": 0.58,
+  "peakDbfs": -3.5
+ },
+ "win-final-4": {
+  "files": {
+   "mp3": "/assets/audio-win-v14/win-final-4.mp3"
+  },
+  "duration": 3.3,
+  "gain": 0.58,
+  "peakDbfs": -3.5
+ },
+ "win-stamp": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-stamp.wav"
+  },
+  "duration": 1,
+  "gain": 0.46,
+  "peakDbfs": -3.5
+ },
+ "win-glint": {
+  "files": {
+   "wav": "/assets/audio-win-v14/win-glint.wav"
+  },
+  "duration": 1.2,
+  "gain": 0.44,
+  "peakDbfs": -3.5
+ }
+}

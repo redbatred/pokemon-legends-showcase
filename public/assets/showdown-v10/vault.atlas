@@ -1,0 +1,58 @@
+jet.png
+size: 2172,724
+filter: Linear,Linear
+pma: false
+jet
+  bounds: 65,10,2070,700
+
+ward.png
+size: 1254,1254
+filter: Linear,Linear
+pma: false
+ward
+  bounds: 150,20,960,1234
+
+summon.png
+size: 1254,1254
+filter: Linear,Linear
+pma: false
+summon
+  bounds: 200,60,850,1190
+
+reward.png
+size: 1254,1254
+filter: Linear,Linear
+pma: false
+reward
+  bounds: 0,0,1254,1254
+
+shadow.png
+size: 1254,1254
+filter: Linear,Linear
+pma: false
+shadow
+  bounds: 70,560,1110,220
+
+effects.png
+size: 1254,1254
+filter: Linear,Linear
+pma: false
+bloom
+  bounds: 645,0,609,370
+wisp
+  bounds: 640,385,614,380
+
+support.png
+size: 1536,1024
+filter: Linear,Linear
+pma: false
+portal
+  bounds: 0,0,512,512
+fog
+  bounds: 512,0,512,512
+ball
+  bounds: 0,512,512,512
+flare
+  bounds: 512,512,512,512
+clasp
+  bounds: 1024,512,512,512

@@ -1,0 +1,7 @@
+{
+  "character": "Cynthia",
+  "purpose": "Contextual anime guide for the frontend capture preview",
+  "art": {"tool":"Built-in image_gen", "source":"exec-6cbcb574-f0f4-43ea-9d04-4a30d15e8c7e.png", "prompt":"Transparent 4 by 4 registered animation cels of Cynthia, waist-up facing right, Pokémon anime cel linework. Frames: neutral, half blink, closed blink, reopen; small/wide/narrow/closed speech; raise hand, open-palm gesture, hold, retract; smile, smiling speech, nod, return. Stable scale, pose registration and clean two-tone shading, no text or effects."},
+  "animation": "Spine 4.2 attachment tracks, mouth frames driven by a 50 Hz RMS envelope from each spoken line; no voice cloning",
+  "voice": {"type":"Original synthetic performance, not the anime actor", "engine":"Microsoft Jenny Neural", "rate":"+8%", "pitch":"-2Hz", "dialogue":"Original short lines; not quotations from the anime"}
+}

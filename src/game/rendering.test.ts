@@ -44,3 +44,19 @@ it('reserves a readable price below each tray card without clipping it on short 
   expect(tray.y).toBeGreaterThanOrEqual(gameLayout(w,h,true).dockTop);
  }
 });
+
+it('keeps the complete first and last slot borders inside the tray mask',()=>{
+ for(const [w,h] of [[360,540],[390,844],[720,960],[1280,720]])for(const index of [0,10]){
+  const t=cardTrayLayout(w,h,index),slot=t.slot(index);
+  expect(slot.x-t.cardWidth/2-4.25).toBeGreaterThanOrEqual(t.viewportX);
+  expect(slot.x+t.cardWidth/2+4.25).toBeLessThanOrEqual(t.viewportX+t.viewportWidth);
+ }
+});
+
+it('shows whole card slots at settled row positions instead of half question marks',()=>{
+ for(const [w,h] of [[360,540],[390,844],[720,960],[1280,720]])for(let index=0;index<11;index++){
+  const t=cardTrayLayout(w,h,index);
+  expect(t.viewportWidth/t.stride).toBeCloseTo(Math.round(t.viewportWidth/t.stride));
+  expect(t.offset/t.stride).toBeCloseTo(Math.round(t.offset/t.stride));
+ }
+});

@@ -1,0 +1,56 @@
+jet.png
+size: 2172,724
+filter: Linear,Linear
+pma: false
+jet
+  bounds: 156,87,1908,542
+
+psychic.png
+size: 1024,1536
+filter: Linear,Linear
+pma: false
+ward
+  bounds: 42,10,413,491
+portal
+  bounds: 42,10,413,491
+wisp
+  bounds: 543,43,457,435
+summon
+  bounds: 48,516,413,482
+shock
+  bounds: 517,519,504,481
+bloom
+  bounds: 9,1066,492,391
+flare
+  bounds: 613,1098,306,332
+
+support.png
+size: 1254,1254
+filter: Linear,Linear
+pma: false
+water
+  bounds: 40,257,549,134
+fog
+  bounds: 40,257,549,134
+rock
+  bounds: 773,185,332,282
+ball
+  bounds: 120,745,387,402
+clasp
+  bounds: 120,745,387,402
+speed
+  bounds: 649,651,582,580
+
+reward.png
+size: 1254,1254
+filter: Linear,Linear
+pma: false
+reward
+  bounds: 0,0,1254,1254
+
+shadow.png
+size: 1254,1254
+filter: Linear,Linear
+pma: false
+shadow
+  bounds: 128,586,994,169

@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "target": "lugia-conversion.png",
+  "source": "../capture-motion-v21/assets/lugia-conversion.png",
+  "generated_files": [
+    "~/.codex/generated_images/01a1bfb1-a2cb-7f60-b9d7-5103369a04dd/exec-2d1b28e5-bb1f-4b8b-a9ed-8123e95284e3.png",
+    "~/.codex/generated_images/01a1bfb1-a2cb-7f60-b9d7-5103369a04dd/exec-3082c904-ae4d-43ec-91b7-3cdc341075d0.png"
+  ],
+  "brief": "Preserve the 4x4 sheet layout and first pose. Convert wing tips and tail into thin connected cyan currents, keep shaded anatomy longer, progressively convert torso; no shrinking silhouette or wide white ribbons. Second pass removes diffuse background haze while preserving positions and fine cyan lines. Both requested transparent output.",
+  "final_edit_prompt": "Background extraction only. Keep every Lugia and every narrow cyan energy line in this existing 16-frame sprite sheet in precisely the same pixel position and scale, preserve the 1774 by 887 image dimensions and 4x4 cell grid. Remove all white/gray/blue background haze between and behind the figures so it is truly zero alpha, including the faint semi-transparent gray wash covering most of the image. Keep crisp opaque character ink and shaded anatomy, keep only tightly bounded fine cyan energy lines with small local glow. No repainting, no rearrangement, no pose changes, no added content. The space around each isolated sprite must be fully transparent, not tinted white. This is an atlas texture, every sprite must be isolated."
+}

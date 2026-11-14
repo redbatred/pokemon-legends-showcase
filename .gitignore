@@ -1,7 +1,15 @@
 node_modules/
+# Also when it is a link to a shared install.
+node_modules
 dist/
 .DS_Store
 *.tsbuildinfo
-output/
+# Scratch renders stay local. The capture bonus scene is the exception: the game embeds it and the build ships it
+# (see vite.config.ts and its ship.json), so its source, art and sound are tracked; its review renders are not.
+output/*
+!output/capture-motion-v25/
+output/capture-motion-v25/videos/
+output/capture-motion-v25/review/
+output/capture-motion-v25/recordings/
 .site-workflow/
 source-assets/

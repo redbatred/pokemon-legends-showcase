@@ -1,11 +1,11 @@
 import {beforeEach,afterEach,expect,it,vi} from 'vitest';
 const boot=vi.hoisted(()=>({assets:vi.fn(async()=>{}),frame:vi.fn(async()=>{})}));
 vi.mock('./Stage',()=>({OpeningStage:class{
- prepareFirstFrame=boot.frame;setAutomatic=vi.fn();
+ prepareFirstFrame=boot.frame;setAutomatic=vi.fn();setShowdownOpening=vi.fn();
  init=vi.fn(async()=>{});setPack=vi.fn(async()=>{});setSealed=vi.fn();waitForReveal=vi.fn();prepareReveal=vi.fn();skipReveal=vi.fn();
  tear=vi.fn(async()=>{});reveal=vi.fn(async()=>{});collectRemaining=vi.fn(async()=>{});showResult=vi.fn();reset=vi.fn();updateOptions=vi.fn();destroy=vi.fn();
 }}));
-vi.mock('./CanvasUI',()=>({CanvasUI:class{prepareAssets=boot.assets;beginAutoPackTransition=vi.fn();update=vi.fn();destroy=vi.fn();setFocus=vi.fn();}}));
+vi.mock('./CanvasUI',()=>({CanvasUI:class{waitForWinRecovery=vi.fn(async()=>{});prepareAssets=boot.assets;beginAutoPackTransition=vi.fn();update=vi.fn();destroy=vi.fn();setFocus=vi.fn();}}));
 vi.mock('./storage',()=>({loadSave:vi.fn(),transactSave:vi.fn(),resetSave:vi.fn()}));
 vi.mock('./audio',()=>({setSound:vi.fn(),setBattleMusic:vi.fn(),playSound:vi.fn(),setAudioScenePaused:vi.fn(),destroyAudio:vi.fn(),preloadRevealAudio:vi.fn(async()=>{}),unlockAudio:vi.fn()}));
 vi.mock('pixi.js',()=>({Assets:{load:vi.fn(async()=>{})}}));
@@ -14,7 +14,7 @@ import {DEFAULT_PACK,newSave,type Save} from './model';
 const games:PokemonGame[]=[];
 beforeEach(()=>{
  boot.assets.mockReset().mockResolvedValue();boot.frame.mockReset().mockResolvedValue();
- vi.useFakeTimers();
+ vi.useFakeTimers();vi.spyOn(Math,'random').mockReturnValue(.99);
  vi.stubGlobal('matchMedia',()=>({matches:false}));vi.stubGlobal('localStorage',{getItem:()=>null,setItem:vi.fn()});
  vi.stubGlobal('document',{hidden:false,createElement:()=>({className:'',setAttribute:vi.fn(),remove:vi.fn()}),addEventListener:vi.fn(),removeEventListener:vi.fn(),fonts:{load:async()=>{}}});
  vi.stubGlobal('window',{setTimeout:globalThis.setTimeout});
@@ -24,18 +24,47 @@ it('keeps startup pending until pack artwork and the first rendered scene are re
  let assetsReady!:()=>void,frameReady!:()=>void,finished=false;
  boot.assets.mockImplementation(()=>new Promise<void>(resolve=>assetsReady=resolve));
  boot.frame.mockImplementation(()=>new Promise<void>(resolve=>frameReady=resolve));
- const game=new PokemonGame({append:vi.fn()} as unknown as HTMLElement,{loadSave:async()=>newSave(),transactSave:vi.fn(),resetSave:vi.fn()});games.push(game);
+ const game=new PokemonGame({append:vi.fn(),addEventListener:vi.fn(),removeEventListener:vi.fn()} as unknown as HTMLElement,{loadSave:async()=>newSave(),transactSave:vi.fn(),resetSave:vi.fn()});games.push(game);
  const loading=game.init().then(()=>finished=true);await vi.advanceTimersByTimeAsync(1);
  expect(finished).toBe(false);assetsReady();await vi.advanceTimersByTimeAsync(1);expect(finished).toBe(false);
  frameReady();await loading;expect(finished).toBe(true);
 });
-afterEach(()=>{games.forEach(g=>g.destroy());games.length=0;vi.useRealTimers();vi.unstubAllGlobals();});
+afterEach(()=>{games.forEach(g=>g.destroy());games.length=0;vi.useRealTimers();vi.restoreAllMocks();vi.unstubAllGlobals();});
 async function setup(balance=1000000){
  let save:Save={...newSave(),balance};
  const storage={loadSave:async()=>save,transactSave:vi.fn(async(update:(s:Save)=>Save)=>(save=update(save))),resetSave:async()=>(save=newSave())};
- const game=new PokemonGame({append:vi.fn()} as unknown as HTMLElement,storage);games.push(game);await game.init();
+ const game=new PokemonGame({append:vi.fn(),addEventListener:vi.fn(),removeEventListener:vi.fn()} as unknown as HTMLElement,storage);games.push(game);await game.init();
  return {game,storage,state:game as any,save:()=>save};
 }
+it('opens the Showdown buy preview without reserving a pack',async()=>{
+ const {game,state,storage}=await setup();const open=vi.spyOn(state,'openShowdown').mockResolvedValue(undefined);
+ game.action('showdown' as any);expect(open).toHaveBeenCalledWith('buy');expect(storage.transactSave).not.toHaveBeenCalled();
+});
+it('qualifies from three stored symbols, never from the number of completed packs',async()=>{
+ const {game,state,save}=await setup();const open=vi.spyOn(state,'openShowdown').mockResolvedValue(undefined);
+ for(let n=0;n<4;n++){
+  if(n===3)state.showdownArmed=true;
+  game.action('open');await vi.advanceTimersByTimeAsync(1);
+  expect(save().active?.showdownSymbols?.length).toBe(n===3?3:0);
+  game.action('tear');await vi.advanceTimersByTimeAsync(1);game.action('all');await vi.advanceTimersByTimeAsync(1);
+  expect(state.phase).toBe('complete');expect(open).toHaveBeenCalledTimes(n===3?1:0);
+  if(n<3)game.action('continue');
+ }
+ expect(open).toHaveBeenCalledWith('trigger');
+});
+it('defers a discovered Showdown until the covering panel closes',async()=>{
+ const {game,state}=await setup();const open=vi.spyOn(state,'openShowdown').mockResolvedValue(undefined);
+ state.showdownArmed=true;
+ game.action('open');await vi.advanceTimersByTimeAsync(1);game.action('tear');await vi.advanceTimersByTimeAsync(1);
+ game.action('all');game.action('settings');await vi.advanceTimersByTimeAsync(1);
+ expect(state.phase).toBe('complete');expect(open).not.toHaveBeenCalled();expect(state.showdownPending).toBe(true);expect(state.showdownArmed).toBe(false);
+ game.action('close');expect(open).toHaveBeenCalledWith('trigger');
+});
+it('holds underlying game actions while the Showdown is loading or visible',async()=>{
+ const {game,state,storage}=await setup();state.showdownLoading=true;game.action('open');game.action('settings');
+ expect(storage.transactSave).not.toHaveBeenCalled();expect(state.panel).toBeNull();
+ state.showdownLoading=false;state.showdown={destroy:vi.fn()};game.action('open');expect(storage.transactSave).not.toHaveBeenCalled();
+});
 it('ignores game actions while the boot cover keeps its host inert, including the exit fade',async()=>{
  const {game,state,storage}=await setup();state.host.inert=true;game.action('open');game.action('settings');await vi.advanceTimersByTimeAsync(10);
  expect(storage.transactSave).not.toHaveBeenCalled();expect(state.phase).toBe('browse');expect(state.panel).toBeNull();
@@ -141,7 +170,7 @@ it('warms the next special at pack reservation rather than waiting until the pre
  state.pokemonArt={Pikachu:{dexId:25,image:'/assets/pokemon/pikachu.png'}};
  state.save.active={id:'test',at:'',pack:DEFAULT_PACK,cards:[common,common,common,rare,common,{...rare,id:'later',image:'/assets/later.png'}]};
  state.stage.prepareReveal.mockClear();state.preloadOpening();
- expect(state.stage.prepareReveal.mock.calls).toEqual([[common,null],[rare,'/assets/pokemon/pikachu.png']]);
+ expect(state.stage.prepareReveal.mock.calls).toEqual([[common,null,null],[rare,'/assets/pokemon/pikachu.png','special']]);
 });
 
 it('shows the normal result immediately for a one-pack automatic opening',async()=>{
@@ -199,4 +228,60 @@ it('preserves the final session through its interlude while still allowing menus
  game.action('settings');expect(state.panel).toBe('settings');game.action('close');expect(state.panel).toBeNull();expect(state.autoRun).toBe(session);
  await vi.advanceTimersByTimeAsync(1800);expect(state.autoInterlude).toBe(false);expect(state.autoRun).toBe(session);
  game.action('continue');expect(state.autoRun).toBeNull();expect(state.phase).toBe('browse');
+});
+it('reset discards a covered qualifying pack and its armed fixture',async()=>{
+ const {game,state}=await setup();const open=vi.spyOn(state,'openShowdown').mockResolvedValue(undefined);
+ state.showdownArmed=true;
+ game.action('open');await vi.advanceTimersByTimeAsync(1);game.action('tear');await vi.advanceTimersByTimeAsync(1);
+ game.action('all');game.action('settings');await vi.advanceTimersByTimeAsync(1);
+ expect(state.showdownPending).toBe(true);state.showdownArmed=true;
+ game.action('reset');await vi.advanceTimersByTimeAsync(1);game.action('settings');game.action('close');
+ expect(state.showdownPending).toBe(false);expect(state.showdownArmed).toBe(false);expect(open).not.toHaveBeenCalled();
+});
+it('stops automatic purchases at a qualifying pack and opens its bonus once',async()=>{
+ const {game,state,storage,save}=await setup();const open=vi.spyOn(state,'openShowdown').mockResolvedValue(undefined);
+ state.showdownArmed=true;state.configureAuto(5,'all');game.action('auto-start');await vi.advanceTimersByTimeAsync(30000);
+ expect(save().history).toHaveLength(1);expect(state.autoRun.running).toBe(false);expect(state.autoRun.completed).toBe(1);
+ expect(storage.transactSave).toHaveBeenCalledTimes(2);expect(open).toHaveBeenCalledExactlyOnceWith('trigger');
+});
+it('holds the pack while the third bonus ball is landing, however fast Next is pressed',async()=>{
+ const {game,state,save}=await setup();const open=vi.spyOn(state,'openShowdown').mockResolvedValue(undefined);
+ state.showdownArmed=true;game.action('open');await vi.advanceTimersByTimeAsync(1);game.action('tear');await vi.advanceTimersByTimeAsync(1);
+ const last=Math.max(...save().active!.showdownSymbols!);
+ // The encounter page is loaded for a qualifying pack; the mocked document cannot build it, so stand one in.
+ state.bonusFrame={style:{},remove(){}};
+ for(let i=0;i<=last;i++){game.action('next');await vi.advanceTimersByTimeAsync(1);}
+ expect(state.phase).toBe('revealed');expect(state.index).toBe(last);
+ for(let i=0;i<12;i++){game.action('next');game.action('all');await vi.advanceTimersByTimeAsync(40);}
+ expect(state.index).toBe(last);expect(state.phase).toBe('revealed');
+ // The ball lands: the encounter opens over this card.
+ state.bonusReady();expect(open).toHaveBeenCalledWith('trigger');
+ // Once it has played, the same card can be advanced, after a short quiet beat.
+ state.bonusPlayed=save().active!.id;state.bonusQuiet=performance.now()+450;game.action('next');await vi.advanceTimersByTimeAsync(1);expect(state.index).toBe(last);
+ await vi.advanceTimersByTimeAsync(500);game.action('next');await vi.advanceTimersByTimeAsync(1);expect(state.index).toBe(last+1);
+});
+it('never holds the pack for good if the third ball does not land',async()=>{
+ const {game,state,save}=await setup();vi.spyOn(state,'openShowdown').mockResolvedValue(undefined);
+ state.showdownArmed=true;game.action('open');await vi.advanceTimersByTimeAsync(1);game.action('tear');await vi.advanceTimersByTimeAsync(1);
+ const last=Math.max(...save().active!.showdownSymbols!);state.bonusFrame={style:{},remove(){}};
+ for(let i=0;i<=last;i++){game.action('next');await vi.advanceTimersByTimeAsync(1);}
+ game.action('next');await vi.advanceTimersByTimeAsync(1);expect(state.index).toBe(last);
+ await vi.advanceTimersByTimeAsync(8100);game.action('next');await vi.advanceTimersByTimeAsync(1);expect(state.index).toBe(last+1);
+});
+it('deals the next pack under the chosen cheats, straight from the cheats panel',async()=>{
+ const {game,state,save}=await setup();vi.spyOn(state,'openShowdown').mockResolvedValue(undefined);
+ const ui=()=>state.view.update.mock.calls.at(-1)[0];
+ game.action('settings');game.action('cheats');expect(state.panel).toBe('cheats');expect(ui().cheats).toEqual({win:'random',total:'random',bonus:'random',legendary:'lugia'});
+ ui().setCheats({bonus:'capture',legendary:'mewtwo'});expect(ui().cheats).toMatchObject({bonus:'capture',legendary:'mewtwo',win:'random'});
+ game.action('cheats-open');await vi.advanceTimersByTimeAsync(1);
+ expect(state.panel).toBeNull();expect(save().active?.showdownSymbols).toEqual([1,4,7]);expect(save().balance).toBe(1000000-DEFAULT_PACK.price);
+ // The choices stay for the packs that follow, until they are reset.
+ expect(ui().cheats.bonus).toBe('capture');game.action('cheats-reset');expect(ui().cheats).toEqual({win:'random',total:'random',bonus:'random',legendary:'lugia'});
+});
+it('keeps bonus balls out of the pack when the bonus cheat is off, and leaves an open pack alone',async()=>{
+ const {game,state,save}=await setup();vi.spyOn(state,'openShowdown').mockResolvedValue(undefined);
+ state.setCheats({bonus:'off'});state.showdownArmed=true;game.action('open');await vi.advanceTimersByTimeAsync(1);
+ expect(save().active?.showdownSymbols).toEqual([]);const id=save().active!.id;
+ // Opening from the panel while a pack is open only closes the panel.
+ game.action('cheats');game.action('cheats-open');await vi.advanceTimersByTimeAsync(1);expect(state.panel).toBeNull();expect(save().active!.id).toBe(id);
 });

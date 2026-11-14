@@ -1,0 +1,117 @@
+card-seal.png
+size: 1024,1536
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame00
+  rotate: false
+  xy: 0,0
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame01
+  rotate: false
+  xy: 256,0
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame02
+  rotate: false
+  xy: 512,0
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame03
+  rotate: false
+  xy: 768,0
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame04
+  rotate: false
+  xy: 0,384
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame05
+  rotate: false
+  xy: 256,384
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame06
+  rotate: false
+  xy: 512,384
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame07
+  rotate: false
+  xy: 768,384
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame08
+  rotate: false
+  xy: 0,768
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame09
+  rotate: false
+  xy: 256,768
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame10
+  rotate: false
+  xy: 512,768
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame11
+  rotate: false
+  xy: 768,768
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame12
+  rotate: false
+  xy: 0,1152
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame13
+  rotate: false
+  xy: 256,1152
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame14
+  rotate: false
+  xy: 512,1152
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
+frame15
+  rotate: false
+  xy: 768,1152
+  size: 256,384
+  orig: 256,384
+  offset: 0,0
+  index: -1
